@@ -46,12 +46,16 @@ The preferred architecture is a Rust host plus TypeScript core.
 
 ## Testing
 
+This repo uses npm workspaces; `package-lock.json` is the authoritative Node workspace lockfile.
+
 ```powershell
 npm test
 cargo test -p ardyn-host
 ```
 
 The current test suite validates schema behavior, TypeScript manifest/handshake behavior, CLI output, and Rust host handshake behavior.
+
+A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
 ## Phase 2 CLI Usage
 
@@ -64,7 +68,7 @@ node apps/cli/src/index.mjs capabilities --manifest examples/minimal-manifest/ar
 node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json
 ```
 
-All commands print JSON. The `serve --dry-run` command is intentionally non-executing: it does not open network ports, execute tools, start agents, call APIs, or spawn long-running services. Its output includes explicit false values for `executionEnabled`, `toolExecutionEnabled`, `apiCallsEnabled`, `networkListening`, `longRunningServicesStarted`, and `processesSpawned`.
+Successful commands print JSON. Failure cases write plain text to stderr and do not print JSON to stdout. The `serve --dry-run` command is intentionally non-executing: it does not open network ports, execute tools, start agents, call APIs, or spawn long-running services. Its output includes explicit false values for `executionEnabled`, `toolExecutionEnabled`, `apiCallsEnabled`, `networkListening`, `longRunningServicesStarted`, and `processesSpawned`.
 
 Example dry-run check:
 

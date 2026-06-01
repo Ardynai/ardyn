@@ -62,8 +62,14 @@ test("signing payload digest matches expected Locus fixture SHA-256", async () =
   assert.equal(sha256Hex(payloadBytes), hashes.payload["payload/hello.txt"].sha256);
 });
 
-test("manifests reject floats, exponents, and leading-zero JSON lexemes", async () => {
-  for (const name of ["float.json", "exponent.json", "leading-zero.json"]) {
+test("manifests reject floats, exponents, leading-zero, and negative JSON lexemes", async () => {
+  for (const name of [
+    "float.json",
+    "exponent.json",
+    "leading-zero.json",
+    "negative-integer.json",
+    "negative-zero.json",
+  ]) {
     const json = await readText(`${fixtureRoot}/invalid-json/${name}`);
 
     assert.throws(() => parseFabricJson(json), /integers only/i, name);
