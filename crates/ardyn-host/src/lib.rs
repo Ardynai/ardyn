@@ -290,11 +290,7 @@ pub fn validate_task(task: &ArdynTask) -> HostResult<()> {
         return Err(validation_error("task.id does not match schema pattern"));
     }
 
-    if task.objective.is_empty() || task.objective.len() > 4000 {
-        return Err(validation_error(
-            "task.objective is outside schema length bounds",
-        ));
-    }
+    validate_optional_string("task.objective", Some(&task.objective), Some(1), Some(4000))?;
 
     if task.requested_capabilities.is_empty() {
         return Err(validation_error(
@@ -374,11 +370,12 @@ pub fn validate_manifest(manifest: &ArdynManifest) -> HostResult<()> {
             ));
         }
 
-        if capability.description.is_empty() || capability.description.len() > 280 {
-            return Err(validation_error(
-                "manifest.capabilities[].description is outside schema length bounds",
-            ));
-        }
+        validate_optional_string(
+            "manifest.capabilities[].description",
+            Some(&capability.description),
+            Some(1),
+            Some(280),
+        )?;
 
         if capability.permissions.is_empty() {
             return Err(validation_error(
@@ -614,6 +611,77 @@ mod tests {
         std::fs::remove_file(path).expect("remove manifest");
 
         assert!(error.to_string().contains("capabilities"));
+    }
+
+    fn valid_task_with_objective(objective: String) -> ArdynTask {
+        ArdynTask {
+            id: "task_01".to_string(),
+            objective,
+            mode: TaskMode::DryRun,
+            requested_capabilities: vec!["runtime.describe".to_string()],
+            constraints: None,
+            inputs: None,
+            metadata: None,
+        }
+    }
+
+    fn valid_manifest_with_capability_description(description: String) -> ArdynManifest {
+        ArdynManifest {
+            schema_version: ARDYN_SCHEMA_VERSION.to_string(),
+            name: "valid-manifest".to_string(),
+            version: "0.1.0".to_string(),
+            description: None,
+            runtime: ArdynRuntime {
+                host: RuntimeHost::Rust,
+                core: RuntimeCore::Typescript,
+                entrypoint: None,
+            },
+            capabilities: vec![ArdynCapability {
+                id: "runtime.describe".to_string(),
+                kind: CapabilityKind::Tool,
+                description,
+                permissions: vec![ArdynPermission {
+                    scope: PermissionScope::Registry,
+                    access: PermissionAccess::Read,
+                    reason: None,
+                }],
+            }],
+            adapters: None,
+            policies: None,
+        }
+    }
+
+    #[test]
+    fn validate_task_accepts_multibyte_objective_at_schema_boundary() {
+        let task = valid_task_with_objective("é".repeat(4000));
+
+        validate_task(&task).expect("4000 character objective should pass");
+    }
+
+    #[test]
+    fn validate_task_rejects_multibyte_objective_beyond_schema_boundary() {
+        let task = valid_task_with_objective("é".repeat(4001));
+
+        let error = validate_task(&task).expect_err("4001 character objective should fail");
+
+        assert!(error.to_string().contains("objective"));
+    }
+
+    #[test]
+    fn validate_manifest_accepts_multibyte_capability_description_at_schema_boundary() {
+        let manifest = valid_manifest_with_capability_description("é".repeat(280));
+
+        validate_manifest(&manifest).expect("280 character capability description should pass");
+    }
+
+    #[test]
+    fn validate_manifest_rejects_multibyte_capability_description_beyond_schema_boundary() {
+        let manifest = valid_manifest_with_capability_description("é".repeat(281));
+
+        let error = validate_manifest(&manifest)
+            .expect_err("281 character capability description should fail");
+
+        assert!(error.to_string().contains("description"));
     }
 
     #[test]
