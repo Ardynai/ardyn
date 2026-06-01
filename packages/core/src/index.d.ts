@@ -9,6 +9,16 @@ export const APPROVAL_STATUSES: readonly [
   "approval-denied",
   "approval-granted"
 ];
+export const APPROVAL_DECISION_REQUIRED: "required";
+export const APPROVAL_DECISION_DENIED: "denied";
+export const APPROVAL_DECISION_GRANTED: "granted";
+export const APPROVAL_DECISION_NOT_REQUIRED: "not_required";
+export const APPROVAL_DECISION_STATUSES: readonly [
+  "required",
+  "denied",
+  "granted",
+  "not_required"
+];
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -35,7 +45,8 @@ export type PermissionScope =
 export type PermissionAccess = "read" | "write" | "connect" | "admin";
 export type TaskMode = "plan" | "dry-run";
 export type ApprovalStatus = "approval-required" | "approval-denied" | "approval-granted";
-export type CapabilityMatchType = "exact" | "scope" | "no-match";
+export type ApprovalDecisionStatus = "required" | "denied" | "granted" | "not_required";
+export type CapabilityMatchType = "exact" | "tag" | "scope" | "no-match";
 
 export interface ArdynPermission {
   scope: PermissionScope;
@@ -47,6 +58,7 @@ export interface ArdynCapability {
   id: string;
   kind: CapabilityKind;
   description: string;
+  tags?: string[];
   permissions: ArdynPermission[];
 }
 
@@ -121,6 +133,17 @@ export interface TaskCapabilityResolution {
   matchType: CapabilityMatchType;
   scope: PermissionScope | null;
   capabilityIds: string[];
+  selectedCapabilityIds: string[];
+  candidates: TaskCapabilityCandidate[];
+  reason: string;
+}
+
+export interface TaskCapabilityCandidate {
+  capabilityId: string;
+  matchType: Exclude<CapabilityMatchType, "no-match">;
+  score: 300 | 200 | 100;
+  scope: PermissionScope | null;
+  tag: string | null;
   reason: string;
 }
 
@@ -147,14 +170,29 @@ export type TaskApprovalReason = TaskApprovalReasonConstraint | TaskApprovalReas
 
 export interface TaskApprovalGate {
   required: boolean;
-  status: "approval-required" | null;
+  status: ApprovalStatus | null;
   reasons: TaskApprovalReason[];
+}
+
+export interface ApprovalDecisionInput {
+  status: ApprovalDecisionStatus;
+  reason?: string;
+}
+
+export interface ApprovalDecision {
+  id: string;
+  taskId: string;
+  requestedCapabilityIds: string[];
+  status: ApprovalDecisionStatus;
+  reason: string;
+  createdAt: string;
+  nonExecuting: true;
 }
 
 export interface TaskMatchingPolicy {
   exactCapabilityId: true;
   permissionScope: true;
-  tags: false;
+  tags: true;
 }
 
 export interface HostInfo {
@@ -223,6 +261,30 @@ export interface TaskPlan {
   selectedCapabilities: ArdynCapability[];
   unresolvedRequests: string[];
   approval: TaskApprovalGate;
+  approvalDecision: ApprovalDecision;
+  plannerTrace: PlannerTrace;
+  safety: NoExecutionSafetyFlags;
+}
+
+export interface PlannerTrace {
+  taskIntake: {
+    valid: true;
+    errors: unknown[];
+    taskId: string;
+    requestedCapabilities: string[];
+  };
+  manifest: {
+    id: string;
+    version: string;
+    schemaVersion: "0.1.0";
+  };
+  candidateCapabilities: Array<{
+    request: string;
+    candidates: TaskCapabilityCandidate[];
+  }>;
+  selectedCapabilities: string[];
+  unresolvedRequests: string[];
+  approvalDecision: ApprovalDecision;
   safety: NoExecutionSafetyFlags;
 }
 
@@ -241,7 +303,12 @@ export function resolveTaskCapabilities(
 export function createTaskPlan(
   manifest: ArdynManifest,
   task: ArdynTask,
-  options?: { manifestPath?: string; taskPath?: string }
+  options?: {
+    manifestPath?: string;
+    taskPath?: string;
+    createdAt?: string;
+    approvalDecision?: ApprovalDecisionInput;
+  }
 ): TaskPlan;
 export function createHostInfo(): HostInfo;
 export function platformFamilyForNodePlatform(platform: string): "windows" | "unix";

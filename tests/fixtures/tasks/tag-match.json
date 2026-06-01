@@ -1,0 +1,14 @@
+{
+  "id": "task.phase3-1.tag",
+  "objective": "Plan tag-selected capabilities that outrank lower-scored scope candidates.",
+  "mode": "plan",
+  "requestedCapabilities": ["filesystem"],
+  "constraints": {
+    "requireHumanApproval": false,
+    "allowNetwork": false,
+    "maxSteps": 1
+  },
+  "metadata": {
+    "phase": "phase-3-1-planner-hardening"
+  }
+}

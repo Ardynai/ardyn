@@ -1,0 +1,14 @@
+{
+  "id": "task.phase3-1.no-match",
+  "objective": "Plan a deterministic no-match response without throwing.",
+  "mode": "plan",
+  "requestedCapabilities": ["missing.capability"],
+  "constraints": {
+    "requireHumanApproval": false,
+    "allowNetwork": false,
+    "maxSteps": 1
+  },
+  "metadata": {
+    "phase": "phase-3-1-planner-hardening"
+  }
+}

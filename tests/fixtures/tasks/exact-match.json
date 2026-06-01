@@ -1,0 +1,14 @@
+{
+  "id": "task.phase3-1.exact",
+  "objective": "Plan an exact capability match that collides with tag and scope candidates.",
+  "mode": "plan",
+  "requestedCapabilities": ["network"],
+  "constraints": {
+    "requireHumanApproval": false,
+    "allowNetwork": false,
+    "maxSteps": 1
+  },
+  "metadata": {
+    "phase": "phase-3-1-planner-hardening"
+  }
+}

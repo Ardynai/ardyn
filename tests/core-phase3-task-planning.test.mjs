@@ -58,12 +58,25 @@ test("plans exact capability id matches before any scope matching", async () => 
       matchType: "exact",
       scope: null,
       capabilityIds: ["runtime.describe"],
+      selectedCapabilityIds: ["runtime.describe"],
+      candidates: [
+        {
+          capabilityId: "runtime.describe",
+          matchType: "exact",
+          score: 300,
+          scope: null,
+          tag: null,
+          reason: "Matched exact capability id."
+        }
+      ],
       reason: "Matched exact capability id."
     }
   ]);
-  assert.equal(plan.matchingPolicy.tags, false);
+  assert.equal(plan.matchingPolicy.tags, true);
   assert.equal(plan.approval.required, false);
   assert.equal(plan.approval.status, null);
+  assert.equal(plan.approvalDecision.status, "not_required");
+  assert.equal(plan.plannerTrace.manifest.id, "minimal-ardyn");
   assertAllFalse(plan.safety);
 });
 
@@ -88,7 +101,18 @@ test("plans permission scope matches when no exact capability id matches", async
       matchType: "scope",
       scope: "registry",
       capabilityIds: ["runtime.describe"],
-      reason: "Matched permission scope; tag matching is unsupported by the current capability schema."
+      selectedCapabilityIds: ["runtime.describe"],
+      candidates: [
+        {
+          capabilityId: "runtime.describe",
+          matchType: "scope",
+          score: 100,
+          scope: "registry",
+          tag: null,
+          reason: "Matched permission scope."
+        }
+      ],
+      reason: "Matched permission scope."
     }
   ]);
 });
@@ -112,7 +136,9 @@ test("plans deterministic no-match results for unavailable requests", async () =
       matchType: "no-match",
       scope: null,
       capabilityIds: [],
-      reason: "No exact capability id or supported permission scope matched."
+      selectedCapabilityIds: [],
+      candidates: [],
+      reason: "No exact capability id, capability tag, or supported permission scope matched."
     }
   ]);
 });

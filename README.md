@@ -19,7 +19,7 @@ Included now:
 - JSON Schemas for ARDYN manifests, capabilities, and tasks.
 - Schema-matching TypeScript and Rust contract types.
 - Minimal TypeScript core functions for manifest loading, validation, capability normalization, and static handshakes.
-- Minimal task loading, validation, deterministic capability resolution, and approval-gate data.
+- Minimal task loading, validation, deterministic ranked capability resolution, approval-gate data, approval-decision records, and planner traces.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, and dry-run serve planning.
@@ -72,9 +72,20 @@ node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.mani
 node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json
 ```
 
-Successful commands print JSON. Failure cases write plain text to stderr and do not print JSON to stdout. The `plan` command validates the task, resolves exact capability IDs first, falls back to permission-scope matching only when the request is a schema-defined permission scope, and reports deterministic no-match resolutions. Tag matching is unsupported because the current capability schema has no tag field.
+Successful commands print JSON. Failure cases write plain text to stderr and do not print JSON to stdout. The `plan` command validates the task, scores candidate capabilities deterministically, and includes `plannerTrace` automatically. Exact capability IDs score 300, capability tags score 200, and permission scopes score 100. Exact matches outrank tag matches, tag matches outrank scope matches, ties are sorted by capability ID, and no-match resolutions include empty candidates and selected capability IDs.
 
 The `plan` and `serve --dry-run` commands are intentionally non-executing: they do not open network ports, execute tools, start agents, call APIs, install plugins, download torrents, enable code packs, run agent loops, or spawn long-running services. Their output includes explicit false values for the safety flags that cover those behaviors.
+
+Phase 3.1 planner examples:
+
+```powershell
+node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/exact-match.json
+node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/tag-match.json
+node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/no-match.json
+node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
+```
+
+The exact-match fixture selects only the highest-scored exact capability even when tag and scope candidates exist. The tag-match fixture selects tied tag capabilities sorted by ID and leaves lower-scored scope candidates in the trace. The no-match fixture reports no selected capabilities. The approval-required fixture emits a stable non-executing `approvalDecision` record with a deterministic default timestamp.
 
 Example dry-run check:
 

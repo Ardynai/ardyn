@@ -1,0 +1,14 @@
+{
+  "id": "task.phase3-1.approval",
+  "objective": "Plan a registry capability behind a non-executing approval record.",
+  "mode": "plan",
+  "requestedCapabilities": ["secure.registry"],
+  "constraints": {
+    "requireHumanApproval": true,
+    "allowNetwork": false,
+    "maxSteps": 1
+  },
+  "metadata": {
+    "phase": "phase-3-1-planner-hardening"
+  }
+}

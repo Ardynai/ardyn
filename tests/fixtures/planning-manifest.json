@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "0.1.0",
+  "name": "planner-hardening",
+  "version": "0.1.0",
+  "description": "Planner hardening fixture with exact, tag, scope, and approval collisions.",
+  "runtime": {
+    "host": "rust",
+    "core": "typescript"
+  },
+  "capabilities": [
+    {
+      "id": "network",
+      "kind": "tool",
+      "description": "Exact network-named metadata capability that does not execute network behavior.",
+      "permissions": [
+        {
+          "scope": "memory",
+          "access": "read",
+          "reason": "Read metadata for planning only."
+        }
+      ]
+    },
+    {
+      "id": "beta.scope",
+      "kind": "tool",
+      "description": "Network scope and tag collision fixture.",
+      "tags": ["network"],
+      "permissions": [
+        {
+          "scope": "network",
+          "access": "connect",
+          "reason": "Declare future network connectivity needs without connecting."
+        }
+      ]
+    },
+    {
+      "id": "alpha.scope",
+      "kind": "tool",
+      "description": "Network scope collision fixture.",
+      "permissions": [
+        {
+          "scope": "network",
+          "access": "read",
+          "reason": "Declare future network read needs without connecting."
+        }
+      ]
+    },
+    {
+      "id": "beta.tag",
+      "kind": "tool",
+      "description": "Tag collision fixture sorted after alpha.tag.",
+      "tags": ["filesystem", "planner.tie"],
+      "permissions": [
+        {
+          "scope": "registry",
+          "access": "read",
+          "reason": "Read registry metadata for planning only."
+        }
+      ]
+    },
+    {
+      "id": "gamma.scope",
+      "kind": "tool",
+      "description": "Filesystem scope fixture that should lose to tag matches.",
+      "permissions": [
+        {
+          "scope": "filesystem",
+          "access": "write",
+          "reason": "Declare future filesystem write needs without writing."
+        }
+      ]
+    },
+    {
+      "id": "alpha.tag",
+      "kind": "tool",
+      "description": "Tag collision fixture sorted before beta.tag.",
+      "tags": ["planner.tie", "filesystem"],
+      "permissions": [
+        {
+          "scope": "filesystem",
+          "access": "read",
+          "reason": "Declare future filesystem read needs without reading files."
+        }
+      ]
+    },
+    {
+      "id": "secure.registry",
+      "kind": "tool",
+      "description": "Registry capability that requires approval in planning records.",
+      "tags": ["approval.required"],
+      "permissions": [
+        {
+          "scope": "registry",
+          "access": "read",
+          "reason": "Read registry metadata after approval in future phases."
+        }
+      ]
+    }
+  ],
+  "policies": {
+    "defaultTaskMode": "plan",
+    "requiresApprovalFor": ["registry"]
+  }
+}

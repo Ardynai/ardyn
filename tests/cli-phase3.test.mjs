@@ -66,7 +66,14 @@ test("ardyn plan prints a non-executing task plan", async () => {
   );
   assert.equal(output.approval.required, false);
   assert.equal(output.approval.status, null);
-  assert.equal(output.matchingPolicy.tags, false);
+  assert.equal(output.matchingPolicy.tags, true);
+  assert.deepEqual(output.plannerTrace.manifest, {
+    id: "minimal-ardyn",
+    version: "0.1.0",
+    schemaVersion: "0.1.0"
+  });
+  assert.deepEqual(output.plannerTrace.selectedCapabilities, ["runtime.describe"]);
+  assert.equal(output.plannerTrace.approvalDecision.status, "not_required");
   assertAllFalse(output.safety);
 });
 

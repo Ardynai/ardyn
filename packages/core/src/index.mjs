@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { readFileSync } from "node:fs";
 import { isAbsolute, resolve } from "node:path";
@@ -14,6 +15,16 @@ export const APPROVAL_STATUSES = Object.freeze([
   APPROVAL_REQUIRED,
   APPROVAL_DENIED,
   APPROVAL_GRANTED
+]);
+export const APPROVAL_DECISION_REQUIRED = "required";
+export const APPROVAL_DECISION_DENIED = "denied";
+export const APPROVAL_DECISION_GRANTED = "granted";
+export const APPROVAL_DECISION_NOT_REQUIRED = "not_required";
+export const APPROVAL_DECISION_STATUSES = Object.freeze([
+  APPROVAL_DECISION_REQUIRED,
+  APPROVAL_DECISION_DENIED,
+  APPROVAL_DECISION_GRANTED,
+  APPROVAL_DECISION_NOT_REQUIRED
 ]);
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
@@ -53,6 +64,27 @@ const NO_EXECUTION_SAFETY_FLAGS = Object.freeze({
   codePackEnablementEnabled: false,
   agentLoopEnabled: false
 });
+
+const DEFAULT_APPROVAL_CREATED_AT = "1970-01-01T00:00:00.000Z";
+const APPROVAL_DECISION_STATUS_SET = new Set(APPROVAL_DECISION_STATUSES);
+const CAPABILITY_MATCH_SCORES = Object.freeze({
+  exact: 300,
+  tag: 200,
+  scope: 100
+});
+const CAPABILITY_MATCH_ORDER = Object.freeze({
+  exact: 0,
+  tag: 1,
+  scope: 2
+});
+
+function compareAscii(left, right) {
+  if (left === right) {
+    return 0;
+  }
+
+  return left < right ? -1 : 1;
+}
 
 function requireManifestValidator() {
   if (!manifestValidator) {
@@ -144,7 +176,7 @@ export function createNoExecutionSafetyFlags() {
 }
 
 export function supportedTaskCapabilityScopes() {
-  return [...supportedPermissionScopes].sort((left, right) => left.localeCompare(right));
+  return [...supportedPermissionScopes].sort(compareAscii);
 }
 
 export function isSupportedPermissionScope(value) {
@@ -153,15 +185,20 @@ export function isSupportedPermissionScope(value) {
 
 export function normalizeCapabilities(manifest) {
   return [...manifest.capabilities]
-    .sort((left, right) => left.id.localeCompare(right.id))
+    .sort((left, right) => compareAscii(left.id, right.id))
     .map((capability) => ({
       id: capability.id,
       kind: capability.kind,
       description: capability.description,
+      ...(capability.tags === undefined
+        ? {}
+        : {
+            tags: [...capability.tags].sort(compareAscii)
+          }),
       permissions: [...capability.permissions]
         .sort((left, right) => {
-          const scopeCompare = left.scope.localeCompare(right.scope);
-          return scopeCompare === 0 ? left.access.localeCompare(right.access) : scopeCompare;
+          const scopeCompare = compareAscii(left.scope, right.scope);
+          return scopeCompare === 0 ? compareAscii(left.access, right.access) : scopeCompare;
         })
         .map((permission) => ({
           scope: permission.scope,
@@ -205,7 +242,7 @@ function countDuplicates(values) {
   return [...counts.entries()]
     .filter(([, count]) => count > 1)
     .map(([value]) => value)
-    .sort((left, right) => left.localeCompare(right));
+    .sort(compareAscii);
 }
 
 function uniqueInRequestOrder(values) {
@@ -228,6 +265,124 @@ function capabilityHasScope(capability, scope) {
   return capability.permissions.some((permission) => permission.scope === scope);
 }
 
+function capabilityHasTag(capability, tag) {
+  return capability.tags?.includes(tag) === true;
+}
+
+function compareCapabilityCandidates(left, right) {
+  const scoreCompare = right.score - left.score;
+
+  if (scoreCompare !== 0) {
+    return scoreCompare;
+  }
+
+  const capabilityCompare = compareAscii(left.capabilityId, right.capabilityId);
+
+  if (capabilityCompare !== 0) {
+    return capabilityCompare;
+  }
+
+  return CAPABILITY_MATCH_ORDER[left.matchType] - CAPABILITY_MATCH_ORDER[right.matchType];
+}
+
+function createCapabilityCandidate(capabilityId, matchType, request) {
+  if (matchType === "exact") {
+    return {
+      capabilityId,
+      matchType,
+      score: CAPABILITY_MATCH_SCORES.exact,
+      scope: null,
+      tag: null,
+      reason: "Matched exact capability id."
+    };
+  }
+
+  if (matchType === "tag") {
+    return {
+      capabilityId,
+      matchType,
+      score: CAPABILITY_MATCH_SCORES.tag,
+      scope: null,
+      tag: request,
+      reason: "Matched capability tag."
+    };
+  }
+
+  return {
+    capabilityId,
+    matchType,
+    score: CAPABILITY_MATCH_SCORES.scope,
+    scope: request,
+    tag: null,
+    reason: "Matched permission scope."
+  };
+}
+
+function candidateMatchesForRequest(capability, request) {
+  const candidates = [];
+
+  if (capability.id === request) {
+    candidates.push(createCapabilityCandidate(capability.id, "exact", request));
+  }
+
+  if (capabilityHasTag(capability, request)) {
+    candidates.push(createCapabilityCandidate(capability.id, "tag", request));
+  }
+
+  if (capabilityHasScope(capability, request)) {
+    candidates.push(createCapabilityCandidate(capability.id, "scope", request));
+  }
+
+  return candidates;
+}
+
+function selectedCapabilityIdsForCandidates(candidates) {
+  if (candidates.length === 0) {
+    return [];
+  }
+
+  const selectedScore = candidates[0].score;
+  const selectedIds = new Set();
+
+  for (const candidate of candidates) {
+    if (candidate.score !== selectedScore) {
+      continue;
+    }
+
+    selectedIds.add(candidate.capabilityId);
+  }
+
+  return [...selectedIds].sort(compareAscii);
+}
+
+function reasonForSelectedMatch(matchType) {
+  if (matchType === "exact") {
+    return "Matched exact capability id.";
+  }
+
+  if (matchType === "tag") {
+    return "Matched capability tag.";
+  }
+
+  return "Matched permission scope.";
+}
+
+function createNoMatchResolution(request) {
+  const isScopeRequest = isSupportedPermissionScope(request);
+
+  return {
+    request,
+    matchType: "no-match",
+    scope: isScopeRequest ? request : null,
+    capabilityIds: [],
+    selectedCapabilityIds: [],
+    candidates: [],
+    reason: isScopeRequest
+      ? "No capabilities declared for requested permission scope."
+      : "No exact capability id, capability tag, or supported permission scope matched."
+  };
+}
+
 export function resolveTaskCapabilities(manifest, requestedCapabilities) {
   const capabilities = normalizeCapabilities(manifest);
   const capabilitiesById = new Map(capabilities.map((capability) => [capability.id, capability]));
@@ -236,64 +391,40 @@ export function resolveTaskCapabilities(manifest, requestedCapabilities) {
   const unresolvedRequests = [];
 
   for (const request of uniqueInRequestOrder(requestedCapabilities)) {
-    const exactCapability = capabilitiesById.get(request);
+    const candidates = capabilities
+      .flatMap((capability) => candidateMatchesForRequest(capability, request))
+      .sort(compareCapabilityCandidates);
+    const selectedCapabilityIds = selectedCapabilityIdsForCandidates(candidates);
 
-    if (exactCapability) {
-      selectedById.set(exactCapability.id, exactCapability);
-      resolutions.push({
-        request,
-        matchType: "exact",
-        scope: null,
-        capabilityIds: [exactCapability.id],
-        reason: "Matched exact capability id."
-      });
-      continue;
-    }
-
-    if (isSupportedPermissionScope(request)) {
-      const scopeMatches = capabilities.filter((capability) => capabilityHasScope(capability, request));
-
-      if (scopeMatches.length > 0) {
-        for (const capability of scopeMatches) {
-          selectedById.set(capability.id, capability);
-        }
-
-        resolutions.push({
-          request,
-          matchType: "scope",
-          scope: request,
-          capabilityIds: scopeMatches.map((capability) => capability.id),
-          reason:
-            "Matched permission scope; tag matching is unsupported by the current capability schema."
-        });
-        continue;
-      }
-
+    if (selectedCapabilityIds.length === 0) {
       unresolvedRequests.push(request);
-      resolutions.push({
-        request,
-        matchType: "no-match",
-        scope: request,
-        capabilityIds: [],
-        reason: "No capabilities declared for requested permission scope."
-      });
+      resolutions.push(createNoMatchResolution(request));
       continue;
     }
 
-    unresolvedRequests.push(request);
+    for (const capabilityId of selectedCapabilityIds) {
+      selectedById.set(capabilityId, capabilitiesById.get(capabilityId));
+    }
+
+    const matchType = candidates[0].matchType;
+
     resolutions.push({
       request,
-      matchType: "no-match",
-      scope: null,
-      capabilityIds: [],
-      reason: "No exact capability id or supported permission scope matched."
+      matchType,
+      scope: matchType === "scope" ? request : null,
+      capabilityIds: selectedCapabilityIds,
+      selectedCapabilityIds,
+      candidates,
+      reason: reasonForSelectedMatch(matchType)
     });
   }
 
   return {
-    selectedCapabilities: [...selectedById.values()].sort((left, right) => left.id.localeCompare(right.id)),
+    selectedCapabilities: [...selectedById.values()].sort((left, right) =>
+      compareAscii(left.id, right.id)
+    ),
     resolutions,
-    unresolvedRequests: unresolvedRequests.sort((left, right) => left.localeCompare(right)),
+    unresolvedRequests: unresolvedRequests.sort(compareAscii),
     duplicateRequestedCapabilities: countDuplicates(requestedCapabilities)
   };
 }
@@ -332,6 +463,130 @@ function createApprovalGate(manifest, task, selectedCapabilities) {
   };
 }
 
+function stableJsonValue(value) {
+  if (Array.isArray(value)) {
+    return value.map(stableJsonValue);
+  }
+
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value)
+        .filter(([, entryValue]) => entryValue !== undefined)
+        .sort(([left], [right]) => compareAscii(left, right))
+        .map(([key, entryValue]) => [key, stableJsonValue(entryValue)])
+    );
+  }
+
+  return value;
+}
+
+function stableJsonStringify(value) {
+  return JSON.stringify(stableJsonValue(value));
+}
+
+function approvalDecisionReason(status, approvalRequired) {
+  if (status === APPROVAL_DECISION_DENIED) {
+    return "Approval was denied by simulated planner input.";
+  }
+
+  if (status === APPROVAL_DECISION_GRANTED) {
+    return "Approval was granted by simulated planner input; execution remains disabled.";
+  }
+
+  if (status === APPROVAL_DECISION_NOT_REQUIRED) {
+    return "Approval is not required for this non-executing plan.";
+  }
+
+  return approvalRequired
+    ? "Approval is required before any future execution."
+    : "Approval remains required only when constraints or policies request it.";
+}
+
+function createApprovalDecision(task, approval, selectedCapabilities, options) {
+  const input = options.approvalDecision;
+  const status = input?.status ?? (approval.required ? APPROVAL_DECISION_REQUIRED : APPROVAL_DECISION_NOT_REQUIRED);
+
+  if (!APPROVAL_DECISION_STATUS_SET.has(status)) {
+    throw new Error(`Invalid approval decision status: ${status}`);
+  }
+
+  if (!approval.required && status !== APPROVAL_DECISION_NOT_REQUIRED) {
+    throw new Error(`Cannot apply approval decision status ${status} when approval is not required.`);
+  }
+
+  if (approval.required && status === APPROVAL_DECISION_NOT_REQUIRED) {
+    throw new Error("Cannot apply approval decision status not_required when approval is required.");
+  }
+
+  const selectedCapabilityIds = selectedCapabilities.map((capability) => capability.id).sort(compareAscii);
+  const recordWithoutId = {
+    taskId: task.id,
+    requestedCapabilityIds: selectedCapabilityIds,
+    status,
+    reason: input?.reason ?? approvalDecisionReason(status, approval.required),
+    createdAt: options.createdAt ?? DEFAULT_APPROVAL_CREATED_AT,
+    nonExecuting: true
+  };
+  const preimage = {
+    ...recordWithoutId,
+    approvalRequired: approval.required,
+    approvalReasons: approval.reasons
+  };
+  const hash = createHash("sha256").update(stableJsonStringify(preimage)).digest("hex");
+
+  return {
+    id: `approval.${hash.slice(0, 16)}`,
+    ...recordWithoutId
+  };
+}
+
+function approvalGateStatusForDecision(status) {
+  if (status === APPROVAL_DECISION_DENIED) {
+    return APPROVAL_DENIED;
+  }
+
+  if (status === APPROVAL_DECISION_GRANTED) {
+    return APPROVAL_GRANTED;
+  }
+
+  if (status === APPROVAL_DECISION_REQUIRED) {
+    return APPROVAL_REQUIRED;
+  }
+
+  return null;
+}
+
+function createPlannerTrace({
+  manifest,
+  task,
+  taskValidation,
+  resolution,
+  approvalDecision,
+  safety
+}) {
+  return {
+    taskIntake: {
+      valid: taskValidation.valid,
+      errors: taskValidation.errors,
+      taskId: task.id,
+      requestedCapabilities: [...task.requestedCapabilities]
+    },
+    manifest: {
+      id: manifest.name,
+      version: manifest.version,
+      schemaVersion: manifest.schemaVersion
+    },
+    candidateCapabilities: resolution.resolutions.map((taskResolution) => ({
+      request: taskResolution.request,
+      candidates: taskResolution.candidates
+    })),
+    selectedCapabilities: resolution.selectedCapabilities.map((capability) => capability.id),
+    unresolvedRequests: [...resolution.unresolvedRequests],
+    approvalDecision,
+    safety: { ...safety }
+  };
+}
+
 export function createTaskPlan(manifest, task, options = {}) {
   const manifestValidation = validateManifest(manifest);
 
@@ -346,7 +601,21 @@ export function createTaskPlan(manifest, task, options = {}) {
   }
 
   const resolution = resolveTaskCapabilities(manifest, task.requestedCapabilities);
-  const approval = createApprovalGate(manifest, task, resolution.selectedCapabilities);
+  const approvalGate = createApprovalGate(manifest, task, resolution.selectedCapabilities);
+  const approvalDecision = createApprovalDecision(task, approvalGate, resolution.selectedCapabilities, options);
+  const approval = {
+    ...approvalGate,
+    status: approvalGateStatusForDecision(approvalDecision.status)
+  };
+  const safety = createNoExecutionSafetyFlags();
+  const plannerTrace = createPlannerTrace({
+    manifest,
+    task,
+    taskValidation,
+    resolution,
+    approvalDecision,
+    safety
+  });
 
   return {
     schemaVersion: ARDYN_SCHEMA_VERSION,
@@ -365,13 +634,15 @@ export function createTaskPlan(manifest, task, options = {}) {
     matchingPolicy: {
       exactCapabilityId: true,
       permissionScope: true,
-      tags: false
+      tags: true
     },
     resolutions: resolution.resolutions,
     selectedCapabilities: resolution.selectedCapabilities,
     unresolvedRequests: resolution.unresolvedRequests,
     approval,
-    safety: createNoExecutionSafetyFlags()
+    approvalDecision,
+    plannerTrace,
+    safety
   };
 }
 

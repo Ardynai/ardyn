@@ -103,6 +103,41 @@ test("capability schema rejects execute permissions in phase 1", async () => {
   assert.match(JSON.stringify(validate.errors), /access/);
 });
 
+test("capability schema accepts deterministic tags and rejects duplicate or malformed tags", async () => {
+  const ajv = await createAjv();
+  const validate = ajv.getSchema("https://schemas.ardyn.ai/capability.schema.json");
+  const valid = {
+    id: "planner-tagged",
+    kind: "tool",
+    description: "Tagged metadata-only planner capability.",
+    tags: ["planner.search", "filesystem"],
+    permissions: [
+      {
+        scope: "registry",
+        access: "read"
+      }
+    ]
+  };
+
+  assert.equal(validate(valid), true, JSON.stringify(validate.errors, null, 2));
+
+  const duplicateTags = {
+    ...valid,
+    tags: ["planner.search", "planner.search"]
+  };
+
+  assert.equal(validate(duplicateTags), false);
+  assert.match(JSON.stringify(validate.errors), /uniqueItems/);
+
+  const malformedTags = {
+    ...valid,
+    tags: ["Planner Search"]
+  };
+
+  assert.equal(validate(malformedTags), false);
+  assert.match(JSON.stringify(validate.errors), /pattern/);
+});
+
 test("task schema validates dry-run tasks and rejects unknown modes", async () => {
   const ajv = await createAjv();
   const validate = ajv.getSchema("https://schemas.ardyn.ai/task.schema.json");
