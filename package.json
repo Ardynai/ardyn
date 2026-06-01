@@ -1,0 +1,23 @@
+{
+  "name": "ardyn",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ARDYN is an open-source AI harness/framework.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:schemas": "node --test tests/schema-validation.test.mjs"
+  },
+  "workspaces": [
+    "packages/*",
+    "packages/adapters/*",
+    "apps/*"
+  ],
+  "devDependencies": {
+    "ajv": "^8.17.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
+

@@ -1,0 +1,9 @@
+{
+  "name": "@ardyn/cli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ARDYN CLI app scaffold.",
+  "type": "module",
+  "license": "Apache-2.0"
+}
+

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "0.1.0",
+  "name": "minimal-ardyn",
+  "version": "0.1.0",
+  "description": "Minimal ARDYN manifest for schema validation.",
+  "runtime": {
+    "host": "rust",
+    "core": "typescript",
+    "entrypoint": "apps/cli"
+  },
+  "capabilities": [
+    {
+      "id": "runtime.describe",
+      "kind": "tool",
+      "description": "Describe ARDYN runtime metadata without executing autonomous actions.",
+      "permissions": [
+        {
+          "scope": "registry",
+          "access": "read",
+          "reason": "Read declared capabilities and adapter metadata."
+        }
+      ]
+    }
+  ],
+  "adapters": {
+    "locus": {
+      "enabled": false,
+      "external": true,
+      "notes": "Locus can control ARDYN through a future public adapter."
+    },
+    "multiverse": {
+      "enabled": false,
+      "external": true,
+      "notes": "Multiverse registration is optional and external."
+    }
+  },
+  "policies": {
+    "defaultTaskMode": "dry-run",
+    "requiresApprovalFor": ["filesystem", "network", "process", "credentials"]
+  }
+}
+

@@ -1,0 +1,9 @@
+{
+  "name": "@ardyn/adapter-openclaw",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ARDYN OpenClaw adapter scaffold.",
+  "type": "module",
+  "license": "Apache-2.0"
+}
+

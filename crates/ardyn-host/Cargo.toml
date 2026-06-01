@@ -1,0 +1,10 @@
+[package]
+name = "ardyn-host"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Rust host scaffold for ARDYN."
+
+[lib]
+path = "src/lib.rs"
+
