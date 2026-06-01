@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "ardyn/hello-data",
+  "name": "ARDYN Hello Data",
+  "version": "1.0.0",
+  "class": "data",
+  "type": "document",
+  "license": "CC0-1.0",
+  "description": "Passive Content Fabric data-pack validation fixture.",
+  "publisher": {
+    "namespace": "ardyn",
+    "displayName": "Ardynai",
+    "keyId": "b7305b9b5d1f99f6075554988945cefddcff46279be2c136d34a0fac8e48a009"
+  },
+  "harnesses": ["*"],
+  "transport": {
+    "infohash": "0123456789abcdef0123456789abcdef01234567",
+    "magnet": "magnet:?xt=urn:btih:0123456789abcdef0123456789abcdef01234567&dn=ardyn%2Fhello-data%401.0.0&ws=https%3A%2F%2Ffixtures.ardyn.local%2Ffabric%2Fhello-data%2F"
+  },
+  "files": [
+    {
+      "path": "payload/hello.txt",
+      "sha256": "7cb83d246d67fa50abea10b3fd1a21d97c690bcd2d16ad28cef5c26f6cc27945",
+      "size": 65,
+      "installTarget": "ardyn/hello-data/payload/hello.txt",
+      "executable": false
+    }
+  ],
+  "createdAt": "2026-06-01T00:00:00Z",
+  "signatures": []
+}
+

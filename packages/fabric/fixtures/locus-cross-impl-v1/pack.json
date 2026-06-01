@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "locus-cross-impl/hello-data",
+  "name": "Content Fabric Cross-Impl Hello",
+  "version": "1.0.0",
+  "class": "data",
+  "type": "document",
+  "license": "CC0-1.0",
+  "description": "Canonical Locus Content Fabric v1 cross-implementation fixture.",
+  "publisher": {
+    "namespace": "locus-cross-impl",
+    "displayName": "Locus Cross-Impl Fixture",
+    "keyId": "24f6ed6acbfe1009c030d7ca567c33ca4830911498236b5561a6c82abec5de28"
+  },
+  "harnesses": [
+    "*"
+  ],
+  "transport": {
+    "infohash": "d0ace1a6cacd48784011517fe1d21c6c1bf18d7d",
+    "magnet": "magnet:?xt=urn:btih:d0ace1a6cacd48784011517fe1d21c6c1bf18d7d&dn=locus-cross-impl%2Fhello-data%401.0.0&ws=https%3A%2F%2Ffixtures.locus.local%2Fcontent-fabric%2Fcross-impl%2Fv1%2Fpayload%2Fhello.txt"
+  },
+  "files": [
+    {
+      "path": "payload/hello.txt",
+      "sha256": "7cb83d246d67fa50abea10b3fd1a21d97c690bcd2d16ad28cef5c26f6cc27945",
+      "size": 65,
+      "installTarget": "locus-cross-impl/hello-data/payload/hello.txt"
+    }
+  ],
+  "createdAt": "2026-06-01T00:00:00Z",
+  "signatures": [
+    {
+      "algo": "ed25519",
+      "keyId": "24f6ed6acbfe1009c030d7ca567c33ca4830911498236b5561a6c82abec5de28",
+      "sig": "NpPdA/fTGiQNwr4lpEal4MWsohmD1jpsF4dWXBdq9xRDYDFP2AWqmtsgzt9lTJfaThUDbX7TbvAXAlds/a7mAg=="
+    }
+  ]
+}

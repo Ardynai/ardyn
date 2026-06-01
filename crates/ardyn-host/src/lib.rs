@@ -5,6 +5,7 @@
 //! API calls, or long-running services.
 
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use std::error::Error;
 use std::fs;
@@ -524,6 +525,43 @@ pub fn host_handshake(manifest_path: Option<&str>) -> HostResult<HostHandshake> 
     })
 }
 
+pub fn fabric_sha256_hex(bytes: &[u8]) -> String {
+    let digest = Sha256::digest(bytes);
+    let mut output = String::with_capacity(64);
+
+    for byte in digest {
+        output.push_str(&format!("{byte:02x}"));
+    }
+
+    output
+}
+
+pub fn fabric_path_confinement_error(value: &str) -> Option<&'static str> {
+    if value.is_empty() {
+        return Some("path must not be empty");
+    }
+    if value.starts_with('/') || value.starts_with('\\') {
+        return Some("path must be relative");
+    }
+    if value.len() >= 2 {
+        let bytes = value.as_bytes();
+        if bytes[0].is_ascii_alphabetic() && bytes[1] == b':' {
+            return Some("path must not contain a Windows drive");
+        }
+    }
+    if value.contains('\\') || value.contains('\0') {
+        return Some("path must use POSIX separators and contain no NUL");
+    }
+    if value
+        .split('/')
+        .any(|segment| segment.is_empty() || segment == "." || segment == "..")
+    {
+        return Some("path must not contain empty, . or .. segments");
+    }
+
+    None
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -704,5 +742,39 @@ mod tests {
         let error = validate_task(&task).expect_err("maxSteps should fail");
 
         assert!(error.to_string().contains("maxSteps"));
+    }
+
+    #[test]
+    fn fabric_sha256_hex_matches_content_fabric_fixture_payload() {
+        let digest = fabric_sha256_hex(
+            b"Hello from Locus Content Fabric cross-implementation fixture v1.\n",
+        );
+
+        assert_eq!(
+            digest,
+            "7cb83d246d67fa50abea10b3fd1a21d97c690bcd2d16ad28cef5c26f6cc27945"
+        );
+    }
+
+    #[test]
+    fn fabric_path_confinement_rejects_escape_paths() {
+        for candidate in [
+            "../secret.txt",
+            "payload/../secret.txt",
+            "/absolute/file.txt",
+            "\\absolute\\file.txt",
+            "payload\\file.txt",
+            "C:/temp/file.txt",
+            "C:\\temp\\file.txt",
+            "payload//file.txt",
+            "payload/./file.txt",
+        ] {
+            assert!(
+                fabric_path_confinement_error(candidate).is_some(),
+                "{candidate} should be rejected"
+            );
+        }
+
+        assert!(fabric_path_confinement_error("payload/hello.txt").is_none());
     }
 }

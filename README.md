@@ -15,6 +15,7 @@ This repository is currently in Phase 2 schema-handshake mode. The goal is to lo
 Included now:
 
 - Architecture and adapter-boundary documentation.
+- Content Fabric v1.0.0 conformance foundation.
 - JSON Schemas for ARDYN manifests, capabilities, and tasks.
 - Schema-matching TypeScript and Rust contract types.
 - Minimal TypeScript core functions for manifest loading, validation, capability normalization, and static handshakes.
@@ -32,6 +33,7 @@ Not included yet:
 - Browser or desktop automation.
 - Production tool execution.
 - A serving mode that opens ports, starts agents, calls APIs, or spawns long-running services.
+- Content Fabric download, install, seed, enable, catalog serving, or execution.
 
 ## Architecture
 
@@ -40,6 +42,7 @@ The preferred architecture is a Rust host plus TypeScript core.
 - The Rust host owns local process supervision, OS integration, Windows-first packaging, policy enforcement, and safe host boundaries.
 - The TypeScript core owns orchestration contracts, SDK surfaces, MCP integration, adapter interfaces, and developer-facing plugin APIs.
 - JSON Schemas are the shared contract source for manifests, capabilities, and tasks.
+- Content Fabric support is currently conformance-only under `packages/fabric`; runtime pack handling is future work.
 
 ## Testing
 

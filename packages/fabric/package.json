@@ -1,0 +1,15 @@
+{
+  "name": "@ardyn/fabric",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ARDYN Content Fabric v1.0.0 conformance foundation.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.mjs"
+    }
+  }
+}
+

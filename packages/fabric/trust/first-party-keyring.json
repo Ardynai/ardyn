@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0.0",
+  "version": 1,
+  "expires": "2027-05-28T00:00:00Z",
+  "rootKeys": [
+    {
+      "keyId": "b7305b9b5d1f99f6075554988945cefddcff46279be2c136d34a0fac8e48a009",
+      "algo": "ed25519",
+      "publicKey": "5JA0v8x1iWZOfM6E63AsJM7jJgZtOeFDI/1QG/ccU1s=",
+      "status": "active",
+      "validFrom": "2026-01-01T00:00:00Z",
+      "validUntil": null
+    }
+  ],
+  "rootThreshold": 1,
+  "publishers": [
+    {
+      "namespace": "ardyn",
+      "displayName": "Ardynai",
+      "threshold": 1,
+      "keys": [
+        {
+          "keyId": "b7305b9b5d1f99f6075554988945cefddcff46279be2c136d34a0fac8e48a009",
+          "algo": "ed25519",
+          "publicKey": "5JA0v8x1iWZOfM6E63AsJM7jJgZtOeFDI/1QG/ccU1s=",
+          "status": "active",
+          "validFrom": "2026-01-01T00:00:00Z",
+          "validUntil": null
+        }
+      ]
+    }
+  ],
+  "signatures": [
+    {
+      "keyId": "b7305b9b5d1f99f6075554988945cefddcff46279be2c136d34a0fac8e48a009",
+      "algo": "ed25519",
+      "sig": "vLTR+ncUn+phCtno96d7rmwIKg7cNcmkiuPgKlpUHsjZ6DukpCgovO4/amDjI1/xCkU7lW//cpqcvNX/sXVcAA=="
+    }
+  ]
+}
+

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0.0",
+  "harness": "locus",
+  "publishedAt": "2026-06-01T00:00:00Z",
+  "packs": [
+    {
+      "class": "data",
+      "id": "locus-cross-impl/hello-data",
+      "infohash": "d0ace1a6cacd48784011517fe1d21c6c1bf18d7d",
+      "license": "CC0-1.0",
+      "manifestDigest": "sha256:7820e0546b4affc57c54094e63611dae3195756ff7fd02b64d3a67e3b9e96533",
+      "publisherKeyId": "24f6ed6acbfe1009c030d7ca567c33ca4830911498236b5561a6c82abec5de28",
+      "size": 65,
+      "type": "document",
+      "version": "1.0.0"
+    }
+  ],
+  "signatures": [
+    {
+      "algo": "ed25519",
+      "keyId": "56475aa75463474c0285df5dbf2bcab73da651358839e9b77481b2eab107708c",
+      "sig": "YqNzDNj8gpOv4OaG+fjUInQF+E+OjwpVr4SFg8yDZqUum8eUBOabsNBFgoNios9oNG3lKOAvShb75hj+BJvVDg=="
+    }
+  ]
+}

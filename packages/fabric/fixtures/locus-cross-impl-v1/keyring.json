@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "version": 1,
+  "expires": "2099-01-01T00:00:00Z",
+  "rootKeys": [
+    {
+      "keyId": "56475aa75463474c0285df5dbf2bcab73da651358839e9b77481b2eab107708c",
+      "algo": "ed25519",
+      "publicKey": "A6EHv/POEL4dcN0Y50vAmWfk1jCbpQ1fHdyGZBJVMbg=",
+      "status": "active",
+      "validFrom": "2026-01-01T00:00:00Z",
+      "validUntil": null
+    }
+  ],
+  "rootThreshold": 1,
+  "publishers": [
+    {
+      "namespace": "locus-cross-impl",
+      "displayName": "Locus Cross-Impl Fixture",
+      "threshold": 1,
+      "keys": [
+        {
+          "keyId": "24f6ed6acbfe1009c030d7ca567c33ca4830911498236b5561a6c82abec5de28",
+          "algo": "ed25519",
+          "publicKey": "Kay64UG8yvCyLhqU000LxzYeUm0L/hLIl5S8kyKWbdc=",
+          "status": "active",
+          "validFrom": "2026-01-01T00:00:00Z",
+          "validUntil": null
+        }
+      ]
+    }
+  ],
+  "signatures": [
+    {
+      "algo": "ed25519",
+      "keyId": "56475aa75463474c0285df5dbf2bcab73da651358839e9b77481b2eab107708c",
+      "sig": "HBN1fGRHPlmP0yCljvxZmMhrE8uNcSU6aAg6EAE2ZAwxFpGbGv0ImOI1JRqQmZSLkTN9q61aT9piDSs1HGzWCQ=="
+    }
+  ]
+}

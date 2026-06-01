@@ -1,0 +1,6 @@
+{
+  "source": "locus-cross-impl-v1/pack.json",
+  "payload": "locus-cross-impl-v1/expected-pack-signing-payload.jcs",
+  "sha256": "f9f75a8d64d1c6b1430f0850169a5383305ed27a139ef2b25d91e39e86407c86"
+}
+

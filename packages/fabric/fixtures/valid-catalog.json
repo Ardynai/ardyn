@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0.0",
+  "harness": "locus",
+  "publishedAt": "2026-06-01T00:00:00Z",
+  "packs": [
+    {
+      "class": "data",
+      "id": "ardyn/hello-data",
+      "infohash": "0123456789abcdef0123456789abcdef01234567",
+      "license": "CC0-1.0",
+      "manifestDigest": "sha256:7820e0546b4affc57c54094e63611dae3195756ff7fd02b64d3a67e3b9e96533",
+      "publisherKeyId": "b7305b9b5d1f99f6075554988945cefddcff46279be2c136d34a0fac8e48a009",
+      "size": 65,
+      "type": "document",
+      "version": "1.0.0"
+    }
+  ],
+  "signatures": []
+}
+
