@@ -138,7 +138,8 @@ export function loadManifest(manifestPath: string): Promise<ArdynManifest>;
 export function validateManifest(manifest: unknown): ValidationResult;
 export function normalizeCapabilities(manifest: ArdynManifest): ArdynCapability[];
 export function createHostInfo(): HostInfo;
-export function createPlatformInfo(): PlatformInfo;
+export function platformFamilyForNodePlatform(platform: string): "windows" | "unix";
+export function createPlatformInfo(platform?: string, arch?: string): PlatformInfo;
 export function createStaticIdentity(): object;
 export function createStaticHandshake(
   manifest: ArdynManifest,

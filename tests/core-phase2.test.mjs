@@ -5,9 +5,11 @@ import { join } from "node:path";
 import test from "node:test";
 
 import {
+  createPlatformInfo,
   createStaticHandshake,
   loadManifest,
   normalizeCapabilities,
+  platformFamilyForNodePlatform,
   validateManifest
 } from "../packages/core/src/index.mjs";
 
@@ -92,4 +94,11 @@ test("static handshake disables execution, tool execution, and network listening
   assert.equal(handshake.runtime.core, "typescript");
   assert.equal(handshake.manifest.path, "examples/minimal-manifest/ardyn.manifest.json");
   assert.deepEqual(handshake.capabilities.map((capability) => capability.id), ["runtime.describe"]);
+});
+
+test("platform family mapping matches Rust host family semantics", () => {
+  assert.equal(platformFamilyForNodePlatform("win32"), "windows");
+  assert.equal(platformFamilyForNodePlatform("linux"), "unix");
+  assert.equal(platformFamilyForNodePlatform("darwin"), "unix");
+  assert.equal(createPlatformInfo("darwin", "arm64").family, "unix");
 });

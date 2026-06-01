@@ -106,12 +106,16 @@ export function createHostInfo() {
   };
 }
 
-export function createPlatformInfo() {
+export function platformFamilyForNodePlatform(platform) {
+  return platform === "win32" ? "windows" : "unix";
+}
+
+export function createPlatformInfo(platform = process.platform, arch = process.arch) {
   return {
-    os: process.platform,
-    arch: process.arch,
-    family: process.platform === "win32" ? "windows" : process.platform,
-    isWindows: process.platform === "win32",
+    os: platform,
+    arch,
+    family: platformFamilyForNodePlatform(platform),
+    isWindows: platform === "win32",
     windowsFirst: true
   };
 }

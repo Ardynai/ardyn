@@ -8,6 +8,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use std::error::Error;
 use std::fs;
+use std::io::{Error as IoError, ErrorKind};
 
 pub const HOST_CRATE_NAME: &str = "ardyn-host";
 pub const ARDYN_SCHEMA_VERSION: &str = "0.1.0";
@@ -192,6 +193,229 @@ pub struct ArdynManifest {
     pub policies: Option<ArdynPolicies>,
 }
 
+fn validation_error(message: impl Into<String>) -> Box<dyn Error + Send + Sync> {
+    Box::new(IoError::new(ErrorKind::InvalidData, message.into()))
+}
+
+fn is_ascii_lower_or_digit(value: u8) -> bool {
+    value.is_ascii_lowercase() || value.is_ascii_digit()
+}
+
+fn is_valid_manifest_name(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    (3..=64).contains(&bytes.len())
+        && bytes[0].is_ascii_lowercase()
+        && is_ascii_lower_or_digit(bytes[bytes.len() - 1])
+        && bytes[1..bytes.len() - 1]
+            .iter()
+            .all(|byte| is_ascii_lower_or_digit(*byte) || *byte == b'-')
+}
+
+fn is_valid_semver(value: &str) -> bool {
+    let (core, prerelease) = match value.split_once('-') {
+        Some((core, prerelease)) if !prerelease.is_empty() => (core, Some(prerelease)),
+        Some(_) => return false,
+        None => (value, None),
+    };
+    let mut parts = core.split('.');
+
+    let has_three_numeric_parts = matches!(
+        (parts.next(), parts.next(), parts.next(), parts.next()),
+        (Some(major), Some(minor), Some(patch), None)
+            if [major, minor, patch]
+                .iter()
+                .all(|part| !part.is_empty() && part.bytes().all(|byte| byte.is_ascii_digit()))
+    );
+
+    has_three_numeric_parts
+        && match prerelease {
+            Some(prerelease) => prerelease
+                .bytes()
+                .all(|byte| byte.is_ascii_alphanumeric() || byte == b'.' || byte == b'-'),
+            None => true,
+        }
+}
+
+fn matches_capability_id_pattern(value: &str) -> bool {
+    !value.is_empty()
+        && value.split('.').all(|segment| {
+            !segment.is_empty()
+                && segment.as_bytes()[0].is_ascii_lowercase()
+                && segment
+                    .bytes()
+                    .all(|byte| is_ascii_lower_or_digit(byte) || byte == b'-')
+        })
+}
+
+fn is_valid_capability_id(value: &str) -> bool {
+    (3..=96).contains(&value.len()) && matches_capability_id_pattern(value)
+}
+
+fn is_valid_task_id(value: &str) -> bool {
+    (3..=128).contains(&value.len())
+        && value.as_bytes()[0].is_ascii_alphanumeric()
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'_' | b'.' | b':' | b'-'))
+}
+
+fn validate_optional_string(
+    field: &str,
+    value: Option<&str>,
+    min_len: Option<usize>,
+    max_len: Option<usize>,
+) -> HostResult<()> {
+    let Some(value) = value else {
+        return Ok(());
+    };
+    let length = value.chars().count();
+
+    if min_len.is_some_and(|minimum| length < minimum) {
+        return Err(validation_error(format!(
+            "{field} is shorter than schema minimum"
+        )));
+    }
+
+    if max_len.is_some_and(|maximum| length > maximum) {
+        return Err(validation_error(format!(
+            "{field} is longer than schema maximum"
+        )));
+    }
+
+    Ok(())
+}
+
+pub fn validate_task(task: &ArdynTask) -> HostResult<()> {
+    if !is_valid_task_id(&task.id) {
+        return Err(validation_error("task.id does not match schema pattern"));
+    }
+
+    if task.objective.is_empty() || task.objective.len() > 4000 {
+        return Err(validation_error(
+            "task.objective is outside schema length bounds",
+        ));
+    }
+
+    if task.requested_capabilities.is_empty() {
+        return Err(validation_error(
+            "task.requestedCapabilities must contain at least one capability",
+        ));
+    }
+
+    for capability_id in &task.requested_capabilities {
+        if !matches_capability_id_pattern(capability_id) {
+            return Err(validation_error(
+                "task.requestedCapabilities contains an invalid capability id",
+            ));
+        }
+    }
+
+    if let Some(constraints) = &task.constraints {
+        if let Some(max_steps) = constraints.max_steps {
+            if !(1..=1000).contains(&max_steps) {
+                return Err(validation_error(
+                    "task.constraints.maxSteps is outside schema bounds",
+                ));
+            }
+        }
+
+        validate_optional_string(
+            "task.constraints.workspaceRoot",
+            constraints.workspace_root.as_deref(),
+            Some(1),
+            None,
+        )?;
+    }
+
+    Ok(())
+}
+
+pub fn validate_manifest(manifest: &ArdynManifest) -> HostResult<()> {
+    if manifest.schema_version != ARDYN_SCHEMA_VERSION {
+        return Err(validation_error("manifest.schemaVersion must be 0.1.0"));
+    }
+
+    if !is_valid_manifest_name(&manifest.name) {
+        return Err(validation_error(
+            "manifest.name does not match schema pattern",
+        ));
+    }
+
+    if !is_valid_semver(&manifest.version) {
+        return Err(validation_error(
+            "manifest.version does not match schema pattern",
+        ));
+    }
+
+    validate_optional_string(
+        "manifest.description",
+        manifest.description.as_deref(),
+        Some(1),
+        Some(280),
+    )?;
+
+    validate_optional_string(
+        "manifest.runtime.entrypoint",
+        manifest.runtime.entrypoint.as_deref(),
+        Some(1),
+        Some(240),
+    )?;
+
+    if manifest.capabilities.is_empty() {
+        return Err(validation_error(
+            "manifest.capabilities must contain at least one capability",
+        ));
+    }
+
+    for capability in &manifest.capabilities {
+        if !is_valid_capability_id(&capability.id) {
+            return Err(validation_error(
+                "manifest.capabilities[].id does not match schema pattern",
+            ));
+        }
+
+        if capability.description.is_empty() || capability.description.len() > 280 {
+            return Err(validation_error(
+                "manifest.capabilities[].description is outside schema length bounds",
+            ));
+        }
+
+        if capability.permissions.is_empty() {
+            return Err(validation_error(
+                "manifest.capabilities[].permissions must contain at least one permission",
+            ));
+        }
+
+        for permission in &capability.permissions {
+            validate_optional_string(
+                "manifest.capabilities[].permissions[].reason",
+                permission.reason.as_deref(),
+                Some(1),
+                Some(240),
+            )?;
+        }
+    }
+
+    if let Some(adapters) = &manifest.adapters {
+        for adapter in adapters.values() {
+            validate_optional_string(
+                "manifest.adapters.*.endpoint",
+                adapter.endpoint.as_deref(),
+                Some(1),
+                Some(240),
+            )?;
+            validate_optional_string(
+                "manifest.adapters.*.notes",
+                adapter.notes.as_deref(),
+                None,
+                Some(400),
+            )?;
+        }
+    }
+
+    Ok(())
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct HostInfo {
     #[serde(rename = "crateName")]
@@ -271,6 +495,7 @@ pub fn platform_info() -> PlatformInfo {
 pub fn load_manifest_path(manifest_path: &str) -> HostResult<ArdynManifest> {
     let contents = fs::read_to_string(manifest_path)?;
     let manifest = serde_json::from_str::<ArdynManifest>(&contents)?;
+    validate_manifest(&manifest)?;
     Ok(manifest)
 }
 
@@ -305,6 +530,19 @@ pub fn host_handshake(manifest_path: Option<&str>) -> HostResult<HostHandshake> 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    fn write_temp_manifest(contents: &str) -> std::path::PathBuf {
+        let unique = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("system time")
+            .as_nanos();
+        let path = std::env::temp_dir().join(format!("ardyn-host-invalid-manifest-{unique}.json"));
+
+        std::fs::write(&path, contents).expect("write manifest");
+
+        path
+    }
 
     #[test]
     fn host_handshake_reports_platform_and_disables_execution() {
@@ -331,5 +569,72 @@ mod tests {
         assert_eq!(handshake.manifest.expect("manifest").name, "minimal-ardyn");
         assert_eq!(handshake.capabilities[0].id, "runtime.describe");
         assert!(!handshake.execution_enabled);
+    }
+
+    #[test]
+    fn load_manifest_path_rejects_invalid_schema_version() {
+        let manifest = r#"{
+            "schemaVersion": "9.9.9",
+            "name": "invalid-version",
+            "version": "0.1.0",
+            "runtime": { "host": "rust", "core": "typescript" },
+            "capabilities": [
+                {
+                    "id": "runtime.describe",
+                    "kind": "tool",
+                    "description": "Describe runtime metadata.",
+                    "permissions": [
+                        { "scope": "registry", "access": "read" }
+                    ]
+                }
+            ]
+        }"#;
+
+        let path = write_temp_manifest(manifest);
+        let error =
+            load_manifest_path(path.to_str().expect("manifest path")).expect_err("schema version");
+        std::fs::remove_file(path).expect("remove manifest");
+
+        assert!(error.to_string().contains("schemaVersion"));
+    }
+
+    #[test]
+    fn load_manifest_path_rejects_empty_capabilities() {
+        let manifest = r#"{
+            "schemaVersion": "0.1.0",
+            "name": "empty-capabilities",
+            "version": "0.1.0",
+            "runtime": { "host": "rust", "core": "typescript" },
+            "capabilities": []
+        }"#;
+
+        let path = write_temp_manifest(manifest);
+        let error = load_manifest_path(path.to_str().expect("manifest path"))
+            .expect_err("empty capabilities");
+        std::fs::remove_file(path).expect("remove manifest");
+
+        assert!(error.to_string().contains("capabilities"));
+    }
+
+    #[test]
+    fn validate_task_rejects_invalid_constraint_bounds() {
+        let task = ArdynTask {
+            id: "task_01".to_string(),
+            objective: "Describe runtime metadata without executing tools.".to_string(),
+            mode: TaskMode::DryRun,
+            requested_capabilities: vec!["runtime.describe".to_string()],
+            constraints: Some(ArdynTaskConstraints {
+                require_human_approval: Some(true),
+                allow_network: Some(false),
+                max_steps: Some(1001),
+                workspace_root: None,
+            }),
+            inputs: None,
+            metadata: None,
+        };
+
+        let error = validate_task(&task).expect_err("maxSteps should fail");
+
+        assert!(error.to_string().contains("maxSteps"));
     }
 }

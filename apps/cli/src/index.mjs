@@ -3,7 +3,7 @@ import {
   createDoctorReport,
   createStaticHandshakeFromPath,
   createStaticIdentity
-} from "../../../packages/core/src/index.mjs";
+} from "@ardyn/core";
 
 function printJson(value) {
   process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
