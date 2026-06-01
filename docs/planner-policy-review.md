@@ -1,12 +1,13 @@
 # Planner Policy Review
 
-Phase 3.2 documents how ARDYN reviews task plans before any execution-adjacent
+Phase 3.3 documents how ARDYN reviews task plans before any execution-adjacent
 phase exists. ARDYN is an open-source AI harness/framework. It is not Locus,
 not Multiverse, and not a runtime installer.
 
 Locus remains mission control that may later observe or control ARDYN through
-public ARDYN APIs. Multiverse integration remains optional and external. The
-Content Fabric foundation remains conformance-only and non-runtime.
+public ARDYN APIs. Multiverse integration remains optional and external. MCP,
+OpenClaw, plugin APIs, and Content Fabric remain boundaries only. No integration
+is active because a plan mentions one.
 
 ## Scope
 
@@ -19,6 +20,7 @@ Policy review does not:
 - Execute tools.
 - Start autonomous loops.
 - Open network listeners.
+- Spawn processes or long-running services.
 - Call Locus, Multiverse, MCP, OpenClaw, or other adapters.
 - Install plugins.
 - Download torrents.
@@ -26,11 +28,24 @@ Policy review does not:
 - Serve Content Fabric catalogs.
 - Connect to real external systems.
 
-## Planning-Only Approval Decisions
+## Approval Statuses
 
 `approvalDecision` is a review record, not an execution grant. It is created
 during planning so reviewers can see whether human approval would be required
 before a future runtime phase.
+
+There are two related status surfaces:
+
+| Surface | Status | Meaning |
+| --- | --- | --- |
+| `approval.status` | `null` | No approval gate is required for this plan. |
+| `approval.status` | `approval-required` | Planning found at least one task or policy reason requiring approval. |
+| `approval.status` | `approval-denied` | A simulated planner review decision denied the plan. Execution is still impossible. |
+| `approval.status` | `approval-granted` | A simulated planner review decision granted the plan. Execution is still impossible. |
+| `approvalDecision.status` | `not_required` | The plan does not require approval. |
+| `approvalDecision.status` | `required` | The plan requires approval and no simulated decision has granted or denied it. |
+| `approvalDecision.status` | `denied` | A simulated decision denied the plan for review purposes only. |
+| `approvalDecision.status` | `granted` | A simulated decision granted the plan for review purposes only. |
 
 Approval can be required by:
 
@@ -38,10 +53,11 @@ Approval can be required by:
 - A manifest policy such as `policies.requiresApprovalFor` matching a selected
   capability permission scope.
 
-The current decision record is deterministic and non-executing. Even an
-approval decision with a granted status in a future caller context must not be
-treated as permission to execute in Phase 3.2. It only records what the planner
-was told for review purposes.
+Every current approval decision is deterministic and non-executing. Even a
+simulated `granted` decision must not be treated as permission to execute in
+Phase 3.3. A simulated `denied` decision is useful for UI and reporting review,
+but it also does not invoke cancellation hooks, adapter calls, process control,
+or any other runtime behavior.
 
 ## Capability Ranking Policy
 
@@ -72,9 +88,60 @@ This policy makes planning reviewable without hiding lower-ranked candidates.
 Reviewers can see why the planner selected a capability and what it deliberately
 did not select.
 
+## Trace Review
+
+The default `plan` output includes `plannerTrace`. The `plan --trace` mode
+prints the same trace in a focused wrapper. Reviewers should use the trace to
+answer five questions:
+
+1. Did task intake succeed, and are the requested capabilities expected?
+2. Did the manifest identity, version, and schema version match the review
+   target?
+3. Did each request select the expected highest-ranked tier while preserving
+   lower-ranked candidates?
+4. Did unresolved requests stay visible without throwing away review context?
+5. Do approval and safety records still prove that the plan is non-executing?
+
+The trace is evidence, not a runtime command. A trace may describe future
+capabilities, adapters, or permission scopes, but it must not imply that ARDYN
+connected to those systems.
+
+## Future Locus UI Display Fields
+
+A future Locus UI may display ARDYN review data, but Locus integration is not
+active in Phase 3.3. The UI should be a viewer or reviewer of ARDYN plan JSON
+until a later integration phase explicitly adds a connection contract.
+
+A planning review UI should display:
+
+- Output mode: default plan, `trace`, `summary`, or `explain`.
+- Manifest identity: `manifest.id`, `manifest.version`, and
+  `manifest.schemaVersion`.
+- Task intake: task id, mode, objective, requested capabilities, validity, and
+  validation errors.
+- Resolution summary: selected capability ids and unresolved requests.
+- Per-request decision: request string, `matchType`, selected capability ids,
+  reason, and candidate count.
+- Candidate details: capability id, match type, score, permission scope, tag,
+  and reason.
+- Approval gate: `approval.required`, `approval.status`, and
+  `approval.reasons`.
+- Approval decision: id, status, reason, requested capability ids, timestamp,
+  and `nonExecuting`.
+- Safety flags: every flag that proves execution, network serving, adapter
+  calls, plugin installation, torrent download, code-pack enablement,
+  autonomous loops, Content Fabric runtime behavior, and tool execution remain
+  disabled.
+- Source context when available: manifest path and task path from trace
+  metadata.
+
+The UI must not display buttons or wording that imply "run", "connect",
+"install", "serve", "seed", "enable", "call MCP", "call OpenClaw", or
+"execute" before those actions exist as separate reviewed phases.
+
 ## Adapter Metadata Boundary
 
-Adapters are metadata-only in Phase 3.2. Adapter packages and manifest adapter
+Adapters are metadata-only in Phase 3.3. Adapter packages and manifest adapter
 entries can describe identity, capability, permission, or future integration
 shape, but they must not create live connections or call external services.
 
@@ -89,7 +156,7 @@ schemas, manifests, task inputs, capability resolution, approval records,
 planner traces, static host identity, and dry-run handshakes must be predictable
 before any runtime behavior can be made safe.
 
-Keeping Phase 3.2 non-executing prevents policy review from being confused with
+Keeping Phase 3.3 non-executing prevents policy review from being confused with
 tool execution. It also keeps Locus, Multiverse, Content Fabric, MCP, OpenClaw,
 and plugin concepts as explicit boundaries instead of hidden runtime
 dependencies.
@@ -99,7 +166,7 @@ dependencies.
 Before ARDYN adds execution-adjacent behavior, all of the following must be
 true:
 
-- Execution must be explicitly scoped, documented, and opt-in.
+- Execution must be explicitly scoped, documented, tested, and opt-in.
 - The Rust host policy boundary must define filesystem, process, network, and
   credential enforcement.
 - Approval records must be connected to a real consent flow, not just planning
@@ -110,8 +177,8 @@ true:
 - Content Fabric runtime work must add signature verification, payload hash
   verification, quarantine, sandboxing, and explicit enablement.
 - Plugin install, torrent download, code-pack enablement, network serving,
-  autonomous loops, MCP calls, OpenClaw calls, and external adapter connections
-  must each be introduced as separate reviewed phases.
+  process spawning, autonomous loops, MCP calls, OpenClaw calls, and external
+  adapter connections must each be introduced as separate reviewed phases.
 
 ## Examples
 
@@ -120,8 +187,12 @@ Run planner examples from the repository root:
 ```powershell
 node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/exact-match.json
 node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/tag-match.json
+node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/scope-match.json
 node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/no-match.json
 node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
+node apps/cli/src/index.mjs plan --trace --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/tag-match.json
+node apps/cli/src/index.mjs plan --summary --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
+node apps/cli/src/index.mjs plan --explain --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/exact-match.json
 ```
 
 Exact-match review:
@@ -138,6 +209,16 @@ Tag-match review:
 - Selected capabilities: `alpha.tag`, `beta.tag`.
 - The scope candidate remains visible but is not selected.
 
+Scope-match review:
+
+- Task fixture: `tests/fixtures/tasks/scope-match.json`.
+- Request: `memory`.
+- Selected tier: `scope`, score `100`.
+- Selected capability: `network`, because it declares the `memory` permission
+  scope and no exact id or tag candidate exists for `memory`.
+- If a future manifest adds an exact id or tag candidate for the same request,
+  that higher tier must win.
+
 No-match review:
 
 - Request: `missing.capability`.
@@ -151,35 +232,41 @@ Approval-required review:
 - The selected capability declares the `registry` scope.
 - The task also requires human approval.
 - `approval.required` is `true`.
+- `approval.status` is `approval-required`.
+- `approvalDecision.status` is `required`.
 - `approvalDecision.nonExecuting` is `true`.
+
+Denied review simulation:
+
+- Simulated denied decisions are planner review inputs, not CLI execution
+  commands.
+- A denied decision produces `approval.status: "approval-denied"` and
+  `approvalDecision.status: "denied"` only when approval is otherwise required.
+- Safety flags remain false and no cancellation hook, tool call, adapter call,
+  network listener, or process control is invoked.
 
 Trace usage:
 
-- The `plan` command includes `plannerTrace` automatically.
-- Use `plannerTrace.taskIntake` to review task validity and requested
-  capabilities.
-- Use `plannerTrace.candidateCapabilities` to inspect retained candidates and
-  scores.
-- Use `plannerTrace.selectedCapabilities` and
-  `plannerTrace.unresolvedRequests` to compare selected and unresolved work.
-- Use `plannerTrace.approvalDecision` and `plannerTrace.safety` to confirm the
-  plan remains non-executing.
+- `plan --trace` prints `{ command, output: "trace", manifest, taskId, trace,
+  safety }`.
+- Use `trace.taskIntake` to review task validity and requested capabilities.
+- Use `trace.candidateCapabilities` to inspect retained candidates and scores.
+- Use `trace.selectedCapabilities` and `trace.unresolvedRequests` to compare
+  selected and unresolved work.
+- Use `trace.approvalDecision` and `trace.safety` to confirm the plan remains
+  non-executing.
 
 Summary usage:
 
-- A summary view should be derived from the same `plan` JSON.
-- It should include the task id, selected capability ids, unresolved requests,
-  approval status, and safety flags.
+- `plan --summary` prints selected capability ids, unresolved requests,
+  approval data, and safety flags without the full trace.
+- It must be derived from the same non-executing plan data.
 - It must not imply that any tool ran or any adapter connected.
 
 Explain usage:
 
-- An explanation view should cite `resolutions[].reason`,
-  `resolutions[].candidates[].matchType`, and candidate scores.
-- It should describe why the selected tier won and which lower tiers were only
-  retained for review.
-- It should state that execution remains deferred.
-
-Phase 3.2 documentation does not add separate CLI flags for summary or explain
-views. If a later phase adds them, they should be pure renderings of the same
-non-executing plan data.
+- `plan --explain` prints deterministic candidate ranking and approval reasons.
+- It cites request-level reasons, candidate match types, scores, scopes, and
+  tags.
+- It should state that execution remains deferred when presented in reports or
+  future UI.

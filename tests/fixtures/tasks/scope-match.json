@@ -1,0 +1,14 @@
+{
+  "id": "task.phase3-3.scope",
+  "objective": "Plan a permission-scope-only match from fixture data.",
+  "mode": "plan",
+  "requestedCapabilities": ["memory"],
+  "constraints": {
+    "requireHumanApproval": false,
+    "allowNetwork": false,
+    "maxSteps": 1
+  },
+  "metadata": {
+    "phase": "phase-3-3-policy-fixtures"
+  }
+}

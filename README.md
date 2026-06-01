@@ -72,20 +72,42 @@ node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.mani
 node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json
 ```
 
-Successful commands print JSON. Failure cases write plain text to stderr and do not print JSON to stdout. The `plan` command validates the task, scores candidate capabilities deterministically, and includes `plannerTrace` automatically. Exact capability IDs score 300, capability tags score 200, and permission scopes score 100. Exact matches outrank tag matches, tag matches outrank scope matches, ties are sorted by capability ID, and no-match resolutions include empty candidates and selected capability IDs.
+Successful commands print JSON. Failure cases write plain text to stderr and do not print JSON to stdout. The `plan` command validates the task, scores candidate capabilities deterministically, and includes `plannerTrace` automatically unless a focused output mode is selected. Exact capability IDs score 300, capability tags score 200, and permission scopes score 100. Exact matches outrank tag matches, tag matches outrank scope matches, ties are sorted by capability ID, and no-match resolutions include empty candidates and selected capability IDs.
 
-The `plan` and `serve --dry-run` commands are intentionally non-executing: they do not open network ports, execute tools, start agents, call APIs, install plugins, download torrents, enable code packs, run agent loops, or spawn long-running services. Their output includes explicit false values for the safety flags that cover those behaviors.
+The `plan`, `plan --trace`, `plan --summary`, `plan --explain`, and `serve --dry-run` commands are intentionally non-executing: they do not open network ports, execute tools, start agents, call APIs, install plugins, download torrents, enable code packs, run agent loops, connect adapters, call MCP/OpenClaw, serve Content Fabric catalogs, or spawn long-running services. Their output includes explicit false values for the safety flags that cover those behaviors.
 
-Phase 3.1 planner examples:
+Phase 3.3 review examples:
 
 ```powershell
 node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/exact-match.json
 node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/tag-match.json
+node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/scope-match.json
 node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/no-match.json
 node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
+node apps/cli/src/index.mjs plan --trace --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/tag-match.json
+node apps/cli/src/index.mjs plan --summary --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
+node apps/cli/src/index.mjs plan --explain --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/exact-match.json
 ```
 
-The exact-match fixture selects only the highest-scored exact capability even when tag and scope candidates exist. The tag-match fixture selects tied tag capabilities sorted by ID and leaves lower-scored scope candidates in the trace. The no-match fixture reports no selected capabilities. The approval-required fixture emits a stable non-executing `approvalDecision` record with a deterministic default timestamp.
+Review outcomes:
+
+- Exact match: `exact-match.json` requests `network`, selects `network` by exact id with score `300`, and leaves lower-ranked tag and scope candidates visible for review.
+- Tag match: `tag-match.json` requests `filesystem`, selects `alpha.tag` and `beta.tag` by tag with score `200`, and leaves the lower-ranked scope candidate visible.
+- Scope match: `scope-match.json` requests `memory`, selects `network` by permission scope with score `100`, and does so only because no exact id or tag candidate exists for `memory`.
+- No match: `no-match.json` requests `missing.capability`, selects nothing, and records the request in `unresolvedRequests`.
+- Approval required: `approval-required.json` selects `secure.registry`, records task and policy approval reasons, reports `approval.status: "approval-required"`, and keeps `approvalDecision.nonExecuting: true`.
+- Denied review simulation: a simulated planner decision with `approvalDecision.status: "denied"` is review metadata only. It may produce `approval.status: "approval-denied"` when approval is required, but it must not call cancellation hooks, run tools, connect adapters, spawn processes, or change safety flags.
+- Trace: `plan --trace` prints the planner trace wrapper for intake, candidates, selected capabilities, unresolved requests, approval decision, and safety review.
+- Summary: `plan --summary` prints selected capability ids, unresolved requests, approval data, and safety flags without the full trace.
+- Explain: `plan --explain` prints deterministic candidate ranking, match reasons, approval reasons, and the same non-executing safety flags.
+
+The Phase 3.3 status report command is:
+
+```powershell
+npm run report:phase-status
+```
+
+That report must assemble planning evidence only: manifest and task identifiers, selected capability ids, unresolved requests, approval status, approval-decision status, and safety flags. It must not start servers, spawn long-running processes, call adapters, execute tools, or imply active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime integration.
 
 Example dry-run check:
 
@@ -95,9 +117,9 @@ node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest
 
 The planned runtime includes the loaded manifest identity, normalized capabilities, TypeScript core runtime, Rust host boundary, and platform report.
 
-## Phase 3.2 Policy Review
+## Phase 3.3 Policy Review
 
-Phase 3.2 keeps planning review documentation-only and non-executing. Planner
+Phase 3.3 keeps planning review documentation-only and non-executing. Planner
 approval decisions are review records, not runtime grants. Capability selection
 uses deterministic tiers: exact capability id score `300`, tag score `200`, and
 permission scope score `100`. Exact outranks tag, tag outranks scope, ties are
@@ -105,10 +127,12 @@ sorted by bytewise ASCII capability id, all candidates stay visible in the trace
 and only the highest available tier is selected.
 
 See `docs/planner-policy-review.md` for approval, ranking, adapter metadata,
-trace, summary, and explain guidance. The adapter boundary remains metadata-only:
+trace, summary, and explain guidance. See
+`docs/planner-trace-review-workflow.md` for the Phase 3.3 reviewer checklist and
+future Locus UI display fields. The adapter boundary remains metadata-only:
 ARDYN does not call real MCP/OpenClaw adapters, connect to Locus or Multiverse,
 install plugins, download torrents, enable code packs, serve Content Fabric
-catalogs, run autonomous loops, or execute tools in Phase 3.2.
+catalogs, spawn processes, run autonomous loops, or execute tools in Phase 3.3.
 
 ## License
 

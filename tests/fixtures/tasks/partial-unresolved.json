@@ -1,0 +1,14 @@
+{
+  "id": "task.phase3-3.partial-unresolved",
+  "objective": "Plan multiple requests while preserving one unresolved request.",
+  "mode": "plan",
+  "requestedCapabilities": ["memory", "missing.capability", "alpha.scope"],
+  "constraints": {
+    "requireHumanApproval": false,
+    "allowNetwork": false,
+    "maxSteps": 1
+  },
+  "metadata": {
+    "phase": "phase-3-3-policy-fixtures"
+  }
+}

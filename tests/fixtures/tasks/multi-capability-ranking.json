@@ -1,0 +1,14 @@
+{
+  "id": "task.phase3-3.multi-ranking",
+  "objective": "Plan deterministic ranking for a request that selects multiple tied capabilities.",
+  "mode": "plan",
+  "requestedCapabilities": ["planner.tie"],
+  "constraints": {
+    "requireHumanApproval": false,
+    "allowNetwork": false,
+    "maxSteps": 1
+  },
+  "metadata": {
+    "phase": "phase-3-3-policy-fixtures"
+  }
+}
