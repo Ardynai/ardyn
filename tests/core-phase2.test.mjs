@@ -86,7 +86,7 @@ test("static handshake disables execution, tool execution, and network listening
     manifestPath: "examples/minimal-manifest/ardyn.manifest.json"
   });
 
-  assert.equal(handshake.phase, "phase-2-schema-handshake");
+  assert.equal(handshake.phase, "phase-3-task-planning");
   assert.equal(handshake.executionEnabled, false);
   assert.equal(handshake.toolExecutionEnabled, false);
   assert.equal(handshake.networkListening, false);

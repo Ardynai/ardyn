@@ -2,5 +2,4 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 1 owns manifest, capability, and task contract modeling only. Autonomous execution is intentionally out of scope.
-
+Phase 3 owns manifest and task validation, deterministic non-executing task planning, capability resolution, and approval-gate data. Autonomous execution, tool execution, plugin installation, network serving, torrent download, code-pack enablement, and agent loops are intentionally out of scope.

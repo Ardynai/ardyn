@@ -47,7 +47,7 @@ test("ardyn identity reports a static non-executing identity", async () => {
   const output = await runCli(["identity"]);
 
   assert.equal(output.name, "ardyn");
-  assert.equal(output.phase, "phase-2-schema-handshake");
+  assert.equal(output.phase, "phase-3-task-planning");
   assert.equal(output.executionEnabled, false);
   assert.equal(output.host.crateName, "ardyn-host");
 });
@@ -97,7 +97,7 @@ test("ardyn serve without --dry-run fails without JSON output", async () => {
     "examples/minimal-manifest/ardyn.manifest.json"
   ]);
 
-  assertCliFailure(failure, /Only ardyn serve --dry-run is available in Phase 2\./);
+  assertCliFailure(failure, /Only ardyn serve --dry-run is available in Phase 3\./);
 });
 
 test("ardyn serve --dry-run prints a runtime plan without executing anything", async () => {

@@ -2,5 +2,4 @@
 
 Rust host scaffold for ARDYN.
 
-The host will own native process supervision, transport lifecycle, policy enforcement, and Windows-first integration in later phases. It does not execute autonomous tasks in Phase 1.
-
+Phase 3 exposes static Rust host identity and handshake data only. Rust task planning, runtime execution, tool execution, network serving, plugin installation, torrent download, code-pack enablement, and agent-loop behavior are not implemented here.

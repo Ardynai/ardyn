@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 2 Scope
+## Phase 3 Scope
 
-This repository is currently in Phase 2 schema-handshake mode. The goal is to load and validate ARDYN manifests, report static TypeScript/Rust host identity, and expose deterministic dry-run handshake data before autonomous execution exists.
+This repository is currently in Phase 3 task-planning mode. The goal is to load and validate ARDYN manifests and tasks, resolve requested capabilities into deterministic non-executing plans, report static TypeScript/Rust host identity, and expose dry-run handshake data before autonomous execution exists.
 
 Included now:
 
@@ -19,8 +19,10 @@ Included now:
 - JSON Schemas for ARDYN manifests, capabilities, and tasks.
 - Schema-matching TypeScript and Rust contract types.
 - Minimal TypeScript core functions for manifest loading, validation, capability normalization, and static handshakes.
+- Minimal task loading, validation, deterministic capability resolution, and approval-gate data.
+- Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
-- CLI commands for doctor, identity, capabilities, and dry-run serve planning.
+- CLI commands for doctor, identity, capabilities, task planning, and dry-run serve planning.
 - Schema, core, CLI, and Rust host tests.
 
 Not included yet:
@@ -34,6 +36,7 @@ Not included yet:
 - Production tool execution.
 - A serving mode that opens ports, starts agents, calls APIs, or spawns long-running services.
 - Content Fabric download, install, seed, enable, catalog serving, or execution.
+- Plugin installation, torrent download, code-pack enablement, or agent loops.
 
 ## Architecture
 
@@ -57,18 +60,21 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 2 CLI Usage
+## Phase 3 CLI Usage
 
-Run commands directly from source during Phase 2:
+Run commands directly from source during Phase 3:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
 node apps/cli/src/index.mjs identity
 node apps/cli/src/index.mjs capabilities --manifest examples/minimal-manifest/ardyn.manifest.json
+node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json
 ```
 
-Successful commands print JSON. Failure cases write plain text to stderr and do not print JSON to stdout. The `serve --dry-run` command is intentionally non-executing: it does not open network ports, execute tools, start agents, call APIs, or spawn long-running services. Its output includes explicit false values for `executionEnabled`, `toolExecutionEnabled`, `apiCallsEnabled`, `networkListening`, `longRunningServicesStarted`, and `processesSpawned`.
+Successful commands print JSON. Failure cases write plain text to stderr and do not print JSON to stdout. The `plan` command validates the task, resolves exact capability IDs first, falls back to permission-scope matching only when the request is a schema-defined permission scope, and reports deterministic no-match resolutions. Tag matching is unsupported because the current capability schema has no tag field.
+
+The `plan` and `serve --dry-run` commands are intentionally non-executing: they do not open network ports, execute tools, start agents, call APIs, install plugins, download torrents, enable code packs, run agent loops, or spawn long-running services. Their output includes explicit false values for the safety flags that cover those behaviors.
 
 Example dry-run check:
 

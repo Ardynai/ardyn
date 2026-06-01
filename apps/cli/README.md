@@ -2,5 +2,8 @@
 
 CLI app scaffold for ARDYN.
 
-Future phases should expose commands such as `doctor`, `identity`, `capabilities`, and dry-run serving. No autonomous execution exists in Phase 1.
+Phase 3 exposes `doctor`, `identity`, `capabilities`, `plan`, and dry-run `serve` commands. No command executes tools, opens network listeners, installs plugins, downloads torrents, enables code packs, or starts agent loops.
 
+```powershell
+node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
+```

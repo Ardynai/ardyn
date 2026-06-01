@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 import {
+  createTaskPlan,
   createDoctorReport,
+  loadManifest,
+  loadTask,
   createStaticHandshakeFromPath,
   createStaticIdentity
 } from "@ardyn/core";
@@ -55,12 +58,37 @@ async function run(argv) {
     return;
   }
 
+  if (command === "plan") {
+    const manifestPath = readOption(args, "--manifest");
+    const taskPath = readOption(args, "--task");
+
+    if (!manifestPath) {
+      fail("Missing required --manifest path.");
+      return;
+    }
+
+    if (!taskPath) {
+      fail("Missing required --task path.");
+      return;
+    }
+
+    const manifest = await loadManifest(manifestPath);
+    const task = await loadTask(taskPath);
+    const plan = createTaskPlan(manifest, task, { manifestPath, taskPath });
+
+    printJson({
+      command: "plan",
+      ...plan
+    });
+    return;
+  }
+
   if (command === "serve") {
     const dryRun = args.includes("--dry-run");
     const manifestPath = readOption(args, "--manifest");
 
     if (!dryRun) {
-      fail("Only ardyn serve --dry-run is available in Phase 2.");
+      fail("Only ardyn serve --dry-run is available in Phase 3.");
       return;
     }
 
@@ -87,7 +115,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan --manifest <path> --task <path>|serve --dry-run --manifest <path>>"
   );
 }
 

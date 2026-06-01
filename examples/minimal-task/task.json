@@ -1,0 +1,15 @@
+{
+  "id": "task.minimal.describe",
+  "objective": "Plan a non-executing description of the ARDYN runtime metadata.",
+  "mode": "plan",
+  "requestedCapabilities": ["runtime.describe"],
+  "constraints": {
+    "requireHumanApproval": false,
+    "allowNetwork": false,
+    "maxSteps": 1,
+    "workspaceRoot": "."
+  },
+  "metadata": {
+    "phase": "phase-3-task-planning"
+  }
+}

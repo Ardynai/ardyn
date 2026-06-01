@@ -1,8 +1,8 @@
 //! ARDYN host scaffold.
 //!
-//! Phase 2 models the native host side of the schema handshake. It intentionally
-//! does not implement autonomous execution, tool execution, network listeners,
-//! API calls, or long-running services.
+//! Phase 3 models the native host side of the static identity and handshake.
+//! It intentionally does not implement Rust task planning, autonomous execution,
+//! tool execution, network listeners, API calls, or long-running services.
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -13,7 +13,7 @@ use std::io::{Error as IoError, ErrorKind};
 
 pub const HOST_CRATE_NAME: &str = "ardyn-host";
 pub const ARDYN_SCHEMA_VERSION: &str = "0.1.0";
-pub const ARDYN_PHASE: &str = "phase-2-schema-handshake";
+pub const ARDYN_PHASE: &str = "phase-3-task-planning";
 
 pub type HostResult<T> = Result<T, Box<dyn Error + Send + Sync>>;
 
@@ -583,7 +583,7 @@ mod tests {
     fn host_handshake_reports_platform_and_disables_execution() {
         let handshake = host_handshake(None).expect("handshake");
 
-        assert_eq!(handshake.phase, "phase-2-schema-handshake");
+        assert_eq!(handshake.phase, "phase-3-task-planning");
         assert_eq!(handshake.host.crate_name, HOST_CRATE_NAME);
         assert_eq!(handshake.platform.os, std::env::consts::OS);
         assert_eq!(handshake.platform.arch, std::env::consts::ARCH);

@@ -1,0 +1,5 @@
+{
+  "id": "task.invalid.missing-objective",
+  "mode": "plan",
+  "requestedCapabilities": ["runtime.describe"]
+}

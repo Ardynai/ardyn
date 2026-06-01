@@ -28,24 +28,28 @@ The boundary is intentional: Rust answers whether ARDYN may safely do something 
 
 ## Contract First
 
-Phase 1 defines schemas before runtime behavior:
+Phase 3 keeps ARDYN contract-first before runtime behavior:
 
 - `schemas/ardyn.manifest.schema.json`
 - `schemas/capability.schema.json`
 - `schemas/task.schema.json`
 
-Future code should generate Rust and TypeScript types from these contracts rather than duplicating hand-written model definitions.
+Current TypeScript support loads manifests and tasks, validates them, resolves requested capabilities into non-executing task plans, and reports approval-gate data. Current Rust support remains a static host identity and handshake boundary. Future code should generate Rust and TypeScript types from these contracts rather than duplicating hand-written model definitions.
 
-## Non-Goals For Phase 1
+## Non-Goals For Phase 3
 
-Phase 1 does not implement:
+Phase 3 does not implement:
 
-- Autonomous planning.
+- Autonomous execution or agent loops.
 - Tool execution.
 - Browser or desktop control.
+- Network serving.
+- Plugin installation.
+- Torrent download.
+- Code-pack enablement.
+- Rust task planning or runtime execution.
 - Locus live control.
 - Multiverse registration.
 - Model-provider execution.
 
-Those features should be added only after manifests, capabilities, tasks, permissions, and host/core handshake behavior are testable.
-
+Those features should be added only after manifests, capabilities, tasks, permissions, task plans, approval-gate data, and host/core handshake behavior are testable.
