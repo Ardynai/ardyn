@@ -95,6 +95,21 @@ node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest
 
 The planned runtime includes the loaded manifest identity, normalized capabilities, TypeScript core runtime, Rust host boundary, and platform report.
 
+## Phase 3.2 Policy Review
+
+Phase 3.2 keeps planning review documentation-only and non-executing. Planner
+approval decisions are review records, not runtime grants. Capability selection
+uses deterministic tiers: exact capability id score `300`, tag score `200`, and
+permission scope score `100`. Exact outranks tag, tag outranks scope, ties are
+sorted by bytewise ASCII capability id, all candidates stay visible in the trace,
+and only the highest available tier is selected.
+
+See `docs/planner-policy-review.md` for approval, ranking, adapter metadata,
+trace, summary, and explain guidance. The adapter boundary remains metadata-only:
+ARDYN does not call real MCP/OpenClaw adapters, connect to Locus or Multiverse,
+install plugins, download torrents, enable code packs, serve Content Fabric
+catalogs, run autonomous loops, or execute tools in Phase 3.2.
+
 ## License
 
 Apache-2.0. See `LICENSE`.

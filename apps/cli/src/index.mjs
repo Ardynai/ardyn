@@ -26,6 +26,103 @@ function readOption(args, name) {
   return args[index + 1];
 }
 
+const PLAN_OUTPUT_FLAGS = ["--trace", "--summary", "--explain"];
+
+function readPlanOutputMode(args) {
+  const selectedFlags = PLAN_OUTPUT_FLAGS.filter((flag) => args.includes(flag));
+
+  if (selectedFlags.length > 1) {
+    return {
+      error: `Plan output flags are mutually exclusive: ${selectedFlags.join(", ")}.`
+    };
+  }
+
+  return {
+    mode: selectedFlags[0]?.slice(2) ?? "default"
+  };
+}
+
+function createPlanTraceOutput(plan) {
+  return {
+    command: "plan",
+    output: "trace",
+    manifest: plan.plannerTrace.manifest,
+    taskId: plan.task.id,
+    trace: plan.plannerTrace,
+    safety: plan.safety
+  };
+}
+
+function createPlanSummaryOutput(plan) {
+  return {
+    command: "plan",
+    output: "summary",
+    manifest: plan.plannerTrace.manifest,
+    taskId: plan.task.id,
+    selectedCapabilities: plan.plannerTrace.selectedCapabilities,
+    unresolvedRequests: plan.plannerTrace.unresolvedRequests,
+    approval: {
+      required: plan.approval.required,
+      status: plan.approval.status,
+      reasons: plan.approval.reasons,
+      decision: plan.approvalDecision
+    },
+    safety: plan.safety
+  };
+}
+
+function createPlanExplainOutput(plan) {
+  return {
+    command: "plan",
+    output: "explain",
+    manifest: plan.plannerTrace.manifest,
+    taskId: plan.task.id,
+    matchingPolicy: plan.matchingPolicy,
+    requests: plan.resolutions.map((resolution) => ({
+      request: resolution.request,
+      matchType: resolution.matchType,
+      scope: resolution.scope,
+      reason: resolution.reason,
+      selectedCapabilityIds: resolution.selectedCapabilityIds,
+      candidates: resolution.candidates.map((candidate) => ({
+        capabilityId: candidate.capabilityId,
+        matchType: candidate.matchType,
+        score: candidate.score,
+        scope: candidate.scope,
+        tag: candidate.tag,
+        reason: candidate.reason
+      }))
+    })),
+    unresolvedRequests: plan.plannerTrace.unresolvedRequests,
+    approval: {
+      required: plan.approval.required,
+      status: plan.approval.status,
+      reasons: plan.approval.reasons,
+      decision: plan.approvalDecision
+    },
+    safety: plan.safety
+  };
+}
+
+function createPlanOutput(plan, mode) {
+  if (mode === "trace") {
+    return createPlanTraceOutput(plan);
+  }
+
+  if (mode === "summary") {
+    return createPlanSummaryOutput(plan);
+  }
+
+  if (mode === "explain") {
+    return createPlanExplainOutput(plan);
+  }
+
+  return {
+    command: "plan",
+    ...plan
+  };
+}
+
 async function run(argv) {
   const [command, ...args] = argv;
 
@@ -59,6 +156,12 @@ async function run(argv) {
   }
 
   if (command === "plan") {
+    const outputMode = readPlanOutputMode(args);
+    if (outputMode.error) {
+      fail(outputMode.error);
+      return;
+    }
+
     const manifestPath = readOption(args, "--manifest");
     const taskPath = readOption(args, "--task");
 
@@ -76,10 +179,7 @@ async function run(argv) {
     const task = await loadTask(taskPath);
     const plan = createTaskPlan(manifest, task, { manifestPath, taskPath });
 
-    printJson({
-      command: "plan",
-      ...plan
-    });
+    printJson(createPlanOutput(plan, outputMode.mode));
     return;
   }
 
@@ -115,7 +215,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan --manifest <path> --task <path>|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain] --manifest <path> --task <path>|serve --dry-run --manifest <path>>"
   );
 }
 
