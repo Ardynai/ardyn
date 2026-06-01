@@ -4,6 +4,8 @@
   "private": true,
   "description": "ARDYN CLI app scaffold.",
   "type": "module",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "bin": {
+    "ardyn": "./src/index.mjs"
+  }
 }
-

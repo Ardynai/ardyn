@@ -8,17 +8,19 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 1 Scope
+## Phase 2 Scope
 
-This repository is currently in Phase 1 scaffold mode. The goal is to define the contract surface before autonomous execution exists.
+This repository is currently in Phase 2 schema-handshake mode. The goal is to load and validate ARDYN manifests, report static TypeScript/Rust host identity, and expose deterministic dry-run handshake data before autonomous execution exists.
 
 Included now:
 
 - Architecture and adapter-boundary documentation.
 - JSON Schemas for ARDYN manifests, capabilities, and tasks.
-- Minimal TypeScript workspace package metadata.
-- Minimal Rust workspace/crate metadata for the native host.
-- Schema validation tests and a minimal example manifest.
+- Schema-matching TypeScript and Rust contract types.
+- Minimal TypeScript core functions for manifest loading, validation, capability normalization, and static handshakes.
+- Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
+- CLI commands for doctor, identity, capabilities, and dry-run serve planning.
+- Schema, core, CLI, and Rust host tests.
 
 Not included yet:
 
@@ -28,6 +30,8 @@ Not included yet:
 - Live Locus control.
 - Multiverse registration.
 - Browser or desktop automation.
+- Production tool execution.
+- A serving mode that opens ports, starts agents, calls APIs, or spawns long-running services.
 
 ## Architecture
 
@@ -41,11 +45,32 @@ The preferred architecture is a Rust host plus TypeScript core.
 
 ```powershell
 npm test
+cargo test -p ardyn-host
 ```
 
-The current test suite validates schema behavior for manifests, capabilities, and tasks.
+The current test suite validates schema behavior, TypeScript manifest/handshake behavior, CLI output, and Rust host handshake behavior.
+
+## Phase 2 CLI Usage
+
+Run commands directly from source during Phase 2:
+
+```powershell
+node apps/cli/src/index.mjs doctor
+node apps/cli/src/index.mjs identity
+node apps/cli/src/index.mjs capabilities --manifest examples/minimal-manifest/ardyn.manifest.json
+node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json
+```
+
+All commands print JSON. The `serve --dry-run` command is intentionally non-executing: it does not open network ports, execute tools, start agents, call APIs, or spawn long-running services. Its output includes explicit false values for `executionEnabled`, `toolExecutionEnabled`, `apiCallsEnabled`, `networkListening`, `longRunningServicesStarted`, and `processesSpawned`.
+
+Example dry-run check:
+
+```powershell
+node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json
+```
+
+The planned runtime includes the loaded manifest identity, normalized capabilities, TypeScript core runtime, Rust host boundary, and platform report.
 
 ## License
 
 Apache-2.0. See `LICENSE`.
-
