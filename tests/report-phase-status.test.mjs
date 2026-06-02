@@ -32,13 +32,13 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is deterministic JSON and does not claim to run checks", async () => {
+test("phase status report is Phase 3.5 local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "3.4",
-    name: "Approval review artifacts, host-policy preconditions, and reporting",
+    id: "3.5",
+    name: "Review-trace CLI, trace-review fixtures, and export ergonomics",
     executionPosture: "non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
@@ -48,7 +48,7 @@ test("phase status report is deterministic JSON and does not claim to run checks
   assert.match(report.externalCi.note, /does not query or imply external CI/i);
 });
 
-test("report lists configured checks, verification commands, and planner review outputs", async () => {
+test("report lists configured checks and verification commands without running them", async () => {
   const report = await runReport();
 
   assert.deepEqual(report.configuredChecks, [
@@ -71,6 +71,7 @@ test("report lists configured checks, verification commands, and planner review 
       ranByReport: false
     }
   ]);
+
   assert.deepEqual(report.verificationCommands, [
     {
       command: "npm test",
@@ -94,12 +95,12 @@ test("report lists configured checks, verification commands, and planner review 
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local phase status report.",
+      purpose: "Render this deterministic local Phase 3.5 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local phase status report.",
+      purpose: "Run focused tests for this local Phase 3.5 status report.",
       ranByReport: false
     },
     {
@@ -108,71 +109,92 @@ test("report lists configured checks, verification commands, and planner review 
       ranByReport: false
     },
     {
-      command: "node --test tests/core-phase3-4-review-artifacts.test.mjs tests/core-phase3-4-trace-comparison.test.mjs",
-      purpose: "Run focused Phase 3.4 approval artifact and trace comparison tests.",
+      command: "node --test tests/core-phase3-5-trace-fixtures.test.mjs",
+      purpose: "Run focused Phase 3.5 trace-review fixture tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/cli-phase3.test.mjs",
+      purpose: "Run focused CLI tests covering review-trace and review artifact export ergonomics.",
       ranByReport: false
     }
   ]);
-  assert.deepEqual(report.plannerReviewOutputs, [
-    {
-      path: "docs/planner-policy-review.md",
-      status: "present",
-      summary: "Documents planning-only policy review boundaries and examples."
-    },
-    {
-      path: "docs/planner-trace-review-workflow.md",
-      status: "present",
-      summary: "Documents the planner trace and approval artifact review workflow for Phase 3.4."
-    },
-    {
-      path: "tests/core-phase3-1-planner-hardening.test.mjs",
-      status: "present",
-      summary: "Covers deterministic planner ranking, approval records, and safety flags."
-    },
-    {
-      path: "tests/core-phase3-3-policy-fixtures.test.mjs",
-      status: "present",
-      summary: "Covers Phase 3.3 policy-review fixture behavior."
-    }
-  ]);
+
   for (const command of report.verificationCommands) {
     assert.equal(command.ranByReport, false, `${command.command} should not be run by report`);
   }
 });
 
-test("report inventories Phase 3.4 artifacts, docs, tests, and deferred review-trace CLI", async () => {
+test("report inventories Phase 3.5 review-trace commands and explicit-only output behavior", async () => {
   const report = await runReport();
 
-  assert.deepEqual(report.phase34Artifacts, [
+  assert.deepEqual(report.phase35Inventory.reviewTraceCommands, [
     {
-      api: "createApprovalReviewArtifact",
-      cli: "ardyn plan --review-artifact",
-      summary: "Creates a stable non-executing approval review artifact from a plan or planner trace."
+      command: "ardyn review-trace <left> <right>",
+      mode: "default",
+      writesFiles: false,
+      summary: "Renders the non-executing trace review comparison in the default local review format."
     },
     {
-      api: "validateApprovalReviewArtifact",
-      summary: "Rejects artifacts that flip nonExecuting or any approval artifact safety flag away from the disabled posture."
+      command: "ardyn review-trace --summary <left> <right>",
+      mode: "summary",
+      writesFiles: false,
+      summary: "Renders a concise local summary of trace review changes."
     },
     {
-      api: "compareApprovalReviewArtifacts",
-      fixtures: [
-        {
-          path: "tests/fixtures/trace-comparison/left-approval-review-artifact.json",
-          status: "present"
-        },
-        {
-          path: "tests/fixtures/trace-comparison/right-approval-review-artifact.json",
-          status: "present"
-        }
-      ],
-      summary: "Compares stable approval review artifacts or planner traces without adding a review-trace CLI."
+      command: "ardyn review-trace --explain <left> <right>",
+      mode: "explain",
+      writesFiles: false,
+      summary: "Renders reviewer-oriented local explanations for trace review changes."
+    }
+  ]);
+
+  assert.deepEqual(report.phase35Inventory.exportErgonomics, {
+    reportWritesFiles: false,
+    reportOutputFileSupport: false,
+    reviewTraceWritesFiles: false,
+    reviewArtifactOutputCommand: "ardyn plan --review-artifact --output <file>",
+    reviewArtifactOutputRequiresExplicitCliFlag: true,
+    summary:
+      "The report script is stdout-only local metadata; artifact file writes are only available through an explicit plan --review-artifact --output CLI request."
+  });
+});
+
+test("report inventories Phase 3.5 trace-review fixtures, docs, and tests", async () => {
+  const report = await runReport();
+
+  assert.deepEqual(report.phase35Inventory.traceReviewFixtures, [
+    {
+      path: "tests/fixtures/trace-review/equal-left-approval-review-artifact.json",
+      status: "present"
+    },
+    {
+      path: "tests/fixtures/trace-review/equal-right-approval-review-artifact.json",
+      status: "present"
+    },
+    {
+      path: "tests/fixtures/trace-review/approval-status-changed-approval-review-artifact.json",
+      status: "present"
+    },
+    {
+      path: "tests/fixtures/trace-review/selected-capability-changed-approval-review-artifact.json",
+      status: "present"
+    },
+    {
+      path: "tests/fixtures/trace-review/unresolved-request-changed-approval-review-artifact.json",
+      status: "present"
+    },
+    {
+      path: "tests/fixtures/trace-review/invalid-review-artifact.json",
+      status: "present"
     }
   ]);
 
   assert.deepEqual(
-    report.phase34Docs.map(({ path, status }) => [path, status]),
+    report.phase35Inventory.docs.map(({ path, status }) => [path, status]),
     [
       ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
       ["docs/planner-policy-review.md", "present"],
       ["docs/planner-trace-review-workflow.md", "present"],
       ["docs/host-policy-preconditions.md", "present"],
@@ -181,19 +203,16 @@ test("report inventories Phase 3.4 artifacts, docs, tests, and deferred review-t
   );
 
   assert.deepEqual(
-    report.phase34Tests.map(({ path, status }) => [path, status]),
+    report.phase35Inventory.tests.map(({ path, status }) => [path, status]),
     [
+      ["tests/cli-phase3.test.mjs", "present"],
       ["tests/core-phase3-4-review-artifacts.test.mjs", "present"],
       ["tests/core-phase3-4-trace-comparison.test.mjs", "present"],
+      ["tests/core-phase3-5-trace-fixtures.test.mjs", "present"],
       ["tests/report-phase-status.test.mjs", "present"],
       ["tests/host-policy-preconditions.test.mjs", "present"]
     ]
   );
-
-  assert.deepEqual(report.nextReviewSurface, {
-    reviewTraceCliPresent: false,
-    note: "A dedicated review-trace CLI was intentionally not added in Phase 3.4; it remains a next reviewed surface."
-  });
 });
 
 test("safety posture keeps every execution, network, plugin, torrent, and runtime flag false", async () => {
@@ -224,7 +243,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.deepEqual(report.safetyPosture.flags, falseFlags);
 });
 
-test("report script source does not import forbidden process, network, or runtime modules", async () => {
+test("report script source does not import forbidden process, network, write, or runtime modules", async () => {
   const source = await readFile(reportScriptUrl, "utf8");
   const forbiddenPatterns = [
     /node:child_process/,
@@ -238,7 +257,12 @@ test("report script source does not import forbidden process, network, or runtim
     /\bspawn\s*\(/,
     /\bexec(File)?\s*\(/,
     /\bcreateServer\s*\(/,
-    /\blisten\s*\(/
+    /\blisten\s*\(/,
+    /\bwriteFile\s*\(/,
+    /\bappendFile\s*\(/,
+    /\bmkdir\s*\(/,
+    /\brm\s*\(/,
+    /\bunlink\s*\(/
   ];
 
   for (const pattern of forbiddenPatterns) {

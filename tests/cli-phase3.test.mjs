@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
+import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { promisify } from "node:util";
 import test from "node:test";
 
@@ -54,6 +57,37 @@ const minimalTaskPath = "examples/minimal-task/task.json";
 const planningManifestPath = "tests/fixtures/planning-manifest.json";
 const exactMatchTaskPath = "tests/fixtures/tasks/exact-match.json";
 const approvalRequiredTaskPath = "tests/fixtures/tasks/approval-required.json";
+const traceLeftPath = "tests/fixtures/trace-comparison/left-approval-review-artifact.json";
+const traceRightPath = "tests/fixtures/trace-comparison/right-approval-review-artifact.json";
+const invalidReviewArtifactPath = "tests/fixtures/review-artifacts/invalid-execution-enabled.json";
+
+const leftTraceSummary = {
+  schema: "ardyn.approval-review-artifact",
+  schemaVersion: "0.1.0",
+  version: "0.1.0",
+  task: {
+    id: "task.phase3-4.compare-left"
+  },
+  manifest: {
+    id: "planner-hardening",
+    version: "0.1.0",
+    schemaVersion: "0.1.0"
+  }
+};
+
+const rightTraceSummary = {
+  schema: "ardyn.approval-review-artifact",
+  schemaVersion: "0.1.0",
+  version: "0.1.0",
+  task: {
+    id: "task.phase3-4.compare-right"
+  },
+  manifest: {
+    id: "planner-hardening",
+    version: "0.2.0",
+    schemaVersion: "0.1.0"
+  }
+};
 
 test("ardyn plan prints a non-executing task plan", async () => {
   const output = await runCli(["plan", "--manifest", minimalManifestPath, "--task", minimalTaskPath]);
@@ -370,6 +404,101 @@ test("ardyn plan --review-artifact prints stable non-executing approval artifact
   assertAllFalse(output.safety);
 });
 
+test("ardyn plan --review-artifact --output writes only the requested review artifact file", async () => {
+  const exportDir = await mkdtemp(join(tmpdir(), "ardyn-review-artifact-"));
+  const outputPath = join(exportDir, "approval-review-artifact.json");
+
+  try {
+    const expectedArtifact = await runCli([
+      "plan",
+      "--manifest",
+      planningManifestPath,
+      "--task",
+      exactMatchTaskPath,
+      "--review-artifact"
+    ]);
+    const expectedBytes = `${JSON.stringify(expectedArtifact, null, 2)}\n`;
+
+    const summary = await runCli([
+      "plan",
+      "--manifest",
+      planningManifestPath,
+      "--task",
+      exactMatchTaskPath,
+      "--review-artifact",
+      "--output",
+      outputPath
+    ]);
+
+    assert.deepEqual(await readdir(exportDir), ["approval-review-artifact.json"]);
+    assert.equal(await readFile(outputPath, "utf8"), expectedBytes);
+    assert.deepEqual(summary, {
+      command: "plan",
+      output: "review-artifact-export",
+      path: outputPath,
+      bytes: Buffer.byteLength(expectedBytes, "utf8"),
+      nonExecuting: true,
+      safety: expectedArtifact.safety
+    });
+    assertAllFalse(summary.safety);
+  } finally {
+    await rm(exportDir, { recursive: true, force: true });
+  }
+});
+
+test("ardyn plan rejects --output outside review artifact mode without writing a file", async () => {
+  const exportDir = await mkdtemp(join(tmpdir(), "ardyn-review-artifact-"));
+  const outputPath = join(exportDir, "approval-review-artifact.json");
+
+  try {
+    const failure = await runCliFailure([
+      "plan",
+      "--manifest",
+      planningManifestPath,
+      "--task",
+      exactMatchTaskPath,
+      "--output",
+      outputPath
+    ]);
+
+    assertCliFailure(failure, /--output requires --review-artifact\./);
+    assert.deepEqual(await readdir(exportDir), []);
+  } finally {
+    await rm(exportDir, { recursive: true, force: true });
+  }
+});
+
+test("ardyn plan --review-artifact rejects missing --output path without JSON output", async () => {
+  const failure = await runCliFailure([
+    "plan",
+    "--manifest",
+    planningManifestPath,
+    "--task",
+    exactMatchTaskPath,
+    "--review-artifact",
+    "--output"
+  ]);
+
+  assertCliFailure(failure, /Missing required --output path\./);
+});
+
+for (const outputPath of ["\\\\server\\share\\approval-review-artifact.json", "//server/share/approval-review-artifact.json"]) {
+  test(`ardyn plan --review-artifact rejects UNC output path ${outputPath}`, async () => {
+    const failure = await runCliFailure([
+      "plan",
+      "--manifest",
+      planningManifestPath,
+      "--task",
+      exactMatchTaskPath,
+      "--review-artifact",
+      "--output",
+      outputPath
+    ]);
+
+    assertCliFailure(failure, /--output must be a local file path\./);
+  });
+}
+
 test("ardyn plan output modes preserve no-match smoke shapes", async () => {
   const traceOutput = await runCli([
     "plan",
@@ -471,4 +600,236 @@ test("ardyn plan without --task fails without JSON output", async () => {
   const failure = await runCliFailure(["plan", "--manifest", minimalManifestPath]);
 
   assertCliFailure(failure, /Missing required --task path\./);
+});
+
+test("ardyn review-trace reports equal approval review artifacts", async () => {
+  const output = await runCli([
+    "review-trace",
+    "--left",
+    traceLeftPath,
+    "--right",
+    traceLeftPath
+  ]);
+
+  assert.equal(output.command, "review-trace");
+  assert.equal(output.output, "default");
+  assert.equal(output.equal, true);
+  assert.equal(output.differenceCount, 0);
+  assert.deepEqual(output.differences, []);
+  assert.deepEqual(output.left, leftTraceSummary);
+  assert.deepEqual(output.right, leftTraceSummary);
+  assert.equal(output.nonExecuting, true);
+  assertAllFalse(output.safety);
+});
+
+test("ardyn review-trace reports deterministic differences for changed artifacts", async () => {
+  const output = await runCli([
+    "review-trace",
+    "--left",
+    traceLeftPath,
+    "--right",
+    traceRightPath
+  ]);
+
+  assert.equal(output.command, "review-trace");
+  assert.equal(output.output, "default");
+  assert.equal(output.equal, false);
+  assert.equal(output.differenceCount, 8);
+  assert.deepEqual(
+    output.differences.map((difference) => [difference.type, difference.path]),
+    [
+      ["task-mismatch", "taskId"],
+      ["manifest-mismatch", "manifest.version"],
+      ["requested-capabilities-change", "requestedCapabilityIds"],
+      ["selected-capabilities-change", "selectedCapabilities"],
+      ["unresolved-requests-change", "unresolvedRequests"],
+      ["approval-requested-capabilities-change", "approvalDecision.requestedCapabilityIds"],
+      ["approval-status-change", "approvalDecision.status"],
+      ["candidate-rankings-change", "candidateRankings"]
+    ]
+  );
+  assert.deepEqual(output.left, leftTraceSummary);
+  assert.deepEqual(output.right, rightTraceSummary);
+  assert.equal(output.nonExecuting, true);
+  assertAllFalse(output.safety);
+});
+
+test("ardyn review-trace --summary prints concise comparison metadata", async () => {
+  const output = await runCli([
+    "review-trace",
+    "--left",
+    traceLeftPath,
+    "--right",
+    traceRightPath,
+    "--summary"
+  ]);
+
+  assert.equal(output.command, "review-trace");
+  assert.equal(output.output, "summary");
+  assert.equal(output.equal, false);
+  assert.equal(output.differenceCount, 8);
+  assert.equal(output.differences, undefined);
+  assert.deepEqual(output.differenceTypes, [
+    { type: "task-mismatch", path: "taskId" },
+    { type: "manifest-mismatch", path: "manifest.version" },
+    { type: "requested-capabilities-change", path: "requestedCapabilityIds" },
+    { type: "selected-capabilities-change", path: "selectedCapabilities" },
+    { type: "unresolved-requests-change", path: "unresolvedRequests" },
+    { type: "approval-requested-capabilities-change", path: "approvalDecision.requestedCapabilityIds" },
+    { type: "approval-status-change", path: "approvalDecision.status" },
+    { type: "candidate-rankings-change", path: "candidateRankings" }
+  ]);
+  assert.deepEqual(output.left, leftTraceSummary);
+  assert.deepEqual(output.right, rightTraceSummary);
+  assert.equal(output.nonExecuting, true);
+  assertAllFalse(output.safety);
+});
+
+test("ardyn review-trace --explain prints deterministic difference reasons", async () => {
+  const output = await runCli([
+    "review-trace",
+    "--left",
+    traceLeftPath,
+    "--right",
+    traceRightPath,
+    "--explain"
+  ]);
+
+  assert.equal(output.command, "review-trace");
+  assert.equal(output.output, "explain");
+  assert.equal(output.equal, false);
+  assert.equal(output.differenceCount, 8);
+  assert.deepEqual(output.left, leftTraceSummary);
+  assert.deepEqual(output.right, rightTraceSummary);
+  assert.deepEqual(
+    output.differences.map((difference) => ({
+      type: difference.type,
+      path: difference.path,
+      reason: difference.reason,
+      detail: difference.detail
+    })),
+    [
+      {
+        type: "task-mismatch",
+        path: "taskId",
+        reason: "Task identifiers differ.",
+        detail: "taskId changed from \"task.phase3-4.compare-left\" to \"task.phase3-4.compare-right\"."
+      },
+      {
+        type: "manifest-mismatch",
+        path: "manifest.version",
+        reason: "Manifest summary fields differ.",
+        detail: "manifest.version changed from \"0.1.0\" to \"0.2.0\"."
+      },
+      {
+        type: "requested-capabilities-change",
+        path: "requestedCapabilityIds",
+        reason: "Requested capability ids differ.",
+        detail: "requestedCapabilityIds added [\"missing.capability\",\"planner.tie\"] and removed [\"network\"]."
+      },
+      {
+        type: "selected-capabilities-change",
+        path: "selectedCapabilities",
+        reason: "Selected capability ids differ.",
+        detail: "selectedCapabilities added [\"alpha.tag\",\"beta.tag\"] and removed [\"network\"]."
+      },
+      {
+        type: "unresolved-requests-change",
+        path: "unresolvedRequests",
+        reason: "Unresolved request ids differ.",
+        detail: "unresolvedRequests added [\"missing.capability\"] and removed []."
+      },
+      {
+        type: "approval-requested-capabilities-change",
+        path: "approvalDecision.requestedCapabilityIds",
+        reason: "Approval requested capability ids differ.",
+        detail:
+          "approvalDecision.requestedCapabilityIds added [\"alpha.tag\",\"beta.tag\"] and removed [\"network\"]."
+      },
+      {
+        type: "approval-status-change",
+        path: "approvalDecision.status",
+        reason: "Approval status differs.",
+        detail: "approvalDecision.status changed from \"not_required\" to \"required\"."
+      },
+      {
+        type: "candidate-rankings-change",
+        path: "candidateRankings",
+        reason: "Candidate rankings differ.",
+        detail: "candidateRankings changed between left and right artifacts."
+      }
+    ]
+  );
+  assert.equal(output.nonExecuting, true);
+  assertAllFalse(output.safety);
+});
+
+test("ardyn review-trace rejects multiple output modes without JSON output", async () => {
+  const failure = await runCliFailure([
+    "review-trace",
+    "--left",
+    traceLeftPath,
+    "--right",
+    traceRightPath,
+    "--summary",
+    "--explain"
+  ]);
+
+  assertCliFailure(failure, /Review trace output flags are mutually exclusive: --summary, --explain\./);
+});
+
+test("ardyn review-trace rejects invalid review artifacts without JSON output", async () => {
+  const failure = await runCliFailure([
+    "review-trace",
+    "--left",
+    invalidReviewArtifactPath,
+    "--right",
+    traceLeftPath
+  ]);
+
+  assertCliFailure(failure, /left approval review artifact is invalid:/);
+});
+
+for (const { side, path } of [
+  { side: "left", path: "\\\\server\\share\\left.json" },
+  { side: "left", path: "//server/share/left.json" },
+  { side: "right", path: "\\\\server\\share\\right.json" },
+  { side: "right", path: "//server/share/right.json" }
+]) {
+  test(`ardyn review-trace rejects ${side} UNC path ${path}`, async () => {
+    const failure = await runCliFailure([
+      "review-trace",
+      "--left",
+      side === "left" ? path : traceLeftPath,
+      "--right",
+      side === "right" ? path : traceRightPath
+    ]);
+
+    assertCliFailure(failure, new RegExp(`${side} must be a local JSON file path\\.`));
+  });
+}
+
+test("ardyn review-trace without required flags fails without JSON output", async () => {
+  const failure = await runCliFailure(["review-trace", "--right", traceRightPath]);
+
+  assertCliFailure(failure, /Missing required --left path\./);
+});
+
+test("ardyn review-trace with a missing path value fails without JSON output", async () => {
+  const failure = await runCliFailure(["review-trace", "--left", traceLeftPath, "--right"]);
+
+  assertCliFailure(failure, /Missing required --right path\./);
+});
+
+test("ardyn review-trace keeps all safety flags false", async () => {
+  const output = await runCli([
+    "review-trace",
+    "--left",
+    traceLeftPath,
+    "--right",
+    traceRightPath
+  ]);
+
+  assert.equal(output.nonExecuting, true);
+  assertAllFalse(output.safety);
 });

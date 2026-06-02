@@ -40,6 +40,10 @@ async function readJsonFixture(fixturePath) {
   return JSON.parse(await readFile(fixturePath, "utf8"));
 }
 
+function normalizeFixtureLineEndings(text) {
+  return text.replaceAll("\r\n", "\n");
+}
+
 async function assertArtifactMatchesFixture(fixtureName) {
   const plan = await createFixturePlan(fixtureName);
   const artifact = createApprovalReviewArtifact(plan, {
@@ -48,7 +52,7 @@ async function assertArtifactMatchesFixture(fixtureName) {
   const fixtureText = await readFile(artifactFixtures[fixtureName], "utf8");
   const expected = JSON.parse(fixtureText);
 
-  assert.equal(`${JSON.stringify(artifact, null, 2)}\n`, fixtureText);
+  assert.equal(`${JSON.stringify(artifact, null, 2)}\n`, normalizeFixtureLineEndings(fixtureText));
   assert.deepEqual(artifact, expected);
   assert.deepEqual(artifact.approvalDecision, plan.approvalDecision);
   assert.equal(artifact.nonExecuting, true);

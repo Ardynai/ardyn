@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 3 exposes `doctor`, `identity`, `capabilities`, `plan`, and dry-run `serve` commands. No command executes tools, opens network listeners, installs plugins, downloads torrents, enables code packs, or starts agent loops.
+Phase 3 exposes `doctor`, `identity`, `capabilities`, `plan`, `review-trace`, and dry-run `serve` commands. No command executes tools, opens network listeners, installs plugins, downloads torrents, enables code packs, or starts agent loops.
 
 ```powershell
 node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
@@ -10,6 +10,10 @@ node apps/cli/src/index.mjs plan --trace --manifest examples/minimal-manifest/ar
 node apps/cli/src/index.mjs plan --summary --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 node apps/cli/src/index.mjs plan --explain --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 node apps/cli/src/index.mjs plan --review-artifact --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
+node apps/cli/src/index.mjs plan --review-artifact --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json --output approval-review-artifact.json
+node apps/cli/src/index.mjs review-trace --left tests/fixtures/trace-comparison/left-approval-review-artifact.json --right tests/fixtures/trace-comparison/right-approval-review-artifact.json
+node apps/cli/src/index.mjs review-trace --summary --left tests/fixtures/trace-comparison/left-approval-review-artifact.json --right tests/fixtures/trace-comparison/right-approval-review-artifact.json
+node apps/cli/src/index.mjs review-trace --explain --left tests/fixtures/trace-comparison/left-approval-review-artifact.json --right tests/fixtures/trace-comparison/right-approval-review-artifact.json
 ```
 
 `plan` keeps the full default JSON plan unless exactly one output mode is passed. `--trace` prints the full planner trace wrapper, `--summary` prints selected IDs, unresolved requests, approval, and safety flags, `--explain` prints deterministic candidate ranking and approval reasons, and `--review-artifact` prints the stable approval review artifact. Mode flags are mutually exclusive.
@@ -21,7 +25,17 @@ For planner review workflows:
 - Use `--summary` for approval-gate checks that only need selected ids, unresolved requests, approval, and safety.
 - Use `--explain` when reviewing why a capability tier won and which lower-ranked candidates were retained.
 - Use `--review-artifact` when an approval reviewer needs the stable non-executing artifact with candidate rankings, selected ids, unresolved requests, approval decision, and false safety flags.
+- Add `--output <file>` only with `--review-artifact` to write the same formatted artifact JSON bytes to that file. The command prints a compact JSON export summary to stdout and writes no other files.
 
 All plan output modes are JSON-only renderings of the same non-executing plan data.
+`--output` is rejected unless `--review-artifact` is selected, and a missing output path fails with plain stderr and no JSON stdout.
 
-Next CLI candidate: `review-trace --left <file> --right <file>`. This is intentionally not implemented until `@ardyn/core` exports a trace comparison API; when added, it should remain read-only, JSON-only, and non-executing.
+`review-trace --left <file> --right <file>` reads two local `.json` files and compares them with the core approval review artifact comparator. Default output includes equality, difference count, full deterministic differences, left/right schema-version-task-manifest summaries, `nonExecuting: true`, and false safety flags.
+
+For trace review workflows:
+
+- Use default `review-trace` when a consumer needs the full deterministic difference list.
+- Use `--summary` when a reviewer only needs equality, count, changed difference types, source summaries, and safety flags.
+- Use `--explain` when a reviewer needs deterministic reasons and details for each difference.
+
+`--summary` and `--explain` are mutually exclusive. `review-trace` performs no writes, network calls, process spawning, adapter connections, plugin installation, Content Fabric runtime work, code-pack enablement, or autonomous loops.

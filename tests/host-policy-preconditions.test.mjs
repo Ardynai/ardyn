@@ -73,7 +73,9 @@ test("phase status report inventories host-policy docs and tests as local eviden
   assert.equal(report.safetyPosture.flags.networkCalls, false);
 
   assert.deepEqual(
-    report.phase34Docs.find((entry) => entry.path === "docs/host-policy-preconditions.md"),
+    report.phase35Inventory.docs.find(
+      (entry) => entry.path === "docs/host-policy-preconditions.md"
+    ),
     {
       path: "docs/host-policy-preconditions.md",
       status: "present",
@@ -81,7 +83,9 @@ test("phase status report inventories host-policy docs and tests as local eviden
     }
   );
   assert.deepEqual(
-    report.phase34Tests.find((entry) => entry.path === "tests/host-policy-preconditions.test.mjs"),
+    report.phase35Inventory.tests.find(
+      (entry) => entry.path === "tests/host-policy-preconditions.test.mjs"
+    ),
     {
       path: "tests/host-policy-preconditions.test.mjs",
       status: "present",

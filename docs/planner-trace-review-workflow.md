@@ -1,14 +1,16 @@
 # Planner Trace Review Workflow
 
-This workflow is for Phase 3.3/3.4 planning review only. It reviews ARDYN
+This workflow is for Phase 3.3-3.5 planning review only. It reviews ARDYN
 planner JSON and must not execute tools, connect adapters, open listeners, spawn
 processes, install plugins, download torrents, enable code packs, run agent
 loops, serve Content Fabric catalogs, call MCP, call OpenClaw, or connect to
 Locus or Multiverse.
 
 Phase 3.4 adds approval review artifacts and trace comparison fixtures on top of
-the same non-executing planner data. It does not add execution, adapter
-connections, or a dedicated `review-trace` CLI.
+the same non-executing planner data. Phase 3.5 adds the local `review-trace`
+CLI and `plan --review-artifact --output <file>` export ergonomics. It does not
+add execution, adapter connections, network behavior, or active Locus
+integration.
 
 ## Reviewer Inputs
 
@@ -20,15 +22,22 @@ node apps/cli/src/index.mjs plan --trace --manifest tests/fixtures/planning-mani
 node apps/cli/src/index.mjs plan --summary --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
 node apps/cli/src/index.mjs plan --explain --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/exact-match.json
 node apps/cli/src/index.mjs plan --review-artifact --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
+node apps/cli/src/index.mjs plan --review-artifact --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json --output approval-review-artifact.json
+node apps/cli/src/index.mjs review-trace --left tests/fixtures/trace-review/equal-left-approval-review-artifact.json --right tests/fixtures/trace-review/equal-right-approval-review-artifact.json
+node apps/cli/src/index.mjs review-trace --summary --left tests/fixtures/trace-review/equal-left-approval-review-artifact.json --right tests/fixtures/trace-review/selected-capability-changed-approval-review-artifact.json
+node apps/cli/src/index.mjs review-trace --explain --left tests/fixtures/trace-review/equal-left-approval-review-artifact.json --right tests/fixtures/trace-review/approval-status-changed-approval-review-artifact.json
 npm run report:phase-status
 ```
 
 The mode flags are render choices over the same non-executing plan data. They
-are mutually exclusive.
+are mutually exclusive. For `review-trace`, `--summary` and `--explain` are
+mutually exclusive and the default mode prints the full deterministic JSON
+difference list.
 
 ## Review Checklist
 
-1. Confirm the command output is planner JSON only.
+1. Confirm the command output is planner, review-artifact, or trace-diff JSON
+   only.
 2. Confirm `manifest.id`, `manifest.version`, and `manifest.schemaVersion`
    match the intended manifest.
 3. Confirm `taskIntake.valid` is true, or capture validation errors without
@@ -45,7 +54,15 @@ are mutually exclusive.
     `ardyn.approval-review-artifact`.
 11. Confirm review artifacts keep `nonExecuting: true` and preserve the same
     approval decision as the source plan or trace.
-12. Confirm all safety flags are false.
+12. For `plan --review-artifact --output <file>`, confirm the artifact JSON is
+    written only to the requested output path and stdout is a compact export
+    summary.
+13. For `review-trace`, confirm both inputs are local JSON review artifacts and
+    no output file is written.
+14. Before approval, inspect any selected capability changes, approval status
+    changes, unresolved request changes, and candidate ranking changes.
+15. Confirm all safety flags are false in both reviewed artifacts and in the
+    comparison output.
 
 Any mismatch is a planning review finding. It is not a signal to run a tool or
 connect an adapter.
@@ -61,33 +78,61 @@ connect an adapter.
 | Approval required | `secure.registry` | Selects `secure.registry`; records task and policy approval reasons; remains non-executing. |
 | Denied simulation | approval decision `denied` | Records denial for review only; all safety flags remain false and no runtime hook fires. |
 | Review artifact | `--review-artifact` | Prints stable artifact JSON with candidate rankings, selected ids, unresolved requests, approval decision, and false safety flags. |
+| Review artifact export | `--review-artifact --output <file>` | Writes only the requested output file and prints a compact export summary. |
+| Trace diff | `review-trace` | Compares local review artifacts and reports deterministic differences without writes or execution. |
 
-## Phase 3.4 Artifact Comparison
+## Phase 3.5 Trace Diff Review
 
-Use `compareApprovalReviewArtifacts(left, right)` from `packages/core` when a
-review needs to compare two plans, two artifacts, or a planner trace and an
-artifact through the same stable shape.
+Use `review-trace --left <file> --right <file>` when a reviewer needs to
+compare two local JSON approval review artifacts through the stable artifact
+shape. The command reads local files, validates them, normalizes through the
+core approval review artifact comparator, and prints deterministic JSON.
 
-Committed comparison fixtures:
+Committed comparison and review fixtures:
 
 - `tests/fixtures/trace-comparison/left-approval-review-artifact.json`
 - `tests/fixtures/trace-comparison/right-approval-review-artifact.json`
+- `tests/fixtures/trace-review/equal-left-approval-review-artifact.json`
+- `tests/fixtures/trace-review/selected-capability-changed-approval-review-artifact.json`
+- `tests/fixtures/trace-review/approval-status-changed-approval-review-artifact.json`
+- `tests/fixtures/trace-review/unresolved-request-changed-approval-review-artifact.json`
 
-The comparison API reports deterministic differences for task id, manifest
-version, requested capabilities, selected capabilities, unresolved requests,
-approval decision requested capabilities, approval decision status, and
-candidate rankings. It validates both artifacts first and rejects input that
-enables execution or flips any safety flag away from false.
+Default `review-trace` output includes equality, difference count, full
+deterministic differences, left/right source summaries, `nonExecuting: true`,
+and false safety flags. `--summary` returns equality, counts, changed difference
+types, source summaries, and safety flags. `--explain` returns deterministic
+reasons and details for each difference. `--summary` and `--explain` are
+mutually exclusive.
 
-There is no Phase 3.4 `review-trace` CLI. If reviewers need a command dedicated
-to comparing review traces, that command is the next reviewed CLI surface and
-must preserve the same non-executing posture.
+Before approval, reviewers should treat these difference types as mandatory
+inspection points:
+
+- Selected capability changes.
+- Approval status or approval-decision status changes.
+- Unresolved request changes.
+- Candidate ranking changes.
+- Any safety flag that is not false.
+
+Any such change is a review finding until it is explained. `review-trace` is
+read-only and must not be used as a cue to run tools, connect adapters, or apply
+a decision.
+
+## Export Ergonomics
+
+Use `plan --review-artifact --output <file>` only when the reviewer needs a
+stable artifact file for later comparison. This is the single allowed
+output-path write in Phase 3.5.
+
+The command writes only the formatted artifact JSON to the requested output
+path. Stdout is a compact JSON export summary. It does not write comparison
+files, sidecar metadata, caches, reports, lockfiles, or directories. `--output`
+is valid only with `--review-artifact`.
 
 ## Future UI Review Fields
 
-A future Locus UI may render this workflow, but Locus is not connected in Phase
-3.3 or 3.4. Treat the UI as a viewer until a later phase adds explicit
-connection contracts.
+A future Locus UI may render this workflow, including `review-trace` diffs, but
+Locus is not connected in Phase 3.3-3.5. Treat the UI as a viewer only until a
+later phase adds explicit connection contracts.
 
 Display these fields:
 
@@ -97,6 +142,8 @@ Display these fields:
 - Per-request match type, selected capability ids, reason, unresolved state, and
   candidate count.
 - Candidate capability id, match type, score, scope, tag, and reason.
+- Trace diff equality, difference count, difference type, before/after values,
+  and reviewer explanation.
 - Approval required flag, approval status, approval reasons, decision id,
   decision status, decision reason, requested capability ids, timestamp, and
   `nonExecuting`.
@@ -105,12 +152,12 @@ Display these fields:
   Content Fabric runtime behavior, or tool execution occurred.
 
 Do not display execution controls before execution phases exist. Acceptable
-Phase 3.3/3.4 actions are review-oriented actions such as inspect, compare,
-export, or report.
+Phase 3.3-3.5 actions are viewer-only actions such as inspect, compare, export,
+or report.
 
 ## Reporting
 
-A Phase 3.4 report should include:
+A Phase 3.5 report should include:
 
 - The command and output mode used to produce the evidence.
 - The manifest and task identifiers.
@@ -118,6 +165,7 @@ A Phase 3.4 report should include:
 - Approval status and approval-decision status.
 - Approval review artifact schema, generated timestamp, candidate rankings, and
   comparison differences when relevant.
+- Export path when `plan --review-artifact --output <file>` produced a file.
 - Host-policy precondition documentation status.
 - A statement that safety flags stayed false.
 - Any reviewer concern about ranking, approval, missing candidates, or wording

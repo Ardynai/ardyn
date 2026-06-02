@@ -27,13 +27,28 @@ function configuredCheck(packageJson, name, command) {
   };
 }
 
+async function localInventoryEntry(path, summary) {
+  return {
+    path,
+    status: await localStatus(path),
+    summary
+  };
+}
+
+async function fixtureInventoryEntry(path) {
+  return {
+    path,
+    status: await localStatus(path)
+  };
+}
+
 const packageJson = await readJson("package.json");
 
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "3.4",
-    name: "Approval review artifacts, host-policy preconditions, and reporting",
+    id: "3.5",
+    name: "Review-trace CLI, trace-review fixtures, and export ergonomics",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -66,12 +81,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local phase status report.",
+      purpose: "Render this deterministic local Phase 3.5 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local phase status report.",
+      purpose: "Run focused tests for this local Phase 3.5 status report.",
       ranByReport: false
     },
     {
@@ -80,110 +95,134 @@ const report = {
       ranByReport: false
     },
     {
-      command: "node --test tests/core-phase3-4-review-artifacts.test.mjs tests/core-phase3-4-trace-comparison.test.mjs",
-      purpose: "Run focused Phase 3.4 approval artifact and trace comparison tests.",
+      command: "node --test tests/core-phase3-5-trace-fixtures.test.mjs",
+      purpose: "Run focused Phase 3.5 trace-review fixture tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/cli-phase3.test.mjs",
+      purpose: "Run focused CLI tests covering review-trace and review artifact export ergonomics.",
       ranByReport: false
     }
   ],
   plannerReviewOutputs: [
-    {
-      path: "docs/planner-policy-review.md",
-      status: await localStatus("docs/planner-policy-review.md"),
-      summary: "Documents planning-only policy review boundaries and examples."
-    },
-    {
-      path: "docs/planner-trace-review-workflow.md",
-      status: await localStatus("docs/planner-trace-review-workflow.md"),
-      summary: "Documents the planner trace and approval artifact review workflow for Phase 3.4."
-    },
-    {
-      path: "tests/core-phase3-1-planner-hardening.test.mjs",
-      status: await localStatus("tests/core-phase3-1-planner-hardening.test.mjs"),
-      summary: "Covers deterministic planner ranking, approval records, and safety flags."
-    },
-    {
-      path: "tests/core-phase3-3-policy-fixtures.test.mjs",
-      status: await localStatus("tests/core-phase3-3-policy-fixtures.test.mjs"),
-      summary: "Covers Phase 3.3 policy-review fixture behavior."
-    }
+    await localInventoryEntry(
+      "docs/planner-policy-review.md",
+      "Documents planning-only policy review boundaries and examples."
+    ),
+    await localInventoryEntry(
+      "docs/planner-trace-review-workflow.md",
+      "Documents the planner trace, approval artifact, and review-trace workflow."
+    ),
+    await localInventoryEntry(
+      "tests/core-phase3-1-planner-hardening.test.mjs",
+      "Covers deterministic planner ranking, approval records, and safety flags."
+    ),
+    await localInventoryEntry(
+      "tests/core-phase3-3-policy-fixtures.test.mjs",
+      "Covers Phase 3.3 policy-review fixture behavior."
+    )
   ],
-  phase34Artifacts: [
-    {
-      api: "createApprovalReviewArtifact",
-      cli: "ardyn plan --review-artifact",
-      summary: "Creates a stable non-executing approval review artifact from a plan or planner trace."
+  phase35Inventory: {
+    reviewTraceCommands: [
+      {
+        command: "ardyn review-trace <left> <right>",
+        mode: "default",
+        writesFiles: false,
+        summary: "Renders the non-executing trace review comparison in the default local review format."
+      },
+      {
+        command: "ardyn review-trace --summary <left> <right>",
+        mode: "summary",
+        writesFiles: false,
+        summary: "Renders a concise local summary of trace review changes."
+      },
+      {
+        command: "ardyn review-trace --explain <left> <right>",
+        mode: "explain",
+        writesFiles: false,
+        summary: "Renders reviewer-oriented local explanations for trace review changes."
+      }
+    ],
+    traceReviewFixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/trace-review/equal-left-approval-review-artifact.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/trace-review/equal-right-approval-review-artifact.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/trace-review/approval-status-changed-approval-review-artifact.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/trace-review/selected-capability-changed-approval-review-artifact.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/trace-review/unresolved-request-changed-approval-review-artifact.json"
+      ),
+      await fixtureInventoryEntry("tests/fixtures/trace-review/invalid-review-artifact.json")
+    ],
+    exportErgonomics: {
+      reportWritesFiles: false,
+      reportOutputFileSupport: false,
+      reviewTraceWritesFiles: false,
+      reviewArtifactOutputCommand: "ardyn plan --review-artifact --output <file>",
+      reviewArtifactOutputRequiresExplicitCliFlag: true,
+      summary:
+        "The report script is stdout-only local metadata; artifact file writes are only available through an explicit plan --review-artifact --output CLI request."
     },
-    {
-      api: "validateApprovalReviewArtifact",
-      summary: "Rejects artifacts that flip nonExecuting or any approval artifact safety flag away from the disabled posture."
-    },
-    {
-      api: "compareApprovalReviewArtifacts",
-      fixtures: [
-        {
-          path: "tests/fixtures/trace-comparison/left-approval-review-artifact.json",
-          status: await localStatus("tests/fixtures/trace-comparison/left-approval-review-artifact.json")
-        },
-        {
-          path: "tests/fixtures/trace-comparison/right-approval-review-artifact.json",
-          status: await localStatus("tests/fixtures/trace-comparison/right-approval-review-artifact.json")
-        }
-      ],
-      summary: "Compares stable approval review artifacts or planner traces without adding a review-trace CLI."
-    }
-  ],
-  phase34Docs: [
-    {
-      path: "README.md",
-      status: await localStatus("README.md"),
-      summary: "Documents Phase 3.4 review artifact output, comparison fixtures/API, host-policy preconditions, and non-executing posture."
-    },
-    {
-      path: "docs/planner-policy-review.md",
-      status: await localStatus("docs/planner-policy-review.md"),
-      summary: "Documents approval review artifact examples and Phase 3.4 policy boundaries."
-    },
-    {
-      path: "docs/planner-trace-review-workflow.md",
-      status: await localStatus("docs/planner-trace-review-workflow.md"),
-      summary: "Documents reviewer workflow for planner traces, approval artifacts, and comparison fixtures."
-    },
-    {
-      path: "docs/host-policy-preconditions.md",
-      status: await localStatus("docs/host-policy-preconditions.md"),
-      summary: "Documents future host-policy preconditions without active runtime enforcement."
-    },
-    {
-      path: "packages/core/README.md",
-      status: await localStatus("packages/core/README.md"),
-      summary: "Documents core-package Phase 3.4 host-policy precondition posture."
-    }
-  ],
-  phase34Tests: [
-    {
-      path: "tests/core-phase3-4-review-artifacts.test.mjs",
-      status: await localStatus("tests/core-phase3-4-review-artifacts.test.mjs"),
-      summary: "Pins stable approval review artifact fixtures and safety validation."
-    },
-    {
-      path: "tests/core-phase3-4-trace-comparison.test.mjs",
-      status: await localStatus("tests/core-phase3-4-trace-comparison.test.mjs"),
-      summary: "Covers approval artifact comparison, planner-trace normalization, and unsafe artifact rejection."
-    },
-    {
-      path: "tests/report-phase-status.test.mjs",
-      status: await localStatus("tests/report-phase-status.test.mjs"),
-      summary: "Covers the Phase 3.4 local-summary-only status report output."
-    },
-    {
-      path: "tests/host-policy-preconditions.test.mjs",
-      status: await localStatus("tests/host-policy-preconditions.test.mjs"),
-      summary: "Covers host-policy precondition documentation and report inventory."
-    }
-  ],
-  nextReviewSurface: {
-    reviewTraceCliPresent: false,
-    note: "A dedicated review-trace CLI was intentionally not added in Phase 3.4; it remains a next reviewed surface."
+    docs: [
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 3.5 review-trace CLI usage, explicit review artifact output, and non-executing posture."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents CLI review-trace modes and explicit review artifact export ergonomics."
+      ),
+      await localInventoryEntry(
+        "docs/planner-policy-review.md",
+        "Documents approval review artifact examples and policy boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/planner-trace-review-workflow.md",
+        "Documents reviewer workflow for planner traces, approval artifacts, and trace-review fixtures."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents future host-policy preconditions without active runtime enforcement."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents core-package host-policy precondition posture."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/cli-phase3.test.mjs",
+        "Covers CLI review-trace modes and explicit review artifact output ergonomics."
+      ),
+      await localInventoryEntry(
+        "tests/core-phase3-4-review-artifacts.test.mjs",
+        "Pins stable approval review artifact fixtures and safety validation."
+      ),
+      await localInventoryEntry(
+        "tests/core-phase3-4-trace-comparison.test.mjs",
+        "Covers approval artifact comparison, planner-trace normalization, and unsafe artifact rejection."
+      ),
+      await localInventoryEntry(
+        "tests/core-phase3-5-trace-fixtures.test.mjs",
+        "Covers Phase 3.5 trace-review fixtures."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Covers the Phase 3.5 local-summary-only status report output."
+      ),
+      await localInventoryEntry(
+        "tests/host-policy-preconditions.test.mjs",
+        "Covers host-policy precondition documentation and report inventory."
+      )
+    ]
   },
   safetyPosture: {
     nonExecuting: true,
@@ -206,7 +245,8 @@ const report = {
       processSpawning: false,
       externalCiRan: false
     },
-    note: "The report renders local metadata only; it does not execute checks or runtime behavior."
+    note:
+      "The report renders local metadata only; it does not execute checks, spawn processes, write files, call network APIs, or run runtime behavior."
   },
   externalCi: {
     ran: false,
