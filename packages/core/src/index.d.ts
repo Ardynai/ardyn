@@ -1,5 +1,7 @@
 export const ARDYN_SCHEMA_VERSION: "0.1.0";
 export const ARDYN_PHASE: "phase-3-task-planning";
+export const APPROVAL_REVIEW_ARTIFACT_SCHEMA: "ardyn.approval-review-artifact";
+export const APPROVAL_REVIEW_ARTIFACT_VERSION: "0.1.0";
 export const HOST_CRATE_NAME: "ardyn-host";
 export const APPROVAL_REQUIRED: "approval-required";
 export const APPROVAL_DENIED: "approval-denied";
@@ -288,10 +290,80 @@ export interface PlannerTrace {
   safety: NoExecutionSafetyFlags;
 }
 
+export interface ApprovalReviewArtifactCandidate {
+  rank: number;
+  capabilityId: string;
+  matchType: Exclude<CapabilityMatchType, "no-match">;
+  score: 300 | 200 | 100;
+  scope: PermissionScope | null;
+  tag: string | null;
+  reason: string;
+}
+
+export interface ApprovalReviewArtifact {
+  schema: "ardyn.approval-review-artifact";
+  schemaVersion: "0.1.0";
+  version: "0.1.0";
+  generatedAt: string;
+  nonExecuting: true;
+  taskId: string;
+  manifest: {
+    id: string;
+    version: string;
+    schemaVersion: "0.1.0";
+  };
+  requestedCapabilityIds: string[];
+  candidateRankings: Array<{
+    request: string;
+    candidates: ApprovalReviewArtifactCandidate[];
+  }>;
+  selectedCapabilities: string[];
+  unresolvedRequests: string[];
+  approvalDecision: ApprovalDecision;
+  safety: NoExecutionSafetyFlags;
+}
+
+export interface ApprovalReviewArtifactOptions {
+  generatedAt?: string;
+}
+
+export type ApprovalReviewArtifactDifferenceType =
+  | "task-mismatch"
+  | "manifest-mismatch"
+  | "requested-capabilities-change"
+  | "selected-capabilities-change"
+  | "unresolved-requests-change"
+  | "approval-requested-capabilities-change"
+  | "approval-status-change"
+  | "candidate-rankings-change";
+
+export interface ApprovalReviewArtifactDifference {
+  type: ApprovalReviewArtifactDifferenceType;
+  path: string;
+  left: unknown;
+  right: unknown;
+  added?: string[];
+  removed?: string[];
+}
+
+export interface ApprovalReviewArtifactComparison {
+  equal: boolean;
+  differenceCount: number;
+  differences: ApprovalReviewArtifactDifference[];
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
+export type ApprovalReviewArtifactComparisonSource =
+  | TaskPlan
+  | PlannerTrace
+  | ApprovalReviewArtifact;
+
 export function loadManifest(manifestPath: string): Promise<ArdynManifest>;
 export function loadTask(taskPath: string): Promise<ArdynTask>;
 export function validateManifest(manifest: unknown): ValidationResult;
 export function validateTask(task: unknown): ValidationResult;
+export function validateApprovalReviewArtifact(artifact: unknown): ValidationResult;
 export function createNoExecutionSafetyFlags(): NoExecutionSafetyFlags;
 export function supportedTaskCapabilityScopes(): PermissionScope[];
 export function isSupportedPermissionScope(value: string): value is PermissionScope;
@@ -310,6 +382,14 @@ export function createTaskPlan(
     approvalDecision?: ApprovalDecisionInput;
   }
 ): TaskPlan;
+export function createApprovalReviewArtifact(
+  source: TaskPlan | PlannerTrace,
+  options?: ApprovalReviewArtifactOptions
+): ApprovalReviewArtifact;
+export function compareApprovalReviewArtifacts(
+  left: ApprovalReviewArtifactComparisonSource,
+  right: ApprovalReviewArtifactComparisonSource
+): ApprovalReviewArtifactComparison;
 export function createHostInfo(): HostInfo;
 export function platformFamilyForNodePlatform(platform: string): "windows" | "unix";
 export function createPlatformInfo(platform?: string, arch?: string): PlatformInfo;

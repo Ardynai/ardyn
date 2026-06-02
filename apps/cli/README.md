@@ -9,9 +9,10 @@ node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.mani
 node apps/cli/src/index.mjs plan --trace --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 node apps/cli/src/index.mjs plan --summary --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 node apps/cli/src/index.mjs plan --explain --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
+node apps/cli/src/index.mjs plan --review-artifact --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 ```
 
-`plan` keeps the full default JSON plan unless exactly one output mode is passed. `--trace` prints the full planner trace wrapper, `--summary` prints selected IDs, unresolved requests, approval, and safety flags, and `--explain` prints deterministic candidate ranking and approval reasons. Mode flags are mutually exclusive.
+`plan` keeps the full default JSON plan unless exactly one output mode is passed. `--trace` prints the full planner trace wrapper, `--summary` prints selected IDs, unresolved requests, approval, and safety flags, `--explain` prints deterministic candidate ranking and approval reasons, and `--review-artifact` prints the stable approval review artifact. Mode flags are mutually exclusive.
 
 For planner review workflows:
 
@@ -19,5 +20,8 @@ For planner review workflows:
 - Use `--trace` to inspect the retained planner trace without the rest of the plan envelope.
 - Use `--summary` for approval-gate checks that only need selected ids, unresolved requests, approval, and safety.
 - Use `--explain` when reviewing why a capability tier won and which lower-ranked candidates were retained.
+- Use `--review-artifact` when an approval reviewer needs the stable non-executing artifact with candidate rankings, selected ids, unresolved requests, approval decision, and false safety flags.
 
 All plan output modes are JSON-only renderings of the same non-executing plan data.
+
+Next CLI candidate: `review-trace --left <file> --right <file>`. This is intentionally not implemented until `@ardyn/core` exports a trace comparison API; when added, it should remain read-only, JSON-only, and non-executing.

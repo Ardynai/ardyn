@@ -37,8 +37,8 @@ test("phase status report is deterministic JSON and does not claim to run checks
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "3.3",
-    name: "Policy review CI/reporting",
+    id: "3.4",
+    name: "Approval review artifacts, host-policy preconditions, and reporting",
     executionPosture: "non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
@@ -96,6 +96,21 @@ test("report lists configured checks, verification commands, and planner review 
       command: "npm run report:phase-status",
       purpose: "Render this deterministic local phase status report.",
       ranByReport: false
+    },
+    {
+      command: "node --test tests/report-phase-status.test.mjs",
+      purpose: "Run focused tests for this local phase status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/host-policy-preconditions.test.mjs",
+      purpose: "Run focused documentation/report checks for host-policy preconditions.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/core-phase3-4-review-artifacts.test.mjs tests/core-phase3-4-trace-comparison.test.mjs",
+      purpose: "Run focused Phase 3.4 approval artifact and trace comparison tests.",
+      ranByReport: false
     }
   ]);
   assert.deepEqual(report.plannerReviewOutputs, [
@@ -107,7 +122,7 @@ test("report lists configured checks, verification commands, and planner review 
     {
       path: "docs/planner-trace-review-workflow.md",
       status: "present",
-      summary: "Documents the planner trace review workflow for Phase 3.3."
+      summary: "Documents the planner trace and approval artifact review workflow for Phase 3.4."
     },
     {
       path: "tests/core-phase3-1-planner-hardening.test.mjs",
@@ -123,6 +138,62 @@ test("report lists configured checks, verification commands, and planner review 
   for (const command of report.verificationCommands) {
     assert.equal(command.ranByReport, false, `${command.command} should not be run by report`);
   }
+});
+
+test("report inventories Phase 3.4 artifacts, docs, tests, and deferred review-trace CLI", async () => {
+  const report = await runReport();
+
+  assert.deepEqual(report.phase34Artifacts, [
+    {
+      api: "createApprovalReviewArtifact",
+      cli: "ardyn plan --review-artifact",
+      summary: "Creates a stable non-executing approval review artifact from a plan or planner trace."
+    },
+    {
+      api: "validateApprovalReviewArtifact",
+      summary: "Rejects artifacts that flip nonExecuting or any approval artifact safety flag away from the disabled posture."
+    },
+    {
+      api: "compareApprovalReviewArtifacts",
+      fixtures: [
+        {
+          path: "tests/fixtures/trace-comparison/left-approval-review-artifact.json",
+          status: "present"
+        },
+        {
+          path: "tests/fixtures/trace-comparison/right-approval-review-artifact.json",
+          status: "present"
+        }
+      ],
+      summary: "Compares stable approval review artifacts or planner traces without adding a review-trace CLI."
+    }
+  ]);
+
+  assert.deepEqual(
+    report.phase34Docs.map(({ path, status }) => [path, status]),
+    [
+      ["README.md", "present"],
+      ["docs/planner-policy-review.md", "present"],
+      ["docs/planner-trace-review-workflow.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["packages/core/README.md", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    report.phase34Tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/core-phase3-4-review-artifacts.test.mjs", "present"],
+      ["tests/core-phase3-4-trace-comparison.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"],
+      ["tests/host-policy-preconditions.test.mjs", "present"]
+    ]
+  );
+
+  assert.deepEqual(report.nextReviewSurface, {
+    reviewTraceCliPresent: false,
+    note: "A dedicated review-trace CLI was intentionally not added in Phase 3.4; it remains a next reviewed surface."
+  });
 });
 
 test("safety posture keeps every execution, network, plugin, torrent, and runtime flag false", async () => {

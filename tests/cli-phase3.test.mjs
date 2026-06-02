@@ -59,7 +59,9 @@ test("ardyn plan prints a non-executing task plan", async () => {
   const output = await runCli(["plan", "--manifest", minimalManifestPath, "--task", minimalTaskPath]);
 
   assert.equal(output.command, "plan");
+  assert.equal(output.schema, undefined);
   assert.equal(output.output, undefined);
+  assert.equal(output.nonExecuting, undefined);
   assert.equal(output.phase, "phase-3-task-planning");
   assert.equal(output.task.id, "task.minimal.describe");
   assert.deepEqual(
@@ -76,6 +78,30 @@ test("ardyn plan prints a non-executing task plan", async () => {
   });
   assert.deepEqual(output.plannerTrace.selectedCapabilities, ["runtime.describe"]);
   assert.equal(output.plannerTrace.approvalDecision.status, "not_required");
+  assertAllFalse(output.safety);
+});
+
+test("ardyn plan default output remains the full task plan JSON", async () => {
+  const output = await runCli([
+    "plan",
+    "--manifest",
+    planningManifestPath,
+    "--task",
+    exactMatchTaskPath
+  ]);
+
+  assert.equal(output.command, "plan");
+  assert.equal(output.output, undefined);
+  assert.equal(output.schema, undefined);
+  assert.equal(output.nonExecuting, undefined);
+  assert.equal(output.phase, "phase-3-task-planning");
+  assert.equal(output.task.id, "task.phase3-1.exact");
+  assert.deepEqual(
+    output.selectedCapabilities.map((capability) => capability.id),
+    ["network"]
+  );
+  assert.deepEqual(output.plannerTrace.selectedCapabilities, ["network"]);
+  assert.deepEqual(output.plannerTrace.unresolvedRequests, []);
   assertAllFalse(output.safety);
 });
 
@@ -299,6 +325,51 @@ test("ardyn plan --explain includes approval reasons and decision details", asyn
   assertAllFalse(output.safety);
 });
 
+test("ardyn plan --review-artifact prints stable non-executing approval artifact", async () => {
+  const output = await runCli([
+    "plan",
+    "--manifest",
+    planningManifestPath,
+    "--task",
+    exactMatchTaskPath,
+    "--review-artifact"
+  ]);
+
+  assert.equal(output.command, undefined);
+  assert.equal(output.output, undefined);
+  assert.equal(output.schema, "ardyn.approval-review-artifact");
+  assert.equal(output.schemaVersion, "0.1.0");
+  assert.equal(output.version, "0.1.0");
+  assert.equal(output.generatedAt, "1970-01-01T00:00:00.000Z");
+  assert.equal(output.nonExecuting, true);
+  assert.equal(output.taskId, "task.phase3-1.exact");
+  assert.deepEqual(output.manifest, {
+    id: "planner-hardening",
+    version: "0.1.0",
+    schemaVersion: "0.1.0"
+  });
+  assert.deepEqual(output.requestedCapabilityIds, ["network"]);
+  assert.deepEqual(output.selectedCapabilities, ["network"]);
+  assert.deepEqual(output.unresolvedRequests, []);
+  assert.deepEqual(
+    output.candidateRankings[0].candidates.map((candidate) => [
+      candidate.rank,
+      candidate.capabilityId,
+      candidate.matchType,
+      candidate.score
+    ]),
+    [
+      [1, "network", "exact", 300],
+      [2, "beta.scope", "tag", 200],
+      [3, "alpha.scope", "scope", 100],
+      [4, "beta.scope", "scope", 100]
+    ]
+  );
+  assert.equal(output.approvalDecision.status, "not_required");
+  assert.equal(output.approvalDecision.nonExecuting, true);
+  assertAllFalse(output.safety);
+});
+
 test("ardyn plan output modes preserve no-match smoke shapes", async () => {
   const traceOutput = await runCli([
     "plan",
@@ -374,6 +445,20 @@ test("ardyn plan rejects multiple output modes without JSON output", async () =>
   ]);
 
   assertCliFailure(failure, /Plan output flags are mutually exclusive: --trace, --summary\./);
+});
+
+test("ardyn plan rejects review artifact with another output mode", async () => {
+  const failure = await runCliFailure([
+    "plan",
+    "--manifest",
+    minimalManifestPath,
+    "--task",
+    minimalTaskPath,
+    "--trace",
+    "--review-artifact"
+  ]);
+
+  assertCliFailure(failure, /Plan output flags are mutually exclusive: --trace, --review-artifact\./);
 });
 
 test("ardyn plan without --manifest fails without JSON output", async () => {

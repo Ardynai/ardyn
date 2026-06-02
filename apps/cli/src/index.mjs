@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import {
+  createApprovalReviewArtifact,
   createTaskPlan,
   createDoctorReport,
   loadManifest,
@@ -26,7 +27,7 @@ function readOption(args, name) {
   return args[index + 1];
 }
 
-const PLAN_OUTPUT_FLAGS = ["--trace", "--summary", "--explain"];
+const PLAN_OUTPUT_FLAGS = ["--trace", "--summary", "--explain", "--review-artifact"];
 
 function readPlanOutputMode(args) {
   const selectedFlags = PLAN_OUTPUT_FLAGS.filter((flag) => args.includes(flag));
@@ -104,6 +105,10 @@ function createPlanExplainOutput(plan) {
   };
 }
 
+function createPlanReviewArtifactOutput(plan) {
+  return createApprovalReviewArtifact(plan);
+}
+
 function createPlanOutput(plan, mode) {
   if (mode === "trace") {
     return createPlanTraceOutput(plan);
@@ -115,6 +120,10 @@ function createPlanOutput(plan, mode) {
 
   if (mode === "explain") {
     return createPlanExplainOutput(plan);
+  }
+
+  if (mode === "review-artifact") {
+    return createPlanReviewArtifactOutput(plan);
   }
 
   return {
@@ -215,7 +224,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain] --manifest <path> --task <path>|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|serve --dry-run --manifest <path>>"
   );
 }
 

@@ -1,8 +1,10 @@
 # Planner Policy Review
 
-Phase 3.3 documents how ARDYN reviews task plans before any execution-adjacent
-phase exists. ARDYN is an open-source AI harness/framework. It is not Locus,
-not Multiverse, and not a runtime installer.
+Phase 3.3 introduced ARDYN task-plan review before any execution-adjacent phase
+exists. Phase 3.4 adds stable approval review artifacts, trace comparison
+helpers, and host-policy precondition documentation without changing the
+non-executing posture. ARDYN is an open-source AI harness/framework. It is not
+Locus, not Multiverse, and not a runtime installer.
 
 Locus remains mission control that may later observe or control ARDYN through
 public ARDYN APIs. Multiverse integration remains optional and external. MCP,
@@ -55,9 +57,9 @@ Approval can be required by:
 
 Every current approval decision is deterministic and non-executing. Even a
 simulated `granted` decision must not be treated as permission to execute in
-Phase 3.3. A simulated `denied` decision is useful for UI and reporting review,
-but it also does not invoke cancellation hooks, adapter calls, process control,
-or any other runtime behavior.
+Phase 3.3 or 3.4. A simulated `denied` decision is useful for UI and reporting
+review, but it also does not invoke cancellation hooks, adapter calls, process
+control, or any other runtime behavior.
 
 ## Capability Ranking Policy
 
@@ -106,11 +108,48 @@ The trace is evidence, not a runtime command. A trace may describe future
 capabilities, adapters, or permission scopes, but it must not imply that ARDYN
 connected to those systems.
 
+## Phase 3.4 Approval Review Artifacts
+
+Phase 3.4 adds a stable review artifact over planner output. It is still
+planning-only evidence and still cannot grant runtime permission.
+
+Core APIs:
+
+- `createApprovalReviewArtifact(planOrTrace, options)` creates an
+  `ardyn.approval-review-artifact` document from a task plan or planner trace.
+- `validateApprovalReviewArtifact(artifact)` validates the artifact shape and
+  rejects artifacts where `nonExecuting` is not true or any safety flag is not
+  false.
+- `compareApprovalReviewArtifacts(left, right)` compares two artifacts, or a
+  planner trace and an artifact, after normalizing through the stable artifact
+  shape.
+
+CLI example:
+
+```powershell
+node apps/cli/src/index.mjs plan --review-artifact --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
+```
+
+The review artifact includes task and manifest identity, requested capability
+ids, deterministic candidate rankings, selected capability ids, unresolved
+requests, the approval decision, `nonExecuting: true`, and safety flags that all
+remain false.
+
+Trace comparison fixtures live at:
+
+- `tests/fixtures/trace-comparison/left-approval-review-artifact.json`
+- `tests/fixtures/trace-comparison/right-approval-review-artifact.json`
+
+Use `compareApprovalReviewArtifacts` for Phase 3.4 trace comparison. A dedicated
+`review-trace` CLI was intentionally not added in this phase; document it as the
+next reviewed CLI surface if it is needed.
+
 ## Future Locus UI Display Fields
 
 A future Locus UI may display ARDYN review data, but Locus integration is not
-active in Phase 3.3. The UI should be a viewer or reviewer of ARDYN plan JSON
-until a later integration phase explicitly adds a connection contract.
+active in Phase 3.3 or 3.4. The UI should be a viewer or reviewer of ARDYN plan
+JSON and approval review artifacts until a later integration phase explicitly
+adds a connection contract.
 
 A planning review UI should display:
 
@@ -124,6 +163,9 @@ A planning review UI should display:
   reason, and candidate count.
 - Candidate details: capability id, match type, score, permission scope, tag,
   and reason.
+- Approval review artifact fields: artifact schema, generated timestamp,
+  requested capability ids, candidate rankings, selected capability ids,
+  unresolved requests, and comparison differences when present.
 - Approval gate: `approval.required`, `approval.status`, and
   `approval.reasons`.
 - Approval decision: id, status, reason, requested capability ids, timestamp,
@@ -141,9 +183,10 @@ The UI must not display buttons or wording that imply "run", "connect",
 
 ## Adapter Metadata Boundary
 
-Adapters are metadata-only in Phase 3.3. Adapter packages and manifest adapter
-entries can describe identity, capability, permission, or future integration
-shape, but they must not create live connections or call external services.
+Adapters are metadata-only in Phase 3.3 and 3.4. Adapter packages and manifest
+adapter entries can describe identity, capability, permission, or future
+integration shape, but they must not create live connections or call external
+services.
 
 This boundary applies to OpenClaw, MCP, Locus, Multiverse, plugin APIs, and any
 other adapter-like surface. A plan may mention adapter metadata, but no adapter
@@ -156,10 +199,10 @@ schemas, manifests, task inputs, capability resolution, approval records,
 planner traces, static host identity, and dry-run handshakes must be predictable
 before any runtime behavior can be made safe.
 
-Keeping Phase 3.3 non-executing prevents policy review from being confused with
-tool execution. It also keeps Locus, Multiverse, Content Fabric, MCP, OpenClaw,
-and plugin concepts as explicit boundaries instead of hidden runtime
-dependencies.
+Keeping Phase 3.3 and 3.4 non-executing prevents policy review from being
+confused with tool execution. It also keeps Locus, Multiverse, Content Fabric,
+MCP, OpenClaw, and plugin concepts as explicit boundaries instead of hidden
+runtime dependencies.
 
 ## Before Any Execution-Adjacent Phase
 
@@ -180,6 +223,9 @@ true:
   process spawning, autonomous loops, MCP calls, OpenClaw calls, and external
   adapter connections must each be introduced as separate reviewed phases.
 
+See `docs/host-policy-preconditions.md` for the Phase 3.4 host-policy
+preconditions that must exist before any future execution-adjacent phase.
+
 ## Examples
 
 Run planner examples from the repository root:
@@ -193,6 +239,7 @@ node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.jso
 node apps/cli/src/index.mjs plan --trace --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/tag-match.json
 node apps/cli/src/index.mjs plan --summary --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
 node apps/cli/src/index.mjs plan --explain --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/exact-match.json
+node apps/cli/src/index.mjs plan --review-artifact --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
 ```
 
 Exact-match review:
@@ -270,3 +317,13 @@ Explain usage:
   tags.
 - It should state that execution remains deferred when presented in reports or
   future UI.
+
+Review artifact usage:
+
+- `plan --review-artifact` prints the stable approval review artifact.
+- Fixtures under `tests/fixtures/review-artifacts/` pin exact-match,
+  approval-required, no-match, and invalid safety-flag examples.
+- Comparison fixtures under `tests/fixtures/trace-comparison/` pin
+  deterministic artifact differences for reviewers.
+- Review artifacts must keep `nonExecuting: true`; every safety flag must remain
+  false.

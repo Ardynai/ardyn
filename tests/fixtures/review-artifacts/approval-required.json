@@ -1,0 +1,61 @@
+{
+  "schema": "ardyn.approval-review-artifact",
+  "schemaVersion": "0.1.0",
+  "version": "0.1.0",
+  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "nonExecuting": true,
+  "taskId": "task.phase3-1.approval",
+  "manifest": {
+    "id": "planner-hardening",
+    "version": "0.1.0",
+    "schemaVersion": "0.1.0"
+  },
+  "requestedCapabilityIds": [
+    "secure.registry"
+  ],
+  "candidateRankings": [
+    {
+      "request": "secure.registry",
+      "candidates": [
+        {
+          "rank": 1,
+          "capabilityId": "secure.registry",
+          "matchType": "exact",
+          "score": 300,
+          "scope": null,
+          "tag": null,
+          "reason": "Matched exact capability id."
+        }
+      ]
+    }
+  ],
+  "selectedCapabilities": [
+    "secure.registry"
+  ],
+  "unresolvedRequests": [],
+  "approvalDecision": {
+    "id": "approval.da7a9450fe10fd56",
+    "taskId": "task.phase3-1.approval",
+    "requestedCapabilityIds": [
+      "secure.registry"
+    ],
+    "status": "required",
+    "reason": "Approval is required before any future execution.",
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "nonExecuting": true
+  },
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

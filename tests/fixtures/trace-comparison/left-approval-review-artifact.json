@@ -1,0 +1,70 @@
+{
+  "schema": "ardyn.approval-review-artifact",
+  "schemaVersion": "0.1.0",
+  "version": "0.1.0",
+  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "nonExecuting": true,
+  "taskId": "task.phase3-4.compare-left",
+  "manifest": {
+    "id": "planner-hardening",
+    "version": "0.1.0",
+    "schemaVersion": "0.1.0"
+  },
+  "requestedCapabilityIds": [
+    "network"
+  ],
+  "candidateRankings": [
+    {
+      "request": "network",
+      "candidates": [
+        {
+          "rank": 1,
+          "capabilityId": "network",
+          "matchType": "exact",
+          "score": 300,
+          "scope": null,
+          "tag": null,
+          "reason": "Matched exact capability id."
+        },
+        {
+          "rank": 2,
+          "capabilityId": "beta.scope",
+          "matchType": "tag",
+          "score": 200,
+          "scope": null,
+          "tag": "network",
+          "reason": "Matched capability tag."
+        }
+      ]
+    }
+  ],
+  "selectedCapabilities": [
+    "network"
+  ],
+  "unresolvedRequests": [],
+  "approvalDecision": {
+    "id": "approval.compare.left",
+    "taskId": "task.phase3-4.compare-left",
+    "requestedCapabilityIds": [
+      "network"
+    ],
+    "status": "not_required",
+    "reason": "Approval is not required for this non-executing plan.",
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "nonExecuting": true
+  },
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

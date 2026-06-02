@@ -20,3 +20,21 @@ is made by core planning.
 See `../../docs/planner-policy-review.md` for Phase 3.2 examples covering exact
 match, tag match, no match, approval-required plans, trace review, summary
 views, and explanation views.
+
+## Phase 3.4 Host Policy Preconditions
+
+The core package remains non-executing. Phase 3.4 documents future host-policy
+preconditions only; it does not add active runtime enforcement, adapter
+connections, network listeners, process spawning, plugin installation, Content
+Fabric runtime behavior, code-pack enablement, autonomous loops, real MCP or
+OpenClaw calls, secrets access, or external CI behavior.
+
+Any future host policy must require explicit approval, adapter permission
+declarations, sandbox and quarantine requirements for code packs, and explicit
+network/process permission scopes before execution-adjacent behavior can be
+introduced. Locus may be an optional future controller or viewer through public
+ARDYN APIs, but ARDYN remains the framework and must not depend on Locus as its
+host app. Multiverse integration remains optional and external.
+
+See `../../docs/host-policy-preconditions.md` for the Phase 3.4 precondition
+contract.

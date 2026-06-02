@@ -7,6 +7,8 @@ import Ajv2020 from "ajv/dist/2020.js";
 
 export const ARDYN_SCHEMA_VERSION = "0.1.0";
 export const ARDYN_PHASE = "phase-3-task-planning";
+export const APPROVAL_REVIEW_ARTIFACT_SCHEMA = "ardyn.approval-review-artifact";
+export const APPROVAL_REVIEW_ARTIFACT_VERSION = "0.1.0";
 export const HOST_CRATE_NAME = "ardyn-host";
 export const APPROVAL_REQUIRED = "approval-required";
 export const APPROVAL_DENIED = "approval-denied";
@@ -66,6 +68,7 @@ const NO_EXECUTION_SAFETY_FLAGS = Object.freeze({
 });
 
 const DEFAULT_APPROVAL_CREATED_AT = "1970-01-01T00:00:00.000Z";
+const DEFAULT_APPROVAL_REVIEW_GENERATED_AT = "1970-01-01T00:00:00.000Z";
 const APPROVAL_DECISION_STATUS_SET = new Set(APPROVAL_DECISION_STATUSES);
 const CAPABILITY_MATCH_SCORES = Object.freeze({
   exact: 300,
@@ -584,6 +587,341 @@ function createPlannerTrace({
     unresolvedRequests: [...resolution.unresolvedRequests],
     approvalDecision,
     safety: { ...safety }
+  };
+}
+
+function copyApprovalDecision(approvalDecision) {
+  return {
+    id: approvalDecision.id,
+    taskId: approvalDecision.taskId,
+    requestedCapabilityIds: [...approvalDecision.requestedCapabilityIds],
+    status: approvalDecision.status,
+    reason: approvalDecision.reason,
+    createdAt: approvalDecision.createdAt,
+    nonExecuting: approvalDecision.nonExecuting
+  };
+}
+
+function copySafetyFlags(safety) {
+  return {
+    executionEnabled: safety.executionEnabled,
+    toolExecutionEnabled: safety.toolExecutionEnabled,
+    autonomousExecutionEnabled: safety.autonomousExecutionEnabled,
+    productionToolExecutionEnabled: safety.productionToolExecutionEnabled,
+    apiCallsEnabled: safety.apiCallsEnabled,
+    networkListening: safety.networkListening,
+    longRunningServicesStarted: safety.longRunningServicesStarted,
+    processesSpawned: safety.processesSpawned,
+    pluginInstallEnabled: safety.pluginInstallEnabled,
+    torrentDownloadEnabled: safety.torrentDownloadEnabled,
+    codePackEnablementEnabled: safety.codePackEnablementEnabled,
+    agentLoopEnabled: safety.agentLoopEnabled
+  };
+}
+
+function plannerTraceFromReviewSource(source) {
+  const trace = source?.plannerTrace ?? source;
+
+  if (!trace || typeof trace !== "object" || !trace.taskIntake || !trace.manifest) {
+    throw new Error("A TaskPlan or PlannerTrace is required to create an approval review artifact.");
+  }
+
+  return trace;
+}
+
+function createCandidateRankings(trace) {
+  return trace.candidateCapabilities.map((ranking) => ({
+    request: ranking.request,
+    candidates: ranking.candidates.map((candidate, index) => ({
+      rank: index + 1,
+      capabilityId: candidate.capabilityId,
+      matchType: candidate.matchType,
+      score: candidate.score,
+      scope: candidate.scope,
+      tag: candidate.tag,
+      reason: candidate.reason
+    }))
+  }));
+}
+
+export function createApprovalReviewArtifact(source, options = {}) {
+  const trace = plannerTraceFromReviewSource(source);
+
+  return {
+    schema: APPROVAL_REVIEW_ARTIFACT_SCHEMA,
+    schemaVersion: ARDYN_SCHEMA_VERSION,
+    version: APPROVAL_REVIEW_ARTIFACT_VERSION,
+    generatedAt: options.generatedAt ?? DEFAULT_APPROVAL_REVIEW_GENERATED_AT,
+    nonExecuting: true,
+    taskId: trace.taskIntake.taskId,
+    manifest: {
+      id: trace.manifest.id,
+      version: trace.manifest.version,
+      schemaVersion: trace.manifest.schemaVersion
+    },
+    requestedCapabilityIds: [...trace.taskIntake.requestedCapabilities],
+    candidateRankings: createCandidateRankings(trace),
+    selectedCapabilities: [...trace.selectedCapabilities],
+    unresolvedRequests: [...trace.unresolvedRequests],
+    approvalDecision: copyApprovalDecision(trace.approvalDecision),
+    safety: copySafetyFlags(trace.safety)
+  };
+}
+
+function validationObject(value) {
+  return value && typeof value === "object" && !Array.isArray(value);
+}
+
+function pushRequiredString(errors, value, path) {
+  if (typeof value !== "string" || value.length === 0) {
+    errors.push(`${path} must be a non-empty string`);
+  }
+}
+
+function pushRequiredArray(errors, value, path) {
+  if (!Array.isArray(value)) {
+    errors.push(`${path} must be an array`);
+  }
+}
+
+export function validateApprovalReviewArtifact(artifact) {
+  const errors = [];
+
+  if (!validationObject(artifact)) {
+    return {
+      valid: false,
+      errors: ["artifact must be an object"]
+    };
+  }
+
+  if (artifact.schema !== APPROVAL_REVIEW_ARTIFACT_SCHEMA) {
+    errors.push(`schema must be ${APPROVAL_REVIEW_ARTIFACT_SCHEMA}`);
+  }
+
+  if (artifact.schemaVersion !== ARDYN_SCHEMA_VERSION) {
+    errors.push(`schemaVersion must be ${ARDYN_SCHEMA_VERSION}`);
+  }
+
+  if (artifact.version !== APPROVAL_REVIEW_ARTIFACT_VERSION) {
+    errors.push(`version must be ${APPROVAL_REVIEW_ARTIFACT_VERSION}`);
+  }
+
+  pushRequiredString(errors, artifact.generatedAt, "generatedAt");
+
+  if (artifact.nonExecuting !== true) {
+    errors.push("nonExecuting must be true");
+  }
+
+  pushRequiredString(errors, artifact.taskId, "taskId");
+
+  if (!validationObject(artifact.manifest)) {
+    errors.push("manifest must be an object");
+  } else {
+    pushRequiredString(errors, artifact.manifest.id, "manifest.id");
+    pushRequiredString(errors, artifact.manifest.version, "manifest.version");
+    if (artifact.manifest.schemaVersion !== ARDYN_SCHEMA_VERSION) {
+      errors.push(`manifest.schemaVersion must be ${ARDYN_SCHEMA_VERSION}`);
+    }
+  }
+
+  pushRequiredArray(errors, artifact.requestedCapabilityIds, "requestedCapabilityIds");
+  pushRequiredArray(errors, artifact.candidateRankings, "candidateRankings");
+  pushRequiredArray(errors, artifact.selectedCapabilities, "selectedCapabilities");
+  pushRequiredArray(errors, artifact.unresolvedRequests, "unresolvedRequests");
+
+  if (!validationObject(artifact.approvalDecision)) {
+    errors.push("approvalDecision must be an object");
+  } else {
+    pushRequiredString(errors, artifact.approvalDecision.id, "approvalDecision.id");
+    pushRequiredString(errors, artifact.approvalDecision.taskId, "approvalDecision.taskId");
+    pushRequiredArray(
+      errors,
+      artifact.approvalDecision.requestedCapabilityIds,
+      "approvalDecision.requestedCapabilityIds"
+    );
+    if (!APPROVAL_DECISION_STATUS_SET.has(artifact.approvalDecision.status)) {
+      errors.push("approvalDecision.status must be a supported approval decision status");
+    }
+    pushRequiredString(errors, artifact.approvalDecision.reason, "approvalDecision.reason");
+    pushRequiredString(errors, artifact.approvalDecision.createdAt, "approvalDecision.createdAt");
+    if (artifact.approvalDecision.nonExecuting !== true) {
+      errors.push("approvalDecision.nonExecuting must be true");
+    }
+  }
+
+  if (!validationObject(artifact.safety)) {
+    errors.push("safety must be an object");
+  } else {
+    for (const key of Object.keys(NO_EXECUTION_SAFETY_FLAGS)) {
+      if (artifact.safety[key] !== false) {
+        errors.push(`safety.${key} must be false`);
+      }
+    }
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+}
+
+function comparisonApprovalReviewArtifact(source, side) {
+  const artifact =
+    source?.schema === APPROVAL_REVIEW_ARTIFACT_SCHEMA
+      ? source
+      : createApprovalReviewArtifact(source);
+  const validation = validateApprovalReviewArtifact(artifact);
+
+  if (!validation.valid) {
+    throw new Error(
+      `${side} approval review artifact is invalid: ${validation.errors.join("; ")}`
+    );
+  }
+
+  return artifact;
+}
+
+function uniqueSortedStrings(values) {
+  return [...new Set(values)].sort(compareAscii);
+}
+
+function stringArrayDifference(left, right) {
+  const leftSet = new Set(left);
+  const rightSet = new Set(right);
+
+  return {
+    added: uniqueSortedStrings(right.filter((value) => !leftSet.has(value))),
+    removed: uniqueSortedStrings(left.filter((value) => !rightSet.has(value)))
+  };
+}
+
+function pushValueDifference(differences, type, path, left, right) {
+  if (stableJsonStringify(left) === stableJsonStringify(right)) {
+    return;
+  }
+
+  differences.push({
+    type,
+    path,
+    left: stableJsonValue(left),
+    right: stableJsonValue(right)
+  });
+}
+
+function pushStringArrayDifference(differences, type, path, left, right) {
+  if (stableJsonStringify(left) === stableJsonStringify(right)) {
+    return;
+  }
+
+  differences.push({
+    type,
+    path,
+    left: [...left],
+    right: [...right],
+    ...stringArrayDifference(left, right)
+  });
+}
+
+function comparisonCandidateRankings(artifact) {
+  return artifact.candidateRankings
+    .map((ranking) => ({
+      request: ranking.request,
+      candidates: ranking.candidates
+        .map((candidate) => ({
+          rank: candidate.rank,
+          capabilityId: candidate.capabilityId,
+          matchType: candidate.matchType,
+          score: candidate.score,
+          scope: candidate.scope,
+          tag: candidate.tag,
+          reason: candidate.reason
+        }))
+        .sort((left, right) => {
+          const rankCompare = left.rank - right.rank;
+          return rankCompare === 0
+            ? compareAscii(left.capabilityId, right.capabilityId)
+            : rankCompare;
+        })
+    }))
+    .sort((left, right) => compareAscii(left.request, right.request));
+}
+
+export function compareApprovalReviewArtifacts(leftSource, rightSource) {
+  const left = comparisonApprovalReviewArtifact(leftSource, "left");
+  const right = comparisonApprovalReviewArtifact(rightSource, "right");
+  const differences = [];
+
+  pushValueDifference(differences, "task-mismatch", "taskId", left.taskId, right.taskId);
+  pushValueDifference(
+    differences,
+    "manifest-mismatch",
+    "manifest.id",
+    left.manifest.id,
+    right.manifest.id
+  );
+  pushValueDifference(
+    differences,
+    "manifest-mismatch",
+    "manifest.version",
+    left.manifest.version,
+    right.manifest.version
+  );
+  pushValueDifference(
+    differences,
+    "manifest-mismatch",
+    "manifest.schemaVersion",
+    left.manifest.schemaVersion,
+    right.manifest.schemaVersion
+  );
+  pushStringArrayDifference(
+    differences,
+    "requested-capabilities-change",
+    "requestedCapabilityIds",
+    left.requestedCapabilityIds,
+    right.requestedCapabilityIds
+  );
+  pushStringArrayDifference(
+    differences,
+    "selected-capabilities-change",
+    "selectedCapabilities",
+    left.selectedCapabilities,
+    right.selectedCapabilities
+  );
+  pushStringArrayDifference(
+    differences,
+    "unresolved-requests-change",
+    "unresolvedRequests",
+    left.unresolvedRequests,
+    right.unresolvedRequests
+  );
+  pushStringArrayDifference(
+    differences,
+    "approval-requested-capabilities-change",
+    "approvalDecision.requestedCapabilityIds",
+    left.approvalDecision.requestedCapabilityIds,
+    right.approvalDecision.requestedCapabilityIds
+  );
+  pushValueDifference(
+    differences,
+    "approval-status-change",
+    "approvalDecision.status",
+    left.approvalDecision.status,
+    right.approvalDecision.status
+  );
+  pushValueDifference(
+    differences,
+    "candidate-rankings-change",
+    "candidateRankings",
+    comparisonCandidateRankings(left),
+    comparisonCandidateRankings(right)
+  );
+
+  return {
+    equal: differences.length === 0,
+    differenceCount: differences.length,
+    differences,
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
   };
 }
 
