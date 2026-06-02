@@ -70,6 +70,27 @@ const NO_EXECUTION_SAFETY_FLAGS = Object.freeze({
 const DEFAULT_APPROVAL_CREATED_AT = "1970-01-01T00:00:00.000Z";
 const DEFAULT_APPROVAL_REVIEW_GENERATED_AT = "1970-01-01T00:00:00.000Z";
 const APPROVAL_DECISION_STATUS_SET = new Set(APPROVAL_DECISION_STATUSES);
+const APPROVAL_REVIEW_ARTIFACT_COMPATIBLE = "compatible";
+const APPROVAL_REVIEW_ARTIFACT_UNSUPPORTED_MAJOR = "unsupported_major";
+const APPROVAL_REVIEW_ARTIFACT_MALFORMED = "malformed";
+const APPROVAL_REVIEW_ARTIFACT_SUPPORTED_SCHEMA_MAJOR = 0;
+const APPROVAL_REVIEW_ARTIFACT_SUPPORTED_VERSION_MAJOR = 0;
+const APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELDS = Object.freeze([
+  "schema",
+  "schemaVersion",
+  "version",
+  "generatedAt",
+  "nonExecuting",
+  "taskId",
+  "manifest",
+  "requestedCapabilityIds",
+  "candidateRankings",
+  "selectedCapabilities",
+  "unresolvedRequests",
+  "approvalDecision",
+  "safety"
+]);
+const APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELD_SET = new Set(APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELDS);
 const CAPABILITY_MATCH_SCORES = Object.freeze({
   exact: 300,
   tag: 200,
@@ -487,6 +508,200 @@ function stableJsonStringify(value) {
   return JSON.stringify(stableJsonValue(value));
 }
 
+function semverMajor(value) {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const match = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.exec(value);
+  return match ? Number(match[1]) : null;
+}
+
+function validateSemverMajor(errors, value, path) {
+  const major = semverMajor(value);
+
+  if (major === null) {
+    errors.push(`${path} must be a semantic version string`);
+  }
+
+  return major;
+}
+
+function dataProperty(source, key) {
+  if (!source || typeof source !== "object") {
+    return undefined;
+  }
+
+  const descriptor = Object.getOwnPropertyDescriptor(source, key);
+  return descriptor && "value" in descriptor ? descriptor.value : undefined;
+}
+
+function safeDisplayValue(value, seen = new WeakSet()) {
+  if (value === null || typeof value === "string" || typeof value === "boolean") {
+    return value;
+  }
+
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : String(value);
+  }
+
+  if (typeof value === "bigint") {
+    return value.toString();
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((entry) => safeDisplayValue(entry, seen));
+  }
+
+  if (value && typeof value === "object") {
+    if (seen.has(value)) {
+      return "[circular]";
+    }
+
+    seen.add(value);
+
+    const descriptors = Object.getOwnPropertyDescriptors(value);
+    const result = Object.fromEntries(
+      Object.entries(descriptors)
+        .filter(([, descriptor]) => descriptor.enumerable)
+        .filter(([, descriptor]) => "value" in descriptor && descriptor.value !== undefined)
+        .sort(([left], [right]) => compareAscii(left, right))
+        .map(([key, descriptor]) => [key, safeDisplayValue(descriptor.value, seen)])
+    );
+
+    seen.delete(value);
+    return result;
+  }
+
+  if (typeof value === "undefined") {
+    return null;
+  }
+
+  return `[${typeof value}]`;
+}
+
+function displayString(value) {
+  return typeof value === "string" ? value : null;
+}
+
+function displayBoolean(value) {
+  return typeof value === "boolean" ? value : null;
+}
+
+function displayStringArray(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((entry) => safeDisplayValue(entry))
+    .filter((entry) => typeof entry === "string")
+    .sort(compareAscii);
+}
+
+function displaySafetyFlags(safety) {
+  const flags = {};
+
+  for (const key of Object.keys(NO_EXECUTION_SAFETY_FLAGS)) {
+    const value = dataProperty(safety, key);
+    flags[key] = value === undefined ? null : safeDisplayValue(value);
+  }
+
+  return flags;
+}
+
+function allDisplaySafetyFlagsFalse(flags) {
+  return Object.keys(NO_EXECUTION_SAFETY_FLAGS).every((key) => flags[key] === false);
+}
+
+function normalizeDisplayManifest(manifest) {
+  return {
+    id: displayString(dataProperty(manifest, "id")),
+    version: displayString(dataProperty(manifest, "version")),
+    schemaVersion: displayString(dataProperty(manifest, "schemaVersion"))
+  };
+}
+
+function normalizeDisplayApprovalDecision(approvalDecision) {
+  return {
+    id: displayString(dataProperty(approvalDecision, "id")),
+    taskId: displayString(dataProperty(approvalDecision, "taskId")),
+    requestedCapabilityIds: displayStringArray(
+      dataProperty(approvalDecision, "requestedCapabilityIds")
+    ),
+    status: displayString(dataProperty(approvalDecision, "status")),
+    reason: displayString(dataProperty(approvalDecision, "reason")),
+    createdAt: displayString(dataProperty(approvalDecision, "createdAt")),
+    nonExecuting: displayBoolean(dataProperty(approvalDecision, "nonExecuting"))
+  };
+}
+
+function normalizeDisplayCandidate(candidate) {
+  return {
+    rank: safeDisplayValue(dataProperty(candidate, "rank")),
+    capabilityId: displayString(dataProperty(candidate, "capabilityId")),
+    matchType: displayString(dataProperty(candidate, "matchType")),
+    score: safeDisplayValue(dataProperty(candidate, "score")),
+    scope: safeDisplayValue(dataProperty(candidate, "scope")),
+    tag: safeDisplayValue(dataProperty(candidate, "tag")),
+    reason: displayString(dataProperty(candidate, "reason"))
+  };
+}
+
+function displayRank(candidate) {
+  return typeof candidate.rank === "number" ? candidate.rank : Number.MAX_SAFE_INTEGER;
+}
+
+function normalizeDisplayCandidateRankings(candidateRankings) {
+  if (!Array.isArray(candidateRankings)) {
+    return [];
+  }
+
+  return candidateRankings
+    .map((ranking) => {
+      const candidates = Array.isArray(dataProperty(ranking, "candidates"))
+        ? dataProperty(ranking, "candidates").map(normalizeDisplayCandidate)
+        : [];
+
+      return {
+        request: displayString(dataProperty(ranking, "request")),
+        candidates: candidates.sort((left, right) => {
+          const rankCompare = displayRank(left) - displayRank(right);
+          return rankCompare === 0
+            ? compareAscii(left.capabilityId ?? "", right.capabilityId ?? "")
+            : rankCompare;
+        })
+      };
+    })
+    .sort((left, right) => compareAscii(left.request ?? "", right.request ?? ""));
+}
+
+function displayUnknownFields(artifact) {
+  if (!validationObject(artifact)) {
+    return {
+      unknownFields: [],
+      unknown: {}
+    };
+  }
+
+  const descriptors = Object.getOwnPropertyDescriptors(artifact);
+  const unknownFields = Object.entries(descriptors)
+    .filter(([key, descriptor]) => descriptor.enumerable && !APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELD_SET.has(key))
+    .map(([key]) => key)
+    .sort(compareAscii);
+  const unknown = Object.fromEntries(
+    unknownFields.map((key) => {
+      const descriptor = descriptors[key];
+      return [key, "value" in descriptor ? safeDisplayValue(descriptor.value) : "[accessor omitted]"];
+    })
+  );
+
+  return {
+    unknownFields,
+    unknown
+  };
+}
+
 function approvalDecisionReason(status, approvalRequired) {
   if (status === APPROVAL_DECISION_DENIED) {
     return "Approval was denied by simulated planner input.";
@@ -665,6 +880,160 @@ export function createApprovalReviewArtifact(source, options = {}) {
     unresolvedRequests: [...trace.unresolvedRequests],
     approvalDecision: copyApprovalDecision(trace.approvalDecision),
     safety: copySafetyFlags(trace.safety)
+  };
+}
+
+export function validateApprovalReviewArtifactVersion(artifact) {
+  const errors = [];
+
+  if (!validationObject(artifact)) {
+    return {
+      valid: false,
+      compatibility: APPROVAL_REVIEW_ARTIFACT_MALFORMED,
+      errors: ["artifact must be an object"]
+    };
+  }
+
+  if (dataProperty(artifact, "schema") !== APPROVAL_REVIEW_ARTIFACT_SCHEMA) {
+    errors.push(`schema must be ${APPROVAL_REVIEW_ARTIFACT_SCHEMA}`);
+  }
+
+  const schemaVersionMajor = validateSemverMajor(
+    errors,
+    dataProperty(artifact, "schemaVersion"),
+    "schemaVersion"
+  );
+  const versionMajor = validateSemverMajor(errors, dataProperty(artifact, "version"), "version");
+
+  if (errors.length > 0) {
+    return {
+      valid: false,
+      compatibility: APPROVAL_REVIEW_ARTIFACT_MALFORMED,
+      errors
+    };
+  }
+
+  if (
+    schemaVersionMajor !== APPROVAL_REVIEW_ARTIFACT_SUPPORTED_SCHEMA_MAJOR ||
+    versionMajor !== APPROVAL_REVIEW_ARTIFACT_SUPPORTED_VERSION_MAJOR
+  ) {
+    const unsupportedErrors = [];
+
+    if (schemaVersionMajor !== APPROVAL_REVIEW_ARTIFACT_SUPPORTED_SCHEMA_MAJOR) {
+      unsupportedErrors.push(
+        `schemaVersion major ${schemaVersionMajor} is unsupported; supported major is ${APPROVAL_REVIEW_ARTIFACT_SUPPORTED_SCHEMA_MAJOR}`
+      );
+    }
+
+    if (versionMajor !== APPROVAL_REVIEW_ARTIFACT_SUPPORTED_VERSION_MAJOR) {
+      unsupportedErrors.push(
+        `version major ${versionMajor} is unsupported; supported major is ${APPROVAL_REVIEW_ARTIFACT_SUPPORTED_VERSION_MAJOR}`
+      );
+    }
+
+    return {
+      valid: false,
+      compatibility: APPROVAL_REVIEW_ARTIFACT_UNSUPPORTED_MAJOR,
+      errors: unsupportedErrors
+    };
+  }
+
+  return {
+    valid: true,
+    compatibility: APPROVAL_REVIEW_ARTIFACT_COMPATIBLE,
+    errors: []
+  };
+}
+
+export function classifyApprovalReviewArtifactCompatibility(artifact) {
+  return validateApprovalReviewArtifactVersion(artifact).compatibility;
+}
+
+export function normalizeApprovalReviewArtifactForDisplay(artifact) {
+  const versionValidation = validateApprovalReviewArtifactVersion(artifact);
+  const validation = validateApprovalReviewArtifact(artifact);
+  const safety = displaySafetyFlags(dataProperty(artifact, "safety"));
+  const { unknownFields, unknown } = displayUnknownFields(artifact);
+
+  return {
+    compatibility: versionValidation.compatibility,
+    valid: validation.valid,
+    validationErrors: [...validation.errors],
+    schema: displayString(dataProperty(artifact, "schema")),
+    schemaVersion: displayString(dataProperty(artifact, "schemaVersion")),
+    version: displayString(dataProperty(artifact, "version")),
+    generatedAt: displayString(dataProperty(artifact, "generatedAt")),
+    nonExecuting: displayBoolean(dataProperty(artifact, "nonExecuting")),
+    taskId: displayString(dataProperty(artifact, "taskId")),
+    manifest: normalizeDisplayManifest(dataProperty(artifact, "manifest")),
+    requestedCapabilityIds: displayStringArray(dataProperty(artifact, "requestedCapabilityIds")),
+    candidateRankings: normalizeDisplayCandidateRankings(dataProperty(artifact, "candidateRankings")),
+    selectedCapabilities: displayStringArray(dataProperty(artifact, "selectedCapabilities")),
+    unresolvedRequests: displayStringArray(dataProperty(artifact, "unresolvedRequests")),
+    approvalDecision: normalizeDisplayApprovalDecision(dataProperty(artifact, "approvalDecision")),
+    safety,
+    safetyFlagsAllFalse: allDisplaySafetyFlagsFalse(safety),
+    unknownFields,
+    unknown
+  };
+}
+
+export function buildApprovalReviewArtifactDisplaySummary(artifact) {
+  const normalized = normalizeApprovalReviewArtifactForDisplay(artifact);
+  const candidateSummaries = normalized.candidateRankings.map((ranking) => {
+    const topCandidate = ranking.candidates[0] ?? null;
+
+    return {
+      request: ranking.request,
+      candidateCount: ranking.candidates.length,
+      topCandidate: topCandidate
+        ? {
+            rank: topCandidate.rank,
+            capabilityId: topCandidate.capabilityId,
+            matchType: topCandidate.matchType,
+            score: topCandidate.score
+          }
+        : null
+    };
+  });
+
+  return {
+    compatibility: normalized.compatibility,
+    valid: normalized.valid,
+    schema: normalized.schema,
+    schemaVersion: normalized.schemaVersion,
+    version: normalized.version,
+    generatedAt: normalized.generatedAt,
+    taskId: normalized.taskId,
+    manifest: normalized.manifest,
+    approval: {
+      status: normalized.approvalDecision.status,
+      reason: normalized.approvalDecision.reason,
+      createdAt: normalized.approvalDecision.createdAt,
+      nonExecuting: normalized.approvalDecision.nonExecuting
+    },
+    counts: {
+      requestedCapabilities: normalized.requestedCapabilityIds.length,
+      selectedCapabilities: normalized.selectedCapabilities.length,
+      unresolvedRequests: normalized.unresolvedRequests.length,
+      candidateRankings: normalized.candidateRankings.length,
+      candidates: normalized.candidateRankings.reduce(
+        (count, ranking) => count + ranking.candidates.length,
+        0
+      ),
+      unknownFields: normalized.unknownFields.length
+    },
+    requestedCapabilityIds: normalized.requestedCapabilityIds,
+    selectedCapabilities: normalized.selectedCapabilities,
+    unresolvedRequests: normalized.unresolvedRequests,
+    candidateRankings: candidateSummaries,
+    unknownFields: normalized.unknownFields,
+    safety: {
+      nonExecuting: normalized.nonExecuting,
+      allFlagsFalse: normalized.safetyFlagsAllFalse,
+      flags: normalized.safety
+    },
+    validationErrors: normalized.validationErrors
   };
 }
 

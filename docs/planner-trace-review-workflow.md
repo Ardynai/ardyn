@@ -1,6 +1,6 @@
 # Planner Trace Review Workflow
 
-This workflow is for Phase 3.3-3.5 planning review only. It reviews ARDYN
+This workflow is for Phase 3.3-3.6 planning review only. It reviews ARDYN
 planner JSON and must not execute tools, connect adapters, open listeners, spawn
 processes, install plugins, download torrents, enable code packs, run agent
 loops, serve Content Fabric catalogs, call MCP, call OpenClaw, or connect to
@@ -8,8 +8,9 @@ Locus or Multiverse.
 
 Phase 3.4 adds approval review artifacts and trace comparison fixtures on top of
 the same non-executing planner data. Phase 3.5 adds the local `review-trace`
-CLI and `plan --review-artifact --output <file>` export ergonomics. It does not
-add execution, adapter connections, network behavior, or active Locus
+CLI and `plan --review-artifact --output <file>` export ergonomics. Phase 3.6
+documents the Locus-facing display contract for the same local JSON evidence. It
+does not add execution, adapter connections, network behavior, or active Locus
 integration.
 
 ## Reviewer Inputs
@@ -131,8 +132,14 @@ is valid only with `--review-artifact`.
 ## Future UI Review Fields
 
 A future Locus UI may render this workflow, including `review-trace` diffs, but
-Locus is not connected in Phase 3.3-3.5. Treat the UI as a viewer only until a
+Locus is not connected in Phase 3.3-3.6. Treat the UI as a viewer only until a
 later phase adds explicit connection contracts.
+
+See `docs/locus-trace-display-contract.md` for the Phase 3.6 display contract,
+including compatibility severity, approval status labels, trace diff fields,
+unknown-field handling, and the rule that ARDYN adds no Locus runtime
+dependency. See `docs/review-artifact-versioning-policy.md` for review-artifact
+versioning, unknown-field preservation, and deterministic timestamp guidance.
 
 Display these fields:
 
@@ -152,7 +159,7 @@ Display these fields:
   Content Fabric runtime behavior, or tool execution occurred.
 
 Do not display execution controls before execution phases exist. Acceptable
-Phase 3.3-3.5 actions are viewer-only actions such as inspect, compare, export,
+Phase 3.3-3.6 actions are viewer-only actions such as inspect, compare, export,
 or report.
 
 ## Reporting

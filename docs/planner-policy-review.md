@@ -4,9 +4,10 @@ Phase 3.3 introduced ARDYN task-plan review before any execution-adjacent phase
 exists. Phase 3.4 adds stable approval review artifacts, trace comparison
 helpers, and host-policy precondition documentation. Phase 3.5 adds the local
 `review-trace` CLI and `plan --review-artifact --output <file>` export
-ergonomics without changing the non-executing posture. ARDYN is an open-source
-AI harness/framework. It is not Locus, not Multiverse, and not a runtime
-installer.
+ergonomics without changing the non-executing posture. Phase 3.6 documents the
+Locus-facing display contract for local traces, review artifacts, and trace
+diffs without adding any Locus runtime dependency. ARDYN is an open-source AI
+harness/framework. It is not Locus, not Multiverse, and not a runtime installer.
 
 Locus remains mission control that may later observe or control ARDYN through
 public ARDYN APIs. Multiverse integration remains optional and external. MCP,
@@ -59,7 +60,7 @@ Approval can be required by:
 
 Every current approval decision is deterministic and non-executing. Even a
 simulated `granted` decision must not be treated as permission to execute in
-Phase 3.3-3.5. A simulated `denied` decision is useful for UI and reporting
+Phase 3.3-3.6. A simulated `denied` decision is useful for UI and reporting
 review, but it also does not invoke cancellation hooks, adapter calls, process
 control, or any other runtime behavior.
 
@@ -181,9 +182,17 @@ Fabric runtime behavior, code-pack enablement, autonomous loops, or external CI.
 ## Future Locus UI Display Fields
 
 A future Locus UI may display ARDYN review data, but Locus integration is not
-active in Phase 3.3-3.5. The UI should be a viewer or reviewer of ARDYN plan
+active in Phase 3.3-3.6. The UI should be a viewer or reviewer of ARDYN plan
 JSON, approval review artifacts, and trace diffs until a later integration
 phase explicitly adds a connection contract.
+
+See `docs/locus-trace-display-contract.md` for the Phase 3.6 display contract,
+including compatibility severity, approval status labels, trace diff fields,
+unknown-field handling, and the rule that ARDYN adds no Locus runtime
+dependency. See `docs/review-artifact-versioning-policy.md` for the
+review-artifact schema id, version semantics, compatible same-major display
+policy, major-version rejection behavior, unknown-field preservation, and
+deterministic timestamp guidance.
 
 A planning review UI should display:
 
@@ -222,7 +231,7 @@ integration.
 
 ## Adapter Metadata Boundary
 
-Adapters are metadata-only in Phase 3.3-3.5. Adapter packages and manifest
+Adapters are metadata-only in Phase 3.3-3.6. Adapter packages and manifest
 adapter entries can describe identity, capability, permission, or future
 integration shape, but they must not create live connections or call external
 services.
@@ -238,7 +247,7 @@ schemas, manifests, task inputs, capability resolution, approval records,
 planner traces, static host identity, and dry-run handshakes must be predictable
 before any runtime behavior can be made safe.
 
-Keeping Phase 3.3-3.5 non-executing prevents policy review from being
+Keeping Phase 3.3-3.6 non-executing prevents policy review from being
 confused with tool execution. It also keeps Locus, Multiverse, Content Fabric,
 MCP, OpenClaw, and plugin concepts as explicit boundaries instead of hidden
 runtime dependencies.

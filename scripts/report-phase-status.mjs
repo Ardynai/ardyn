@@ -47,8 +47,8 @@ const packageJson = await readJson("package.json");
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "3.5",
-    name: "Review-trace CLI, trace-review fixtures, and export ergonomics",
+    id: "3.6",
+    name: "Review-artifact versioning, display normalization, and Locus display contract",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -81,12 +81,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.5 status report.",
+      purpose: "Render this deterministic local Phase 3.6 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.5 status report.",
+      purpose: "Run focused tests for this local Phase 3.6 status report.",
       ranByReport: false
     },
     {
@@ -97,6 +97,11 @@ const report = {
     {
       command: "node --test tests/core-phase3-5-trace-fixtures.test.mjs",
       purpose: "Run focused Phase 3.5 trace-review fixture tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/core-phase3-6-review-artifact-versioning.test.mjs",
+      purpose: "Run focused Phase 3.6 review-artifact versioning and display tests.",
       ranByReport: false
     },
     {
@@ -115,15 +120,27 @@ const report = {
       "Documents the planner trace, approval artifact, and review-trace workflow."
     ),
     await localInventoryEntry(
+      "docs/locus-trace-display-contract.md",
+      "Documents Locus-facing inert display fields, severity mapping, and no runtime dependency."
+    ),
+    await localInventoryEntry(
+      "docs/review-artifact-versioning-policy.md",
+      "Documents review-artifact schema id, version semantics, compatibility posture, and timestamp guidance."
+    ),
+    await localInventoryEntry(
       "tests/core-phase3-1-planner-hardening.test.mjs",
       "Covers deterministic planner ranking, approval records, and safety flags."
     ),
     await localInventoryEntry(
       "tests/core-phase3-3-policy-fixtures.test.mjs",
       "Covers Phase 3.3 policy-review fixture behavior."
+    ),
+    await localInventoryEntry(
+      "tests/core-phase3-6-review-artifact-versioning.test.mjs",
+      "Covers Phase 3.6 review-artifact version compatibility, unknown-field display, and display summaries."
     )
   ],
-  phase35Inventory: {
+  phase36Inventory: {
     reviewTraceCommands: [
       {
         command: "ardyn review-trace <left> <right>",
@@ -171,10 +188,41 @@ const report = {
       summary:
         "The report script is stdout-only local metadata; artifact file writes are only available through an explicit plan --review-artifact --output CLI request."
     },
+    reviewArtifactVersioning: {
+      schema: "ardyn.approval-review-artifact",
+      schemaVersion: "0.1.0",
+      version: "0.1.0",
+      compatibilityStates: ["compatible", "unsupported_major", "malformed"],
+      supportedMajor: {
+        schemaVersion: 0,
+        version: 0
+      },
+      compatibleSameMajorDisplayOnly: true,
+      fullArtifactValidationRequiresExactCurrentVersion: true,
+      unsupportedMajorRejected: true,
+      unknownFieldsPreservedForDisplay: true,
+      deterministicFixtureTimestamps: {
+        generatedAt: "2026-06-02T00:00:00.000Z",
+        approvalDecisionCreatedAt: "1970-01-01T00:00:00.000Z"
+      }
+    },
+    displayContract: {
+      locusRuntimeDependency: false,
+      displaySummaryHelper: "buildApprovalReviewArtifactDisplaySummary",
+      normalizationHelper: "normalizeApprovalReviewArtifactForDisplay",
+      versionValidationHelper: "validateApprovalReviewArtifactVersion",
+      compatibilityHelper: "classifyApprovalReviewArtifactCompatibility",
+      displaysPlannerTraces: true,
+      displaysReviewArtifacts: true,
+      displaysTraceDiffs: true,
+      approvalStatusDisplayRulesDocumented: true,
+      severityMappingDocumented: true,
+      unknownFieldsAreInertMetadata: true
+    },
     docs: [
       await localInventoryEntry(
         "README.md",
-        "Documents Phase 3.5 review-trace CLI usage, explicit review artifact output, and non-executing posture."
+        "Documents Phase 3.6 review-artifact versioning/display workflow, existing review-trace CLI usage, and non-executing posture."
       ),
       await localInventoryEntry(
         "apps/cli/README.md",
@@ -187,6 +235,14 @@ const report = {
       await localInventoryEntry(
         "docs/planner-trace-review-workflow.md",
         "Documents reviewer workflow for planner traces, approval artifacts, and trace-review fixtures."
+      ),
+      await localInventoryEntry(
+        "docs/locus-trace-display-contract.md",
+        "Documents Phase 3.6 Locus-facing display fields, severity mapping, and no runtime dependency."
+      ),
+      await localInventoryEntry(
+        "docs/review-artifact-versioning-policy.md",
+        "Documents Phase 3.6 review-artifact versioning and backward-compatible display policy."
       ),
       await localInventoryEntry(
         "docs/host-policy-preconditions.md",
@@ -215,8 +271,12 @@ const report = {
         "Covers Phase 3.5 trace-review fixtures."
       ),
       await localInventoryEntry(
+        "tests/core-phase3-6-review-artifact-versioning.test.mjs",
+        "Covers Phase 3.6 review-artifact versioning, unknown-field preservation, and display summaries."
+      ),
+      await localInventoryEntry(
         "tests/report-phase-status.test.mjs",
-        "Covers the Phase 3.5 local-summary-only status report output."
+        "Covers the Phase 3.6 local-summary-only status report output."
       ),
       await localInventoryEntry(
         "tests/host-policy-preconditions.test.mjs",

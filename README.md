@@ -22,9 +22,11 @@ Included now:
 - Minimal task loading, validation, deterministic ranked capability resolution, approval-gate data, approval-decision records, and planner traces.
 - Stable approval review artifacts for planning review and trace comparison.
 - Local `review-trace` comparison for JSON approval review artifacts.
+- Review-artifact version validation, display normalization, and display
+  summary helpers for Phase 3.6 viewer contracts.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
-- CLI commands for doctor, identity, capabilities, task planning, review-trace comparison, and dry-run serve planning.
+- CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
 - Schema, core, CLI, and Rust host tests.
 
 Not included yet:
@@ -73,6 +75,8 @@ node apps/cli/src/index.mjs capabilities --manifest examples/minimal-manifest/ar
 node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 node apps/cli/src/index.mjs plan --review-artifact --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 node apps/cli/src/index.mjs plan --review-artifact --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json --output approval-review-artifact.json
+npm exec ardyn -- review-artifact --file tests/fixtures/review-artifacts/phase3-6/current-compatible-v1.json --summary
+npm exec ardyn -- review-artifact --file tests/fixtures/review-artifacts/phase3-6/compatible-unknown-fields.json --explain
 node apps/cli/src/index.mjs review-trace --left tests/fixtures/trace-review/equal-left-approval-review-artifact.json --right tests/fixtures/trace-review/equal-right-approval-review-artifact.json
 node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json
 ```
@@ -91,15 +95,21 @@ artifacts and prints deterministic JSON. Default output reports the full diff;
 review-oriented reasons and details. `--summary` and `--explain` are mutually
 exclusive.
 
-The `plan`, `plan --trace`, `plan --summary`, `plan --explain`,
-`plan --review-artifact`, `review-trace`, and `serve --dry-run` commands are
-intentionally non-executing: they do not open network ports, execute tools,
-start agents, call APIs, install plugins, download torrents, enable code packs,
-run agent loops, connect adapters, call MCP/OpenClaw, serve Content Fabric
-catalogs, or spawn long-running services. Their output includes explicit false
-values for the safety flags that cover those behaviors.
+`review-artifact --file <file> --summary|--explain` reads one local JSON
+approval review artifact and prints deterministic display JSON. It validates a
+local file path only; URLs, `file:` URLs, and network-style paths are rejected.
+It performs no writes, does not call adapters, and does not connect to Locus.
 
-Phase 3.3-3.5 review examples:
+The `plan`, `plan --trace`, `plan --summary`, `plan --explain`,
+`plan --review-artifact`, `review-artifact`, `review-trace`, and
+`serve --dry-run` commands are intentionally non-executing: they do not open
+network ports, execute tools, start agents, call APIs, install plugins,
+download torrents, enable code packs, run agent loops, connect adapters, call
+MCP/OpenClaw, connect to Locus, serve Content Fabric catalogs, or spawn
+long-running services. Their output includes explicit false values for the
+safety flags that cover those behaviors.
+
+Phase 3.3-3.6 review examples:
 
 ```powershell
 node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/exact-match.json
@@ -112,6 +122,8 @@ node apps/cli/src/index.mjs plan --summary --manifest tests/fixtures/planning-ma
 node apps/cli/src/index.mjs plan --explain --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/exact-match.json
 node apps/cli/src/index.mjs plan --review-artifact --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json
 node apps/cli/src/index.mjs plan --review-artifact --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json --output approval-review-artifact.json
+npm exec ardyn -- review-artifact --file tests/fixtures/review-artifacts/phase3-6/current-compatible-v1.json --summary
+npm exec ardyn -- review-artifact --file tests/fixtures/review-artifacts/phase3-6/compatible-unknown-fields.json --explain
 node apps/cli/src/index.mjs review-trace --left tests/fixtures/trace-review/equal-left-approval-review-artifact.json --right tests/fixtures/trace-review/equal-right-approval-review-artifact.json
 node apps/cli/src/index.mjs review-trace --summary --left tests/fixtures/trace-review/equal-left-approval-review-artifact.json --right tests/fixtures/trace-review/selected-capability-changed-approval-review-artifact.json
 node apps/cli/src/index.mjs review-trace --explain --left tests/fixtures/trace-review/equal-left-approval-review-artifact.json --right tests/fixtures/trace-review/approval-status-changed-approval-review-artifact.json
@@ -135,22 +147,26 @@ Review outcomes:
 - Review artifact export: `plan --review-artifact --output <file>` writes only
   that artifact JSON to the requested file path and prints a compact export
   summary to stdout.
+- Review artifact display: `review-artifact --file <file> --summary|--explain`
+  reads one local JSON artifact, renders deterministic display review JSON, and
+  does not write files, connect adapters, or contact Locus.
 - Trace diff: `review-trace` compares local review artifacts. Reviewers should
   inspect selected capability changes, approval status changes, unresolved
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 3.4/3.5 status report command is:
+The Phase 3.6 status report command is:
 
 ```powershell
 npm run report:phase-status
 ```
 
 That report must assemble local planning evidence only: docs, fixtures, tests,
-review artifact APIs, trace-comparison or trace-review artifacts,
-host-policy precondition references, and safety posture. It must not run checks,
-start servers, spawn long-running processes, call adapters, execute tools, or
-imply active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
+review artifact APIs, versioning/display contract posture, trace-comparison or
+trace-review artifacts, host-policy precondition references, and safety posture.
+It must not run checks, start servers, spawn long-running processes, call
+adapters, execute tools, write files, use secrets, call external CI, or imply
+active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
 integration.
 
 Example dry-run check:
@@ -161,11 +177,12 @@ node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest
 
 The planned runtime includes the loaded manifest identity, normalized capabilities, TypeScript core runtime, Rust host boundary, and platform report.
 
-## Phase 3.3-3.5 Policy Review
+## Phase 3.3-3.6 Policy Review
 
 Phase 3.3 introduced documentation-only, non-executing planning review. Phase
 3.4 adds approval review artifacts and host-policy preconditions. Phase 3.5 adds
-local trace-diff review and output-path export ergonomics without changing that
+local trace-diff review and output-path export ergonomics. Phase 3.6 adds
+review-artifact versioning and display-summary contracts without changing that
 posture. Planner approval decisions are review records, not runtime grants.
 Capability selection uses deterministic tiers: exact capability id score `300`,
 tag score `200`, and permission scope score `100`. Exact outranks tag, tag
@@ -179,13 +196,14 @@ Locus viewer fields. The adapter boundary remains metadata-only:
 ARDYN does not call real MCP/OpenClaw adapters, connect to Locus or Multiverse,
 install plugins, download torrents, enable code packs, serve Content Fabric
 catalogs, spawn processes, run autonomous loops, or execute tools in Phase
-3.3-3.5.
+3.3-3.6.
 
-## Phase 3.4/3.5 Approval Review Artifacts
+## Phase 3.4-3.6 Approval Review Artifacts
 
 Phase 3.4 adds review artifacts and comparison helpers. Phase 3.5 exposes the
 local comparison and export flows through the CLI while keeping ARDYN
-non-executing. The core API surface is:
+non-executing. Phase 3.6 adds versioning and display-summary helpers for local
+viewer contracts without adding runtime behavior. The core API surface is:
 
 - `createApprovalReviewArtifact(planOrTrace, options)` creates the stable
   review artifact from a task plan or planner trace.
@@ -193,6 +211,14 @@ non-executing. The core API surface is:
   valid, `nonExecuting` is true, and every safety flag remains false.
 - `compareApprovalReviewArtifacts(left, right)` compares two artifacts, or a
   planner trace and an artifact, through the stable artifact shape.
+- `validateApprovalReviewArtifactVersion(artifact)` validates schema id and
+  semver compatibility metadata for display gating.
+- `classifyApprovalReviewArtifactCompatibility(artifact)` returns the Phase 3.6
+  compatibility state: `compatible`, `unsupported_major`, or `malformed`.
+- `normalizeApprovalReviewArtifactForDisplay(artifact)` normalizes known fields
+  and preserves unknown top-level fields as inert metadata.
+- `buildApprovalReviewArtifactDisplaySummary(artifact)` returns a compact local
+  display summary for Locus or other UI callers.
 
 Example CLI output:
 
@@ -225,16 +251,31 @@ Trace comparison and review fixtures live under
 manifest version, requested capabilities, selected capabilities, unresolved
 requests, approval decision status, and candidate rankings.
 
-Phase 3.5 CLI examples:
+Phase 3.5/3.6 CLI examples:
 
 ```powershell
 node apps/cli/src/index.mjs plan --review-artifact --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/approval-required.json --output approval-review-artifact.json
+npm exec ardyn -- review-artifact --file tests/fixtures/review-artifacts/phase3-6/current-compatible-v1.json --summary
+npm exec ardyn -- review-artifact --file tests/fixtures/review-artifacts/phase3-6/compatible-unknown-fields.json --explain
 node apps/cli/src/index.mjs review-trace --left tests/fixtures/trace-review/equal-left-approval-review-artifact.json --right tests/fixtures/trace-review/selected-capability-changed-approval-review-artifact.json
 ```
 
 The export command writes exactly one file: the requested output path. The
-trace-review command performs no writes at all. Both remain local, JSON-only,
-and non-executing.
+review-artifact and trace-review commands perform no writes at all. All three
+paths remain local, JSON-only, and non-executing. `review-artifact` validates a
+single local file path and does not connect to Locus.
+
+The Phase 3.6 CLI display workflow is a local review renderer over already
+produced approval review artifacts. It reports compatibility, validation,
+unknown-field handling, approval status, safety flags, and display guidance
+without interpreting unknown fields as commands or approvals.
+
+See `docs/review-artifact-versioning-policy.md` for schema id, `version`
+semantics, same-major compatibility behavior, major-version rejection,
+unknown-field preservation, and deterministic timestamp guidance. See
+`docs/locus-trace-display-contract.md` for Locus-facing display fields,
+approval status display rules, warning/severity mapping, and the rule that
+ARDYN does not depend on Locus at runtime.
 
 ## Phase 3.4 Host Policy Preconditions
 

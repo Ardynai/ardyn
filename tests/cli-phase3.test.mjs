@@ -6,6 +6,13 @@ import { join } from "node:path";
 import { promisify } from "node:util";
 import test from "node:test";
 
+import {
+  buildApprovalReviewArtifactDisplaySummary,
+  classifyApprovalReviewArtifactCompatibility,
+  normalizeApprovalReviewArtifactForDisplay,
+  validateApprovalReviewArtifactVersion
+} from "../packages/core/src/index.mjs";
+
 const execFileAsync = promisify(execFile);
 
 async function runCli(args) {
@@ -60,6 +67,16 @@ const approvalRequiredTaskPath = "tests/fixtures/tasks/approval-required.json";
 const traceLeftPath = "tests/fixtures/trace-comparison/left-approval-review-artifact.json";
 const traceRightPath = "tests/fixtures/trace-comparison/right-approval-review-artifact.json";
 const invalidReviewArtifactPath = "tests/fixtures/review-artifacts/invalid-execution-enabled.json";
+const phase36ReviewArtifactPath = "tests/fixtures/review-artifacts/phase3-6/current-compatible-v1.json";
+const phase36UnknownFieldsArtifactPath =
+  "tests/fixtures/review-artifacts/phase3-6/compatible-unknown-fields.json";
+const phase36UnsupportedMajorArtifactPath =
+  "tests/fixtures/review-artifacts/phase3-6/unsupported-major-v2.json";
+const phase36MalformedArtifactPath = "tests/fixtures/review-artifacts/phase3-6/malformed-missing-version.json";
+
+async function readJsonFixture(fixturePath) {
+  return JSON.parse(await readFile(fixturePath, "utf8"));
+}
 
 const leftTraceSummary = {
   schema: "ardyn.approval-review-artifact",
@@ -601,6 +618,95 @@ test("ardyn plan without --task fails without JSON output", async () => {
 
   assertCliFailure(failure, /Missing required --task path\./);
 });
+
+test("ardyn review-artifact --summary prints deterministic display metadata", async () => {
+  const artifact = await readJsonFixture(phase36ReviewArtifactPath);
+  const output = await runCli(["review-artifact", "--file", phase36ReviewArtifactPath, "--summary"]);
+
+  assert.deepEqual(output, {
+    command: "review-artifact",
+    output: "summary",
+    file: phase36ReviewArtifactPath,
+    compatibility: classifyApprovalReviewArtifactCompatibility(artifact),
+    displaySummary: buildApprovalReviewArtifactDisplaySummary(artifact)
+  });
+  assert.equal(output.compatibility, "compatible");
+  assert.equal(output.displaySummary.valid, true);
+  assert.equal(output.displaySummary.safety.nonExecuting, true);
+  assertAllFalse(output.displaySummary.safety.flags);
+});
+
+test("ardyn review-artifact --explain treats unknown fields as inert display data", async () => {
+  const artifact = await readJsonFixture(phase36UnknownFieldsArtifactPath);
+  const normalized = normalizeApprovalReviewArtifactForDisplay(artifact);
+  const output = await runCli(["review-artifact", "--file", phase36UnknownFieldsArtifactPath, "--explain"]);
+
+  assert.deepEqual(output, {
+    command: "review-artifact",
+    output: "explain",
+    file: phase36UnknownFieldsArtifactPath,
+    compatibility: classifyApprovalReviewArtifactCompatibility(artifact),
+    versionValidation: validateApprovalReviewArtifactVersion(artifact),
+    approval: normalized.approvalDecision,
+    safety: {
+      nonExecuting: normalized.nonExecuting,
+      allFlagsFalse: normalized.safetyFlagsAllFalse,
+      flags: normalized.safety
+    },
+    unknownFields: {
+      handling: "preserve_as_inert_display_data",
+      names: normalized.unknownFields,
+      values: normalized.unknown
+    },
+    displayGuidance: {
+      useSummaryForCompactDisplay: true,
+      preserveUnknownFieldsAsInertData: true,
+      doNotExecuteOrInterpretUnknownFields: true,
+      summary: buildApprovalReviewArtifactDisplaySummary(artifact)
+    },
+    normalized
+  });
+  assert.equal(output.compatibility, "compatible");
+  assert.deepEqual(output.unknownFields.names, ["displayHints", "futureReviewMetadata"]);
+  assert.equal(output.unknownFields.values.futureReviewMetadata.riskScore, 0);
+  assert.equal(output.approval.status, "not_required");
+  assert.equal(output.safety.nonExecuting, true);
+  assertAllFalse(output.safety.flags);
+});
+
+test("ardyn review-artifact fails cleanly for unsupported major artifacts", async () => {
+  const failure = await runCliFailure([
+    "review-artifact",
+    "--file",
+    phase36UnsupportedMajorArtifactPath,
+    "--summary"
+  ]);
+
+  assertCliFailure(failure, /review artifact compatibility unsupported_major:/);
+  assert.match(failure.stderr, /schemaVersion major 2 is unsupported; supported major is 0/);
+  assert.match(failure.stderr, /version major 2 is unsupported; supported major is 0/);
+});
+
+test("ardyn review-artifact fails cleanly for malformed artifacts", async () => {
+  const failure = await runCliFailure(["review-artifact", "--file", phase36MalformedArtifactPath, "--explain"]);
+
+  assertCliFailure(failure, /review artifact compatibility malformed:/);
+  assert.match(failure.stderr, /schema must be ardyn\.approval-review-artifact/);
+  assert.match(failure.stderr, /version must be a semantic version string/);
+});
+
+for (const filePath of [
+  "https://example.test/review-artifact.json",
+  "file:///C:/tmp/review-artifact.json",
+  "\\\\server\\share\\review-artifact.json",
+  "//server/share/review-artifact.json"
+]) {
+  test(`ardyn review-artifact rejects non-local file path ${filePath}`, async () => {
+    const failure = await runCliFailure(["review-artifact", "--file", filePath, "--summary"]);
+
+    assertCliFailure(failure, /--file must be a local JSON file path\./);
+  });
+}
 
 test("ardyn review-trace reports equal approval review artifacts", async () => {
   const output = await runCli([

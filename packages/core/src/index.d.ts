@@ -49,6 +49,10 @@ export type TaskMode = "plan" | "dry-run";
 export type ApprovalStatus = "approval-required" | "approval-denied" | "approval-granted";
 export type ApprovalDecisionStatus = "required" | "denied" | "granted" | "not_required";
 export type CapabilityMatchType = "exact" | "tag" | "scope" | "no-match";
+export type ApprovalReviewArtifactCompatibility =
+  | "compatible"
+  | "unsupported_major"
+  | "malformed";
 
 export interface ArdynPermission {
   scope: PermissionScope;
@@ -327,6 +331,108 @@ export interface ApprovalReviewArtifactOptions {
   generatedAt?: string;
 }
 
+export interface ApprovalReviewArtifactVersionValidation {
+  valid: boolean;
+  compatibility: ApprovalReviewArtifactCompatibility;
+  errors: string[];
+}
+
+export interface ApprovalReviewArtifactDisplayCandidate {
+  rank: unknown;
+  capabilityId: string | null;
+  matchType: string | null;
+  score: unknown;
+  scope: unknown;
+  tag: unknown;
+  reason: string | null;
+}
+
+export interface ApprovalReviewArtifactDisplayNormalization {
+  compatibility: ApprovalReviewArtifactCompatibility;
+  valid: boolean;
+  validationErrors: unknown[];
+  schema: string | null;
+  schemaVersion: string | null;
+  version: string | null;
+  generatedAt: string | null;
+  nonExecuting: boolean | null;
+  taskId: string | null;
+  manifest: {
+    id: string | null;
+    version: string | null;
+    schemaVersion: string | null;
+  };
+  requestedCapabilityIds: string[];
+  candidateRankings: Array<{
+    request: string | null;
+    candidates: ApprovalReviewArtifactDisplayCandidate[];
+  }>;
+  selectedCapabilities: string[];
+  unresolvedRequests: string[];
+  approvalDecision: {
+    id: string | null;
+    taskId: string | null;
+    requestedCapabilityIds: string[];
+    status: string | null;
+    reason: string | null;
+    createdAt: string | null;
+    nonExecuting: boolean | null;
+  };
+  safety: Record<keyof NoExecutionSafetyFlags, unknown>;
+  safetyFlagsAllFalse: boolean;
+  unknownFields: string[];
+  unknown: Record<string, unknown>;
+}
+
+export interface ApprovalReviewArtifactDisplaySummary {
+  compatibility: ApprovalReviewArtifactCompatibility;
+  valid: boolean;
+  schema: string | null;
+  schemaVersion: string | null;
+  version: string | null;
+  generatedAt: string | null;
+  taskId: string | null;
+  manifest: {
+    id: string | null;
+    version: string | null;
+    schemaVersion: string | null;
+  };
+  approval: {
+    status: string | null;
+    reason: string | null;
+    createdAt: string | null;
+    nonExecuting: boolean | null;
+  };
+  counts: {
+    requestedCapabilities: number;
+    selectedCapabilities: number;
+    unresolvedRequests: number;
+    candidateRankings: number;
+    candidates: number;
+    unknownFields: number;
+  };
+  requestedCapabilityIds: string[];
+  selectedCapabilities: string[];
+  unresolvedRequests: string[];
+  candidateRankings: Array<{
+    request: string | null;
+    candidateCount: number;
+    topCandidate: {
+      rank: unknown;
+      capabilityId: string | null;
+      matchType: string | null;
+      score: unknown;
+    } | null;
+  }>;
+  unknownFields: string[];
+  safety: {
+    nonExecuting: boolean | null;
+    allFlagsFalse: boolean;
+    flags: Record<keyof NoExecutionSafetyFlags, unknown>;
+  };
+  validationErrors: unknown[];
+}
+
 export type ApprovalReviewArtifactDifferenceType =
   | "task-mismatch"
   | "manifest-mismatch"
@@ -364,6 +470,18 @@ export function loadTask(taskPath: string): Promise<ArdynTask>;
 export function validateManifest(manifest: unknown): ValidationResult;
 export function validateTask(task: unknown): ValidationResult;
 export function validateApprovalReviewArtifact(artifact: unknown): ValidationResult;
+export function validateApprovalReviewArtifactVersion(
+  artifact: unknown
+): ApprovalReviewArtifactVersionValidation;
+export function classifyApprovalReviewArtifactCompatibility(
+  artifact: unknown
+): ApprovalReviewArtifactCompatibility;
+export function normalizeApprovalReviewArtifactForDisplay(
+  artifact: unknown
+): ApprovalReviewArtifactDisplayNormalization;
+export function buildApprovalReviewArtifactDisplaySummary(
+  artifact: unknown
+): ApprovalReviewArtifactDisplaySummary;
 export function createNoExecutionSafetyFlags(): NoExecutionSafetyFlags;
 export function supportedTaskCapabilityScopes(): PermissionScope[];
 export function isSupportedPermissionScope(value: string): value is PermissionScope;

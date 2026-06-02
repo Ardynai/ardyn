@@ -32,13 +32,13 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 3.5 local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 3.6 local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "3.5",
-    name: "Review-trace CLI, trace-review fixtures, and export ergonomics",
+    id: "3.6",
+    name: "Review-artifact versioning, display normalization, and Locus display contract",
     executionPosture: "non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
@@ -95,12 +95,12 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.5 status report.",
+      purpose: "Render this deterministic local Phase 3.6 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.5 status report.",
+      purpose: "Run focused tests for this local Phase 3.6 status report.",
       ranByReport: false
     },
     {
@@ -111,6 +111,11 @@ test("report lists configured checks and verification commands without running t
     {
       command: "node --test tests/core-phase3-5-trace-fixtures.test.mjs",
       purpose: "Run focused Phase 3.5 trace-review fixture tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/core-phase3-6-review-artifact-versioning.test.mjs",
+      purpose: "Run focused Phase 3.6 review-artifact versioning and display tests.",
       ranByReport: false
     },
     {
@@ -125,10 +130,10 @@ test("report lists configured checks and verification commands without running t
   }
 });
 
-test("report inventories Phase 3.5 review-trace commands and explicit-only output behavior", async () => {
+test("report inventories review-trace commands and explicit-only output behavior", async () => {
   const report = await runReport();
 
-  assert.deepEqual(report.phase35Inventory.reviewTraceCommands, [
+  assert.deepEqual(report.phase36Inventory.reviewTraceCommands, [
     {
       command: "ardyn review-trace <left> <right>",
       mode: "default",
@@ -149,7 +154,7 @@ test("report inventories Phase 3.5 review-trace commands and explicit-only outpu
     }
   ]);
 
-  assert.deepEqual(report.phase35Inventory.exportErgonomics, {
+  assert.deepEqual(report.phase36Inventory.exportErgonomics, {
     reportWritesFiles: false,
     reportOutputFileSupport: false,
     reviewTraceWritesFiles: false,
@@ -160,10 +165,43 @@ test("report inventories Phase 3.5 review-trace commands and explicit-only outpu
   });
 });
 
-test("report inventories Phase 3.5 trace-review fixtures, docs, and tests", async () => {
+test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
-  assert.deepEqual(report.phase35Inventory.traceReviewFixtures, [
+  assert.deepEqual(report.phase36Inventory.reviewArtifactVersioning, {
+    schema: "ardyn.approval-review-artifact",
+    schemaVersion: "0.1.0",
+    version: "0.1.0",
+    compatibilityStates: ["compatible", "unsupported_major", "malformed"],
+    supportedMajor: {
+      schemaVersion: 0,
+      version: 0
+    },
+    compatibleSameMajorDisplayOnly: true,
+    fullArtifactValidationRequiresExactCurrentVersion: true,
+    unsupportedMajorRejected: true,
+    unknownFieldsPreservedForDisplay: true,
+    deterministicFixtureTimestamps: {
+      generatedAt: "2026-06-02T00:00:00.000Z",
+      approvalDecisionCreatedAt: "1970-01-01T00:00:00.000Z"
+    }
+  });
+
+  assert.deepEqual(report.phase36Inventory.displayContract, {
+    locusRuntimeDependency: false,
+    displaySummaryHelper: "buildApprovalReviewArtifactDisplaySummary",
+    normalizationHelper: "normalizeApprovalReviewArtifactForDisplay",
+    versionValidationHelper: "validateApprovalReviewArtifactVersion",
+    compatibilityHelper: "classifyApprovalReviewArtifactCompatibility",
+    displaysPlannerTraces: true,
+    displaysReviewArtifacts: true,
+    displaysTraceDiffs: true,
+    approvalStatusDisplayRulesDocumented: true,
+    severityMappingDocumented: true,
+    unknownFieldsAreInertMetadata: true
+  });
+
+  assert.deepEqual(report.phase36Inventory.traceReviewFixtures, [
     {
       path: "tests/fixtures/trace-review/equal-left-approval-review-artifact.json",
       status: "present"
@@ -191,24 +229,27 @@ test("report inventories Phase 3.5 trace-review fixtures, docs, and tests", asyn
   ]);
 
   assert.deepEqual(
-    report.phase35Inventory.docs.map(({ path, status }) => [path, status]),
+    report.phase36Inventory.docs.map(({ path, status }) => [path, status]),
     [
       ["README.md", "present"],
       ["apps/cli/README.md", "present"],
       ["docs/planner-policy-review.md", "present"],
       ["docs/planner-trace-review-workflow.md", "present"],
+      ["docs/locus-trace-display-contract.md", "present"],
+      ["docs/review-artifact-versioning-policy.md", "present"],
       ["docs/host-policy-preconditions.md", "present"],
       ["packages/core/README.md", "present"]
     ]
   );
 
   assert.deepEqual(
-    report.phase35Inventory.tests.map(({ path, status }) => [path, status]),
+    report.phase36Inventory.tests.map(({ path, status }) => [path, status]),
     [
       ["tests/cli-phase3.test.mjs", "present"],
       ["tests/core-phase3-4-review-artifacts.test.mjs", "present"],
       ["tests/core-phase3-4-trace-comparison.test.mjs", "present"],
       ["tests/core-phase3-5-trace-fixtures.test.mjs", "present"],
+      ["tests/core-phase3-6-review-artifact-versioning.test.mjs", "present"],
       ["tests/report-phase-status.test.mjs", "present"],
       ["tests/host-policy-preconditions.test.mjs", "present"]
     ]
@@ -241,6 +282,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   };
 
   assert.deepEqual(report.safetyPosture.flags, falseFlags);
+  assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
+  assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });
 
 test("report script source does not import forbidden process, network, write, or runtime modules", async () => {

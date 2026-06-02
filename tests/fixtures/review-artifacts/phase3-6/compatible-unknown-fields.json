@@ -1,0 +1,88 @@
+{
+  "schema": "ardyn.approval-review-artifact",
+  "schemaVersion": "0.1.0",
+  "version": "0.1.0",
+  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "nonExecuting": true,
+  "taskId": "task.phase3-6.unknown-fields",
+  "manifest": {
+    "id": "planner-hardening",
+    "version": "0.1.0",
+    "schemaVersion": "0.1.0"
+  },
+  "requestedCapabilityIds": [
+    "network"
+  ],
+  "candidateRankings": [
+    {
+      "request": "network",
+      "candidates": [
+        {
+          "rank": 1,
+          "capabilityId": "network",
+          "matchType": "exact",
+          "score": 300,
+          "scope": null,
+          "tag": null,
+          "reason": "Matched exact capability id."
+        },
+        {
+          "rank": 2,
+          "capabilityId": "alpha.scope",
+          "matchType": "scope",
+          "score": 100,
+          "scope": "network",
+          "tag": null,
+          "reason": "Matched permission scope."
+        }
+      ]
+    }
+  ],
+  "selectedCapabilities": [
+    "network"
+  ],
+  "unresolvedRequests": [],
+  "approvalDecision": {
+    "id": "approval.phase3-6.unknown-fields",
+    "taskId": "task.phase3-6.unknown-fields",
+    "requestedCapabilityIds": [
+      "network"
+    ],
+    "status": "not_required",
+    "reason": "Approval is not required for this non-executing plan.",
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "nonExecuting": true
+  },
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  },
+  "displayHints": {
+    "priority": "review",
+    "columns": [
+      "taskId",
+      "approvalDecision.status"
+    ]
+  },
+  "futureReviewMetadata": {
+    "riskScore": 0,
+    "labels": [
+      "phase3-6",
+      "locus-display"
+    ],
+    "nested": {
+      "z": 2,
+      "a": 1
+    }
+  }
+}

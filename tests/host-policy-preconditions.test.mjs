@@ -73,7 +73,7 @@ test("phase status report inventories host-policy docs and tests as local eviden
   assert.equal(report.safetyPosture.flags.networkCalls, false);
 
   assert.deepEqual(
-    report.phase35Inventory.docs.find(
+    report.phase36Inventory.docs.find(
       (entry) => entry.path === "docs/host-policy-preconditions.md"
     ),
     {
@@ -83,7 +83,7 @@ test("phase status report inventories host-policy docs and tests as local eviden
     }
   );
   assert.deepEqual(
-    report.phase35Inventory.tests.find(
+    report.phase36Inventory.tests.find(
       (entry) => entry.path === "tests/host-policy-preconditions.test.mjs"
     ),
     {

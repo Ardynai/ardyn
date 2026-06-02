@@ -2,12 +2,16 @@
 import { readFile, writeFile } from "node:fs/promises";
 
 import {
+  buildApprovalReviewArtifactDisplaySummary,
+  classifyApprovalReviewArtifactCompatibility,
   compareApprovalReviewArtifacts,
   createApprovalReviewArtifact,
   createTaskPlan,
   createDoctorReport,
   loadManifest,
   loadTask,
+  normalizeApprovalReviewArtifactForDisplay,
+  validateApprovalReviewArtifactVersion,
   createStaticHandshakeFromPath,
   createStaticIdentity
 } from "@ardyn/core";
@@ -36,6 +40,7 @@ function readOption(args, name) {
 
 const PLAN_OUTPUT_FLAGS = ["--trace", "--summary", "--explain", "--review-artifact"];
 const REVIEW_TRACE_OUTPUT_FLAGS = ["--summary", "--explain"];
+const REVIEW_ARTIFACT_OUTPUT_FLAGS = ["--summary", "--explain"];
 
 function readPlanOutputMode(args) {
   const selectedFlags = PLAN_OUTPUT_FLAGS.filter((flag) => args.includes(flag));
@@ -62,6 +67,26 @@ function readReviewTraceOutputMode(args) {
 
   return {
     mode: selectedFlags[0]?.slice(2) ?? "default"
+  };
+}
+
+function readReviewArtifactOutputMode(args) {
+  const selectedFlags = REVIEW_ARTIFACT_OUTPUT_FLAGS.filter((flag) => args.includes(flag));
+
+  if (selectedFlags.length > 1) {
+    return {
+      error: `Review artifact output flags are mutually exclusive: ${selectedFlags.join(", ")}.`
+    };
+  }
+
+  if (selectedFlags.length === 0) {
+    return {
+      error: "Review artifact output flag is required: --summary or --explain."
+    };
+  }
+
+  return {
+    mode: selectedFlags[0].slice(2)
   };
 }
 
@@ -338,6 +363,70 @@ function createReviewTraceOutput(left, right, comparison, mode) {
   return createReviewTraceDefault(left, right, comparison);
 }
 
+function assertCompatibleReviewArtifact(artifact) {
+  const versionValidation = validateApprovalReviewArtifactVersion(artifact);
+
+  if (!versionValidation.valid) {
+    throw new Error(
+      `review artifact compatibility ${versionValidation.compatibility}: ${versionValidation.errors.join("; ")}`
+    );
+  }
+
+  return versionValidation;
+}
+
+function createReviewArtifactSafetyDisplay(normalized) {
+  return {
+    nonExecuting: normalized.nonExecuting,
+    allFlagsFalse: normalized.safetyFlagsAllFalse,
+    flags: normalized.safety
+  };
+}
+
+function createReviewArtifactSummary(filePath, artifact) {
+  return {
+    command: "review-artifact",
+    output: "summary",
+    file: filePath,
+    compatibility: classifyApprovalReviewArtifactCompatibility(artifact),
+    displaySummary: buildApprovalReviewArtifactDisplaySummary(artifact)
+  };
+}
+
+function createReviewArtifactExplain(filePath, artifact, versionValidation) {
+  const normalized = normalizeApprovalReviewArtifactForDisplay(artifact);
+
+  return {
+    command: "review-artifact",
+    output: "explain",
+    file: filePath,
+    compatibility: classifyApprovalReviewArtifactCompatibility(artifact),
+    versionValidation,
+    approval: normalized.approvalDecision,
+    safety: createReviewArtifactSafetyDisplay(normalized),
+    unknownFields: {
+      handling: "preserve_as_inert_display_data",
+      names: normalized.unknownFields,
+      values: normalized.unknown
+    },
+    displayGuidance: {
+      useSummaryForCompactDisplay: true,
+      preserveUnknownFieldsAsInertData: true,
+      doNotExecuteOrInterpretUnknownFields: true,
+      summary: buildApprovalReviewArtifactDisplaySummary(artifact)
+    },
+    normalized
+  };
+}
+
+function createReviewArtifactOutput(filePath, artifact, mode, versionValidation) {
+  if (mode === "summary") {
+    return createReviewArtifactSummary(filePath, artifact);
+  }
+
+  return createReviewArtifactExplain(filePath, artifact, versionValidation);
+}
+
 function assertLocalFilePath(filePath, label) {
   if (/^[a-z][a-z\d+.-]*:\/\//i.test(filePath) || /^file:/i.test(filePath)) {
     throw new Error(`${label} must be a local file path.`);
@@ -489,6 +578,26 @@ async function run(argv) {
     return;
   }
 
+  if (command === "review-artifact") {
+    const outputMode = readReviewArtifactOutputMode(args);
+    if (outputMode.error) {
+      fail(outputMode.error);
+      return;
+    }
+
+    const filePath = readRequiredPathOption(args, "--file");
+    if (!filePath) {
+      fail("Missing required --file path.");
+      return;
+    }
+
+    const artifact = await readLocalJsonFile(filePath, "--file");
+    const versionValidation = assertCompatibleReviewArtifact(artifact);
+
+    printJson(createReviewArtifactOutput(filePath, artifact, outputMode.mode, versionValidation));
+    return;
+  }
+
   if (command === "serve") {
     const dryRun = args.includes("--dry-run");
     const manifestPath = readOption(args, "--manifest");
@@ -521,7 +630,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-trace [--summary|--explain] --left <file> --right <file>|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|serve --dry-run --manifest <path>>"
   );
 }
 
