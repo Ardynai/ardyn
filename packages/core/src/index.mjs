@@ -7,6 +7,7 @@ import Ajv2020 from "ajv/dist/2020.js";
 
 export const ARDYN_SCHEMA_VERSION = "0.1.0";
 export const ARDYN_PHASE = "phase-3-task-planning";
+export const ARDYN_STDIO_DRY_RUN_PHASE = "phase-4.0a-stdio-event-dry-run";
 export const APPROVAL_REVIEW_ARTIFACT_SCHEMA = "ardyn.approval-review-artifact";
 export const APPROVAL_REVIEW_ARTIFACT_VERSION = "0.1.0";
 export const SCHEMA_MIGRATION_METADATA_SCHEMA = "ardyn.schema-migration-metadata";
@@ -96,6 +97,18 @@ const SESSION_EVENT_TYPES = Object.freeze([
   "session.error"
 ]);
 const SESSION_EVENT_TYPE_SET = new Set(SESSION_EVENT_TYPES);
+const SESSION_EVENT_KNOWN_FIELDS = Object.freeze([
+  "schemaVersion",
+  "eventId",
+  "sessionId",
+  "sequence",
+  "createdAt",
+  "sourceHarness",
+  "eventType",
+  "payload",
+  "nonExecuting",
+  "safety"
+]);
 const SESSION_TRANSCRIPT_KNOWN_FIELDS = Object.freeze([
   "schema",
   "schemaVersion",
@@ -222,12 +235,85 @@ function requireTaskValidator() {
   return taskValidator;
 }
 
-function resolveLocalPath(localPath) {
+function localPathPolicyFailure(filePath, label, expectedKind) {
+  const expected = expectedKind === "json" ? "local JSON file path" : "local file path";
+
+  if (typeof filePath !== "string" || filePath.length === 0) {
+    return `${label} must be a ${expected}.`;
+  }
+
+  if (filePath === "-") {
+    return `${label} must be a ${expected}.`;
+  }
+
+  if (/[\0\r\n]/.test(filePath)) {
+    return `${label} must be a ${expected}.`;
+  }
+
+  if (/^file:/i.test(filePath)) {
+    return `${label} must be a ${expected}.`;
+  }
+
+  if (/^[\\/]{2}/.test(filePath)) {
+    return `${label} must be a ${expected}.`;
+  }
+
+  if (/^[A-Za-z]:(?![\\/])/.test(filePath)) {
+    return `${label} must be a ${expected}.`;
+  }
+
+  if (/^[A-Za-z][A-Za-z\d+.-]*:/.test(filePath) && !/^[A-Za-z]:[\\/]/.test(filePath)) {
+    return `${label} must be a ${expected}.`;
+  }
+
+  if (expectedKind === "json" && !filePath.toLowerCase().endsWith(".json")) {
+    return `${label} must point to a .json file.`;
+  }
+
+  return null;
+}
+
+export function assertLocalFilePath(filePath, label = "path") {
+  const failure = localPathPolicyFailure(filePath, label, "file");
+
+  if (failure) {
+    throw new Error(failure);
+  }
+}
+
+export function assertLocalJsonFilePath(filePath, label = "path") {
+  const failure = localPathPolicyFailure(filePath, label, "json");
+
+  if (failure) {
+    throw new Error(failure);
+  }
+}
+
+function resolveLocalJsonPath(localPath, label) {
+  assertLocalJsonFilePath(localPath, label);
+
   return isAbsolute(localPath) ? localPath : resolve(process.cwd(), localPath);
 }
 
 function resolveManifestPath(manifestPath) {
-  return resolveLocalPath(manifestPath);
+  return resolveLocalJsonPath(manifestPath, "manifest");
+}
+
+export async function readLocalJsonFile(filePath, label = "path") {
+  assertLocalJsonFilePath(filePath, label);
+
+  let text;
+  try {
+    text = await readFile(filePath, "utf8");
+  } catch (error) {
+    throw new Error(`${label} could not be read: ${error instanceof Error ? error.message : String(error)}`);
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    throw new Error(`${label} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
+  }
 }
 
 function formatValidationErrors(errors) {
@@ -245,7 +331,7 @@ export async function loadManifest(manifestPath) {
   }
 
   const absolutePath = resolveManifestPath(manifestPath);
-  const manifest = JSON.parse(await readFile(absolutePath, "utf8"));
+  const manifest = await readLocalJsonFile(absolutePath, "manifest");
   const result = validateManifest(manifest);
 
   if (!result.valid) {
@@ -260,8 +346,8 @@ export async function loadTask(taskPath) {
     throw new Error("A task path is required.");
   }
 
-  const absolutePath = resolveLocalPath(taskPath);
-  const task = JSON.parse(await readFile(absolutePath, "utf8"));
+  const absolutePath = resolveLocalJsonPath(taskPath, "task");
+  const task = await readLocalJsonFile(absolutePath, "task");
   const result = validateTask(task);
 
   if (!result.valid) {
@@ -1741,6 +1827,8 @@ function validateSessionEventAtPath(event, path) {
     };
   }
 
+  pushNoAdditionalProperties(errors, event, path, SESSION_EVENT_KNOWN_FIELDS);
+
   if (event.schemaVersion !== ARDYN_SCHEMA_VERSION) {
     errors.push(`${path}.schemaVersion must be ${ARDYN_SCHEMA_VERSION}`);
   }
@@ -2740,6 +2828,202 @@ export function createTaskPlan(manifest, task, options = {}) {
     plannerTrace,
     safety
   };
+}
+
+function stdioDryRunSessionId(manifest, task) {
+  const hash = createHash("sha256")
+    .update(
+      stableJsonStringify({
+        phase: ARDYN_STDIO_DRY_RUN_PHASE,
+        manifest: {
+          name: manifest.name,
+          version: manifest.version,
+          schemaVersion: manifest.schemaVersion
+        },
+        task: normalizeTask(task)
+      })
+    )
+    .digest("hex");
+
+  return `session.phase4-0a.${hash.slice(0, 16)}`;
+}
+
+function stdioDryRunCreatedAt(sequence) {
+  return `1970-01-01T00:00:${String(sequence).padStart(2, "0")}Z`;
+}
+
+function stdioDryRunEventId(sessionId, eventType, sequence, payload) {
+  const slug = eventType.replaceAll(".", "-");
+  const hash = createHash("sha256")
+    .update(
+      stableJsonStringify({
+        sessionId,
+        eventType,
+        sequence,
+        payload
+      })
+    )
+    .digest("hex");
+
+  return `evt.phase4-0a.${String(sequence).padStart(3, "0")}.${slug}.${hash.slice(0, 12)}`;
+}
+
+function createStdioDryRunEvent(sessionId, sequence, eventType, payload) {
+  return {
+    schemaVersion: ARDYN_SCHEMA_VERSION,
+    eventId: stdioDryRunEventId(sessionId, eventType, sequence, payload),
+    sessionId,
+    sequence,
+    createdAt: stdioDryRunCreatedAt(sequence),
+    sourceHarness: "ardyn",
+    eventType,
+    payload,
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+function stdioDryRunOutcome(plan) {
+  if (plan.unresolvedRequests.length > 0) {
+    return {
+      outcome: "no_match",
+      summary:
+        "Dry-run planning completed with unresolved capability requests; execution remains disabled."
+    };
+  }
+
+  if (plan.approvalDecision.status === APPROVAL_DECISION_REQUIRED) {
+    return {
+      outcome: "approval_pending",
+      summary: "Dry-run planning completed with approval pending; execution remains disabled."
+    };
+  }
+
+  if (plan.approvalDecision.status === APPROVAL_DECISION_DENIED) {
+    return {
+      outcome: "cancelled",
+      summary: "Dry-run planning recorded a denial; execution remains disabled."
+    };
+  }
+
+  return {
+    outcome: "success",
+    summary: "Dry-run session event emission completed without execution."
+  };
+}
+
+function assertSessionEventValidForEmission(event) {
+  const validation = validateSessionEventAtPath(event, "event");
+
+  if (!validation.valid) {
+    throw new Error(`session event ${event?.sequence ?? "unknown"} is invalid: ${validation.errors.join("; ")}`);
+  }
+}
+
+export function createStdioDryRunSessionEvents(manifest, task, options = {}) {
+  const plan = createTaskPlan(manifest, task, options);
+  const sessionId = options.sessionId ?? stdioDryRunSessionId(manifest, task);
+  const descriptors = [
+    {
+      eventType: "session.started",
+      payload: {
+        phase: ARDYN_STDIO_DRY_RUN_PHASE,
+        mode: "dry-run",
+        manifestName: manifest.name
+      }
+    },
+    {
+      eventType: "session.heartbeat",
+      payload: {
+        status: "planning",
+        activeTaskId: task.id,
+        note: "Dry-run emission only; no runtime loop is active."
+      }
+    },
+    {
+      eventType: "session.capabilities",
+      payload: {
+        capabilityIds: normalizeCapabilities(manifest).map((capability) => capability.id)
+      }
+    },
+    {
+      eventType: "task.planned",
+      payload: {
+        taskId: task.id,
+        requestedCapabilityIds: [...plan.requestedCapabilities],
+        selectedCapabilityIds: plan.selectedCapabilities.map((capability) => capability.id),
+        unresolvedRequests: [...plan.unresolvedRequests]
+      }
+    }
+  ];
+
+  if (
+    plan.approval.required &&
+    Array.isArray(plan.approvalDecision.requestedCapabilityIds) &&
+    plan.approvalDecision.requestedCapabilityIds.length > 0
+  ) {
+    descriptors.push({
+      eventType: "approval.requested",
+      payload: {
+        approvalId: plan.approvalDecision.id,
+        taskId: task.id,
+        requestedCapabilityIds: [...plan.approvalDecision.requestedCapabilityIds],
+        reason: plan.approvalDecision.reason
+      }
+    });
+  }
+
+  descriptors.push(
+    {
+      eventType: "approval.recorded",
+      payload: {
+        approvalId: plan.approvalDecision.id,
+        taskId: task.id,
+        status: plan.approvalDecision.status,
+        reason: plan.approvalDecision.reason,
+        nonExecuting: true
+      }
+    },
+    {
+      eventType: "session.completed",
+      payload: stdioDryRunOutcome(plan)
+    }
+  );
+
+  const events = descriptors.map((descriptor, index) =>
+    createStdioDryRunEvent(sessionId, index + 1, descriptor.eventType, descriptor.payload)
+  );
+
+  for (const event of events) {
+    assertSessionEventValidForEmission(event);
+  }
+
+  return events;
+}
+
+export function formatSessionEventsJsonl(events) {
+  if (!Array.isArray(events) || events.length === 0) {
+    throw new Error("events must contain at least one session event.");
+  }
+
+  const lines = [];
+
+  for (let index = 0; index < events.length; index += 1) {
+    if (!Object.prototype.hasOwnProperty.call(events, index)) {
+      throw new Error(`session event ${index + 1} is missing.`);
+    }
+
+    const event = events[index];
+    const validation = validateSessionEventAtPath(event, "event");
+
+    if (!validation.valid) {
+      throw new Error(`session event ${index + 1} is invalid: ${validation.errors.join("; ")}`);
+    }
+
+    lines.push(JSON.stringify(event));
+  }
+
+  return `${lines.join("\n")}\n`;
 }
 
 export function createHostInfo() {

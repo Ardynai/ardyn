@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-import { readFile, writeFile } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 
 import {
+  assertLocalFilePath,
   buildMigrationAttestationDisplaySummary,
   buildApprovalReviewArtifactDisplaySummary,
   buildSessionTranscriptDisplaySummary,
@@ -14,13 +15,16 @@ import {
   classifySessionTranscript,
   compareApprovalReviewArtifacts,
   createApprovalReviewArtifact,
+  createStdioDryRunSessionEvents,
   createTaskPlan,
   createDoctorReport,
   explainSessionTranscript,
   explainSessionTranscriptCompatibility,
+  formatSessionEventsJsonl,
   loadManifest,
   loadTask,
   normalizeApprovalReviewArtifactForDisplay,
+  readLocalJsonFile,
   validateSessionTranscript,
   validateApprovalReviewArtifactVersion,
   createStaticHandshakeFromPath,
@@ -568,45 +572,6 @@ function createSessionTranscriptOutput(filePath, transcript, mode) {
   return createSessionTranscriptDefault(filePath, transcript);
 }
 
-function assertLocalFilePath(filePath, label) {
-  if (/^[a-z][a-z\d+.-]*:\/\//i.test(filePath) || /^file:/i.test(filePath)) {
-    throw new Error(`${label} must be a local file path.`);
-  }
-
-  if (/^[\\/]{2}/.test(filePath)) {
-    throw new Error(`${label} must be a local file path.`);
-  }
-}
-
-function assertLocalJsonPath(filePath, label) {
-  try {
-    assertLocalFilePath(filePath, label);
-  } catch {
-    throw new Error(`${label} must be a local JSON file path.`);
-  }
-
-  if (!filePath.toLowerCase().endsWith(".json")) {
-    throw new Error(`${label} must point to a .json file.`);
-  }
-}
-
-async function readLocalJsonFile(filePath, label) {
-  assertLocalJsonPath(filePath, label);
-
-  let text;
-  try {
-    text = await readFile(filePath, "utf8");
-  } catch (error) {
-    throw new Error(`${label} could not be read: ${error instanceof Error ? error.message : String(error)}`);
-  }
-
-  try {
-    return JSON.parse(text);
-  } catch (error) {
-    throw new Error(`${label} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
-  }
-}
-
 async function run(argv) {
   const [command, ...args] = argv;
 
@@ -760,6 +725,34 @@ async function run(argv) {
     return;
   }
 
+  if (command === "emit-session-events") {
+    const dryRun = args.includes("--dry-run");
+    const manifestPath = readRequiredPathOption(args, "--manifest");
+    const taskPath = readRequiredPathOption(args, "--task");
+
+    if (!dryRun) {
+      fail("Only emit-session-events --dry-run is available in Phase 4.0A.");
+      return;
+    }
+
+    if (!manifestPath) {
+      fail("Missing required --manifest path.");
+      return;
+    }
+
+    if (!taskPath) {
+      fail("Missing required --task path.");
+      return;
+    }
+
+    const manifest = await loadManifest(manifestPath);
+    const task = await loadTask(taskPath);
+    const events = createStdioDryRunSessionEvents(manifest, task, { manifestPath, taskPath });
+
+    process.stdout.write(formatSessionEventsJsonl(events));
+    return;
+  }
+
   if (command === "serve") {
     const dryRun = args.includes("--dry-run");
     const manifestPath = readOption(args, "--manifest");
@@ -792,7 +785,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|emit-session-events --dry-run --manifest <path> --task <path>|serve --dry-run --manifest <path>>"
   );
 }
 

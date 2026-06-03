@@ -1,2 +1,17 @@
+.gitattributes text eol=lf
+*.cjs text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.mjs text eol=lf
+*.rs text eol=lf
+*.schema.json text eol=lf
+*.toml text eol=lf
+*.ts text eol=lf
+Cargo.lock text eol=lf
+package-lock.json text eol=lf
+examples/** text eol=lf
+schemas/** text eol=lf
+tests/fixtures/** text eol=lf
+packages/fabric/fixtures/** text eol=lf
 packages/fabric/fixtures/locus-cross-impl-v1/** -text
-

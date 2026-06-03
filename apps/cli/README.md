@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 3 exposes `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`, `review-trace`, and dry-run `serve` commands. No command executes tools, opens network listeners, installs plugins, downloads torrents, enables code packs, or starts agent loops.
+Phase 4.0A exposes `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`, `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run `emit-session-events` commands. No command executes tools, opens network listeners, installs plugins, downloads torrents, enables code packs, or starts agent loops.
 
 ```powershell
 node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
@@ -23,6 +23,7 @@ node apps/cli/src/index.mjs validate-session-transcript --file examples/session-
 node apps/cli/src/index.mjs validate-session-transcript --file tests/fixtures/session-transcripts/phase3-10/older-compatible-upgrade-available.json --schema-status
 node apps/cli/src/index.mjs validate-session-transcript --file tests/fixtures/session-transcripts/phase3-10/display-summary.json --display-summary
 node apps/cli/src/index.mjs validate-session-transcript --file tests/fixtures/session-transcripts/phase3-10/unsupported-major.json --compatibility-explain
+node apps/cli/src/index.mjs emit-session-events --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 ```
 
 `plan` keeps the full default JSON plan unless exactly one output mode is passed. `--trace` prints the full planner trace wrapper, `--summary` prints selected IDs, unresolved requests, approval, and safety flags, `--explain` prints deterministic candidate ranking and approval reasons, and `--review-artifact` prints the stable approval review artifact. Mode flags are mutually exclusive.
@@ -72,3 +73,11 @@ For session transcript display workflows:
 - Use `--compatibility-explain` for compatibility reasoning, migration notes, display warnings, and inert unknown-field policy.
 
 Older same-major transcripts may be classified as `upgrade_available` for display-only review. Unsupported major and malformed transcripts are classified and explained without execution. Unknown root fields are surfaced only as inert display metadata. URLs, `file:` URLs, and UNC/network-style paths are rejected; the command performs no writes, network calls, process spawning, adapter connections, plugin installation, Content Fabric runtime work, code-pack enablement, or autonomous loops.
+
+`emit-session-events --dry-run --manifest <file> --task <file>` reads one local
+manifest JSON file and one local task JSON file, constructs the deterministic
+non-executing plan, and writes Phase 4.0A session events as JSONL to stdout.
+Errors use plain stderr and no JSON stdout. The command has no stdin command
+loop, listener, server, subprocess spawning, adapter calls, Locus dependency,
+MCP/OpenClaw calls, plugin execution, Content Fabric download/install/enable
+behavior, or file writes.

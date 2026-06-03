@@ -116,6 +116,14 @@ future stream must be line-delimited JSON, validate each event against
 `schemas/session-event.schema.json`, preserve sequence ordering, and fail closed
 on malformed input.
 
+Phase 4.0A implements only the first dry-run emission slice of that transport
+order. `emit-session-events --dry-run --manifest <manifest.json> --task
+<task.json>` emits a finite deterministic JSONL stream to stdout, keeps errors
+on stderr, and does not read stdin, start a listener, spawn subprocesses, call
+adapters, connect to Locus, call MCP/OpenClaw, execute plugins, or perform
+Content Fabric runtime behavior. See
+`docs/phase-4-stdio-dry-run-event-emission.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

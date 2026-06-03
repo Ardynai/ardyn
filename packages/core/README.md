@@ -2,7 +2,20 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 3 owns manifest and task validation, deterministic non-executing task planning, ranked exact/tag/scope capability resolution, approval-gate data, approval-decision records, and planner traces. Autonomous execution, tool execution, plugin installation, network serving, torrent download, code-pack enablement, and agent loops are intentionally out of scope.
+Phase 4.0A owns manifest and task validation, deterministic non-executing task planning, ranked exact/tag/scope capability resolution, approval-gate data, approval-decision records, planner traces, shared local-only input path policy, and finite dry-run session-event JSONL construction. Autonomous execution, tool execution, plugin installation, network serving, torrent download, code-pack enablement, live stdin loops, and agent loops are intentionally out of scope.
+
+## Phase 4.0A Dry-Run Session Events
+
+The core API exposes `createStdioDryRunSessionEvents(manifest, task, options)`
+for deterministic session-event construction and `formatSessionEventsJsonl(events)`
+for LF-delimited JSONL serialization after event validation. It also exposes
+`assertLocalFilePath`, `assertLocalJsonFilePath`, and `readLocalJsonFile` for
+the shared local-only path policy used by manifest, task, transcript, and
+review JSON inputs.
+
+This is a finite dry-run renderer. It does not read stdin, start a listener,
+spawn subprocesses, call adapters, depend on Locus, call MCP/OpenClaw, execute
+plugins, or perform Content Fabric download, install, or enablement behavior.
 
 ## Phase 3.2 Policy Review
 

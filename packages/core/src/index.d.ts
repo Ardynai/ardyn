@@ -1,5 +1,6 @@
 export const ARDYN_SCHEMA_VERSION: "0.1.0";
 export const ARDYN_PHASE: "phase-3-task-planning";
+export const ARDYN_STDIO_DRY_RUN_PHASE: "phase-4.0a-stdio-event-dry-run";
 export const APPROVAL_REVIEW_ARTIFACT_SCHEMA: "ardyn.approval-review-artifact";
 export const APPROVAL_REVIEW_ARTIFACT_VERSION: "0.1.0";
 export const SCHEMA_MIGRATION_METADATA_SCHEMA: "ardyn.schema-migration-metadata";
@@ -197,6 +198,14 @@ export interface SessionEvent {
   payload: unknown;
   nonExecuting: true;
   safety: NoExecutionSafetyFlags;
+}
+
+export interface StdioDryRunSessionEventOptions {
+  manifestPath?: string;
+  taskPath?: string;
+  sessionId?: string;
+  createdAt?: string;
+  approvalDecision?: ApprovalDecisionInput;
 }
 
 export interface SessionTranscript {
@@ -806,6 +815,9 @@ export type ApprovalReviewArtifactComparisonSource =
   | PlannerTrace
   | ApprovalReviewArtifact;
 
+export function assertLocalFilePath(filePath: string, label?: string): void;
+export function assertLocalJsonFilePath(filePath: string, label?: string): void;
+export function readLocalJsonFile(filePath: string, label?: string): Promise<unknown>;
 export function loadManifest(manifestPath: string): Promise<ArdynManifest>;
 export function loadTask(taskPath: string): Promise<ArdynTask>;
 export function validateManifest(manifest: unknown): ValidationResult;
@@ -878,6 +890,12 @@ export function createTaskPlan(
     approvalDecision?: ApprovalDecisionInput;
   }
 ): TaskPlan;
+export function createStdioDryRunSessionEvents(
+  manifest: ArdynManifest,
+  task: ArdynTask,
+  options?: StdioDryRunSessionEventOptions
+): SessionEvent[];
+export function formatSessionEventsJsonl(events: SessionEvent[]): string;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

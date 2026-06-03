@@ -90,8 +90,8 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "3.10",
-    name: "session-transcript versioning, compatibility metadata, and display contracts",
+    id: "4.0A",
+    name: "stdio session-event dry-run emission",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -124,12 +124,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.10 status report.",
+      purpose: "Render this deterministic local Phase 4.0A status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.10 status report.",
+      purpose: "Run focused tests for this local Phase 4.0A status report.",
       ranByReport: false
     },
     {
@@ -180,6 +180,16 @@ const report = {
     {
       command: "node --test tests/cli-phase3.test.mjs",
       purpose: "Run focused CLI tests covering review-trace and review artifact export ergonomics.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/core-phase4-stdio-dry-run.test.mjs",
+      purpose: "Run focused Phase 4.0A core tests for JSONL event emission and path policy.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/cli-phase4-stdio-dry-run.test.mjs",
+      purpose: "Run focused Phase 4.0A CLI tests for stdout JSONL, stderr errors, and no side effects.",
       ranByReport: false
     }
   ],
@@ -787,12 +797,121 @@ const report = {
       "Negative tests proving transcript metadata cannot start runtimes, connect adapters, install plugins, download torrents, enable code packs, or execute tools."
     ]
   },
+  phase40AInventory: {
+    command: {
+      command:
+        "ardyn emit-session-events --dry-run --manifest <manifest.json> --task <task.json>",
+      status: "implemented-finite-dry-run-emitter",
+      stdout: "LF-delimited JSONL session events with one JSON object per line.",
+      stderr: "Plain diagnostics and errors only.",
+      writesFiles: false,
+      readsStdin: false,
+      network: false,
+      processSpawning: false,
+      listener: false,
+      adapterCalls: false,
+      locusRuntimeDependency: false,
+      mcpCalls: false,
+      openClawCalls: false,
+      pluginExecution: false,
+      contentFabricRuntimeBehavior: false
+    },
+    coreApi: [
+      "createStdioDryRunSessionEvents",
+      "formatSessionEventsJsonl",
+      "assertLocalFilePath",
+      "assertLocalJsonFilePath",
+      "readLocalJsonFile"
+    ],
+    eventOrder: [
+      "session.started",
+      "session.heartbeat",
+      "session.capabilities",
+      "task.planned",
+      "approval.recorded",
+      "session.completed"
+    ],
+    approvalRequiredEventInsertion: "approval.requested is inserted before approval.recorded when approval is required and selected capability ids exist.",
+    framing: {
+      format: "jsonl",
+      newline: "lf",
+      finalTrailingNewline: true,
+      validatesEveryEventBeforeSerialization: true,
+      malformedEventsRejected: true
+    },
+    localPathPolicy: {
+      appliesTo: ["manifest", "task", "transcript", "local-json-review-input"],
+      rejectsUrlSchemes: true,
+      rejectsFileUrls: true,
+      rejectsUncAndNetworkPaths: true,
+      rejectsWindowsDriveRelativePaths: true,
+      rejectsStdinMarker: true,
+      rejectsNulCrLf: true,
+      requiresJsonExtensionForJsonInputs: true,
+      absoluteLocalPathsAllowed: true
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents the Phase 4.0A dry-run JSONL event emitter contract, path policy, malformed handling, and deferred hardening."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Cross-links the Phase 4.0A finite dry-run emitter while preserving no-live-runtime boundaries."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents the emit-session-events dry-run CLI command and non-executing behavior."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents the CLI command shape and stdout/stderr behavior."
+      ),
+      await localInventoryEntry(
+        ".gitattributes",
+        "Pins LF handling for source, JSON, schemas, markdown, and fixtures while preserving byte-reference Fabric fixtures."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/core-phase4-stdio-dry-run.test.mjs",
+        "Covers deterministic event order, sequence numbers, JSONL framing, malformed rejection, safety flags, LF behavior, and path policy."
+      ),
+      await localInventoryEntry(
+        "tests/cli-phase4-stdio-dry-run.test.mjs",
+        "Covers stdout-only JSONL success, stderr-only failures, transcript path policy reuse, no file side effects, and no runtime imports."
+      )
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricDownloadInstallEnable: true,
+      allEventSafetyFlagsFalse: true
+    },
+    deferredHardening: [
+      "Repo-root confinement for local inputs.",
+      "Transcript persistence or replay.",
+      "Dropped-line and duplicate-line handling across a live stream.",
+      "stderr redaction policy.",
+      "Rust-host ownership of stdout and stderr for a future live runtime."
+    ]
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
     noNetwork: true,
     noProcessSpawn: true,
     noStdioRuntime: true,
+    stdioDryRunEmitter: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -815,7 +934,7 @@ const report = {
       externalCiRan: false
     },
     note:
-      "The report renders local metadata only; it does not execute checks, spawn processes, write files, call network APIs, start stdio or network transports, connect to Locus, or run runtime behavior."
+      "The report renders local metadata only; it does not execute checks, spawn processes, write files, call network APIs, start live stdio or network transports, connect to Locus, or run runtime behavior."
   },
   externalCi: {
     ran: false,

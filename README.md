@@ -1,16 +1,16 @@
 # ARDYN
 
-ARDYN is an open-source AI harness/framework for running local and networked agent systems with explicit manifests, capabilities, task contracts, and adapter boundaries.
+ARDYN is an open-source AI harness/framework for defining local and networked agent-system contracts with explicit manifests, capabilities, task contracts, and adapter boundaries.
 
 ARDYN is not Locus and is not Multiverse.
 
-- Locus is mission control. It can run, observe, and control ARDYN through public ARDYN APIs and adapters.
+- Future Locus integrations may run, observe, or control ARDYN through versioned public ARDYN APIs and adapters after explicit host-policy, approval, and permission semantics exist.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 Scope
+## Phase 3 and Phase 4.0A Scope
 
-This repository is currently in Phase 3 task-planning mode. The goal is to load and validate ARDYN manifests and tasks, resolve requested capabilities into deterministic non-executing plans, report static TypeScript/Rust host identity, and expose dry-run handshake data before autonomous execution exists.
+This repository is currently in Phase 4.0A dry-run session-event emission mode. The goal is to load and validate ARDYN manifests and tasks, resolve requested capabilities into deterministic non-executing plans, report static TypeScript/Rust host identity, expose dry-run handshake data, and emit finite dry-run session-event JSONL before autonomous execution exists.
 
 Included now:
 
@@ -34,6 +34,8 @@ Included now:
   transcript validation.
 - Phase 3.10 session-transcript versioning policy, read-only Locus display
   summary fields, and local-only report metadata for compatibility examples.
+- Phase 4.0A finite stdio dry-run session-event emission to stdout as JSONL,
+  with diagnostics on stderr and no live stdin command loop.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -52,7 +54,7 @@ Not included yet:
 - Content Fabric download, install, seed, enable, catalog serving, or execution.
 - Plugin installation, torrent download, code-pack enablement, or agent loops.
 - Production signing keys, secret handling, or runtime attestation trust gates.
-- Stdio session-event runtime, session-transcript runtime, WebSocket transport,
+- Live stdio session-event runtime, session-transcript runtime, WebSocket transport,
   HTTP transport, live Locus connector behavior, runtime transcript migration,
   plugin install, torrent behavior, or code-pack enablement behavior.
 
@@ -78,9 +80,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 CLI Usage
+## Phase 3 and Phase 4.0A CLI Usage
 
-Run commands directly from source during Phase 3:
+Run non-executing commands directly from source through Phase 4.0A:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -89,6 +91,7 @@ node apps/cli/src/index.mjs capabilities --manifest examples/minimal-manifest/ar
 node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 node apps/cli/src/index.mjs plan --review-artifact --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 node apps/cli/src/index.mjs plan --review-artifact --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json --output approval-review-artifact.json
+node apps/cli/src/index.mjs emit-session-events --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
 npm exec ardyn -- review-artifact --file tests/fixtures/review-artifacts/phase3-6/current-compatible-v1.json --summary
 npm exec ardyn -- review-artifact --file tests/fixtures/review-artifacts/phase3-6/compatible-unknown-fields.json --explain
 npm exec ardyn -- review-artifact --file tests/fixtures/review-artifacts/phase3-7/older-compatible-review-artifact.json --schema-status
@@ -119,8 +122,9 @@ adapters, does not connect to Locus, does not load signing keys, and does not
 produce production signatures.
 
 The `plan`, `plan --trace`, `plan --summary`, `plan --explain`,
-`plan --review-artifact`, `review-artifact`, `review-trace`, and
-`serve --dry-run` commands are intentionally non-executing: they do not open
+`plan --review-artifact`, `review-artifact`, `review-trace`,
+`emit-session-events --dry-run`, and `serve --dry-run` commands are
+intentionally non-executing: they do not open
 network ports, execute tools, start agents, call APIs, install plugins,
 download torrents, enable code packs, run agent loops, connect adapters, call
 MCP/OpenClaw, connect to Locus, serve Content Fabric catalogs, or spawn
@@ -183,7 +187,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 3.10 status report command is:
+The Phase 4.0A status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -194,7 +198,8 @@ review artifact APIs, versioning/display contract posture, migration metadata,
 attestation planning posture, trace-comparison or trace-review artifacts,
 host-policy precondition references, Phase 3.8 harness identity, Fabric family,
 Phase 3.9 session-event and session-transcript contract evidence, Phase 3.10
-session-transcript versioning/display metadata, and safety posture.
+session-transcript versioning/display metadata, Phase 4.0A dry-run event
+emission metadata, and safety posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -206,7 +211,19 @@ Example dry-run check:
 node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json
 ```
 
-The planned runtime includes the loaded manifest identity, normalized capabilities, TypeScript core runtime, Rust host boundary, and platform report.
+The dry-run serve plan reports the loaded manifest identity, normalized capabilities, TypeScript core metadata, Rust host boundary, and platform report; it does not start a runtime.
+
+Example Phase 4.0A session-event dry-run emission:
+
+```powershell
+node apps/cli/src/index.mjs emit-session-events --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
+```
+
+The emitter prints one `schemas/session-event.schema.json` event per LF-delimited
+stdout line and a final trailing LF. It does not read stdin, start a listener,
+spawn subprocesses, call adapters, connect to Locus, call MCP/OpenClaw, install
+plugins, or perform Content Fabric download, install, or enablement behavior.
+See `docs/phase-4-stdio-dry-run-event-emission.md`.
 
 ## Phase 3.3-3.9 Policy Review
 
