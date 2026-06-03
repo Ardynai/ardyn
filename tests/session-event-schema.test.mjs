@@ -89,3 +89,15 @@ test("session event schema binds payload shape to event type", async () => {
   assert.equal(validate(invalid), false);
   assert.match(JSON.stringify(validate.errors), /phase/);
 });
+
+test("session event schema rejects unknown top-level command fields", async () => {
+  const ajv = await createAjv();
+  const validate = ajv.getSchema(schemaId);
+  const invalid = await readExample("session-started.json");
+  invalid.command = {
+    argv: ["node", "unsafe.js"]
+  };
+
+  assert.equal(validate(invalid), false);
+  assert.match(JSON.stringify(validate.errors), /additionalProperties/);
+});

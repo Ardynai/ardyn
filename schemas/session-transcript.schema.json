@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/session-transcript.schema.json",
+  "title": "ARDYN Session Transcript",
+  "description": "Static JSON review transcript for non-executing ARDYN session telemetry. The root shape, source harness, and safety envelope are schema-enforced. Event ordering, first-event semantics, and transcript-level cross-event consistency stay semantic checks outside JSON Schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schemaVersion",
+    "sessionId",
+    "sourceHarness",
+    "nonExecuting",
+    "safety",
+    "events"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.session-transcript"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "sessionId": {
+      "$ref": "https://schemas.ardyn.ai/session-event.schema.json#/$defs/opaqueId"
+    },
+    "sourceHarness": {
+      "type": "string",
+      "const": "ardyn"
+    },
+    "nonExecuting": {
+      "type": "boolean",
+      "const": true
+    },
+    "safety": {
+      "$ref": "https://schemas.ardyn.ai/session-event.schema.json#/$defs/noExecutionSafetyFlags"
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "https://schemas.ardyn.ai/session-event.schema.json"
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schemas.ardyn.ai/session-event.schema.json",
   "title": "ARDYN Session Event",
-  "description": "Non-executing stdio-first session event contract for ARDYN session telemetry.",
+  "description": "Non-executing stdio-first session event contract for ARDYN session telemetry. Unknown execution-adjacent or command fields remain inert because additionalProperties is false at the event root and on typed payload objects.",
   "type": "object",
   "additionalProperties": false,
   "required": [

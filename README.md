@@ -29,6 +29,9 @@ Included now:
 - Phase 3.8 harness identity alignment with canonical slug `ardyn`, Locus
   read-only display contract freeze, Content Fabric family reconciliation, and
   stdio-first session-event schemas/examples.
+- Phase 3.9 static session-transcript review contracts, host-policy
+  preconditions for future stdio framing, and local-only reporting metadata for
+  transcript validation.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -47,8 +50,8 @@ Not included yet:
 - Content Fabric download, install, seed, enable, catalog serving, or execution.
 - Plugin installation, torrent download, code-pack enablement, or agent loops.
 - Production signing keys, secret handling, or runtime attestation trust gates.
-- Stdio session-event runtime, WebSocket transport, HTTP transport, or live
-  Locus connector behavior.
+- Stdio session-event runtime, session-transcript runtime, WebSocket transport,
+  HTTP transport, or live Locus connector behavior.
 
 ## Architecture
 
@@ -177,7 +180,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 3.8 status report command is:
+The Phase 3.9 status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -187,7 +190,8 @@ That report must assemble local planning evidence only: docs, fixtures, tests,
 review artifact APIs, versioning/display contract posture, migration metadata,
 attestation planning posture, trace-comparison or trace-review artifacts,
 host-policy precondition references, Phase 3.8 harness identity, Fabric family,
-session-event contract evidence, and safety posture.
+Phase 3.9 session-event and session-transcript contract evidence, and safety
+posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -201,16 +205,19 @@ node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest
 
 The planned runtime includes the loaded manifest identity, normalized capabilities, TypeScript core runtime, Rust host boundary, and platform report.
 
-## Phase 3.3-3.8 Policy Review
+## Phase 3.3-3.9 Policy Review
 
 Phase 3.3 introduced documentation-only, non-executing planning review. Phase
-3.4 adds approval review artifacts and host-policy preconditions. Phase 3.5 adds
-local trace-diff review and output-path export ergonomics. Phase 3.6 adds
+3.4 adds approval review artifacts and host-policy preconditions. Phase 3.5
+adds local trace-diff review and output-path export ergonomics. Phase 3.6 adds
 review-artifact versioning and display-summary contracts. Phase 3.7 adds schema
 migration metadata and review-artifact attestation planning without production
 signing. Phase 3.8 pins the canonical Locus-facing harness slug as `ardyn`,
 aligns Content Fabric family membership, freezes the Phase 3.x Locus read-only
 display contract, and adds a future stdio session-event schema with examples.
+Phase 3.9 adds static session-transcript review, keeps unknown future metadata
+inert unless explicitly versioned, and records the host-policy preconditions
+required before any real stdio runtime can exist.
 Planner approval decisions are review records, not runtime grants.
 Capability selection uses deterministic tiers: exact capability id score `300`,
 tag score `200`, and permission scope score `100`. Exact outranks tag, tag
@@ -224,9 +231,9 @@ Locus viewer fields. The adapter boundary remains metadata-only:
 ARDYN does not call real MCP/OpenClaw adapters, connect to Locus or Multiverse,
 install plugins, download torrents, enable code packs, serve Content Fabric
 catalogs, spawn processes, run autonomous loops, or execute tools in Phase
-3.3-3.8.
+3.3-3.9.
 
-## Phase 3.8 Harness and Session Alignment
+## Phase 3.8-3.9 Harness and Session Alignment
 
 The canonical ARDYN harness slug is `ardyn`. Use that value for package and
 keyring namespace, manifest-facing harness identity, Content Fabric family
@@ -250,10 +257,27 @@ session-event fixtures. See `docs/locus-trace-display-contract.md` for the
 `PHASE_3_X_LOCUS_DISPLAY_CONTRACT_FROZEN` marker.
 
 Session-event examples live under `examples/session-events/` and validate
-against `schemas/session-event.schema.json`. They are future stdio transport
-fixtures only. Phase 3.8 does not add a stdio runtime, WebSocket transport, HTTP
-transport, live Locus connector, runtime event loop, or network behavior. See
-`docs/harness-identity.md` and `docs/session-events-stdio-contract.md`.
+against `schemas/session-event.schema.json`. Session-transcript examples live
+under `examples/session-transcripts/` and validate against
+`schemas/session-transcript.schema.json` plus higher-level transcript checks.
+They are future stdio transport fixtures only. Phase 3.9 does not add a stdio
+runtime, transcript runtime, WebSocket transport, HTTP transport, live Locus
+connector, runtime event loop, or network behavior. See
+`docs/harness-identity.md`, `docs/session-events-stdio-contract.md`, and
+`docs/host-policy-preconditions.md`.
+
+Phase 3.9 also reserves a documentation-only transcript validation command
+shape for future local review flows:
+
+```powershell
+ardyn validate-session-transcript --file <file>
+ardyn validate-session-transcript --file <file> --summary
+ardyn validate-session-transcript --file <file> --explain
+```
+
+Those command forms are not a shipping runtime in this phase. They are report
+metadata and contract examples only, with no writes, no network, no process
+spawning, and no Locus runtime dependency.
 
 ## Phase 3.4-3.7 Approval Review Artifacts
 
@@ -357,9 +381,9 @@ behavior, code-pack enablement, autonomous loops, real MCP/OpenClaw calls,
 secrets access, or external CI behavior.
 
 Future host policy work must require explicit approval, adapter permission
-declarations, code-pack sandbox and quarantine requirements, and explicit
-network/process permission scopes before any execution-adjacent behavior can be
-introduced.
+declarations, code-pack sandbox and quarantine requirements, explicit
+network/process/filesystem permission scopes, and stdout/stderr line-delimited
+JSON semantics before any execution-adjacent behavior can be introduced.
 
 ## License
 

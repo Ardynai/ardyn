@@ -157,6 +157,106 @@ export interface NoExecutionSafetyFlags {
   agentLoopEnabled: false;
 }
 
+export type SessionEventType =
+  | "session.started"
+  | "session.heartbeat"
+  | "session.capabilities"
+  | "task.planned"
+  | "approval.requested"
+  | "approval.recorded"
+  | "session.completed"
+  | "session.error";
+
+export interface SessionEvent {
+  schemaVersion: "0.1.0";
+  eventId: string;
+  sessionId: string;
+  sequence: number;
+  createdAt: string;
+  sourceHarness: "ardyn";
+  eventType: SessionEventType;
+  payload: unknown;
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
+export interface SessionTranscript {
+  schema: "ardyn.session-transcript";
+  schemaVersion: "0.1.0";
+  sessionId: string;
+  sourceHarness: "ardyn";
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+  events: SessionEvent[];
+}
+
+export type SessionTranscriptClassification = "valid" | "invalid" | "malformed";
+
+export interface SessionTranscriptClassificationResult {
+  classification: SessionTranscriptClassification;
+  valid: boolean;
+  errors: string[];
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
+export interface SessionTranscriptSummary {
+  schema: "ardyn.session-transcript-summary";
+  schemaVersion: "0.1.0";
+  classification: SessionTranscriptClassification;
+  valid: boolean;
+  sessionId: string | null;
+  sourceHarness: string | null;
+  eventCount: number;
+  eventTypes: string[];
+  firstEventType: string | null;
+  lastEventType: string | null;
+  sequence: {
+    first: number | null;
+    last: number | null;
+    contiguous: boolean;
+  };
+  lifecycle: {
+    startsWithSessionStarted: boolean;
+    completed: boolean;
+    errored: boolean;
+  };
+  transcriptNonExecuting: boolean;
+  transcriptSafetyAllFalse: boolean;
+  errors: string[];
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
+export interface SessionTranscriptExplanation {
+  schema: "ardyn.session-transcript-explanation";
+  schemaVersion: "0.1.0";
+  classification: SessionTranscriptClassification;
+  valid: boolean;
+  sessionId: string | null;
+  sourceHarness: string | null;
+  checks: {
+    transcriptSchema: boolean;
+    transcriptSchemaVersion: boolean;
+    transcriptSessionId: boolean;
+    transcriptSourceHarness: boolean;
+    transcriptNonExecuting: boolean;
+    transcriptSafetyAllFalse: boolean;
+    eventsArray: boolean;
+    eventsNonEmpty: boolean;
+    firstEventStarted: boolean;
+    sequencesContiguous: boolean;
+    eventSessionIdsMatch: boolean;
+    eventSourceHarnessesMatch: boolean;
+    eventNonExecuting: boolean;
+    eventSafetyAllFalse: boolean;
+  };
+  errors: string[];
+  summary: SessionTranscriptSummary;
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
 export interface TaskCapabilityResolution {
   request: string;
   matchType: CapabilityMatchType;
@@ -580,6 +680,13 @@ export function loadManifest(manifestPath: string): Promise<ArdynManifest>;
 export function loadTask(taskPath: string): Promise<ArdynTask>;
 export function validateManifest(manifest: unknown): ValidationResult;
 export function validateTask(task: unknown): ValidationResult;
+export function validateSessionEvent(event: unknown): ValidationResult;
+export function validateSessionTranscript(transcript: unknown): ValidationResult;
+export function classifySessionTranscript(
+  transcript: unknown
+): SessionTranscriptClassificationResult;
+export function buildSessionTranscriptSummary(transcript: unknown): SessionTranscriptSummary;
+export function explainSessionTranscript(transcript: unknown): SessionTranscriptExplanation;
 export function validateApprovalReviewArtifact(artifact: unknown): ValidationResult;
 export function validateApprovalReviewArtifactVersion(
   artifact: unknown

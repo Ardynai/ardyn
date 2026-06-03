@@ -1,8 +1,9 @@
 # Host Policy Preconditions
 
-Phase 3.4 records the preconditions ARDYN must satisfy before any future
-execution-adjacent phase. These are documentation and contract requirements
-only. They are not active runtime enforcement, and they do not enable execution.
+Phase 3.9 keeps the Phase 3.4 host-policy preconditions in documentation-only
+form and extends them to cover future stdio transcript/runtime boundaries.
+These are documentation and contract requirements only. They are not active
+runtime enforcement, and they do not enable execution.
 
 ARDYN remains an open-source AI harness/framework. Locus is optional future
 mission control, controller, or viewer through public ARDYN APIs only. Locus is
@@ -12,9 +13,9 @@ phase explicitly adds runtime behavior.
 
 ## Current Boundary
 
-Execution remains disabled. Phase 3.4 does not add a host executor, adapter
-connection, plugin installer, Content Fabric runtime, server, listener, process
-runner, autonomous loop, or secrets-aware CI behavior.
+Execution remains disabled. Phase 3.9 does not add a host executor, adapter
+connection, plugin installer, Content Fabric runtime, stdio runtime, server,
+listener, process runner, autonomous loop, or secrets-aware CI behavior.
 
 Approval records and policy review data are still evidence for reviewers. They
 must not be treated as permission to execute. A future host policy must connect
@@ -33,6 +34,9 @@ approval record must identify the requested action, selected capabilities,
 permission scopes, approving actor or policy source, denial behavior, timestamp,
 and audit trail. A simulated or planning-only approval decision is not enough.
 
+No task execution may occur without an explicit approval record that is valid
+for the requested action and evaluated by the Rust host policy.
+
 ### Adapter Permission Declarations
 
 Adapters must declare their permissions before connection. An adapter contract
@@ -44,6 +48,10 @@ This applies to Locus, Multiverse, MCP, OpenClaw, plugin APIs, Content Fabric,
 and any future adapter-like boundary. Mentioning an adapter in a manifest or
 plan must not create a live connection.
 
+No adapter connection may occur unless the adapter has declared permissions and
+the Rust host policy has approved that declaration for the specific connection
+path.
+
 ### Code-Pack Sandbox And Quarantine
 
 Code packs must remain disabled until a future host policy defines quarantine,
@@ -51,6 +59,9 @@ sandboxing, signature verification, payload hash verification, explicit user
 consent, and an explicit enable flow. Content Fabric conformance data may
 describe packs, catalogs, and license gates, but it must not download, install,
 enable, or execute code packs in this phase.
+
+No code-pack enablement may occur until Fabric verification, quarantine, and
+explicit enable policy are defined and enforced by the Rust host.
 
 ### Explicit Network And Process Permissions
 
@@ -62,6 +73,25 @@ runtime process control.
 Each permission must identify its scope, purpose, approval requirement,
 sandbox/quarantine relationship when applicable, audit output, and tests that
 prove the default-disabled state remains intact when permission is absent.
+
+No process, network, or filesystem access may occur without an explicit Rust
+host policy that defines the permission scope, approval gate, audit record, and
+default-deny behavior.
+
+### Stdio Output And Framing Semantics
+
+Before any real stdio runtime exists, the Rust host policy must define stdout
+and stderr behavior and line-delimited JSON framing semantics.
+
+That policy must specify:
+
+- Whether stdout is reserved for JSON events only.
+- Whether stderr may carry diagnostics and in what format.
+- The exact line-delimited JSON framing rules.
+- How malformed lines are surfaced to review.
+- How partial writes, duplicate lines, or out-of-order lines are handled.
+- Whether host policy treats framing failures as transcript rejection,
+  transport termination, or both.
 
 ## Documentation Model
 
@@ -77,6 +107,8 @@ precondition groups before an implementation can flip any runtime capability:
   explicit enablement requirements for code packs.
 - `networkProcessPermissions`: named outbound network, listener, server,
   process, and long-running service permissions.
+- `stdioLineDelimitedJsonSemantics`: stdout/stderr and line-delimited JSON
+  framing requirements for any future stdio runtime.
 - `runtimeEnforcementActive`: false until a later reviewed implementation adds
   real enforcement and tests.
 
@@ -99,6 +131,7 @@ introduces an explicit policy, implementation, tests, and approval flow:
 - Content Fabric runtime behavior.
 - Content Fabric download, install, or enable flows.
 - Code-pack enablement.
+- Filesystem access without reviewed Rust host policy.
 - Autonomous loops.
 - Process spawning outside tests.
 - Secrets access or secrets-dependent behavior.
@@ -110,7 +143,9 @@ Future host-policy types should make the disabled default visible. A policy
 shape should distinguish precondition metadata from active enforcement, require
 explicit approval data, enumerate adapter permission declarations, represent
 network and process permissions as named scopes, and represent code-pack
-quarantine/sandbox requirements before any enablement field can become true.
+quarantine/sandbox requirements before any enablement field can become true. A
+future stdio policy type should also define stdout/stderr behavior and
+line-delimited JSON semantics before any session runtime is introduced.
 
 Those future types are also preconditions. Adding a type that describes a
 permission must not by itself enable runtime behavior.

@@ -1,0 +1,51 @@
+{
+  "schema": "ardyn.session-transcript",
+  "schemaVersion": "0.1.0",
+  "sessionId": "session.phase3.9.transcript.invalid.003",
+  "sourceHarness": "locus",
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  },
+  "events": [
+    {
+      "schemaVersion": "0.1.0",
+      "eventId": "evt.transcript-invalid-source.001",
+      "sessionId": "session.phase3.9.transcript.invalid.003",
+      "sequence": 1,
+      "createdAt": "2026-06-02T11:25:00Z",
+      "sourceHarness": "ardyn",
+      "eventType": "session.started",
+      "payload": {
+        "phase": "phase-3-9-session-transcripts",
+        "mode": "plan"
+      },
+      "nonExecuting": true,
+      "safety": {
+        "executionEnabled": false,
+        "toolExecutionEnabled": false,
+        "autonomousExecutionEnabled": false,
+        "productionToolExecutionEnabled": false,
+        "apiCallsEnabled": false,
+        "networkListening": false,
+        "longRunningServicesStarted": false,
+        "processesSpawned": false,
+        "pluginInstallEnabled": false,
+        "torrentDownloadEnabled": false,
+        "codePackEnablementEnabled": false,
+        "agentLoopEnabled": false
+      }
+    }
+  ]
+}

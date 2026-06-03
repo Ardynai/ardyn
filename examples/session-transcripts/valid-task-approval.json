@@ -1,0 +1,239 @@
+{
+  "schema": "ardyn.session-transcript",
+  "schemaVersion": "0.1.0",
+  "sessionId": "session.phase3.9.transcript.002",
+  "sourceHarness": "ardyn",
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  },
+  "events": [
+    {
+      "schemaVersion": "0.1.0",
+      "eventId": "evt.transcript-task.001",
+      "sessionId": "session.phase3.9.transcript.002",
+      "sequence": 1,
+      "createdAt": "2026-06-02T11:05:00Z",
+      "sourceHarness": "ardyn",
+      "eventType": "session.started",
+      "payload": {
+        "phase": "phase-3-9-session-transcripts",
+        "mode": "plan",
+        "manifestName": "ardyn"
+      },
+      "nonExecuting": true,
+      "safety": {
+        "executionEnabled": false,
+        "toolExecutionEnabled": false,
+        "autonomousExecutionEnabled": false,
+        "productionToolExecutionEnabled": false,
+        "apiCallsEnabled": false,
+        "networkListening": false,
+        "longRunningServicesStarted": false,
+        "processesSpawned": false,
+        "pluginInstallEnabled": false,
+        "torrentDownloadEnabled": false,
+        "codePackEnablementEnabled": false,
+        "agentLoopEnabled": false
+      }
+    },
+    {
+      "schemaVersion": "0.1.0",
+      "eventId": "evt.transcript-task.002",
+      "sessionId": "session.phase3.9.transcript.002",
+      "sequence": 2,
+      "createdAt": "2026-06-02T11:05:02Z",
+      "sourceHarness": "ardyn",
+      "eventType": "session.heartbeat",
+      "payload": {
+        "status": "planning",
+        "activeTaskId": "task.transcript.001",
+        "note": "Transcript fixture remains review-only and non-executing."
+      },
+      "nonExecuting": true,
+      "safety": {
+        "executionEnabled": false,
+        "toolExecutionEnabled": false,
+        "autonomousExecutionEnabled": false,
+        "productionToolExecutionEnabled": false,
+        "apiCallsEnabled": false,
+        "networkListening": false,
+        "longRunningServicesStarted": false,
+        "processesSpawned": false,
+        "pluginInstallEnabled": false,
+        "torrentDownloadEnabled": false,
+        "codePackEnablementEnabled": false,
+        "agentLoopEnabled": false
+      }
+    },
+    {
+      "schemaVersion": "0.1.0",
+      "eventId": "evt.transcript-task.003",
+      "sessionId": "session.phase3.9.transcript.002",
+      "sequence": 3,
+      "createdAt": "2026-06-02T11:05:03Z",
+      "sourceHarness": "ardyn",
+      "eventType": "session.capabilities",
+      "payload": {
+        "capabilityIds": [
+          "planner.search",
+          "runtime.describe"
+        ]
+      },
+      "nonExecuting": true,
+      "safety": {
+        "executionEnabled": false,
+        "toolExecutionEnabled": false,
+        "autonomousExecutionEnabled": false,
+        "productionToolExecutionEnabled": false,
+        "apiCallsEnabled": false,
+        "networkListening": false,
+        "longRunningServicesStarted": false,
+        "processesSpawned": false,
+        "pluginInstallEnabled": false,
+        "torrentDownloadEnabled": false,
+        "codePackEnablementEnabled": false,
+        "agentLoopEnabled": false
+      }
+    },
+    {
+      "schemaVersion": "0.1.0",
+      "eventId": "evt.transcript-task.004",
+      "sessionId": "session.phase3.9.transcript.002",
+      "sequence": 4,
+      "createdAt": "2026-06-02T11:05:04Z",
+      "sourceHarness": "ardyn",
+      "eventType": "task.planned",
+      "payload": {
+        "taskId": "task.transcript.001",
+        "requestedCapabilityIds": [
+          "planner.search",
+          "filesystem.read"
+        ],
+        "selectedCapabilityIds": [
+          "planner.search"
+        ],
+        "unresolvedRequests": [
+          "filesystem.read"
+        ]
+      },
+      "nonExecuting": true,
+      "safety": {
+        "executionEnabled": false,
+        "toolExecutionEnabled": false,
+        "autonomousExecutionEnabled": false,
+        "productionToolExecutionEnabled": false,
+        "apiCallsEnabled": false,
+        "networkListening": false,
+        "longRunningServicesStarted": false,
+        "processesSpawned": false,
+        "pluginInstallEnabled": false,
+        "torrentDownloadEnabled": false,
+        "codePackEnablementEnabled": false,
+        "agentLoopEnabled": false
+      }
+    },
+    {
+      "schemaVersion": "0.1.0",
+      "eventId": "evt.transcript-task.005",
+      "sessionId": "session.phase3.9.transcript.002",
+      "sequence": 5,
+      "createdAt": "2026-06-02T11:05:05Z",
+      "sourceHarness": "ardyn",
+      "eventType": "approval.requested",
+      "payload": {
+        "approvalId": "approval.transcript.001",
+        "taskId": "task.transcript.001",
+        "requestedCapabilityIds": [
+          "filesystem.read"
+        ],
+        "reason": "Filesystem review remains approval-gated."
+      },
+      "nonExecuting": true,
+      "safety": {
+        "executionEnabled": false,
+        "toolExecutionEnabled": false,
+        "autonomousExecutionEnabled": false,
+        "productionToolExecutionEnabled": false,
+        "apiCallsEnabled": false,
+        "networkListening": false,
+        "longRunningServicesStarted": false,
+        "processesSpawned": false,
+        "pluginInstallEnabled": false,
+        "torrentDownloadEnabled": false,
+        "codePackEnablementEnabled": false,
+        "agentLoopEnabled": false
+      }
+    },
+    {
+      "schemaVersion": "0.1.0",
+      "eventId": "evt.transcript-task.006",
+      "sessionId": "session.phase3.9.transcript.002",
+      "sequence": 6,
+      "createdAt": "2026-06-02T11:05:06Z",
+      "sourceHarness": "ardyn",
+      "eventType": "approval.recorded",
+      "payload": {
+        "approvalId": "approval.transcript.001",
+        "taskId": "task.transcript.001",
+        "status": "required",
+        "reason": "Review stopped before any execution-capable phase.",
+        "nonExecuting": true
+      },
+      "nonExecuting": true,
+      "safety": {
+        "executionEnabled": false,
+        "toolExecutionEnabled": false,
+        "autonomousExecutionEnabled": false,
+        "productionToolExecutionEnabled": false,
+        "apiCallsEnabled": false,
+        "networkListening": false,
+        "longRunningServicesStarted": false,
+        "processesSpawned": false,
+        "pluginInstallEnabled": false,
+        "torrentDownloadEnabled": false,
+        "codePackEnablementEnabled": false,
+        "agentLoopEnabled": false
+      }
+    },
+    {
+      "schemaVersion": "0.1.0",
+      "eventId": "evt.transcript-task.007",
+      "sessionId": "session.phase3.9.transcript.002",
+      "sequence": 7,
+      "createdAt": "2026-06-02T11:05:08Z",
+      "sourceHarness": "ardyn",
+      "eventType": "session.completed",
+      "payload": {
+        "outcome": "approval_pending",
+        "summary": "Transcript captured a non-executing plan that is still waiting for approval."
+      },
+      "nonExecuting": true,
+      "safety": {
+        "executionEnabled": false,
+        "toolExecutionEnabled": false,
+        "autonomousExecutionEnabled": false,
+        "productionToolExecutionEnabled": false,
+        "apiCallsEnabled": false,
+        "networkListening": false,
+        "longRunningServicesStarted": false,
+        "processesSpawned": false,
+        "pluginInstallEnabled": false,
+        "torrentDownloadEnabled": false,
+        "codePackEnablementEnabled": false,
+        "agentLoopEnabled": false
+      }
+    }
+  ]
+}

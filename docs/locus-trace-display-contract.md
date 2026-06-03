@@ -287,3 +287,43 @@ Use wording that keeps review separate from execution:
 The display contract is complete when a UI can inspect ARDYN evidence without
 changing ARDYN state or implying that a later execution-adjacent phase already
 exists.
+
+## Phase 3.9 Transcript Viewer Notes
+
+Phase 3.9 extends the read-only display contract to cover static session
+transcript review. This remains a viewer contract only.
+
+Locus, or any other peer client, may render transcript evidence from local JSON
+files, but it must not act as the ARDYN host and must not imply a live stdio
+runtime exists in this phase.
+
+Display these transcript fields when present:
+
+| Field | Display purpose |
+| --- | --- |
+| `schema` | Must be `ardyn.session-transcript`. |
+| `schemaVersion` | Transcript contract version. |
+| `sessionId` | Stable transcript session identity. |
+| `sourceHarness` | Must display as `ardyn`; any other value is invalid review evidence. |
+| `nonExecuting` | Must display as true; false is a critical safety violation. |
+| `safety.*` | Every no-execution safety flag and whether it remains false. |
+| `events[].eventId` | Stable event identity within the transcript. |
+| `events[].sequence` | Event ordering for read-only review. |
+| `events[].createdAt` | Event timestamp for review chronology. |
+| `events[].eventType` | Event classification, such as `session.started` or `approval.recorded`. |
+| `events[].payload` | Inert event payload preview for review. |
+| `events[].nonExecuting` | Must display as true for every event. |
+| `events[].safety.*` | Must display as false for every event. |
+
+Transcript viewers should also display derived review findings when available:
+
+- Whether the first event is `session.started`.
+- Whether event sequences are contiguous.
+- Whether all event `sessionId` values match the transcript `sessionId`.
+- Whether all event `sourceHarness` values remain `ardyn`.
+- Whether the transcript ends in `session.completed` or `session.error`.
+
+Unknown transcript metadata must remain inert until a future versioned contract
+defines it. If a schema with `additionalProperties: false` rejects unknown
+top-level fields, the viewer should report that as invalid review evidence, not
+as a runtime instruction.

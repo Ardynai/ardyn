@@ -4,16 +4,20 @@ import { readFile, writeFile } from "node:fs/promises";
 import {
   buildMigrationAttestationDisplaySummary,
   buildApprovalReviewArtifactDisplaySummary,
+  buildSessionTranscriptSummary,
   buildReviewArtifactAttestationPlan,
   buildSchemaMigrationMetadataRecord,
   classifyApprovalReviewArtifactCompatibility,
+  classifySessionTranscript,
   compareApprovalReviewArtifacts,
   createApprovalReviewArtifact,
   createTaskPlan,
   createDoctorReport,
+  explainSessionTranscript,
   loadManifest,
   loadTask,
   normalizeApprovalReviewArtifactForDisplay,
+  validateSessionTranscript,
   validateApprovalReviewArtifactVersion,
   createStaticHandshakeFromPath,
   createStaticIdentity
@@ -49,6 +53,7 @@ const REVIEW_ARTIFACT_OUTPUT_FLAGS = [
   "--schema-status",
   "--attestation-plan"
 ];
+const SESSION_TRANSCRIPT_OUTPUT_FLAGS = ["--summary", "--explain"];
 
 function readPlanOutputMode(args) {
   const selectedFlags = PLAN_OUTPUT_FLAGS.filter((flag) => args.includes(flag));
@@ -95,6 +100,20 @@ function readReviewArtifactOutputMode(args) {
 
   return {
     mode: selectedFlags[0].slice(2)
+  };
+}
+
+function readSessionTranscriptOutputMode(args) {
+  const selectedFlags = SESSION_TRANSCRIPT_OUTPUT_FLAGS.filter((flag) => args.includes(flag));
+
+  if (selectedFlags.length > 1) {
+    return {
+      error: `Session transcript output flags are mutually exclusive: ${selectedFlags.join(", ")}.`
+    };
+  }
+
+  return {
+    mode: selectedFlags[0]?.slice(2) ?? "default"
   };
 }
 
@@ -454,6 +473,51 @@ function createReviewArtifactOutput(filePath, artifact, mode, versionValidation)
   return createReviewArtifactExplain(filePath, artifact, versionValidation);
 }
 
+function createSessionTranscriptDefault(filePath, transcript) {
+  const validation = validateSessionTranscript(transcript);
+  const classification = classifySessionTranscript(transcript);
+
+  return {
+    command: "validate-session-transcript",
+    output: "default",
+    file: filePath,
+    validation,
+    classification,
+    nonExecuting: true,
+    safety: classification.safety
+  };
+}
+
+function createSessionTranscriptSummary(filePath, transcript) {
+  return {
+    command: "validate-session-transcript",
+    output: "summary",
+    file: filePath,
+    summary: buildSessionTranscriptSummary(transcript)
+  };
+}
+
+function createSessionTranscriptExplain(filePath, transcript) {
+  return {
+    command: "validate-session-transcript",
+    output: "explain",
+    file: filePath,
+    explanation: explainSessionTranscript(transcript)
+  };
+}
+
+function createSessionTranscriptOutput(filePath, transcript, mode) {
+  if (mode === "summary") {
+    return createSessionTranscriptSummary(filePath, transcript);
+  }
+
+  if (mode === "explain") {
+    return createSessionTranscriptExplain(filePath, transcript);
+  }
+
+  return createSessionTranscriptDefault(filePath, transcript);
+}
+
 function assertLocalFilePath(filePath, label) {
   if (/^[a-z][a-z\d+.-]*:\/\//i.test(filePath) || /^file:/i.test(filePath)) {
     throw new Error(`${label} must be a local file path.`);
@@ -628,6 +692,24 @@ async function run(argv) {
     return;
   }
 
+  if (command === "validate-session-transcript") {
+    const outputMode = readSessionTranscriptOutputMode(args);
+    if (outputMode.error) {
+      fail(outputMode.error);
+      return;
+    }
+
+    const filePath = readRequiredPathOption(args, "--file");
+    if (!filePath) {
+      fail("Missing required --file path.");
+      return;
+    }
+
+    const transcript = await readLocalJsonFile(filePath, "--file");
+    printJson(createSessionTranscriptOutput(filePath, transcript, outputMode.mode));
+    return;
+  }
+
   if (command === "serve") {
     const dryRun = args.includes("--dry-run");
     const manifestPath = readOption(args, "--manifest");
@@ -660,7 +742,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain]|serve --dry-run --manifest <path>>"
   );
 }
 

@@ -62,12 +62,21 @@ const phase38SessionEventTypes = [
   "session.completed",
   "session.error"
 ];
+const phase39TranscriptFixtures = [
+  "valid-error.json",
+  "valid-minimal.json",
+  "valid-task-approval.json",
+  "invalid-missing-session-started.json",
+  "invalid-out-of-order-sequence.json",
+  "invalid-safety-flag.json",
+  "invalid-source-harness.json"
+];
 
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "3.8",
-    name: "Locus family alignment and stdio session-event contracts",
+    id: "3.9",
+    name: "stdio session-event contract hardening and static transcript review",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -100,12 +109,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.8 status report.",
+      purpose: "Render this deterministic local Phase 3.9 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.8 status report.",
+      purpose: "Run focused tests for this local Phase 3.9 status report.",
       ranByReport: false
     },
     {
@@ -131,6 +140,16 @@ const report = {
     {
       command: "node --test tests/session-event-schema.test.mjs",
       purpose: "Run focused Phase 3.8 session-event schema and fixture tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/session-transcript-schema.test.mjs",
+      purpose: "Run focused Phase 3.9 session-transcript schema and fixture tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/core-phase3-9-session-transcripts.test.mjs",
+      purpose: "Run focused Phase 3.9 static transcript validation and summary tests.",
       ranByReport: false
     },
     {
@@ -175,7 +194,7 @@ const report = {
     ),
     await localInventoryEntry(
       "docs/session-events-stdio-contract.md",
-      "Documents future stdio-first session-event schema boundaries without adding runtime transport."
+      "Documents Phase 3.9 session-event and transcript review boundaries without adding runtime transport."
     ),
     await localInventoryEntry(
       "tests/core-phase3-1-planner-hardening.test.mjs",
@@ -196,6 +215,14 @@ const report = {
     await localInventoryEntry(
       "tests/session-event-schema.test.mjs",
       "Covers Phase 3.8 session-event schema validation and invalid examples."
+    ),
+    await localInventoryEntry(
+      "tests/session-transcript-schema.test.mjs",
+      "Covers Phase 3.9 session-transcript schema validation and transcript fixtures."
+    ),
+    await localInventoryEntry(
+      "tests/core-phase3-9-session-transcripts.test.mjs",
+      "Covers Phase 3.9 static transcript validation, classification, summaries, and explanations."
     ),
     await localInventoryEntry(
       "tests/phase3-8-locus-family-alignment.test.mjs",
@@ -516,6 +543,86 @@ const report = {
         "Covers reconciled Fabric family membership and rejection of legacy harness ids."
       )
     ]
+  },
+  phase39Inventory: {
+    transcriptSchema: {
+      schema: "https://schemas.ardyn.ai/session-transcript.schema.json",
+      schemaName: "ardyn.session-transcript",
+      schemaVersion: "0.1.0",
+      sourceHarness: "ardyn",
+      nonExecuting: true,
+      additionalProperties: false,
+      unknownTopLevelFieldsRejected: true,
+      unknownFutureMetadataInertUntilVersioned: true,
+      semanticChecksOutsideJsonSchema: [
+        "first-event-session-started",
+        "contiguous-sequence-ordering",
+        "cross-event-session-id-match",
+        "cross-event-source-harness-match"
+      ]
+    },
+    transcriptFixtures: {
+      directory: "examples/session-transcripts",
+      files: await Promise.all(phase39TranscriptFixtures.map((path) => fixtureInventoryEntry(`examples/session-transcripts/${path}`)))
+    },
+    transcriptDocs: [
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Documents the Phase 3.9 static session-transcript review model, inert metadata posture, and no stdio runtime boundary."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents the Rust host policy preconditions required before stdout/stderr and line-delimited JSON stdio semantics can exist."
+      ),
+      await localInventoryEntry(
+        "docs/locus-trace-display-contract.md",
+        "Documents Phase 3.9 read-only transcript viewer notes for Locus or any other peer client."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 3.9 transcript review scope, local-only report posture, and non-runtime validation command examples."
+      )
+    ],
+    transcriptTests: [
+      await localInventoryEntry(
+        "tests/session-transcript-schema.test.mjs",
+        "Covers Phase 3.9 transcript schema validation and fixture coverage."
+      ),
+      await localInventoryEntry(
+        "tests/core-phase3-9-session-transcripts.test.mjs",
+        "Covers Phase 3.9 transcript semantic validation, classification, summaries, and explanations."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 3.9 report metadata, transcript inventory, and local-summary-only safety posture."
+      )
+    ],
+    cliValidationCommandMetadata: {
+      expectedCommand: "ardyn validate-session-transcript --file <file>",
+      optionalModes: ["--summary", "--explain"],
+      summary:
+        "Implemented local read-only transcript validation command for static JSON review; Phase 3.9 does not implement a live stdio runtime.",
+      filePolicy: {
+        acceptsLocalFileOnly: true,
+        urlsAllowed: false,
+        fileUrlsAllowed: false,
+        networkSharePathsAllowed: false,
+        arbitraryLocalJsonPathsAllowed: true
+      },
+      writesFiles: false,
+      network: false,
+      stdioRuntime: false,
+      processSpawning: false,
+      locusRuntimeDependency: false
+    },
+    safetyPreconditions: {
+      explicitApprovalRequiredForTaskExecution: true,
+      adapterPermissionDeclarationsRequired: true,
+      rustHostPolicyRequiredForProcessNetworkFilesystemAccess: true,
+      codePackEnablementRequiresFabricVerificationQuarantineEnablePolicy: true,
+      stdoutStderrAndLineDelimitedJsonPolicyRequiredBeforeRuntime: true,
+      locusRole: "peer-client-viewer-or-future-controller-only"
+    }
   },
   safetyPosture: {
     nonExecuting: true,

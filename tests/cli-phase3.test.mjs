@@ -8,11 +8,15 @@ import test from "node:test";
 
 import {
   buildApprovalReviewArtifactDisplaySummary,
+  buildSessionTranscriptSummary,
   buildMigrationAttestationDisplaySummary,
   buildReviewArtifactAttestationPlan,
   buildSchemaMigrationMetadataRecord,
   classifyApprovalReviewArtifactCompatibility,
+  classifySessionTranscript,
+  explainSessionTranscript,
   normalizeApprovalReviewArtifactForDisplay,
+  validateSessionTranscript,
   validateApprovalReviewArtifactVersion
 } from "../packages/core/src/index.mjs";
 
@@ -92,6 +96,12 @@ const phase37UnsupportedMajorArtifactPath =
   "tests/fixtures/review-artifacts/phase3-7/unsupported-major-review-artifact.json";
 const phase37MalformedArtifactPath =
   "tests/fixtures/review-artifacts/phase3-7/malformed-review-artifact.json";
+const validMinimalTranscriptPath = "examples/session-transcripts/valid-minimal.json";
+const invalidOutOfOrderTranscriptPath = "examples/session-transcripts/invalid-out-of-order-sequence.json";
+const invalidMissingStartedTranscriptPath =
+  "examples/session-transcripts/invalid-missing-session-started.json";
+const invalidSourceHarnessTranscriptPath = "examples/session-transcripts/invalid-source-harness.json";
+const invalidSafetyFlagTranscriptPath = "examples/session-transcripts/invalid-safety-flag.json";
 
 async function readJsonFixture(fixturePath) {
   return JSON.parse(await readFile(fixturePath, "utf8"));
@@ -820,6 +830,158 @@ for (const filePath of [
     assertCliFailure(failure, /--file must be a local JSON file path\./);
   });
 }
+
+test("ardyn validate-session-transcript prints deterministic default validation JSON for a valid transcript", async () => {
+  const transcript = await readJsonFixture(validMinimalTranscriptPath);
+  const output = await runCli(["validate-session-transcript", "--file", validMinimalTranscriptPath]);
+
+  assert.deepEqual(output, {
+    command: "validate-session-transcript",
+    output: "default",
+    file: validMinimalTranscriptPath,
+    validation: validateSessionTranscript(transcript),
+    classification: classifySessionTranscript(transcript),
+    nonExecuting: true,
+    safety: classifySessionTranscript(transcript).safety
+  });
+  assert.equal(output.validation.valid, true);
+  assert.equal(output.classification.classification, "valid");
+  assert.equal(output.nonExecuting, true);
+  assertAllFalse(output.safety);
+  assertAllFalse(output.classification.safety);
+});
+
+test("ardyn validate-session-transcript --summary prints deterministic local-only summary", async () => {
+  const transcript = await readJsonFixture(validMinimalTranscriptPath);
+  const output = await runCli([
+    "validate-session-transcript",
+    "--file",
+    validMinimalTranscriptPath,
+    "--summary"
+  ]);
+
+  assert.deepEqual(output, {
+    command: "validate-session-transcript",
+    output: "summary",
+    file: validMinimalTranscriptPath,
+    summary: buildSessionTranscriptSummary(transcript)
+  });
+  assert.equal(output.summary.classification, "valid");
+  assertAllFalse(output.summary.safety);
+});
+
+test("ardyn validate-session-transcript keeps exit 0 and deterministic invalid classification for semantic transcript errors", async () => {
+  const transcript = await readJsonFixture(invalidOutOfOrderTranscriptPath);
+  const output = await runCli([
+    "validate-session-transcript",
+    "--file",
+    invalidOutOfOrderTranscriptPath
+  ]);
+
+  assert.deepEqual(output, {
+    command: "validate-session-transcript",
+    output: "default",
+    file: invalidOutOfOrderTranscriptPath,
+    validation: validateSessionTranscript(transcript),
+    classification: classifySessionTranscript(transcript),
+    nonExecuting: true,
+    safety: classifySessionTranscript(transcript).safety
+  });
+  assert.equal(output.validation.valid, false);
+  assert.equal(output.classification.classification, "invalid");
+  assert.deepEqual(output.validation.errors, [
+    "events[1].sequence must be 2",
+    "events[2].sequence must be 4"
+  ]);
+  assertAllFalse(output.safety);
+  assertAllFalse(output.classification.safety);
+});
+
+test("ardyn validate-session-transcript --explain prints deterministic invalid explanation", async () => {
+  const transcript = await readJsonFixture(invalidMissingStartedTranscriptPath);
+  const output = await runCli([
+    "validate-session-transcript",
+    "--file",
+    invalidMissingStartedTranscriptPath,
+    "--explain"
+  ]);
+
+  assert.deepEqual(output, {
+    command: "validate-session-transcript",
+    output: "explain",
+    file: invalidMissingStartedTranscriptPath,
+    explanation: explainSessionTranscript(transcript)
+  });
+  assert.equal(output.explanation.classification, "invalid");
+  assert.deepEqual(output.explanation.errors, ["events[0].eventType must be session.started"]);
+  assertAllFalse(output.explanation.safety);
+  assertAllFalse(output.explanation.summary.safety);
+});
+
+for (const [fixturePath, expectedErrors] of [
+  [invalidSourceHarnessTranscriptPath, ["sourceHarness must be ardyn"]],
+  [invalidSafetyFlagTranscriptPath, ["safety.executionEnabled must be false"]]
+]) {
+  test(`ardyn validate-session-transcript reports deterministic invalid classification for ${fixturePath}`, async () => {
+    const transcript = await readJsonFixture(fixturePath);
+    const output = await runCli(["validate-session-transcript", "--file", fixturePath]);
+
+    assert.equal(output.classification.classification, "invalid");
+    assert.deepEqual(output.validation.errors, expectedErrors);
+    assert.deepEqual(output.classification.errors, expectedErrors);
+    assert.deepEqual(output.validation, validateSessionTranscript(transcript));
+    assert.deepEqual(output.classification, classifySessionTranscript(transcript));
+    assertAllFalse(output.safety);
+    assertAllFalse(output.classification.safety);
+  });
+}
+
+test("ardyn validate-session-transcript without --file fails without JSON output", async () => {
+  const failure = await runCliFailure(["validate-session-transcript"]);
+
+  assertCliFailure(failure, /Missing required --file path\./);
+});
+
+test("ardyn validate-session-transcript with a missing file path value fails without JSON output", async () => {
+  const failure = await runCliFailure(["validate-session-transcript", "--file"]);
+
+  assertCliFailure(failure, /Missing required --file path\./);
+});
+
+test("ardyn validate-session-transcript rejects multiple output modes without JSON output", async () => {
+  const failure = await runCliFailure([
+    "validate-session-transcript",
+    "--file",
+    validMinimalTranscriptPath,
+    "--summary",
+    "--explain"
+  ]);
+
+  assertCliFailure(
+    failure,
+    /Session transcript output flags are mutually exclusive: --summary, --explain\./
+  );
+});
+
+for (const filePath of [
+  "https://example.test/session-transcript.json",
+  "file:///C:/tmp/session-transcript.json",
+  "\\\\server\\share\\session-transcript.json",
+  "//server/share/session-transcript.json"
+]) {
+  test(`ardyn validate-session-transcript rejects non-local file path ${filePath}`, async () => {
+    const failure = await runCliFailure(["validate-session-transcript", "--file", filePath]);
+
+    assertCliFailure(failure, /--file must be a local JSON file path\./);
+  });
+}
+
+test("ardyn validate-session-transcript keeps all top-level safety flags false", async () => {
+  const output = await runCli(["validate-session-transcript", "--file", validMinimalTranscriptPath]);
+
+  assert.equal(output.nonExecuting, true);
+  assertAllFalse(output.safety);
+});
 
 test("ardyn review-trace reports equal approval review artifacts", async () => {
   const output = await runCli([

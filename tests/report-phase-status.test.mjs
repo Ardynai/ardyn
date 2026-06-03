@@ -30,18 +30,18 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts.test, "node --test tests/*.test.mjs");
   assert.equal(
     packageJson.scripts["test:schemas"],
-    "node --test tests/schema-validation.test.mjs tests/session-event-schema.test.mjs"
+    "node --test tests/schema-validation.test.mjs tests/session-event-schema.test.mjs tests/session-transcript-schema.test.mjs"
   );
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 3.8 local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 3.9 local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "3.8",
-    name: "Locus family alignment and stdio session-event contracts",
+    id: "3.9",
+    name: "stdio session-event contract hardening and static transcript review",
     executionPosture: "non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
@@ -64,7 +64,8 @@ test("report lists configured checks and verification commands without running t
     {
       name: "test:schemas",
       command: "npm run test:schemas",
-      packageScript: "node --test tests/schema-validation.test.mjs tests/session-event-schema.test.mjs",
+      packageScript:
+        "node --test tests/schema-validation.test.mjs tests/session-event-schema.test.mjs tests/session-transcript-schema.test.mjs",
       ranByReport: false
     },
     {
@@ -98,12 +99,12 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.8 status report.",
+      purpose: "Render this deterministic local Phase 3.9 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.8 status report.",
+      purpose: "Run focused tests for this local Phase 3.9 status report.",
       ranByReport: false
     },
     {
@@ -129,6 +130,16 @@ test("report lists configured checks and verification commands without running t
     {
       command: "node --test tests/session-event-schema.test.mjs",
       purpose: "Run focused Phase 3.8 session-event schema and fixture tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/session-transcript-schema.test.mjs",
+      purpose: "Run focused Phase 3.9 session-transcript schema and fixture tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/core-phase3-9-session-transcripts.test.mjs",
+      purpose: "Run focused Phase 3.9 static transcript validation and summary tests.",
       ranByReport: false
     },
     {
@@ -269,6 +280,87 @@ test("report inventories review-trace commands and explicit-only output behavior
     reviewArtifactOutputRequiresExplicitCliFlag: true,
     summary:
       "The report script is stdout-only local metadata; artifact file writes are only available through an explicit plan --review-artifact --output CLI request."
+  });
+});
+
+test("report inventories Phase 3.9 transcript contract hardening and static review metadata", async () => {
+  const report = await runReport();
+
+  assert.deepEqual(report.phase39Inventory.transcriptSchema, {
+    schema: "https://schemas.ardyn.ai/session-transcript.schema.json",
+    schemaName: "ardyn.session-transcript",
+    schemaVersion: "0.1.0",
+    sourceHarness: "ardyn",
+    nonExecuting: true,
+    additionalProperties: false,
+    unknownTopLevelFieldsRejected: true,
+    unknownFutureMetadataInertUntilVersioned: true,
+    semanticChecksOutsideJsonSchema: [
+      "first-event-session-started",
+      "contiguous-sequence-ordering",
+      "cross-event-session-id-match",
+      "cross-event-source-harness-match"
+    ]
+  });
+
+  assert.deepEqual(report.phase39Inventory.transcriptFixtures, {
+    directory: "examples/session-transcripts",
+    files: [
+      { path: "examples/session-transcripts/valid-error.json", status: "present" },
+      { path: "examples/session-transcripts/valid-minimal.json", status: "present" },
+      { path: "examples/session-transcripts/valid-task-approval.json", status: "present" },
+      { path: "examples/session-transcripts/invalid-missing-session-started.json", status: "present" },
+      { path: "examples/session-transcripts/invalid-out-of-order-sequence.json", status: "present" },
+      { path: "examples/session-transcripts/invalid-safety-flag.json", status: "present" },
+      { path: "examples/session-transcripts/invalid-source-harness.json", status: "present" }
+    ]
+  });
+
+  assert.deepEqual(
+    report.phase39Inventory.transcriptDocs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/locus-trace-display-contract.md", "present"],
+      ["README.md", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    report.phase39Inventory.transcriptTests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/session-transcript-schema.test.mjs", "present"],
+      ["tests/core-phase3-9-session-transcripts.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+
+  assert.deepEqual(report.phase39Inventory.cliValidationCommandMetadata, {
+    expectedCommand: "ardyn validate-session-transcript --file <file>",
+    optionalModes: ["--summary", "--explain"],
+    summary:
+      "Implemented local read-only transcript validation command for static JSON review; Phase 3.9 does not implement a live stdio runtime.",
+    filePolicy: {
+      acceptsLocalFileOnly: true,
+      urlsAllowed: false,
+      fileUrlsAllowed: false,
+      networkSharePathsAllowed: false,
+      arbitraryLocalJsonPathsAllowed: true
+    },
+    writesFiles: false,
+    network: false,
+    stdioRuntime: false,
+    processSpawning: false,
+    locusRuntimeDependency: false
+  });
+
+  assert.deepEqual(report.phase39Inventory.safetyPreconditions, {
+    explicitApprovalRequiredForTaskExecution: true,
+    adapterPermissionDeclarationsRequired: true,
+    rustHostPolicyRequiredForProcessNetworkFilesystemAccess: true,
+    codePackEnablementRequiresFabricVerificationQuarantineEnablePolicy: true,
+    stdoutStderrAndLineDelimitedJsonPolicyRequiredBeforeRuntime: true,
+    locusRole: "peer-client-viewer-or-future-controller-only"
   });
 });
 

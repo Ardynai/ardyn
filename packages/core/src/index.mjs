@@ -71,6 +71,24 @@ const NO_EXECUTION_SAFETY_FLAGS = Object.freeze({
   codePackEnablementEnabled: false,
   agentLoopEnabled: false
 });
+const SESSION_TRANSCRIPT_SCHEMA = "ardyn.session-transcript";
+const SESSION_TRANSCRIPT_SUMMARY_SCHEMA = "ardyn.session-transcript-summary";
+const SESSION_TRANSCRIPT_EXPLANATION_SCHEMA = "ardyn.session-transcript-explanation";
+const SESSION_EVENT_TYPES = Object.freeze([
+  "session.started",
+  "session.heartbeat",
+  "session.capabilities",
+  "task.planned",
+  "approval.requested",
+  "approval.recorded",
+  "session.completed",
+  "session.error"
+]);
+const SESSION_EVENT_TYPE_SET = new Set(SESSION_EVENT_TYPES);
+const OPAQUE_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_.:-]{2,127}$/;
+const CAPABILITY_ID_PATTERN = /^[a-z][a-z0-9-]*(\.[a-z][a-z0-9-]*)*$/;
+const EVENT_CREATED_AT_PATTERN = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$/;
+const SESSION_ERROR_CODE_PATTERN = /^[a-z][a-z0-9_.-]{2,63}$/;
 
 const DEFAULT_APPROVAL_CREATED_AT = "1970-01-01T00:00:00.000Z";
 const DEFAULT_APPROVAL_REVIEW_GENERATED_AT = "1970-01-01T00:00:00.000Z";
@@ -1443,6 +1461,540 @@ function pushRequiredArray(errors, value, path) {
   if (!Array.isArray(value)) {
     errors.push(`${path} must be an array`);
   }
+}
+
+function hasOwn(source, key) {
+  return Object.prototype.hasOwnProperty.call(source, key);
+}
+
+function pushRequiredObject(errors, value, path) {
+  if (!validationObject(value)) {
+    errors.push(`${path} must be an object`);
+  }
+}
+
+function pushFalseSafetyErrors(errors, safety, path) {
+  if (!validationObject(safety)) {
+    errors.push(`${path} must be an object`);
+    return;
+  }
+
+  for (const key of Object.keys(NO_EXECUTION_SAFETY_FLAGS)) {
+    if (safety[key] !== false) {
+      errors.push(`${path}.${key} must be false`);
+    }
+  }
+}
+
+function pushOpaqueId(errors, value, path) {
+  if (typeof value !== "string" || value.length === 0) {
+    errors.push(`${path} must be a non-empty string`);
+    return;
+  }
+
+  if (!OPAQUE_ID_PATTERN.test(value)) {
+    errors.push(`${path} must match opaque id pattern`);
+  }
+}
+
+function pushCapabilityId(errors, value, path) {
+  if (typeof value !== "string" || value.length < 3 || value.length > 96) {
+    errors.push(`${path} must be a capability id string`);
+    return;
+  }
+
+  if (!CAPABILITY_ID_PATTERN.test(value)) {
+    errors.push(`${path} must be a capability id string`);
+  }
+}
+
+function pushStringMax(errors, value, path, maxLength) {
+  if (typeof value !== "string" || value.length === 0 || value.length > maxLength) {
+    errors.push(`${path} must be a non-empty string with maximum length ${maxLength}`);
+  }
+}
+
+function pushOptionalStringMax(errors, value, path, maxLength) {
+  if (value === undefined) {
+    return;
+  }
+
+  if (typeof value !== "string" || value.length > maxLength) {
+    errors.push(`${path} must be a string with maximum length ${maxLength}`);
+  }
+}
+
+function pushEnum(errors, value, path, allowedValues, reason = "must be a supported value") {
+  if (typeof value !== "string" || !allowedValues.includes(value)) {
+    errors.push(`${path} ${reason}`);
+  }
+}
+
+function pushNoAdditionalProperties(errors, value, path, allowedKeys) {
+  if (!validationObject(value)) {
+    return;
+  }
+
+  for (const key of Object.keys(value).sort(compareAscii)) {
+    if (!allowedKeys.includes(key)) {
+      errors.push(`${path}.${key} is not allowed`);
+    }
+  }
+}
+
+function pushStringArray(errors, value, path, { minItems = 0, unique = false, itemValidator = null } = {}) {
+  if (!Array.isArray(value)) {
+    errors.push(`${path} must be an array`);
+    return;
+  }
+
+  if (value.length < minItems) {
+    errors.push(`${path} must contain at least ${minItems} item${minItems === 1 ? "" : "s"}`);
+  }
+
+  if (unique) {
+    const seen = new Set();
+
+    for (const entry of value) {
+      if (seen.has(entry)) {
+        errors.push(`${path} must not contain duplicate values`);
+        break;
+      }
+      seen.add(entry);
+    }
+  }
+
+  value.forEach((entry, index) => {
+    if (itemValidator) {
+      itemValidator(errors, entry, `${path}[${index}]`);
+    } else if (typeof entry !== "string") {
+      errors.push(`${path}[${index}] must be a string`);
+    }
+  });
+}
+
+function sessionEventPayloadErrors(payload, eventType, path) {
+  const errors = [];
+
+  if (!validationObject(payload)) {
+    errors.push(`${path} must be an object`);
+    return errors;
+  }
+
+  if (eventType === "session.started") {
+    pushNoAdditionalProperties(errors, payload, path, ["manifestName", "mode", "phase"]);
+    pushStringMax(errors, payload.phase, `${path}.phase`, 96);
+    pushEnum(errors, payload.mode, `${path}.mode`, ["plan", "dry-run"]);
+    pushOptionalStringMax(errors, payload.manifestName, `${path}.manifestName`, 64);
+    return errors;
+  }
+
+  if (eventType === "session.heartbeat") {
+    pushNoAdditionalProperties(errors, payload, path, ["activeTaskId", "note", "status"]);
+    pushEnum(
+      errors,
+      payload.status,
+      `${path}.status`,
+      ["idle", "planning", "awaiting-approval", "completed", "error"]
+    );
+    if (payload.activeTaskId !== undefined) {
+      pushOpaqueId(errors, payload.activeTaskId, `${path}.activeTaskId`);
+    }
+    pushOptionalStringMax(errors, payload.note, `${path}.note`, 240);
+    return errors;
+  }
+
+  if (eventType === "session.capabilities") {
+    pushNoAdditionalProperties(errors, payload, path, ["capabilityIds"]);
+    pushStringArray(errors, payload.capabilityIds, `${path}.capabilityIds`, {
+      minItems: 1,
+      unique: true,
+      itemValidator: pushCapabilityId
+    });
+    return errors;
+  }
+
+  if (eventType === "task.planned") {
+    pushNoAdditionalProperties(errors, payload, path, [
+      "requestedCapabilityIds",
+      "selectedCapabilityIds",
+      "taskId",
+      "unresolvedRequests"
+    ]);
+    pushOpaqueId(errors, payload.taskId, `${path}.taskId`);
+    pushStringArray(errors, payload.requestedCapabilityIds, `${path}.requestedCapabilityIds`, {
+      minItems: 1,
+      itemValidator: pushCapabilityId
+    });
+    if (payload.selectedCapabilityIds !== undefined) {
+      pushStringArray(errors, payload.selectedCapabilityIds, `${path}.selectedCapabilityIds`, {
+        itemValidator: pushCapabilityId
+      });
+    }
+    pushStringArray(errors, payload.unresolvedRequests, `${path}.unresolvedRequests`);
+    return errors;
+  }
+
+  if (eventType === "approval.requested") {
+    pushNoAdditionalProperties(errors, payload, path, [
+      "approvalId",
+      "reason",
+      "requestedCapabilityIds",
+      "taskId"
+    ]);
+    pushOpaqueId(errors, payload.approvalId, `${path}.approvalId`);
+    pushOpaqueId(errors, payload.taskId, `${path}.taskId`);
+    pushStringArray(errors, payload.requestedCapabilityIds, `${path}.requestedCapabilityIds`, {
+      minItems: 1,
+      itemValidator: pushCapabilityId
+    });
+    pushStringMax(errors, payload.reason, `${path}.reason`, 400);
+    return errors;
+  }
+
+  if (eventType === "approval.recorded") {
+    pushNoAdditionalProperties(errors, payload, path, [
+      "approvalId",
+      "nonExecuting",
+      "reason",
+      "status",
+      "taskId"
+    ]);
+    pushOpaqueId(errors, payload.approvalId, `${path}.approvalId`);
+    pushOpaqueId(errors, payload.taskId, `${path}.taskId`);
+    pushEnum(
+      errors,
+      payload.status,
+      `${path}.status`,
+      ["required", "granted", "denied", "not_required"]
+    );
+    pushStringMax(errors, payload.reason, `${path}.reason`, 400);
+    if (payload.nonExecuting !== true) {
+      errors.push(`${path}.nonExecuting must be true`);
+    }
+    return errors;
+  }
+
+  if (eventType === "session.completed") {
+    pushNoAdditionalProperties(errors, payload, path, ["outcome", "summary"]);
+    pushEnum(
+      errors,
+      payload.outcome,
+      `${path}.outcome`,
+      ["success", "approval_pending", "no_match", "cancelled"]
+    );
+    pushOptionalStringMax(errors, payload.summary, `${path}.summary`, 400);
+    return errors;
+  }
+
+  if (eventType === "session.error") {
+    pushNoAdditionalProperties(errors, payload, path, ["code", "message", "retryable"]);
+    if (typeof payload.code !== "string" || !SESSION_ERROR_CODE_PATTERN.test(payload.code)) {
+      errors.push(`${path}.code must match session error code pattern`);
+    }
+    pushStringMax(errors, payload.message, `${path}.message`, 400);
+    if (typeof payload.retryable !== "boolean") {
+      errors.push(`${path}.retryable must be a boolean`);
+    }
+  }
+
+  return errors;
+}
+
+function validateSessionEventAtPath(event, path) {
+  const errors = [];
+
+  if (!validationObject(event)) {
+    return {
+      valid: false,
+      errors: [`${path} must be an object`]
+    };
+  }
+
+  if (event.schemaVersion !== ARDYN_SCHEMA_VERSION) {
+    errors.push(`${path}.schemaVersion must be ${ARDYN_SCHEMA_VERSION}`);
+  }
+
+  pushOpaqueId(errors, event.eventId, `${path}.eventId`);
+  pushOpaqueId(errors, event.sessionId, `${path}.sessionId`);
+
+  if (!Number.isInteger(event.sequence)) {
+    errors.push(`${path}.sequence must be an integer`);
+  } else if (event.sequence < 1) {
+    errors.push(`${path}.sequence must be greater than or equal to 1`);
+  }
+
+  if (typeof event.createdAt !== "string" || !EVENT_CREATED_AT_PATTERN.test(event.createdAt)) {
+    errors.push(`${path}.createdAt must be an RFC3339 UTC timestamp with whole seconds`);
+  }
+
+  if (event.sourceHarness !== "ardyn") {
+    errors.push(`${path}.sourceHarness must be ardyn`);
+  }
+
+  if (typeof event.eventType !== "string" || !SESSION_EVENT_TYPE_SET.has(event.eventType)) {
+    errors.push(`${path}.eventType must be a supported session event type`);
+  }
+
+  if (!hasOwn(event, "payload")) {
+    errors.push(`${path}.payload is required`);
+  } else if (typeof event.eventType === "string" && SESSION_EVENT_TYPE_SET.has(event.eventType)) {
+    errors.push(...sessionEventPayloadErrors(event.payload, event.eventType, `${path}.payload`));
+  }
+
+  if (event.nonExecuting !== true) {
+    errors.push(`${path}.nonExecuting must be true`);
+  }
+
+  pushFalseSafetyErrors(errors, event.safety, `${path}.safety`);
+
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+}
+
+function sessionTranscriptMalformedErrors(transcript) {
+  if (!validationObject(transcript)) {
+    return ["transcript must be an object"];
+  }
+
+  const errors = [];
+
+  if (transcript.schema !== SESSION_TRANSCRIPT_SCHEMA) {
+    errors.push(`schema must be ${SESSION_TRANSCRIPT_SCHEMA}`);
+  }
+
+  if (!Array.isArray(transcript.events)) {
+    errors.push("events must be an array");
+  }
+
+  if (!hasOwn(transcript, "schemaVersion")) {
+    errors.push("schemaVersion is required");
+  }
+
+  return errors;
+}
+
+function transcriptEventTypes(events) {
+  const seen = new Set();
+  const types = [];
+
+  for (const event of events) {
+    if (typeof event?.eventType !== "string" || seen.has(event.eventType)) {
+      continue;
+    }
+
+    seen.add(event.eventType);
+    types.push(event.eventType);
+  }
+
+  return types;
+}
+
+function transcriptSafetyAllFalse(safety) {
+  return (
+    validationObject(safety) &&
+    Object.keys(NO_EXECUTION_SAFETY_FLAGS).every((key) => safety[key] === false)
+  );
+}
+
+function transcriptChecks(transcript, validation, classification) {
+  const events = Array.isArray(transcript?.events) ? transcript.events : [];
+
+  return {
+    transcriptSchema: transcript?.schema === SESSION_TRANSCRIPT_SCHEMA,
+    transcriptSchemaVersion: transcript?.schemaVersion === ARDYN_SCHEMA_VERSION,
+    transcriptSessionId:
+      typeof transcript?.sessionId === "string" && transcript.sessionId.length > 0,
+    transcriptSourceHarness: transcript?.sourceHarness === "ardyn",
+    transcriptNonExecuting: transcript?.nonExecuting === true,
+    transcriptSafetyAllFalse: transcriptSafetyAllFalse(transcript?.safety),
+    eventsArray: Array.isArray(transcript?.events),
+    eventsNonEmpty: events.length > 0,
+    firstEventStarted: events[0]?.eventType === "session.started",
+    sequencesContiguous:
+      validation.errors.findIndex((error) => /events\[\d+\]\.sequence/.test(error)) === -1 &&
+      events.length > 0,
+    eventSessionIdsMatch:
+      validation.errors.findIndex((error) => error.includes("sessionId must match")) === -1 &&
+      classification !== "malformed",
+    eventSourceHarnessesMatch:
+      validation.errors.findIndex((error) => error.includes(".sourceHarness must be ardyn")) === -1 &&
+      classification !== "malformed",
+    eventNonExecuting:
+      validation.errors.findIndex((error) => error.includes(".nonExecuting must be true")) === -1 &&
+      classification !== "malformed",
+    eventSafetyAllFalse:
+      validation.errors.findIndex((error) => error.includes(".safety.")) === -1 &&
+      classification !== "malformed"
+  };
+}
+
+export function validateSessionEvent(event) {
+  const result = validateSessionEventAtPath(event, "event");
+
+  return {
+    valid: result.valid,
+    errors: result.errors.map((error) => error.replace(/^event\./, ""))
+  };
+}
+
+export function validateSessionTranscript(transcript) {
+  const errors = [];
+
+  if (!validationObject(transcript)) {
+    return {
+      valid: false,
+      errors: ["transcript must be an object"]
+    };
+  }
+
+  if (transcript.schema !== SESSION_TRANSCRIPT_SCHEMA) {
+    errors.push(`schema must be ${SESSION_TRANSCRIPT_SCHEMA}`);
+  }
+
+  if (transcript.schemaVersion !== ARDYN_SCHEMA_VERSION) {
+    errors.push(`schemaVersion must be ${ARDYN_SCHEMA_VERSION}`);
+  }
+
+  pushOpaqueId(errors, transcript.sessionId, "sessionId");
+
+  if (transcript.sourceHarness !== "ardyn") {
+    errors.push("sourceHarness must be ardyn");
+  }
+
+  if (transcript.nonExecuting !== true) {
+    errors.push("nonExecuting must be true");
+  }
+
+  pushFalseSafetyErrors(errors, transcript.safety, "safety");
+
+  if (!Array.isArray(transcript.events)) {
+    errors.push("events must be an array");
+  } else if (transcript.events.length === 0) {
+    errors.push("events must contain at least one event");
+  } else {
+    if (transcript.events[0]?.eventType !== "session.started") {
+      errors.push("events[0].eventType must be session.started");
+    }
+
+    let previousSequence = null;
+
+    transcript.events.forEach((event, index) => {
+      const eventResult = validateSessionEventAtPath(event, `events[${index}]`);
+      errors.push(...eventResult.errors);
+
+      if (validationObject(event) && event.sessionId !== transcript.sessionId) {
+        errors.push(`events[${index}].sessionId must match transcript.sessionId`);
+      }
+
+      if (validationObject(event) && Number.isInteger(event.sequence)) {
+        if (index === 0) {
+          if (event.sequence !== 1) {
+            errors.push("events[0].sequence must be 1");
+          }
+        } else if (previousSequence !== null && event.sequence !== previousSequence + 1) {
+          errors.push(`events[${index}].sequence must be ${previousSequence + 1}`);
+        }
+
+        previousSequence = event.sequence;
+      }
+    });
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+}
+
+export function classifySessionTranscript(transcript) {
+  const malformedErrors = sessionTranscriptMalformedErrors(transcript);
+
+  if (malformedErrors.length > 0) {
+    return {
+      classification: "malformed",
+      valid: false,
+      errors: malformedErrors,
+      nonExecuting: true,
+      safety: createNoExecutionSafetyFlags()
+    };
+  }
+
+  const validation = validateSessionTranscript(transcript);
+
+  return {
+    classification: validation.valid ? "valid" : "invalid",
+    valid: validation.valid,
+    errors: [...validation.errors],
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+export function buildSessionTranscriptSummary(transcript) {
+  const classification = classifySessionTranscript(transcript);
+  const events = Array.isArray(transcript?.events) ? transcript.events : [];
+  const firstSequence = Number.isInteger(events[0]?.sequence) ? events[0].sequence : null;
+  const lastSequence = Number.isInteger(events.at(-1)?.sequence) ? events.at(-1).sequence : null;
+
+  return {
+    schema: SESSION_TRANSCRIPT_SUMMARY_SCHEMA,
+    schemaVersion: ARDYN_SCHEMA_VERSION,
+    classification: classification.classification,
+    valid: classification.valid,
+    sessionId: typeof transcript?.sessionId === "string" ? transcript.sessionId : null,
+    sourceHarness: typeof transcript?.sourceHarness === "string" ? transcript.sourceHarness : null,
+    eventCount: events.length,
+    eventTypes: transcriptEventTypes(events),
+    firstEventType: typeof events[0]?.eventType === "string" ? events[0].eventType : null,
+    lastEventType:
+      typeof events.at(-1)?.eventType === "string" ? events.at(-1).eventType : null,
+    sequence: {
+      first: firstSequence,
+      last: lastSequence,
+      contiguous:
+        classification.errors.findIndex((error) => /events\[\d+\]\.sequence/.test(error)) === -1 &&
+        events.length > 0
+    },
+    lifecycle: {
+      startsWithSessionStarted: events[0]?.eventType === "session.started",
+      completed: events.some((event) => event?.eventType === "session.completed"),
+      errored: events.some((event) => event?.eventType === "session.error")
+    },
+    transcriptNonExecuting: transcript?.nonExecuting === true,
+    transcriptSafetyAllFalse: transcriptSafetyAllFalse(transcript?.safety),
+    errors: [...classification.errors],
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+export function explainSessionTranscript(transcript) {
+  const classification = classifySessionTranscript(transcript);
+  const validation =
+    classification.classification === "malformed"
+      ? {
+          valid: false,
+          errors: [...classification.errors]
+        }
+      : validateSessionTranscript(transcript);
+  const summary = buildSessionTranscriptSummary(transcript);
+
+  return {
+    schema: SESSION_TRANSCRIPT_EXPLANATION_SCHEMA,
+    schemaVersion: ARDYN_SCHEMA_VERSION,
+    classification: classification.classification,
+    valid: classification.valid,
+    sessionId: typeof transcript?.sessionId === "string" ? transcript.sessionId : null,
+    sourceHarness: typeof transcript?.sourceHarness === "string" ? transcript.sourceHarness : null,
+    checks: transcriptChecks(transcript, validation, classification.classification),
+    errors: [...classification.errors],
+    summary,
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
 }
 
 export function validateApprovalReviewArtifact(artifact) {
