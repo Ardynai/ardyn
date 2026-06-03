@@ -2,11 +2,12 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.0D still exposes static Rust host identity, handshake data, and
-policy-only stdio transport contract metadata. Rust task planning, runtime
-execution, live stdio reading, process-level stdio ownership, tool execution,
-network serving, plugin installation, torrent download, code-pack enablement,
-and agent-loop behavior are not implemented here.
+Phase 4.0E still exposes static Rust host identity, handshake data, policy-only
+stdio transport contract metadata, and deterministic review-only JSON export
+helpers. Rust task planning, runtime execution, live stdio reading,
+process-level stdio ownership, tool execution, network serving, plugin
+installation, torrent download, code-pack enablement, and agent-loop behavior
+are not implemented here.
 
 The Phase 4.0D contract surface is `stdio_transport_policy_contract()` plus the
 serializable `StdioTransportPolicyContract` and `RuntimeSafetyPolicyFlags`
@@ -15,6 +16,14 @@ JSONL framing, stderr diagnostics, redaction, backpressure, partial-write,
 line-integrity, exit, and transcript replay policies as inactive pre-runtime
 metadata. `is_pre_runtime_fail_closed()` verifies the disabled default. See
 `docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
+
+The Phase 4.0E metadata surface is `stdio_transport_policy_metadata_json()`,
+`parse_stdio_transport_policy_metadata_json()`,
+`stdio_transport_policy_metadata_digest_hex()`, and
+`host_policy_review_record_for_stdio_transport_policy_metadata()`. These
+helpers return strings or typed metadata only; they do not write files, print to
+stdout, read stdin, start a runtime, own stdio, or load secrets. See
+`docs/phase-4-0e-rust-host-policy-metadata.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

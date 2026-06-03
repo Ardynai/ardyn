@@ -8,15 +8,16 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.0D Scope
+## Phase 3 and Phase 4.0E Scope
 
-This repository is currently in Phase 4.0D Rust-host transport policy contract
+This repository is currently in Phase 4.0E Rust-host policy metadata export
 mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
 dry-run session-event JSONL, define the stdout/stderr, redaction, transcript
 persistence, and replay policies required before any live stdio runtime can
-exist, and codify those Phase 4.0C policies as inert Rust-host contract types.
+exist, codify those Phase 4.0C policies as inert Rust-host contract types, and
+export those contracts as deterministic review-only JSON metadata.
 
 Included now:
 
@@ -50,6 +51,9 @@ Included now:
   failures, process exit semantics, and proposal-only transcript replay design.
 - Phase 4.0D Rust-host stdio transport policy contract types, fail-closed
   defaults, and unit/static tests that keep all runtime ownership inactive.
+- Phase 4.0E deterministic Rust-host policy metadata JSON export, golden
+  fixture, fail-closed deserialization tests, digest helper, and future
+  host-policy review-record mapping.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -94,9 +98,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.0D CLI Usage
+## Phase 3 and Phase 4.0E CLI Usage
 
-Run non-executing commands directly from source through Phase 4.0D:
+Run non-executing commands directly from source through Phase 4.0E:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -201,7 +205,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.0D status report command is:
+The Phase 4.0E status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -214,8 +218,9 @@ host-policy precondition references, Phase 3.8 harness identity, Fabric family,
 Phase 3.9 session-event and session-transcript contract evidence, Phase 3.10
 session-transcript versioning/display metadata, Phase 4.0A dry-run event
 emission metadata, Phase 4.0B hardening metadata, Phase 4.0C pre-runtime
-transport policy metadata, Phase 4.0D Rust-host policy contract metadata, and
-safety posture.
+transport policy metadata, Phase 4.0D Rust-host policy contract metadata,
+Phase 4.0E policy metadata export/review-record mapping metadata, and safety
+posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -258,6 +263,12 @@ types model the 4.0C stdout/stderr, JSONL framing, diagnostic, redaction,
 backpressure, partial-write, line-integrity, exit, and transcript replay
 policies as policy-only pre-runtime metadata. See
 `docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
+
+Phase 4.0E adds no new CLI command and does not change the TypeScript dry-run
+emitter. It exports the Rust-host policy contract as deterministic review-only
+JSON metadata through Rust helpers, pins a golden fixture, and maps the metadata
+to a future host-policy review-record shape with approval/rejection effects
+kept false. See `docs/phase-4-0e-rust-host-policy-metadata.md`.
 
 ## Phase 3.3-3.9 Policy Review
 

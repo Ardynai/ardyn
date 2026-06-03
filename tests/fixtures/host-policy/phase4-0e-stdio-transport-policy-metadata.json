@@ -1,0 +1,197 @@
+{
+  "schema": "ardyn.stdio-transport-policy-metadata",
+  "schemaVersion": "0.1.0",
+  "metadataPhase": "phase-4.0e-rust-host-policy-metadata",
+  "contractPhase": "phase-4.0d-rust-host-transport-policy-contracts",
+  "exportStatus": "review-export-only",
+  "runtimeStatus": "pre-runtime-policy-only",
+  "reviewOnly": true,
+  "serialization": {
+    "format": "pretty-json-lf-terminated",
+    "serializer": "serde_json::to_string_pretty",
+    "finalLfRequired": true,
+    "crlfAllowed": false,
+    "topLevelFieldOrder": [
+      "schema",
+      "schemaVersion",
+      "metadataPhase",
+      "contractPhase",
+      "exportStatus",
+      "runtimeStatus",
+      "reviewOnly",
+      "serialization",
+      "policy",
+      "futureHostPolicyReviewRecord"
+    ]
+  },
+  "policy": {
+    "schemaVersion": "0.1.0",
+    "phase": "phase-4.0d-rust-host-transport-policy-contracts",
+    "implementationStatus": "policy-only-pre-runtime",
+    "runtimeImplementationActive": false,
+    "stdout": {
+      "currentOwner": "typescript-dry-run-cli",
+      "futureRuntimeOwner": "rust-host",
+      "reservedFor": "validated-session-event-jsonl-only",
+      "runtimeImplementationActive": false
+    },
+    "stderr": {
+      "currentOwner": "typescript-dry-run-cli",
+      "futureRuntimeOwner": "rust-host",
+      "reservedFor": "redacted-diagnostics-only",
+      "runtimeImplementationActive": false
+    },
+    "jsonlFraming": {
+      "utf8Only": true,
+      "lineEnding": "lf-only",
+      "crlfAllowed": false,
+      "blankLinesAllowed": false,
+      "finalLfRequiredForCompleteStreams": true,
+      "oneJsonObjectPerLine": true,
+      "validatesSessionEventSchema": true,
+      "contiguousSequencesRequired": true,
+      "duplicateEventIdsAllowed": false,
+      "partialFramesAreEvents": false
+    },
+    "stderrDiagnostics": {
+      "diagnosticsOnly": true,
+      "sessionEventsAllowedOnStderr": false,
+      "oneDiagnosticRecordPerLineBeforeRuntime": true,
+      "deterministicSeverityRequiredBeforeRuntime": true,
+      "deterministicCodeRequiredBeforeRuntime": true,
+      "stdoutDiagnosticsAllowed": false,
+      "currentDryRunDiagnosticsArePlainText": true
+    },
+    "redaction": {
+      "enforcementActive": false,
+      "requiredBeforeLiveRuntime": true,
+      "safeDiagnosticsToday": [
+        "usage-error",
+        "unknown-duplicate-or-missing-argument",
+        "local-path-policy-label",
+        "unreadable-local-file",
+        "json-parse-summary",
+        "schema-validation-summary"
+      ],
+      "mustRedactBeforeRuntime": [
+        "secret",
+        "production-signing-key",
+        "token-or-credential",
+        "local-absolute-path",
+        "environment-variable",
+        "stack-trace",
+        "raw-json-parse-excerpt",
+        "schema-validation-value"
+      ],
+      "stackTracesAllowed": false,
+      "environmentDumpsAllowed": false,
+      "secretsAllowed": false,
+      "productionSigningKeysAllowed": false
+    },
+    "backpressure": {
+      "implementationActive": false,
+      "mustRespectOsPipeBackpressure": true,
+      "boundedQueueRequiredBeforeRuntime": true,
+      "silentEventDropAllowed": false,
+      "autonomousRetryLoopAllowed": false,
+      "failureAction": "reject-and-terminate-transport"
+    },
+    "partialWrite": {
+      "implementationActive": false,
+      "smallestCommitUnit": "complete-lf-terminated-event-line",
+      "partialFramesAreTranscriptEvidence": false,
+      "recoveryAction": "reject-and-terminate-transport"
+    },
+    "lineIntegrity": {
+      "droppedLine": {
+        "kind": "dropped-line",
+        "recoveryDefined": false,
+        "action": "reject-transcript"
+      },
+      "duplicateLine": {
+        "kind": "duplicate-line",
+        "recoveryDefined": false,
+        "action": "reject-transcript"
+      },
+      "outOfOrderLine": {
+        "kind": "out-of-order-line",
+        "recoveryDefined": false,
+        "action": "reject-transcript"
+      },
+      "malformedLine": {
+        "kind": "malformed-line",
+        "recoveryDefined": false,
+        "action": "reject-transcript"
+      }
+    },
+    "exitSemantics": {
+      "successRequiresCompleteTerminalState": true,
+      "successRequiresAllCommittedFramesWritten": true,
+      "nonzeroOnTransportFailure": true,
+      "nonzeroStdoutPartialFinalLineAllowed": false,
+      "partialEventCommittedOnFailure": false
+    },
+    "transcriptReplay": {
+      "implementationStatus": "policy-only-pre-runtime",
+      "preferredInput": "normalized-session-transcript-json",
+      "rawJsonlCaptureRole": "forensic-source-only",
+      "compatibleWithExistingTranscriptValidation": true,
+      "transcriptPersistenceImplemented": false,
+      "replayRuntimeImplemented": false,
+      "futureCliProposalOnly": [
+        "ardyn replay-session-transcript --file <session-transcript.json> --summary",
+        "ardyn replay-session-transcript --file <session-transcript.json> --explain"
+      ]
+    },
+    "safety": {
+      "liveStdioRuntime": false,
+      "stdinCommandLoop": false,
+      "liveStdioReader": false,
+      "listener": false,
+      "server": false,
+      "subprocessSpawning": false,
+      "adapterCalls": false,
+      "locusRuntimeDependency": false,
+      "mcpCalls": false,
+      "openclawCalls": false,
+      "pluginExecution": false,
+      "contentFabricRuntimeBehavior": false,
+      "autonomousLoop": false,
+      "secretHandling": false,
+      "productionSigningKeys": false,
+      "transcriptPersistenceReplayRuntime": false,
+      "websocketHttpControlSurface": false,
+      "runtimeExecutionBehavior": false
+    }
+  },
+  "futureHostPolicyReviewRecord": {
+    "recordSchema": "ardyn.host-policy-review-record",
+    "recordSchemaVersion": "0.1.0",
+    "policyDigestAlgorithm": "sha256",
+    "reviewedPhase": "4.0E",
+    "runtimeStatus": "pre-runtime-policy-only",
+    "approvalFieldsReviewMetadataOnly": true,
+    "approvalRuntimeEffectAllowed": false,
+    "rejectionRuntimeEffectAllowed": false,
+    "nonExecutionInvariants": [
+      "no-live-stdio-runtime",
+      "no-stdin-command-loop",
+      "no-live-stdio-reader",
+      "no-listener",
+      "no-server",
+      "no-subprocess-spawning",
+      "no-adapter-calls",
+      "no-locus-runtime-dependency",
+      "no-mcp-calls",
+      "no-openclaw-calls",
+      "no-plugin-execution",
+      "no-content-fabric-runtime-behavior",
+      "no-autonomous-loop",
+      "no-secret-handling",
+      "no-production-signing-keys",
+      "no-transcript-persistence-replay-runtime",
+      "no-websocket-http-control-surface",
+      "no-runtime-execution-behavior"
+    ]
+  }
+}

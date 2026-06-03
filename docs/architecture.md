@@ -40,6 +40,13 @@ serializable metadata only: no process-level stdio ownership is active, no
 reader or writer loop exists, and every runtime safety flag remains false. See
 `docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
 
+Phase 4.0E exports that Rust-host policy contract as deterministic JSON review
+metadata through Rust helpers only. The export is a string/typed-data review
+artifact with a golden fixture, digest helper, and future host-policy
+review-record mapping; it does not write files, print to stdout, own stdio, or
+start runtime behavior. See
+`docs/phase-4-0e-rust-host-policy-metadata.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

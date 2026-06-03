@@ -2,10 +2,11 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.0D exposes the same command set as Phase 4.0B and Phase 4.0C:
+Phase 4.0E exposes the same command set as Phase 4.0B, Phase 4.0C, and Phase
+4.0D:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.0D adds Rust-host policy contract metadata only;
+`emit-session-events`. Phase 4.0E adds Rust-host policy export metadata only;
 it does not add a live stdio reader, replay command, listener, server,
 subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call,
 plugin execution path, Content Fabric runtime path, or agent loop.
@@ -102,3 +103,9 @@ Phase 4.0D codifies that policy as Rust-host contract types in
 intentionally adds no replay, live stdio, WebSocket, HTTP, subprocess,
 adapter, plugin, Content Fabric, secret, or production signing-key command.
 See `docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
+
+Phase 4.0E exports those Rust-host policy contracts as deterministic
+review-only JSON metadata from Rust helpers and still leaves CLI behavior
+unchanged. It adds no policy metadata CLI command, no file writer, no stdout
+printer, and no runtime command. See
+`docs/phase-4-0e-rust-host-policy-metadata.md`.

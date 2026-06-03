@@ -16,6 +16,14 @@ pub const ARDYN_SCHEMA_VERSION: &str = "0.1.0";
 pub const ARDYN_PHASE: &str = "phase-3-task-planning";
 pub const ARDYN_STDIO_TRANSPORT_POLICY_PHASE: &str =
     "phase-4.0d-rust-host-transport-policy-contracts";
+pub const ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA: &str =
+    "ardyn.stdio-transport-policy-metadata";
+pub const ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION: &str = "0.1.0";
+pub const ARDYN_STDIO_TRANSPORT_POLICY_METADATA_PHASE: &str =
+    "phase-4.0e-rust-host-policy-metadata";
+pub const ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA: &str = "ardyn.host-policy-review-record";
+pub const ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION: &str = "0.1.0";
+pub const ARDYN_POLICY_METADATA_DIGEST_ALGORITHM: &str = "sha256";
 
 pub type HostResult<T> = Result<T, Box<dyn Error + Send + Sync>>;
 
@@ -101,6 +109,30 @@ pub enum TranscriptReplayInputPreference {
 #[serde(rename_all = "kebab-case")]
 pub enum RawJsonlCaptureRole {
     ForensicSourceOnly,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum PolicyMetadataExportStatus {
+    ReviewExportOnly,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum PolicyRuntimeStatus {
+    PreRuntimePolicyOnly,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum PolicyJsonSerializationFormat {
+    PrettyJsonLfTerminated,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum HostPolicyReviewStatus {
+    ReviewPending,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -234,6 +266,16 @@ pub struct RuntimeSafetyPolicyFlags {
     pub runtime_execution_behavior: bool,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DeterministicPolicyJsonSerialization {
+    pub format: PolicyJsonSerializationFormat,
+    pub serializer: String,
+    pub final_lf_required: bool,
+    pub crlf_allowed: bool,
+    pub top_level_field_order: Vec<String>,
+}
+
 impl RuntimeSafetyPolicyFlags {
     pub fn all_runtime_flags_disabled(&self) -> bool {
         !self.live_stdio_runtime
@@ -275,6 +317,61 @@ pub struct StdioTransportPolicyContract {
     pub exit_semantics: ExitSemanticsPolicy,
     pub transcript_replay: TranscriptReplayReadinessPolicy,
     pub safety: RuntimeSafetyPolicyFlags,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyReviewRecordMapping {
+    pub record_schema: String,
+    pub record_schema_version: String,
+    pub policy_digest_algorithm: String,
+    pub reviewed_phase: String,
+    pub runtime_status: PolicyRuntimeStatus,
+    pub approval_fields_review_metadata_only: bool,
+    pub approval_runtime_effect_allowed: bool,
+    pub rejection_runtime_effect_allowed: bool,
+    pub non_execution_invariants: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioTransportPolicyMetadata {
+    pub schema: String,
+    pub schema_version: String,
+    pub metadata_phase: String,
+    pub contract_phase: String,
+    pub export_status: PolicyMetadataExportStatus,
+    pub runtime_status: PolicyRuntimeStatus,
+    pub review_only: bool,
+    pub serialization: DeterministicPolicyJsonSerialization,
+    pub policy: StdioTransportPolicyContract,
+    pub future_host_policy_review_record: HostPolicyReviewRecordMapping,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyReviewDecisionMetadata {
+    pub status: HostPolicyReviewStatus,
+    pub approval_recorded: bool,
+    pub rejection_recorded: bool,
+    pub review_metadata_only: bool,
+    pub approval_runtime_effect_allowed: bool,
+    pub rejection_runtime_effect_allowed: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyReviewRecord {
+    pub schema: String,
+    pub schema_version: String,
+    pub reviewed_phase: String,
+    pub policy_contract_schema: String,
+    pub policy_contract_version: String,
+    pub policy_digest_algorithm: String,
+    pub policy_digest_hex: String,
+    pub runtime_status: PolicyRuntimeStatus,
+    pub non_execution_invariants: Vec<String>,
+    pub decision: HostPolicyReviewDecisionMetadata,
 }
 
 impl StdioTransportPolicyContract {
@@ -364,6 +461,37 @@ fn line_failure_rule(kind: StdioLineFailureKind) -> LineIntegrityFailureRule {
     }
 }
 
+fn safe_stderr_diagnostics_today() -> Vec<StderrDiagnosticClass> {
+    vec![
+        StderrDiagnosticClass::UsageError,
+        StderrDiagnosticClass::UnknownDuplicateOrMissingArgument,
+        StderrDiagnosticClass::LocalPathPolicyLabel,
+        StderrDiagnosticClass::UnreadableLocalFile,
+        StderrDiagnosticClass::JsonParseSummary,
+        StderrDiagnosticClass::SchemaValidationSummary,
+    ]
+}
+
+fn required_redaction_subjects_before_runtime() -> Vec<RedactionSubject> {
+    vec![
+        RedactionSubject::Secret,
+        RedactionSubject::ProductionSigningKey,
+        RedactionSubject::TokenOrCredential,
+        RedactionSubject::LocalAbsolutePath,
+        RedactionSubject::EnvironmentVariable,
+        RedactionSubject::StackTrace,
+        RedactionSubject::RawJsonParseExcerpt,
+        RedactionSubject::SchemaValidationValue,
+    ]
+}
+
+fn transcript_replay_cli_proposals() -> Vec<String> {
+    vec![
+        "ardyn replay-session-transcript --file <session-transcript.json> --summary".to_string(),
+        "ardyn replay-session-transcript --file <session-transcript.json> --explain".to_string(),
+    ]
+}
+
 pub fn stdio_transport_policy_contract() -> StdioTransportPolicyContract {
     StdioTransportPolicyContract {
         schema_version: ARDYN_SCHEMA_VERSION.to_string(),
@@ -406,24 +534,8 @@ pub fn stdio_transport_policy_contract() -> StdioTransportPolicyContract {
         redaction: StderrRedactionPolicy {
             enforcement_active: false,
             required_before_live_runtime: true,
-            safe_diagnostics_today: vec![
-                StderrDiagnosticClass::UsageError,
-                StderrDiagnosticClass::UnknownDuplicateOrMissingArgument,
-                StderrDiagnosticClass::LocalPathPolicyLabel,
-                StderrDiagnosticClass::UnreadableLocalFile,
-                StderrDiagnosticClass::JsonParseSummary,
-                StderrDiagnosticClass::SchemaValidationSummary,
-            ],
-            must_redact_before_runtime: vec![
-                RedactionSubject::Secret,
-                RedactionSubject::ProductionSigningKey,
-                RedactionSubject::TokenOrCredential,
-                RedactionSubject::LocalAbsolutePath,
-                RedactionSubject::EnvironmentVariable,
-                RedactionSubject::StackTrace,
-                RedactionSubject::RawJsonParseExcerpt,
-                RedactionSubject::SchemaValidationValue,
-            ],
+            safe_diagnostics_today: safe_stderr_diagnostics_today(),
+            must_redact_before_runtime: required_redaction_subjects_before_runtime(),
             stack_traces_allowed: false,
             environment_dumps_allowed: false,
             secrets_allowed: false,
@@ -463,12 +575,7 @@ pub fn stdio_transport_policy_contract() -> StdioTransportPolicyContract {
             compatible_with_existing_transcript_validation: true,
             transcript_persistence_implemented: false,
             replay_runtime_implemented: false,
-            future_cli_proposal_only: vec![
-                "ardyn replay-session-transcript --file <session-transcript.json> --summary"
-                    .to_string(),
-                "ardyn replay-session-transcript --file <session-transcript.json> --explain"
-                    .to_string(),
-            ],
+            future_cli_proposal_only: transcript_replay_cli_proposals(),
         },
         safety: RuntimeSafetyPolicyFlags {
             live_stdio_runtime: false,
@@ -491,6 +598,386 @@ pub fn stdio_transport_policy_contract() -> StdioTransportPolicyContract {
             runtime_execution_behavior: false,
         },
     }
+}
+
+fn stdio_transport_policy_metadata_top_level_order() -> Vec<String> {
+    [
+        "schema",
+        "schemaVersion",
+        "metadataPhase",
+        "contractPhase",
+        "exportStatus",
+        "runtimeStatus",
+        "reviewOnly",
+        "serialization",
+        "policy",
+        "futureHostPolicyReviewRecord",
+    ]
+    .iter()
+    .map(|field| (*field).to_string())
+    .collect()
+}
+
+fn policy_non_execution_invariants() -> Vec<String> {
+    [
+        "no-live-stdio-runtime",
+        "no-stdin-command-loop",
+        "no-live-stdio-reader",
+        "no-listener",
+        "no-server",
+        "no-subprocess-spawning",
+        "no-adapter-calls",
+        "no-locus-runtime-dependency",
+        "no-mcp-calls",
+        "no-openclaw-calls",
+        "no-plugin-execution",
+        "no-content-fabric-runtime-behavior",
+        "no-autonomous-loop",
+        "no-secret-handling",
+        "no-production-signing-keys",
+        "no-transcript-persistence-replay-runtime",
+        "no-websocket-http-control-surface",
+        "no-runtime-execution-behavior",
+    ]
+    .iter()
+    .map(|invariant| (*invariant).to_string())
+    .collect()
+}
+
+pub fn stdio_transport_policy_metadata() -> StdioTransportPolicyMetadata {
+    StdioTransportPolicyMetadata {
+        schema: ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA.to_string(),
+        schema_version: ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION.to_string(),
+        metadata_phase: ARDYN_STDIO_TRANSPORT_POLICY_METADATA_PHASE.to_string(),
+        contract_phase: ARDYN_STDIO_TRANSPORT_POLICY_PHASE.to_string(),
+        export_status: PolicyMetadataExportStatus::ReviewExportOnly,
+        runtime_status: PolicyRuntimeStatus::PreRuntimePolicyOnly,
+        review_only: true,
+        serialization: DeterministicPolicyJsonSerialization {
+            format: PolicyJsonSerializationFormat::PrettyJsonLfTerminated,
+            serializer: "serde_json::to_string_pretty".to_string(),
+            final_lf_required: true,
+            crlf_allowed: false,
+            top_level_field_order: stdio_transport_policy_metadata_top_level_order(),
+        },
+        policy: stdio_transport_policy_contract(),
+        future_host_policy_review_record: HostPolicyReviewRecordMapping {
+            record_schema: ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA.to_string(),
+            record_schema_version: ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION.to_string(),
+            policy_digest_algorithm: ARDYN_POLICY_METADATA_DIGEST_ALGORITHM.to_string(),
+            reviewed_phase: "4.0E".to_string(),
+            runtime_status: PolicyRuntimeStatus::PreRuntimePolicyOnly,
+            approval_fields_review_metadata_only: true,
+            approval_runtime_effect_allowed: false,
+            rejection_runtime_effect_allowed: false,
+            non_execution_invariants: policy_non_execution_invariants(),
+        },
+    }
+}
+
+pub fn validate_stdio_transport_policy_metadata(
+    metadata: &StdioTransportPolicyMetadata,
+) -> HostResult<()> {
+    if metadata.schema != ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA {
+        return Err(validation_error("policy metadata schema is unsupported"));
+    }
+    if metadata.schema_version != ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION {
+        return Err(validation_error(
+            "policy metadata schemaVersion is unsupported",
+        ));
+    }
+    if metadata.metadata_phase != ARDYN_STDIO_TRANSPORT_POLICY_METADATA_PHASE {
+        return Err(validation_error("policy metadata phase is unsupported"));
+    }
+    if metadata.contract_phase != ARDYN_STDIO_TRANSPORT_POLICY_PHASE {
+        return Err(validation_error("policy contract phase is unsupported"));
+    }
+    if metadata.export_status != PolicyMetadataExportStatus::ReviewExportOnly {
+        return Err(validation_error(
+            "policy metadata must remain review-export-only",
+        ));
+    }
+    if metadata.runtime_status != PolicyRuntimeStatus::PreRuntimePolicyOnly {
+        return Err(validation_error(
+            "policy metadata must remain pre-runtime-policy-only",
+        ));
+    }
+    if !metadata.review_only {
+        return Err(validation_error("policy metadata must be review-only"));
+    }
+    if metadata.serialization.format != PolicyJsonSerializationFormat::PrettyJsonLfTerminated {
+        return Err(validation_error(
+            "policy metadata serializer format is unsupported",
+        ));
+    }
+    if metadata.serialization.serializer != "serde_json::to_string_pretty" {
+        return Err(validation_error(
+            "policy metadata serializer is unsupported",
+        ));
+    }
+    if !metadata.serialization.final_lf_required || metadata.serialization.crlf_allowed {
+        return Err(validation_error(
+            "policy metadata must be LF-terminated JSON",
+        ));
+    }
+    if metadata.serialization.top_level_field_order
+        != stdio_transport_policy_metadata_top_level_order()
+    {
+        return Err(validation_error(
+            "policy metadata top-level field order is unsupported",
+        ));
+    }
+    if metadata.future_host_policy_review_record.record_schema
+        != ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA
+    {
+        return Err(validation_error(
+            "host-policy review record schema is unsupported",
+        ));
+    }
+    if metadata
+        .future_host_policy_review_record
+        .record_schema_version
+        != ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION
+    {
+        return Err(validation_error(
+            "host-policy review record schemaVersion is unsupported",
+        ));
+    }
+    if metadata
+        .future_host_policy_review_record
+        .policy_digest_algorithm
+        != ARDYN_POLICY_METADATA_DIGEST_ALGORITHM
+    {
+        return Err(validation_error(
+            "host-policy review record digest algorithm is unsupported",
+        ));
+    }
+    if metadata.future_host_policy_review_record.reviewed_phase != "4.0E" {
+        return Err(validation_error(
+            "host-policy review record reviewed phase is unsupported",
+        ));
+    }
+    if metadata.future_host_policy_review_record.runtime_status
+        != PolicyRuntimeStatus::PreRuntimePolicyOnly
+    {
+        return Err(validation_error(
+            "host-policy review record runtime status is unsupported",
+        ));
+    }
+    if !metadata
+        .future_host_policy_review_record
+        .approval_fields_review_metadata_only
+        || metadata
+            .future_host_policy_review_record
+            .approval_runtime_effect_allowed
+        || metadata
+            .future_host_policy_review_record
+            .rejection_runtime_effect_allowed
+    {
+        return Err(validation_error(
+            "host-policy review fields must remain metadata-only",
+        ));
+    }
+    if metadata
+        .future_host_policy_review_record
+        .non_execution_invariants
+        != policy_non_execution_invariants()
+    {
+        return Err(validation_error(
+            "host-policy review record invariants are unsupported",
+        ));
+    }
+    if metadata.policy.schema_version != ARDYN_SCHEMA_VERSION {
+        return Err(validation_error(
+            "policy contract schemaVersion is unsupported",
+        ));
+    }
+    if metadata.policy.phase != ARDYN_STDIO_TRANSPORT_POLICY_PHASE {
+        return Err(validation_error("policy contract phase is unsupported"));
+    }
+    if !metadata
+        .policy
+        .stderr_diagnostics
+        .one_diagnostic_record_per_line_before_runtime
+        || !metadata
+            .policy
+            .stderr_diagnostics
+            .deterministic_severity_required_before_runtime
+        || !metadata
+            .policy
+            .stderr_diagnostics
+            .deterministic_code_required_before_runtime
+        || !metadata
+            .policy
+            .stderr_diagnostics
+            .current_dry_run_diagnostics_are_plain_text
+    {
+        return Err(validation_error(
+            "stderr diagnostic determinism must remain pinned",
+        ));
+    }
+    if metadata.policy.redaction.safe_diagnostics_today != safe_stderr_diagnostics_today()
+        || metadata.policy.redaction.must_redact_before_runtime
+            != required_redaction_subjects_before_runtime()
+    {
+        return Err(validation_error(
+            "policy redaction categories are unsupported",
+        ));
+    }
+    if metadata.policy.line_integrity.dropped_line.kind != StdioLineFailureKind::DroppedLine
+        || metadata.policy.line_integrity.duplicate_line.kind != StdioLineFailureKind::DuplicateLine
+        || metadata.policy.line_integrity.out_of_order_line.kind
+            != StdioLineFailureKind::OutOfOrderLine
+        || metadata.policy.line_integrity.malformed_line.kind != StdioLineFailureKind::MalformedLine
+    {
+        return Err(validation_error(
+            "policy line-integrity kind placement is unsupported",
+        ));
+    }
+    if metadata.policy.transcript_replay.future_cli_proposal_only
+        != transcript_replay_cli_proposals()
+    {
+        return Err(validation_error(
+            "policy transcript replay proposal metadata is unsupported",
+        ));
+    }
+    if !metadata.policy.is_pre_runtime_fail_closed() {
+        return Err(validation_error(
+            "policy metadata contains a runtime-permissive policy",
+        ));
+    }
+
+    Ok(())
+}
+
+pub fn serialize_stdio_transport_policy_metadata_json(
+    metadata: &StdioTransportPolicyMetadata,
+) -> HostResult<String> {
+    validate_stdio_transport_policy_metadata(metadata)?;
+    let json = serde_json::to_string_pretty(metadata)?;
+
+    Ok(format!("{json}\n"))
+}
+
+pub fn stdio_transport_policy_metadata_json() -> HostResult<String> {
+    serialize_stdio_transport_policy_metadata_json(&stdio_transport_policy_metadata())
+}
+
+pub fn parse_stdio_transport_policy_metadata_json(
+    input: &str,
+) -> HostResult<StdioTransportPolicyMetadata> {
+    if input.contains('\r') {
+        return Err(validation_error("policy metadata must be LF-only JSON"));
+    }
+
+    let metadata: StdioTransportPolicyMetadata = serde_json::from_str(input)?;
+    validate_stdio_transport_policy_metadata(&metadata)?;
+    Ok(metadata)
+}
+
+pub fn stdio_transport_policy_metadata_digest_hex(
+    metadata: &StdioTransportPolicyMetadata,
+) -> HostResult<String> {
+    let json = serialize_stdio_transport_policy_metadata_json(metadata)?;
+
+    Ok(fabric_sha256_hex(json.as_bytes()))
+}
+
+pub fn host_policy_review_record_for_stdio_transport_policy_metadata(
+    metadata: &StdioTransportPolicyMetadata,
+) -> HostResult<HostPolicyReviewRecord> {
+    validate_stdio_transport_policy_metadata(metadata)?;
+
+    Ok(HostPolicyReviewRecord {
+        schema: ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA.to_string(),
+        schema_version: ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION.to_string(),
+        reviewed_phase: metadata
+            .future_host_policy_review_record
+            .reviewed_phase
+            .clone(),
+        policy_contract_schema: metadata.schema.clone(),
+        policy_contract_version: metadata.schema_version.clone(),
+        policy_digest_algorithm: metadata
+            .future_host_policy_review_record
+            .policy_digest_algorithm
+            .clone(),
+        policy_digest_hex: stdio_transport_policy_metadata_digest_hex(metadata)?,
+        runtime_status: PolicyRuntimeStatus::PreRuntimePolicyOnly,
+        non_execution_invariants: metadata
+            .future_host_policy_review_record
+            .non_execution_invariants
+            .clone(),
+        decision: HostPolicyReviewDecisionMetadata {
+            status: HostPolicyReviewStatus::ReviewPending,
+            approval_recorded: false,
+            rejection_recorded: false,
+            review_metadata_only: true,
+            approval_runtime_effect_allowed: false,
+            rejection_runtime_effect_allowed: false,
+        },
+    })
+}
+
+pub fn validate_host_policy_review_record(record: &HostPolicyReviewRecord) -> HostResult<()> {
+    if record.schema != ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA {
+        return Err(validation_error(
+            "host-policy review record schema is unsupported",
+        ));
+    }
+    if record.schema_version != ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION {
+        return Err(validation_error(
+            "host-policy review record schemaVersion is unsupported",
+        ));
+    }
+    if record.reviewed_phase != "4.0E" {
+        return Err(validation_error(
+            "host-policy review record phase is unsupported",
+        ));
+    }
+    if record.policy_contract_schema != ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA {
+        return Err(validation_error(
+            "host-policy review record contract schema is unsupported",
+        ));
+    }
+    if record.policy_contract_version != ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION {
+        return Err(validation_error(
+            "host-policy review record contract version is unsupported",
+        ));
+    }
+    if record.policy_digest_algorithm != ARDYN_POLICY_METADATA_DIGEST_ALGORITHM
+        || record.policy_digest_hex.len() != 64
+        || !record
+            .policy_digest_hex
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+    {
+        return Err(validation_error(
+            "host-policy review record digest is unsupported",
+        ));
+    }
+    if record.runtime_status != PolicyRuntimeStatus::PreRuntimePolicyOnly {
+        return Err(validation_error(
+            "host-policy review record runtime status is unsupported",
+        ));
+    }
+    if record.non_execution_invariants != policy_non_execution_invariants() {
+        return Err(validation_error(
+            "host-policy review record invariants are unsupported",
+        ));
+    }
+    if record.decision.status != HostPolicyReviewStatus::ReviewPending
+        || record.decision.approval_recorded
+        || record.decision.rejection_recorded
+        || !record.decision.review_metadata_only
+        || record.decision.approval_runtime_effect_allowed
+        || record.decision.rejection_runtime_effect_allowed
+    {
+        return Err(validation_error(
+            "host-policy review record decision must remain metadata-only",
+        ));
+    }
+
+    Ok(())
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -1352,6 +1839,238 @@ mod tests {
         let mut policy = stdio_transport_policy_contract();
         policy.transcript_replay.replay_runtime_implemented = true;
         assert!(!policy.is_pre_runtime_fail_closed());
+    }
+
+    fn policy_metadata_json_value() -> serde_json::Value {
+        serde_json::from_str(&stdio_transport_policy_metadata_json().expect("metadata json"))
+            .expect("metadata value")
+    }
+
+    fn metadata_json_from_value(value: serde_json::Value) -> String {
+        format!(
+            "{}\n",
+            serde_json::to_string_pretty(&value).expect("metadata value json")
+        )
+    }
+
+    fn assert_policy_metadata_rejected(value: serde_json::Value, label: &str) {
+        let json = metadata_json_from_value(value);
+        let error = parse_stdio_transport_policy_metadata_json(&json)
+            .expect_err("metadata mutation should fail closed");
+
+        assert!(
+            !error.to_string().is_empty(),
+            "{label} should produce a diagnostic"
+        );
+    }
+
+    #[test]
+    fn stdio_transport_policy_metadata_json_is_deterministic_and_matches_golden_fixture() {
+        let first = stdio_transport_policy_metadata_json().expect("first metadata json");
+        let second = stdio_transport_policy_metadata_json().expect("second metadata json");
+        let fixture = include_str!(
+            "../../../tests/fixtures/host-policy/phase4-0e-stdio-transport-policy-metadata.json"
+        );
+
+        assert_eq!(first, second);
+        assert_eq!(first, fixture);
+        assert!(first.ends_with('\n'));
+        assert!(!first.contains('\r'));
+        assert!(parse_stdio_transport_policy_metadata_json(&first).is_ok());
+    }
+
+    #[test]
+    fn stdio_transport_policy_metadata_top_level_field_order_is_stable() {
+        let json = stdio_transport_policy_metadata_json().expect("metadata json");
+        let mut previous_index = None;
+
+        for field in stdio_transport_policy_metadata_top_level_order() {
+            let needle = format!("  \"{field}\":");
+            let index = json.find(&needle).expect("field should exist");
+
+            if let Some(previous_index) = previous_index {
+                assert!(
+                    previous_index < index,
+                    "{field} should appear after the previous field"
+                );
+            }
+
+            previous_index = Some(index);
+        }
+    }
+
+    #[test]
+    fn stdio_transport_policy_metadata_defaults_and_review_record_mapping_are_review_only() {
+        let metadata = stdio_transport_policy_metadata();
+        validate_stdio_transport_policy_metadata(&metadata).expect("metadata");
+
+        assert_eq!(
+            metadata.schema,
+            ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA
+        );
+        assert_eq!(
+            metadata.schema_version,
+            ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION
+        );
+        assert_eq!(
+            metadata.metadata_phase,
+            ARDYN_STDIO_TRANSPORT_POLICY_METADATA_PHASE
+        );
+        assert_eq!(metadata.contract_phase, ARDYN_STDIO_TRANSPORT_POLICY_PHASE);
+        assert_eq!(
+            metadata.export_status,
+            PolicyMetadataExportStatus::ReviewExportOnly
+        );
+        assert_eq!(
+            metadata.runtime_status,
+            PolicyRuntimeStatus::PreRuntimePolicyOnly
+        );
+        assert!(metadata.review_only);
+        assert_eq!(
+            metadata.serialization.format,
+            PolicyJsonSerializationFormat::PrettyJsonLfTerminated
+        );
+        assert!(metadata.serialization.final_lf_required);
+        assert!(!metadata.serialization.crlf_allowed);
+        assert!(metadata.policy.is_pre_runtime_fail_closed());
+
+        let digest = stdio_transport_policy_metadata_digest_hex(&metadata).expect("digest");
+        assert_eq!(digest.len(), 64);
+        assert!(digest
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase()));
+
+        let review_record =
+            host_policy_review_record_for_stdio_transport_policy_metadata(&metadata)
+                .expect("review record");
+        validate_host_policy_review_record(&review_record).expect("review record validation");
+
+        assert_eq!(review_record.schema, ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA);
+        assert_eq!(review_record.reviewed_phase, "4.0E");
+        assert_eq!(review_record.policy_contract_schema, metadata.schema);
+        assert_eq!(
+            review_record.policy_contract_version,
+            metadata.schema_version
+        );
+        assert_eq!(review_record.policy_digest_algorithm, "sha256");
+        assert_eq!(review_record.policy_digest_hex, digest);
+        assert_eq!(
+            review_record.runtime_status,
+            PolicyRuntimeStatus::PreRuntimePolicyOnly
+        );
+        assert_eq!(
+            review_record.decision.status,
+            HostPolicyReviewStatus::ReviewPending
+        );
+        assert!(!review_record.decision.approval_recorded);
+        assert!(!review_record.decision.rejection_recorded);
+        assert!(review_record.decision.review_metadata_only);
+        assert!(!review_record.decision.approval_runtime_effect_allowed);
+        assert!(!review_record.decision.rejection_runtime_effect_allowed);
+    }
+
+    #[test]
+    fn stdio_transport_policy_metadata_rejects_unknown_and_unsupported_versions() {
+        let mut value = policy_metadata_json_value();
+        value["schemaVersion"] = serde_json::Value::String("9.9.9".to_string());
+        assert_policy_metadata_rejected(value, "unknown metadata version");
+
+        let mut value = policy_metadata_json_value();
+        value["policy"]["schemaVersion"] = serde_json::Value::String("9.9.9".to_string());
+        assert_policy_metadata_rejected(value, "unknown policy version");
+
+        let mut value = policy_metadata_json_value();
+        value["metadataPhase"] = serde_json::Value::String("phase-4.1-runtime".to_string());
+        assert_policy_metadata_rejected(value, "unsupported metadata phase");
+    }
+
+    #[test]
+    fn stdio_transport_policy_metadata_rejects_missing_or_malformed_fields() {
+        let mut value = policy_metadata_json_value();
+        value
+            .as_object_mut()
+            .expect("metadata object")
+            .remove("policy");
+        assert_policy_metadata_rejected(value, "missing policy");
+
+        let invalid_json = "{ invalid metadata\n";
+        assert!(parse_stdio_transport_policy_metadata_json(invalid_json).is_err());
+
+        let crlf_json = stdio_transport_policy_metadata_json()
+            .expect("metadata json")
+            .replace('\n', "\r\n");
+        assert!(parse_stdio_transport_policy_metadata_json(&crlf_json).is_err());
+    }
+
+    #[test]
+    fn stdio_transport_policy_metadata_rejects_invalid_stdio_ownership_values() {
+        let mut value = policy_metadata_json_value();
+        value["policy"]["stdout"]["currentOwner"] =
+            serde_json::Value::String("live-runtime".to_string());
+        assert_policy_metadata_rejected(value, "invalid stdout owner");
+
+        let mut value = policy_metadata_json_value();
+        value["policy"]["stderr"]["futureRuntimeOwner"] =
+            serde_json::Value::String("typescript-runtime-loop".to_string());
+        assert_policy_metadata_rejected(value, "invalid stderr owner");
+    }
+
+    #[test]
+    fn stdio_transport_policy_metadata_rejects_permissive_live_runtime_modes() {
+        let mut value = policy_metadata_json_value();
+        value["reviewOnly"] = serde_json::Value::Bool(false);
+        assert_policy_metadata_rejected(value, "review-only disabled");
+
+        let mut value = policy_metadata_json_value();
+        value["policy"]["runtimeImplementationActive"] = serde_json::Value::Bool(true);
+        assert_policy_metadata_rejected(value, "runtime implementation active");
+
+        let mut value = policy_metadata_json_value();
+        value["policy"]["safety"]["liveStdioRuntime"] = serde_json::Value::Bool(true);
+        assert_policy_metadata_rejected(value, "live stdio runtime");
+
+        let mut value = policy_metadata_json_value();
+        value["futureHostPolicyReviewRecord"]["approvalRuntimeEffectAllowed"] =
+            serde_json::Value::Bool(true);
+        assert_policy_metadata_rejected(value, "approval runtime effect");
+    }
+
+    #[test]
+    fn stdio_transport_policy_metadata_rejects_malformed_redaction_line_and_exit_policy() {
+        let mut value = policy_metadata_json_value();
+        value["policy"]["redaction"]["secretsAllowed"] = serde_json::Value::Bool(true);
+        assert_policy_metadata_rejected(value, "malformed redaction policy");
+
+        let mut value = policy_metadata_json_value();
+        value["policy"]["redaction"]["safeDiagnosticsToday"]
+            .as_array_mut()
+            .expect("safe diagnostics")
+            .remove(0);
+        assert_policy_metadata_rejected(value, "redaction category drift");
+
+        let mut value = policy_metadata_json_value();
+        value["policy"]["lineIntegrity"]["duplicateLine"]["recoveryDefined"] =
+            serde_json::Value::Bool(true);
+        assert_policy_metadata_rejected(value, "malformed line-integrity policy");
+
+        let mut value = policy_metadata_json_value();
+        value["policy"]["lineIntegrity"]["droppedLine"]["kind"] =
+            serde_json::Value::String("duplicate-line".to_string());
+        assert_policy_metadata_rejected(value, "line-integrity kind drift");
+
+        let mut value = policy_metadata_json_value();
+        value["policy"]["exitSemantics"]["nonzeroOnTransportFailure"] =
+            serde_json::Value::Bool(false);
+        assert_policy_metadata_rejected(value, "malformed exit semantics");
+
+        let mut value = policy_metadata_json_value();
+        value["policy"]["transcriptReplay"]["futureCliProposalOnly"]
+            .as_array_mut()
+            .expect("replay proposals")
+            .push(serde_json::Value::String(
+                "ardyn replay-session-transcript --execute".to_string(),
+            ));
+        assert_policy_metadata_rejected(value, "transcript replay proposal drift");
     }
 
     #[test]

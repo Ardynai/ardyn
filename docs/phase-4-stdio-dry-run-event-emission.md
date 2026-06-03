@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B/4.0C/4.0D Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B/4.0C/4.0D/4.0E Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -18,6 +18,12 @@ does not change the finite TypeScript dry-run emitter or add a live stdio
 reader, stdin command loop, process supervisor, transcript persistence, replay
 command, WebSocket, HTTP, adapter, plugin, Content Fabric runtime, secret, or
 production signing-key path.
+
+Phase 4.0E exports the Rust-host policy contract as deterministic review-only
+JSON metadata. It still does not change the finite TypeScript dry-run emitter
+or add a CLI export command, file writer, stdout printer, live stdio reader,
+runtime owner, transcript persistence, replay command, WebSocket, HTTP,
+adapter, plugin, Content Fabric runtime, secret, or production signing-key path.
 
 ## CLI Surface
 
@@ -167,9 +173,21 @@ See `docs/phase-4-0d-rust-host-transport-policy-contracts.md` for the typed
 contract. Phase 4.0D does not implement live replay, live persistence, a stdin
 reader, a transport loop, or a new CLI command.
 
+## Phase 4.0E Rust-Host Policy Metadata Export
+
+Phase 4.0E exposes deterministic Rust helpers that return the Phase 4.0D policy
+contract as review-only JSON metadata, validate that metadata, parse it
+fail-closed, compute a SHA-256 digest over the deterministic bytes, and map it
+to a future host-policy review-record shape. See
+`docs/phase-4-0e-rust-host-policy-metadata.md`.
+
+The Phase 4.0E export has a golden fixture at
+`tests/fixtures/host-policy/phase4-0e-stdio-transport-policy-metadata.json`.
+It is not a CLI command and does not write files or stdout.
+
 ## Deferred Runtime Work
 
-Phase 4.0D intentionally does not implement repo-root confinement, transcript
+Phase 4.0E intentionally does not implement repo-root confinement, transcript
 persistence, dropped-line replay, duplicate detection across a live stream,
 stderr redaction enforcement, or Rust-host stdout/stderr runtime ownership.
 It documents and types those requirements for a later reviewed host-policy

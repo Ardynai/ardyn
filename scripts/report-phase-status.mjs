@@ -90,8 +90,8 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.0D",
-    name: "Rust host stdio transport policy contracts",
+    id: "4.0E",
+    name: "Rust host policy metadata export",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -124,12 +124,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0D status report.",
+      purpose: "Render this deterministic local Phase 4.0E status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0D status report.",
+      purpose: "Run focused tests for this local Phase 4.0E status report.",
       ranByReport: false
     },
     {
@@ -145,6 +145,11 @@ const report = {
     {
       command: "node --test tests/phase4-0d-rust-host-policy-contracts.test.mjs",
       purpose: "Run focused Phase 4.0D Rust-host transport policy contract static checks.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-0e-policy-metadata.test.mjs",
+      purpose: "Run focused Phase 4.0E Rust-host policy metadata export static checks.",
       ranByReport: false
     },
     {
@@ -1358,6 +1363,168 @@ const report = {
       noProductionSigningKeys: true
     }
   },
+  phase40EInventory: {
+    policyMetadata: {
+      document: "docs/phase-4-0e-rust-host-policy-metadata.md",
+      source: "crates/ardyn-host/src/lib.rs",
+      fixture: "tests/fixtures/host-policy/phase4-0e-stdio-transport-policy-metadata.json",
+      schema: "ardyn.stdio-transport-policy-metadata",
+      schemaVersion: "0.1.0",
+      metadataPhase: "phase-4.0e-rust-host-policy-metadata",
+      contractPhase: "phase-4.0d-rust-host-transport-policy-contracts",
+      exportStatus: "review-export-only",
+      runtimeStatus: "pre-runtime-policy-only",
+      reviewOnly: true,
+      activeRuntimeEnforcement: false,
+      liveRuntimeBehaviorIntroduced: false
+    },
+    jsonExport: {
+      helper: "stdio_transport_policy_metadata_json",
+      serializer: "serde_json::to_string_pretty",
+      format: "pretty-json-lf-terminated",
+      finalLfRequired: true,
+      crlfAllowed: false,
+      parseRejectsCr: true,
+      digestHelper: "stdio_transport_policy_metadata_digest_hex",
+      digestAlgorithm: "sha256",
+      writesFiles: false,
+      cliCommandAdded: false
+    },
+    futureHostPolicyReviewRecordMapping: {
+      mappingStruct: "HostPolicyReviewRecordMapping",
+      recordStruct: "HostPolicyReviewRecord",
+      mappingHelper: "host_policy_review_record_for_stdio_transport_policy_metadata",
+      validationHelper: "validate_host_policy_review_record",
+      recordSchema: "ardyn.host-policy-review-record",
+      recordSchemaVersion: "0.1.0",
+      reviewedPhase: "4.0E",
+      policyContractSchema: "ardyn.stdio-transport-policy-metadata",
+      policyContractVersion: "0.1.0",
+      policyDigestAlgorithm: "sha256",
+      runtimeStatus: "pre-runtime-policy-only",
+      decisionStatusDefault: "review-pending",
+      approvalRecordedDefault: false,
+      rejectionRecordedDefault: false,
+      reviewMetadataOnlyDefault: true,
+      approvalFieldsReviewMetadataOnly: true,
+      approvalRuntimeEffectAllowed: false,
+      rejectionRuntimeEffectAllowed: false
+    },
+    negativeDeserializationCoverage: {
+      unknownVersion: true,
+      missingRequiredFields: true,
+      invalidStdoutOwnershipValue: true,
+      invalidStderrOwnershipValue: true,
+      permissiveLiveRuntimeMode: true,
+      malformedRedactionPolicy: true,
+      malformedLineIntegrityPolicy: true,
+      malformedExitSemantics: true,
+      crlfJsonRejected: true,
+      unknownFieldsRejected: true
+    },
+    nonExecutionInvariants: [
+      "no-live-stdio-runtime",
+      "no-stdin-command-loop",
+      "no-live-stdio-reader",
+      "no-listener",
+      "no-server",
+      "no-subprocess-spawning",
+      "no-adapter-calls",
+      "no-locus-runtime-dependency",
+      "no-mcp-calls",
+      "no-openclaw-calls",
+      "no-plugin-execution",
+      "no-content-fabric-runtime-behavior",
+      "no-autonomous-loop",
+      "no-secret-handling",
+      "no-production-signing-keys",
+      "no-transcript-persistence-replay-runtime",
+      "no-websocket-http-control-surface",
+      "no-runtime-execution-behavior"
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-0e-rust-host-policy-metadata.md",
+        "Documents Phase 4.0E deterministic review-only JSON metadata export and future review-record mapping."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-0d-rust-host-transport-policy-contracts.md",
+        "Links Phase 4.0E as the deterministic metadata export follow-up to the Phase 4.0D contract."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.0E leaves the finite dry-run emitter behavior unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Cross-links Phase 4.0E while preserving no-live-runtime stdio boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Records Phase 4.0E exports as review metadata without runtime enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Documents Rust-host metadata export helpers without active runtime behavior."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.0E scope, status report metadata, and lack of new runtime CLI behavior."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.0E adds no policy metadata CLI command or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.0E adds no TypeScript core runtime APIs and keeps dry-run behavior unchanged."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents the Rust-host 4.0E metadata export helpers and inactive runtime posture."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Contains Rust unit tests for deterministic policy metadata export, golden fixture matching, parsing, digesting, review-record mapping, and fail-closed negative deserialization."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0e-stdio-transport-policy-metadata.json",
+        "Pins the deterministic LF-terminated Phase 4.0E policy metadata JSON export."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-0e-policy-metadata.test.mjs",
+        "Pins Phase 4.0E docs, fixture, Rust metadata surface, and static no-runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.0E report metadata and safety posture."
+      )
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -1368,6 +1535,7 @@ const report = {
     stdioDryRunHardening: true,
     stdioTransportPolicy: true,
     stdioRustHostPolicyContracts: true,
+    stdioPolicyMetadataExport: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

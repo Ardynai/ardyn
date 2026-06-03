@@ -123,6 +123,14 @@ they do not enforce stdio ownership, start a reader, write transcript records,
 replay transcripts, handle secrets, or change the finite TypeScript dry-run
 emitter. See `docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
 
+Phase 4.0E exports that inactive Rust-host policy contract as deterministic
+JSON review metadata and maps it to a future host-policy review-record shape.
+The export helpers return typed metadata, JSON strings, and SHA-256 digest data
+only; they do not write files, print to stdout, start runtime enforcement,
+record approvals, deny a running runtime, persist transcripts, replay
+transcripts, handle secrets, or change the finite TypeScript dry-run emitter.
+See `docs/phase-4-0e-rust-host-policy-metadata.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

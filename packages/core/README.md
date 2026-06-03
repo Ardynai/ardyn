@@ -2,9 +2,9 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.0D keeps the TypeScript core on deterministic contract data while the
-Rust host gains policy-only stdio transport contract types. The TypeScript core
-still owns manifest and task validation, deterministic non-executing task
+Phase 4.0E keeps the TypeScript core on deterministic contract data while the
+Rust host exports policy-only stdio transport contract metadata. The TypeScript
+core still owns manifest and task validation, deterministic non-executing task
 planning, ranked exact/tag/scope capability resolution, approval-gate data,
 approval-decision records, planner traces, shared local-only input path policy,
 finite dry-run session-event JSONL construction, formatter hardening, and
@@ -40,6 +40,11 @@ Phase 4.0D also adds no TypeScript core runtime APIs and does not change
 codifies the Phase 4.0C policy in Rust-host metadata through
 `stdio_transport_policy_contract()`. See
 `docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
+
+Phase 4.0E also adds no TypeScript core runtime APIs and does not change the
+finite dry-run event construction or formatter. It only exports the Rust-host
+policy metadata as deterministic review JSON and maps it to future host-policy
+review records. See `docs/phase-4-0e-rust-host-policy-metadata.md`.
 
 ## Phase 3.2 Policy Review
 
