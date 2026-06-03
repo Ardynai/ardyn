@@ -90,8 +90,8 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.0A",
-    name: "stdio session-event dry-run emission",
+    id: "4.0B",
+    name: "stdio session-event dry-run hardening",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -124,12 +124,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0A status report.",
+      purpose: "Render this deterministic local Phase 4.0B status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0A status report.",
+      purpose: "Run focused tests for this local Phase 4.0B status report.",
       ranByReport: false
     },
     {
@@ -905,6 +905,109 @@ const report = {
       "Rust-host ownership of stdout and stderr for a future live runtime."
     ]
   },
+  phase40BInventory: {
+    command: {
+      command:
+        "ardyn emit-session-events --dry-run --manifest <manifest.json> --task <task.json>",
+      status: "hardened-finite-dry-run-emitter",
+      strictArgumentValidation: true,
+      allowedArgs: ["--dry-run", "--manifest <path>", "--task <path>"],
+      rejectsUnknownArgs: true,
+      rejectsDuplicateArgs: true,
+      rejectsMissingArgValues: true,
+      rejectsExtraPositionals: true,
+      validatesArgsBeforeFileReads: true,
+      successStdout: "JSONL only.",
+      failureStdout: "empty",
+      failureStderr: "plain diagnostics"
+    },
+    negativeCliCoverage: {
+      unreadableManifestFile: true,
+      unreadableTaskFile: true,
+      invalidJsonManifest: true,
+      invalidJsonTask: true,
+      schemaInvalidManifest: true,
+      schemaInvalidTask: true,
+      unsafeManifestPath: true,
+      unsafeTaskPath: true,
+      missingDryRun: true,
+      extraUnknownArgs: true,
+      failuresEmitPartialStdoutJsonl: false
+    },
+    formatterHardening: {
+      finalLfRequired: true,
+      blankJsonlLinesAllowed: false,
+      sparseEventSlotsRejected: true,
+      malformedEventsRejectedBeforeSerialization: true,
+      allEventSafetyFlagsRemainFalse: true
+    },
+    goldenFixtures: [
+      await localInventoryEntry(
+        "tests/fixtures/stdio-dry-run/phase4-0b-minimal-session-events.jsonl",
+        "Pins the minimal successful emit-session-events JSONL stream byte-for-byte with LF framing."
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.0B dry-run hardening scope and stderr-only failure behavior."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents strict emit-session-events argument validation."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents Phase 4.0B hardening, golden fixture coverage, and deferred runtime work."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Cross-links Phase 4.0B hardening while preserving no-live-runtime boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Adds future Rust-host stdout/stderr ownership design notes without active runtime enforcement."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/cli-phase4-stdio-dry-run.test.mjs",
+        "Covers strict args, negative CLI failures, zero stdout diagnostics, and runtime import guards."
+      ),
+      await localInventoryEntry(
+        "tests/core-phase4-stdio-dry-run.test.mjs",
+        "Covers golden JSONL fixture matching, no blank lines, final LF, and sparse event rejection."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.0B report metadata and local-summary-only safety posture."
+      )
+    ],
+    futureRustHostPolicyDesign: {
+      documented: true,
+      activeRuntimeEnforcement: false,
+      rustOwnsFutureStdoutStderrPolicy: true,
+      stdoutReservedForFutureJsonlEvents: true,
+      stderrReservedForFutureDiagnostics: true,
+      requiresBackpressureAndPartialWritePolicyBeforeRuntime: true
+    },
+    safetyPosture: {
+      nonExecuting: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricDownloadInstallEnable: true,
+      noSecrets: true,
+      noProductionSigningKeys: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -912,6 +1015,7 @@ const report = {
     noProcessSpawn: true,
     noStdioRuntime: true,
     stdioDryRunEmitter: true,
+    stdioDryRunHardening: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

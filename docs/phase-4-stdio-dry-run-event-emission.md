@@ -1,8 +1,12 @@
-# Phase 4.0A Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
 review and keeps diagnostics on stderr. It is not a live stdio runtime.
+
+Phase 4.0B hardens that same finite dry-run path. It does not add a live
+runtime, streaming loop, listener, server, adapter connection, or persistence
+path.
 
 ## CLI Surface
 
@@ -17,6 +21,8 @@ Successful output is LF-delimited JSONL. Each line is one complete
 pretty-printed multiline JSON.
 
 Failures print plain diagnostics to stderr and print no JSON to stdout.
+Phase 4.0B rejects unknown options, duplicate options, missing option values,
+and extra positional arguments before reading files.
 
 ## Core API Surface
 
@@ -95,11 +101,28 @@ and write the JSONL stream to stdout.
 `formatSessionEventsJsonl(events)` validates every event before serialization.
 Malformed events fail closed with an exception and no partial serialization from
 the CLI command. Root command-like fields and unsafe safety flags are rejected.
+Phase 4.0B also treats sparse or missing event slots as malformed so the
+formatter cannot produce blank JSONL lines.
 
-## Deferred Hardening
+## Phase 4.0B Hardening
 
-Phase 4.0A intentionally does not implement repo-root confinement,
-transcript persistence, dropped-line replay, duplicate detection across a live
-stream, stderr redaction policy, or Rust-host stdout/stderr ownership. Those
-belong to a later reviewed host-policy phase before any live stdio runtime can
-exist.
+Phase 4.0B adds:
+
+- strict `emit-session-events` argument validation
+- stderr-only diagnostics for all command failures
+- zero stdout for missing `--dry-run`, unknown args, unsafe paths, unreadable
+  files, invalid JSON, and schema-invalid JSON
+- golden JSONL fixture coverage for the minimal successful stream
+- explicit no-blank-line and final-LF formatter assertions
+- future Rust-host stdout/stderr ownership notes before any live stdio runtime
+
+This phase still does not implement transcript persistence, replay,
+dropped-line handling, duplicate-line handling across a live stream, WebSocket
+or HTTP transport, or Rust-host ownership of a live stdio process.
+
+## Deferred Runtime Work
+
+Phase 4.0B intentionally does not implement repo-root confinement, transcript
+persistence, dropped-line replay, duplicate detection across a live stream,
+stderr redaction policy, or Rust-host stdout/stderr ownership. Those belong to
+a later reviewed host-policy phase before any live stdio runtime can exist.

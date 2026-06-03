@@ -124,6 +124,11 @@ adapters, connect to Locus, call MCP/OpenClaw, execute plugins, or perform
 Content Fabric runtime behavior. See
 `docs/phase-4-stdio-dry-run-event-emission.md`.
 
+Phase 4.0B hardens this dry-run slice with strict CLI argument validation,
+golden JSONL fixture coverage, no-blank-line formatter checks, and stderr-only
+failure diagnostics. It remains a finite local renderer, not a live stdio
+runtime.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

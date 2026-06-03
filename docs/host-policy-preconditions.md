@@ -93,6 +93,15 @@ That policy must specify:
 - Whether host policy treats framing failures as transcript rejection,
   transport termination, or both.
 
+Phase 4.0B adds only a design note for future ownership. A future live stdio
+runtime must make the Rust host the owner of process-level stdout and stderr
+policy. Stdout should be reserved for validated session-event JSONL frames,
+while stderr should be reserved for diagnostics with an explicit redaction and
+classification policy. The Rust host policy must define buffering, backpressure,
+partial-write handling, termination behavior, and audit records before any
+runtime loop can exist. The current JavaScript CLI remains a finite dry-run
+renderer and does not start or supervise a live stdio process.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

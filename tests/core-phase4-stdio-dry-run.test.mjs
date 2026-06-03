@@ -13,6 +13,7 @@ const minimalManifestPath = "examples/minimal-manifest/ardyn.manifest.json";
 const minimalTaskPath = "examples/minimal-task/task.json";
 const planningManifestPath = "tests/fixtures/planning-manifest.json";
 const approvalTaskPath = "tests/fixtures/tasks/approval-required.json";
+const goldenMinimalJsonlPath = "tests/fixtures/stdio-dry-run/phase4-0b-minimal-session-events.jsonl";
 
 async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
@@ -98,6 +99,7 @@ test("Phase 4 dry-run JSONL framing uses LF-only one-object-per-line output", as
   const lines = jsonl.split("\n");
   assert.equal(lines.at(-1), "");
   assert.equal(lines.length, events.length + 1);
+  assert.equal(jsonl.includes("\n\n"), false);
 
   const parsedEvents = lines.slice(0, -1).map((line) => {
     assert.notEqual(line, "");
@@ -106,6 +108,22 @@ test("Phase 4 dry-run JSONL framing uses LF-only one-object-per-line output", as
   });
 
   assert.deepEqual(parsedEvents, events);
+});
+
+test("Phase 4 dry-run JSONL matches the golden minimal fixture", async () => {
+  const manifest = await readJson(minimalManifestPath);
+  const task = await readJson(minimalTaskPath);
+  const events = createStdioDryRunSessionEvents(manifest, task, {
+    manifestPath: minimalManifestPath,
+    taskPath: minimalTaskPath
+  });
+  const jsonl = formatSessionEventsJsonl(events);
+  const goldenJsonl = await readFile(goldenMinimalJsonlPath, "utf8");
+
+  assert.equal(jsonl, goldenJsonl);
+  assert.equal(goldenJsonl.endsWith("\n"), true);
+  assert.doesNotMatch(goldenJsonl, /\r\n/);
+  assert.equal(goldenJsonl.includes("\n\n"), false);
 });
 
 test("Phase 4 dry-run inserts approval requested event when approval is required", async () => {
@@ -177,6 +195,12 @@ test("Phase 4 dry-run JSONL serializer rejects malformed session events", async 
   assert.throws(
     () => formatSessionEventsJsonl(sparseEvents),
     /session event 1 is missing/
+  );
+
+  const sparseMiddleEvents = [event, , event];
+  assert.throws(
+    () => formatSessionEventsJsonl(sparseMiddleEvents),
+    /session event 2 is missing/
   );
 });
 

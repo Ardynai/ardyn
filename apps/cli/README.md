@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.0A exposes `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`, `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run `emit-session-events` commands. No command executes tools, opens network listeners, installs plugins, downloads torrents, enables code packs, or starts agent loops.
+Phase 4.0B exposes `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`, `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run `emit-session-events` commands. No command executes tools, opens network listeners, installs plugins, downloads torrents, enables code packs, or starts agent loops.
 
 ```powershell
 node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
@@ -77,7 +77,9 @@ Older same-major transcripts may be classified as `upgrade_available` for displa
 `emit-session-events --dry-run --manifest <file> --task <file>` reads one local
 manifest JSON file and one local task JSON file, constructs the deterministic
 non-executing plan, and writes Phase 4.0A session events as JSONL to stdout.
-Errors use plain stderr and no JSON stdout. The command has no stdin command
-loop, listener, server, subprocess spawning, adapter calls, Locus dependency,
+Phase 4.0B hardens the parser: unknown flags, duplicate flags, missing flag
+values, and extra positional arguments fail before any file reads. Errors use
+plain stderr and no JSON stdout. The command has no stdin command loop,
+listener, server, subprocess spawning, adapter calls, Locus dependency,
 MCP/OpenClaw calls, plugin execution, Content Fabric download/install/enable
 behavior, or file writes.

@@ -35,13 +35,13 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.0A local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.0B local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.0A",
-    name: "stdio session-event dry-run emission",
+    id: "4.0B",
+    name: "stdio session-event dry-run hardening",
     executionPosture: "non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
@@ -99,12 +99,12 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0A status report.",
+      purpose: "Render this deterministic local Phase 4.0B status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0A status report.",
+      purpose: "Run focused tests for this local Phase 4.0B status report.",
       ranByReport: false
     },
     {
@@ -584,6 +584,98 @@ test("report inventories Phase 4.0A stdio dry-run event emission", async () => {
   });
 });
 
+test("report inventories Phase 4.0B dry-run emitter hardening", async () => {
+  const report = await runReport();
+
+  assert.deepEqual(report.phase40BInventory.command, {
+    command: "ardyn emit-session-events --dry-run --manifest <manifest.json> --task <task.json>",
+    status: "hardened-finite-dry-run-emitter",
+    strictArgumentValidation: true,
+    allowedArgs: ["--dry-run", "--manifest <path>", "--task <path>"],
+    rejectsUnknownArgs: true,
+    rejectsDuplicateArgs: true,
+    rejectsMissingArgValues: true,
+    rejectsExtraPositionals: true,
+    validatesArgsBeforeFileReads: true,
+    successStdout: "JSONL only.",
+    failureStdout: "empty",
+    failureStderr: "plain diagnostics"
+  });
+
+  assert.deepEqual(report.phase40BInventory.negativeCliCoverage, {
+    unreadableManifestFile: true,
+    unreadableTaskFile: true,
+    invalidJsonManifest: true,
+    invalidJsonTask: true,
+    schemaInvalidManifest: true,
+    schemaInvalidTask: true,
+    unsafeManifestPath: true,
+    unsafeTaskPath: true,
+    missingDryRun: true,
+    extraUnknownArgs: true,
+    failuresEmitPartialStdoutJsonl: false
+  });
+
+  assert.deepEqual(report.phase40BInventory.formatterHardening, {
+    finalLfRequired: true,
+    blankJsonlLinesAllowed: false,
+    sparseEventSlotsRejected: true,
+    malformedEventsRejectedBeforeSerialization: true,
+    allEventSafetyFlagsRemainFalse: true
+  });
+
+  assert.deepEqual(
+    report.phase40BInventory.goldenFixtures.map(({ path, status }) => [path, status]),
+    [["tests/fixtures/stdio-dry-run/phase4-0b-minimal-session-events.jsonl", "present"]]
+  );
+
+  assert.deepEqual(
+    report.phase40BInventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    report.phase40BInventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/cli-phase4-stdio-dry-run.test.mjs", "present"],
+      ["tests/core-phase4-stdio-dry-run.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+
+  assert.deepEqual(report.phase40BInventory.futureRustHostPolicyDesign, {
+    documented: true,
+    activeRuntimeEnforcement: false,
+    rustOwnsFutureStdoutStderrPolicy: true,
+    stdoutReservedForFutureJsonlEvents: true,
+    stderrReservedForFutureDiagnostics: true,
+    requiresBackpressureAndPartialWritePolicyBeforeRuntime: true
+  });
+
+  assert.deepEqual(report.phase40BInventory.safetyPosture, {
+    nonExecuting: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricDownloadInstallEnable: true,
+    noSecrets: true,
+    noProductionSigningKeys: true
+  });
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -765,6 +857,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.noProcessSpawn, true);
   assert.equal(report.safetyPosture.noStdioRuntime, true);
   assert.equal(report.safetyPosture.stdioDryRunEmitter, true);
+  assert.equal(report.safetyPosture.stdioDryRunHardening, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {

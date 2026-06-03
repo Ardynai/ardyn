@@ -145,6 +145,64 @@ function readRequiredPathOption(args, name) {
   return value;
 }
 
+function readEmitSessionEventsArgs(args) {
+  const parsed = {
+    dryRun: false,
+    manifestPath: undefined,
+    taskPath: undefined
+  };
+
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+
+    if (arg === "--dry-run") {
+      if (parsed.dryRun) {
+        return { error: "Duplicate emit-session-events option: --dry-run." };
+      }
+
+      parsed.dryRun = true;
+      continue;
+    }
+
+    if (arg === "--manifest" || arg === "--task") {
+      const key = arg === "--manifest" ? "manifestPath" : "taskPath";
+
+      if (parsed[key] !== undefined) {
+        return { error: `Duplicate emit-session-events option: ${arg}.` };
+      }
+
+      const value = args[index + 1];
+      if (!value || value.startsWith("--")) {
+        return { error: `Missing required ${arg} path.` };
+      }
+
+      parsed[key] = value;
+      index += 1;
+      continue;
+    }
+
+    if (arg.startsWith("--")) {
+      return { error: `Unknown emit-session-events option: ${arg}.` };
+    }
+
+    return { error: `Unexpected emit-session-events argument: ${arg}.` };
+  }
+
+  if (!parsed.dryRun) {
+    return { error: "Only emit-session-events --dry-run is available in Phase 4.0B." };
+  }
+
+  if (!parsed.manifestPath) {
+    return { error: "Missing required --manifest path." };
+  }
+
+  if (!parsed.taskPath) {
+    return { error: "Missing required --task path." };
+  }
+
+  return { parsed };
+}
+
 function createPlanTraceOutput(plan) {
   return {
     command: "plan",
@@ -726,25 +784,13 @@ async function run(argv) {
   }
 
   if (command === "emit-session-events") {
-    const dryRun = args.includes("--dry-run");
-    const manifestPath = readRequiredPathOption(args, "--manifest");
-    const taskPath = readRequiredPathOption(args, "--task");
-
-    if (!dryRun) {
-      fail("Only emit-session-events --dry-run is available in Phase 4.0A.");
+    const emitArgs = readEmitSessionEventsArgs(args);
+    if (emitArgs.error) {
+      fail(emitArgs.error);
       return;
     }
 
-    if (!manifestPath) {
-      fail("Missing required --manifest path.");
-      return;
-    }
-
-    if (!taskPath) {
-      fail("Missing required --task path.");
-      return;
-    }
-
+    const { manifestPath, taskPath } = emitArgs.parsed;
     const manifest = await loadManifest(manifestPath);
     const task = await loadTask(taskPath);
     const events = createStdioDryRunSessionEvents(manifest, task, { manifestPath, taskPath });
