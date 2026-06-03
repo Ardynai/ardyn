@@ -82,7 +82,17 @@ No new production keys were created.
 
 ## Harness Namespace Note
 
-The canonical spec v1.0.0 lists `*`, `locus`, `multiverse`, `kortex-audio`, `locus-evolution-lab`, and `ardynos` as harness values. The current local Locus source also contains a later `somatic` harness value. ARDYN Phase 1.5 follows the canonical v1.0.0 family list and records this as a drift to reconcile before runtime certification.
+The current ARDYN Content Fabric family profile is aligned with the canonical Locus implementation and resolves the earlier harness drift. Supported harness values are exactly:
+
+- `*`
+- `locus`
+- `multiverse`
+- `kortex-audio`
+- `locus-evolution-lab`
+- `somatic`
+- `ardyn`
+
+Legacy ARDYN-OS variants are not accepted as current harness ids. The first-party keyring namespace already remains `ardyn`, and ARDYN uses that canonical family name consistently across local Fabric validation.
 
 ## Fixtures
 
@@ -91,6 +101,12 @@ ARDYN mirrors the Locus v1 cross-implementation fixture at:
 - `packages/fabric/fixtures/locus-cross-impl-v1/`
 
 Conformance tests reproduce the committed Locus `expected-pack-signing-payload.jcs` byte-for-byte and verify the expected SHA-256 digest from `expected-hashes.json`.
+
+Fixture policy is pinned as follows:
+
+- Locus remains the authoritative byte reference for cross-implementation fixtures.
+- ARDYN mirrored fixtures must match the committed Locus fixture hashes in `expected-hashes.json`.
+- ARDYN must not silently fork canonical byte vectors; fixture byte changes require regeneration from the Locus source fixture flow.
 
 ARDYN also adds local fixtures for:
 

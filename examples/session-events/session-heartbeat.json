@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "0.1.0",
+  "eventId": "evt.session-heartbeat.001",
+  "sessionId": "session.phase3.8.001",
+  "sequence": 2,
+  "createdAt": "2026-06-02T10:00:05Z",
+  "sourceHarness": "ardyn",
+  "eventType": "session.heartbeat",
+  "payload": {
+    "status": "planning",
+    "activeTaskId": "task.plan.001",
+    "note": "Capability matching is still non-executing."
+  },
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

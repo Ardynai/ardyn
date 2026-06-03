@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "test:schemas": "node --test tests/schema-validation.test.mjs",
+    "test:schemas": "node --test tests/schema-validation.test.mjs tests/session-event-schema.test.mjs",
     "report:phase-status": "node scripts/report-phase-status.mjs"
   },
   "workspaces": [

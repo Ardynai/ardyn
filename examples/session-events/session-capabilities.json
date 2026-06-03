@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "0.1.0",
+  "eventId": "evt.session-capabilities.001",
+  "sessionId": "session.phase3.8.001",
+  "sequence": 3,
+  "createdAt": "2026-06-02T10:00:06Z",
+  "sourceHarness": "ardyn",
+  "eventType": "session.capabilities",
+  "payload": {
+    "capabilityIds": [
+      "planner.search",
+      "runtime.describe"
+    ]
+  },
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

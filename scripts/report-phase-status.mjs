@@ -43,12 +43,31 @@ async function fixtureInventoryEntry(path) {
 }
 
 const packageJson = await readJson("package.json");
+const phase38FabricFamilySet = [
+  "*",
+  "locus",
+  "multiverse",
+  "kortex-audio",
+  "locus-evolution-lab",
+  "somatic",
+  "ardyn"
+];
+const phase38SessionEventTypes = [
+  "session.started",
+  "session.heartbeat",
+  "session.capabilities",
+  "task.planned",
+  "approval.requested",
+  "approval.recorded",
+  "session.completed",
+  "session.error"
+];
 
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "3.7",
-    name: "Schema migration metadata and review-artifact attestation planning",
+    id: "3.8",
+    name: "Locus family alignment and stdio session-event contracts",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -81,12 +100,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.7 status report.",
+      purpose: "Render this deterministic local Phase 3.8 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.7 status report.",
+      purpose: "Run focused tests for this local Phase 3.8 status report.",
       ranByReport: false
     },
     {
@@ -107,6 +126,16 @@ const report = {
     {
       command: "node --test tests/core-phase3-7-schema-attestation.test.mjs",
       purpose: "Run focused Phase 3.7 schema migration and attestation planning tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/session-event-schema.test.mjs",
+      purpose: "Run focused Phase 3.8 session-event schema and fixture tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase3-8-locus-family-alignment.test.mjs",
+      purpose: "Run focused Phase 3.8 harness identity, Fabric family, and Locus display freeze tests.",
       ranByReport: false
     },
     {
@@ -141,6 +170,14 @@ const report = {
       "Documents unsigned/test-fixture-only attestation planning and Content Fabric signing alignment."
     ),
     await localInventoryEntry(
+      "docs/harness-identity.md",
+      "Documents canonical ARDYN slug, Locus-facing identity, and optional external Multiverse boundary."
+    ),
+    await localInventoryEntry(
+      "docs/session-events-stdio-contract.md",
+      "Documents future stdio-first session-event schema boundaries without adding runtime transport."
+    ),
+    await localInventoryEntry(
       "tests/core-phase3-1-planner-hardening.test.mjs",
       "Covers deterministic planner ranking, approval records, and safety flags."
     ),
@@ -155,6 +192,14 @@ const report = {
     await localInventoryEntry(
       "tests/core-phase3-7-schema-attestation.test.mjs",
       "Covers Phase 3.7 schema migration metadata, attestation planning, fixtures, and safety flags."
+    ),
+    await localInventoryEntry(
+      "tests/session-event-schema.test.mjs",
+      "Covers Phase 3.8 session-event schema validation and invalid examples."
+    ),
+    await localInventoryEntry(
+      "tests/phase3-8-locus-family-alignment.test.mjs",
+      "Covers Phase 3.8 slug alignment, Fabric family membership, and Locus display freeze marker."
     )
   ],
   phase36Inventory: {
@@ -394,15 +439,99 @@ const report = {
       )
     ]
   },
+  phase38Inventory: {
+    harnessIdentity: {
+      canonicalSlug: "ardyn",
+      packageNamespace: "ardyn",
+      manifestFacingHarnessId: "ardyn",
+      keyringNamespace: "ardyn",
+      fabricFamily: "ardyn",
+      futureLocusConnectorExpectedId: "ardyn",
+      multiverseIntegration: "optional-external",
+      locusRuntimeDependency: false
+    },
+    fabricFamilySet: phase38FabricFamilySet,
+    staleSlugPolicy: {
+      legacyArdynOsVariantsAcceptedAsCurrentHarnessId: false,
+      acceptedAsCurrentHarnessId: false,
+      allowedOnlyInNegativeTests: true
+    },
+    locusDisplayContract: {
+      freezeMarker: "PHASE_3_X_LOCUS_DISPLAY_CONTRACT_FROZEN",
+      phase3xReadOnlyContractFrozen: true,
+      locusMayDisplayPlannerTraces: true,
+      locusMayDisplayReviewArtifacts: true,
+      locusMayDisplayTraceDiffs: true,
+      locusMayDisplaySchemaStatus: true,
+      locusMayDisplayAttestationPlans: true,
+      locusMayDisplaySessionEventFixtures: true,
+      locusRuntimeDependency: false,
+      approvalBypassAllowed: false,
+      safetyBypassAllowed: false
+    },
+    sessionEvents: {
+      schema: "https://schemas.ardyn.ai/session-event.schema.json",
+      schemaVersion: "0.1.0",
+      sourceHarness: "ardyn",
+      transportRoadmap: {
+        firstFutureTransport: "stdio",
+        stdioRuntimeImplemented: false,
+        websocketRuntimeImplemented: false,
+        httpRuntimeImplemented: false
+      },
+      eventTypes: phase38SessionEventTypes,
+      validExampleDirectory: "examples/session-events",
+      invalidFixtures: ["invalid-source-harness.json", "invalid-safety-flag.json"],
+      nonExecuting: true
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/harness-identity.md",
+        "Pins canonical Locus-facing slug and product boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Documents future stdio-first session-event contract without runtime transport."
+      ),
+      await localInventoryEntry(
+        "docs/content-fabric.md",
+        "Documents reconciled Fabric family set and Locus byte-reference fixture policy."
+      ),
+      await localInventoryEntry(
+        "docs/locus-trace-display-contract.md",
+        "Contains the Phase 3.x read-only Locus display contract freeze marker."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase3-8-locus-family-alignment.test.mjs",
+        "Covers slug consistency, Fabric family set, stale slug policy, and display freeze marker."
+      ),
+      await localInventoryEntry(
+        "tests/session-event-schema.test.mjs",
+        "Covers session-event schema examples, invalid fixtures, and false safety flags."
+      ),
+      await localInventoryEntry(
+        "tests/fabric.test.mjs",
+        "Covers reconciled Fabric family membership and rejection of legacy harness ids."
+      )
+    ]
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
     noNetwork: true,
     noProcessSpawn: true,
+    noStdioRuntime: true,
+    noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
       networkCalls: false,
       networkListeners: false,
+      stdioRuntime: false,
+      websocketRuntime: false,
+      httpRuntime: false,
+      locusRuntimeDependency: false,
       adapterConnections: false,
       mcpCalls: false,
       openClawCalls: false,
@@ -416,7 +545,7 @@ const report = {
       externalCiRan: false
     },
     note:
-      "The report renders local metadata only; it does not execute checks, spawn processes, write files, call network APIs, or run runtime behavior."
+      "The report renders local metadata only; it does not execute checks, spawn processes, write files, call network APIs, start stdio or network transports, connect to Locus, or run runtime behavior."
   },
   externalCi: {
     ran: false,

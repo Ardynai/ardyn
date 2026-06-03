@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "0.1.0",
+  "eventId": "evt.approval-recorded.001",
+  "sessionId": "session.phase3.8.001",
+  "sequence": 6,
+  "createdAt": "2026-06-02T10:00:10Z",
+  "sourceHarness": "ardyn",
+  "eventType": "approval.recorded",
+  "payload": {
+    "approvalId": "approval.plan.001",
+    "taskId": "task.plan.001",
+    "status": "required",
+    "reason": "Approval remains pending and execution stays disabled.",
+    "nonExecuting": true
+  },
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

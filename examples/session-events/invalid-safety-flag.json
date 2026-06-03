@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "0.1.0",
+  "eventId": "evt.invalid-safety.001",
+  "sessionId": "session.phase3.8.invalid",
+  "sequence": 2,
+  "createdAt": "2026-06-02T10:10:01Z",
+  "sourceHarness": "ardyn",
+  "eventType": "session.heartbeat",
+  "payload": {
+    "status": "planning"
+  },
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": true,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

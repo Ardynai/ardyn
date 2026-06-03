@@ -9,6 +9,13 @@ Phase 3.7 extends this display contract with schema migration metadata and
 unsigned review-artifact attestation planning. Locus may display those records
 later, but ARDYN still does not connect to or depend on Locus.
 
+Phase 3.8 freezes this Locus-facing planning review surface. The Phase 3.x read-only display contract is frozen. Freeze marker:
+`PHASE_3_X_LOCUS_DISPLAY_CONTRACT_FROZEN`.
+Locus may build a viewer against the documented planner traces, approval review
+artifacts, trace diffs, schema-status summaries, attestation plans, and
+session-event fixtures. That viewer must remain outside ARDYN and must not
+bypass approval, safety, host-policy, or future transport gates.
+
 The contract exists so an external UI can render local ARDYN JSON evidence with
 consistent labels, severity, and compatibility warnings. It does not add
 execution, adapter connections, network behavior, Content Fabric runtime

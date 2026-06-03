@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "0.1.0",
+  "eventId": "evt.invalid-source.001",
+  "sessionId": "session.phase3.8.invalid",
+  "sequence": 1,
+  "createdAt": "2026-06-02T10:10:00Z",
+  "sourceHarness": "locus",
+  "eventType": "session.started",
+  "payload": {
+    "phase": "phase-3-8-session-events",
+    "mode": "plan"
+  },
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

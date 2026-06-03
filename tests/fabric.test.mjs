@@ -6,6 +6,7 @@ import test from "node:test";
 
 import {
   FIRST_PARTY_KEYRING,
+  FABRIC_HARNESSES,
   canonicalize,
   evaluateLicensePolicy,
   manifestDigest,
@@ -34,6 +35,24 @@ function sha256Text(value) {
   return createHash("sha256").update(Buffer.from(value, "utf8")).digest("hex");
 }
 
+test("fabric harness family matches the current Locus-aligned ARDYN set", () => {
+  assert.deepEqual(
+    new Set(FABRIC_HARNESSES),
+    new Set([
+      "*",
+      "locus",
+      "multiverse",
+      "kortex-audio",
+      "locus-evolution-lab",
+      "somatic",
+      "ardyn",
+    ]),
+  );
+  assert.equal(FABRIC_HARNESSES.has("somatic"), true);
+  assert.equal(FABRIC_HARNESSES.has("ardyn"), true);
+  assert.equal(FABRIC_HARNESSES.has("ardynos"), false);
+});
+
 test("canonical serializer output is byte-stable against Locus v1 fixture", async () => {
   const pack = await readJson(`${locusFixtureRoot}/pack.json`);
   const keyring = await readJson(`${locusFixtureRoot}/keyring.json`);
@@ -59,6 +78,28 @@ test("signing payload digest matches expected Locus fixture SHA-256", async () =
   assert.equal(sha256Text(payload.toString("utf8")), hashes.expectedJcsSha256["expected-pack-signing-payload.jcs"]);
   assert.equal(sha256Hex(payload), hashes.expectedJcsSha256["expected-pack-signing-payload.jcs"]);
   assert.equal(manifestDigest(pack), hashes.packManifestDigest);
+  assert.equal(sha256Hex(payloadBytes), hashes.payload["payload/hello.txt"].sha256);
+});
+
+test("mirrored Locus cross-implementation fixture hashes stay canonical", async () => {
+  const hashes = await readJson(`${locusFixtureRoot}/expected-hashes.json`);
+  const expectedPack = await readFile(join(root, `${locusFixtureRoot}/expected-pack-signing-payload.jcs`));
+  const expectedKeyring = await readFile(join(root, `${locusFixtureRoot}/expected-keyring-signing-payload.jcs`));
+  const expectedCatalog = await readFile(join(root, `${locusFixtureRoot}/expected-catalog-signing-payload.jcs`));
+  const payloadBytes = await readFile(join(root, `${locusFixtureRoot}/payload/hello.txt`));
+
+  assert.equal(
+    sha256Hex(expectedPack),
+    hashes.expectedJcsSha256["expected-pack-signing-payload.jcs"],
+  );
+  assert.equal(
+    sha256Hex(expectedKeyring),
+    hashes.expectedJcsSha256["expected-keyring-signing-payload.jcs"],
+  );
+  assert.equal(
+    sha256Hex(expectedCatalog),
+    hashes.expectedJcsSha256["expected-catalog-signing-payload.jcs"],
+  );
   assert.equal(sha256Hex(payloadBytes), hashes.payload["payload/hello.txt"].sha256);
 });
 
@@ -124,6 +165,15 @@ test("catalog validation rejects missing or malformed schema versions", async ()
     assert.equal(validation.valid, false, String(schemaVersion));
     assert.match(validation.errors.join("; "), /schemaVersion/);
   }
+});
+
+test("catalog validation rejects stale ardynos harness ids", async () => {
+  const catalog = await readJson(`${fixtureRoot}/valid-catalog.json`);
+  const invalid = { ...catalog, harness: "ardynos" };
+  const validation = validateCatalog(invalid);
+
+  assert.equal(validation.valid, false);
+  assert.match(validation.errors.join("; "), /known concrete harness/i);
 });
 
 test("license gate rejects private-only licenses for public catalog and seed contexts", async () => {

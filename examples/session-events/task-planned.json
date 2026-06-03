@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "0.1.0",
+  "eventId": "evt.task-planned.001",
+  "sessionId": "session.phase3.8.001",
+  "sequence": 4,
+  "createdAt": "2026-06-02T10:00:08Z",
+  "sourceHarness": "ardyn",
+  "eventType": "task.planned",
+  "payload": {
+    "taskId": "task.plan.001",
+    "requestedCapabilityIds": [
+      "planner.search",
+      "filesystem.read"
+    ],
+    "selectedCapabilityIds": [
+      "planner.search"
+    ],
+    "unresolvedRequests": [
+      "filesystem.read"
+    ]
+  },
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

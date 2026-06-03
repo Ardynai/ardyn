@@ -26,6 +26,9 @@ Included now:
   summary helpers for Phase 3.6 viewer contracts.
 - Schema migration metadata and review-artifact attestation planning helpers
   for Phase 3.7 review workflows.
+- Phase 3.8 harness identity alignment with canonical slug `ardyn`, Locus
+  read-only display contract freeze, Content Fabric family reconciliation, and
+  stdio-first session-event schemas/examples.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -44,6 +47,8 @@ Not included yet:
 - Content Fabric download, install, seed, enable, catalog serving, or execution.
 - Plugin installation, torrent download, code-pack enablement, or agent loops.
 - Production signing keys, secret handling, or runtime attestation trust gates.
+- Stdio session-event runtime, WebSocket transport, HTTP transport, or live
+  Locus connector behavior.
 
 ## Architecture
 
@@ -116,7 +121,7 @@ MCP/OpenClaw, connect to Locus, serve Content Fabric catalogs, or spawn
 long-running services. Their output includes explicit false values for the
 safety flags that cover those behaviors.
 
-Phase 3.3-3.7 review examples:
+Phase 3.3-3.8 review examples:
 
 ```powershell
 node apps/cli/src/index.mjs plan --manifest tests/fixtures/planning-manifest.json --task tests/fixtures/tasks/exact-match.json
@@ -172,7 +177,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 3.7 status report command is:
+The Phase 3.8 status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -181,7 +186,8 @@ npm run report:phase-status
 That report must assemble local planning evidence only: docs, fixtures, tests,
 review artifact APIs, versioning/display contract posture, migration metadata,
 attestation planning posture, trace-comparison or trace-review artifacts,
-host-policy precondition references, and safety posture.
+host-policy precondition references, Phase 3.8 harness identity, Fabric family,
+session-event contract evidence, and safety posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -195,14 +201,17 @@ node apps/cli/src/index.mjs serve --dry-run --manifest examples/minimal-manifest
 
 The planned runtime includes the loaded manifest identity, normalized capabilities, TypeScript core runtime, Rust host boundary, and platform report.
 
-## Phase 3.3-3.7 Policy Review
+## Phase 3.3-3.8 Policy Review
 
 Phase 3.3 introduced documentation-only, non-executing planning review. Phase
 3.4 adds approval review artifacts and host-policy preconditions. Phase 3.5 adds
 local trace-diff review and output-path export ergonomics. Phase 3.6 adds
 review-artifact versioning and display-summary contracts. Phase 3.7 adds schema
 migration metadata and review-artifact attestation planning without production
-signing. Planner approval decisions are review records, not runtime grants.
+signing. Phase 3.8 pins the canonical Locus-facing harness slug as `ardyn`,
+aligns Content Fabric family membership, freezes the Phase 3.x Locus read-only
+display contract, and adds a future stdio session-event schema with examples.
+Planner approval decisions are review records, not runtime grants.
 Capability selection uses deterministic tiers: exact capability id score `300`,
 tag score `200`, and permission scope score `100`. Exact outranks tag, tag
 outranks scope, ties are sorted by bytewise ASCII capability id, all candidates
@@ -215,7 +224,36 @@ Locus viewer fields. The adapter boundary remains metadata-only:
 ARDYN does not call real MCP/OpenClaw adapters, connect to Locus or Multiverse,
 install plugins, download torrents, enable code packs, serve Content Fabric
 catalogs, spawn processes, run autonomous loops, or execute tools in Phase
-3.3-3.7.
+3.3-3.8.
+
+## Phase 3.8 Harness and Session Alignment
+
+The canonical ARDYN harness slug is `ardyn`. Use that value for package and
+keyring namespace, manifest-facing harness identity, Content Fabric family
+membership, future Locus connector expected id, and session-event
+`sourceHarness`.
+
+The current Content Fabric family set is exactly:
+
+- `*`
+- `locus`
+- `multiverse`
+- `kortex-audio`
+- `locus-evolution-lab`
+- `somatic`
+- `ardyn`
+
+Locus remains mission control outside ARDYN. The Phase 3.x Locus display
+contract is frozen for read-only viewing of local planner traces, approval
+review artifacts, trace diffs, schema-status summaries, attestation plans, and
+session-event fixtures. See `docs/locus-trace-display-contract.md` for the
+`PHASE_3_X_LOCUS_DISPLAY_CONTRACT_FROZEN` marker.
+
+Session-event examples live under `examples/session-events/` and validate
+against `schemas/session-event.schema.json`. They are future stdio transport
+fixtures only. Phase 3.8 does not add a stdio runtime, WebSocket transport, HTTP
+transport, live Locus connector, runtime event loop, or network behavior. See
+`docs/harness-identity.md` and `docs/session-events-stdio-contract.md`.
 
 ## Phase 3.4-3.7 Approval Review Artifacts
 

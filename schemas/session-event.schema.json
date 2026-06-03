@@ -1,0 +1,445 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/session-event.schema.json",
+  "title": "ARDYN Session Event",
+  "description": "Non-executing stdio-first session event contract for ARDYN session telemetry.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "eventId",
+    "sessionId",
+    "sequence",
+    "createdAt",
+    "sourceHarness",
+    "eventType",
+    "payload",
+    "nonExecuting",
+    "safety"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "eventId": {
+      "$ref": "#/$defs/opaqueId"
+    },
+    "sessionId": {
+      "$ref": "#/$defs/opaqueId"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "createdAt": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "sourceHarness": {
+      "type": "string",
+      "const": "ardyn"
+    },
+    "eventType": {
+      "type": "string",
+      "enum": [
+        "session.started",
+        "session.heartbeat",
+        "session.capabilities",
+        "task.planned",
+        "approval.requested",
+        "approval.recorded",
+        "session.completed",
+        "session.error"
+      ]
+    },
+    "payload": true,
+    "nonExecuting": {
+      "type": "boolean",
+      "const": true
+    },
+    "safety": {
+      "$ref": "#/$defs/noExecutionSafetyFlags"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "eventType": {
+            "const": "session.started"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/sessionStartedPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "eventType": {
+            "const": "session.heartbeat"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/sessionHeartbeatPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "eventType": {
+            "const": "session.capabilities"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/sessionCapabilitiesPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "eventType": {
+            "const": "task.planned"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/taskPlannedPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "eventType": {
+            "const": "approval.requested"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/approvalRequestedPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "eventType": {
+            "const": "approval.recorded"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/approvalRecordedPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "eventType": {
+            "const": "session.completed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/sessionCompletedPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "eventType": {
+            "const": "session.error"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/sessionErrorPayload"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "opaqueId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{2,127}$"
+    },
+    "capabilityId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)*$",
+      "minLength": 3,
+      "maxLength": 96
+    },
+    "noExecutionSafetyFlags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "executionEnabled",
+        "toolExecutionEnabled",
+        "autonomousExecutionEnabled",
+        "productionToolExecutionEnabled",
+        "apiCallsEnabled",
+        "networkListening",
+        "longRunningServicesStarted",
+        "processesSpawned",
+        "pluginInstallEnabled",
+        "torrentDownloadEnabled",
+        "codePackEnablementEnabled",
+        "agentLoopEnabled"
+      ],
+      "properties": {
+        "executionEnabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "toolExecutionEnabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "autonomousExecutionEnabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "productionToolExecutionEnabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "apiCallsEnabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "networkListening": {
+          "type": "boolean",
+          "const": false
+        },
+        "longRunningServicesStarted": {
+          "type": "boolean",
+          "const": false
+        },
+        "processesSpawned": {
+          "type": "boolean",
+          "const": false
+        },
+        "pluginInstallEnabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "torrentDownloadEnabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "codePackEnablementEnabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "agentLoopEnabled": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    },
+    "sessionStartedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase", "mode"],
+      "properties": {
+        "phase": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["plan", "dry-run"]
+        },
+        "manifestName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      }
+    },
+    "sessionHeartbeatPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["idle", "planning", "awaiting-approval", "completed", "error"]
+        },
+        "activeTaskId": {
+          "$ref": "#/$defs/opaqueId"
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 240
+        }
+      }
+    },
+    "sessionCapabilitiesPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capabilityIds"],
+      "properties": {
+        "capabilityIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/capabilityId"
+          }
+        }
+      }
+    },
+    "taskPlannedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["taskId", "requestedCapabilityIds", "unresolvedRequests"],
+      "properties": {
+        "taskId": {
+          "$ref": "#/$defs/opaqueId"
+        },
+        "requestedCapabilityIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/capabilityId"
+          }
+        },
+        "selectedCapabilityIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/capabilityId"
+          }
+        },
+        "unresolvedRequests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        }
+      }
+    },
+    "approvalRequestedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approvalId", "taskId", "requestedCapabilityIds", "reason"],
+      "properties": {
+        "approvalId": {
+          "$ref": "#/$defs/opaqueId"
+        },
+        "taskId": {
+          "$ref": "#/$defs/opaqueId"
+        },
+        "requestedCapabilityIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/capabilityId"
+          }
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400
+        }
+      }
+    },
+    "approvalRecordedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approvalId", "taskId", "status", "reason", "nonExecuting"],
+      "properties": {
+        "approvalId": {
+          "$ref": "#/$defs/opaqueId"
+        },
+        "taskId": {
+          "$ref": "#/$defs/opaqueId"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["required", "granted", "denied", "not_required"]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400
+        },
+        "nonExecuting": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "sessionCompletedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome"],
+      "properties": {
+        "outcome": {
+          "type": "string",
+          "enum": ["success", "approval_pending", "no_match", "cancelled"]
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 400
+        }
+      }
+    },
+    "sessionErrorPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "retryable"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]{2,63}$"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

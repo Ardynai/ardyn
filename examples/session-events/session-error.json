@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "0.1.0",
+  "eventId": "evt.session-error.001",
+  "sessionId": "session.phase3.8.002",
+  "sequence": 1,
+  "createdAt": "2026-06-02T10:05:00Z",
+  "sourceHarness": "ardyn",
+  "eventType": "session.error",
+  "payload": {
+    "code": "schema.validation_failed",
+    "message": "The submitted task fixture failed schema validation before any execution path existed.",
+    "retryable": false
+  },
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

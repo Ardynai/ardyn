@@ -28,17 +28,20 @@ test("package exposes report:phase-status without replacing existing test script
   const packageJson = await readJson(packageJsonUrl);
 
   assert.equal(packageJson.scripts.test, "node --test tests/*.test.mjs");
-  assert.equal(packageJson.scripts["test:schemas"], "node --test tests/schema-validation.test.mjs");
+  assert.equal(
+    packageJson.scripts["test:schemas"],
+    "node --test tests/schema-validation.test.mjs tests/session-event-schema.test.mjs"
+  );
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 3.7 local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 3.8 local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "3.7",
-    name: "Schema migration metadata and review-artifact attestation planning",
+    id: "3.8",
+    name: "Locus family alignment and stdio session-event contracts",
     executionPosture: "non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
@@ -61,7 +64,7 @@ test("report lists configured checks and verification commands without running t
     {
       name: "test:schemas",
       command: "npm run test:schemas",
-      packageScript: "node --test tests/schema-validation.test.mjs",
+      packageScript: "node --test tests/schema-validation.test.mjs tests/session-event-schema.test.mjs",
       ranByReport: false
     },
     {
@@ -95,12 +98,12 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.7 status report.",
+      purpose: "Render this deterministic local Phase 3.8 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.7 status report.",
+      purpose: "Run focused tests for this local Phase 3.8 status report.",
       ranByReport: false
     },
     {
@@ -124,6 +127,16 @@ test("report lists configured checks and verification commands without running t
       ranByReport: false
     },
     {
+      command: "node --test tests/session-event-schema.test.mjs",
+      purpose: "Run focused Phase 3.8 session-event schema and fixture tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase3-8-locus-family-alignment.test.mjs",
+      purpose: "Run focused Phase 3.8 harness identity, Fabric family, and Locus display freeze tests.",
+      ranByReport: false
+    },
+    {
       command: "node --test tests/cli-phase3.test.mjs",
       purpose: "Run focused CLI tests covering review-trace and review artifact export ergonomics.",
       ranByReport: false
@@ -133,6 +146,95 @@ test("report lists configured checks and verification commands without running t
   for (const command of report.verificationCommands) {
     assert.equal(command.ranByReport, false, `${command.command} should not be run by report`);
   }
+});
+
+test("report inventories Phase 3.8 identity, Fabric family, Locus freeze, and session events", async () => {
+  const report = await runReport();
+
+  assert.deepEqual(report.phase38Inventory.harnessIdentity, {
+    canonicalSlug: "ardyn",
+    packageNamespace: "ardyn",
+    manifestFacingHarnessId: "ardyn",
+    keyringNamespace: "ardyn",
+    fabricFamily: "ardyn",
+    futureLocusConnectorExpectedId: "ardyn",
+    multiverseIntegration: "optional-external",
+    locusRuntimeDependency: false
+  });
+
+  assert.deepEqual(report.phase38Inventory.fabricFamilySet, [
+    "*",
+    "locus",
+    "multiverse",
+    "kortex-audio",
+    "locus-evolution-lab",
+    "somatic",
+    "ardyn"
+  ]);
+
+  assert.deepEqual(report.phase38Inventory.staleSlugPolicy, {
+    legacyArdynOsVariantsAcceptedAsCurrentHarnessId: false,
+    acceptedAsCurrentHarnessId: false,
+    allowedOnlyInNegativeTests: true
+  });
+
+  assert.deepEqual(report.phase38Inventory.locusDisplayContract, {
+    freezeMarker: "PHASE_3_X_LOCUS_DISPLAY_CONTRACT_FROZEN",
+    phase3xReadOnlyContractFrozen: true,
+    locusMayDisplayPlannerTraces: true,
+    locusMayDisplayReviewArtifacts: true,
+    locusMayDisplayTraceDiffs: true,
+    locusMayDisplaySchemaStatus: true,
+    locusMayDisplayAttestationPlans: true,
+    locusMayDisplaySessionEventFixtures: true,
+    locusRuntimeDependency: false,
+    approvalBypassAllowed: false,
+    safetyBypassAllowed: false
+  });
+
+  assert.deepEqual(report.phase38Inventory.sessionEvents, {
+    schema: "https://schemas.ardyn.ai/session-event.schema.json",
+    schemaVersion: "0.1.0",
+    sourceHarness: "ardyn",
+    transportRoadmap: {
+      firstFutureTransport: "stdio",
+      stdioRuntimeImplemented: false,
+      websocketRuntimeImplemented: false,
+      httpRuntimeImplemented: false
+    },
+    eventTypes: [
+      "session.started",
+      "session.heartbeat",
+      "session.capabilities",
+      "task.planned",
+      "approval.requested",
+      "approval.recorded",
+      "session.completed",
+      "session.error"
+    ],
+    validExampleDirectory: "examples/session-events",
+    invalidFixtures: ["invalid-source-harness.json", "invalid-safety-flag.json"],
+    nonExecuting: true
+  });
+
+  assert.deepEqual(
+    report.phase38Inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/harness-identity.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/content-fabric.md", "present"],
+      ["docs/locus-trace-display-contract.md", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    report.phase38Inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase3-8-locus-family-alignment.test.mjs", "present"],
+      ["tests/session-event-schema.test.mjs", "present"],
+      ["tests/fabric.test.mjs", "present"]
+    ]
+  );
 });
 
 test("report inventories review-trace commands and explicit-only output behavior", async () => {
@@ -349,11 +451,17 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.noSecrets, true);
   assert.equal(report.safetyPosture.noNetwork, true);
   assert.equal(report.safetyPosture.noProcessSpawn, true);
+  assert.equal(report.safetyPosture.noStdioRuntime, true);
+  assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {
     runtimeExecution: false,
     networkCalls: false,
     networkListeners: false,
+    stdioRuntime: false,
+    websocketRuntime: false,
+    httpRuntime: false,
+    locusRuntimeDependency: false,
     adapterConnections: false,
     mcpCalls: false,
     openClawCalls: false,

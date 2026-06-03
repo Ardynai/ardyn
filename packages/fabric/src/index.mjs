@@ -27,7 +27,8 @@ export const FABRIC_HARNESSES = new Set([
   "multiverse",
   "kortex-audio",
   "locus-evolution-lab",
-  "ardynos",
+  "somatic",
+  "ardyn",
 ]);
 
 export const PUBLIC_LICENSE_ALLOWLIST = new Set([
