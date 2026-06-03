@@ -124,12 +124,22 @@ replay transcripts, handle secrets, or change the finite TypeScript dry-run
 emitter. See `docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
 
 Phase 4.0E exports that inactive Rust-host policy contract as deterministic
-JSON review metadata and maps it to a future host-policy review-record shape.
+JSON review metadata and maps it to the Phase 4.0F host-policy review-record
+shape.
 The export helpers return typed metadata, JSON strings, and SHA-256 digest data
 only; they do not write files, print to stdout, start runtime enforcement,
 record approvals, deny a running runtime, persist transcripts, replay
 transcripts, handle secrets, or change the finite TypeScript dry-run emitter.
 See `docs/phase-4-0e-rust-host-policy-metadata.md`.
+
+Phase 4.0F defines versioned static host-policy review records and
+compatibility classes for that metadata. The records may describe compatible,
+upgrade-available, unsupported-major, malformed, or rejected-policy review
+states, but approval and rejection fields remain review metadata only. They do
+not grant runtime approval, deny a running runtime, start host-policy
+enforcement, persist transcripts, replay transcripts, handle secrets, or change
+the finite TypeScript dry-run emitter. See
+`docs/phase-4-0f-host-policy-review-records.md`.
 
 ## Documentation Model
 
@@ -157,7 +167,7 @@ processes, connect adapters, or imply that host-policy enforcement is active.
 ## Behavior Still Forbidden
 
 The following behavior remains forbidden before a later reviewed phase
-introduces an explicit policy, implementation, tests, and approval flow:
+introduces an explicit policy, implementation, tests, and runtime enablement:
 
 - Runtime execution.
 - Network server or listener creation.

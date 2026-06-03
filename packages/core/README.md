@@ -2,15 +2,16 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.0E keeps the TypeScript core on deterministic contract data while the
-Rust host exports policy-only stdio transport contract metadata. The TypeScript
-core still owns manifest and task validation, deterministic non-executing task
-planning, ranked exact/tag/scope capability resolution, approval-gate data,
-approval-decision records, planner traces, shared local-only input path policy,
-finite dry-run session-event JSONL construction, formatter hardening, and
-golden fixture coverage. Autonomous execution, tool execution, plugin
-installation, network serving, torrent download, code-pack enablement, live
-stdin loops, live replay, and agent loops are intentionally out of scope.
+Phase 4.0F keeps the TypeScript core on deterministic contract data while the
+Rust host exports policy-only stdio transport contract metadata and static
+host-policy review-record fixtures. The TypeScript core still owns manifest and
+task validation, deterministic non-executing task planning, ranked
+exact/tag/scope capability resolution, approval-gate data, approval-decision
+records, planner traces, shared local-only input path policy, finite dry-run
+session-event JSONL construction, formatter hardening, and golden fixture
+coverage. Autonomous execution, tool execution, plugin installation, network
+serving, torrent download, code-pack enablement, live stdin loops, live replay,
+runtime approval grants, and agent loops are intentionally out of scope.
 
 ## Phase 4.0A Dry-Run Session Events
 
@@ -45,6 +46,12 @@ Phase 4.0E also adds no TypeScript core runtime APIs and does not change the
 finite dry-run event construction or formatter. It only exports the Rust-host
 policy metadata as deterministic review JSON and maps it to future host-policy
 review records. See `docs/phase-4-0e-rust-host-policy-metadata.md`.
+
+Phase 4.0F also adds no TypeScript core runtime APIs and does not change the
+finite dry-run event construction or formatter. It only defines static
+host-policy review records and compatibility classes in the Rust host. Approval
+and rejection fields are inert review metadata and do not grant runtime
+approval. See `docs/phase-4-0f-host-policy-review-records.md`.
 
 ## Phase 3.2 Policy Review
 

@@ -47,6 +47,12 @@ review-record mapping; it does not write files, print to stdout, own stdio, or
 start runtime behavior. See
 `docs/phase-4-0e-rust-host-policy-metadata.md`.
 
+Phase 4.0F makes host-policy review records current static artifacts for that
+metadata. The records carry compatibility classification, inert approval or
+rejection metadata, warnings, errors, and non-execution invariants; they do not
+grant runtime approval or activate host-policy enforcement. See
+`docs/phase-4-0f-host-policy-review-records.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

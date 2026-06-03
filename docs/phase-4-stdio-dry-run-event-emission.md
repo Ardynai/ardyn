@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B/4.0C/4.0D/4.0E Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -24,6 +24,13 @@ JSON metadata. It still does not change the finite TypeScript dry-run emitter
 or add a CLI export command, file writer, stdout printer, live stdio reader,
 runtime owner, transcript persistence, replay command, WebSocket, HTTP,
 adapter, plugin, Content Fabric runtime, secret, or production signing-key path.
+
+Phase 4.0F defines static host-policy review-record fixtures and compatibility
+classification for the Phase 4.0E metadata. It still does not change the finite
+TypeScript dry-run emitter or add a review-record CLI command, file writer,
+stdout printer, live stdio reader, runtime owner, transcript persistence,
+replay command, WebSocket, HTTP, adapter, plugin, Content Fabric runtime,
+secret, production signing-key path, or runtime approval grant.
 
 ## CLI Surface
 
@@ -178,17 +185,31 @@ reader, a transport loop, or a new CLI command.
 Phase 4.0E exposes deterministic Rust helpers that return the Phase 4.0D policy
 contract as review-only JSON metadata, validate that metadata, parse it
 fail-closed, compute a SHA-256 digest over the deterministic bytes, and map it
-to a future host-policy review-record shape. See
+to the Phase 4.0F host-policy review-record shape. See
 `docs/phase-4-0e-rust-host-policy-metadata.md`.
 
 The Phase 4.0E export has a golden fixture at
 `tests/fixtures/host-policy/phase4-0e-stdio-transport-policy-metadata.json`.
 It is not a CLI command and does not write files or stdout.
 
+## Phase 4.0F Host-Policy Review Records
+
+Phase 4.0F exposes deterministic Rust helpers that turn the Phase 4.0E policy
+metadata into static `ardyn.host-policy-review-record` JSON, classify
+review-record compatibility, and keep approval/rejection fields inert. See
+`docs/phase-4-0f-host-policy-review-records.md`.
+
+The Phase 4.0F fixture set is under
+`tests/fixtures/host-policy/phase4-0f/`. It covers current compatible records,
+same-major future-minor records, unsupported major records, malformed records,
+permissive review metadata, and rejected permissive policy metadata. These
+fixtures are static review artifacts, not runtime configuration files.
+
 ## Deferred Runtime Work
 
-Phase 4.0E intentionally does not implement repo-root confinement, transcript
+Phase 4.0F intentionally does not implement repo-root confinement, transcript
 persistence, dropped-line replay, duplicate detection across a live stream,
 stderr redaction enforcement, or Rust-host stdout/stderr runtime ownership.
-It documents and types those requirements for a later reviewed host-policy
-phase before any live stdio runtime can exist.
+It documents and types review evidence for a later host-policy phase. A future
+live runtime still requires separate explicit host policy, implementation,
+tests, and runtime enablement.

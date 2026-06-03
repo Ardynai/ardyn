@@ -89,11 +89,11 @@ determinism booleans, exact redaction category arrays, exact line-integrity kind
 placement, exact transcript replay proposal strings, and the embedded policy
 `schemaVersion` and `phase`.
 
-## Future Review Records
+## Phase 4.0F Review Records
 
 `host_policy_review_record_for_stdio_transport_policy_metadata()` maps the
-metadata export to a future `ardyn.host-policy-review-record` shape. That record
-contains:
+metadata export to the Phase 4.0F `ardyn.host-policy-review-record` static
+review artifact shape. That record contains:
 
 - policy contract schema and version
 - SHA-256 digest of the deterministic metadata JSON
@@ -104,9 +104,12 @@ contains:
 
 The default review decision is `review-pending`. `approvalRecorded` and
 `rejectionRecorded` are false, and both approval and rejection runtime effects
-are false. This mapping is a future review-record design aid only. It does not
-grant approval, deny a running runtime, persist transcripts, or enforce host
-policy at runtime.
+are false. Phase 4.0F adds deterministic fixtures and compatibility
+classification for these records. Review records are static review artifacts
+only: they do not grant approval, deny a running runtime, persist transcripts,
+or enforce host policy at runtime.
+
+See `docs/phase-4-0f-host-policy-review-records.md`.
 
 ## Still Forbidden
 

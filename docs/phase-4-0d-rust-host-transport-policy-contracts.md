@@ -97,11 +97,19 @@ replay controls before live stdio can exist.
 
 Phase 4.0E exports this contract as deterministic JSON review metadata through
 Rust helpers only. It adds a golden fixture, fail-closed deserialization tests,
-a SHA-256 digest helper, and a future host-policy review-record mapping with
+a SHA-256 digest helper, and a Phase 4.0F host-policy review-record mapping with
 approval/rejection effects kept false. It does not add a CLI command, file
 writer, stdout printer, stdio owner, runtime enforcement, transcript
 persistence/replay runtime, secret handling, or production signing-key usage.
 See `docs/phase-4-0e-rust-host-policy-metadata.md`.
+
+## Phase 4.0F Review-Record Follow-Up
+
+Phase 4.0F turns the Phase 4.0E metadata mapping into static
+`ardyn.host-policy-review-record` fixtures and compatibility classification.
+Those records are review artifacts only; they do not grant runtime approval or
+start host-policy enforcement. See
+`docs/phase-4-0f-host-policy-review-records.md`.
 
 ## Still Forbidden
 

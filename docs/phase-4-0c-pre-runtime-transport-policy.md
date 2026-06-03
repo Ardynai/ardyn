@@ -240,8 +240,9 @@ ardyn replay-session-transcript --file <session-transcript.json> --explain
 ```
 
 Those commands are proposal-only in Phase 4.0C. They must not be implemented as
-runtime replay unless a later phase explicitly approves persistence, replay,
-host policy, redaction, and transport failure semantics.
+runtime replay unless a later phase adds explicit persistence, replay, host
+policy, redaction, transport failure semantics, implementation, tests, and
+runtime enablement.
 
 ## Phase 4.0D Typed Contract Follow-Up
 

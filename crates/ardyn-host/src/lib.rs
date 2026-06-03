@@ -23,7 +23,10 @@ pub const ARDYN_STDIO_TRANSPORT_POLICY_METADATA_PHASE: &str =
     "phase-4.0e-rust-host-policy-metadata";
 pub const ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA: &str = "ardyn.host-policy-review-record";
 pub const ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION: &str = "0.1.0";
+pub const ARDYN_HOST_POLICY_REVIEW_RECORD_PHASE: &str =
+    "phase-4.0f-host-policy-review-records";
 pub const ARDYN_POLICY_METADATA_DIGEST_ALGORITHM: &str = "sha256";
+const ARDYN_REVIEWED_POLICY_METADATA_PHASE_LABEL: &str = "4.0E";
 
 pub type HostResult<T> = Result<T, Box<dyn Error + Send + Sync>>;
 
@@ -133,6 +136,18 @@ pub enum PolicyJsonSerializationFormat {
 #[serde(rename_all = "kebab-case")]
 pub enum HostPolicyReviewStatus {
     ReviewPending,
+    ReviewApproved,
+    ReviewRejected,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum HostPolicyReviewCompatibility {
+    Compatible,
+    UpgradeAvailable,
+    UnsupportedMajor,
+    Malformed,
+    RejectedPolicy,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -361,17 +376,28 @@ pub struct HostPolicyReviewDecisionMetadata {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyReviewDiagnostics {
+    pub warnings: Vec<String>,
+    pub errors: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct HostPolicyReviewRecord {
     pub schema: String,
     pub schema_version: String,
+    pub record_phase: String,
     pub reviewed_phase: String,
-    pub policy_contract_schema: String,
+    pub policy_metadata_schema: String,
+    pub policy_metadata_version: String,
+    pub policy_metadata_digest_algorithm: String,
+    pub policy_metadata_digest_hex: String,
     pub policy_contract_version: String,
-    pub policy_digest_algorithm: String,
-    pub policy_digest_hex: String,
     pub runtime_status: PolicyRuntimeStatus,
     pub non_execution_invariants: Vec<String>,
+    pub compatibility: HostPolicyReviewCompatibility,
     pub decision: HostPolicyReviewDecisionMetadata,
+    pub diagnostics: HostPolicyReviewDiagnostics,
 }
 
 impl StdioTransportPolicyContract {
@@ -644,6 +670,86 @@ fn policy_non_execution_invariants() -> Vec<String> {
     .collect()
 }
 
+pub fn host_policy_review_record_top_level_order() -> Vec<String> {
+    [
+        "schema",
+        "schemaVersion",
+        "recordPhase",
+        "reviewedPhase",
+        "policyMetadataSchema",
+        "policyMetadataVersion",
+        "policyMetadataDigestAlgorithm",
+        "policyMetadataDigestHex",
+        "policyContractVersion",
+        "runtimeStatus",
+        "nonExecutionInvariants",
+        "compatibility",
+        "decision",
+        "diagnostics",
+    ]
+    .iter()
+    .map(|field| (*field).to_string())
+    .collect()
+}
+
+fn host_policy_review_record_warnings() -> Vec<String> {
+    [
+        "review-record-is-static-review-metadata-only",
+        "review-record-does-not-grant-runtime-approval",
+        "future-live-runtime-remains-blocked-until-separate-approved-phase",
+    ]
+    .iter()
+    .map(|warning| (*warning).to_string())
+    .collect()
+}
+
+fn semver_parts(version: &str) -> Option<(u64, u64, u64)> {
+    let mut parts = version.split('.');
+    let major = parts.next()?.parse().ok()?;
+    let minor = parts.next()?.parse().ok()?;
+    let patch = parts.next()?.parse().ok()?;
+
+    if parts.next().is_some() {
+        return None;
+    }
+
+    Some((major, minor, patch))
+}
+
+fn is_unsupported_major(version: &str, current: &str) -> bool {
+    match (semver_parts(version), semver_parts(current)) {
+        (Some((major, _, _)), Some((current_major, _, _))) => major > current_major,
+        _ => false,
+    }
+}
+
+fn is_same_major_non_current(version: &str, current: &str) -> bool {
+    match (semver_parts(version), semver_parts(current)) {
+        (Some((major, minor, patch)), Some((current_major, current_minor, current_patch))) => {
+            major == current_major && (minor, patch) != (current_minor, current_patch)
+        }
+        _ => false,
+    }
+}
+
+fn has_malformed_semver(version: &str) -> bool {
+    semver_parts(version).is_none()
+}
+
+fn policy_metadata_json_unchecked(metadata: &StdioTransportPolicyMetadata) -> HostResult<String> {
+    let json = serde_json::to_string_pretty(metadata)?;
+
+    Ok(format!("{json}\n"))
+}
+
+fn policy_metadata_digest_hex_unchecked(
+    metadata: &StdioTransportPolicyMetadata,
+) -> HostResult<String> {
+    let json = policy_metadata_json_unchecked(metadata)?;
+
+    Ok(fabric_sha256_hex(json.as_bytes()))
+}
+
 pub fn stdio_transport_policy_metadata() -> StdioTransportPolicyMetadata {
     StdioTransportPolicyMetadata {
         schema: ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA.to_string(),
@@ -665,7 +771,7 @@ pub fn stdio_transport_policy_metadata() -> StdioTransportPolicyMetadata {
             record_schema: ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA.to_string(),
             record_schema_version: ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION.to_string(),
             policy_digest_algorithm: ARDYN_POLICY_METADATA_DIGEST_ALGORITHM.to_string(),
-            reviewed_phase: "4.0E".to_string(),
+            reviewed_phase: ARDYN_REVIEWED_POLICY_METADATA_PHASE_LABEL.to_string(),
             runtime_status: PolicyRuntimeStatus::PreRuntimePolicyOnly,
             approval_fields_review_metadata_only: true,
             approval_runtime_effect_allowed: false,
@@ -752,7 +858,9 @@ pub fn validate_stdio_transport_policy_metadata(
             "host-policy review record digest algorithm is unsupported",
         ));
     }
-    if metadata.future_host_policy_review_record.reviewed_phase != "4.0E" {
+    if metadata.future_host_policy_review_record.reviewed_phase
+        != ARDYN_REVIEWED_POLICY_METADATA_PHASE_LABEL
+    {
         return Err(validation_error(
             "host-policy review record reviewed phase is unsupported",
         ));
@@ -891,22 +999,25 @@ pub fn host_policy_review_record_for_stdio_transport_policy_metadata(
     Ok(HostPolicyReviewRecord {
         schema: ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA.to_string(),
         schema_version: ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION.to_string(),
+        record_phase: ARDYN_HOST_POLICY_REVIEW_RECORD_PHASE.to_string(),
         reviewed_phase: metadata
             .future_host_policy_review_record
             .reviewed_phase
             .clone(),
-        policy_contract_schema: metadata.schema.clone(),
-        policy_contract_version: metadata.schema_version.clone(),
-        policy_digest_algorithm: metadata
+        policy_metadata_schema: metadata.schema.clone(),
+        policy_metadata_version: metadata.schema_version.clone(),
+        policy_metadata_digest_algorithm: metadata
             .future_host_policy_review_record
             .policy_digest_algorithm
             .clone(),
-        policy_digest_hex: stdio_transport_policy_metadata_digest_hex(metadata)?,
+        policy_metadata_digest_hex: stdio_transport_policy_metadata_digest_hex(metadata)?,
+        policy_contract_version: metadata.policy.schema_version.clone(),
         runtime_status: PolicyRuntimeStatus::PreRuntimePolicyOnly,
         non_execution_invariants: metadata
             .future_host_policy_review_record
             .non_execution_invariants
             .clone(),
+        compatibility: HostPolicyReviewCompatibility::Compatible,
         decision: HostPolicyReviewDecisionMetadata {
             status: HostPolicyReviewStatus::ReviewPending,
             approval_recorded: false,
@@ -915,10 +1026,57 @@ pub fn host_policy_review_record_for_stdio_transport_policy_metadata(
             approval_runtime_effect_allowed: false,
             rejection_runtime_effect_allowed: false,
         },
+        diagnostics: HostPolicyReviewDiagnostics {
+            warnings: host_policy_review_record_warnings(),
+            errors: Vec::new(),
+        },
     })
 }
 
-pub fn validate_host_policy_review_record(record: &HostPolicyReviewRecord) -> HostResult<()> {
+pub fn rejected_host_policy_review_record_for_stdio_transport_policy_metadata(
+    metadata: &StdioTransportPolicyMetadata,
+    errors: Vec<String>,
+) -> HostResult<HostPolicyReviewRecord> {
+    if errors.is_empty() {
+        return Err(validation_error(
+            "rejected host-policy review record requires diagnostics",
+        ));
+    }
+
+    let record = HostPolicyReviewRecord {
+        schema: ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA.to_string(),
+        schema_version: ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION.to_string(),
+        record_phase: ARDYN_HOST_POLICY_REVIEW_RECORD_PHASE.to_string(),
+        reviewed_phase: ARDYN_REVIEWED_POLICY_METADATA_PHASE_LABEL.to_string(),
+        policy_metadata_schema: metadata.schema.clone(),
+        policy_metadata_version: metadata.schema_version.clone(),
+        policy_metadata_digest_algorithm: ARDYN_POLICY_METADATA_DIGEST_ALGORITHM.to_string(),
+        policy_metadata_digest_hex: policy_metadata_digest_hex_unchecked(metadata)?,
+        policy_contract_version: metadata.policy.schema_version.clone(),
+        runtime_status: PolicyRuntimeStatus::PreRuntimePolicyOnly,
+        non_execution_invariants: policy_non_execution_invariants(),
+        compatibility: HostPolicyReviewCompatibility::RejectedPolicy,
+        decision: HostPolicyReviewDecisionMetadata {
+            status: HostPolicyReviewStatus::ReviewRejected,
+            approval_recorded: false,
+            rejection_recorded: true,
+            review_metadata_only: true,
+            approval_runtime_effect_allowed: false,
+            rejection_runtime_effect_allowed: false,
+        },
+        diagnostics: HostPolicyReviewDiagnostics {
+            warnings: host_policy_review_record_warnings(),
+            errors,
+        },
+    };
+
+    validate_host_policy_review_record(&record)?;
+    Ok(record)
+}
+
+pub fn validate_host_policy_review_record_common(
+    record: &HostPolicyReviewRecord,
+) -> HostResult<()> {
     if record.schema != ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA {
         return Err(validation_error(
             "host-policy review record schema is unsupported",
@@ -929,30 +1087,40 @@ pub fn validate_host_policy_review_record(record: &HostPolicyReviewRecord) -> Ho
             "host-policy review record schemaVersion is unsupported",
         ));
     }
-    if record.reviewed_phase != "4.0E" {
+    if record.record_phase != ARDYN_HOST_POLICY_REVIEW_RECORD_PHASE {
         return Err(validation_error(
             "host-policy review record phase is unsupported",
         ));
     }
-    if record.policy_contract_schema != ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA {
+    if record.reviewed_phase != ARDYN_REVIEWED_POLICY_METADATA_PHASE_LABEL {
         return Err(validation_error(
-            "host-policy review record contract schema is unsupported",
+            "host-policy review record reviewed phase is unsupported",
         ));
     }
-    if record.policy_contract_version != ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION {
+    if record.policy_metadata_schema != ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA {
         return Err(validation_error(
-            "host-policy review record contract version is unsupported",
+            "host-policy review record metadata schema is unsupported",
         ));
     }
-    if record.policy_digest_algorithm != ARDYN_POLICY_METADATA_DIGEST_ALGORITHM
-        || record.policy_digest_hex.len() != 64
+    if record.policy_metadata_version != ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION {
+        return Err(validation_error(
+            "host-policy review record metadata version is unsupported",
+        ));
+    }
+    if record.policy_contract_version != ARDYN_SCHEMA_VERSION {
+        return Err(validation_error(
+            "host-policy review record policy contract version is unsupported",
+        ));
+    }
+    if record.policy_metadata_digest_algorithm != ARDYN_POLICY_METADATA_DIGEST_ALGORITHM
+        || record.policy_metadata_digest_hex.len() != 64
         || !record
-            .policy_digest_hex
+            .policy_metadata_digest_hex
             .bytes()
             .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
     {
         return Err(validation_error(
-            "host-policy review record digest is unsupported",
+            "host-policy review record metadata digest is unsupported",
         ));
     }
     if record.runtime_status != PolicyRuntimeStatus::PreRuntimePolicyOnly {
@@ -965,10 +1133,12 @@ pub fn validate_host_policy_review_record(record: &HostPolicyReviewRecord) -> Ho
             "host-policy review record invariants are unsupported",
         ));
     }
-    if record.decision.status != HostPolicyReviewStatus::ReviewPending
-        || record.decision.approval_recorded
-        || record.decision.rejection_recorded
-        || !record.decision.review_metadata_only
+    if record.diagnostics.warnings != host_policy_review_record_warnings() {
+        return Err(validation_error(
+            "host-policy review record warnings are unsupported",
+        ));
+    }
+    if !record.decision.review_metadata_only
         || record.decision.approval_runtime_effect_allowed
         || record.decision.rejection_runtime_effect_allowed
     {
@@ -978,6 +1148,132 @@ pub fn validate_host_policy_review_record(record: &HostPolicyReviewRecord) -> Ho
     }
 
     Ok(())
+}
+
+pub fn validate_host_policy_review_record(record: &HostPolicyReviewRecord) -> HostResult<()> {
+    validate_host_policy_review_record_common(record)?;
+
+    match record.compatibility {
+        HostPolicyReviewCompatibility::Compatible => {
+            let pending = record.decision.status == HostPolicyReviewStatus::ReviewPending
+                && !record.decision.approval_recorded
+                && !record.decision.rejection_recorded;
+            let approved = record.decision.status == HostPolicyReviewStatus::ReviewApproved
+                && record.decision.approval_recorded
+                && !record.decision.rejection_recorded;
+
+            if !(pending || approved)
+                || record.decision.rejection_recorded
+                || !record.diagnostics.errors.is_empty()
+            {
+                return Err(validation_error(
+                    "compatible host-policy review record decision must remain inert metadata",
+                ));
+            }
+        }
+        HostPolicyReviewCompatibility::RejectedPolicy => {
+            if record.decision.status != HostPolicyReviewStatus::ReviewRejected
+                || record.decision.approval_recorded
+                || !record.decision.rejection_recorded
+                || record.diagnostics.errors.is_empty()
+            {
+                return Err(validation_error(
+                    "rejected host-policy review record must remain inert rejection metadata",
+                ));
+            }
+        }
+        HostPolicyReviewCompatibility::UpgradeAvailable
+        | HostPolicyReviewCompatibility::UnsupportedMajor
+        | HostPolicyReviewCompatibility::Malformed => {
+            return Err(validation_error(
+                "host-policy review record compatibility is not exact-current",
+            ));
+        }
+    }
+
+    Ok(())
+}
+
+pub fn serialize_host_policy_review_record_json(
+    record: &HostPolicyReviewRecord,
+) -> HostResult<String> {
+    validate_host_policy_review_record(record)?;
+    let json = serde_json::to_string_pretty(record)?;
+
+    Ok(format!("{json}\n"))
+}
+
+pub fn host_policy_review_record_json_for_stdio_transport_policy_metadata(
+    metadata: &StdioTransportPolicyMetadata,
+) -> HostResult<String> {
+    let record = host_policy_review_record_for_stdio_transport_policy_metadata(metadata)?;
+
+    serialize_host_policy_review_record_json(&record)
+}
+
+pub fn parse_host_policy_review_record_json(input: &str) -> HostResult<HostPolicyReviewRecord> {
+    if input.contains('\r') {
+        return Err(validation_error("host-policy review record must be LF-only JSON"));
+    }
+
+    let record: HostPolicyReviewRecord = serde_json::from_str(input)?;
+    validate_host_policy_review_record(&record)?;
+    Ok(record)
+}
+
+pub fn classify_host_policy_review_record_json(input: &str) -> HostPolicyReviewCompatibility {
+    if input.contains('\r') {
+        return HostPolicyReviewCompatibility::Malformed;
+    }
+
+    let value: serde_json::Value = match serde_json::from_str(input) {
+        Ok(value) => value,
+        Err(_) => return HostPolicyReviewCompatibility::Malformed,
+    };
+
+    let object = match value.as_object() {
+        Some(object) => object,
+        None => return HostPolicyReviewCompatibility::Malformed,
+    };
+
+    let schema = object.get("schema").and_then(serde_json::Value::as_str);
+    if schema != Some(ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA) {
+        return HostPolicyReviewCompatibility::Malformed;
+    }
+
+    let schema_version = match object
+        .get("schemaVersion")
+        .and_then(serde_json::Value::as_str)
+    {
+        Some(schema_version) => schema_version,
+        None => return HostPolicyReviewCompatibility::Malformed,
+    };
+
+    if has_malformed_semver(schema_version) {
+        return HostPolicyReviewCompatibility::Malformed;
+    }
+
+    if is_unsupported_major(schema_version, ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION) {
+        return HostPolicyReviewCompatibility::UnsupportedMajor;
+    }
+
+    if is_same_major_non_current(schema_version, ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION) {
+        return HostPolicyReviewCompatibility::UpgradeAvailable;
+    }
+
+    let json = match serde_json::to_string(&value) {
+        Ok(json) => json,
+        Err(_) => return HostPolicyReviewCompatibility::Malformed,
+    };
+    let record: HostPolicyReviewRecord = match serde_json::from_str(&json) {
+        Ok(record) => record,
+        Err(_) => return HostPolicyReviewCompatibility::Malformed,
+    };
+
+    match validate_host_policy_review_record(&record) {
+        Ok(()) => record.compatibility,
+        Err(_) => HostPolicyReviewCompatibility::Malformed,
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -1864,6 +2160,24 @@ mod tests {
         );
     }
 
+    fn review_record_json_from_value(value: serde_json::Value) -> String {
+        format!(
+            "{}\n",
+            serde_json::to_string_pretty(&value).expect("review record value json")
+        )
+    }
+
+    fn assert_host_policy_review_record_rejected(value: serde_json::Value, label: &str) {
+        let json = review_record_json_from_value(value);
+        let error = parse_host_policy_review_record_json(&json)
+            .expect_err("review record mutation should fail closed");
+
+        assert!(
+            !error.to_string().is_empty(),
+            "{label} should produce a diagnostic"
+        );
+    }
+
     #[test]
     fn stdio_transport_policy_metadata_json_is_deterministic_and_matches_golden_fixture() {
         let first = stdio_transport_policy_metadata_json().expect("first metadata json");
@@ -1946,17 +2260,32 @@ mod tests {
         validate_host_policy_review_record(&review_record).expect("review record validation");
 
         assert_eq!(review_record.schema, ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA);
-        assert_eq!(review_record.reviewed_phase, "4.0E");
-        assert_eq!(review_record.policy_contract_schema, metadata.schema);
         assert_eq!(
-            review_record.policy_contract_version,
+            review_record.record_phase,
+            ARDYN_HOST_POLICY_REVIEW_RECORD_PHASE
+        );
+        assert_eq!(
+            review_record.reviewed_phase,
+            ARDYN_REVIEWED_POLICY_METADATA_PHASE_LABEL
+        );
+        assert_eq!(review_record.policy_metadata_schema, metadata.schema);
+        assert_eq!(
+            review_record.policy_metadata_version,
             metadata.schema_version
         );
-        assert_eq!(review_record.policy_digest_algorithm, "sha256");
-        assert_eq!(review_record.policy_digest_hex, digest);
+        assert_eq!(review_record.policy_metadata_digest_algorithm, "sha256");
+        assert_eq!(review_record.policy_metadata_digest_hex, digest);
+        assert_eq!(
+            review_record.policy_contract_version,
+            metadata.policy.schema_version
+        );
         assert_eq!(
             review_record.runtime_status,
             PolicyRuntimeStatus::PreRuntimePolicyOnly
+        );
+        assert_eq!(
+            review_record.compatibility,
+            HostPolicyReviewCompatibility::Compatible
         );
         assert_eq!(
             review_record.decision.status,
@@ -1967,6 +2296,203 @@ mod tests {
         assert!(review_record.decision.review_metadata_only);
         assert!(!review_record.decision.approval_runtime_effect_allowed);
         assert!(!review_record.decision.rejection_runtime_effect_allowed);
+        assert_eq!(
+            review_record.diagnostics.warnings,
+            host_policy_review_record_warnings()
+        );
+        assert!(review_record.diagnostics.errors.is_empty());
+    }
+
+    #[test]
+    fn host_policy_review_record_json_is_deterministic_and_matches_golden_fixture() {
+        let metadata = stdio_transport_policy_metadata();
+        let first = host_policy_review_record_json_for_stdio_transport_policy_metadata(&metadata)
+            .expect("first review record json");
+        let second = host_policy_review_record_json_for_stdio_transport_policy_metadata(&metadata)
+            .expect("second review record json");
+        let fixture = include_str!(
+            "../../../tests/fixtures/host-policy/phase4-0f/current-host-policy-review-record.json"
+        );
+
+        assert_eq!(first, second);
+        assert_eq!(first, fixture);
+        assert!(first.ends_with('\n'));
+        assert!(!first.contains('\r'));
+        assert!(parse_host_policy_review_record_json(&first).is_ok());
+        assert_eq!(
+            classify_host_policy_review_record_json(&first),
+            HostPolicyReviewCompatibility::Compatible
+        );
+    }
+
+    #[test]
+    fn host_policy_review_record_top_level_field_order_is_stable() {
+        let metadata = stdio_transport_policy_metadata();
+        let json = host_policy_review_record_json_for_stdio_transport_policy_metadata(&metadata)
+            .expect("review record json");
+        let mut previous_index = None;
+
+        for field in host_policy_review_record_top_level_order() {
+            let needle = format!("  \"{field}\":");
+            let index = json.find(&needle).expect("field should exist");
+
+            if let Some(previous_index) = previous_index {
+                assert!(
+                    previous_index < index,
+                    "{field} should appear after the previous field"
+                );
+            }
+
+            previous_index = Some(index);
+        }
+    }
+
+    #[test]
+    fn host_policy_review_record_compatibility_classification_is_deterministic() {
+        let cases = [
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-0f/current-host-policy-review-record.json"
+                ),
+                HostPolicyReviewCompatibility::Compatible,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-0f/same-major-future-minor-host-policy-review-record.json"
+                ),
+                HostPolicyReviewCompatibility::UpgradeAvailable,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-0f/unsupported-major-host-policy-review-record.json"
+                ),
+                HostPolicyReviewCompatibility::UnsupportedMajor,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-0f/malformed-missing-schema-version-host-policy-review-record.json"
+                ),
+                HostPolicyReviewCompatibility::Malformed,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-0f/malformed-missing-policy-digest-host-policy-review-record.json"
+                ),
+                HostPolicyReviewCompatibility::Malformed,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-0f/malformed-permissive-approval-runtime-effect-host-policy-review-record.json"
+                ),
+                HostPolicyReviewCompatibility::Malformed,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-0f/rejected-permissive-policy-host-policy-review-record.json"
+                ),
+                HostPolicyReviewCompatibility::RejectedPolicy,
+            ),
+        ];
+
+        for (json, expected) in cases {
+            assert_eq!(classify_host_policy_review_record_json(json), expected);
+        }
+    }
+
+    #[test]
+    fn host_policy_review_record_rejects_unsupported_malformed_and_permissive_records() {
+        for json in [
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-0f/same-major-future-minor-host-policy-review-record.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-0f/unsupported-major-host-policy-review-record.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-0f/malformed-missing-schema-version-host-policy-review-record.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-0f/malformed-missing-policy-digest-host-policy-review-record.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-0f/malformed-permissive-approval-runtime-effect-host-policy-review-record.json"
+            ),
+        ] {
+            assert!(parse_host_policy_review_record_json(json).is_err());
+        }
+
+        let mut current: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/host-policy/phase4-0f/current-host-policy-review-record.json"
+        ))
+        .expect("current review record");
+        current["policyMetadataDigestHex"] = serde_json::Value::String("ABCDEF".to_string());
+        assert_host_policy_review_record_rejected(current, "uppercase digest");
+
+        let mut current: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/host-policy/phase4-0f/current-host-policy-review-record.json"
+        ))
+        .expect("current review record");
+        current["nonExecutionInvariants"]
+            .as_array_mut()
+            .expect("invariants")
+            .pop();
+        assert_host_policy_review_record_rejected(current, "invariant drift");
+    }
+
+    #[test]
+    fn host_policy_review_record_approval_fields_are_inert_review_metadata_only() {
+        let metadata = stdio_transport_policy_metadata();
+        let mut record = host_policy_review_record_for_stdio_transport_policy_metadata(&metadata)
+            .expect("review record");
+
+        record.decision.status = HostPolicyReviewStatus::ReviewApproved;
+        record.decision.approval_recorded = true;
+        validate_host_policy_review_record(&record).expect("inert approval metadata");
+        assert_eq!(
+            classify_host_policy_review_record_json(
+                &serialize_host_policy_review_record_json(&record).expect("approved record json")
+            ),
+            HostPolicyReviewCompatibility::Compatible
+        );
+        assert!(record.decision.review_metadata_only);
+        assert!(!record.decision.approval_runtime_effect_allowed);
+        assert!(!record.decision.rejection_runtime_effect_allowed);
+
+        record.decision.approval_runtime_effect_allowed = true;
+        assert!(validate_host_policy_review_record(&record).is_err());
+    }
+
+    #[test]
+    fn host_policy_review_record_maps_permissive_policy_metadata_to_rejected_policy() {
+        let mut metadata = stdio_transport_policy_metadata();
+        metadata.policy.safety.live_stdio_runtime = true;
+        assert!(validate_stdio_transport_policy_metadata(&metadata).is_err());
+
+        let record = rejected_host_policy_review_record_for_stdio_transport_policy_metadata(
+            &metadata,
+            vec!["policy metadata contains a runtime-permissive policy".to_string()],
+        )
+        .expect("rejected policy record");
+        let json = serialize_host_policy_review_record_json(&record).expect("rejected record json");
+        let fixture = include_str!(
+            "../../../tests/fixtures/host-policy/phase4-0f/rejected-permissive-policy-host-policy-review-record.json"
+        );
+
+        assert_eq!(json, fixture);
+        assert_eq!(
+            record.compatibility,
+            HostPolicyReviewCompatibility::RejectedPolicy
+        );
+        assert_eq!(record.decision.status, HostPolicyReviewStatus::ReviewRejected);
+        assert!(!record.decision.approval_recorded);
+        assert!(record.decision.rejection_recorded);
+        assert!(record.decision.review_metadata_only);
+        assert!(!record.decision.approval_runtime_effect_allowed);
+        assert!(!record.decision.rejection_runtime_effect_allowed);
+        assert_eq!(
+            classify_host_policy_review_record_json(&json),
+            HostPolicyReviewCompatibility::RejectedPolicy
+        );
     }
 
     #[test]

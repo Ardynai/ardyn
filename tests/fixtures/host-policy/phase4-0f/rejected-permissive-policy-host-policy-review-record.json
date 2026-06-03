@@ -1,0 +1,51 @@
+{
+  "schema": "ardyn.host-policy-review-record",
+  "schemaVersion": "0.1.0",
+  "recordPhase": "phase-4.0f-host-policy-review-records",
+  "reviewedPhase": "4.0E",
+  "policyMetadataSchema": "ardyn.stdio-transport-policy-metadata",
+  "policyMetadataVersion": "0.1.0",
+  "policyMetadataDigestAlgorithm": "sha256",
+  "policyMetadataDigestHex": "338126c64de694b9c3cac8f6c4f7418ee02504b6ec39ae94379655a5a252ba1c",
+  "policyContractVersion": "0.1.0",
+  "runtimeStatus": "pre-runtime-policy-only",
+  "nonExecutionInvariants": [
+    "no-live-stdio-runtime",
+    "no-stdin-command-loop",
+    "no-live-stdio-reader",
+    "no-listener",
+    "no-server",
+    "no-subprocess-spawning",
+    "no-adapter-calls",
+    "no-locus-runtime-dependency",
+    "no-mcp-calls",
+    "no-openclaw-calls",
+    "no-plugin-execution",
+    "no-content-fabric-runtime-behavior",
+    "no-autonomous-loop",
+    "no-secret-handling",
+    "no-production-signing-keys",
+    "no-transcript-persistence-replay-runtime",
+    "no-websocket-http-control-surface",
+    "no-runtime-execution-behavior"
+  ],
+  "compatibility": "rejected_policy",
+  "decision": {
+    "status": "review-rejected",
+    "approvalRecorded": false,
+    "rejectionRecorded": true,
+    "reviewMetadataOnly": true,
+    "approvalRuntimeEffectAllowed": false,
+    "rejectionRuntimeEffectAllowed": false
+  },
+  "diagnostics": {
+    "warnings": [
+      "review-record-is-static-review-metadata-only",
+      "review-record-does-not-grant-runtime-approval",
+      "future-live-runtime-remains-blocked-until-separate-approved-phase"
+    ],
+    "errors": [
+      "policy metadata contains a runtime-permissive policy"
+    ]
+  }
+}

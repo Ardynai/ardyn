@@ -1,0 +1,31 @@
+{
+  "schema": "ardyn.host-policy-review-record",
+  "schemaVersion": "0.1.0",
+  "recordPhase": "phase-4.0f-host-policy-review-records",
+  "reviewedPhase": "4.0E",
+  "policyMetadataSchema": "ardyn.stdio-transport-policy-metadata",
+  "policyMetadataVersion": "0.1.0",
+  "policyMetadataDigestAlgorithm": "sha256",
+  "policyContractVersion": "0.1.0",
+  "runtimeStatus": "pre-runtime-policy-only",
+  "nonExecutionInvariants": [
+    "no-live-stdio-runtime"
+  ],
+  "compatibility": "malformed",
+  "decision": {
+    "status": "review-pending",
+    "approvalRecorded": false,
+    "rejectionRecorded": false,
+    "reviewMetadataOnly": true,
+    "approvalRuntimeEffectAllowed": false,
+    "rejectionRuntimeEffectAllowed": false
+  },
+  "diagnostics": {
+    "warnings": [
+      "review-record-is-static-review-metadata-only"
+    ],
+    "errors": [
+      "policyMetadataDigestHex is required"
+    ]
+  }
+}

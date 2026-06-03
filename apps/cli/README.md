@@ -2,14 +2,15 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.0E exposes the same command set as Phase 4.0B, Phase 4.0C, and Phase
-4.0D:
+Phase 4.0F exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+4.0D, and Phase 4.0E:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.0E adds Rust-host policy export metadata only;
-it does not add a live stdio reader, replay command, listener, server,
-subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call,
-plugin execution path, Content Fabric runtime path, or agent loop.
+`emit-session-events`. Phase 4.0F adds static Rust-host policy review-record
+metadata only; it does not add a live stdio reader, replay command, listener,
+server, subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw
+call, plugin execution path, Content Fabric runtime path, runtime approval
+grant, or agent loop.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -109,3 +110,8 @@ review-only JSON metadata from Rust helpers and still leaves CLI behavior
 unchanged. It adds no policy metadata CLI command, no file writer, no stdout
 printer, and no runtime command. See
 `docs/phase-4-0e-rust-host-policy-metadata.md`.
+
+Phase 4.0F makes host-policy review records current static artifacts in the
+Rust host and still leaves CLI behavior unchanged. It adds no review-record CLI
+command, no file writer, no stdout printer, no runtime command, and no runtime
+approval grant. See `docs/phase-4-0f-host-policy-review-records.md`.

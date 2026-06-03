@@ -35,13 +35,13 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.0E local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.0F local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.0E",
-    name: "Rust host policy metadata export",
+    id: "4.0F",
+    name: "Host policy review records",
     executionPosture: "non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
@@ -99,12 +99,12 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0E status report.",
+      purpose: "Render this deterministic local Phase 4.0F status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0E status report.",
+      purpose: "Run focused tests for this local Phase 4.0F status report.",
       ranByReport: false
     },
     {
@@ -125,6 +125,11 @@ test("report lists configured checks and verification commands without running t
     {
       command: "node --test tests/phase4-0e-policy-metadata.test.mjs",
       purpose: "Run focused Phase 4.0E Rust-host policy metadata export static checks.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-0f-host-policy-review-records.test.mjs",
+      purpose: "Run focused Phase 4.0F host-policy review-record static checks.",
       ranByReport: false
     },
     {
@@ -1127,6 +1132,187 @@ test("report inventories Phase 4.0E Rust-host policy metadata export", async () 
   });
 });
 
+test("report inventories Phase 4.0F host-policy review records", async () => {
+  const report = await runReport();
+
+  assert.deepEqual(report.phase40FInventory.reviewRecords, {
+    document: "docs/phase-4-0f-host-policy-review-records.md",
+    source: "crates/ardyn-host/src/lib.rs",
+    schema: "ardyn.host-policy-review-record",
+    schemaVersion: "0.1.0",
+    recordPhase: "phase-4.0f-host-policy-review-records",
+    reviewedPhase: "4.0E",
+    policyMetadataSchema: "ardyn.stdio-transport-policy-metadata",
+    policyMetadataVersion: "0.1.0",
+    policyMetadataDigestAlgorithm: "sha256",
+    currentPolicyMetadataDigestHex:
+      "91e64ea2ec4b61ef4850501ba4d80d01af5e23def60dd893652bfaa0cd7b494a",
+    runtimeStatus: "pre-runtime-policy-only",
+    staticReviewArtifactOnly: true,
+    grantsRuntimeApproval: false,
+    activeRuntimeEnforcement: false,
+    liveRuntimeBehaviorIntroduced: false
+  });
+
+  assert.deepEqual(report.phase40FInventory.compatibilityClassification, {
+    enum: "HostPolicyReviewCompatibility",
+    helper: "classify_host_policy_review_record_json",
+    parserHelper: "parse_host_policy_review_record_json",
+    validationHelper: "validate_host_policy_review_record",
+    classes: [
+      "compatible",
+      "upgrade_available",
+      "unsupported_major",
+      "malformed",
+      "rejected_policy"
+    ],
+    exactCurrentValidationRequiredForCompatible: true,
+    tolerantSchemaVersionPrepass: true,
+    unsupportedMajorFailClosed: true,
+    malformedFailClosed: true,
+    rejectedPolicyFailClosed: true,
+    sameMajorFutureMinorInertMetadataOnly: true
+  });
+
+  assert.deepEqual(report.phase40FInventory.deterministicMapping, {
+    mappingHelper: "host_policy_review_record_for_stdio_transport_policy_metadata",
+    jsonHelper: "host_policy_review_record_json_for_stdio_transport_policy_metadata",
+    rejectedPolicyHelper:
+      "rejected_host_policy_review_record_for_stdio_transport_policy_metadata",
+    serializer: "serde_json::to_string_pretty",
+    format: "pretty-json-lf-terminated",
+    finalLfRequired: true,
+    crlfAllowed: false,
+    writesFiles: false,
+    cliCommandAdded: false
+  });
+
+  assert.deepEqual(report.phase40FInventory.decisionMetadata, {
+    defaultStatus: "review-pending",
+    approvedStatusAllowedAsInertMetadata: true,
+    rejectedStatusAllowedAsInertMetadata: true,
+    approvalRecordedDefault: false,
+    rejectionRecordedDefault: false,
+    reviewMetadataOnlyRequired: true,
+    approvalRuntimeEffectAllowed: false,
+    rejectionRuntimeEffectAllowed: false,
+    reviewRecordDoesNotGrantRuntimeApproval: true
+  });
+
+  assert.deepEqual(
+    report.phase40FInventory.fixtures.map(({ path, status }) => [path, status]),
+    [
+      ["tests/fixtures/host-policy/phase4-0f/current-host-policy-review-record.json", "present"],
+      [
+        "tests/fixtures/host-policy/phase4-0f/same-major-future-minor-host-policy-review-record.json",
+        "present"
+      ],
+      ["tests/fixtures/host-policy/phase4-0f/unsupported-major-host-policy-review-record.json", "present"],
+      [
+        "tests/fixtures/host-policy/phase4-0f/malformed-missing-schema-version-host-policy-review-record.json",
+        "present"
+      ],
+      [
+        "tests/fixtures/host-policy/phase4-0f/malformed-missing-policy-digest-host-policy-review-record.json",
+        "present"
+      ],
+      [
+        "tests/fixtures/host-policy/phase4-0f/malformed-permissive-approval-runtime-effect-host-policy-review-record.json",
+        "present"
+      ],
+      [
+        "tests/fixtures/host-policy/phase4-0f/rejected-permissive-policy-host-policy-review-record.json",
+        "present"
+      ]
+    ]
+  );
+
+  assert.deepEqual(report.phase40FInventory.negativeCoverage, {
+    unsupportedMajorClassifiedFailClosed: true,
+    malformedMissingRequiredFieldsClassifiedFailClosed: true,
+    missingPolicyDigestRejected: true,
+    permissiveApprovalRuntimeEffectRejected: true,
+    permissivePolicyMetadataRejectedPolicy: true,
+    approvalFieldsRuntimeEffectRejected: true,
+    crlfJsonRejected: true,
+    unknownFieldsRejectedForExactCurrentRecords: true
+  });
+
+  assert.deepEqual(report.phase40FInventory.nonExecutionInvariants, [
+    "no-live-stdio-runtime",
+    "no-stdin-command-loop",
+    "no-live-stdio-reader",
+    "no-listener",
+    "no-server",
+    "no-subprocess-spawning",
+    "no-adapter-calls",
+    "no-locus-runtime-dependency",
+    "no-mcp-calls",
+    "no-openclaw-calls",
+    "no-plugin-execution",
+    "no-content-fabric-runtime-behavior",
+    "no-autonomous-loop",
+    "no-secret-handling",
+    "no-production-signing-keys",
+    "no-transcript-persistence-replay-runtime",
+    "no-websocket-http-control-surface",
+    "no-runtime-execution-behavior"
+  ]);
+
+  assert.deepEqual(
+    report.phase40FInventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-4-0f-host-policy-review-records.md", "present"],
+      ["docs/phase-4-0e-rust-host-policy-metadata.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/architecture.md", "present"],
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["packages/core/README.md", "present"],
+      ["crates/ardyn-host/README.md", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    report.phase40FInventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["crates/ardyn-host/src/lib.rs", "present"],
+      [
+        "tests/fixtures/host-policy/phase4-0f/current-host-policy-review-record.json",
+        "present"
+      ],
+      ["tests/phase4-0f-host-policy-review-records.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+
+  assert.deepEqual(report.phase40FInventory.safetyPosture, {
+    nonExecuting: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true
+  });
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -1312,6 +1498,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.stdioTransportPolicy, true);
   assert.equal(report.safetyPosture.stdioRustHostPolicyContracts, true);
   assert.equal(report.safetyPosture.stdioPolicyMetadataExport, true);
+  assert.equal(report.safetyPosture.stdioPolicyReviewRecords, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {

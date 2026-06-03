@@ -152,7 +152,7 @@ or HTTP transport. See
 
 Phase 4.0E exports that inactive Rust-host policy contract as deterministic
 JSON review metadata, validates/deserializes it fail-closed, pins a golden
-fixture, computes a SHA-256 digest, and maps it to a future host-policy
+fixture, computes a SHA-256 digest, and maps it to the Phase 4.0F host-policy
 review-record shape. It does not add a CLI export command, file writer, stdout
 printer, stdin command loop, live stdio reader, runtime owner, transcript
 replay command, listener, server, subprocess supervisor, adapter call, Locus
@@ -160,6 +160,15 @@ runtime dependency, MCP/OpenClaw call, plugin execution path, Content Fabric
 runtime behavior, secret handling, production signing-key usage, WebSocket
 transport, or HTTP transport. See
 `docs/phase-4-0e-rust-host-policy-metadata.md`.
+
+Phase 4.0F defines static `ardyn.host-policy-review-record` fixtures and
+compatibility classification for that metadata. It does not add a review-record
+CLI command, file writer, stdout printer, stdin command loop, live stdio
+reader, runtime owner, transcript replay command, listener, server,
+subprocess supervisor, adapter call, Locus runtime dependency, MCP/OpenClaw
+call, plugin execution path, Content Fabric runtime behavior, secret handling,
+production signing-key usage, WebSocket transport, HTTP transport, or runtime
+approval grant. See `docs/phase-4-0f-host-policy-review-records.md`.
 
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
