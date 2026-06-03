@@ -129,6 +129,16 @@ golden JSONL fixture coverage, no-blank-line formatter checks, and stderr-only
 failure diagnostics. It remains a finite local renderer, not a live stdio
 runtime.
 
+Phase 4.0C adds pre-runtime transport policy for future stdio ownership,
+stdout JSONL framing, stderr diagnostic framing, backpressure, partial writes,
+dropped/duplicate/out-of-order/malformed-line handling, process exit semantics,
+stderr redaction, and transcript persistence/replay design. It is policy and
+static contract hardening only. It does not add a stdin command loop, live
+stdio reader, transcript replay command, listener, server, subprocess
+supervisor, adapter call, Locus runtime dependency, MCP/OpenClaw call, plugin
+execution path, or Content Fabric runtime behavior. See
+`docs/phase-4-0c-pre-runtime-transport-policy.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

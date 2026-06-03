@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.0B Scope
+## Phase 3 and Phase 4.0C Scope
 
-This repository is currently in Phase 4.0B dry-run session-event hardening mode. The goal is to load and validate ARDYN manifests and tasks, resolve requested capabilities into deterministic non-executing plans, report static TypeScript/Rust host identity, expose dry-run handshake data, emit finite dry-run session-event JSONL, and harden that local-only emitter before autonomous execution exists.
+This repository is currently in Phase 4.0C pre-runtime transport policy mode. The goal is to load and validate ARDYN manifests and tasks, resolve requested capabilities into deterministic non-executing plans, report static TypeScript/Rust host identity, expose dry-run handshake data, emit finite dry-run session-event JSONL, and define the stdout/stderr, redaction, transcript persistence, and replay policies required before any live stdio runtime can exist.
 
 Included now:
 
@@ -39,6 +39,9 @@ Included now:
 - Phase 4.0B strict `emit-session-events` argument validation, negative input
   diagnostics, golden JSONL fixture coverage, and future Rust-host stdio
   ownership design notes.
+- Phase 4.0C pre-runtime transport policy for stdout/stderr ownership, JSONL
+  framing, stderr redaction, backpressure, partial writes, line-integrity
+  failures, process exit semantics, and proposal-only transcript replay design.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -83,9 +86,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.0B CLI Usage
+## Phase 3 and Phase 4.0C CLI Usage
 
-Run non-executing commands directly from source through Phase 4.0B:
+Run non-executing commands directly from source through Phase 4.0C:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -190,7 +193,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.0B status report command is:
+The Phase 4.0C status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -202,7 +205,8 @@ attestation planning posture, trace-comparison or trace-review artifacts,
 host-policy precondition references, Phase 3.8 harness identity, Fabric family,
 Phase 3.9 session-event and session-transcript contract evidence, Phase 3.10
 session-transcript versioning/display metadata, Phase 4.0A dry-run event
-emission metadata, Phase 4.0B hardening metadata, and safety posture.
+emission metadata, Phase 4.0B hardening metadata, Phase 4.0C pre-runtime
+transport policy metadata, and safety posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -230,6 +234,13 @@ Phase 4.0B rejects unknown or duplicate `emit-session-events` arguments before
 reading files, keeps all failure diagnostics on stderr, and keeps stdout empty
 for unreadable files, invalid JSON, schema-invalid JSON, unsafe paths, and
 missing `--dry-run`. See `docs/phase-4-stdio-dry-run-event-emission.md`.
+
+Phase 4.0C adds no new CLI command. It documents the transport policy required
+before live stdio: stdout JSONL ownership, stderr diagnostic ownership,
+backpressure, partial writes, dropped/duplicate/out-of-order/malformed-line
+handling, process exit semantics, stderr redaction, and proposal-only
+transcript persistence/replay design. See
+`docs/phase-4-0c-pre-runtime-transport-policy.md`.
 
 ## Phase 3.3-3.9 Policy Review
 

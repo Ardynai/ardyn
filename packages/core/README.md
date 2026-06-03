@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.0B owns manifest and task validation, deterministic non-executing task planning, ranked exact/tag/scope capability resolution, approval-gate data, approval-decision records, planner traces, shared local-only input path policy, finite dry-run session-event JSONL construction, formatter hardening, and golden fixture coverage. Autonomous execution, tool execution, plugin installation, network serving, torrent download, code-pack enablement, live stdin loops, and agent loops are intentionally out of scope.
+Phase 4.0C documents pre-runtime transport policy while the TypeScript core owns deterministic contract data: manifest and task validation, deterministic non-executing task planning, ranked exact/tag/scope capability resolution, approval-gate data, approval-decision records, planner traces, shared local-only input path policy, finite dry-run session-event JSONL construction, formatter hardening, and golden fixture coverage. Autonomous execution, tool execution, plugin installation, network serving, torrent download, code-pack enablement, live stdin loops, live replay, and agent loops are intentionally out of scope.
 
 ## Phase 4.0A Dry-Run Session Events
 
@@ -18,6 +18,14 @@ spawn subprocesses, call adapters, depend on Locus, call MCP/OpenClaw, execute
 plugins, or perform Content Fabric download, install, or enablement behavior.
 Phase 4.0B keeps that renderer deterministic with committed JSONL fixture
 coverage and fail-closed handling for malformed or sparse event arrays.
+
+Phase 4.0C does not add core runtime APIs. The TypeScript core remains the
+owner of deterministic manifests, tasks, planning data, session-event
+construction, schema validation, normalized transcript validation, and
+diagnostic classification inputs. Future live process stdio ownership,
+backpressure, partial writes, line-integrity failures, process exit semantics,
+stderr redaction enforcement, and runtime transcript persistence/replay must be
+owned by a reviewed Rust-host policy before implementation.
 
 ## Phase 3.2 Policy Review
 

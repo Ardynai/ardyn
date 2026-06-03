@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B/4.0C Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -7,6 +7,11 @@ review and keeps diagnostics on stderr. It is not a live stdio runtime.
 Phase 4.0B hardens that same finite dry-run path. It does not add a live
 runtime, streaming loop, listener, server, adapter connection, or persistence
 path.
+
+Phase 4.0C adds pre-runtime transport policy for the future live stdio path.
+It is documentation and static contract hardening only. It does not add a
+stdio reader, stdin command loop, process supervisor, transcript persistence,
+or replay command.
 
 ## CLI Surface
 
@@ -120,9 +125,32 @@ This phase still does not implement transcript persistence, replay,
 dropped-line handling, duplicate-line handling across a live stream, WebSocket
 or HTTP transport, or Rust-host ownership of a live stdio process.
 
+## Phase 4.0C Pre-Runtime Transport Policy
+
+Phase 4.0C defines the policy that must exist before any live stdio runtime:
+
+- future Rust-host ownership of stdout, stderr, buffering, backpressure,
+  partial writes, process exit semantics, and transport-failure audit records
+- TypeScript core ownership of deterministic manifests, tasks, planning data,
+  session-event construction, schema validation, and normalized transcript
+  validation
+- stdout reservation for UTF-8 LF-delimited session-event JSONL only
+- stderr reservation for redacted diagnostics only
+- failure classification for dropped, duplicate, out-of-order, and malformed
+  lines
+- stderr redaction requirements for secrets, local absolute paths, environment
+  variables, stack traces, JSON parse errors, and schema validation errors
+- transcript persistence/replay design that prefers normalized
+  `ardyn.session-transcript` JSON and remains proposal-only
+
+See `docs/phase-4-0c-pre-runtime-transport-policy.md` for the full policy.
+Phase 4.0C does not implement live replay, live persistence, a stdin reader, a
+transport loop, or a new CLI command.
+
 ## Deferred Runtime Work
 
-Phase 4.0B intentionally does not implement repo-root confinement, transcript
+Phase 4.0C intentionally does not implement repo-root confinement, transcript
 persistence, dropped-line replay, duplicate detection across a live stream,
-stderr redaction policy, or Rust-host stdout/stderr ownership. Those belong to
-a later reviewed host-policy phase before any live stdio runtime can exist.
+stderr redaction enforcement, or Rust-host stdout/stderr runtime ownership.
+It documents those requirements for a later reviewed host-policy phase before
+any live stdio runtime can exist.

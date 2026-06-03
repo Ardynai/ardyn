@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.0B exposes `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`, `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run `emit-session-events` commands. No command executes tools, opens network listeners, installs plugins, downloads torrents, enables code packs, or starts agent loops.
+Phase 4.0C exposes the same command set as Phase 4.0B: `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`, `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run `emit-session-events`. Phase 4.0C adds pre-runtime transport policy only; it does not add a live stdio reader, replay command, listener, server, subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call, plugin execution path, Content Fabric runtime path, or agent loop.
 
 ```powershell
 node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
@@ -83,3 +83,7 @@ plain stderr and no JSON stdout. The command has no stdin command loop,
 listener, server, subprocess spawning, adapter calls, Locus dependency,
 MCP/OpenClaw calls, plugin execution, Content Fabric download/install/enable
 behavior, or file writes.
+
+Phase 4.0C documents future stdout/stderr ownership, JSONL framing, stderr
+redaction, backpressure, partial-write, line-integrity, process-exit, and
+transcript replay policy. It intentionally adds no replay or live runtime CLI.

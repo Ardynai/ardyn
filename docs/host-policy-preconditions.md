@@ -102,6 +102,19 @@ partial-write handling, termination behavior, and audit records before any
 runtime loop can exist. The current JavaScript CLI remains a finite dry-run
 renderer and does not start or supervise a live stdio process.
 
+Phase 4.0C turns that design note into a pre-runtime transport policy in
+`docs/phase-4-0c-pre-runtime-transport-policy.md`. The policy is still
+documentation and static contract evidence only. It defines future Rust-host
+ownership for stdout/stderr, JSONL framing, diagnostic framing, backpressure,
+partial writes, dropped/duplicate/out-of-order/malformed-line handling, process
+exit semantics, and stderr redaction. It also records a transcript
+persistence/replay design that prefers normalized `ardyn.session-transcript`
+JSON and remains proposal-only. Phase 4.0C does not add a live stdin command
+loop, stdio reader, listener, server, subprocess supervisor, adapter call,
+Locus runtime dependency, MCP/OpenClaw call, plugin execution path, Content
+Fabric runtime behavior, autonomous loop, secret handling path, or production
+signing-key path.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

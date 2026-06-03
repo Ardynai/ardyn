@@ -26,6 +26,13 @@ The TypeScript core is responsible for:
 
 The boundary is intentional: Rust answers whether ARDYN may safely do something on this machine; TypeScript answers what ARDYN capabilities and adapters mean.
 
+Phase 4.0C documents future process-level stdio policy only. A later reviewed
+Rust host must own stdout/stderr policy, buffering, flushing, backpressure,
+partial-write behavior, process exit semantics, redaction enforcement, and
+transport-failure audit records before any live stdio runtime exists. The
+current Rust host remains static and non-executing, and the current TypeScript
+core owns deterministic contract data only.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

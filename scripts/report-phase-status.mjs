@@ -90,8 +90,8 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.0B",
-    name: "stdio session-event dry-run hardening",
+    id: "4.0C",
+    name: "pre-runtime stdio transport policy",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -124,17 +124,22 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0B status report.",
+      purpose: "Render this deterministic local Phase 4.0C status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0B status report.",
+      purpose: "Run focused tests for this local Phase 4.0C status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/host-policy-preconditions.test.mjs",
       purpose: "Run focused documentation/report checks for host-policy preconditions.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-0c-transport-policy.test.mjs",
+      purpose: "Run focused Phase 4.0C pre-runtime transport policy static checks.",
       ranByReport: false
     },
     {
@@ -1008,6 +1013,178 @@ const report = {
       noProductionSigningKeys: true
     }
   },
+  phase40CInventory: {
+    transportPolicy: {
+      document: "docs/phase-4-0c-pre-runtime-transport-policy.md",
+      status: "policy-only-pre-runtime",
+      activeRuntimeEnforcement: false,
+      liveStdioRuntimeImplemented: false,
+      stdinCommandLoopImplemented: false,
+      replayCommandImplemented: false,
+      stdoutOwnerBeforeRuntime: "current finite TypeScript dry-run CLI renderer",
+      stdoutOwnerForFutureRuntime: "Rust host",
+      stderrOwnerBeforeRuntime: "current finite TypeScript dry-run CLI diagnostics",
+      stderrOwnerForFutureRuntime: "Rust host",
+      stdoutReservedFor: "validated LF-delimited session-event JSONL",
+      stderrReservedFor: "redacted diagnostics, never session-event JSONL"
+    },
+    stdoutJsonlPolicy: {
+      utf8Only: true,
+      lfOnly: true,
+      crlfAllowed: false,
+      blankLinesAllowed: false,
+      finalLfRequiredForCompleteStreams: true,
+      oneJsonObjectPerLine: true,
+      validatesSessionEventSchema: true,
+      contiguousSequencesRequired: true,
+      duplicateEventIdsAllowed: false,
+      partialFramesAreInvalid: true
+    },
+    stderrDiagnosticPolicy: {
+      diagnosticsOnly: true,
+      sessionEventsAllowedOnStderr: false,
+      oneDiagnosticRecordPerLineBeforeRuntime: true,
+      deterministicSeverityRequiredBeforeRuntime: true,
+      deterministicCodeOrCategoryRequiredBeforeRuntime: true,
+      redactionRequiredBeforeLiveRuntime: true,
+      currentDryRunDiagnosticsArePlainText: true
+    },
+    transportFailurePolicy: {
+      backpressurePolicyImplemented: false,
+      backpressureMustBeDefinedBeforeRuntime: true,
+      partialWriteRecoveryImplemented: false,
+      droppedLinesInvalidateTranscript: true,
+      duplicateLinesInvalidateTranscript: true,
+      outOfOrderLinesInvalidateTranscript: true,
+      malformedLinesInvalidateTranscript: true,
+      hostMustNotSynthesizeMissingEvents: true,
+      processExitSemanticsDocumented: true
+    },
+    redactionPolicy: {
+      documentSection: "Stderr Redaction Policy",
+      safeDiagnosticsToday: [
+        "usage-errors",
+        "unknown-or-duplicate-options",
+        "local-path-policy-labels",
+        "unreadable-local-files",
+        "json-parse-summaries",
+        "schema-validation-summaries"
+      ],
+      mustRedactBeforeRuntime: [
+        "secrets",
+        "production-signing-keys",
+        "tokens-and-credentials",
+        "local-absolute-paths",
+        "environment-variables",
+        "stack-traces",
+        "raw-json-parse-excerpts",
+        "schema-validation-values"
+      ],
+      liveSecretHandlingImplemented: false
+    },
+    replayDesign: {
+      documentSection: "Transcript Persistence And Replay Design",
+      implementationStatus: "proposal-only",
+      preferredReplayInput: "normalized ardyn.session-transcript JSON",
+      rawJsonlCaptureRole: "forensic-source-only",
+      compatibleWithExistingTranscriptValidation: true,
+      futureCliProposalOnly: [
+        "ardyn replay-session-transcript --file <session-transcript.json> --summary",
+        "ardyn replay-session-transcript --file <session-transcript.json> --explain"
+      ],
+      liveReplayImplemented: false,
+      transcriptPersistenceImplemented: false
+    },
+    ownershipSplit: {
+      futureRustHostOwns: [
+        "stdout-stderr-policy",
+        "buffering-flushing-backpressure",
+        "partial-write-handling",
+        "process-exit-semantics",
+        "transport-failure-audit-records",
+        "diagnostic-redaction-enforcement"
+      ],
+      typeScriptCoreOwns: [
+        "manifest-validation",
+        "task-validation",
+        "non-executing-planning-data",
+        "session-event-construction",
+        "session-event-schema-validation",
+        "normalized-transcript-validation",
+        "diagnostic-classification-inputs"
+      ]
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-0c-pre-runtime-transport-policy.md",
+        "Documents Phase 4.0C pre-runtime stdout/stderr, redaction, line-integrity, exit, and replay policy."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Cross-links Phase 4.0C while preserving the finite dry-run emitter boundary."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Documents Phase 4.0C as policy-only transport hardening before any live stdio runtime."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Records Phase 4.0C Rust-host stdout/stderr preconditions without active enforcement."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.0C scope, report metadata, and lack of new runtime CLI."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.0C adds no replay or live runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.0C adds no core runtime APIs."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Documents future Rust-host process-level stdio ownership while current host remains non-executing."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents current static Rust host scope and future stdio policy ownership."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase4-0c-transport-policy.test.mjs",
+        "Pins Phase 4.0C policy sections, cross-doc indexes, and no-live-runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.0C report metadata and safety posture."
+      ),
+      await localInventoryEntry(
+        "tests/host-policy-preconditions.test.mjs",
+        "Covers host-policy precondition documentation and local-summary report posture."
+      )
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricDownloadInstallEnable: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noWebSocketHttpControlSurface: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -1016,6 +1193,7 @@ const report = {
     noStdioRuntime: true,
     stdioDryRunEmitter: true,
     stdioDryRunHardening: true,
+    stdioTransportPolicy: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
