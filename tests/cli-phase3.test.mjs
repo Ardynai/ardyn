@@ -8,6 +8,9 @@ import test from "node:test";
 
 import {
   buildApprovalReviewArtifactDisplaySummary,
+  buildMigrationAttestationDisplaySummary,
+  buildReviewArtifactAttestationPlan,
+  buildSchemaMigrationMetadataRecord,
   classifyApprovalReviewArtifactCompatibility,
   normalizeApprovalReviewArtifactForDisplay,
   validateApprovalReviewArtifactVersion
@@ -59,6 +62,14 @@ function assertAllFalse(flags) {
   }
 }
 
+function assertNoSecretTerms(value) {
+  const text = JSON.stringify(value).toLowerCase();
+
+  for (const forbidden of ["privatekey", "private_key", "secret", "token", "password"]) {
+    assert.equal(text.includes(forbidden), false, `${forbidden} should not appear in output`);
+  }
+}
+
 const minimalManifestPath = "examples/minimal-manifest/ardyn.manifest.json";
 const minimalTaskPath = "examples/minimal-task/task.json";
 const planningManifestPath = "tests/fixtures/planning-manifest.json";
@@ -73,6 +84,14 @@ const phase36UnknownFieldsArtifactPath =
 const phase36UnsupportedMajorArtifactPath =
   "tests/fixtures/review-artifacts/phase3-6/unsupported-major-v2.json";
 const phase36MalformedArtifactPath = "tests/fixtures/review-artifacts/phase3-6/malformed-missing-version.json";
+const phase37ReviewArtifactPath =
+  "tests/fixtures/review-artifacts/phase3-7/current-compatible-review-artifact.json";
+const phase37OlderReviewArtifactPath =
+  "tests/fixtures/review-artifacts/phase3-7/older-compatible-review-artifact.json";
+const phase37UnsupportedMajorArtifactPath =
+  "tests/fixtures/review-artifacts/phase3-7/unsupported-major-review-artifact.json";
+const phase37MalformedArtifactPath =
+  "tests/fixtures/review-artifacts/phase3-7/malformed-review-artifact.json";
 
 async function readJsonFixture(fixturePath) {
   return JSON.parse(await readFile(fixturePath, "utf8"));
@@ -693,6 +712,100 @@ test("ardyn review-artifact fails cleanly for malformed artifacts", async () => 
   assertCliFailure(failure, /review artifact compatibility malformed:/);
   assert.match(failure.stderr, /schema must be ardyn\.approval-review-artifact/);
   assert.match(failure.stderr, /version must be a semantic version string/);
+});
+
+test("ardyn review-artifact --schema-status prints deterministic migration metadata", async () => {
+  const artifact = await readJsonFixture(phase37OlderReviewArtifactPath);
+  const output = await runCli([
+    "review-artifact",
+    "--file",
+    phase37OlderReviewArtifactPath,
+    "--schema-status"
+  ]);
+
+  assert.deepEqual(output, {
+    command: "review-artifact",
+    output: "schema-status",
+    file: phase37OlderReviewArtifactPath,
+    schemaStatus: buildSchemaMigrationMetadataRecord("approval_review_artifact", artifact),
+    displaySummary: buildMigrationAttestationDisplaySummary("approval_review_artifact", artifact)
+  });
+  assert.equal(output.schemaStatus.compatibility, "upgrade_available");
+  assert.equal(output.schemaStatus.migrationRequired, false);
+  assert.equal(output.schemaStatus.migrationAvailable, true);
+  assert.equal(output.schemaStatus.nonExecuting, true);
+  assert.equal(output.displaySummary.nonExecuting, true);
+  assertAllFalse(output.displaySummary.safety);
+});
+
+test("ardyn review-artifact --attestation-plan prints unsigned non-production plan", async () => {
+  const artifact = await readJsonFixture(phase37ReviewArtifactPath);
+  const output = await runCli([
+    "review-artifact",
+    "--file",
+    phase37ReviewArtifactPath,
+    "--attestation-plan"
+  ]);
+
+  assert.deepEqual(output, {
+    command: "review-artifact",
+    output: "attestation-plan",
+    file: phase37ReviewArtifactPath,
+    attestationPlan: buildReviewArtifactAttestationPlan(artifact)
+  });
+  assert.equal(output.attestationPlan.verification.status, "unsigned");
+  assert.equal(output.attestationPlan.signer.productionKeyAvailable, false);
+  assert.equal(output.attestationPlan.signing.productionSigningEnabled, false);
+  assert.equal(output.attestationPlan.signing.keysLoaded, false);
+  assert.equal(output.attestationPlan.signing.realSigningPerformed, false);
+  assert.equal(output.attestationPlan.nonExecuting, true);
+  assertAllFalse(output.attestationPlan.safety);
+  assertNoSecretTerms(output.attestationPlan);
+});
+
+test("ardyn review-artifact --schema-status classifies unsupported and malformed inputs", async () => {
+  const unsupportedOutput = await runCli([
+    "review-artifact",
+    "--file",
+    phase37UnsupportedMajorArtifactPath,
+    "--schema-status"
+  ]);
+  const malformedOutput = await runCli([
+    "review-artifact",
+    "--file",
+    phase37MalformedArtifactPath,
+    "--schema-status"
+  ]);
+
+  assert.equal(unsupportedOutput.schemaStatus.compatibility, "unsupported_major");
+  assert.equal(unsupportedOutput.schemaStatus.migrationRequired, true);
+  assert.equal(unsupportedOutput.schemaStatus.migrationAvailable, false);
+  assert.match(
+    unsupportedOutput.schemaStatus.validationErrors.join("\n"),
+    /schemaVersion major 2 is unsupported/
+  );
+
+  assert.equal(malformedOutput.schemaStatus.compatibility, "malformed");
+  assert.equal(malformedOutput.schemaStatus.migrationRequired, true);
+  assert.equal(malformedOutput.schemaStatus.migrationAvailable, false);
+  assert.match(malformedOutput.schemaStatus.validationErrors.join("\n"), /version must be a semantic version string/);
+});
+
+test("ardyn review-artifact --attestation-plan marks unsupported inputs without signing", async () => {
+  const output = await runCli([
+    "review-artifact",
+    "--file",
+    phase37UnsupportedMajorArtifactPath,
+    "--attestation-plan"
+  ]);
+
+  assert.equal(output.attestationPlan.verification.status, "unsupported");
+  assert.equal(output.attestationPlan.verification.verified, false);
+  assert.equal(output.attestationPlan.signing.productionSigningEnabled, false);
+  assert.equal(output.attestationPlan.signing.keysLoaded, false);
+  assert.equal(output.attestationPlan.signing.realSigningPerformed, false);
+  assertNoSecretTerms(output.attestationPlan);
+  assertAllFalse(output.attestationPlan.safety);
 });
 
 for (const filePath of [

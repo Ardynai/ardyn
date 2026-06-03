@@ -2,7 +2,10 @@
 import { readFile, writeFile } from "node:fs/promises";
 
 import {
+  buildMigrationAttestationDisplaySummary,
   buildApprovalReviewArtifactDisplaySummary,
+  buildReviewArtifactAttestationPlan,
+  buildSchemaMigrationMetadataRecord,
   classifyApprovalReviewArtifactCompatibility,
   compareApprovalReviewArtifacts,
   createApprovalReviewArtifact,
@@ -40,7 +43,12 @@ function readOption(args, name) {
 
 const PLAN_OUTPUT_FLAGS = ["--trace", "--summary", "--explain", "--review-artifact"];
 const REVIEW_TRACE_OUTPUT_FLAGS = ["--summary", "--explain"];
-const REVIEW_ARTIFACT_OUTPUT_FLAGS = ["--summary", "--explain"];
+const REVIEW_ARTIFACT_OUTPUT_FLAGS = [
+  "--summary",
+  "--explain",
+  "--schema-status",
+  "--attestation-plan"
+];
 
 function readPlanOutputMode(args) {
   const selectedFlags = PLAN_OUTPUT_FLAGS.filter((flag) => args.includes(flag));
@@ -424,6 +432,25 @@ function createReviewArtifactOutput(filePath, artifact, mode, versionValidation)
     return createReviewArtifactSummary(filePath, artifact);
   }
 
+  if (mode === "schema-status") {
+    return {
+      command: "review-artifact",
+      output: "schema-status",
+      file: filePath,
+      schemaStatus: buildSchemaMigrationMetadataRecord("approval_review_artifact", artifact),
+      displaySummary: buildMigrationAttestationDisplaySummary("approval_review_artifact", artifact)
+    };
+  }
+
+  if (mode === "attestation-plan") {
+    return {
+      command: "review-artifact",
+      output: "attestation-plan",
+      file: filePath,
+      attestationPlan: buildReviewArtifactAttestationPlan(artifact)
+    };
+  }
+
   return createReviewArtifactExplain(filePath, artifact, versionValidation);
 }
 
@@ -592,7 +619,10 @@ async function run(argv) {
     }
 
     const artifact = await readLocalJsonFile(filePath, "--file");
-    const versionValidation = assertCompatibleReviewArtifact(artifact);
+    const versionValidation =
+      outputMode.mode === "schema-status" || outputMode.mode === "attestation-plan"
+        ? validateApprovalReviewArtifactVersion(artifact)
+        : assertCompatibleReviewArtifact(artifact);
 
     printJson(createReviewArtifactOutput(filePath, artifact, outputMode.mode, versionValidation));
     return;

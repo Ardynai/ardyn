@@ -2,6 +2,11 @@ export const ARDYN_SCHEMA_VERSION: "0.1.0";
 export const ARDYN_PHASE: "phase-3-task-planning";
 export const APPROVAL_REVIEW_ARTIFACT_SCHEMA: "ardyn.approval-review-artifact";
 export const APPROVAL_REVIEW_ARTIFACT_VERSION: "0.1.0";
+export const SCHEMA_MIGRATION_METADATA_SCHEMA: "ardyn.schema-migration-metadata";
+export const SCHEMA_MIGRATION_METADATA_VERSION: "0.1.0";
+export const REVIEW_ARTIFACT_ATTESTATION_PLAN_SCHEMA:
+  "ardyn.review-artifact-attestation-plan";
+export const REVIEW_ARTIFACT_ATTESTATION_PLAN_VERSION: "0.1.0";
 export const HOST_CRATE_NAME: "ardyn-host";
 export const APPROVAL_REQUIRED: "approval-required";
 export const APPROVAL_DENIED: "approval-denied";
@@ -51,8 +56,26 @@ export type ApprovalDecisionStatus = "required" | "denied" | "granted" | "not_re
 export type CapabilityMatchType = "exact" | "tag" | "scope" | "no-match";
 export type ApprovalReviewArtifactCompatibility =
   | "compatible"
+  | "upgrade_available"
   | "unsupported_major"
   | "malformed";
+export type SchemaMigrationArtifactKind =
+  | "manifest"
+  | "task"
+  | "planner_trace"
+  | "approval_review_artifact"
+  | "trace_diff"
+  | "host_policy";
+export type SchemaMigrationCompatibility =
+  | "compatible"
+  | "upgrade_available"
+  | "unsupported_major"
+  | "malformed";
+export type ReviewArtifactAttestationVerificationStatus =
+  | "unsigned"
+  | "planned"
+  | "test_fixture_only"
+  | "unsupported";
 
 export interface ArdynPermission {
   scope: PermissionScope;
@@ -433,6 +456,94 @@ export interface ApprovalReviewArtifactDisplaySummary {
   validationErrors: unknown[];
 }
 
+export interface SchemaMigrationMetadataRecord {
+  schema: "ardyn.schema-migration-metadata";
+  schemaVersion: "0.1.0";
+  artifactKind: SchemaMigrationArtifactKind;
+  schemaId: string | null;
+  artifactSchemaVersion: string | null;
+  artifactVersion: string | null;
+  currentSchemaVersion: "0.1.0";
+  currentArtifactVersion: string | null;
+  compatibility: SchemaMigrationCompatibility;
+  migrationRequired: boolean;
+  migrationAvailable: boolean;
+  migrationNotes: string[];
+  validationErrors: string[];
+  nonExecuting: true;
+}
+
+export interface ReviewArtifactDigest {
+  algorithm: "sha256";
+  value: string;
+  canonicalization: "ardyn.stable-json-display-v1";
+}
+
+export interface ReviewArtifactAttestationPlan {
+  schema: "ardyn.review-artifact-attestation-plan";
+  schemaVersion: "0.1.0";
+  version: "0.1.0";
+  nonExecuting: true;
+  artifact: {
+    kind: "approval_review_artifact";
+    schemaId: string | null;
+    schemaVersion: string | null;
+    version: string | null;
+    taskId: string | null;
+    digest: ReviewArtifactDigest;
+  };
+  signer: {
+    identity: string;
+    placeholder: true;
+    productionKeyAvailable: false;
+  };
+  signing: {
+    algorithm: string;
+    productionSigningEnabled: false;
+    testFixtureOnly: boolean;
+    realSigningPerformed: false;
+    keysLoaded: false;
+    notes: string[];
+  };
+  verification: {
+    status: ReviewArtifactAttestationVerificationStatus;
+    verified: false;
+    reason: string;
+  };
+  migration: SchemaMigrationMetadataRecord;
+  safety: NoExecutionSafetyFlags;
+}
+
+export interface ReviewArtifactAttestationPlanOptions {
+  verificationStatus?: ReviewArtifactAttestationVerificationStatus;
+  signerIdentity?: string;
+  signingAlgorithm?: string;
+}
+
+export interface MigrationAttestationDisplaySummary {
+  schema: "ardyn.migration-attestation-display-summary";
+  schemaVersion: "0.1.0";
+  artifactKind: SchemaMigrationArtifactKind;
+  compatibility: SchemaMigrationCompatibility;
+  migrationRequired: boolean;
+  migrationAvailable: boolean;
+  migrationNotes: string[];
+  attestation: {
+    schema: "ardyn.review-artifact-attestation-plan";
+    schemaVersion: "0.1.0";
+    digest: ReviewArtifactDigest;
+    signerIdentity: string;
+    verificationStatus: ReviewArtifactAttestationVerificationStatus;
+    productionSigningEnabled: false;
+    keysLoaded: false;
+    realSigningPerformed: false;
+  } | null;
+  warnings: string[];
+  unknownFields: string[];
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
 export type ApprovalReviewArtifactDifferenceType =
   | "task-mismatch"
   | "manifest-mismatch"
@@ -482,6 +593,24 @@ export function normalizeApprovalReviewArtifactForDisplay(
 export function buildApprovalReviewArtifactDisplaySummary(
   artifact: unknown
 ): ApprovalReviewArtifactDisplaySummary;
+export function classifyArtifactSchemaMetadata(
+  artifactKind: SchemaMigrationArtifactKind,
+  artifact: unknown
+): SchemaMigrationCompatibility;
+export function buildSchemaMigrationMetadataRecord(
+  artifactKind: SchemaMigrationArtifactKind,
+  artifact: unknown
+): SchemaMigrationMetadataRecord;
+export function digestApprovalReviewArtifact(artifact: unknown): ReviewArtifactDigest;
+export function buildReviewArtifactAttestationPlan(
+  artifact: unknown,
+  options?: ReviewArtifactAttestationPlanOptions
+): ReviewArtifactAttestationPlan;
+export function buildMigrationAttestationDisplaySummary(
+  artifactKind: SchemaMigrationArtifactKind,
+  artifact: unknown,
+  options?: ReviewArtifactAttestationPlanOptions
+): MigrationAttestationDisplaySummary;
 export function createNoExecutionSafetyFlags(): NoExecutionSafetyFlags;
 export function supportedTaskCapabilityScopes(): PermissionScope[];
 export function isSupportedPermissionScope(value: string): value is PermissionScope;

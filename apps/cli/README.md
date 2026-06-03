@@ -13,6 +13,8 @@ node apps/cli/src/index.mjs plan --review-artifact --manifest examples/minimal-m
 node apps/cli/src/index.mjs plan --review-artifact --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json --output approval-review-artifact.json
 node apps/cli/src/index.mjs review-artifact --file tests/fixtures/review-artifacts/phase3-6/current-compatible-v1.json --summary
 node apps/cli/src/index.mjs review-artifact --file tests/fixtures/review-artifacts/phase3-6/compatible-unknown-fields.json --explain
+node apps/cli/src/index.mjs review-artifact --file tests/fixtures/review-artifacts/phase3-7/older-compatible-review-artifact.json --schema-status
+node apps/cli/src/index.mjs review-artifact --file tests/fixtures/review-artifacts/phase3-7/current-compatible-review-artifact.json --attestation-plan
 node apps/cli/src/index.mjs review-trace --left tests/fixtures/trace-comparison/left-approval-review-artifact.json --right tests/fixtures/trace-comparison/right-approval-review-artifact.json
 node apps/cli/src/index.mjs review-trace --summary --left tests/fixtures/trace-comparison/left-approval-review-artifact.json --right tests/fixtures/trace-comparison/right-approval-review-artifact.json
 node apps/cli/src/index.mjs review-trace --explain --left tests/fixtures/trace-comparison/left-approval-review-artifact.json --right tests/fixtures/trace-comparison/right-approval-review-artifact.json
@@ -32,14 +34,16 @@ For planner review workflows:
 All plan output modes are JSON-only renderings of the same non-executing plan data.
 `--output` is rejected unless `--review-artifact` is selected, and a missing output path fails with plain stderr and no JSON stdout.
 
-`review-artifact --file <file> --summary|--explain` reads one local `.json` approval review artifact and renders deterministic display JSON with Phase 3.6 compatibility classification. URLs, `file:` URLs, and UNC/network-style paths are rejected.
+`review-artifact --file <file> --summary|--explain|--schema-status|--attestation-plan` reads one local `.json` approval review artifact and renders deterministic display JSON with Phase 3.6 compatibility classification plus Phase 3.7 schema migration and attestation planning metadata. URLs, `file:` URLs, and UNC/network-style paths are rejected.
 
 For review artifact display workflows:
 
 - Use `--summary` when a reviewer needs the compact core display summary plus compatibility.
 - Use `--explain` when a reviewer needs version validation details, compatibility, approval status, safety flags, inert unknown-field handling, display guidance, and the normalized display view.
+- Use `--schema-status` when a reviewer needs schema id/version, compatibility, migration availability, migration notes, and a compact migration/attestation display summary. Unsupported major and malformed artifacts are classified rather than executed.
+- Use `--attestation-plan` when a reviewer needs the unsigned Phase 3.7 attestation planning record with deterministic artifact digest metadata, placeholder signer identity, planned signing algorithm, verification status, and false safety flags.
 
-Unsupported major versions and malformed version metadata fail with plain stderr and no JSON stdout. Unknown fields are preserved only as inert display data; the CLI does not execute or interpret them. `review-artifact` performs no writes, network calls, process spawning, adapter connections, plugin installation, Content Fabric runtime work, code-pack enablement, or autonomous loops.
+Unsupported major versions and malformed version metadata fail for `--summary` and `--explain`, and are classified for `--schema-status` and `--attestation-plan`. Unknown fields are preserved only as inert display data; the CLI does not execute or interpret them. `review-artifact` performs no writes, network calls, process spawning, adapter connections, plugin installation, Content Fabric runtime work, code-pack enablement, autonomous loops, key loading, or production signing.
 
 `review-trace --left <file> --right <file>` reads two local `.json` files and compares them with the core approval review artifact comparator. Default output includes equality, difference count, full deterministic differences, left/right schema-version-task-manifest summaries, `nonExecuting: true`, and false safety flags.
 

@@ -1,0 +1,46 @@
+{
+  "schema": "ardyn.approval-review-artifact",
+  "schemaVersion": "2.0.0",
+  "version": "2.0.0",
+  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "nonExecuting": true,
+  "taskId": "task.phase3-7.unsupported-major",
+  "manifest": {
+    "id": "planner-hardening",
+    "version": "0.1.0",
+    "schemaVersion": "0.1.0"
+  },
+  "requestedCapabilityIds": [
+    "network"
+  ],
+  "candidateRankings": [],
+  "selectedCapabilities": [
+    "network"
+  ],
+  "unresolvedRequests": [],
+  "approvalDecision": {
+    "id": "approval.phase3-7.unsupported-major",
+    "taskId": "task.phase3-7.unsupported-major",
+    "requestedCapabilityIds": [
+      "network"
+    ],
+    "status": "not_required",
+    "reason": "Approval is not required for this non-executing plan.",
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "nonExecuting": true
+  },
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

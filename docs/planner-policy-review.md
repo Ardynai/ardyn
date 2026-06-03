@@ -182,7 +182,7 @@ Fabric runtime behavior, code-pack enablement, autonomous loops, or external CI.
 ## Future Locus UI Display Fields
 
 A future Locus UI may display ARDYN review data, but Locus integration is not
-active in Phase 3.3-3.6. The UI should be a viewer or reviewer of ARDYN plan
+active in Phase 3.3-3.7. The UI should be a viewer or reviewer of ARDYN plan
 JSON, approval review artifacts, and trace diffs until a later integration
 phase explicitly adds a connection contract.
 
@@ -193,6 +193,8 @@ dependency. See `docs/review-artifact-versioning-policy.md` for the
 review-artifact schema id, version semantics, compatible same-major display
 policy, major-version rejection behavior, unknown-field preservation, and
 deterministic timestamp guidance.
+For Phase 3.7 schema migration metadata and unsigned attestation planning, see
+`docs/schema-migration-policy.md` and `docs/review-artifact-attestation-plan.md`.
 
 A planning review UI should display:
 

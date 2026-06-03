@@ -32,13 +32,13 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 3.6 local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 3.7 local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "3.6",
-    name: "Review-artifact versioning, display normalization, and Locus display contract",
+    id: "3.7",
+    name: "Schema migration metadata and review-artifact attestation planning",
     executionPosture: "non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
@@ -95,12 +95,12 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.6 status report.",
+      purpose: "Render this deterministic local Phase 3.7 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.6 status report.",
+      purpose: "Run focused tests for this local Phase 3.7 status report.",
       ranByReport: false
     },
     {
@@ -116,6 +116,11 @@ test("report lists configured checks and verification commands without running t
     {
       command: "node --test tests/core-phase3-6-review-artifact-versioning.test.mjs",
       purpose: "Run focused Phase 3.6 review-artifact versioning and display tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/core-phase3-7-schema-attestation.test.mjs",
+      purpose: "Run focused Phase 3.7 schema migration and attestation planning tests.",
       ranByReport: false
     },
     {
@@ -252,6 +257,87 @@ test("report inventories Phase 3.6 versioning, display contract, fixtures, docs,
       ["tests/core-phase3-6-review-artifact-versioning.test.mjs", "present"],
       ["tests/report-phase-status.test.mjs", "present"],
       ["tests/host-policy-preconditions.test.mjs", "present"]
+    ]
+  );
+});
+
+test("report inventories Phase 3.7 schema migration and attestation planning", async () => {
+  const report = await runReport();
+
+  assert.deepEqual(report.phase37Inventory.schemaMigrationMetadata, {
+    schema: "ardyn.schema-migration-metadata",
+    schemaVersion: "0.1.0",
+    artifactKinds: [
+      "manifest",
+      "task",
+      "planner_trace",
+      "approval_review_artifact",
+      "trace_diff",
+      "host_policy"
+    ],
+    compatibilityStates: ["compatible", "upgrade_available", "unsupported_major", "malformed"],
+    migrationRequiredFor: ["unsupported_major", "malformed"],
+    migrationAvailableFor: ["upgrade_available"],
+    nonExecuting: true
+  });
+
+  assert.deepEqual(report.phase37Inventory.attestationPlanning, {
+    schema: "ardyn.review-artifact-attestation-plan",
+    schemaVersion: "0.1.0",
+    digestAlgorithm: "sha256",
+    canonicalization: "ardyn.stable-json-display-v1",
+    verificationStatuses: ["unsigned", "planned", "test_fixture_only", "unsupported"],
+    productionSigningKeys: false,
+    realSigning: false,
+    secrets: false,
+    nonExecuting: true,
+    contentFabricAlignment:
+      "Review-artifact attestation planning keeps payloads separate from Content Fabric signing payloads and does not enable Content Fabric runtime behavior."
+  });
+
+  assert.deepEqual(report.phase37Inventory.cliCommands, [
+    {
+      command: "ardyn review-artifact --file <file> --schema-status",
+      writesFiles: false,
+      network: false,
+      summary:
+        "Renders deterministic schema migration metadata and display status for one local review artifact."
+    },
+    {
+      command: "ardyn review-artifact --file <file> --attestation-plan",
+      writesFiles: false,
+      network: false,
+      summary:
+        "Renders unsigned review-artifact attestation planning metadata for one local review artifact."
+    }
+  ]);
+
+  assert.deepEqual(
+    report.phase37Inventory.fixtures.map(({ path, status }) => [path, status]),
+    [
+      ["tests/fixtures/review-artifacts/phase3-7/current-compatible-review-artifact.json", "present"],
+      ["tests/fixtures/review-artifacts/phase3-7/older-compatible-review-artifact.json", "present"],
+      ["tests/fixtures/review-artifacts/phase3-7/unsupported-major-review-artifact.json", "present"],
+      ["tests/fixtures/review-artifacts/phase3-7/malformed-review-artifact.json", "present"],
+      ["tests/fixtures/review-artifacts/phase3-7/unsigned-attestation-plan.json", "present"],
+      ["tests/fixtures/review-artifacts/phase3-7/test-fixture-only-attestation-plan.json", "present"],
+      ["tests/fixtures/review-artifacts/phase3-7/migration-metadata-display.json", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    report.phase37Inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/schema-migration-policy.md", "present"],
+      ["docs/review-artifact-attestation-plan.md", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    report.phase37Inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/core-phase3-7-schema-attestation.test.mjs", "present"],
+      ["tests/cli-phase3.test.mjs", "present"]
     ]
   );
 });

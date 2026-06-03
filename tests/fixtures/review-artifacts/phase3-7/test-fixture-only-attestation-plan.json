@@ -1,0 +1,72 @@
+{
+  "schema": "ardyn.review-artifact-attestation-plan",
+  "schemaVersion": "0.1.0",
+  "version": "0.1.0",
+  "nonExecuting": true,
+  "artifact": {
+    "kind": "approval_review_artifact",
+    "schemaId": "ardyn.approval-review-artifact",
+    "schemaVersion": "0.1.0",
+    "version": "0.1.0",
+    "taskId": "task.phase3-7.current-compatible",
+    "digest": {
+      "algorithm": "sha256",
+      "value": "sha256:eb7a51c47f8e13ec7b4c48b9254957c3ec9a13a7402cbebbd81a2d3f18a0c4b1",
+      "canonicalization": "ardyn.stable-json-display-v1"
+    }
+  },
+  "signer": {
+    "identity": "test-fixture:phase3-7",
+    "placeholder": true,
+    "productionKeyAvailable": false
+  },
+  "signing": {
+    "algorithm": "ed25519-planned",
+    "productionSigningEnabled": false,
+    "testFixtureOnly": true,
+    "realSigningPerformed": false,
+    "keysLoaded": false,
+    "notes": [
+      "Phase 3.7 records signing intent only.",
+      "No production signing keys are generated, loaded, stored, or required.",
+      "No cryptographic signature is produced by this helper."
+    ]
+  },
+  "verification": {
+    "status": "test_fixture_only",
+    "verified": false,
+    "reason": "Verification status is a deterministic test fixture marker; no production signature was checked."
+  },
+  "migration": {
+    "schema": "ardyn.schema-migration-metadata",
+    "schemaVersion": "0.1.0",
+    "artifactKind": "approval_review_artifact",
+    "schemaId": "ardyn.approval-review-artifact",
+    "artifactSchemaVersion": "0.1.0",
+    "artifactVersion": "0.1.0",
+    "currentSchemaVersion": "0.1.0",
+    "currentArtifactVersion": "0.1.0",
+    "compatibility": "compatible",
+    "migrationRequired": false,
+    "migrationAvailable": false,
+    "migrationNotes": [
+      "Artifact schema metadata is current; no migration is required."
+    ],
+    "validationErrors": [],
+    "nonExecuting": true
+  },
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

@@ -10,6 +10,10 @@ ARDYN remains the open-source AI harness/framework. Locus is mission control
 outside ARDYN and may later view ARDYN evidence through public ARDYN contracts,
 but ARDYN must not add a Locus runtime dependency.
 
+Phase 3.7 builds on this policy with schema migration metadata and unsigned
+review-artifact attestation planning. See `docs/schema-migration-policy.md` and
+`docs/review-artifact-attestation-plan.md`.
+
 ## Current Artifact Contract
 
 The current approval review artifact identity is:
@@ -66,6 +70,9 @@ major component.
 ## Compatible Patch And Minor Behavior
 
 For Phase 3.6, supported major is `0` for both `schemaVersion` and `version`.
+Phase 3.7 migration metadata may classify same-major non-current artifacts as
+`upgrade_available`; that classification is still display-only and does not
+rewrite the artifact.
 
 The display compatibility helper classifies same-major artifacts as
 `compatible`. That includes the current exact `0.1.0` contract and future

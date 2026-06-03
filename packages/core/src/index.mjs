@@ -9,6 +9,11 @@ export const ARDYN_SCHEMA_VERSION = "0.1.0";
 export const ARDYN_PHASE = "phase-3-task-planning";
 export const APPROVAL_REVIEW_ARTIFACT_SCHEMA = "ardyn.approval-review-artifact";
 export const APPROVAL_REVIEW_ARTIFACT_VERSION = "0.1.0";
+export const SCHEMA_MIGRATION_METADATA_SCHEMA = "ardyn.schema-migration-metadata";
+export const SCHEMA_MIGRATION_METADATA_VERSION = "0.1.0";
+export const REVIEW_ARTIFACT_ATTESTATION_PLAN_SCHEMA =
+  "ardyn.review-artifact-attestation-plan";
+export const REVIEW_ARTIFACT_ATTESTATION_PLAN_VERSION = "0.1.0";
 export const HOST_CRATE_NAME = "ardyn-host";
 export const APPROVAL_REQUIRED = "approval-required";
 export const APPROVAL_DENIED = "approval-denied";
@@ -71,8 +76,31 @@ const DEFAULT_APPROVAL_CREATED_AT = "1970-01-01T00:00:00.000Z";
 const DEFAULT_APPROVAL_REVIEW_GENERATED_AT = "1970-01-01T00:00:00.000Z";
 const APPROVAL_DECISION_STATUS_SET = new Set(APPROVAL_DECISION_STATUSES);
 const APPROVAL_REVIEW_ARTIFACT_COMPATIBLE = "compatible";
+const APPROVAL_REVIEW_ARTIFACT_UPGRADE_AVAILABLE = "upgrade_available";
 const APPROVAL_REVIEW_ARTIFACT_UNSUPPORTED_MAJOR = "unsupported_major";
 const APPROVAL_REVIEW_ARTIFACT_MALFORMED = "malformed";
+const SCHEMA_MIGRATION_ARTIFACT_KINDS = Object.freeze([
+  "manifest",
+  "task",
+  "planner_trace",
+  "approval_review_artifact",
+  "trace_diff",
+  "host_policy"
+]);
+const SCHEMA_MIGRATION_ARTIFACT_KIND_SET = new Set(SCHEMA_MIGRATION_ARTIFACT_KINDS);
+const SCHEMA_COMPATIBILITY_STATES = Object.freeze([
+  APPROVAL_REVIEW_ARTIFACT_COMPATIBLE,
+  APPROVAL_REVIEW_ARTIFACT_UPGRADE_AVAILABLE,
+  APPROVAL_REVIEW_ARTIFACT_UNSUPPORTED_MAJOR,
+  APPROVAL_REVIEW_ARTIFACT_MALFORMED
+]);
+const REVIEW_ARTIFACT_ATTESTATION_STATUSES = Object.freeze([
+  "unsigned",
+  "planned",
+  "test_fixture_only",
+  "unsupported"
+]);
+const REVIEW_ARTIFACT_ATTESTATION_STATUS_SET = new Set(REVIEW_ARTIFACT_ATTESTATION_STATUSES);
 const APPROVAL_REVIEW_ARTIFACT_SUPPORTED_SCHEMA_MAJOR = 0;
 const APPROVAL_REVIEW_ARTIFACT_SUPPORTED_VERSION_MAJOR = 0;
 const APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELDS = Object.freeze([
@@ -100,6 +128,34 @@ const CAPABILITY_MATCH_ORDER = Object.freeze({
   exact: 0,
   tag: 1,
   scope: 2
+});
+
+const SCHEMA_METADATA_BY_ARTIFACT_KIND = Object.freeze({
+  manifest: {
+    schemaId: "https://schemas.ardyn.ai/ardyn.manifest.schema.json",
+    currentSchemaVersion: ARDYN_SCHEMA_VERSION
+  },
+  task: {
+    schemaId: "https://schemas.ardyn.ai/task.schema.json",
+    currentSchemaVersion: ARDYN_SCHEMA_VERSION
+  },
+  planner_trace: {
+    schemaId: "ardyn.planner-trace",
+    currentSchemaVersion: ARDYN_SCHEMA_VERSION
+  },
+  approval_review_artifact: {
+    schemaId: APPROVAL_REVIEW_ARTIFACT_SCHEMA,
+    currentSchemaVersion: ARDYN_SCHEMA_VERSION,
+    currentArtifactVersion: APPROVAL_REVIEW_ARTIFACT_VERSION
+  },
+  trace_diff: {
+    schemaId: "ardyn.trace-diff",
+    currentSchemaVersion: ARDYN_SCHEMA_VERSION
+  },
+  host_policy: {
+    schemaId: "ardyn.host-policy",
+    currentSchemaVersion: ARDYN_SCHEMA_VERSION
+  }
 });
 
 function compareAscii(left, right) {
@@ -947,6 +1003,342 @@ export function validateApprovalReviewArtifactVersion(artifact) {
 
 export function classifyApprovalReviewArtifactCompatibility(artifact) {
   return validateApprovalReviewArtifactVersion(artifact).compatibility;
+}
+
+function schemaMetadataForArtifactKind(artifactKind) {
+  if (!SCHEMA_MIGRATION_ARTIFACT_KIND_SET.has(artifactKind)) {
+    throw new Error(`Unsupported schema migration artifact kind: ${artifactKind}`);
+  }
+
+  return SCHEMA_METADATA_BY_ARTIFACT_KIND[artifactKind];
+}
+
+function artifactSchemaIdForKind(artifactKind, artifact, metadata) {
+  const explicitSchema = displayString(dataProperty(artifact, "schema"));
+
+  if (artifactKind === "approval_review_artifact") {
+    return explicitSchema ?? null;
+  }
+
+  return explicitSchema ?? metadata.schemaId;
+}
+
+function artifactSchemaVersionForKind(artifactKind, artifact) {
+  const explicitSchemaVersion = displayString(dataProperty(artifact, "schemaVersion"));
+
+  if (explicitSchemaVersion) {
+    return explicitSchemaVersion;
+  }
+
+  if (artifactKind === "planner_trace") {
+    return displayString(dataProperty(dataProperty(artifact, "manifest"), "schemaVersion"));
+  }
+
+  return null;
+}
+
+function artifactVersionForKind(artifactKind, artifact) {
+  return artifactKind === "approval_review_artifact"
+    ? displayString(dataProperty(artifact, "version"))
+    : null;
+}
+
+function filteredApprovalReviewValidationErrors(validationErrors) {
+  return validationErrors.filter(
+    (error) =>
+      error !== `schemaVersion must be ${ARDYN_SCHEMA_VERSION}` &&
+      error !== `version must be ${APPROVAL_REVIEW_ARTIFACT_VERSION}`
+  );
+}
+
+function classifyApprovalReviewArtifactSchemaMetadata(artifact) {
+  const versionValidation = validateApprovalReviewArtifactVersion(artifact);
+
+  if (!versionValidation.valid) {
+    return {
+      compatibility: versionValidation.compatibility,
+      errors: versionValidation.errors
+    };
+  }
+
+  const validation = validateApprovalReviewArtifact(artifact);
+  const nonVersionErrors = filteredApprovalReviewValidationErrors(validation.errors);
+
+  if (nonVersionErrors.length > 0) {
+    return {
+      compatibility: APPROVAL_REVIEW_ARTIFACT_MALFORMED,
+      errors: nonVersionErrors
+    };
+  }
+
+  if (!validation.valid) {
+    return {
+      compatibility: APPROVAL_REVIEW_ARTIFACT_UPGRADE_AVAILABLE,
+      errors: []
+    };
+  }
+
+  return {
+    compatibility: APPROVAL_REVIEW_ARTIFACT_COMPATIBLE,
+    errors: []
+  };
+}
+
+function classifyGenericSchemaMetadata(artifactKind, artifact, metadata) {
+  if (!validationObject(artifact)) {
+    return {
+      compatibility: APPROVAL_REVIEW_ARTIFACT_MALFORMED,
+      errors: ["artifact must be an object"]
+    };
+  }
+
+  const explicitSchema = displayString(dataProperty(artifact, "schema"));
+  if (explicitSchema && explicitSchema !== metadata.schemaId) {
+    return {
+      compatibility: APPROVAL_REVIEW_ARTIFACT_MALFORMED,
+      errors: [`schema must be ${metadata.schemaId}`]
+    };
+  }
+
+  const schemaVersion = artifactSchemaVersionForKind(artifactKind, artifact);
+  const schemaVersionMajor = semverMajor(schemaVersion);
+  if (schemaVersionMajor === null) {
+    return {
+      compatibility: APPROVAL_REVIEW_ARTIFACT_MALFORMED,
+      errors: ["schemaVersion must be a semantic version string"]
+    };
+  }
+
+  const currentMajor = semverMajor(metadata.currentSchemaVersion);
+  if (schemaVersionMajor !== currentMajor) {
+    return {
+      compatibility: APPROVAL_REVIEW_ARTIFACT_UNSUPPORTED_MAJOR,
+      errors: [
+        `schemaVersion major ${schemaVersionMajor} is unsupported; supported major is ${currentMajor}`
+      ]
+    };
+  }
+
+  if (schemaVersion !== metadata.currentSchemaVersion) {
+    return {
+      compatibility: APPROVAL_REVIEW_ARTIFACT_UPGRADE_AVAILABLE,
+      errors: []
+    };
+  }
+
+  return {
+    compatibility: APPROVAL_REVIEW_ARTIFACT_COMPATIBLE,
+    errors: []
+  };
+}
+
+function schemaMetadataClassification(artifactKind, artifact) {
+  const metadata = schemaMetadataForArtifactKind(artifactKind);
+
+  return artifactKind === "approval_review_artifact"
+    ? classifyApprovalReviewArtifactSchemaMetadata(artifact)
+    : classifyGenericSchemaMetadata(artifactKind, artifact, metadata);
+}
+
+function migrationNotesForCompatibility(compatibility, metadata, schemaVersion, artifactVersion, errors) {
+  if (compatibility === APPROVAL_REVIEW_ARTIFACT_COMPATIBLE) {
+    return ["Artifact schema metadata is current; no migration is required."];
+  }
+
+  if (compatibility === APPROVAL_REVIEW_ARTIFACT_UPGRADE_AVAILABLE) {
+    return [
+      `Artifact shares the supported major schema version and can be displayed without execution.`,
+      `A future migration may normalize schemaVersion to ${metadata.currentSchemaVersion}.`,
+      ...(artifactVersion && metadata.currentArtifactVersion
+        ? [`A future migration may normalize artifact version to ${metadata.currentArtifactVersion}.`]
+        : [])
+    ];
+  }
+
+  if (compatibility === APPROVAL_REVIEW_ARTIFACT_UNSUPPORTED_MAJOR) {
+    return [
+      "Artifact uses an unsupported major schema version and requires manual review before display trust.",
+      ...errors
+    ];
+  }
+
+  return [
+    "Artifact schema metadata is malformed and requires manual review.",
+    ...errors
+  ];
+}
+
+export function classifyArtifactSchemaMetadata(artifactKind, artifact) {
+  return schemaMetadataClassification(artifactKind, artifact).compatibility;
+}
+
+export function buildSchemaMigrationMetadataRecord(artifactKind, artifact) {
+  const metadata = schemaMetadataForArtifactKind(artifactKind);
+  const classification = schemaMetadataClassification(artifactKind, artifact);
+  const schemaVersion = artifactSchemaVersionForKind(artifactKind, artifact);
+  const artifactVersion = artifactVersionForKind(artifactKind, artifact);
+  const compatibility = classification.compatibility;
+
+  return {
+    schema: SCHEMA_MIGRATION_METADATA_SCHEMA,
+    schemaVersion: SCHEMA_MIGRATION_METADATA_VERSION,
+    artifactKind,
+    schemaId: artifactSchemaIdForKind(artifactKind, artifact, metadata),
+    artifactSchemaVersion: schemaVersion,
+    artifactVersion,
+    currentSchemaVersion: metadata.currentSchemaVersion,
+    currentArtifactVersion: metadata.currentArtifactVersion ?? null,
+    compatibility,
+    migrationRequired:
+      compatibility === APPROVAL_REVIEW_ARTIFACT_UNSUPPORTED_MAJOR ||
+      compatibility === APPROVAL_REVIEW_ARTIFACT_MALFORMED,
+    migrationAvailable: compatibility === APPROVAL_REVIEW_ARTIFACT_UPGRADE_AVAILABLE,
+    migrationNotes: migrationNotesForCompatibility(
+      compatibility,
+      metadata,
+      schemaVersion,
+      artifactVersion,
+      classification.errors
+    ),
+    validationErrors: classification.errors,
+    nonExecuting: true
+  };
+}
+
+export function digestApprovalReviewArtifact(artifact) {
+  const digest = createHash("sha256")
+    .update(stableJsonStringify(safeDisplayValue(artifact)))
+    .digest("hex");
+
+  return {
+    algorithm: "sha256",
+    value: `sha256:${digest}`,
+    canonicalization: "ardyn.stable-json-display-v1"
+  };
+}
+
+function attestationVerificationReason(status) {
+  if (status === "test_fixture_only") {
+    return "Verification status is a deterministic test fixture marker; no production signature was checked.";
+  }
+
+  if (status === "planned") {
+    return "Signing and verification are planned for a future phase; no production signature was checked.";
+  }
+
+  if (status === "unsupported") {
+    return "Artifact compatibility is unsupported or malformed; attestation remains unsupported.";
+  }
+
+  return "Artifact is unsigned in Phase 3.7; no production signature was checked.";
+}
+
+export function buildReviewArtifactAttestationPlan(artifact, options = {}) {
+  const migration = buildSchemaMigrationMetadataRecord("approval_review_artifact", artifact);
+  const requestedStatus = options.verificationStatus;
+  const defaultStatus =
+    migration.compatibility === APPROVAL_REVIEW_ARTIFACT_COMPATIBLE ||
+    migration.compatibility === APPROVAL_REVIEW_ARTIFACT_UPGRADE_AVAILABLE
+      ? "unsigned"
+      : "unsupported";
+  const verificationStatus = requestedStatus ?? defaultStatus;
+
+  if (!REVIEW_ARTIFACT_ATTESTATION_STATUS_SET.has(verificationStatus)) {
+    throw new Error(`Unsupported review artifact attestation status: ${verificationStatus}`);
+  }
+
+  return {
+    schema: REVIEW_ARTIFACT_ATTESTATION_PLAN_SCHEMA,
+    schemaVersion: REVIEW_ARTIFACT_ATTESTATION_PLAN_VERSION,
+    version: REVIEW_ARTIFACT_ATTESTATION_PLAN_VERSION,
+    nonExecuting: true,
+    artifact: {
+      kind: "approval_review_artifact",
+      schemaId: migration.schemaId,
+      schemaVersion: migration.artifactSchemaVersion,
+      version: migration.artifactVersion,
+      taskId: displayString(dataProperty(artifact, "taskId")),
+      digest: digestApprovalReviewArtifact(artifact)
+    },
+    signer: {
+      identity: options.signerIdentity ?? "placeholder:unsigned-review-artifact",
+      placeholder: true,
+      productionKeyAvailable: false
+    },
+    signing: {
+      algorithm: options.signingAlgorithm ?? "ed25519-planned",
+      productionSigningEnabled: false,
+      testFixtureOnly: verificationStatus === "test_fixture_only",
+      realSigningPerformed: false,
+      keysLoaded: false,
+      notes: [
+        "Phase 3.7 records signing intent only.",
+        "No production signing keys are generated, loaded, stored, or required.",
+        "No cryptographic signature is produced by this helper."
+      ]
+    },
+    verification: {
+      status: verificationStatus,
+      verified: false,
+      reason: attestationVerificationReason(verificationStatus)
+    },
+    migration,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+export function buildMigrationAttestationDisplaySummary(
+  artifactKind,
+  artifact,
+  options = {}
+) {
+  const migration = buildSchemaMigrationMetadataRecord(artifactKind, artifact);
+  const attestation =
+    artifactKind === "approval_review_artifact"
+      ? buildReviewArtifactAttestationPlan(artifact, options)
+      : null;
+  const warnings = [
+    ...(migration.compatibility === APPROVAL_REVIEW_ARTIFACT_UPGRADE_AVAILABLE
+      ? ["upgrade_available"]
+      : []),
+    ...(migration.compatibility === APPROVAL_REVIEW_ARTIFACT_UNSUPPORTED_MAJOR
+      ? ["unsupported_major"]
+      : []),
+    ...(migration.compatibility === APPROVAL_REVIEW_ARTIFACT_MALFORMED
+      ? ["malformed"]
+      : []),
+    ...(attestation?.verification.status === "unsigned" ? ["unsigned"] : []),
+    ...(attestation?.verification.status === "test_fixture_only" ? ["test_fixture_only"] : [])
+  ].sort(compareAscii);
+
+  return {
+    schema: "ardyn.migration-attestation-display-summary",
+    schemaVersion: "0.1.0",
+    artifactKind,
+    compatibility: migration.compatibility,
+    migrationRequired: migration.migrationRequired,
+    migrationAvailable: migration.migrationAvailable,
+    migrationNotes: migration.migrationNotes,
+    attestation: attestation
+      ? {
+          schema: attestation.schema,
+          schemaVersion: attestation.schemaVersion,
+          digest: attestation.artifact.digest,
+          signerIdentity: attestation.signer.identity,
+          verificationStatus: attestation.verification.status,
+          productionSigningEnabled: attestation.signing.productionSigningEnabled,
+          keysLoaded: attestation.signing.keysLoaded,
+          realSigningPerformed: attestation.signing.realSigningPerformed
+        }
+      : null,
+    warnings,
+    unknownFields:
+      artifactKind === "approval_review_artifact"
+        ? normalizeApprovalReviewArtifactForDisplay(artifact).unknownFields
+        : [],
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
 }
 
 export function normalizeApprovalReviewArtifactForDisplay(artifact) {

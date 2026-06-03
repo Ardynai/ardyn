@@ -47,8 +47,8 @@ const packageJson = await readJson("package.json");
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "3.6",
-    name: "Review-artifact versioning, display normalization, and Locus display contract",
+    id: "3.7",
+    name: "Schema migration metadata and review-artifact attestation planning",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -81,12 +81,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.6 status report.",
+      purpose: "Render this deterministic local Phase 3.7 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.6 status report.",
+      purpose: "Run focused tests for this local Phase 3.7 status report.",
       ranByReport: false
     },
     {
@@ -102,6 +102,11 @@ const report = {
     {
       command: "node --test tests/core-phase3-6-review-artifact-versioning.test.mjs",
       purpose: "Run focused Phase 3.6 review-artifact versioning and display tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/core-phase3-7-schema-attestation.test.mjs",
+      purpose: "Run focused Phase 3.7 schema migration and attestation planning tests.",
       ranByReport: false
     },
     {
@@ -128,6 +133,14 @@ const report = {
       "Documents review-artifact schema id, version semantics, compatibility posture, and timestamp guidance."
     ),
     await localInventoryEntry(
+      "docs/schema-migration-policy.md",
+      "Documents Phase 3.7 schema migration metadata, compatibility states, and manual-review boundaries."
+    ),
+    await localInventoryEntry(
+      "docs/review-artifact-attestation-plan.md",
+      "Documents unsigned/test-fixture-only attestation planning and Content Fabric signing alignment."
+    ),
+    await localInventoryEntry(
       "tests/core-phase3-1-planner-hardening.test.mjs",
       "Covers deterministic planner ranking, approval records, and safety flags."
     ),
@@ -138,6 +151,10 @@ const report = {
     await localInventoryEntry(
       "tests/core-phase3-6-review-artifact-versioning.test.mjs",
       "Covers Phase 3.6 review-artifact version compatibility, unknown-field display, and display summaries."
+    ),
+    await localInventoryEntry(
+      "tests/core-phase3-7-schema-attestation.test.mjs",
+      "Covers Phase 3.7 schema migration metadata, attestation planning, fixtures, and safety flags."
     )
   ],
   phase36Inventory: {
@@ -281,6 +298,99 @@ const report = {
       await localInventoryEntry(
         "tests/host-policy-preconditions.test.mjs",
         "Covers host-policy precondition documentation and report inventory."
+      )
+    ]
+  },
+  phase37Inventory: {
+    schemaMigrationMetadata: {
+      schema: "ardyn.schema-migration-metadata",
+      schemaVersion: "0.1.0",
+      artifactKinds: [
+        "manifest",
+        "task",
+        "planner_trace",
+        "approval_review_artifact",
+        "trace_diff",
+        "host_policy"
+      ],
+      compatibilityStates: [
+        "compatible",
+        "upgrade_available",
+        "unsupported_major",
+        "malformed"
+      ],
+      migrationRequiredFor: ["unsupported_major", "malformed"],
+      migrationAvailableFor: ["upgrade_available"],
+      nonExecuting: true
+    },
+    attestationPlanning: {
+      schema: "ardyn.review-artifact-attestation-plan",
+      schemaVersion: "0.1.0",
+      digestAlgorithm: "sha256",
+      canonicalization: "ardyn.stable-json-display-v1",
+      verificationStatuses: ["unsigned", "planned", "test_fixture_only", "unsupported"],
+      productionSigningKeys: false,
+      realSigning: false,
+      secrets: false,
+      nonExecuting: true,
+      contentFabricAlignment:
+        "Review-artifact attestation planning keeps payloads separate from Content Fabric signing payloads and does not enable Content Fabric runtime behavior."
+    },
+    cliCommands: [
+      {
+        command: "ardyn review-artifact --file <file> --schema-status",
+        writesFiles: false,
+        network: false,
+        summary: "Renders deterministic schema migration metadata and display status for one local review artifact."
+      },
+      {
+        command: "ardyn review-artifact --file <file> --attestation-plan",
+        writesFiles: false,
+        network: false,
+        summary: "Renders unsigned review-artifact attestation planning metadata for one local review artifact."
+      }
+    ],
+    fixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/review-artifacts/phase3-7/current-compatible-review-artifact.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/review-artifacts/phase3-7/older-compatible-review-artifact.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/review-artifacts/phase3-7/unsupported-major-review-artifact.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/review-artifacts/phase3-7/malformed-review-artifact.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/review-artifacts/phase3-7/unsigned-attestation-plan.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/review-artifacts/phase3-7/test-fixture-only-attestation-plan.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/review-artifacts/phase3-7/migration-metadata-display.json"
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/schema-migration-policy.md",
+        "Documents Phase 3.7 schema migration metadata and compatibility records."
+      ),
+      await localInventoryEntry(
+        "docs/review-artifact-attestation-plan.md",
+        "Documents non-production review-artifact attestation planning."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/core-phase3-7-schema-attestation.test.mjs",
+        "Covers schema migration metadata and attestation planning."
+      ),
+      await localInventoryEntry(
+        "tests/cli-phase3.test.mjs",
+        "Covers review-artifact schema-status and attestation-plan CLI output."
       )
     ]
   },

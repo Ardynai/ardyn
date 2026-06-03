@@ -132,7 +132,7 @@ is valid only with `--review-artifact`.
 ## Future UI Review Fields
 
 A future Locus UI may render this workflow, including `review-trace` diffs, but
-Locus is not connected in Phase 3.3-3.6. Treat the UI as a viewer only until a
+Locus is not connected in Phase 3.3-3.7. Treat the UI as a viewer only until a
 later phase adds explicit connection contracts.
 
 See `docs/locus-trace-display-contract.md` for the Phase 3.6 display contract,
@@ -140,6 +140,8 @@ including compatibility severity, approval status labels, trace diff fields,
 unknown-field handling, and the rule that ARDYN adds no Locus runtime
 dependency. See `docs/review-artifact-versioning-policy.md` for review-artifact
 versioning, unknown-field preservation, and deterministic timestamp guidance.
+For Phase 3.7 schema migration metadata and unsigned attestation planning, see
+`docs/schema-migration-policy.md` and `docs/review-artifact-attestation-plan.md`.
 
 Display these fields:
 

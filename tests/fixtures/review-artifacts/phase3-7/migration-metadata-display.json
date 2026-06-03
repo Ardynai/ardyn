@@ -1,0 +1,49 @@
+{
+  "schema": "ardyn.migration-attestation-display-summary",
+  "schemaVersion": "0.1.0",
+  "artifactKind": "approval_review_artifact",
+  "compatibility": "upgrade_available",
+  "migrationRequired": false,
+  "migrationAvailable": true,
+  "migrationNotes": [
+    "Artifact shares the supported major schema version and can be displayed without execution.",
+    "A future migration may normalize schemaVersion to 0.1.0.",
+    "A future migration may normalize artifact version to 0.1.0."
+  ],
+  "attestation": {
+    "schema": "ardyn.review-artifact-attestation-plan",
+    "schemaVersion": "0.1.0",
+    "digest": {
+      "algorithm": "sha256",
+      "value": "sha256:95694998929b55d52cd4d73031fae29131197da390a47518d4e5efe6589f02bf",
+      "canonicalization": "ardyn.stable-json-display-v1"
+    },
+    "signerIdentity": "placeholder:unsigned-review-artifact",
+    "verificationStatus": "unsigned",
+    "productionSigningEnabled": false,
+    "keysLoaded": false,
+    "realSigningPerformed": false
+  },
+  "warnings": [
+    "unsigned",
+    "upgrade_available"
+  ],
+  "unknownFields": [
+    "futureReviewMetadata"
+  ],
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

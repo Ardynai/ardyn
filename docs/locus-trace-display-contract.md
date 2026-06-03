@@ -5,6 +5,10 @@ ARDYN planner traces, approval review artifacts, and trace diffs. This is a
 viewer contract only. ARDYN adds no Locus runtime dependency, does not import a
 Locus SDK, does not call Locus APIs, and does not connect to Locus.
 
+Phase 3.7 extends this display contract with schema migration metadata and
+unsigned review-artifact attestation planning. Locus may display those records
+later, but ARDYN still does not connect to or depend on Locus.
+
 The contract exists so an external UI can render local ARDYN JSON evidence with
 consistent labels, severity, and compatibility warnings. It does not add
 execution, adapter connections, network behavior, Content Fabric runtime
