@@ -90,8 +90,8 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.0C",
-    name: "pre-runtime stdio transport policy",
+    id: "4.0D",
+    name: "Rust host stdio transport policy contracts",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -124,12 +124,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0C status report.",
+      purpose: "Render this deterministic local Phase 4.0D status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0C status report.",
+      purpose: "Run focused tests for this local Phase 4.0D status report.",
       ranByReport: false
     },
     {
@@ -140,6 +140,11 @@ const report = {
     {
       command: "node --test tests/phase4-0c-transport-policy.test.mjs",
       purpose: "Run focused Phase 4.0C pre-runtime transport policy static checks.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-0d-rust-host-policy-contracts.test.mjs",
+      purpose: "Run focused Phase 4.0D Rust-host transport policy contract static checks.",
       ranByReport: false
     },
     {
@@ -1185,6 +1190,174 @@ const report = {
       noWebSocketHttpControlSurface: true
     }
   },
+  phase40DInventory: {
+    rustHostPolicyContract: {
+      document: "docs/phase-4-0d-rust-host-transport-policy-contracts.md",
+      source: "crates/ardyn-host/src/lib.rs",
+      exportedHelper: "stdio_transport_policy_contract",
+      status: "policy-only-pre-runtime",
+      derivedFromPhase: "4.0C",
+      runtimeImplementationActive: false,
+      activeRuntimeEnforcement: false,
+      liveStdioRuntimeImplemented: false,
+      stdioOwnershipImplementationActive: false,
+      replayRuntimeImplemented: false,
+      transcriptPersistenceImplemented: false,
+      secretHandlingImplemented: false
+    },
+    contractTypes: [
+      "PolicyImplementationStatus",
+      "StdioPolicyOwner",
+      "StdioStreamPurpose",
+      "StdioLineEnding",
+      "StdioCommitUnit",
+      "StdioTransportFailureAction",
+      "StdioLineFailureKind",
+      "StderrDiagnosticClass",
+      "RedactionSubject",
+      "TranscriptReplayInputPreference",
+      "RawJsonlCaptureRole",
+      "StdioStreamOwnershipPolicy",
+      "StdioJsonlFramingPolicy",
+      "StderrDiagnosticPolicy",
+      "StderrRedactionPolicy",
+      "BackpressurePolicy",
+      "PartialWritePolicy",
+      "LineIntegrityFailureRule",
+      "LineIntegrityPolicy",
+      "ExitSemanticsPolicy",
+      "TranscriptReplayReadinessPolicy",
+      "RuntimeSafetyPolicyFlags",
+      "StdioTransportPolicyContract"
+    ],
+    helpers: [
+      "stdio_transport_policy_contract",
+      "StdioTransportPolicyContract::is_pre_runtime_fail_closed",
+      "RuntimeSafetyPolicyFlags::all_runtime_flags_disabled"
+    ],
+    modeledPolicies: {
+      stdoutOwnership: true,
+      stderrOwnership: true,
+      jsonlFraming: true,
+      stderrDiagnostics: true,
+      stderrRedaction: true,
+      backpressure: true,
+      partialWrite: true,
+      droppedLine: true,
+      duplicateLine: true,
+      outOfOrderLine: true,
+      malformedLine: true,
+      exitSemantics: true,
+      transcriptReplayReadiness: true
+    },
+    defaults: {
+      implementationStatus: "policy-only-pre-runtime",
+      runtimeImplementationActive: false,
+      stdoutCurrentOwner: "typescript-dry-run-cli",
+      stdoutFutureRuntimeOwner: "rust-host",
+      stdoutReservedFor: "validated-session-event-jsonl-only",
+      stderrCurrentOwner: "typescript-dry-run-cli",
+      stderrFutureRuntimeOwner: "rust-host",
+      stderrReservedFor: "redacted-diagnostics-only",
+      jsonlLineEnding: "lf-only",
+      finalLfRequiredForCompleteStreams: true,
+      crlfAllowed: false,
+      blankLinesAllowed: false,
+      partialFramesAreEvents: false,
+      duplicateEventIdsAllowed: false,
+      redactionEnforcementActive: false,
+      redactionRequiredBeforeRuntime: true,
+      backpressureImplementationActive: false,
+      partialWriteImplementationActive: false,
+      transcriptReplayImplementationStatus: "policy-only-pre-runtime",
+      transcriptPersistenceImplemented: false,
+      replayRuntimeImplemented: false
+    },
+    failClosedChecks: {
+      defaultContractPasses: true,
+      allRuntimeFlagsDisabled: true,
+      liveStdioRuntimeMutationRejected: true,
+      stdoutImplementationMutationRejected: true,
+      partialFrameMutationRejected: true,
+      duplicateLineRecoveryMutationRejected: true,
+      replayRuntimeMutationRejected: true
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-0d-rust-host-transport-policy-contracts.md",
+        "Documents Phase 4.0D Rust-host stdio transport policy contract types and fail-closed defaults."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-0c-pre-runtime-transport-policy.md",
+        "Links Phase 4.0D as the typed Rust-host follow-up to the Phase 4.0C prose policy."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.0D leaves the finite dry-run emitter behavior unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Cross-links Phase 4.0D while preserving no-live-runtime stdio boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Records Phase 4.0D Rust-host policy contracts as inactive pre-runtime metadata."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Documents Rust-host policy contract types without active stdio runtime ownership."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.0D scope, status report metadata, and lack of new runtime CLI behavior."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.0D adds no replay, live stdio, or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.0D adds no TypeScript core runtime APIs and keeps dry-run behavior unchanged."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents the Rust-host 4.0D policy contract helper and inactive runtime posture."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Contains Rust unit tests for the default policy contract and fail-closed runtime-enabling mutations."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-0d-rust-host-policy-contracts.test.mjs",
+        "Pins Phase 4.0D docs, Rust contract surface, and static no-runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.0D report metadata and safety posture."
+      )
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -1194,6 +1367,7 @@ const report = {
     stdioDryRunEmitter: true,
     stdioDryRunHardening: true,
     stdioTransportPolicy: true,
+    stdioRustHostPolicyContracts: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

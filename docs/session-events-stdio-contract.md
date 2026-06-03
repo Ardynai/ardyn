@@ -139,6 +139,17 @@ supervisor, adapter call, Locus runtime dependency, MCP/OpenClaw call, plugin
 execution path, or Content Fabric runtime behavior. See
 `docs/phase-4-0c-pre-runtime-transport-policy.md`.
 
+Phase 4.0D codifies that Phase 4.0C policy as Rust-host contract metadata in
+`crates/ardyn-host/src/lib.rs`. `StdioTransportPolicyContract`,
+`RuntimeSafetyPolicyFlags`, and `stdio_transport_policy_contract()` keep the
+future stdio ownership and replay policy typed but inactive. Phase 4.0D does
+not add a stdin command loop, live stdio reader, transcript replay command,
+listener, server, subprocess supervisor, adapter call, Locus runtime
+dependency, MCP/OpenClaw call, plugin execution path, Content Fabric runtime
+behavior, secret handling, production signing-key usage, WebSocket transport,
+or HTTP transport. See
+`docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

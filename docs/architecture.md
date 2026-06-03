@@ -33,6 +33,13 @@ transport-failure audit records before any live stdio runtime exists. The
 current Rust host remains static and non-executing, and the current TypeScript
 core owns deterministic contract data only.
 
+Phase 4.0D codifies that Phase 4.0C policy as Rust-host contract types in
+`crates/ardyn-host/src/lib.rs`. `StdioTransportPolicyContract`,
+`RuntimeSafetyPolicyFlags`, and `stdio_transport_policy_contract()` are
+serializable metadata only: no process-level stdio ownership is active, no
+reader or writer loop exists, and every runtime safety flag remains false. See
+`docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

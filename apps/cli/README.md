@@ -2,7 +2,16 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.0C exposes the same command set as Phase 4.0B: `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`, `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run `emit-session-events`. Phase 4.0C adds pre-runtime transport policy only; it does not add a live stdio reader, replay command, listener, server, subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call, plugin execution path, Content Fabric runtime path, or agent loop.
+Phase 4.0D exposes the same command set as Phase 4.0B and Phase 4.0C:
+`doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
+`review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
+`emit-session-events`. Phase 4.0D adds Rust-host policy contract metadata only;
+it does not add a live stdio reader, replay command, listener, server,
+subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call,
+plugin execution path, Content Fabric runtime path, or agent loop.
+
+Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
+to Phase 4.0D; it adds no replay or live runtime CLI.
 
 ```powershell
 node apps/cli/src/index.mjs plan --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json
@@ -87,3 +96,9 @@ behavior, or file writes.
 Phase 4.0C documents future stdout/stderr ownership, JSONL framing, stderr
 redaction, backpressure, partial-write, line-integrity, process-exit, and
 transcript replay policy. It intentionally adds no replay or live runtime CLI.
+
+Phase 4.0D codifies that policy as Rust-host contract types in
+`crates/ardyn-host/src/lib.rs` and leaves CLI behavior unchanged. It
+intentionally adds no replay, live stdio, WebSocket, HTTP, subprocess,
+adapter, plugin, Content Fabric, secret, or production signing-key command.
+See `docs/phase-4-0d-rust-host-transport-policy-contracts.md`.

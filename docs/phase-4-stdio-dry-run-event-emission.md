@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B/4.0C Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B/4.0C/4.0D Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -12,6 +12,12 @@ Phase 4.0C adds pre-runtime transport policy for the future live stdio path.
 It is documentation and static contract hardening only. It does not add a
 stdio reader, stdin command loop, process supervisor, transcript persistence,
 or replay command.
+
+Phase 4.0D codifies the Phase 4.0C policy as Rust-host contract metadata. It
+does not change the finite TypeScript dry-run emitter or add a live stdio
+reader, stdin command loop, process supervisor, transcript persistence, replay
+command, WebSocket, HTTP, adapter, plugin, Content Fabric runtime, secret, or
+production signing-key path.
 
 ## CLI Surface
 
@@ -147,10 +153,24 @@ See `docs/phase-4-0c-pre-runtime-transport-policy.md` for the full policy.
 Phase 4.0C does not implement live replay, live persistence, a stdin reader, a
 transport loop, or a new CLI command.
 
+## Phase 4.0D Rust-Host Policy Contracts
+
+Phase 4.0D exposes `StdioTransportPolicyContract`,
+`RuntimeSafetyPolicyFlags`, and `stdio_transport_policy_contract()` from the
+Rust host as policy-only metadata. The default contract keeps current stdout
+and stderr ownership with the finite TypeScript dry-run CLI, reserves future
+runtime ownership for the Rust host, models JSONL framing, diagnostics,
+redaction, backpressure, partial writes, line-integrity failures, exit
+semantics, and transcript replay readiness, and keeps every runtime flag false.
+
+See `docs/phase-4-0d-rust-host-transport-policy-contracts.md` for the typed
+contract. Phase 4.0D does not implement live replay, live persistence, a stdin
+reader, a transport loop, or a new CLI command.
+
 ## Deferred Runtime Work
 
-Phase 4.0C intentionally does not implement repo-root confinement, transcript
+Phase 4.0D intentionally does not implement repo-root confinement, transcript
 persistence, dropped-line replay, duplicate detection across a live stream,
 stderr redaction enforcement, or Rust-host stdout/stderr runtime ownership.
-It documents those requirements for a later reviewed host-policy phase before
-any live stdio runtime can exist.
+It documents and types those requirements for a later reviewed host-policy
+phase before any live stdio runtime can exist.

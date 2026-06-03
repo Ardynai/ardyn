@@ -14,8 +14,484 @@ use std::io::{Error as IoError, ErrorKind};
 pub const HOST_CRATE_NAME: &str = "ardyn-host";
 pub const ARDYN_SCHEMA_VERSION: &str = "0.1.0";
 pub const ARDYN_PHASE: &str = "phase-3-task-planning";
+pub const ARDYN_STDIO_TRANSPORT_POLICY_PHASE: &str =
+    "phase-4.0d-rust-host-transport-policy-contracts";
 
 pub type HostResult<T> = Result<T, Box<dyn Error + Send + Sync>>;
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum PolicyImplementationStatus {
+    PolicyOnlyPreRuntime,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioPolicyOwner {
+    RustHost,
+    TypescriptDryRunCli,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioStreamPurpose {
+    ValidatedSessionEventJsonlOnly,
+    RedactedDiagnosticsOnly,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioLineEnding {
+    LfOnly,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioCommitUnit {
+    CompleteLfTerminatedEventLine,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioTransportFailureAction {
+    RejectTranscript,
+    RejectAndTerminateTransport,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioLineFailureKind {
+    DroppedLine,
+    DuplicateLine,
+    OutOfOrderLine,
+    MalformedLine,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StderrDiagnosticClass {
+    UsageError,
+    UnknownDuplicateOrMissingArgument,
+    LocalPathPolicyLabel,
+    UnreadableLocalFile,
+    JsonParseSummary,
+    SchemaValidationSummary,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum RedactionSubject {
+    Secret,
+    ProductionSigningKey,
+    TokenOrCredential,
+    LocalAbsolutePath,
+    EnvironmentVariable,
+    StackTrace,
+    RawJsonParseExcerpt,
+    SchemaValidationValue,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum TranscriptReplayInputPreference {
+    NormalizedSessionTranscriptJson,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum RawJsonlCaptureRole {
+    ForensicSourceOnly,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioStreamOwnershipPolicy {
+    pub current_owner: StdioPolicyOwner,
+    pub future_runtime_owner: StdioPolicyOwner,
+    pub reserved_for: StdioStreamPurpose,
+    pub runtime_implementation_active: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioJsonlFramingPolicy {
+    pub utf8_only: bool,
+    pub line_ending: StdioLineEnding,
+    pub crlf_allowed: bool,
+    pub blank_lines_allowed: bool,
+    pub final_lf_required_for_complete_streams: bool,
+    pub one_json_object_per_line: bool,
+    pub validates_session_event_schema: bool,
+    pub contiguous_sequences_required: bool,
+    pub duplicate_event_ids_allowed: bool,
+    pub partial_frames_are_events: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StderrDiagnosticPolicy {
+    pub diagnostics_only: bool,
+    pub session_events_allowed_on_stderr: bool,
+    pub one_diagnostic_record_per_line_before_runtime: bool,
+    pub deterministic_severity_required_before_runtime: bool,
+    pub deterministic_code_required_before_runtime: bool,
+    pub stdout_diagnostics_allowed: bool,
+    pub current_dry_run_diagnostics_are_plain_text: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StderrRedactionPolicy {
+    pub enforcement_active: bool,
+    pub required_before_live_runtime: bool,
+    pub safe_diagnostics_today: Vec<StderrDiagnosticClass>,
+    pub must_redact_before_runtime: Vec<RedactionSubject>,
+    pub stack_traces_allowed: bool,
+    pub environment_dumps_allowed: bool,
+    pub secrets_allowed: bool,
+    pub production_signing_keys_allowed: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct BackpressurePolicy {
+    pub implementation_active: bool,
+    pub must_respect_os_pipe_backpressure: bool,
+    pub bounded_queue_required_before_runtime: bool,
+    pub silent_event_drop_allowed: bool,
+    pub autonomous_retry_loop_allowed: bool,
+    pub failure_action: StdioTransportFailureAction,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PartialWritePolicy {
+    pub implementation_active: bool,
+    pub smallest_commit_unit: StdioCommitUnit,
+    pub partial_frames_are_transcript_evidence: bool,
+    pub recovery_action: StdioTransportFailureAction,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct LineIntegrityFailureRule {
+    pub kind: StdioLineFailureKind,
+    pub recovery_defined: bool,
+    pub action: StdioTransportFailureAction,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct LineIntegrityPolicy {
+    pub dropped_line: LineIntegrityFailureRule,
+    pub duplicate_line: LineIntegrityFailureRule,
+    pub out_of_order_line: LineIntegrityFailureRule,
+    pub malformed_line: LineIntegrityFailureRule,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ExitSemanticsPolicy {
+    pub success_requires_complete_terminal_state: bool,
+    pub success_requires_all_committed_frames_written: bool,
+    pub nonzero_on_transport_failure: bool,
+    pub nonzero_stdout_partial_final_line_allowed: bool,
+    pub partial_event_committed_on_failure: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TranscriptReplayReadinessPolicy {
+    pub implementation_status: PolicyImplementationStatus,
+    pub preferred_input: TranscriptReplayInputPreference,
+    pub raw_jsonl_capture_role: RawJsonlCaptureRole,
+    pub compatible_with_existing_transcript_validation: bool,
+    pub transcript_persistence_implemented: bool,
+    pub replay_runtime_implemented: bool,
+    pub future_cli_proposal_only: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct RuntimeSafetyPolicyFlags {
+    pub live_stdio_runtime: bool,
+    pub stdin_command_loop: bool,
+    pub live_stdio_reader: bool,
+    pub listener: bool,
+    pub server: bool,
+    pub subprocess_spawning: bool,
+    pub adapter_calls: bool,
+    pub locus_runtime_dependency: bool,
+    pub mcp_calls: bool,
+    pub openclaw_calls: bool,
+    pub plugin_execution: bool,
+    pub content_fabric_runtime_behavior: bool,
+    pub autonomous_loop: bool,
+    pub secret_handling: bool,
+    pub production_signing_keys: bool,
+    pub transcript_persistence_replay_runtime: bool,
+    pub websocket_http_control_surface: bool,
+    pub runtime_execution_behavior: bool,
+}
+
+impl RuntimeSafetyPolicyFlags {
+    pub fn all_runtime_flags_disabled(&self) -> bool {
+        !self.live_stdio_runtime
+            && !self.stdin_command_loop
+            && !self.live_stdio_reader
+            && !self.listener
+            && !self.server
+            && !self.subprocess_spawning
+            && !self.adapter_calls
+            && !self.locus_runtime_dependency
+            && !self.mcp_calls
+            && !self.openclaw_calls
+            && !self.plugin_execution
+            && !self.content_fabric_runtime_behavior
+            && !self.autonomous_loop
+            && !self.secret_handling
+            && !self.production_signing_keys
+            && !self.transcript_persistence_replay_runtime
+            && !self.websocket_http_control_surface
+            && !self.runtime_execution_behavior
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioTransportPolicyContract {
+    pub schema_version: String,
+    pub phase: String,
+    pub implementation_status: PolicyImplementationStatus,
+    pub runtime_implementation_active: bool,
+    pub stdout: StdioStreamOwnershipPolicy,
+    pub stderr: StdioStreamOwnershipPolicy,
+    pub jsonl_framing: StdioJsonlFramingPolicy,
+    pub stderr_diagnostics: StderrDiagnosticPolicy,
+    pub redaction: StderrRedactionPolicy,
+    pub backpressure: BackpressurePolicy,
+    pub partial_write: PartialWritePolicy,
+    pub line_integrity: LineIntegrityPolicy,
+    pub exit_semantics: ExitSemanticsPolicy,
+    pub transcript_replay: TranscriptReplayReadinessPolicy,
+    pub safety: RuntimeSafetyPolicyFlags,
+}
+
+impl StdioTransportPolicyContract {
+    pub fn is_pre_runtime_fail_closed(&self) -> bool {
+        self.implementation_status == PolicyImplementationStatus::PolicyOnlyPreRuntime
+            && !self.runtime_implementation_active
+            && self.stdout.current_owner == StdioPolicyOwner::TypescriptDryRunCli
+            && self.stdout.future_runtime_owner == StdioPolicyOwner::RustHost
+            && self.stdout.reserved_for == StdioStreamPurpose::ValidatedSessionEventJsonlOnly
+            && !self.stdout.runtime_implementation_active
+            && self.stderr.current_owner == StdioPolicyOwner::TypescriptDryRunCli
+            && self.stderr.future_runtime_owner == StdioPolicyOwner::RustHost
+            && self.stderr.reserved_for == StdioStreamPurpose::RedactedDiagnosticsOnly
+            && !self.stderr.runtime_implementation_active
+            && self.jsonl_framing.utf8_only
+            && self.jsonl_framing.line_ending == StdioLineEnding::LfOnly
+            && !self.jsonl_framing.crlf_allowed
+            && !self.jsonl_framing.blank_lines_allowed
+            && self.jsonl_framing.final_lf_required_for_complete_streams
+            && self.jsonl_framing.one_json_object_per_line
+            && self.jsonl_framing.validates_session_event_schema
+            && self.jsonl_framing.contiguous_sequences_required
+            && !self.jsonl_framing.duplicate_event_ids_allowed
+            && !self.jsonl_framing.partial_frames_are_events
+            && self.stderr_diagnostics.diagnostics_only
+            && !self.stderr_diagnostics.session_events_allowed_on_stderr
+            && !self.stderr_diagnostics.stdout_diagnostics_allowed
+            && !self.redaction.enforcement_active
+            && self.redaction.required_before_live_runtime
+            && !self.redaction.stack_traces_allowed
+            && !self.redaction.environment_dumps_allowed
+            && !self.redaction.secrets_allowed
+            && !self.redaction.production_signing_keys_allowed
+            && !self.backpressure.implementation_active
+            && self.backpressure.must_respect_os_pipe_backpressure
+            && self.backpressure.bounded_queue_required_before_runtime
+            && !self.backpressure.silent_event_drop_allowed
+            && !self.backpressure.autonomous_retry_loop_allowed
+            && self.backpressure.failure_action
+                == StdioTransportFailureAction::RejectAndTerminateTransport
+            && !self.partial_write.implementation_active
+            && self.partial_write.smallest_commit_unit
+                == StdioCommitUnit::CompleteLfTerminatedEventLine
+            && !self.partial_write.partial_frames_are_transcript_evidence
+            && self.partial_write.recovery_action
+                == StdioTransportFailureAction::RejectAndTerminateTransport
+            && [
+                &self.line_integrity.dropped_line,
+                &self.line_integrity.duplicate_line,
+                &self.line_integrity.out_of_order_line,
+                &self.line_integrity.malformed_line,
+            ]
+            .iter()
+            .all(|rule| {
+                !rule.recovery_defined
+                    && rule.action == StdioTransportFailureAction::RejectTranscript
+            })
+            && self.exit_semantics.success_requires_complete_terminal_state
+            && self
+                .exit_semantics
+                .success_requires_all_committed_frames_written
+            && self.exit_semantics.nonzero_on_transport_failure
+            && !self
+                .exit_semantics
+                .nonzero_stdout_partial_final_line_allowed
+            && !self.exit_semantics.partial_event_committed_on_failure
+            && self.transcript_replay.implementation_status
+                == PolicyImplementationStatus::PolicyOnlyPreRuntime
+            && self.transcript_replay.preferred_input
+                == TranscriptReplayInputPreference::NormalizedSessionTranscriptJson
+            && self.transcript_replay.raw_jsonl_capture_role
+                == RawJsonlCaptureRole::ForensicSourceOnly
+            && self
+                .transcript_replay
+                .compatible_with_existing_transcript_validation
+            && !self.transcript_replay.transcript_persistence_implemented
+            && !self.transcript_replay.replay_runtime_implemented
+            && self.safety.all_runtime_flags_disabled()
+    }
+}
+
+fn line_failure_rule(kind: StdioLineFailureKind) -> LineIntegrityFailureRule {
+    LineIntegrityFailureRule {
+        kind,
+        recovery_defined: false,
+        action: StdioTransportFailureAction::RejectTranscript,
+    }
+}
+
+pub fn stdio_transport_policy_contract() -> StdioTransportPolicyContract {
+    StdioTransportPolicyContract {
+        schema_version: ARDYN_SCHEMA_VERSION.to_string(),
+        phase: ARDYN_STDIO_TRANSPORT_POLICY_PHASE.to_string(),
+        implementation_status: PolicyImplementationStatus::PolicyOnlyPreRuntime,
+        runtime_implementation_active: false,
+        stdout: StdioStreamOwnershipPolicy {
+            current_owner: StdioPolicyOwner::TypescriptDryRunCli,
+            future_runtime_owner: StdioPolicyOwner::RustHost,
+            reserved_for: StdioStreamPurpose::ValidatedSessionEventJsonlOnly,
+            runtime_implementation_active: false,
+        },
+        stderr: StdioStreamOwnershipPolicy {
+            current_owner: StdioPolicyOwner::TypescriptDryRunCli,
+            future_runtime_owner: StdioPolicyOwner::RustHost,
+            reserved_for: StdioStreamPurpose::RedactedDiagnosticsOnly,
+            runtime_implementation_active: false,
+        },
+        jsonl_framing: StdioJsonlFramingPolicy {
+            utf8_only: true,
+            line_ending: StdioLineEnding::LfOnly,
+            crlf_allowed: false,
+            blank_lines_allowed: false,
+            final_lf_required_for_complete_streams: true,
+            one_json_object_per_line: true,
+            validates_session_event_schema: true,
+            contiguous_sequences_required: true,
+            duplicate_event_ids_allowed: false,
+            partial_frames_are_events: false,
+        },
+        stderr_diagnostics: StderrDiagnosticPolicy {
+            diagnostics_only: true,
+            session_events_allowed_on_stderr: false,
+            one_diagnostic_record_per_line_before_runtime: true,
+            deterministic_severity_required_before_runtime: true,
+            deterministic_code_required_before_runtime: true,
+            stdout_diagnostics_allowed: false,
+            current_dry_run_diagnostics_are_plain_text: true,
+        },
+        redaction: StderrRedactionPolicy {
+            enforcement_active: false,
+            required_before_live_runtime: true,
+            safe_diagnostics_today: vec![
+                StderrDiagnosticClass::UsageError,
+                StderrDiagnosticClass::UnknownDuplicateOrMissingArgument,
+                StderrDiagnosticClass::LocalPathPolicyLabel,
+                StderrDiagnosticClass::UnreadableLocalFile,
+                StderrDiagnosticClass::JsonParseSummary,
+                StderrDiagnosticClass::SchemaValidationSummary,
+            ],
+            must_redact_before_runtime: vec![
+                RedactionSubject::Secret,
+                RedactionSubject::ProductionSigningKey,
+                RedactionSubject::TokenOrCredential,
+                RedactionSubject::LocalAbsolutePath,
+                RedactionSubject::EnvironmentVariable,
+                RedactionSubject::StackTrace,
+                RedactionSubject::RawJsonParseExcerpt,
+                RedactionSubject::SchemaValidationValue,
+            ],
+            stack_traces_allowed: false,
+            environment_dumps_allowed: false,
+            secrets_allowed: false,
+            production_signing_keys_allowed: false,
+        },
+        backpressure: BackpressurePolicy {
+            implementation_active: false,
+            must_respect_os_pipe_backpressure: true,
+            bounded_queue_required_before_runtime: true,
+            silent_event_drop_allowed: false,
+            autonomous_retry_loop_allowed: false,
+            failure_action: StdioTransportFailureAction::RejectAndTerminateTransport,
+        },
+        partial_write: PartialWritePolicy {
+            implementation_active: false,
+            smallest_commit_unit: StdioCommitUnit::CompleteLfTerminatedEventLine,
+            partial_frames_are_transcript_evidence: false,
+            recovery_action: StdioTransportFailureAction::RejectAndTerminateTransport,
+        },
+        line_integrity: LineIntegrityPolicy {
+            dropped_line: line_failure_rule(StdioLineFailureKind::DroppedLine),
+            duplicate_line: line_failure_rule(StdioLineFailureKind::DuplicateLine),
+            out_of_order_line: line_failure_rule(StdioLineFailureKind::OutOfOrderLine),
+            malformed_line: line_failure_rule(StdioLineFailureKind::MalformedLine),
+        },
+        exit_semantics: ExitSemanticsPolicy {
+            success_requires_complete_terminal_state: true,
+            success_requires_all_committed_frames_written: true,
+            nonzero_on_transport_failure: true,
+            nonzero_stdout_partial_final_line_allowed: false,
+            partial_event_committed_on_failure: false,
+        },
+        transcript_replay: TranscriptReplayReadinessPolicy {
+            implementation_status: PolicyImplementationStatus::PolicyOnlyPreRuntime,
+            preferred_input: TranscriptReplayInputPreference::NormalizedSessionTranscriptJson,
+            raw_jsonl_capture_role: RawJsonlCaptureRole::ForensicSourceOnly,
+            compatible_with_existing_transcript_validation: true,
+            transcript_persistence_implemented: false,
+            replay_runtime_implemented: false,
+            future_cli_proposal_only: vec![
+                "ardyn replay-session-transcript --file <session-transcript.json> --summary"
+                    .to_string(),
+                "ardyn replay-session-transcript --file <session-transcript.json> --explain"
+                    .to_string(),
+            ],
+        },
+        safety: RuntimeSafetyPolicyFlags {
+            live_stdio_runtime: false,
+            stdin_command_loop: false,
+            live_stdio_reader: false,
+            listener: false,
+            server: false,
+            subprocess_spawning: false,
+            adapter_calls: false,
+            locus_runtime_dependency: false,
+            mcp_calls: false,
+            openclaw_calls: false,
+            plugin_execution: false,
+            content_fabric_runtime_behavior: false,
+            autonomous_loop: false,
+            secret_handling: false,
+            production_signing_keys: false,
+            transcript_persistence_replay_runtime: false,
+            websocket_http_control_surface: false,
+            runtime_execution_behavior: false,
+        },
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -604,6 +1080,278 @@ mod tests {
         assert_eq!(handshake.manifest.expect("manifest").name, "minimal-ardyn");
         assert_eq!(handshake.capabilities[0].id, "runtime.describe");
         assert!(!handshake.execution_enabled);
+    }
+
+    #[test]
+    fn stdio_transport_policy_contract_defaults_are_policy_only_and_fail_closed() {
+        let policy = stdio_transport_policy_contract();
+
+        assert_eq!(policy.schema_version, ARDYN_SCHEMA_VERSION);
+        assert_eq!(policy.phase, ARDYN_STDIO_TRANSPORT_POLICY_PHASE);
+        assert_eq!(
+            policy.implementation_status,
+            PolicyImplementationStatus::PolicyOnlyPreRuntime
+        );
+        assert!(!policy.runtime_implementation_active);
+        assert!(policy.is_pre_runtime_fail_closed());
+        assert!(policy.safety.all_runtime_flags_disabled());
+        assert!(!policy.safety.live_stdio_runtime);
+        assert!(!policy.safety.stdin_command_loop);
+        assert!(!policy.safety.live_stdio_reader);
+        assert!(!policy.safety.subprocess_spawning);
+        assert!(!policy.safety.adapter_calls);
+        assert!(!policy.safety.locus_runtime_dependency);
+        assert!(!policy.safety.content_fabric_runtime_behavior);
+        assert!(!policy.safety.transcript_persistence_replay_runtime);
+        assert!(!policy.safety.websocket_http_control_surface);
+    }
+
+    #[test]
+    fn stdio_transport_policy_contract_assigns_future_stdio_to_rust_host() {
+        let policy = stdio_transport_policy_contract();
+
+        assert_eq!(
+            policy.stdout.current_owner,
+            StdioPolicyOwner::TypescriptDryRunCli
+        );
+        assert_eq!(
+            policy.stdout.future_runtime_owner,
+            StdioPolicyOwner::RustHost
+        );
+        assert_eq!(
+            policy.stdout.reserved_for,
+            StdioStreamPurpose::ValidatedSessionEventJsonlOnly
+        );
+        assert!(!policy.stdout.runtime_implementation_active);
+
+        assert_eq!(
+            policy.stderr.current_owner,
+            StdioPolicyOwner::TypescriptDryRunCli
+        );
+        assert_eq!(
+            policy.stderr.future_runtime_owner,
+            StdioPolicyOwner::RustHost
+        );
+        assert_eq!(
+            policy.stderr.reserved_for,
+            StdioStreamPurpose::RedactedDiagnosticsOnly
+        );
+        assert!(!policy.stderr.runtime_implementation_active);
+    }
+
+    #[test]
+    fn stdio_transport_policy_contract_pins_jsonl_and_diagnostic_framing() {
+        let policy = stdio_transport_policy_contract();
+
+        assert!(policy.jsonl_framing.utf8_only);
+        assert_eq!(policy.jsonl_framing.line_ending, StdioLineEnding::LfOnly);
+        assert!(!policy.jsonl_framing.crlf_allowed);
+        assert!(!policy.jsonl_framing.blank_lines_allowed);
+        assert!(policy.jsonl_framing.final_lf_required_for_complete_streams);
+        assert!(policy.jsonl_framing.one_json_object_per_line);
+        assert!(policy.jsonl_framing.validates_session_event_schema);
+        assert!(policy.jsonl_framing.contiguous_sequences_required);
+        assert!(!policy.jsonl_framing.duplicate_event_ids_allowed);
+        assert!(!policy.jsonl_framing.partial_frames_are_events);
+
+        assert!(policy.stderr_diagnostics.diagnostics_only);
+        assert!(!policy.stderr_diagnostics.session_events_allowed_on_stderr);
+        assert!(!policy.stderr_diagnostics.stdout_diagnostics_allowed);
+        assert!(
+            policy
+                .stderr_diagnostics
+                .one_diagnostic_record_per_line_before_runtime
+        );
+        assert!(
+            policy
+                .stderr_diagnostics
+                .deterministic_severity_required_before_runtime
+        );
+        assert!(
+            policy
+                .stderr_diagnostics
+                .deterministic_code_required_before_runtime
+        );
+    }
+
+    #[test]
+    fn stdio_transport_policy_contract_models_redaction_without_secret_handling() {
+        let policy = stdio_transport_policy_contract();
+
+        assert!(!policy.redaction.enforcement_active);
+        assert!(policy.redaction.required_before_live_runtime);
+        assert!(policy
+            .redaction
+            .safe_diagnostics_today
+            .contains(&StderrDiagnosticClass::UsageError));
+        assert!(policy
+            .redaction
+            .safe_diagnostics_today
+            .contains(&StderrDiagnosticClass::JsonParseSummary));
+        assert!(policy
+            .redaction
+            .must_redact_before_runtime
+            .contains(&RedactionSubject::Secret));
+        assert!(policy
+            .redaction
+            .must_redact_before_runtime
+            .contains(&RedactionSubject::LocalAbsolutePath));
+        assert!(policy
+            .redaction
+            .must_redact_before_runtime
+            .contains(&RedactionSubject::EnvironmentVariable));
+        assert!(!policy.redaction.stack_traces_allowed);
+        assert!(!policy.redaction.environment_dumps_allowed);
+        assert!(!policy.redaction.secrets_allowed);
+        assert!(!policy.redaction.production_signing_keys_allowed);
+    }
+
+    #[test]
+    fn stdio_transport_policy_contract_rejects_line_failures_by_default() {
+        let policy = stdio_transport_policy_contract();
+
+        for (rule, kind) in [
+            (
+                &policy.line_integrity.dropped_line,
+                StdioLineFailureKind::DroppedLine,
+            ),
+            (
+                &policy.line_integrity.duplicate_line,
+                StdioLineFailureKind::DuplicateLine,
+            ),
+            (
+                &policy.line_integrity.out_of_order_line,
+                StdioLineFailureKind::OutOfOrderLine,
+            ),
+            (
+                &policy.line_integrity.malformed_line,
+                StdioLineFailureKind::MalformedLine,
+            ),
+        ] {
+            assert_eq!(rule.kind, kind);
+            assert!(!rule.recovery_defined);
+            assert_eq!(rule.action, StdioTransportFailureAction::RejectTranscript);
+        }
+    }
+
+    #[test]
+    fn stdio_transport_policy_contract_pins_backpressure_partial_write_and_exit_semantics() {
+        let policy = stdio_transport_policy_contract();
+
+        assert!(!policy.backpressure.implementation_active);
+        assert!(policy.backpressure.must_respect_os_pipe_backpressure);
+        assert!(policy.backpressure.bounded_queue_required_before_runtime);
+        assert!(!policy.backpressure.silent_event_drop_allowed);
+        assert!(!policy.backpressure.autonomous_retry_loop_allowed);
+        assert_eq!(
+            policy.backpressure.failure_action,
+            StdioTransportFailureAction::RejectAndTerminateTransport
+        );
+
+        assert!(!policy.partial_write.implementation_active);
+        assert_eq!(
+            policy.partial_write.smallest_commit_unit,
+            StdioCommitUnit::CompleteLfTerminatedEventLine
+        );
+        assert!(!policy.partial_write.partial_frames_are_transcript_evidence);
+        assert_eq!(
+            policy.partial_write.recovery_action,
+            StdioTransportFailureAction::RejectAndTerminateTransport
+        );
+
+        assert!(
+            policy
+                .exit_semantics
+                .success_requires_complete_terminal_state
+        );
+        assert!(
+            policy
+                .exit_semantics
+                .success_requires_all_committed_frames_written
+        );
+        assert!(policy.exit_semantics.nonzero_on_transport_failure);
+        assert!(
+            !policy
+                .exit_semantics
+                .nonzero_stdout_partial_final_line_allowed
+        );
+        assert!(!policy.exit_semantics.partial_event_committed_on_failure);
+    }
+
+    #[test]
+    fn stdio_transport_policy_contract_keeps_transcript_replay_proposal_only() {
+        let policy = stdio_transport_policy_contract();
+
+        assert_eq!(
+            policy.transcript_replay.implementation_status,
+            PolicyImplementationStatus::PolicyOnlyPreRuntime
+        );
+        assert_eq!(
+            policy.transcript_replay.preferred_input,
+            TranscriptReplayInputPreference::NormalizedSessionTranscriptJson
+        );
+        assert_eq!(
+            policy.transcript_replay.raw_jsonl_capture_role,
+            RawJsonlCaptureRole::ForensicSourceOnly
+        );
+        assert!(
+            policy
+                .transcript_replay
+                .compatible_with_existing_transcript_validation
+        );
+        assert!(!policy.transcript_replay.transcript_persistence_implemented);
+        assert!(!policy.transcript_replay.replay_runtime_implemented);
+        assert_eq!(policy.transcript_replay.future_cli_proposal_only.len(), 2);
+        assert!(policy.transcript_replay.future_cli_proposal_only[0]
+            .contains("replay-session-transcript"));
+    }
+
+    #[test]
+    fn stdio_transport_policy_contract_serializes_as_contract_metadata() {
+        let policy = stdio_transport_policy_contract();
+        let value = serde_json::to_value(policy).expect("policy json");
+
+        assert_eq!(value["schemaVersion"], ARDYN_SCHEMA_VERSION);
+        assert_eq!(value["phase"], ARDYN_STDIO_TRANSPORT_POLICY_PHASE);
+        assert_eq!(value["implementationStatus"], "policy-only-pre-runtime");
+        assert_eq!(value["stdout"]["futureRuntimeOwner"], "rust-host");
+        assert_eq!(
+            value["stdout"]["reservedFor"],
+            "validated-session-event-jsonl-only"
+        );
+        assert_eq!(value["stderr"]["reservedFor"], "redacted-diagnostics-only");
+        assert_eq!(value["jsonlFraming"]["lineEnding"], "lf-only");
+        assert_eq!(
+            value["transcriptReplay"]["implementationStatus"],
+            "policy-only-pre-runtime"
+        );
+        assert_eq!(value["safety"]["liveStdioRuntime"], false);
+        assert_eq!(value["safety"]["runtimeExecutionBehavior"], false);
+    }
+
+    #[test]
+    fn stdio_transport_policy_contract_detects_runtime_enabling_mutations() {
+        let mut policy = stdio_transport_policy_contract();
+        assert!(policy.is_pre_runtime_fail_closed());
+
+        policy.safety.live_stdio_runtime = true;
+        assert!(!policy.is_pre_runtime_fail_closed());
+
+        let mut policy = stdio_transport_policy_contract();
+        policy.stdout.runtime_implementation_active = true;
+        assert!(!policy.is_pre_runtime_fail_closed());
+
+        let mut policy = stdio_transport_policy_contract();
+        policy.jsonl_framing.partial_frames_are_events = true;
+        assert!(!policy.is_pre_runtime_fail_closed());
+
+        let mut policy = stdio_transport_policy_contract();
+        policy.line_integrity.duplicate_line.recovery_defined = true;
+        assert!(!policy.is_pre_runtime_fail_closed());
+
+        let mut policy = stdio_transport_policy_contract();
+        policy.transcript_replay.replay_runtime_implemented = true;
+        assert!(!policy.is_pre_runtime_fail_closed());
     }
 
     #[test]

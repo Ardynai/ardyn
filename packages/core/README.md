@@ -2,7 +2,15 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.0C documents pre-runtime transport policy while the TypeScript core owns deterministic contract data: manifest and task validation, deterministic non-executing task planning, ranked exact/tag/scope capability resolution, approval-gate data, approval-decision records, planner traces, shared local-only input path policy, finite dry-run session-event JSONL construction, formatter hardening, and golden fixture coverage. Autonomous execution, tool execution, plugin installation, network serving, torrent download, code-pack enablement, live stdin loops, live replay, and agent loops are intentionally out of scope.
+Phase 4.0D keeps the TypeScript core on deterministic contract data while the
+Rust host gains policy-only stdio transport contract types. The TypeScript core
+still owns manifest and task validation, deterministic non-executing task
+planning, ranked exact/tag/scope capability resolution, approval-gate data,
+approval-decision records, planner traces, shared local-only input path policy,
+finite dry-run session-event JSONL construction, formatter hardening, and
+golden fixture coverage. Autonomous execution, tool execution, plugin
+installation, network serving, torrent download, code-pack enablement, live
+stdin loops, live replay, and agent loops are intentionally out of scope.
 
 ## Phase 4.0A Dry-Run Session Events
 
@@ -26,6 +34,12 @@ diagnostic classification inputs. Future live process stdio ownership,
 backpressure, partial writes, line-integrity failures, process exit semantics,
 stderr redaction enforcement, and runtime transcript persistence/replay must be
 owned by a reviewed Rust-host policy before implementation.
+
+Phase 4.0D also adds no TypeScript core runtime APIs and does not change
+`createStdioDryRunSessionEvents()` or `formatSessionEventsJsonl()`. It only
+codifies the Phase 4.0C policy in Rust-host metadata through
+`stdio_transport_policy_contract()`. See
+`docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
 
 ## Phase 3.2 Policy Review
 

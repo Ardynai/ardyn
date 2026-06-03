@@ -115,6 +115,14 @@ Locus runtime dependency, MCP/OpenClaw call, plugin execution path, Content
 Fabric runtime behavior, autonomous loop, secret handling path, or production
 signing-key path.
 
+Phase 4.0D codifies the same policy as Rust-host contract types and fail-closed
+defaults in `crates/ardyn-host/src/lib.rs`. The
+`StdioTransportPolicyContract`, `RuntimeSafetyPolicyFlags`, and
+`stdio_transport_policy_contract()` helper remain inactive pre-runtime metadata:
+they do not enforce stdio ownership, start a reader, write transcript records,
+replay transcripts, handle secrets, or change the finite TypeScript dry-run
+emitter. See `docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

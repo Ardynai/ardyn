@@ -243,6 +243,21 @@ Those commands are proposal-only in Phase 4.0C. They must not be implemented as
 runtime replay unless a later phase explicitly approves persistence, replay,
 host policy, redaction, and transport failure semantics.
 
+## Phase 4.0D Typed Contract Follow-Up
+
+Phase 4.0D turns this prose policy into Rust-host contract metadata in
+`crates/ardyn-host/src/lib.rs`. The typed surface includes
+`StdioTransportPolicyContract`, `RuntimeSafetyPolicyFlags`,
+`stdio_transport_policy_contract()`, and
+`StdioTransportPolicyContract::is_pre_runtime_fail_closed()`.
+
+Those types remain policy-only and pre-runtime. They do not activate Rust-host
+stdio ownership, read stdin, write stdout or stderr, persist transcripts,
+replay transcripts, spawn subprocesses, connect adapters, call Locus,
+MCP/OpenClaw, plugins, or Content Fabric, handle secrets, or load production
+signing keys. See
+`docs/phase-4-0d-rust-host-transport-policy-contracts.md`.
+
 ## Phase 4.0C Completion Boundary
 
 Phase 4.0C is complete when docs, report metadata, and static tests prove the
