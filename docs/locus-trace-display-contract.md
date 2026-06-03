@@ -9,6 +9,10 @@ Phase 3.7 extends this display contract with schema migration metadata and
 unsigned review-artifact attestation planning. Locus may display those records
 later, but ARDYN still does not connect to or depend on Locus.
 
+Phase 3.10 extends the read-only contract with session-transcript versioning
+and display summary fields. Locus may render these fields from local JSON
+evidence only; ARDYN still does not connect to or depend on Locus.
+
 Phase 3.8 freezes this Locus-facing planning review surface. The Phase 3.x read-only display contract is frozen. Freeze marker:
 `PHASE_3_X_LOCUS_DISPLAY_CONTRACT_FROZEN`.
 Locus may build a viewer against the documented planner traces, approval review
@@ -327,3 +331,46 @@ Unknown transcript metadata must remain inert until a future versioned contract
 defines it. If a schema with `additionalProperties: false` rejects unknown
 top-level fields, the viewer should report that as invalid review evidence, not
 as a runtime instruction.
+
+## Phase 3.10 Transcript Version Display
+
+Transcript display compatibility is derived from `schema:
+"ardyn.session-transcript"` and semantic `schemaVersion` metadata.
+
+| Compatibility state | Severity | Display rule |
+| --- | --- | --- |
+| `compatible` | `ok` or `warning` | Current or same-major transcript. Display known fields as inert review evidence. Show strict-validation warnings when the exact current schema rejects extra fields or older metadata. |
+| `upgrade_available` | `warning` | Same-major older transcript with a known future migration path. Display known fields and migration status only; do not rewrite the transcript. |
+| `unsupported_major` | `critical` | Unsupported major version. Show identity/version and raw inert metadata only. Do not interpret event, approval, sequence, or safety semantics as current. |
+| `malformed` | `critical` | Missing/wrong schema id, absent/non-semver schemaVersion, non-object input, or absent required review structure. Show validation errors and raw inert metadata only. |
+
+A transcript summary for Locus or another peer viewer should include:
+
+| Summary field | Display purpose |
+| --- | --- |
+| `sessionId` | Stable session identity. |
+| `sourceHarness` | Must display as `ardyn` for current ARDYN evidence. |
+| `schemaStatus.schemaId` | Must be `ardyn.session-transcript`. |
+| `schemaStatus.schemaVersion` | Transcript contract version. |
+| `schemaStatus.compatibility` | One of `compatible`, `upgrade_available`, `unsupported_major`, or `malformed`. |
+| `eventCount` | Count of events in the transcript. |
+| `firstEventType` | First event type for lifecycle review. |
+| `lastEventType` | Last event type for lifecycle review. |
+| `sequenceRange.first` and `sequenceRange.last` | Sequence range. |
+| `counts.errors` | Count of `session.error` events. |
+| `counts.approvalEvents` | Count of `approval.requested` plus `approval.recorded` events. |
+| `counts.taskPlannedEvents` | Count of `task.planned` events. |
+| `safetyPosture` | Transcript and event no-execution status. |
+| `warnings[]` | Warning or critical display findings with severity. |
+| `unknownFieldCount` | Count of inert unknown fields. |
+
+Unknown fields are inert in compatibility and display, even when names resemble
+commands, installs, network targets, process controls, plugins, torrents,
+Content Fabric packs, code packs, secrets, or CI. A strict current-schema
+validator may still reject extra fields; display that as a validation finding.
+
+The viewer must not show controls or wording that imply command execution,
+live stdio, network/process runtime, adapter connection, plugin installation,
+torrent behavior, Content Fabric runtime behavior, code-pack enablement, or
+Locus control over ARDYN before a later execution-adjacent phase satisfies the
+host-policy preconditions.

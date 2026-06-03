@@ -71,9 +71,20 @@ const NO_EXECUTION_SAFETY_FLAGS = Object.freeze({
   codePackEnablementEnabled: false,
   agentLoopEnabled: false
 });
-const SESSION_TRANSCRIPT_SCHEMA = "ardyn.session-transcript";
-const SESSION_TRANSCRIPT_SUMMARY_SCHEMA = "ardyn.session-transcript-summary";
-const SESSION_TRANSCRIPT_EXPLANATION_SCHEMA = "ardyn.session-transcript-explanation";
+export const SESSION_TRANSCRIPT_SCHEMA = "ardyn.session-transcript";
+export const SESSION_TRANSCRIPT_SCHEMA_VERSION = "0.1.0";
+export const SESSION_TRANSCRIPT_SUMMARY_SCHEMA = "ardyn.session-transcript-summary";
+export const SESSION_TRANSCRIPT_DISPLAY_SUMMARY_SCHEMA =
+  "ardyn.session-transcript-display-summary";
+export const SESSION_TRANSCRIPT_MIGRATION_METADATA_SCHEMA =
+  "ardyn.session-transcript-migration-metadata";
+export const SESSION_TRANSCRIPT_COMPATIBILITY_EXPLANATION_SCHEMA =
+  "ardyn.session-transcript-compatibility-explanation";
+export const SESSION_TRANSCRIPT_EXPLANATION_SCHEMA = "ardyn.session-transcript-explanation";
+export const SESSION_TRANSCRIPT_COMPATIBLE = "compatible";
+export const SESSION_TRANSCRIPT_UPGRADE_AVAILABLE = "upgrade_available";
+export const SESSION_TRANSCRIPT_UNSUPPORTED_MAJOR = "unsupported_major";
+export const SESSION_TRANSCRIPT_MALFORMED = "malformed";
 const SESSION_EVENT_TYPES = Object.freeze([
   "session.started",
   "session.heartbeat",
@@ -85,6 +96,16 @@ const SESSION_EVENT_TYPES = Object.freeze([
   "session.error"
 ]);
 const SESSION_EVENT_TYPE_SET = new Set(SESSION_EVENT_TYPES);
+const SESSION_TRANSCRIPT_KNOWN_FIELDS = Object.freeze([
+  "schema",
+  "schemaVersion",
+  "sessionId",
+  "sourceHarness",
+  "nonExecuting",
+  "safety",
+  "events"
+]);
+const SESSION_TRANSCRIPT_KNOWN_FIELD_SET = new Set(SESSION_TRANSCRIPT_KNOWN_FIELDS);
 const OPAQUE_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_.:-]{2,127}$/;
 const CAPABILITY_ID_PATTERN = /^[a-z][a-z0-9-]*(\.[a-z][a-z0-9-]*)*$/;
 const EVENT_CREATED_AT_PATTERN = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$/;
@@ -119,6 +140,7 @@ const REVIEW_ARTIFACT_ATTESTATION_STATUSES = Object.freeze([
   "unsupported"
 ]);
 const REVIEW_ARTIFACT_ATTESTATION_STATUS_SET = new Set(REVIEW_ARTIFACT_ATTESTATION_STATUSES);
+const SESSION_TRANSCRIPT_SUPPORTED_SCHEMA_MAJOR = 0;
 const APPROVAL_REVIEW_ARTIFACT_SUPPORTED_SCHEMA_MAJOR = 0;
 const APPROVAL_REVIEW_ARTIFACT_SUPPORTED_VERSION_MAJOR = 0;
 const APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELDS = Object.freeze([
@@ -750,17 +772,17 @@ function normalizeDisplayCandidateRankings(candidateRankings) {
     .sort((left, right) => compareAscii(left.request ?? "", right.request ?? ""));
 }
 
-function displayUnknownFields(artifact) {
-  if (!validationObject(artifact)) {
+function displayUnknownFieldsForKnownFields(source, knownFieldSet) {
+  if (!validationObject(source)) {
     return {
       unknownFields: [],
       unknown: {}
     };
   }
 
-  const descriptors = Object.getOwnPropertyDescriptors(artifact);
+  const descriptors = Object.getOwnPropertyDescriptors(source);
   const unknownFields = Object.entries(descriptors)
-    .filter(([key, descriptor]) => descriptor.enumerable && !APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELD_SET.has(key))
+    .filter(([key, descriptor]) => descriptor.enumerable && !knownFieldSet.has(key))
     .map(([key]) => key)
     .sort(compareAscii);
   const unknown = Object.fromEntries(
@@ -774,6 +796,14 @@ function displayUnknownFields(artifact) {
     unknownFields,
     unknown
   };
+}
+
+function displayUnknownFields(artifact) {
+  return displayUnknownFieldsForKnownFields(artifact, APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELD_SET);
+}
+
+function displaySessionTranscriptUnknownFields(transcript) {
+  return displayUnknownFieldsForKnownFields(transcript, SESSION_TRANSCRIPT_KNOWN_FIELD_SET);
 }
 
 function approvalDecisionReason(status, approvalRequired) {
@@ -1992,6 +2022,421 @@ export function explainSessionTranscript(transcript) {
     checks: transcriptChecks(transcript, validation, classification.classification),
     errors: [...classification.errors],
     summary,
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+function sessionTranscriptStructuralErrors(transcript) {
+  if (!validationObject(transcript)) {
+    return ["transcript must be an object"];
+  }
+
+  const errors = [];
+
+  if (dataProperty(transcript, "schema") !== SESSION_TRANSCRIPT_SCHEMA) {
+    errors.push(`schema must be ${SESSION_TRANSCRIPT_SCHEMA}`);
+  }
+
+  validateSemverMajor(errors, dataProperty(transcript, "schemaVersion"), "schemaVersion");
+
+  const events = dataProperty(transcript, "events");
+  if (!Array.isArray(events)) {
+    errors.push("events must be an array");
+  } else if (events.length === 0) {
+    errors.push("events must contain at least one event");
+  } else {
+    events.forEach((event, index) => {
+      if (!validationObject(event)) {
+        errors.push(`events[${index}] must be an object`);
+        return;
+      }
+
+      if (!Number.isInteger(dataProperty(event, "sequence"))) {
+        errors.push(`events[${index}].sequence must be an integer`);
+      }
+
+      if (typeof dataProperty(event, "eventType") !== "string") {
+        errors.push(`events[${index}].eventType must be a string`);
+      }
+    });
+  }
+
+  return errors;
+}
+
+function filteredSessionTranscriptValidationErrors(validationErrors, transcript) {
+  const transcriptVersion = displayString(dataProperty(transcript, "schemaVersion"));
+
+  return validationErrors.filter((error) => {
+    if (error === `schemaVersion must be ${ARDYN_SCHEMA_VERSION}`) {
+      return false;
+    }
+
+    if (
+      transcriptVersion &&
+      /^events\[\d+\]\.schemaVersion must be /.test(error)
+    ) {
+      return false;
+    }
+
+    return true;
+  });
+}
+
+function sessionTranscriptMigrationNotes(compatibility, schemaVersion, errors) {
+  if (compatibility === SESSION_TRANSCRIPT_COMPATIBLE) {
+    return ["Session transcript schema metadata is current; no migration is required."];
+  }
+
+  if (compatibility === SESSION_TRANSCRIPT_UPGRADE_AVAILABLE) {
+    return [
+      "Session transcript shares the supported major schema version and can be displayed read-only without execution.",
+      `A future migration may normalize schemaVersion to ${SESSION_TRANSCRIPT_SCHEMA_VERSION}.`
+    ];
+  }
+
+  if (compatibility === SESSION_TRANSCRIPT_UNSUPPORTED_MAJOR) {
+    return [
+      "Session transcript uses an unsupported major schema version and requires manual review before display trust.",
+      ...errors
+    ];
+  }
+
+  return [
+    "Session transcript schema metadata is malformed or events are unusable and require manual review.",
+    ...errors
+  ];
+}
+
+function classifySessionTranscriptCompatibilityInternal(transcript) {
+  const structuralErrors = sessionTranscriptStructuralErrors(transcript);
+  const schemaVersion = displayString(dataProperty(transcript, "schemaVersion"));
+  const schemaVersionMajor = semverMajor(schemaVersion);
+  const unknown = displaySessionTranscriptUnknownFields(transcript);
+
+  if (structuralErrors.length > 0 || schemaVersionMajor === null) {
+    return {
+      compatibility: SESSION_TRANSCRIPT_MALFORMED,
+      schemaVersion,
+      validationErrors: structuralErrors,
+      structurallyUsable: false,
+      schemaVersionMajor,
+      unknownFields: unknown.unknownFields
+    };
+  }
+
+  if (schemaVersionMajor !== SESSION_TRANSCRIPT_SUPPORTED_SCHEMA_MAJOR) {
+    const errors = [
+      `schemaVersion major ${schemaVersionMajor} is unsupported; supported major is ${SESSION_TRANSCRIPT_SUPPORTED_SCHEMA_MAJOR}`
+    ];
+
+    return {
+      compatibility: SESSION_TRANSCRIPT_UNSUPPORTED_MAJOR,
+      schemaVersion,
+      validationErrors: errors,
+      structurallyUsable: true,
+      schemaVersionMajor,
+      unknownFields: unknown.unknownFields
+    };
+  }
+
+  const validation = validateSessionTranscript(transcript);
+  const nonVersionErrors = filteredSessionTranscriptValidationErrors(
+    validation.errors,
+    transcript
+  );
+
+  if (nonVersionErrors.length > 0 && schemaVersion !== SESSION_TRANSCRIPT_SCHEMA_VERSION) {
+    return {
+      compatibility: SESSION_TRANSCRIPT_MALFORMED,
+      schemaVersion,
+      validationErrors: nonVersionErrors,
+      structurallyUsable: false,
+      schemaVersionMajor,
+      unknownFields: unknown.unknownFields
+    };
+  }
+
+  if (schemaVersion !== SESSION_TRANSCRIPT_SCHEMA_VERSION) {
+    return {
+      compatibility: SESSION_TRANSCRIPT_UPGRADE_AVAILABLE,
+      schemaVersion,
+      validationErrors: [],
+      structurallyUsable: true,
+      schemaVersionMajor,
+      unknownFields: unknown.unknownFields
+    };
+  }
+
+  return {
+    compatibility: SESSION_TRANSCRIPT_COMPATIBLE,
+    schemaVersion,
+    validationErrors: validation.errors,
+    structurallyUsable: true,
+    schemaVersionMajor,
+    unknownFields: unknown.unknownFields
+  };
+}
+
+export function classifySessionTranscriptCompatibility(transcript) {
+  const classification = classifySessionTranscriptCompatibilityInternal(transcript);
+  const validation = validationObject(transcript)
+    ? validateSessionTranscript(transcript)
+    : {
+        valid: false,
+        errors: ["transcript must be an object"]
+      };
+  const compatibility = classification.compatibility;
+  const migrationNotes = sessionTranscriptMigrationNotes(
+    compatibility,
+    classification.schemaVersion,
+    classification.validationErrors
+  );
+
+  return {
+    schemaId: displayString(dataProperty(transcript, "schema")),
+    expectedSchemaId: SESSION_TRANSCRIPT_SCHEMA,
+    schemaVersion: classification.schemaVersion,
+    currentSchemaVersion: SESSION_TRANSCRIPT_SCHEMA_VERSION,
+    compatibility,
+    valid: validation.valid,
+    structurallyUsable: classification.structurallyUsable,
+    schemaIdValid: dataProperty(transcript, "schema") === SESSION_TRANSCRIPT_SCHEMA,
+    schemaVersionValid: classification.schemaVersionMajor !== null,
+    eventsUsable:
+      classification.structurallyUsable &&
+      Array.isArray(dataProperty(transcript, "events")) &&
+      dataProperty(transcript, "events").length > 0,
+    migrationRequired:
+      compatibility === SESSION_TRANSCRIPT_UNSUPPORTED_MAJOR ||
+      compatibility === SESSION_TRANSCRIPT_MALFORMED,
+    migrationAvailable: compatibility === SESSION_TRANSCRIPT_UPGRADE_AVAILABLE,
+    migrationNotes,
+    validationErrors:
+      compatibility === SESSION_TRANSCRIPT_MALFORMED ||
+      compatibility === SESSION_TRANSCRIPT_UNSUPPORTED_MAJOR
+        ? [...classification.validationErrors]
+        : [...validation.errors],
+    unknownFields: [...classification.unknownFields],
+    unknownFieldCount: classification.unknownFields.length,
+    unknownFieldsAreInert: true,
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+export function buildSessionTranscriptMigrationMetadata(transcript) {
+  const compatibility = classifySessionTranscriptCompatibility(transcript);
+
+  return {
+    schema: SESSION_TRANSCRIPT_MIGRATION_METADATA_SCHEMA,
+    schemaVersion: SESSION_TRANSCRIPT_SCHEMA_VERSION,
+    artifactKind: "session_transcript",
+    schemaId: compatibility.schemaId,
+    expectedSchemaId: compatibility.expectedSchemaId,
+    artifactSchemaVersion: compatibility.schemaVersion,
+    currentSchemaVersion: compatibility.currentSchemaVersion,
+    compatibility: compatibility.compatibility,
+    migrationRequired: compatibility.migrationRequired,
+    migrationAvailable: compatibility.migrationAvailable,
+    migrationNotes: [...compatibility.migrationNotes],
+    notes: [...compatibility.migrationNotes],
+    validationErrors: [...compatibility.validationErrors],
+    unknownFields: [...compatibility.unknownFields],
+    unknownFieldsAreInert: true,
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+function sessionTranscriptEventsForDisplay(transcript) {
+  const events = dataProperty(transcript, "events");
+  return Array.isArray(events) ? events : [];
+}
+
+function sessionTranscriptSequenceRange(events, validationErrors) {
+  const sequences = events
+    .map((event) => dataProperty(event, "sequence"))
+    .filter((sequence) => Number.isInteger(sequence));
+
+  return {
+    first: Number.isInteger(dataProperty(events[0], "sequence"))
+      ? dataProperty(events[0], "sequence")
+      : null,
+    last: Number.isInteger(dataProperty(events.at(-1), "sequence"))
+      ? dataProperty(events.at(-1), "sequence")
+      : null,
+    min: sequences.length > 0 ? Math.min(...sequences) : null,
+    max: sequences.length > 0 ? Math.max(...sequences) : null,
+    contiguous:
+      validationErrors.findIndex((error) => /events\[\d+\]\.sequence/.test(error)) === -1 &&
+      events.length > 0
+  };
+}
+
+function countSessionTranscriptEvents(events, predicate) {
+  return events.reduce((count, event) => (predicate(dataProperty(event, "eventType")) ? count + 1 : count), 0);
+}
+
+function sessionTranscriptDisplayWarnings({
+  compatibility,
+  validationErrors,
+  unknownFields,
+  safetyPosture,
+  errorCount
+}) {
+  const warnings = [];
+
+  if (compatibility.compatibility === SESSION_TRANSCRIPT_UPGRADE_AVAILABLE) {
+    warnings.push({
+      severity: "info",
+      code: "upgrade_available",
+      message: "Transcript uses an older compatible schema version and can be displayed read-only."
+    });
+  }
+
+  if (compatibility.compatibility === SESSION_TRANSCRIPT_UNSUPPORTED_MAJOR) {
+    warnings.push({
+      severity: "error",
+      code: "unsupported_major",
+      message: "Transcript uses an unsupported major schema version."
+    });
+  }
+
+  if (compatibility.compatibility === SESSION_TRANSCRIPT_MALFORMED) {
+    warnings.push({
+      severity: "error",
+      code: "malformed",
+      message: "Transcript is malformed or has unusable events."
+    });
+  }
+
+  if (validationErrors.length > 0) {
+    warnings.push({
+      severity: "warning",
+      code: "strict_validation_failed",
+      message: `${validationErrors.length} strict validation issue(s) were found.`
+    });
+  }
+
+  if (safetyPosture.nonExecuting !== true || safetyPosture.allFlagsFalse !== true) {
+    warnings.push({
+      severity: "error",
+      code: "safety_posture_not_false",
+      message: "Transcript safety posture is not fully non-executing."
+    });
+  }
+
+  if (unknownFields.length > 0) {
+    warnings.push({
+      severity: "info",
+      code: "unknown_root_fields",
+      message: `${unknownFields.length} unknown root field(s) are treated as inert for display.`
+    });
+  }
+
+  if (errorCount > 0) {
+    warnings.push({
+      severity: "warning",
+      code: "session_errors_present",
+      message: `${errorCount} session error event(s) are present.`
+    });
+  }
+
+  return warnings;
+}
+
+export function buildSessionTranscriptDisplaySummary(transcript) {
+  const compatibility = classifySessionTranscriptCompatibility(transcript);
+  const validation = validationObject(transcript)
+    ? validateSessionTranscript(transcript)
+    : {
+        valid: false,
+        errors: ["transcript must be an object"]
+      };
+  const events = sessionTranscriptEventsForDisplay(transcript);
+  const safety = displaySafetyFlags(dataProperty(transcript, "safety"));
+  const safetyPosture = {
+    nonExecuting: displayBoolean(dataProperty(transcript, "nonExecuting")),
+    allFlagsFalse: allDisplaySafetyFlagsFalse(safety),
+    flags: safety
+  };
+  const errorCount = countSessionTranscriptEvents(
+    events,
+    (eventType) => eventType === "session.error"
+  );
+  const unknownFields = [...compatibility.unknownFields];
+  const validationErrors =
+    compatibility.compatibility === SESSION_TRANSCRIPT_UPGRADE_AVAILABLE
+      ? filteredSessionTranscriptValidationErrors(validation.errors, transcript)
+      : validation.errors;
+
+  return {
+    schema: SESSION_TRANSCRIPT_DISPLAY_SUMMARY_SCHEMA,
+    schemaVersion: SESSION_TRANSCRIPT_SCHEMA_VERSION,
+    sessionId: displayString(dataProperty(transcript, "sessionId")),
+    sourceHarness: displayString(dataProperty(transcript, "sourceHarness")),
+    schemaStatus: {
+      schemaId: compatibility.schemaId,
+      expectedSchemaId: compatibility.expectedSchemaId,
+      schemaVersion: compatibility.schemaVersion,
+      currentSchemaVersion: compatibility.currentSchemaVersion,
+      compatibility: compatibility.compatibility,
+      valid: compatibility.valid,
+      migrationRequired: compatibility.migrationRequired,
+      migrationAvailable: compatibility.migrationAvailable
+    },
+    eventCount: events.length,
+    firstEventType: displayString(dataProperty(events[0], "eventType")),
+    lastEventType: displayString(dataProperty(events.at(-1), "eventType")),
+    sequenceRange: sessionTranscriptSequenceRange(events, validation.errors),
+    counts: {
+      errors: errorCount,
+      approvalEvents: countSessionTranscriptEvents(
+        events,
+        (eventType) => typeof eventType === "string" && eventType.startsWith("approval.")
+      ),
+      taskPlannedEvents: countSessionTranscriptEvents(
+        events,
+        (eventType) => eventType === "task.planned"
+      ),
+      unknownFields: unknownFields.length
+    },
+    safetyPosture,
+    warnings: sessionTranscriptDisplayWarnings({
+      compatibility,
+      validationErrors,
+      unknownFields,
+      safetyPosture,
+      errorCount
+    }),
+    unknownFields,
+    unknownFieldCount: unknownFields.length,
+    validationErrors: [...validationErrors],
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+export function explainSessionTranscriptCompatibility(transcript) {
+  const compatibility = classifySessionTranscriptCompatibility(transcript);
+  const migration = buildSessionTranscriptMigrationMetadata(transcript);
+  const display = buildSessionTranscriptDisplaySummary(transcript);
+
+  return {
+    schema: SESSION_TRANSCRIPT_COMPATIBILITY_EXPLANATION_SCHEMA,
+    schemaVersion: SESSION_TRANSCRIPT_SCHEMA_VERSION,
+    schemaId: compatibility.schemaId,
+    schemaVersionStatus: compatibility.schemaVersion,
+    compatibility: compatibility.compatibility,
+    decision: compatibility,
+    migrationRequired: compatibility.migrationRequired,
+    migrationAvailable: compatibility.migrationAvailable,
+    migrationNotes: [...migration.migrationNotes],
+    displayWarnings: [...display.warnings],
+    validationErrors: [...compatibility.validationErrors],
+    unknownFieldsAreInert: true,
     nonExecuting: true,
     safety: createNoExecutionSafetyFlags()
   };

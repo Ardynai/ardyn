@@ -1,7 +1,8 @@
 # Session Events Stdio Contract
 
 Phase 3.9 hardens the future stdio contract around static session transcript
-review. This remains a stdio-first contract, not a stdio runtime.
+review. Phase 3.10 adds transcript versioning and read-only display policy.
+This remains a stdio-first contract, not a stdio runtime.
 
 ## Current Scope
 
@@ -64,15 +65,49 @@ Phase 3.9 does not add a live stdio runtime. The current contract exists so
 reviewers can inspect local JSON transcripts and prove that future transport
 work has a stable envelope before any process IO exists.
 
-The expected future validation command shape is:
+The local validation command shape is:
 
 - `ardyn validate-session-transcript --file <file>`
 - `ardyn validate-session-transcript --file <file> --summary`
 - `ardyn validate-session-transcript --file <file> --explain`
+- `ardyn validate-session-transcript --file <file> --schema-status`
+- `ardyn validate-session-transcript --file <file> --display-summary`
+- `ardyn validate-session-transcript --file <file> --compatibility-explain`
 
-In this phase those command shapes are documentation and report metadata only.
-They must remain local-file review flows with no writes, no network, no stdio
-runtime, and no process spawning.
+The Phase 3.10 schema-status, display-summary, and compatibility-explain forms
+are implemented local-file review flows with no writes, no network, no stdio
+runtime, no command execution semantics, and no process spawning.
+
+## Phase 3.10 Transcript Versioning
+
+The transcript schema id is `ardyn.session-transcript`.
+`schemaVersion` is semantic version metadata for the transcript envelope,
+safety proof, and event semantics. It is not a runtime permission.
+
+Phase 3.10 display compatibility classes are:
+
+- `compatible`.
+- `upgrade_available`.
+- `unsupported_major`.
+- `malformed`.
+
+Same-major patch and minor transcripts are compatible for inert display. Older
+same-major transcripts may be shown as `upgrade_available` when a future
+migration path is known. Unsupported major transcripts must be shown as
+critical raw metadata only, and malformed transcripts must be shown as invalid
+local review evidence only.
+
+Unknown fields are inert for compatibility and display. The strict current
+JSON Schema may still reject extra top-level fields because it uses
+`additionalProperties: false`; that rejection is a validation finding, not an
+execution instruction.
+
+Migration and status records must use deterministic metadata in tests and
+fixtures. Do not use live timestamps unless a timestamp is supplied by an
+explicit fixture or test input.
+
+See `docs/session-transcript-versioning-policy.md` for the full Phase 3.10
+policy.
 
 ## Future Transport Order
 

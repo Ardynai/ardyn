@@ -71,12 +71,27 @@ const phase39TranscriptFixtures = [
   "invalid-safety-flag.json",
   "invalid-source-harness.json"
 ];
+const phase310TranscriptFixtures = [
+  "current-compatible.json",
+  "display-summary.json",
+  "inert-unknown-fields.json",
+  "malformed.json",
+  "migration-metadata.json",
+  "older-compatible-upgrade-available.json",
+  "unsupported-major.json"
+];
+const phase310CompatibilityClasses = [
+  "compatible",
+  "upgrade_available",
+  "unsupported_major",
+  "malformed"
+];
 
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "3.9",
-    name: "stdio session-event contract hardening and static transcript review",
+    id: "3.10",
+    name: "session-transcript versioning, compatibility metadata, and display contracts",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -109,12 +124,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.9 status report.",
+      purpose: "Render this deterministic local Phase 3.10 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.9 status report.",
+      purpose: "Run focused tests for this local Phase 3.10 status report.",
       ranByReport: false
     },
     {
@@ -150,6 +165,11 @@ const report = {
     {
       command: "node --test tests/core-phase3-9-session-transcripts.test.mjs",
       purpose: "Run focused Phase 3.9 static transcript validation and summary tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/core-phase3-10-transcript-versioning.test.mjs",
+      purpose: "Run focused Phase 3.10 transcript compatibility, migration, and display tests.",
       ranByReport: false
     },
     {
@@ -195,6 +215,10 @@ const report = {
     await localInventoryEntry(
       "docs/session-events-stdio-contract.md",
       "Documents Phase 3.9 session-event and transcript review boundaries without adding runtime transport."
+    ),
+    await localInventoryEntry(
+      "docs/session-transcript-versioning-policy.md",
+      "Documents Phase 3.10 transcript schema/version compatibility, deterministic metadata policy, and display-only boundaries."
     ),
     await localInventoryEntry(
       "tests/core-phase3-1-planner-hardening.test.mjs",
@@ -623,6 +647,145 @@ const report = {
       stdoutStderrAndLineDelimitedJsonPolicyRequiredBeforeRuntime: true,
       locusRole: "peer-client-viewer-or-future-controller-only"
     }
+  },
+  phase310Inventory: {
+    transcriptVersioning: {
+      schema: "ardyn.session-transcript",
+      schemaVersion: "0.1.0",
+      schemaVersionSemantics:
+        "Semantic version metadata for transcript envelope, safety proof, and event semantics; not a runtime permission.",
+      compatibilityClasses: phase310CompatibilityClasses,
+      currentSupportedMajor: 0,
+      sameMajorPatchMinorDisplayCompatible: true,
+      sameMajorOlderMayBeUpgradeAvailable: true,
+      unsupportedMajorBehavior:
+        "Show identity, version, warnings, and raw inert metadata only; do not interpret current event or safety semantics.",
+      malformedBehavior:
+        "Show validation errors and raw inert metadata only; do not treat as ARDYN review evidence.",
+      strictCurrentSchemaAllowsExtraTopLevelFields: false,
+      unknownFieldsInertForCompatibilityAndDisplay: true,
+      strictValidatorMayRejectCurrentSchemaExtraFields: true,
+      deterministicTimestampPolicy: {
+        liveTimestampsAllowedForMigrationOrStatusRecords: false,
+        fixtureSuppliedTimestampsAllowed: true,
+        deterministicTestMetadata: true,
+        exampleEventCreatedAt: "1970-01-01T00:00:00.000Z",
+        exampleGeneratedAt: "2026-06-02T00:00:00.000Z"
+      },
+      nonExecuting: true
+    },
+    commandExamples: [
+      {
+        command: "ardyn validate-session-transcript --file <file> --schema-status",
+        status: "implemented-local-read-only",
+        writesFiles: false,
+        network: false,
+        processSpawning: false,
+        stdioRuntime: false,
+        summary:
+          "Renders schema id, schemaVersion, compatibility class, migration availability, warnings, and safety posture for one local transcript."
+      },
+      {
+        command: "ardyn validate-session-transcript --file <file> --display-summary",
+        status: "implemented-local-read-only",
+        writesFiles: false,
+        network: false,
+        processSpawning: false,
+        stdioRuntime: false,
+        summary:
+          "Renders the Locus-facing read-only transcript summary fields for one local transcript."
+      },
+      {
+        command: "ardyn validate-session-transcript --file <file> --compatibility-explain",
+        status: "implemented-local-read-only",
+        writesFiles: false,
+        network: false,
+        processSpawning: false,
+        stdioRuntime: false,
+        summary:
+          "Renders compatibility reasoning, strict-validator notes, unknown-field policy, warnings, and severity mapping."
+      }
+    ],
+    locusDisplaySummaryFields: [
+      "sessionId",
+      "sourceHarness",
+      "schemaStatus.schemaId",
+      "schemaStatus.schemaVersion",
+      "schemaStatus.compatibility",
+      "eventCount",
+      "firstEventType",
+      "lastEventType",
+      "sequenceRange.first",
+      "sequenceRange.last",
+      "counts.errors",
+      "counts.approvalEvents",
+      "counts.taskPlannedEvents",
+      "safetyPosture",
+      "warnings",
+      "unknownFieldCount"
+    ],
+    safetyPosture: {
+      noLiveStdioRuntime: true,
+      noCommandExecutionSemantics: true,
+      noNetworkCalls: true,
+      noProcessRuntime: true,
+      noPluginInstall: true,
+      noTorrentBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noCodePackBehavior: true,
+      noLocusRuntimeDependency: true
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/session-transcript-versioning-policy.md",
+        "Documents Phase 3.10 transcript versioning, compatibility classes, unknown-field policy, deterministic metadata, display fields, and future preconditions."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Cross-links Phase 3.10 transcript versioning while preserving no-runtime stdio boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/locus-trace-display-contract.md",
+        "Documents Phase 3.10 read-only Locus transcript compatibility and summary fields."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 3.10 local-only command examples and non-executing boundaries."
+      )
+    ],
+    fixtures: await Promise.all(
+      phase310TranscriptFixtures.map((path) =>
+        fixtureInventoryEntry(`tests/fixtures/session-transcripts/phase3-10/${path}`)
+      )
+    ),
+    tests: [
+      await localInventoryEntry(
+        "tests/session-transcript-schema.test.mjs",
+        "Expected focused schema and fixture coverage for transcript examples."
+      ),
+      await localInventoryEntry(
+        "tests/core-phase3-9-session-transcripts.test.mjs",
+        "Expected current transcript semantic validation, summary, and explanation coverage."
+      ),
+      await localInventoryEntry(
+        "tests/core-phase3-10-transcript-versioning.test.mjs",
+        "Covers Phase 3.10 transcript compatibility, migration metadata, display summaries, fixtures, and safety flags."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 3.10 report metadata, implemented command modes, and local-summary-only safety posture."
+      )
+    ],
+    futureExecutionAdjacentPreconditions: [
+      "Reviewed Rust host policy for filesystem, process, network, stdout, stderr, and line-delimited JSON framing.",
+      "Explicit approval gates before task or tool execution.",
+      "Adapter permission declarations and review UI boundaries.",
+      "Malformed-line, dropped-event, duplicate-event, and out-of-order-event handling.",
+      "Secrets policy and redaction behavior.",
+      "Content Fabric code-pack verification, quarantine, and explicit enablement policy before any code-pack path exists.",
+      "Locus role and control boundaries through a later public ARDYN API contract.",
+      "Negative tests proving transcript metadata cannot start runtimes, connect adapters, install plugins, download torrents, enable code packs, or execute tools."
+    ]
   },
   safetyPosture: {
     nonExecuting: true,

@@ -1,0 +1,56 @@
+{
+  "schema": "ardyn.session-transcript",
+  "schemaVersion": "0.1.0",
+  "sessionId": "session.phase3.10.unknown",
+  "sourceHarness": "ardyn",
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  },
+  "events": [
+    {
+      "schemaVersion": "0.1.0",
+      "eventId": "evt.phase3.10.unknown.001",
+      "sessionId": "session.phase3.10.unknown",
+      "sequence": 1,
+      "createdAt": "2026-06-02T12:30:00Z",
+      "sourceHarness": "ardyn",
+      "eventType": "session.started",
+      "payload": {
+        "phase": "phase-3.10",
+        "mode": "plan"
+      },
+      "nonExecuting": true,
+      "safety": {
+        "executionEnabled": false,
+        "toolExecutionEnabled": false,
+        "autonomousExecutionEnabled": false,
+        "productionToolExecutionEnabled": false,
+        "apiCallsEnabled": false,
+        "networkListening": false,
+        "longRunningServicesStarted": false,
+        "processesSpawned": false,
+        "pluginInstallEnabled": false,
+        "torrentDownloadEnabled": false,
+        "codePackEnablementEnabled": false,
+        "agentLoopEnabled": false
+      }
+    }
+  ],
+  "displayOnlyNote": "This future field is inert display metadata.",
+  "futureTranscriptMetadata": {
+    "reviewer": "static-fixture",
+    "runtimeEnabled": false
+  }
+}

@@ -35,13 +35,13 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 3.9 local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 3.10 local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "3.9",
-    name: "stdio session-event contract hardening and static transcript review",
+    id: "3.10",
+    name: "session-transcript versioning, compatibility metadata, and display contracts",
     executionPosture: "non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
@@ -99,12 +99,12 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 3.9 status report.",
+      purpose: "Render this deterministic local Phase 3.10 status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 3.9 status report.",
+      purpose: "Run focused tests for this local Phase 3.10 status report.",
       ranByReport: false
     },
     {
@@ -140,6 +140,11 @@ test("report lists configured checks and verification commands without running t
     {
       command: "node --test tests/core-phase3-9-session-transcripts.test.mjs",
       purpose: "Run focused Phase 3.9 static transcript validation and summary tests.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/core-phase3-10-transcript-versioning.test.mjs",
+      purpose: "Run focused Phase 3.10 transcript compatibility, migration, and display tests.",
       ranByReport: false
     },
     {
@@ -362,6 +367,117 @@ test("report inventories Phase 3.9 transcript contract hardening and static revi
     stdoutStderrAndLineDelimitedJsonPolicyRequiredBeforeRuntime: true,
     locusRole: "peer-client-viewer-or-future-controller-only"
   });
+});
+
+test("report inventories Phase 3.10 transcript versioning and display metadata", async () => {
+  const report = await runReport();
+
+  assert.deepEqual(report.phase310Inventory.transcriptVersioning, {
+    schema: "ardyn.session-transcript",
+    schemaVersion: "0.1.0",
+    schemaVersionSemantics:
+      "Semantic version metadata for transcript envelope, safety proof, and event semantics; not a runtime permission.",
+    compatibilityClasses: ["compatible", "upgrade_available", "unsupported_major", "malformed"],
+    currentSupportedMajor: 0,
+    sameMajorPatchMinorDisplayCompatible: true,
+    sameMajorOlderMayBeUpgradeAvailable: true,
+    unsupportedMajorBehavior:
+      "Show identity, version, warnings, and raw inert metadata only; do not interpret current event or safety semantics.",
+    malformedBehavior:
+      "Show validation errors and raw inert metadata only; do not treat as ARDYN review evidence.",
+    strictCurrentSchemaAllowsExtraTopLevelFields: false,
+    unknownFieldsInertForCompatibilityAndDisplay: true,
+    strictValidatorMayRejectCurrentSchemaExtraFields: true,
+    deterministicTimestampPolicy: {
+      liveTimestampsAllowedForMigrationOrStatusRecords: false,
+      fixtureSuppliedTimestampsAllowed: true,
+      deterministicTestMetadata: true,
+      exampleEventCreatedAt: "1970-01-01T00:00:00.000Z",
+      exampleGeneratedAt: "2026-06-02T00:00:00.000Z"
+    },
+    nonExecuting: true
+  });
+
+  assert.deepEqual(report.phase310Inventory.commandExamples, [
+    {
+      command: "ardyn validate-session-transcript --file <file> --schema-status",
+      status: "implemented-local-read-only",
+      writesFiles: false,
+      network: false,
+      processSpawning: false,
+      stdioRuntime: false,
+      summary:
+        "Renders schema id, schemaVersion, compatibility class, migration availability, warnings, and safety posture for one local transcript."
+    },
+    {
+      command: "ardyn validate-session-transcript --file <file> --display-summary",
+      status: "implemented-local-read-only",
+      writesFiles: false,
+      network: false,
+      processSpawning: false,
+      stdioRuntime: false,
+      summary:
+        "Renders the Locus-facing read-only transcript summary fields for one local transcript."
+    },
+    {
+      command: "ardyn validate-session-transcript --file <file> --compatibility-explain",
+      status: "implemented-local-read-only",
+      writesFiles: false,
+      network: false,
+      processSpawning: false,
+      stdioRuntime: false,
+      summary:
+        "Renders compatibility reasoning, strict-validator notes, unknown-field policy, warnings, and severity mapping."
+    }
+  ]);
+
+  assert.deepEqual(report.phase310Inventory.safetyPosture, {
+    noLiveStdioRuntime: true,
+    noCommandExecutionSemantics: true,
+    noNetworkCalls: true,
+    noProcessRuntime: true,
+    noPluginInstall: true,
+    noTorrentBehavior: true,
+    noContentFabricRuntimeBehavior: true,
+    noCodePackBehavior: true,
+    noLocusRuntimeDependency: true
+  });
+
+  assert.deepEqual(
+    report.phase310Inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/session-transcript-versioning-policy.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/locus-trace-display-contract.md", "present"],
+      ["README.md", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    report.phase310Inventory.fixtures.map(({ path, status }) => [path, status]),
+    [
+      ["tests/fixtures/session-transcripts/phase3-10/current-compatible.json", "present"],
+      ["tests/fixtures/session-transcripts/phase3-10/display-summary.json", "present"],
+      ["tests/fixtures/session-transcripts/phase3-10/inert-unknown-fields.json", "present"],
+      ["tests/fixtures/session-transcripts/phase3-10/malformed.json", "present"],
+      ["tests/fixtures/session-transcripts/phase3-10/migration-metadata.json", "present"],
+      [
+        "tests/fixtures/session-transcripts/phase3-10/older-compatible-upgrade-available.json",
+        "present"
+      ],
+      ["tests/fixtures/session-transcripts/phase3-10/unsupported-major.json", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    report.phase310Inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/session-transcript-schema.test.mjs", "present"],
+      ["tests/core-phase3-9-session-transcripts.test.mjs", "present"],
+      ["tests/core-phase3-10-transcript-versioning.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
 });
 
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {

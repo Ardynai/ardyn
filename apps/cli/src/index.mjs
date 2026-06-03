@@ -4,16 +4,20 @@ import { readFile, writeFile } from "node:fs/promises";
 import {
   buildMigrationAttestationDisplaySummary,
   buildApprovalReviewArtifactDisplaySummary,
+  buildSessionTranscriptDisplaySummary,
+  buildSessionTranscriptMigrationMetadata,
   buildSessionTranscriptSummary,
   buildReviewArtifactAttestationPlan,
   buildSchemaMigrationMetadataRecord,
   classifyApprovalReviewArtifactCompatibility,
+  classifySessionTranscriptCompatibility,
   classifySessionTranscript,
   compareApprovalReviewArtifacts,
   createApprovalReviewArtifact,
   createTaskPlan,
   createDoctorReport,
   explainSessionTranscript,
+  explainSessionTranscriptCompatibility,
   loadManifest,
   loadTask,
   normalizeApprovalReviewArtifactForDisplay,
@@ -53,7 +57,13 @@ const REVIEW_ARTIFACT_OUTPUT_FLAGS = [
   "--schema-status",
   "--attestation-plan"
 ];
-const SESSION_TRANSCRIPT_OUTPUT_FLAGS = ["--summary", "--explain"];
+const SESSION_TRANSCRIPT_OUTPUT_FLAGS = [
+  "--summary",
+  "--explain",
+  "--schema-status",
+  "--display-summary",
+  "--compatibility-explain"
+];
 
 function readPlanOutputMode(args) {
   const selectedFlags = PLAN_OUTPUT_FLAGS.filter((flag) => args.includes(flag));
@@ -506,6 +516,34 @@ function createSessionTranscriptExplain(filePath, transcript) {
   };
 }
 
+function createSessionTranscriptSchemaStatus(filePath, transcript) {
+  return {
+    command: "validate-session-transcript",
+    output: "schema-status",
+    file: filePath,
+    schemaStatus: classifySessionTranscriptCompatibility(transcript),
+    migrationMetadata: buildSessionTranscriptMigrationMetadata(transcript)
+  };
+}
+
+function createSessionTranscriptDisplaySummary(filePath, transcript) {
+  return {
+    command: "validate-session-transcript",
+    output: "display-summary",
+    file: filePath,
+    displaySummary: buildSessionTranscriptDisplaySummary(transcript)
+  };
+}
+
+function createSessionTranscriptCompatibilityExplain(filePath, transcript) {
+  return {
+    command: "validate-session-transcript",
+    output: "compatibility-explain",
+    file: filePath,
+    explanation: explainSessionTranscriptCompatibility(transcript)
+  };
+}
+
 function createSessionTranscriptOutput(filePath, transcript, mode) {
   if (mode === "summary") {
     return createSessionTranscriptSummary(filePath, transcript);
@@ -513,6 +551,18 @@ function createSessionTranscriptOutput(filePath, transcript, mode) {
 
   if (mode === "explain") {
     return createSessionTranscriptExplain(filePath, transcript);
+  }
+
+  if (mode === "schema-status") {
+    return createSessionTranscriptSchemaStatus(filePath, transcript);
+  }
+
+  if (mode === "display-summary") {
+    return createSessionTranscriptDisplaySummary(filePath, transcript);
+  }
+
+  if (mode === "compatibility-explain") {
+    return createSessionTranscriptCompatibilityExplain(filePath, transcript);
   }
 
   return createSessionTranscriptDefault(filePath, transcript);
@@ -742,7 +792,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain]|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|serve --dry-run --manifest <path>>"
   );
 }
 

@@ -7,6 +7,20 @@ export const SCHEMA_MIGRATION_METADATA_VERSION: "0.1.0";
 export const REVIEW_ARTIFACT_ATTESTATION_PLAN_SCHEMA:
   "ardyn.review-artifact-attestation-plan";
 export const REVIEW_ARTIFACT_ATTESTATION_PLAN_VERSION: "0.1.0";
+export const SESSION_TRANSCRIPT_SCHEMA: "ardyn.session-transcript";
+export const SESSION_TRANSCRIPT_SCHEMA_VERSION: "0.1.0";
+export const SESSION_TRANSCRIPT_SUMMARY_SCHEMA: "ardyn.session-transcript-summary";
+export const SESSION_TRANSCRIPT_DISPLAY_SUMMARY_SCHEMA:
+  "ardyn.session-transcript-display-summary";
+export const SESSION_TRANSCRIPT_MIGRATION_METADATA_SCHEMA:
+  "ardyn.session-transcript-migration-metadata";
+export const SESSION_TRANSCRIPT_COMPATIBILITY_EXPLANATION_SCHEMA:
+  "ardyn.session-transcript-compatibility-explanation";
+export const SESSION_TRANSCRIPT_EXPLANATION_SCHEMA: "ardyn.session-transcript-explanation";
+export const SESSION_TRANSCRIPT_COMPATIBLE: "compatible";
+export const SESSION_TRANSCRIPT_UPGRADE_AVAILABLE: "upgrade_available";
+export const SESSION_TRANSCRIPT_UNSUPPORTED_MAJOR: "unsupported_major";
+export const SESSION_TRANSCRIPT_MALFORMED: "malformed";
 export const HOST_CRATE_NAME: "ardyn-host";
 export const APPROVAL_REQUIRED: "approval-required";
 export const APPROVAL_DENIED: "approval-denied";
@@ -55,6 +69,11 @@ export type ApprovalStatus = "approval-required" | "approval-denied" | "approval
 export type ApprovalDecisionStatus = "required" | "denied" | "granted" | "not_required";
 export type CapabilityMatchType = "exact" | "tag" | "scope" | "no-match";
 export type ApprovalReviewArtifactCompatibility =
+  | "compatible"
+  | "upgrade_available"
+  | "unsupported_major"
+  | "malformed";
+export type SessionTranscriptCompatibility =
   | "compatible"
   | "upgrade_available"
   | "unsupported_major"
@@ -253,6 +272,117 @@ export interface SessionTranscriptExplanation {
   };
   errors: string[];
   summary: SessionTranscriptSummary;
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
+export interface SessionTranscriptCompatibilityResult {
+  schemaId: string | null;
+  expectedSchemaId: "ardyn.session-transcript";
+  schemaVersion: string | null;
+  currentSchemaVersion: "0.1.0";
+  compatibility: SessionTranscriptCompatibility;
+  valid: boolean;
+  structurallyUsable: boolean;
+  schemaIdValid: boolean;
+  schemaVersionValid: boolean;
+  eventsUsable: boolean;
+  migrationRequired: boolean;
+  migrationAvailable: boolean;
+  migrationNotes: string[];
+  validationErrors: string[];
+  unknownFields: string[];
+  unknownFieldCount: number;
+  unknownFieldsAreInert: true;
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
+export interface SessionTranscriptMigrationMetadata {
+  schema: "ardyn.session-transcript-migration-metadata";
+  schemaVersion: "0.1.0";
+  artifactKind: "session_transcript";
+  schemaId: string | null;
+  expectedSchemaId: "ardyn.session-transcript";
+  artifactSchemaVersion: string | null;
+  currentSchemaVersion: "0.1.0";
+  compatibility: SessionTranscriptCompatibility;
+  migrationRequired: boolean;
+  migrationAvailable: boolean;
+  migrationNotes: string[];
+  notes: string[];
+  validationErrors: string[];
+  unknownFields: string[];
+  unknownFieldsAreInert: true;
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
+export type SessionTranscriptDisplayWarningSeverity = "info" | "warning" | "error";
+
+export interface SessionTranscriptDisplayWarning {
+  severity: SessionTranscriptDisplayWarningSeverity;
+  code: string;
+  message: string;
+}
+
+export interface SessionTranscriptDisplaySummary {
+  schema: "ardyn.session-transcript-display-summary";
+  schemaVersion: "0.1.0";
+  sessionId: string | null;
+  sourceHarness: string | null;
+  schemaStatus: {
+    schemaId: string | null;
+    expectedSchemaId: "ardyn.session-transcript";
+    schemaVersion: string | null;
+    currentSchemaVersion: "0.1.0";
+    compatibility: SessionTranscriptCompatibility;
+    valid: boolean;
+    migrationRequired: boolean;
+    migrationAvailable: boolean;
+  };
+  eventCount: number;
+  firstEventType: string | null;
+  lastEventType: string | null;
+  sequenceRange: {
+    first: number | null;
+    last: number | null;
+    min: number | null;
+    max: number | null;
+    contiguous: boolean;
+  };
+  counts: {
+    errors: number;
+    approvalEvents: number;
+    taskPlannedEvents: number;
+    unknownFields: number;
+  };
+  safetyPosture: {
+    nonExecuting: boolean | null;
+    allFlagsFalse: boolean;
+    flags: Record<keyof NoExecutionSafetyFlags, unknown>;
+  };
+  warnings: SessionTranscriptDisplayWarning[];
+  unknownFields: string[];
+  unknownFieldCount: number;
+  validationErrors: unknown[];
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
+export interface SessionTranscriptCompatibilityExplanation {
+  schema: "ardyn.session-transcript-compatibility-explanation";
+  schemaVersion: "0.1.0";
+  schemaId: string | null;
+  schemaVersionStatus: string | null;
+  compatibility: SessionTranscriptCompatibility;
+  decision: SessionTranscriptCompatibilityResult;
+  migrationRequired: boolean;
+  migrationAvailable: boolean;
+  migrationNotes: string[];
+  displayWarnings: SessionTranscriptDisplayWarning[];
+  validationErrors: string[];
+  unknownFieldsAreInert: true;
   nonExecuting: true;
   safety: NoExecutionSafetyFlags;
 }
@@ -687,6 +817,18 @@ export function classifySessionTranscript(
 ): SessionTranscriptClassificationResult;
 export function buildSessionTranscriptSummary(transcript: unknown): SessionTranscriptSummary;
 export function explainSessionTranscript(transcript: unknown): SessionTranscriptExplanation;
+export function classifySessionTranscriptCompatibility(
+  transcript: unknown
+): SessionTranscriptCompatibilityResult;
+export function buildSessionTranscriptMigrationMetadata(
+  transcript: unknown
+): SessionTranscriptMigrationMetadata;
+export function buildSessionTranscriptDisplaySummary(
+  transcript: unknown
+): SessionTranscriptDisplaySummary;
+export function explainSessionTranscriptCompatibility(
+  transcript: unknown
+): SessionTranscriptCompatibilityExplanation;
 export function validateApprovalReviewArtifact(artifact: unknown): ValidationResult;
 export function validateApprovalReviewArtifactVersion(
   artifact: unknown

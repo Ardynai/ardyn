@@ -18,6 +18,11 @@ node apps/cli/src/index.mjs review-artifact --file tests/fixtures/review-artifac
 node apps/cli/src/index.mjs review-trace --left tests/fixtures/trace-comparison/left-approval-review-artifact.json --right tests/fixtures/trace-comparison/right-approval-review-artifact.json
 node apps/cli/src/index.mjs review-trace --summary --left tests/fixtures/trace-comparison/left-approval-review-artifact.json --right tests/fixtures/trace-comparison/right-approval-review-artifact.json
 node apps/cli/src/index.mjs review-trace --explain --left tests/fixtures/trace-comparison/left-approval-review-artifact.json --right tests/fixtures/trace-comparison/right-approval-review-artifact.json
+node apps/cli/src/index.mjs validate-session-transcript --file examples/session-transcripts/valid-minimal.json
+node apps/cli/src/index.mjs validate-session-transcript --file examples/session-transcripts/valid-task-approval.json --summary
+node apps/cli/src/index.mjs validate-session-transcript --file tests/fixtures/session-transcripts/phase3-10/older-compatible-upgrade-available.json --schema-status
+node apps/cli/src/index.mjs validate-session-transcript --file tests/fixtures/session-transcripts/phase3-10/display-summary.json --display-summary
+node apps/cli/src/index.mjs validate-session-transcript --file tests/fixtures/session-transcripts/phase3-10/unsupported-major.json --compatibility-explain
 ```
 
 `plan` keeps the full default JSON plan unless exactly one output mode is passed. `--trace` prints the full planner trace wrapper, `--summary` prints selected IDs, unresolved requests, approval, and safety flags, `--explain` prints deterministic candidate ranking and approval reasons, and `--review-artifact` prints the stable approval review artifact. Mode flags are mutually exclusive.
@@ -54,3 +59,16 @@ For trace review workflows:
 - Use `--explain` when a reviewer needs deterministic reasons and details for each difference.
 
 `--summary` and `--explain` are mutually exclusive. `review-trace` performs no writes, network calls, process spawning, adapter connections, plugin installation, Content Fabric runtime work, code-pack enablement, or autonomous loops.
+
+`validate-session-transcript --file <file>` reads one local `.json` session transcript and renders deterministic validation JSON. Default output and the existing `--summary` and `--explain` modes are preserved. Phase 3.10 adds `--schema-status`, `--display-summary`, and `--compatibility-explain` as mutually exclusive read-only output modes.
+
+For session transcript display workflows:
+
+- Use default output for strict Phase 3.9 validation plus classification.
+- Use `--summary` for the existing compact transcript summary.
+- Use `--explain` for the existing validation checklist and summary explanation.
+- Use `--schema-status` for transcript schema id/version compatibility and migration metadata.
+- Use `--display-summary` for Locus-facing read-only counts, warnings, unknown-field metadata, and safety posture.
+- Use `--compatibility-explain` for compatibility reasoning, migration notes, display warnings, and inert unknown-field policy.
+
+Older same-major transcripts may be classified as `upgrade_available` for display-only review. Unsupported major and malformed transcripts are classified and explained without execution. Unknown root fields are surfaced only as inert display metadata. URLs, `file:` URLs, and UNC/network-style paths are rejected; the command performs no writes, network calls, process spawning, adapter connections, plugin installation, Content Fabric runtime work, code-pack enablement, or autonomous loops.

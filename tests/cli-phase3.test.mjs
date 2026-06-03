@@ -8,13 +8,17 @@ import test from "node:test";
 
 import {
   buildApprovalReviewArtifactDisplaySummary,
+  buildSessionTranscriptDisplaySummary,
+  buildSessionTranscriptMigrationMetadata,
   buildSessionTranscriptSummary,
   buildMigrationAttestationDisplaySummary,
   buildReviewArtifactAttestationPlan,
   buildSchemaMigrationMetadataRecord,
   classifyApprovalReviewArtifactCompatibility,
+  classifySessionTranscriptCompatibility,
   classifySessionTranscript,
   explainSessionTranscript,
+  explainSessionTranscriptCompatibility,
   normalizeApprovalReviewArtifactForDisplay,
   validateSessionTranscript,
   validateApprovalReviewArtifactVersion
@@ -102,6 +106,17 @@ const invalidMissingStartedTranscriptPath =
   "examples/session-transcripts/invalid-missing-session-started.json";
 const invalidSourceHarnessTranscriptPath = "examples/session-transcripts/invalid-source-harness.json";
 const invalidSafetyFlagTranscriptPath = "examples/session-transcripts/invalid-safety-flag.json";
+const phase310CurrentTranscriptPath =
+  "tests/fixtures/session-transcripts/phase3-10/current-compatible.json";
+const phase310OlderTranscriptPath =
+  "tests/fixtures/session-transcripts/phase3-10/older-compatible-upgrade-available.json";
+const phase310UnsupportedMajorTranscriptPath =
+  "tests/fixtures/session-transcripts/phase3-10/unsupported-major.json";
+const phase310MalformedTranscriptPath = "tests/fixtures/session-transcripts/phase3-10/malformed.json";
+const phase310DisplaySummaryTranscriptPath =
+  "tests/fixtures/session-transcripts/phase3-10/display-summary.json";
+const phase310MigrationMetadataTranscriptPath =
+  "tests/fixtures/session-transcripts/phase3-10/migration-metadata.json";
 
 async function readJsonFixture(fixturePath) {
   return JSON.parse(await readFile(fixturePath, "utf8"));
@@ -981,6 +996,146 @@ test("ardyn validate-session-transcript keeps all top-level safety flags false",
 
   assert.equal(output.nonExecuting, true);
   assertAllFalse(output.safety);
+});
+
+test("ardyn validate-session-transcript --schema-status prints Phase 3.10 compatibility metadata", async () => {
+  const transcript = await readJsonFixture(phase310OlderTranscriptPath);
+  const output = await runCli([
+    "validate-session-transcript",
+    "--file",
+    phase310OlderTranscriptPath,
+    "--schema-status"
+  ]);
+
+  assert.deepEqual(output, {
+    command: "validate-session-transcript",
+    output: "schema-status",
+    file: phase310OlderTranscriptPath,
+    schemaStatus: classifySessionTranscriptCompatibility(transcript),
+    migrationMetadata: buildSessionTranscriptMigrationMetadata(transcript)
+  });
+  assert.equal(output.schemaStatus.compatibility, "upgrade_available");
+  assert.equal(output.schemaStatus.migrationAvailable, true);
+  assert.equal(output.migrationMetadata.migrationAvailable, true);
+  assertAllFalse(output.schemaStatus.safety);
+  assertAllFalse(output.migrationMetadata.safety);
+});
+
+test("ardyn validate-session-transcript --schema-status classifies unsupported and malformed transcripts", async () => {
+  const unsupportedOutput = await runCli([
+    "validate-session-transcript",
+    "--file",
+    phase310UnsupportedMajorTranscriptPath,
+    "--schema-status"
+  ]);
+  const malformedOutput = await runCli([
+    "validate-session-transcript",
+    "--file",
+    phase310MalformedTranscriptPath,
+    "--schema-status"
+  ]);
+
+  assert.equal(unsupportedOutput.schemaStatus.compatibility, "unsupported_major");
+  assert.equal(unsupportedOutput.schemaStatus.migrationRequired, true);
+  assert.match(
+    unsupportedOutput.schemaStatus.validationErrors.join("\n"),
+    /schemaVersion major 2 is unsupported/
+  );
+  assert.equal(malformedOutput.schemaStatus.compatibility, "malformed");
+  assert.equal(malformedOutput.schemaStatus.migrationRequired, true);
+  assert.match(malformedOutput.schemaStatus.validationErrors.join("\n"), /events must be an array/);
+  assertAllFalse(unsupportedOutput.schemaStatus.safety);
+  assertAllFalse(malformedOutput.schemaStatus.safety);
+});
+
+test("ardyn validate-session-transcript --display-summary prints deterministic display counts", async () => {
+  const transcript = await readJsonFixture(phase310DisplaySummaryTranscriptPath);
+  const output = await runCli([
+    "validate-session-transcript",
+    "--file",
+    phase310DisplaySummaryTranscriptPath,
+    "--display-summary"
+  ]);
+
+  assert.deepEqual(output, {
+    command: "validate-session-transcript",
+    output: "display-summary",
+    file: phase310DisplaySummaryTranscriptPath,
+    displaySummary: buildSessionTranscriptDisplaySummary(transcript)
+  });
+  assert.deepEqual(output.displaySummary.counts, {
+    errors: 1,
+    approvalEvents: 2,
+    taskPlannedEvents: 1,
+    unknownFields: 1
+  });
+  assert.equal(output.displaySummary.safetyPosture.nonExecuting, true);
+  assert.equal(output.displaySummary.safetyPosture.allFlagsFalse, true);
+  assertAllFalse(output.displaySummary.safety);
+});
+
+test("ardyn validate-session-transcript --compatibility-explain prints deterministic compatibility explanation", async () => {
+  const transcript = await readJsonFixture(phase310UnsupportedMajorTranscriptPath);
+  const output = await runCli([
+    "validate-session-transcript",
+    "--file",
+    phase310UnsupportedMajorTranscriptPath,
+    "--compatibility-explain"
+  ]);
+
+  assert.deepEqual(output, {
+    command: "validate-session-transcript",
+    output: "compatibility-explain",
+    file: phase310UnsupportedMajorTranscriptPath,
+    explanation: explainSessionTranscriptCompatibility(transcript)
+  });
+  assert.equal(output.explanation.compatibility, "unsupported_major");
+  assert.equal(output.explanation.migrationRequired, true);
+  assert.equal(output.explanation.unknownFieldsAreInert, true);
+  assertAllFalse(output.explanation.safety);
+});
+
+test("ardyn validate-session-transcript Phase 3.10 modes keep existing validation working", async () => {
+  const transcript = await readJsonFixture(phase310CurrentTranscriptPath);
+  const output = await runCli(["validate-session-transcript", "--file", phase310CurrentTranscriptPath]);
+
+  assert.equal(output.output, "default");
+  assert.deepEqual(output.validation, validateSessionTranscript(transcript));
+  assert.equal(output.validation.valid, true);
+  assert.equal(output.classification.classification, "valid");
+  assertAllFalse(output.safety);
+  assertAllFalse(output.classification.safety);
+});
+
+test("ardyn validate-session-transcript --schema-status exposes migration metadata deterministically", async () => {
+  const transcript = await readJsonFixture(phase310MigrationMetadataTranscriptPath);
+  const output = await runCli([
+    "validate-session-transcript",
+    "--file",
+    phase310MigrationMetadataTranscriptPath,
+    "--schema-status"
+  ]);
+
+  assert.deepEqual(output.migrationMetadata, buildSessionTranscriptMigrationMetadata(transcript));
+  assert.equal(output.migrationMetadata.compatibility, "upgrade_available");
+  assert.equal(output.migrationMetadata.migrationAvailable, true);
+  assert.deepEqual(output.migrationMetadata.unknownFields, ["futureTranscriptMetadata"]);
+  assertAllFalse(output.migrationMetadata.safety);
+});
+
+test("ardyn validate-session-transcript rejects mixed Phase 3.10 output modes without JSON output", async () => {
+  const failure = await runCliFailure([
+    "validate-session-transcript",
+    "--file",
+    phase310CurrentTranscriptPath,
+    "--schema-status",
+    "--display-summary"
+  ]);
+
+  assertCliFailure(
+    failure,
+    /Session transcript output flags are mutually exclusive: --schema-status, --display-summary\./
+  );
 });
 
 test("ardyn review-trace reports equal approval review artifacts", async () => {
