@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.0F Scope
+## Phase 3 and Phase 4.0G Scope
 
-This repository is currently in Phase 4.0F host-policy review-record mode. The
+This repository is currently in Phase 4.0G host-policy review comparison mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -18,7 +18,8 @@ dry-run session-event JSONL, define the stdout/stderr, redaction, transcript
 persistence, and replay policies required before any live stdio runtime can
 exist, codify those Phase 4.0C policies as inert Rust-host contract types, and
 export those contracts as deterministic review-only JSON metadata with static
-host-policy review-record fixtures and compatibility classification.
+host-policy review-record fixtures, compatibility classification, and
+display-only comparison records for Devin/Codex review handoff.
 
 Included now:
 
@@ -58,6 +59,9 @@ Included now:
 - Phase 4.0F versioned host-policy review-record fixtures, compatibility
   classification, fail-closed malformed/unsupported/rejected policy handling,
   and inert approval/rejection review metadata.
+- Phase 4.0G TypeScript core display-only comparison helpers, deterministic
+  comparison fixtures, fail-closed digest/runtime-status evidence, and inert
+  approval/rejection comparison metadata.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -102,9 +106,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.0F CLI Usage
+## Phase 3 and Phase 4.0G CLI Usage
 
-Run non-executing commands directly from source through Phase 4.0F:
+Run non-executing commands directly from source through Phase 4.0G:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -209,7 +213,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.0F status report command is:
+The Phase 4.0G status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -224,7 +228,8 @@ session-transcript versioning/display metadata, Phase 4.0A dry-run event
 emission metadata, Phase 4.0B hardening metadata, Phase 4.0C pre-runtime
 transport policy metadata, Phase 4.0D Rust-host policy contract metadata,
 Phase 4.0E policy metadata export/review-record mapping metadata, Phase 4.0F
-static host-policy review-record metadata, and safety posture.
+static host-policy review-record metadata, Phase 4.0G display-only comparison
+metadata, and safety posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -281,6 +286,13 @@ with deterministic fixtures and compatibility classes: `compatible`,
 `upgrade_available`, `unsupported_major`, `malformed`, and `rejected_policy`.
 Approval and rejection fields are review metadata only and do not grant runtime
 approval. See `docs/phase-4-0f-host-policy-review-records.md`.
+
+Phase 4.0G adds no new CLI command and does not change the finite dry-run
+emitter. It adds TypeScript core display-only comparison helpers for
+host-policy review records plus deterministic comparison fixtures. Comparison
+output is reviewer evidence only: it does not grant runtime approval, start
+runtime behavior, write files, print stdout, or add a live host loop. See
+`docs/phase-4-0g-host-policy-review-comparison.md`.
 
 ## Phase 3.3-3.9 Policy Review
 

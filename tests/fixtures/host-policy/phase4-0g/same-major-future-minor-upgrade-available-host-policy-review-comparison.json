@@ -1,0 +1,253 @@
+{
+  "schema": "ardyn.host-policy-review-record-comparison",
+  "schemaVersion": "0.1.0",
+  "comparisonPhase": "phase-4.0g-host-policy-review-comparison",
+  "artifactKind": "host_policy_review_record",
+  "equal": false,
+  "differenceCount": 2,
+  "failClosed": false,
+  "manualReviewRequired": true,
+  "comparisonDecision": {
+    "reviewMetadataOnly": true,
+    "runtimeApprovalGranted": false,
+    "runtimeApprovalDerivedFromComparison": false,
+    "approvalMetadataInert": true,
+    "rejectionMetadataInert": true,
+    "futureLiveRuntimeBlockedUntilSeparateApprovedPhase": true
+  },
+  "left": {
+    "schema": "ardyn.host-policy-review-record",
+    "schemaVersion": "0.1.0",
+    "recordPhase": "phase-4.0f-host-policy-review-records",
+    "reviewedPhase": "4.0E",
+    "policy": {
+      "metadataSchema": "ardyn.stdio-transport-policy-metadata",
+      "metadataVersion": "0.1.0",
+      "metadataDigestAlgorithm": "sha256",
+      "metadataDigestHex": "91e64ea2ec4b61ef4850501ba4d80d01af5e23def60dd893652bfaa0cd7b494a",
+      "contractVersion": "0.1.0"
+    },
+    "runtimeStatus": "pre-runtime-policy-only",
+    "nonExecutionInvariants": {
+      "count": 18,
+      "values": [
+        "no-adapter-calls",
+        "no-autonomous-loop",
+        "no-content-fabric-runtime-behavior",
+        "no-listener",
+        "no-live-stdio-reader",
+        "no-live-stdio-runtime",
+        "no-locus-runtime-dependency",
+        "no-mcp-calls",
+        "no-openclaw-calls",
+        "no-plugin-execution",
+        "no-production-signing-keys",
+        "no-runtime-execution-behavior",
+        "no-secret-handling",
+        "no-server",
+        "no-stdin-command-loop",
+        "no-subprocess-spawning",
+        "no-transcript-persistence-replay-runtime",
+        "no-websocket-http-control-surface"
+      ],
+      "requiredValues": [
+        "no-adapter-calls",
+        "no-autonomous-loop",
+        "no-content-fabric-runtime-behavior",
+        "no-listener",
+        "no-live-stdio-reader",
+        "no-live-stdio-runtime",
+        "no-locus-runtime-dependency",
+        "no-mcp-calls",
+        "no-openclaw-calls",
+        "no-plugin-execution",
+        "no-production-signing-keys",
+        "no-runtime-execution-behavior",
+        "no-secret-handling",
+        "no-server",
+        "no-stdin-command-loop",
+        "no-subprocess-spawning",
+        "no-transcript-persistence-replay-runtime",
+        "no-websocket-http-control-surface"
+      ],
+      "exactRequiredSet": true
+    },
+    "compatibility": {
+      "declared": "compatible",
+      "classification": "compatible",
+      "valid": true,
+      "failClosed": false,
+      "validationErrors": []
+    },
+    "decision": {
+      "status": "review-pending",
+      "approvalRecorded": false,
+      "rejectionRecorded": false,
+      "reviewMetadataOnly": true,
+      "approvalRuntimeEffectAllowed": false,
+      "rejectionRuntimeEffectAllowed": false
+    },
+    "diagnostics": {
+      "warningCount": 3,
+      "errorCount": 0,
+      "warnings": [
+        "future-live-runtime-remains-blocked-until-separate-approved-phase",
+        "review-record-does-not-grant-runtime-approval",
+        "review-record-is-static-review-metadata-only"
+      ],
+      "errors": []
+    },
+    "unknownFields": [],
+    "unknownFieldCount": 0,
+    "reviewMetadataOnly": true,
+    "nonExecuting": true,
+    "safety": {
+      "executionEnabled": false,
+      "toolExecutionEnabled": false,
+      "autonomousExecutionEnabled": false,
+      "productionToolExecutionEnabled": false,
+      "apiCallsEnabled": false,
+      "networkListening": false,
+      "longRunningServicesStarted": false,
+      "processesSpawned": false,
+      "pluginInstallEnabled": false,
+      "torrentDownloadEnabled": false,
+      "codePackEnablementEnabled": false,
+      "agentLoopEnabled": false
+    }
+  },
+  "right": {
+    "schema": "ardyn.host-policy-review-record",
+    "schemaVersion": "0.2.0",
+    "recordPhase": "phase-4.0f-host-policy-review-records",
+    "reviewedPhase": "4.0E",
+    "policy": {
+      "metadataSchema": "ardyn.stdio-transport-policy-metadata",
+      "metadataVersion": "0.1.0",
+      "metadataDigestAlgorithm": "sha256",
+      "metadataDigestHex": "91e64ea2ec4b61ef4850501ba4d80d01af5e23def60dd893652bfaa0cd7b494a",
+      "contractVersion": "0.1.0"
+    },
+    "runtimeStatus": "pre-runtime-policy-only",
+    "nonExecutionInvariants": {
+      "count": 18,
+      "values": [
+        "no-adapter-calls",
+        "no-autonomous-loop",
+        "no-content-fabric-runtime-behavior",
+        "no-listener",
+        "no-live-stdio-reader",
+        "no-live-stdio-runtime",
+        "no-locus-runtime-dependency",
+        "no-mcp-calls",
+        "no-openclaw-calls",
+        "no-plugin-execution",
+        "no-production-signing-keys",
+        "no-runtime-execution-behavior",
+        "no-secret-handling",
+        "no-server",
+        "no-stdin-command-loop",
+        "no-subprocess-spawning",
+        "no-transcript-persistence-replay-runtime",
+        "no-websocket-http-control-surface"
+      ],
+      "requiredValues": [
+        "no-adapter-calls",
+        "no-autonomous-loop",
+        "no-content-fabric-runtime-behavior",
+        "no-listener",
+        "no-live-stdio-reader",
+        "no-live-stdio-runtime",
+        "no-locus-runtime-dependency",
+        "no-mcp-calls",
+        "no-openclaw-calls",
+        "no-plugin-execution",
+        "no-production-signing-keys",
+        "no-runtime-execution-behavior",
+        "no-secret-handling",
+        "no-server",
+        "no-stdin-command-loop",
+        "no-subprocess-spawning",
+        "no-transcript-persistence-replay-runtime",
+        "no-websocket-http-control-surface"
+      ],
+      "exactRequiredSet": true
+    },
+    "compatibility": {
+      "declared": "upgrade_available",
+      "classification": "upgrade_available",
+      "valid": false,
+      "failClosed": false,
+      "validationErrors": []
+    },
+    "decision": {
+      "status": "review-pending",
+      "approvalRecorded": false,
+      "rejectionRecorded": false,
+      "reviewMetadataOnly": true,
+      "approvalRuntimeEffectAllowed": false,
+      "rejectionRuntimeEffectAllowed": false
+    },
+    "diagnostics": {
+      "warningCount": 3,
+      "errorCount": 0,
+      "warnings": [
+        "future-live-runtime-remains-blocked-until-separate-approved-phase",
+        "review-record-does-not-grant-runtime-approval",
+        "review-record-is-static-review-metadata-only"
+      ],
+      "errors": []
+    },
+    "unknownFields": [],
+    "unknownFieldCount": 0,
+    "reviewMetadataOnly": true,
+    "nonExecuting": true,
+    "safety": {
+      "executionEnabled": false,
+      "toolExecutionEnabled": false,
+      "autonomousExecutionEnabled": false,
+      "productionToolExecutionEnabled": false,
+      "apiCallsEnabled": false,
+      "networkListening": false,
+      "longRunningServicesStarted": false,
+      "processesSpawned": false,
+      "pluginInstallEnabled": false,
+      "torrentDownloadEnabled": false,
+      "codePackEnablementEnabled": false,
+      "agentLoopEnabled": false
+    }
+  },
+  "differences": [
+    {
+      "type": "record-version-mismatch",
+      "path": "schemaVersion",
+      "left": "0.1.0",
+      "right": "0.2.0",
+      "reviewEvidenceOnly": true,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "type": "compatibility-classification-change",
+      "path": "compatibility",
+      "left": "compatible",
+      "right": "upgrade_available",
+      "reviewEvidenceOnly": true,
+      "grantsRuntimeApproval": false
+    }
+  ],
+  "nonExecuting": true,
+  "safety": {
+    "executionEnabled": false,
+    "toolExecutionEnabled": false,
+    "autonomousExecutionEnabled": false,
+    "productionToolExecutionEnabled": false,
+    "apiCallsEnabled": false,
+    "networkListening": false,
+    "longRunningServicesStarted": false,
+    "processesSpawned": false,
+    "pluginInstallEnabled": false,
+    "torrentDownloadEnabled": false,
+    "codePackEnablementEnabled": false,
+    "agentLoopEnabled": false
+  }
+}

@@ -141,6 +141,16 @@ enforcement, persist transcripts, replay transcripts, handle secrets, or change
 the finite TypeScript dry-run emitter. See
 `docs/phase-4-0f-host-policy-review-records.md`.
 
+Phase 4.0G adds static display-only comparison helpers and fixtures for those
+host-policy review records. Comparison output can surface digest mismatches,
+runtime-status mismatches, unsupported major records, malformed records, and
+rejected permissive-policy records as review evidence, but it remains inert
+metadata. It does not grant runtime approval, start host-policy enforcement,
+write files, print stdout, add a CLI command, deny a running runtime, persist
+transcripts, replay transcripts, handle secrets, or change the finite
+TypeScript dry-run emitter. See
+`docs/phase-4-0g-host-policy-review-comparison.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

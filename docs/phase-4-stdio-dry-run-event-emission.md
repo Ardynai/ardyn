@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -31,6 +31,13 @@ TypeScript dry-run emitter or add a review-record CLI command, file writer,
 stdout printer, live stdio reader, runtime owner, transcript persistence,
 replay command, WebSocket, HTTP, adapter, plugin, Content Fabric runtime,
 secret, production signing-key path, or runtime approval grant.
+
+Phase 4.0G adds static display-only comparison helpers and fixtures for
+host-policy review records. It still does not change the finite TypeScript
+dry-run emitter or add a comparison CLI command, file writer, stdout printer,
+live stdio reader, runtime owner, transcript persistence, replay command,
+WebSocket, HTTP, adapter, plugin, Content Fabric runtime, secret, production
+signing-key path, or runtime approval grant.
 
 ## CLI Surface
 
@@ -205,9 +212,22 @@ same-major future-minor records, unsupported major records, malformed records,
 permissive review metadata, and rejected permissive policy metadata. These
 fixtures are static review artifacts, not runtime configuration files.
 
+## Phase 4.0G Host-Policy Review Comparison
+
+Phase 4.0G exposes deterministic TypeScript core helpers that compare static
+`ardyn.host-policy-review-record` data for display-only reviewer handoff. See
+`docs/phase-4-0g-host-policy-review-comparison.md`.
+
+The Phase 4.0G fixture set is under
+`tests/fixtures/host-policy/phase4-0g/`. It covers identical records,
+same-major upgrade-available records, unsupported-major fail-closed records,
+malformed records, rejected permissive policy records, digest mismatch, and
+runtime-status mismatch. These fixtures are static review artifacts, not
+runtime configuration files.
+
 ## Deferred Runtime Work
 
-Phase 4.0F intentionally does not implement repo-root confinement, transcript
+Phase 4.0G intentionally does not implement repo-root confinement, transcript
 persistence, dropped-line replay, duplicate detection across a live stream,
 stderr redaction enforcement, or Rust-host stdout/stderr runtime ownership.
 It documents and types review evidence for a later host-policy phase. A future

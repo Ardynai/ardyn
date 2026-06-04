@@ -53,6 +53,12 @@ rejection metadata, warnings, errors, and non-execution invariants; they do not
 grant runtime approval or activate host-policy enforcement. See
 `docs/phase-4-0f-host-policy-review-records.md`.
 
+Phase 4.0G adds TypeScript core display-only comparison helpers for those
+review records. The comparison output is deterministic reviewer evidence for
+Devin/Codex handoff and cannot grant runtime approval, start runtime behavior,
+write files, print stdout, or add a CLI command. See
+`docs/phase-4-0g-host-policy-review-comparison.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

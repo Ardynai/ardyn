@@ -2,14 +2,15 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.0F keeps the TypeScript core on deterministic contract data while the
-Rust host exports policy-only stdio transport contract metadata and static
-host-policy review-record fixtures. The TypeScript core still owns manifest and
-task validation, deterministic non-executing task planning, ranked
-exact/tag/scope capability resolution, approval-gate data, approval-decision
-records, planner traces, shared local-only input path policy, finite dry-run
-session-event JSONL construction, formatter hardening, and golden fixture
-coverage. Autonomous execution, tool execution, plugin installation, network
+Phase 4.0G keeps the TypeScript core on deterministic contract and display
+data while the Rust host keeps policy-only stdio transport contract metadata
+and static host-policy review-record fixtures. The TypeScript core still owns
+manifest and task validation, deterministic non-executing task planning,
+ranked exact/tag/scope capability resolution, approval-gate data,
+approval-decision records, planner traces, shared local-only input path policy,
+finite dry-run session-event JSONL construction, formatter hardening, golden
+fixture coverage, and display-only host-policy review-record comparison
+helpers. Autonomous execution, tool execution, plugin installation, network
 serving, torrent download, code-pack enablement, live stdin loops, live replay,
 runtime approval grants, and agent loops are intentionally out of scope.
 
@@ -52,6 +53,21 @@ finite dry-run event construction or formatter. It only defines static
 host-policy review records and compatibility classes in the Rust host. Approval
 and rejection fields are inert review metadata and do not grant runtime
 approval. See `docs/phase-4-0f-host-policy-review-records.md`.
+
+Phase 4.0G adds TypeScript core display-only helpers for host-policy review
+records:
+
+- `classifyHostPolicyReviewRecordCompatibility(record)`
+- `normalizeHostPolicyReviewRecordForDisplay(record)`
+- `buildHostPolicyReviewRecordDisplaySummary(record)`
+- `compareHostPolicyReviewRecords(left, right)`
+- `formatHostPolicyReviewRecordComparisonJson(comparison)`
+
+These helpers compare review evidence deterministically for Devin/Codex handoff.
+They do not read files, write files, print stdout, start a runtime, grant
+runtime approval, call adapters, connect to Locus, call MCP/OpenClaw, execute
+plugins, or perform Content Fabric runtime behavior. See
+`docs/phase-4-0g-host-policy-review-comparison.md`.
 
 ## Phase 3.2 Policy Review
 

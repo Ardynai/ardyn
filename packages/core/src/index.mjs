@@ -86,6 +86,18 @@ export const SESSION_TRANSCRIPT_COMPATIBLE = "compatible";
 export const SESSION_TRANSCRIPT_UPGRADE_AVAILABLE = "upgrade_available";
 export const SESSION_TRANSCRIPT_UNSUPPORTED_MAJOR = "unsupported_major";
 export const SESSION_TRANSCRIPT_MALFORMED = "malformed";
+export const HOST_POLICY_REVIEW_RECORD_SCHEMA = "ardyn.host-policy-review-record";
+export const HOST_POLICY_REVIEW_RECORD_VERSION = "0.1.0";
+export const HOST_POLICY_REVIEW_RECORD_COMPARISON_SCHEMA =
+  "ardyn.host-policy-review-record-comparison";
+export const HOST_POLICY_REVIEW_RECORD_COMPARISON_VERSION = "0.1.0";
+export const ARDYN_HOST_POLICY_REVIEW_COMPARISON_PHASE =
+  "phase-4.0g-host-policy-review-comparison";
+export const HOST_POLICY_REVIEW_COMPATIBLE = "compatible";
+export const HOST_POLICY_REVIEW_UPGRADE_AVAILABLE = "upgrade_available";
+export const HOST_POLICY_REVIEW_UNSUPPORTED_MAJOR = "unsupported_major";
+export const HOST_POLICY_REVIEW_MALFORMED = "malformed";
+export const HOST_POLICY_REVIEW_REJECTED_POLICY = "rejected_policy";
 const SESSION_EVENT_TYPES = Object.freeze([
   "session.started",
   "session.heartbeat",
@@ -154,6 +166,7 @@ const REVIEW_ARTIFACT_ATTESTATION_STATUSES = Object.freeze([
 ]);
 const REVIEW_ARTIFACT_ATTESTATION_STATUS_SET = new Set(REVIEW_ARTIFACT_ATTESTATION_STATUSES);
 const SESSION_TRANSCRIPT_SUPPORTED_SCHEMA_MAJOR = 0;
+const HOST_POLICY_REVIEW_RECORD_SUPPORTED_SCHEMA_MAJOR = 0;
 const APPROVAL_REVIEW_ARTIFACT_SUPPORTED_SCHEMA_MAJOR = 0;
 const APPROVAL_REVIEW_ARTIFACT_SUPPORTED_VERSION_MAJOR = 0;
 const APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELDS = Object.freeze([
@@ -172,6 +185,62 @@ const APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELDS = Object.freeze([
   "safety"
 ]);
 const APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELD_SET = new Set(APPROVAL_REVIEW_ARTIFACT_KNOWN_FIELDS);
+const HOST_POLICY_REVIEW_RECORD_KNOWN_FIELDS = Object.freeze([
+  "schema",
+  "schemaVersion",
+  "recordPhase",
+  "reviewedPhase",
+  "policyMetadataSchema",
+  "policyMetadataVersion",
+  "policyMetadataDigestAlgorithm",
+  "policyMetadataDigestHex",
+  "policyContractVersion",
+  "runtimeStatus",
+  "nonExecutionInvariants",
+  "compatibility",
+  "decision",
+  "diagnostics"
+]);
+const HOST_POLICY_REVIEW_RECORD_KNOWN_FIELD_SET = new Set(HOST_POLICY_REVIEW_RECORD_KNOWN_FIELDS);
+const HOST_POLICY_REVIEW_COMPATIBILITIES = Object.freeze([
+  HOST_POLICY_REVIEW_COMPATIBLE,
+  HOST_POLICY_REVIEW_UPGRADE_AVAILABLE,
+  HOST_POLICY_REVIEW_UNSUPPORTED_MAJOR,
+  HOST_POLICY_REVIEW_MALFORMED,
+  HOST_POLICY_REVIEW_REJECTED_POLICY
+]);
+const HOST_POLICY_REVIEW_COMPATIBILITY_SET = new Set(HOST_POLICY_REVIEW_COMPATIBILITIES);
+const HOST_POLICY_REVIEW_DECISION_STATUSES = Object.freeze([
+  "review-pending",
+  "review-approved",
+  "review-rejected"
+]);
+const HOST_POLICY_REVIEW_DECISION_STATUS_SET = new Set(HOST_POLICY_REVIEW_DECISION_STATUSES);
+const HOST_POLICY_REVIEW_REQUIRED_INVARIANTS = Object.freeze([
+  "no-live-stdio-runtime",
+  "no-stdin-command-loop",
+  "no-live-stdio-reader",
+  "no-listener",
+  "no-server",
+  "no-subprocess-spawning",
+  "no-adapter-calls",
+  "no-locus-runtime-dependency",
+  "no-mcp-calls",
+  "no-openclaw-calls",
+  "no-plugin-execution",
+  "no-content-fabric-runtime-behavior",
+  "no-autonomous-loop",
+  "no-secret-handling",
+  "no-production-signing-keys",
+  "no-transcript-persistence-replay-runtime",
+  "no-websocket-http-control-surface",
+  "no-runtime-execution-behavior"
+]);
+const HOST_POLICY_REVIEW_FAIL_CLOSED_COMPATIBILITIES = new Set([
+  HOST_POLICY_REVIEW_UNSUPPORTED_MAJOR,
+  HOST_POLICY_REVIEW_MALFORMED,
+  HOST_POLICY_REVIEW_REJECTED_POLICY
+]);
 const CAPABILITY_MATCH_SCORES = Object.freeze({
   exact: 300,
   tag: 200,
@@ -2666,6 +2735,482 @@ function pushStringArrayDifference(differences, type, path, left, right) {
     right: [...right],
     ...stringArrayDifference(left, right)
   });
+}
+
+function hostPolicyReviewRecordValidationDetails(record) {
+  const errors = [];
+  const schema = dataProperty(record, "schema");
+  const schemaVersion = dataProperty(record, "schemaVersion");
+  const declaredCompatibility = dataProperty(record, "compatibility");
+
+  if (!validationObject(record)) {
+    return {
+      compatibility: HOST_POLICY_REVIEW_MALFORMED,
+      valid: false,
+      failClosed: true,
+      validationErrors: ["record must be an object"],
+      schema: null,
+      schemaVersion: null,
+      declaredCompatibility: null
+    };
+  }
+
+  if (schema !== HOST_POLICY_REVIEW_RECORD_SCHEMA) {
+    errors.push(`schema must be ${HOST_POLICY_REVIEW_RECORD_SCHEMA}`);
+  }
+
+  const schemaMajor = validateSemverMajor(errors, schemaVersion, "schemaVersion");
+  const schemaVersionKnown = typeof schemaVersion === "string" && schemaMajor !== null;
+
+  if (!schemaVersionKnown || errors.length > 0) {
+    return {
+      compatibility: HOST_POLICY_REVIEW_MALFORMED,
+      valid: false,
+      failClosed: true,
+      validationErrors: errors,
+      schema: displayString(schema),
+      schemaVersion: displayString(schemaVersion),
+      declaredCompatibility: displayString(declaredCompatibility)
+    };
+  }
+
+  if (schemaMajor > HOST_POLICY_REVIEW_RECORD_SUPPORTED_SCHEMA_MAJOR) {
+    return {
+      compatibility: HOST_POLICY_REVIEW_UNSUPPORTED_MAJOR,
+      valid: false,
+      failClosed: true,
+      validationErrors: [],
+      schema: displayString(schema),
+      schemaVersion,
+      declaredCompatibility: displayString(declaredCompatibility)
+    };
+  }
+
+  if (schemaVersion !== HOST_POLICY_REVIEW_RECORD_VERSION) {
+    return {
+      compatibility: HOST_POLICY_REVIEW_UPGRADE_AVAILABLE,
+      valid: false,
+      failClosed: false,
+      validationErrors: [],
+      schema: displayString(schema),
+      schemaVersion,
+      declaredCompatibility: displayString(declaredCompatibility)
+    };
+  }
+
+  if (!HOST_POLICY_REVIEW_COMPATIBILITY_SET.has(declaredCompatibility)) {
+    errors.push("compatibility must be a supported host-policy review compatibility");
+  }
+
+  if (
+    declaredCompatibility === HOST_POLICY_REVIEW_UNSUPPORTED_MAJOR ||
+    declaredCompatibility === HOST_POLICY_REVIEW_UPGRADE_AVAILABLE
+  ) {
+    errors.push("exact-current records must not declare version-gated compatibility");
+  }
+
+  for (const [field, expected] of [
+    ["recordPhase", "phase-4.0f-host-policy-review-records"],
+    ["reviewedPhase", "4.0E"],
+    ["policyMetadataSchema", "ardyn.stdio-transport-policy-metadata"],
+    ["policyMetadataVersion", HOST_POLICY_REVIEW_RECORD_VERSION],
+    ["policyMetadataDigestAlgorithm", "sha256"],
+    ["policyContractVersion", HOST_POLICY_REVIEW_RECORD_VERSION],
+    ["runtimeStatus", "pre-runtime-policy-only"]
+  ]) {
+    if (dataProperty(record, field) !== expected) {
+      errors.push(`${field} must be ${expected}`);
+    }
+  }
+
+  const digestHex = dataProperty(record, "policyMetadataDigestHex");
+  if (typeof digestHex !== "string" || !/^[0-9a-f]{64}$/.test(digestHex)) {
+    errors.push("policyMetadataDigestHex must be a lowercase sha256 digest");
+  }
+
+  const invariants = displayStringArray(dataProperty(record, "nonExecutionInvariants"));
+  const requiredInvariants = [...HOST_POLICY_REVIEW_REQUIRED_INVARIANTS].sort(compareAscii);
+  if (stableJsonStringify(invariants) !== stableJsonStringify(requiredInvariants)) {
+    errors.push("nonExecutionInvariants must match the required no-runtime invariant set");
+  }
+
+  const decision = dataProperty(record, "decision");
+  if (!validationObject(decision)) {
+    errors.push("decision must be an object");
+  } else {
+    const status = dataProperty(decision, "status");
+    if (!HOST_POLICY_REVIEW_DECISION_STATUS_SET.has(status)) {
+      errors.push("decision.status must be a supported review status");
+    }
+
+    for (const [field, expected] of [
+      ["reviewMetadataOnly", true],
+      ["approvalRuntimeEffectAllowed", false],
+      ["rejectionRuntimeEffectAllowed", false]
+    ]) {
+      if (dataProperty(decision, field) !== expected) {
+        errors.push(`decision.${field} must be ${String(expected)}`);
+      }
+    }
+
+    for (const field of ["approvalRecorded", "rejectionRecorded"]) {
+      if (typeof dataProperty(decision, field) !== "boolean") {
+        errors.push(`decision.${field} must be boolean`);
+      }
+    }
+  }
+
+  const diagnostics = dataProperty(record, "diagnostics");
+  if (!validationObject(diagnostics)) {
+    errors.push("diagnostics must be an object");
+  } else {
+    if (!Array.isArray(dataProperty(diagnostics, "warnings"))) {
+      errors.push("diagnostics.warnings must be an array");
+    }
+
+    if (!Array.isArray(dataProperty(diagnostics, "errors"))) {
+      errors.push("diagnostics.errors must be an array");
+    }
+  }
+
+  const unknownFields = displayUnknownFieldsForKnownFields(
+    record,
+    HOST_POLICY_REVIEW_RECORD_KNOWN_FIELD_SET
+  ).unknownFields;
+  if (unknownFields.length > 0) {
+    errors.push(`unknown fields are not allowed: ${unknownFields.join(", ")}`);
+  }
+
+  if (errors.length > 0) {
+    return {
+      compatibility: HOST_POLICY_REVIEW_MALFORMED,
+      valid: false,
+      failClosed: true,
+      validationErrors: errors,
+      schema: displayString(schema),
+      schemaVersion,
+      declaredCompatibility: displayString(declaredCompatibility)
+    };
+  }
+
+  const compatibility =
+    declaredCompatibility === HOST_POLICY_REVIEW_REJECTED_POLICY
+      ? HOST_POLICY_REVIEW_REJECTED_POLICY
+      : HOST_POLICY_REVIEW_COMPATIBLE;
+
+  return {
+    compatibility,
+    valid: compatibility === HOST_POLICY_REVIEW_COMPATIBLE,
+    failClosed: HOST_POLICY_REVIEW_FAIL_CLOSED_COMPATIBILITIES.has(compatibility),
+    validationErrors: [],
+    schema: displayString(schema),
+    schemaVersion,
+    declaredCompatibility: displayString(declaredCompatibility)
+  };
+}
+
+export function classifyHostPolicyReviewRecordCompatibility(record) {
+  return hostPolicyReviewRecordValidationDetails(record).compatibility;
+}
+
+function normalizeHostPolicyReviewDecision(decision) {
+  return {
+    status: displayString(dataProperty(decision, "status")),
+    approvalRecorded: displayBoolean(dataProperty(decision, "approvalRecorded")),
+    rejectionRecorded: displayBoolean(dataProperty(decision, "rejectionRecorded")),
+    reviewMetadataOnly: displayBoolean(dataProperty(decision, "reviewMetadataOnly")),
+    approvalRuntimeEffectAllowed: displayBoolean(
+      dataProperty(decision, "approvalRuntimeEffectAllowed")
+    ),
+    rejectionRuntimeEffectAllowed: displayBoolean(
+      dataProperty(decision, "rejectionRuntimeEffectAllowed")
+    )
+  };
+}
+
+function normalizeHostPolicyReviewDiagnostics(diagnostics) {
+  return {
+    warnings: displayStringArray(dataProperty(diagnostics, "warnings")),
+    errors: displayStringArray(dataProperty(diagnostics, "errors"))
+  };
+}
+
+export function normalizeHostPolicyReviewRecordForDisplay(record) {
+  const classification = hostPolicyReviewRecordValidationDetails(record);
+  const unknown = displayUnknownFieldsForKnownFields(
+    record,
+    HOST_POLICY_REVIEW_RECORD_KNOWN_FIELD_SET
+  );
+
+  return {
+    schema: displayString(dataProperty(record, "schema")),
+    schemaVersion: displayString(dataProperty(record, "schemaVersion")),
+    recordPhase: displayString(dataProperty(record, "recordPhase")),
+    reviewedPhase: displayString(dataProperty(record, "reviewedPhase")),
+    policyMetadataSchema: displayString(dataProperty(record, "policyMetadataSchema")),
+    policyMetadataVersion: displayString(dataProperty(record, "policyMetadataVersion")),
+    policyMetadataDigestAlgorithm: displayString(
+      dataProperty(record, "policyMetadataDigestAlgorithm")
+    ),
+    policyMetadataDigestHex: displayString(dataProperty(record, "policyMetadataDigestHex")),
+    policyContractVersion: displayString(dataProperty(record, "policyContractVersion")),
+    runtimeStatus: displayString(dataProperty(record, "runtimeStatus")),
+    nonExecutionInvariants: displayStringArray(dataProperty(record, "nonExecutionInvariants")),
+    declaredCompatibility: displayString(dataProperty(record, "compatibility")),
+    compatibility: classification.compatibility,
+    valid: classification.valid,
+    failClosed: classification.failClosed,
+    validationErrors: [...classification.validationErrors],
+    decision: normalizeHostPolicyReviewDecision(dataProperty(record, "decision")),
+    diagnostics: normalizeHostPolicyReviewDiagnostics(dataProperty(record, "diagnostics")),
+    unknownFields: [...unknown.unknownFields],
+    unknown: unknown.unknown,
+    reviewMetadataOnly: true,
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+export function buildHostPolicyReviewRecordDisplaySummary(record) {
+  const normalized = normalizeHostPolicyReviewRecordForDisplay(record);
+  const requiredInvariants = [...HOST_POLICY_REVIEW_REQUIRED_INVARIANTS].sort(compareAscii);
+
+  return {
+    schema: normalized.schema,
+    schemaVersion: normalized.schemaVersion,
+    recordPhase: normalized.recordPhase,
+    reviewedPhase: normalized.reviewedPhase,
+    policy: {
+      metadataSchema: normalized.policyMetadataSchema,
+      metadataVersion: normalized.policyMetadataVersion,
+      metadataDigestAlgorithm: normalized.policyMetadataDigestAlgorithm,
+      metadataDigestHex: normalized.policyMetadataDigestHex,
+      contractVersion: normalized.policyContractVersion
+    },
+    runtimeStatus: normalized.runtimeStatus,
+    nonExecutionInvariants: {
+      count: normalized.nonExecutionInvariants.length,
+      values: [...normalized.nonExecutionInvariants],
+      requiredValues: requiredInvariants,
+      exactRequiredSet:
+        stableJsonStringify(normalized.nonExecutionInvariants) ===
+        stableJsonStringify(requiredInvariants)
+    },
+    compatibility: {
+      declared: normalized.declaredCompatibility,
+      classification: normalized.compatibility,
+      valid: normalized.valid,
+      failClosed: normalized.failClosed,
+      validationErrors: [...normalized.validationErrors]
+    },
+    decision: normalized.decision,
+    diagnostics: {
+      warningCount: normalized.diagnostics.warnings.length,
+      errorCount: normalized.diagnostics.errors.length,
+      warnings: [...normalized.diagnostics.warnings],
+      errors: [...normalized.diagnostics.errors]
+    },
+    unknownFields: [...normalized.unknownFields],
+    unknownFieldCount: normalized.unknownFields.length,
+    reviewMetadataOnly: true,
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+function pushHostPolicyReviewValueDifference(differences, type, path, left, right) {
+  if (stableJsonStringify(left) === stableJsonStringify(right)) {
+    return;
+  }
+
+  differences.push({
+    type,
+    path,
+    left: stableJsonValue(left),
+    right: stableJsonValue(right),
+    reviewEvidenceOnly: true,
+    grantsRuntimeApproval: false
+  });
+}
+
+function pushHostPolicyReviewStringArrayDifference(differences, type, path, left, right) {
+  if (stableJsonStringify(left) === stableJsonStringify(right)) {
+    return;
+  }
+
+  differences.push({
+    type,
+    path,
+    left: [...left],
+    right: [...right],
+    ...stringArrayDifference(left, right),
+    reviewEvidenceOnly: true,
+    grantsRuntimeApproval: false
+  });
+}
+
+function hostPolicyReviewDecisionMetadataForComparison(decision) {
+  return {
+    approvalRecorded: decision.approvalRecorded,
+    rejectionRecorded: decision.rejectionRecorded,
+    reviewMetadataOnly: decision.reviewMetadataOnly,
+    approvalRuntimeEffectAllowed: decision.approvalRuntimeEffectAllowed,
+    rejectionRuntimeEffectAllowed: decision.rejectionRuntimeEffectAllowed
+  };
+}
+
+export function compareHostPolicyReviewRecords(leftRecord, rightRecord) {
+  const left = normalizeHostPolicyReviewRecordForDisplay(leftRecord);
+  const right = normalizeHostPolicyReviewRecordForDisplay(rightRecord);
+  const differences = [];
+
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "record-kind-mismatch",
+    "schema",
+    left.schema,
+    right.schema
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "record-version-mismatch",
+    "schemaVersion",
+    left.schemaVersion,
+    right.schemaVersion
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "record-phase-mismatch",
+    "recordPhase",
+    left.recordPhase,
+    right.recordPhase
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "reviewed-phase-mismatch",
+    "reviewedPhase",
+    left.reviewedPhase,
+    right.reviewedPhase
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "policy-contract-version-mismatch",
+    "policyContractVersion",
+    left.policyContractVersion,
+    right.policyContractVersion
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "policy-metadata-mismatch",
+    "policyMetadataSchema",
+    left.policyMetadataSchema,
+    right.policyMetadataSchema
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "policy-metadata-mismatch",
+    "policyMetadataVersion",
+    left.policyMetadataVersion,
+    right.policyMetadataVersion
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "policy-metadata-digest-mismatch",
+    "policyMetadataDigestAlgorithm",
+    left.policyMetadataDigestAlgorithm,
+    right.policyMetadataDigestAlgorithm
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "policy-metadata-digest-mismatch",
+    "policyMetadataDigestHex",
+    left.policyMetadataDigestHex,
+    right.policyMetadataDigestHex
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "runtime-status-mismatch",
+    "runtimeStatus",
+    left.runtimeStatus,
+    right.runtimeStatus
+  );
+  pushHostPolicyReviewStringArrayDifference(
+    differences,
+    "non-execution-invariants-change",
+    "nonExecutionInvariants",
+    left.nonExecutionInvariants,
+    right.nonExecutionInvariants
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "compatibility-classification-change",
+    "compatibility",
+    left.compatibility,
+    right.compatibility
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "decision-status-change",
+    "decision.status",
+    left.decision.status,
+    right.decision.status
+  );
+  pushHostPolicyReviewValueDifference(
+    differences,
+    "decision-metadata-change",
+    "decision",
+    hostPolicyReviewDecisionMetadataForComparison(left.decision),
+    hostPolicyReviewDecisionMetadataForComparison(right.decision)
+  );
+  pushHostPolicyReviewStringArrayDifference(
+    differences,
+    "diagnostic-warnings-change",
+    "diagnostics.warnings",
+    left.diagnostics.warnings,
+    right.diagnostics.warnings
+  );
+  pushHostPolicyReviewStringArrayDifference(
+    differences,
+    "diagnostic-errors-change",
+    "diagnostics.errors",
+    left.diagnostics.errors,
+    right.diagnostics.errors
+  );
+
+  const failClosed =
+    left.failClosed ||
+    right.failClosed ||
+    differences.some((difference) =>
+      ["policy-metadata-digest-mismatch", "runtime-status-mismatch"].includes(difference.type)
+    );
+
+  return {
+    schema: HOST_POLICY_REVIEW_RECORD_COMPARISON_SCHEMA,
+    schemaVersion: HOST_POLICY_REVIEW_RECORD_COMPARISON_VERSION,
+    comparisonPhase: ARDYN_HOST_POLICY_REVIEW_COMPARISON_PHASE,
+    artifactKind: "host_policy_review_record",
+    equal: differences.length === 0,
+    differenceCount: differences.length,
+    failClosed,
+    manualReviewRequired: failClosed || differences.length > 0,
+    comparisonDecision: {
+      reviewMetadataOnly: true,
+      runtimeApprovalGranted: false,
+      runtimeApprovalDerivedFromComparison: false,
+      approvalMetadataInert: true,
+      rejectionMetadataInert: true,
+      futureLiveRuntimeBlockedUntilSeparateApprovedPhase: true
+    },
+    left: buildHostPolicyReviewRecordDisplaySummary(leftRecord),
+    right: buildHostPolicyReviewRecordDisplaySummary(rightRecord),
+    differences,
+    nonExecuting: true,
+    safety: createNoExecutionSafetyFlags()
+  };
+}
+
+export function formatHostPolicyReviewRecordComparisonJson(comparison) {
+  return `${JSON.stringify(comparison, null, 2)}\n`;
 }
 
 function comparisonCandidateRankings(artifact) {

@@ -2,15 +2,16 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.0F exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
-4.0D, and Phase 4.0E:
+Phase 4.0G exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+4.0D, Phase 4.0E, and Phase 4.0F:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.0F adds static Rust-host policy review-record
-metadata only; it does not add a live stdio reader, replay command, listener,
-server, subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw
-call, plugin execution path, Content Fabric runtime path, runtime approval
-grant, or agent loop.
+`emit-session-events`. Phase 4.0G adds TypeScript core display-only
+host-policy review-record comparison helpers and deterministic fixtures only;
+it does not add a comparison CLI command, live stdio reader, replay command,
+listener, server, subprocess supervisor, adapter call, Locus dependency,
+MCP/OpenClaw call, plugin execution path, Content Fabric runtime path, runtime
+approval grant, or agent loop.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -115,3 +116,9 @@ Phase 4.0F makes host-policy review records current static artifacts in the
 Rust host and still leaves CLI behavior unchanged. It adds no review-record CLI
 command, no file writer, no stdout printer, no runtime command, and no runtime
 approval grant. See `docs/phase-4-0f-host-policy-review-records.md`.
+
+Phase 4.0G adds display-only comparison helpers for those review records in
+`@ardyn/core` and still leaves CLI behavior unchanged. It adds no comparison
+CLI command, no file writer, no stdout printer, no runtime command, and no
+runtime approval grant. See
+`docs/phase-4-0g-host-policy-review-comparison.md`.

@@ -22,6 +22,18 @@ export const SESSION_TRANSCRIPT_COMPATIBLE: "compatible";
 export const SESSION_TRANSCRIPT_UPGRADE_AVAILABLE: "upgrade_available";
 export const SESSION_TRANSCRIPT_UNSUPPORTED_MAJOR: "unsupported_major";
 export const SESSION_TRANSCRIPT_MALFORMED: "malformed";
+export const HOST_POLICY_REVIEW_RECORD_SCHEMA: "ardyn.host-policy-review-record";
+export const HOST_POLICY_REVIEW_RECORD_VERSION: "0.1.0";
+export const HOST_POLICY_REVIEW_RECORD_COMPARISON_SCHEMA:
+  "ardyn.host-policy-review-record-comparison";
+export const HOST_POLICY_REVIEW_RECORD_COMPARISON_VERSION: "0.1.0";
+export const ARDYN_HOST_POLICY_REVIEW_COMPARISON_PHASE:
+  "phase-4.0g-host-policy-review-comparison";
+export const HOST_POLICY_REVIEW_COMPATIBLE: "compatible";
+export const HOST_POLICY_REVIEW_UPGRADE_AVAILABLE: "upgrade_available";
+export const HOST_POLICY_REVIEW_UNSUPPORTED_MAJOR: "unsupported_major";
+export const HOST_POLICY_REVIEW_MALFORMED: "malformed";
+export const HOST_POLICY_REVIEW_REJECTED_POLICY: "rejected_policy";
 export const HOST_CRATE_NAME: "ardyn-host";
 export const APPROVAL_REQUIRED: "approval-required";
 export const APPROVAL_DENIED: "approval-denied";
@@ -79,6 +91,12 @@ export type SessionTranscriptCompatibility =
   | "upgrade_available"
   | "unsupported_major"
   | "malformed";
+export type HostPolicyReviewRecordCompatibility =
+  | "compatible"
+  | "upgrade_available"
+  | "unsupported_major"
+  | "malformed"
+  | "rejected_policy";
 export type SchemaMigrationArtifactKind =
   | "manifest"
   | "task"
@@ -695,6 +713,86 @@ export interface ApprovalReviewArtifactDisplaySummary {
   validationErrors: unknown[];
 }
 
+export interface HostPolicyReviewDecisionMetadata {
+  status: string | null;
+  approvalRecorded: boolean | null;
+  rejectionRecorded: boolean | null;
+  reviewMetadataOnly: boolean | null;
+  approvalRuntimeEffectAllowed: boolean | null;
+  rejectionRuntimeEffectAllowed: boolean | null;
+}
+
+export interface HostPolicyReviewDiagnosticsDisplay {
+  warnings: string[];
+  errors: string[];
+}
+
+export interface HostPolicyReviewRecordDisplayNormalization {
+  schema: string | null;
+  schemaVersion: string | null;
+  recordPhase: string | null;
+  reviewedPhase: string | null;
+  policyMetadataSchema: string | null;
+  policyMetadataVersion: string | null;
+  policyMetadataDigestAlgorithm: string | null;
+  policyMetadataDigestHex: string | null;
+  policyContractVersion: string | null;
+  runtimeStatus: string | null;
+  nonExecutionInvariants: string[];
+  declaredCompatibility: string | null;
+  compatibility: HostPolicyReviewRecordCompatibility;
+  valid: boolean;
+  failClosed: boolean;
+  validationErrors: string[];
+  decision: HostPolicyReviewDecisionMetadata;
+  diagnostics: HostPolicyReviewDiagnosticsDisplay;
+  unknownFields: string[];
+  unknown: Record<string, unknown>;
+  reviewMetadataOnly: true;
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
+export interface HostPolicyReviewRecordDisplaySummary {
+  schema: string | null;
+  schemaVersion: string | null;
+  recordPhase: string | null;
+  reviewedPhase: string | null;
+  policy: {
+    metadataSchema: string | null;
+    metadataVersion: string | null;
+    metadataDigestAlgorithm: string | null;
+    metadataDigestHex: string | null;
+    contractVersion: string | null;
+  };
+  runtimeStatus: string | null;
+  nonExecutionInvariants: {
+    count: number;
+    values: string[];
+    requiredValues: string[];
+    exactRequiredSet: boolean;
+  };
+  compatibility: {
+    declared: string | null;
+    classification: HostPolicyReviewRecordCompatibility;
+    valid: boolean;
+    failClosed: boolean;
+    validationErrors: string[];
+  };
+  decision: HostPolicyReviewDecisionMetadata;
+  diagnostics: {
+    warningCount: number;
+    errorCount: number;
+    warnings: string[];
+    errors: string[];
+  };
+  unknownFields: string[];
+  unknownFieldCount: number;
+  reviewMetadataOnly: true;
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
 export interface SchemaMigrationMetadataRecord {
   schema: "ardyn.schema-migration-metadata";
   schemaVersion: "0.1.0";
@@ -810,6 +908,57 @@ export interface ApprovalReviewArtifactComparison {
   safety: NoExecutionSafetyFlags;
 }
 
+export type HostPolicyReviewRecordDifferenceType =
+  | "record-kind-mismatch"
+  | "record-version-mismatch"
+  | "record-phase-mismatch"
+  | "reviewed-phase-mismatch"
+  | "policy-contract-version-mismatch"
+  | "policy-metadata-mismatch"
+  | "policy-metadata-digest-mismatch"
+  | "runtime-status-mismatch"
+  | "non-execution-invariants-change"
+  | "compatibility-classification-change"
+  | "decision-status-change"
+  | "decision-metadata-change"
+  | "diagnostic-warnings-change"
+  | "diagnostic-errors-change";
+
+export interface HostPolicyReviewRecordDifference {
+  type: HostPolicyReviewRecordDifferenceType;
+  path: string;
+  left: unknown;
+  right: unknown;
+  added?: string[];
+  removed?: string[];
+  reviewEvidenceOnly: true;
+  grantsRuntimeApproval: false;
+}
+
+export interface HostPolicyReviewRecordComparison {
+  schema: "ardyn.host-policy-review-record-comparison";
+  schemaVersion: "0.1.0";
+  comparisonPhase: "phase-4.0g-host-policy-review-comparison";
+  artifactKind: "host_policy_review_record";
+  equal: boolean;
+  differenceCount: number;
+  failClosed: boolean;
+  manualReviewRequired: boolean;
+  comparisonDecision: {
+    reviewMetadataOnly: true;
+    runtimeApprovalGranted: false;
+    runtimeApprovalDerivedFromComparison: false;
+    approvalMetadataInert: true;
+    rejectionMetadataInert: true;
+    futureLiveRuntimeBlockedUntilSeparateApprovedPhase: true;
+  };
+  left: HostPolicyReviewRecordDisplaySummary;
+  right: HostPolicyReviewRecordDisplaySummary;
+  differences: HostPolicyReviewRecordDifference[];
+  nonExecuting: true;
+  safety: NoExecutionSafetyFlags;
+}
+
 export type ApprovalReviewArtifactComparisonSource =
   | TaskPlan
   | PlannerTrace
@@ -854,6 +1003,22 @@ export function normalizeApprovalReviewArtifactForDisplay(
 export function buildApprovalReviewArtifactDisplaySummary(
   artifact: unknown
 ): ApprovalReviewArtifactDisplaySummary;
+export function classifyHostPolicyReviewRecordCompatibility(
+  record: unknown
+): HostPolicyReviewRecordCompatibility;
+export function normalizeHostPolicyReviewRecordForDisplay(
+  record: unknown
+): HostPolicyReviewRecordDisplayNormalization;
+export function buildHostPolicyReviewRecordDisplaySummary(
+  record: unknown
+): HostPolicyReviewRecordDisplaySummary;
+export function compareHostPolicyReviewRecords(
+  left: unknown,
+  right: unknown
+): HostPolicyReviewRecordComparison;
+export function formatHostPolicyReviewRecordComparisonJson(
+  comparison: HostPolicyReviewRecordComparison
+): string;
 export function classifyArtifactSchemaMetadata(
   artifactKind: SchemaMigrationArtifactKind,
   artifact: unknown

@@ -90,8 +90,8 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.0F",
-    name: "Host policy review records",
+    id: "4.0G",
+    name: "Host policy review comparison",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -124,12 +124,12 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0F status report.",
+      purpose: "Render this deterministic local Phase 4.0G status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0F status report.",
+      purpose: "Run focused tests for this local Phase 4.0G status report.",
       ranByReport: false
     },
     {
@@ -155,6 +155,11 @@ const report = {
     {
       command: "node --test tests/phase4-0f-host-policy-review-records.test.mjs",
       purpose: "Run focused Phase 4.0F host-policy review-record static checks.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-0g-host-policy-review-comparison.test.mjs",
+      purpose: "Run focused Phase 4.0G host-policy review-record comparison checks.",
       ranByReport: false
     },
     {
@@ -1728,6 +1733,155 @@ const report = {
       noFileWriterAdded: true
     }
   },
+  phase40GInventory: {
+    hostPolicyReviewComparison: {
+      document: "docs/phase-4-0g-host-policy-review-comparison.md",
+      source: "packages/core/src/index.mjs",
+      typeDeclarations: "packages/core/src/index.d.ts",
+      schema: "ardyn.host-policy-review-record-comparison",
+      schemaVersion: "0.1.0",
+      comparisonPhase: "phase-4.0g-host-policy-review-comparison",
+      artifactKind: "host_policy_review_record",
+      helper: "compareHostPolicyReviewRecords",
+      normalizationHelper: "normalizeHostPolicyReviewRecordForDisplay",
+      displaySummaryHelper: "buildHostPolicyReviewRecordDisplaySummary",
+      formatter: "formatHostPolicyReviewRecordComparisonJson",
+      classifier: "classifyHostPolicyReviewRecordCompatibility",
+      staticDisplayOnly: true,
+      comparisonDoesNotGrantRuntimeApproval: true,
+      approvalMetadataInert: true,
+      rejectionMetadataInert: true,
+      liveRuntimeBehaviorIntroduced: false,
+      runtimeBehaviorIntroduced: false
+    },
+    comparedFields: [
+      "record kind",
+      "record version",
+      "reviewed phase",
+      "policy contract version",
+      "policy metadata schema",
+      "policy metadata version",
+      "policy metadata digest algorithm",
+      "policy metadata digest hex",
+      "runtime status",
+      "non-execution invariant summary",
+      "compatibility classification",
+      "approval and rejection metadata",
+      "warnings metadata",
+      "errors metadata"
+    ],
+    compatibilityHandling: {
+      exactCurrentCompatible: true,
+      sameMajorUpgradeAvailableDisplayOnly: true,
+      unsupportedMajorFailClosed: true,
+      malformedFailClosed: true,
+      rejectedPolicyFailClosed: true,
+      digestMismatchFailClosedReviewEvidenceOnly: true,
+      runtimeStatusMismatchFailClosed: true
+    },
+    fixtureCoverage: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0g/identical-current-host-policy-review-comparison.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0g/same-major-future-minor-upgrade-available-host-policy-review-comparison.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0g/unsupported-major-fail-closed-host-policy-review-comparison.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0g/malformed-missing-schema-version-host-policy-review-comparison.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0g/rejected-permissive-policy-host-policy-review-comparison.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0g/policy-digest-mismatch-host-policy-review-comparison.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0g/runtime-status-mismatch-host-policy-review-comparison.json"
+      )
+    ],
+    cliCommandSurface: {
+      commandAdded: false,
+      finiteStaticOnly: true,
+      stdoutPrinterAdded: false,
+      fileWriterAdded: false,
+      liveRuntimeCommandAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-0g-host-policy-review-comparison.md",
+        "Documents Phase 4.0G static display-only host-policy review-record comparison."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-0f-host-policy-review-records.md",
+        "Links Phase 4.0G as the static display-only comparison handoff for 4.0F records."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Records Phase 4.0G comparison as review metadata without runtime approval or enforcement."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.0G scope, status report metadata, and lack of new runtime CLI behavior."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.0G adds no comparison CLI command or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents Phase 4.0G display-only TypeScript comparison helpers without runtime behavior."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase4-0g-host-policy-review-comparison.test.mjs",
+        "Pins Phase 4.0G helper surface, fixtures, docs, report inventory, and static no-runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.0G report metadata and safety posture."
+      )
+    ],
+    invariantProbes: [
+      "missing --dry-run",
+      "unknown emit-session-events arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "policy-metadata",
+      "host-policy-export",
+      "serve-runtime",
+      "stdio-runtime"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -1740,6 +1894,7 @@ const report = {
     stdioRustHostPolicyContracts: true,
     stdioPolicyMetadataExport: true,
     stdioPolicyReviewRecords: true,
+    hostPolicyReviewComparison: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

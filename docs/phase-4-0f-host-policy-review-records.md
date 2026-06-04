@@ -104,6 +104,12 @@ Future Devin/Codex reviews can compare these records across phases as static
 evidence. A future live runtime remains blocked until a separate approved phase
 adds explicit host policy, implementation, tests, and runtime enablement.
 
+Phase 4.0G adds TypeScript core display-only comparison helpers and
+deterministic comparison fixtures for these records. That comparison layer is
+review evidence only; it does not approve runtime behavior, start runtime
+behavior, add a CLI command, write files, print stdout, or grant host-policy
+enforcement. See `docs/phase-4-0g-host-policy-review-comparison.md`.
+
 ## Fixture Set
 
 The Phase 4.0F fixture set is under
