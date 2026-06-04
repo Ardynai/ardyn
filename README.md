@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.0H Scope
+## Phase 3 and Phase 4.0I Scope
 
-This repository is currently in Phase 4.0H reviewer handoff index mode. The
+This repository is currently in Phase 4.0I final pre-runtime readiness mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -20,7 +20,8 @@ exist, codify those Phase 4.0C policies as inert Rust-host contract types, and
 export those contracts as deterministic review-only JSON metadata with static
 host-policy review-record fixtures, compatibility classification, and
 display-only comparison records plus a static reviewer handoff index for
-Devin/Codex review workflows.
+Devin/Codex review workflows and a final static readiness checklist before any
+separately approved Phase 4.1 runtime work.
 
 Included now:
 
@@ -66,6 +67,9 @@ Included now:
 - Phase 4.0H static reviewer handoff/index documentation and deterministic
   metadata for Phase 4.0A through 4.0H artifacts, with normative versus
   evidence-only roles and no runtime approval grant.
+- Phase 4.0I final pre-runtime readiness documentation and deterministic
+  metadata for Phase 4.0A through 4.0I checklist and invariant review, with
+  Phase 4.1 still blocked unless separately approved.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -110,9 +114,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.0H CLI Usage
+## Phase 3 and Phase 4.0I CLI Usage
 
-Run non-executing commands directly from source through Phase 4.0H:
+Run non-executing commands directly from source through Phase 4.0I:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -217,7 +221,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.0H status report command is:
+The Phase 4.0I status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -233,8 +237,8 @@ emission metadata, Phase 4.0B hardening metadata, Phase 4.0C pre-runtime
 transport policy metadata, Phase 4.0D Rust-host policy contract metadata,
 Phase 4.0E policy metadata export/review-record mapping metadata, Phase 4.0F
 static host-policy review-record metadata, Phase 4.0G display-only comparison
-metadata, Phase 4.0H static reviewer handoff index metadata, and safety
-posture.
+metadata, Phase 4.0H static reviewer handoff index metadata, Phase 4.0I final
+pre-runtime readiness metadata, and safety posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -306,6 +310,16 @@ under `tests/fixtures/host-policy/phase4-0h/` so Devin/Codex reviewers can
 navigate Phase 4.0A through 4.0H artifacts. The index is static review
 metadata only; it is not runtime configuration, not an approval token, not a
 stdout printer, not a file writer, and not consumed by a live host loop.
+
+Phase 4.0I adds no new CLI command and does not change the finite dry-run
+emitter, Rust-host policy metadata, review-record helpers, comparison helpers,
+or reviewer index. It adds
+`docs/phase-4-0i-final-pre-runtime-readiness.md` and deterministic readiness
+metadata under `tests/fixtures/host-policy/phase4-0i/` so Devin/Codex
+reviewers can inspect final pre-runtime checklist coverage and the explicit
+Phase 4.1 approval boundary. The readiness bundle is static review evidence
+only; it is not runtime configuration, not an approval token, not a stdout
+printer, not a file writer, and not consumed by a live host loop.
 
 ## Phase 3.3-3.9 Policy Review
 

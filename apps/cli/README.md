@@ -2,17 +2,17 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.0H exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
-4.0D, Phase 4.0E, Phase 4.0F, and Phase 4.0G:
+Phase 4.0I exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, and Phase 4.0H:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.0H adds static reviewer handoff/index
-documentation and deterministic metadata only; it does not add a reviewer-index
-CLI command, comparison CLI command, live stdio reader, replay command,
-listener, server, subprocess supervisor, adapter call, Locus dependency,
-MCP/OpenClaw call, plugin execution path, Content Fabric runtime path, runtime
-approval grant, or agent loop. See
-`docs/phase-4-0h-reviewer-handoff-index.md`.
+`emit-session-events`. Phase 4.0I adds final pre-runtime readiness
+documentation and deterministic metadata only; it does not add a readiness CLI
+command, reviewer-index CLI command, comparison CLI command, live stdio reader,
+replay command, listener, server, subprocess supervisor, adapter call, Locus
+dependency, MCP/OpenClaw call, plugin execution path, Content Fabric runtime
+path, runtime approval grant, Phase 4.1 implementation, or agent loop. See
+`docs/phase-4-0i-final-pre-runtime-readiness.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -128,3 +128,9 @@ Phase 4.0H adds a static reviewer handoff index and still leaves CLI behavior
 unchanged. It adds no reviewer-index CLI command, no file writer, no stdout
 printer, no runtime command, and no runtime approval grant. See
 `docs/phase-4-0h-reviewer-handoff-index.md`.
+
+Phase 4.0I adds a static final pre-runtime readiness bundle and still leaves
+CLI behavior unchanged. It adds no readiness CLI command, no reviewer-index CLI
+command, no file writer, no stdout printer, no runtime command, no Phase 4.1
+implementation, and no runtime approval grant. See
+`docs/phase-4-0i-final-pre-runtime-readiness.md`.

@@ -1,0 +1,935 @@
+{
+  "schema": "ardyn.phase-4-final-pre-runtime-readiness",
+  "schemaVersion": "0.1.0",
+  "readinessPhase": "phase-4.0i-final-pre-runtime-readiness",
+  "phaseIntroduced": "4.0I",
+  "artifactKind": "phase_4_final_pre_runtime_readiness_bundle",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "reviewRange": {
+    "fromPhase": "4.0A",
+    "throughPhase": "4.0I"
+  },
+  "reviewedStartingSha": "d0a8530e4c43991e79fddabdc49212f2c1a6a5f6",
+  "reviewedMilestone": {
+    "fromPhase": "4.0A",
+    "throughPhase": "4.0H",
+    "reviewer": "Devin",
+    "verdict": "PASS",
+    "reviewSummary": "Phase 4.0A through Phase 4.0H was reviewed as coherent, reviewable, and non-executing with no blockers before a separately approved Phase 4.1.",
+    "fullAuditCopied": false
+  },
+  "runtimeStatus": "final-pre-runtime-readiness-only",
+  "readinessStatus": "pre-runtime-evidence-ready-for-separate-phase-4.1-review",
+  "artifactCount": 40,
+  "checklistCount": 11,
+  "invariantCount": 17,
+  "grantsRuntimeApproval": false,
+  "runtimeBehaviorIntroduced": false,
+  "liveRuntimeBehaviorIntroduced": false,
+  "phase41Implemented": false,
+  "reviewMetadataOnly": true,
+  "requiresSeparatePhase41Approval": true,
+  "phase41BlockedUnlessSeparatelyApproved": true,
+  "basedOnReviewerHandoffIndex": {
+    "document": "docs/phase-4-0h-reviewer-handoff-index.md",
+    "metadataFixture": "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json"
+  },
+  "phaseMilestones": [
+    {
+      "phase": "4.0A",
+      "label": "finite stdio dry-run event emitter",
+      "evidencePaths": [
+        "docs/session-events-stdio-contract.md",
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "tests/core-phase4-stdio-dry-run.test.mjs",
+        "tests/cli-phase4-stdio-dry-run.test.mjs"
+      ],
+      "runtimeStatus": "finite-dry-run-only"
+    },
+    {
+      "phase": "4.0B",
+      "label": "CLI hardening and golden JSONL fixture",
+      "evidencePaths": [
+        "tests/fixtures/stdio-dry-run/phase4-0b-minimal-session-events.jsonl",
+        "tests/cli-phase4-stdio-dry-run.test.mjs"
+      ],
+      "runtimeStatus": "finite-dry-run-only"
+    },
+    {
+      "phase": "4.0C",
+      "label": "transport, redaction, and replay policy",
+      "evidencePaths": [
+        "docs/phase-4-0c-pre-runtime-transport-policy.md",
+        "tests/phase4-0c-transport-policy.test.mjs"
+      ],
+      "runtimeStatus": "pre-runtime-policy-only"
+    },
+    {
+      "phase": "4.0D",
+      "label": "Rust-host contract types and tests",
+      "evidencePaths": [
+        "docs/phase-4-0d-rust-host-transport-policy-contracts.md",
+        "crates/ardyn-host/src/lib.rs",
+        "tests/phase4-0d-rust-host-policy-contracts.test.mjs"
+      ],
+      "runtimeStatus": "pre-runtime-policy-only"
+    },
+    {
+      "phase": "4.0E",
+      "label": "deterministic Rust policy metadata and golden fixture",
+      "evidencePaths": [
+        "docs/phase-4-0e-rust-host-policy-metadata.md",
+        "tests/fixtures/host-policy/phase4-0e-stdio-transport-policy-metadata.json",
+        "tests/phase4-0e-policy-metadata.test.mjs"
+      ],
+      "runtimeStatus": "pre-runtime-policy-only"
+    },
+    {
+      "phase": "4.0F",
+      "label": "host-policy review records and compatibility classes",
+      "evidencePaths": [
+        "docs/phase-4-0f-host-policy-review-records.md",
+        "tests/fixtures/host-policy/phase4-0f/current-host-policy-review-record.json",
+        "tests/phase4-0f-host-policy-review-records.test.mjs"
+      ],
+      "runtimeStatus": "static-review-record-only"
+    },
+    {
+      "phase": "4.0G",
+      "label": "display-only comparisons, helpers, and fixtures",
+      "evidencePaths": [
+        "docs/phase-4-0g-host-policy-review-comparison.md",
+        "tests/fixtures/host-policy/phase4-0g/identical-current-host-policy-review-comparison.json",
+        "tests/phase4-0g-host-policy-review-comparison.test.mjs"
+      ],
+      "runtimeStatus": "static-display-only"
+    },
+    {
+      "phase": "4.0H",
+      "label": "reviewer handoff and artifact index",
+      "evidencePaths": [
+        "docs/phase-4-0h-reviewer-handoff-index.md",
+        "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json",
+        "tests/phase4-0h-reviewer-handoff-index.test.mjs"
+      ],
+      "runtimeStatus": "static-reviewer-index-only"
+    },
+    {
+      "phase": "4.0I",
+      "label": "final pre-runtime readiness bundle and explicit Phase 4.1 boundary",
+      "evidencePaths": [
+        "docs/phase-4-0i-final-pre-runtime-readiness.md",
+        "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json",
+        "tests/phase4-0i-final-pre-runtime-readiness.test.mjs"
+      ],
+      "runtimeStatus": "final-pre-runtime-readiness-only"
+    }
+  ],
+  "checklist": [
+    {
+      "id": "event-framing",
+      "label": "Event framing remains deterministic LF-delimited JSONL",
+      "phaseEvidence": "4.0A-4.0B",
+      "status": "ready-for-review",
+      "evidencePaths": [
+        "docs/session-events-stdio-contract.md",
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "tests/fixtures/stdio-dry-run/phase4-0b-minimal-session-events.jsonl"
+      ],
+      "runtimeStatus": "finite-dry-run-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    },
+    {
+      "id": "stdout-stderr-policy",
+      "label": "Success stdout is JSONL only and failures use stderr only",
+      "phaseEvidence": "4.0A-4.0C",
+      "status": "ready-for-review",
+      "evidencePaths": [
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "docs/phase-4-0c-pre-runtime-transport-policy.md",
+        "tests/cli-phase4-stdio-dry-run.test.mjs"
+      ],
+      "runtimeStatus": "finite-dry-run-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    },
+    {
+      "id": "failure-behavior",
+      "label": "Malformed inputs fail closed with zero stdout",
+      "phaseEvidence": "4.0A-4.0B",
+      "status": "ready-for-review",
+      "evidencePaths": [
+        "tests/cli-phase4-stdio-dry-run.test.mjs",
+        "tests/core-phase4-stdio-dry-run.test.mjs"
+      ],
+      "runtimeStatus": "finite-dry-run-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    },
+    {
+      "id": "local-path-safety",
+      "label": "Manifest, task, transcript, and review JSON inputs remain local-file only",
+      "phaseEvidence": "4.0A-4.0B",
+      "status": "ready-for-review",
+      "evidencePaths": [
+        "packages/core/src/index.mjs",
+        "tests/core-phase4-stdio-dry-run.test.mjs",
+        "tests/cli-phase4-stdio-dry-run.test.mjs"
+      ],
+      "runtimeStatus": "finite-dry-run-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    },
+    {
+      "id": "rust-host-policy-contract-readiness",
+      "label": "Rust-host stdio policy contract metadata is present and inactive",
+      "phaseEvidence": "4.0D",
+      "status": "ready-for-review",
+      "evidencePaths": [
+        "docs/phase-4-0d-rust-host-transport-policy-contracts.md",
+        "crates/ardyn-host/src/lib.rs",
+        "tests/phase4-0d-rust-host-policy-contracts.test.mjs"
+      ],
+      "runtimeStatus": "pre-runtime-policy-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    },
+    {
+      "id": "policy-metadata-fixture-readiness",
+      "label": "Policy metadata fixture is deterministic review evidence only",
+      "phaseEvidence": "4.0E",
+      "status": "ready-for-review",
+      "evidencePaths": [
+        "docs/phase-4-0e-rust-host-policy-metadata.md",
+        "tests/fixtures/host-policy/phase4-0e-stdio-transport-policy-metadata.json",
+        "tests/phase4-0e-policy-metadata.test.mjs"
+      ],
+      "runtimeStatus": "pre-runtime-policy-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    },
+    {
+      "id": "review-record-compatibility-readiness",
+      "label": "Review-record compatibility classes are static and fail closed",
+      "phaseEvidence": "4.0F",
+      "status": "ready-for-review",
+      "evidencePaths": [
+        "docs/phase-4-0f-host-policy-review-records.md",
+        "tests/fixtures/host-policy/phase4-0f/current-host-policy-review-record.json",
+        "tests/phase4-0f-host-policy-review-records.test.mjs"
+      ],
+      "runtimeStatus": "static-review-record-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    },
+    {
+      "id": "comparison-display-readiness",
+      "label": "Comparison helpers and fixtures remain display-only",
+      "phaseEvidence": "4.0G",
+      "status": "ready-for-review",
+      "evidencePaths": [
+        "docs/phase-4-0g-host-policy-review-comparison.md",
+        "tests/fixtures/host-policy/phase4-0g/identical-current-host-policy-review-comparison.json",
+        "tests/phase4-0g-host-policy-review-comparison.test.mjs"
+      ],
+      "runtimeStatus": "static-display-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    },
+    {
+      "id": "reviewer-index-readiness",
+      "label": "Reviewer index covers Phase 4.0A through Phase 4.0H artifacts",
+      "phaseEvidence": "4.0H",
+      "status": "ready-for-review",
+      "evidencePaths": [
+        "docs/phase-4-0h-reviewer-handoff-index.md",
+        "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json",
+        "tests/phase4-0h-reviewer-handoff-index.test.mjs"
+      ],
+      "runtimeStatus": "static-reviewer-index-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    },
+    {
+      "id": "remaining-blockers-before-runtime",
+      "label": "Runtime work remains blocked before any implementation",
+      "phaseEvidence": "4.0I",
+      "status": "blocked-before-runtime",
+      "evidencePaths": [
+        "docs/phase-4-0i-final-pre-runtime-readiness.md",
+        "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json"
+      ],
+      "runtimeStatus": "final-pre-runtime-readiness-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    },
+    {
+      "id": "explicit-approval-boundary-before-phase-4-1",
+      "label": "Phase 4.1 requires separate explicit approval and implementation",
+      "phaseEvidence": "4.0I",
+      "status": "blocked-before-runtime",
+      "evidencePaths": [
+        "docs/phase-4-0i-final-pre-runtime-readiness.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      "runtimeStatus": "final-pre-runtime-readiness-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "phase41ApprovalRequired": true
+    }
+  ],
+  "nonExecutionInvariantMatrix": [
+    {
+      "id": "no-live-runtime",
+      "label": "No live runtime",
+      "status": "confirmed",
+      "evidencePaths": [
+        "README.md",
+        "docs/phase-4-0i-final-pre-runtime-readiness.md"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-stdin-loop",
+      "label": "No stdin command loop",
+      "status": "confirmed",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "tests/phase4-0i-final-pre-runtime-readiness.test.mjs"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-stdio-reader",
+      "label": "No live stdio reader",
+      "status": "confirmed",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "packages/core/src/index.mjs"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-listener-server",
+      "label": "No listener or server",
+      "status": "confirmed",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "packages/core/src/index.mjs"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-runtime-subprocess-spawning",
+      "label": "No runtime subprocess spawning",
+      "status": "confirmed",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "packages/core/src/index.mjs"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-adapter-call",
+      "label": "No adapter call",
+      "status": "confirmed",
+      "evidencePaths": [
+        "README.md",
+        "docs/host-policy-preconditions.md"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-locus-runtime-dependency",
+      "label": "No Locus runtime dependency",
+      "status": "confirmed",
+      "evidencePaths": [
+        "README.md",
+        "packages/core/README.md"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-mcp-openclaw-call",
+      "label": "No MCP or OpenClaw call",
+      "status": "confirmed",
+      "evidencePaths": [
+        "README.md",
+        "apps/cli/README.md"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-plugin-execution",
+      "label": "No plugin execution",
+      "status": "confirmed",
+      "evidencePaths": [
+        "README.md",
+        "apps/cli/README.md"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-content-fabric-download-install-enable",
+      "label": "No Content Fabric download, install, or enable behavior",
+      "status": "confirmed",
+      "evidencePaths": [
+        "README.md",
+        "docs/architecture.md"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-autonomous-loop",
+      "label": "No autonomous loop",
+      "status": "confirmed",
+      "evidencePaths": [
+        "README.md",
+        "docs/host-policy-preconditions.md"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-secret-handling",
+      "label": "No secret handling",
+      "status": "confirmed",
+      "evidencePaths": [
+        "README.md",
+        "scripts/report-phase-status.mjs"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-production-signing-key-usage",
+      "label": "No production signing-key usage",
+      "status": "confirmed",
+      "evidencePaths": [
+        "README.md",
+        "docs/host-policy-preconditions.md"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-transcript-replay-runtime",
+      "label": "No transcript replay runtime",
+      "status": "confirmed",
+      "evidencePaths": [
+        "docs/phase-4-0c-pre-runtime-transport-policy.md",
+        "docs/phase-4-stdio-dry-run-event-emission.md"
+      ],
+      "runtimeStatus": "proposal-only",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-websocket-http-control-surface",
+      "label": "No WebSocket or HTTP control surface",
+      "status": "confirmed",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "packages/core/src/index.mjs"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-runtime-approval-grant",
+      "label": "No runtime approval grant",
+      "status": "confirmed",
+      "evidencePaths": [
+        "docs/phase-4-0i-final-pre-runtime-readiness.md",
+        "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json"
+      ],
+      "runtimeStatus": "not-granted",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "no-phase-4-1-implementation",
+      "label": "No Phase 4.1 implementation",
+      "status": "confirmed",
+      "evidencePaths": [
+        "docs/phase-4-0i-final-pre-runtime-readiness.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      "runtimeStatus": "not-implemented",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    }
+  ],
+  "representedArtifacts": [
+    {
+      "path": "docs/session-events-stdio-contract.md",
+      "artifactKind": "stdio-contract-doc",
+      "phaseIntroduced": "4.0A",
+      "reviewPurpose": "Session-event schema and stdio contract baseline used by the finite dry-run emitter.",
+      "runtimeStatus": "finite-dry-run-only",
+      "evidenceRole": "normative-doc",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "docs/phase-4-stdio-dry-run-event-emission.md",
+      "artifactKind": "dry-run-emitter-doc",
+      "phaseIntroduced": "4.0A",
+      "reviewPurpose": "Finite dry-run JSONL stdout and stderr diagnostics behavior for emit-session-events.",
+      "runtimeStatus": "finite-dry-run-only",
+      "evidenceRole": "normative-doc",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/session-event-schema.test.mjs",
+      "artifactKind": "session-event-schema-test",
+      "phaseIntroduced": "4.0A",
+      "reviewPurpose": "Validates the session-event schema consumed by the dry-run JSONL stream.",
+      "runtimeStatus": "finite-dry-run-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/core-phase4-stdio-dry-run.test.mjs",
+      "artifactKind": "dry-run-core-test",
+      "phaseIntroduced": "4.0A",
+      "reviewPurpose": "Pins core event construction, JSONL formatting, path guards, and non-execution flags.",
+      "runtimeStatus": "finite-dry-run-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/cli-phase4-stdio-dry-run.test.mjs",
+      "artifactKind": "dry-run-cli-test",
+      "phaseIntroduced": "4.0A",
+      "reviewPurpose": "Pins CLI stdout/stderr split, safe failure paths, LF JSONL, and no side effects.",
+      "runtimeStatus": "finite-dry-run-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/stdio-dry-run/phase4-0b-minimal-session-events.jsonl",
+      "artifactKind": "golden-jsonl-fixture",
+      "phaseIntroduced": "4.0B",
+      "reviewPurpose": "Golden LF-only JSONL stream for the minimal successful dry-run emission.",
+      "runtimeStatus": "finite-dry-run-only",
+      "evidenceRole": "fixture-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "docs/phase-4-0c-pre-runtime-transport-policy.md",
+      "artifactKind": "transport-policy-doc",
+      "phaseIntroduced": "4.0C",
+      "reviewPurpose": "Pre-runtime stdout, stderr, framing, redaction, backpressure, and replay policy.",
+      "runtimeStatus": "pre-runtime-policy-only",
+      "evidenceRole": "normative-doc",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/phase4-0c-transport-policy.test.mjs",
+      "artifactKind": "transport-policy-test",
+      "phaseIntroduced": "4.0C",
+      "reviewPurpose": "Pins static transport policy wording and source guards before live runtime work.",
+      "runtimeStatus": "pre-runtime-policy-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "docs/phase-4-0d-rust-host-transport-policy-contracts.md",
+      "artifactKind": "rust-host-contract-doc",
+      "phaseIntroduced": "4.0D",
+      "reviewPurpose": "Documents inactive Rust-host stdio transport policy contract types as inactive metadata.",
+      "runtimeStatus": "pre-runtime-policy-only",
+      "evidenceRole": "normative-doc",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "crates/ardyn-host/src/lib.rs",
+      "artifactKind": "rust-host-contract-source",
+      "phaseIntroduced": "4.0D",
+      "reviewPurpose": "Static Rust-host contract, policy metadata, review-record, and comparison-adjacent source evidence.",
+      "runtimeStatus": "pre-runtime-policy-only",
+      "evidenceRole": "source-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/phase4-0d-rust-host-policy-contracts.test.mjs",
+      "artifactKind": "rust-host-contract-test",
+      "phaseIntroduced": "4.0D",
+      "reviewPurpose": "Pins the inactive Rust-host transport policy contract documentation and source guards.",
+      "runtimeStatus": "pre-runtime-policy-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "docs/phase-4-0e-rust-host-policy-metadata.md",
+      "artifactKind": "policy-metadata-doc",
+      "phaseIntroduced": "4.0E",
+      "reviewPurpose": "Documents deterministic review-only Rust-host policy metadata export.",
+      "runtimeStatus": "pre-runtime-policy-only",
+      "evidenceRole": "normative-doc",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0e-stdio-transport-policy-metadata.json",
+      "artifactKind": "policy-metadata-fixture",
+      "phaseIntroduced": "4.0E",
+      "reviewPurpose": "Golden deterministic policy metadata JSON export for reviewer inspection and digest mapping.",
+      "runtimeStatus": "pre-runtime-policy-only",
+      "evidenceRole": "fixture-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/phase4-0e-policy-metadata.test.mjs",
+      "artifactKind": "policy-metadata-test",
+      "phaseIntroduced": "4.0E",
+      "reviewPurpose": "Pins policy metadata fixture bytes, Rust helpers, report inventory, and source guards.",
+      "runtimeStatus": "pre-runtime-policy-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "docs/phase-4-0f-host-policy-review-records.md",
+      "artifactKind": "host-policy-review-record-doc",
+      "phaseIntroduced": "4.0F",
+      "reviewPurpose": "Documents static host-policy review records and compatibility classes.",
+      "runtimeStatus": "static-review-record-only",
+      "evidenceRole": "normative-doc",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0f/current-host-policy-review-record.json",
+      "artifactKind": "host-policy-review-record-fixture",
+      "phaseIntroduced": "4.0F",
+      "reviewPurpose": "Current compatible host-policy review-record evidence for the Phase 4.0E policy metadata.",
+      "runtimeStatus": "static-review-record-only",
+      "evidenceRole": "fixture-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0f/same-major-future-minor-host-policy-review-record.json",
+      "artifactKind": "host-policy-review-record-fixture",
+      "phaseIntroduced": "4.0F",
+      "reviewPurpose": "Upgrade-available same-major review-record evidence for fail-closed display handling.",
+      "runtimeStatus": "static-review-record-only",
+      "evidenceRole": "fixture-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0f/unsupported-major-host-policy-review-record.json",
+      "artifactKind": "host-policy-review-record-fixture",
+      "phaseIntroduced": "4.0F",
+      "reviewPurpose": "Unsupported-major review-record evidence that remains fail-closed and inert.",
+      "runtimeStatus": "static-review-record-only",
+      "evidenceRole": "fixture-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0f/malformed-missing-schema-version-host-policy-review-record.json",
+      "artifactKind": "host-policy-review-record-fixture",
+      "phaseIntroduced": "4.0F",
+      "reviewPurpose": "Malformed review-record evidence for missing schemaVersion handling.",
+      "runtimeStatus": "static-review-record-only",
+      "evidenceRole": "fixture-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0f/malformed-missing-policy-digest-host-policy-review-record.json",
+      "artifactKind": "host-policy-review-record-fixture",
+      "phaseIntroduced": "4.0F",
+      "reviewPurpose": "Malformed review-record evidence for missing policy digest handling.",
+      "runtimeStatus": "static-review-record-only",
+      "evidenceRole": "fixture-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0f/malformed-permissive-approval-runtime-effect-host-policy-review-record.json",
+      "artifactKind": "host-policy-review-record-fixture",
+      "phaseIntroduced": "4.0F",
+      "reviewPurpose": "Malformed review-record evidence for runtime-effect approval metadata rejection.",
+      "runtimeStatus": "static-review-record-only",
+      "evidenceRole": "fixture-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0f/rejected-permissive-policy-host-policy-review-record.json",
+      "artifactKind": "host-policy-review-record-fixture",
+      "phaseIntroduced": "4.0F",
+      "reviewPurpose": "Rejected permissive-policy review-record evidence with rejection metadata kept inert.",
+      "runtimeStatus": "static-review-record-only",
+      "evidenceRole": "fixture-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/phase4-0f-host-policy-review-records.test.mjs",
+      "artifactKind": "host-policy-review-record-test",
+      "phaseIntroduced": "4.0F",
+      "reviewPurpose": "Pins review-record fixture determinism, compatibility classes, report metadata, and source guards.",
+      "runtimeStatus": "static-review-record-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "docs/phase-4-0g-host-policy-review-comparison.md",
+      "artifactKind": "host-policy-review-comparison-doc",
+      "phaseIntroduced": "4.0G",
+      "reviewPurpose": "Documents display-only comparison output for host-policy review records.",
+      "runtimeStatus": "static-display-only",
+      "evidenceRole": "normative-doc",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0g/identical-current-host-policy-review-comparison.json",
+      "artifactKind": "host-policy-review-comparison-fixture",
+      "phaseIntroduced": "4.0G",
+      "reviewPurpose": "Display-only comparison fixture for identical current review records.",
+      "runtimeStatus": "static-display-only",
+      "evidenceRole": "display-only-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0g/same-major-future-minor-upgrade-available-host-policy-review-comparison.json",
+      "artifactKind": "host-policy-review-comparison-fixture",
+      "phaseIntroduced": "4.0G",
+      "reviewPurpose": "Display-only comparison fixture for same-major upgrade-available evidence.",
+      "runtimeStatus": "static-display-only",
+      "evidenceRole": "display-only-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0g/unsupported-major-fail-closed-host-policy-review-comparison.json",
+      "artifactKind": "host-policy-review-comparison-fixture",
+      "phaseIntroduced": "4.0G",
+      "reviewPurpose": "Display-only comparison fixture for unsupported-major fail-closed evidence.",
+      "runtimeStatus": "static-display-only",
+      "evidenceRole": "display-only-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0g/malformed-missing-schema-version-host-policy-review-comparison.json",
+      "artifactKind": "host-policy-review-comparison-fixture",
+      "phaseIntroduced": "4.0G",
+      "reviewPurpose": "Display-only comparison fixture for malformed review-record evidence.",
+      "runtimeStatus": "static-display-only",
+      "evidenceRole": "display-only-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0g/rejected-permissive-policy-host-policy-review-comparison.json",
+      "artifactKind": "host-policy-review-comparison-fixture",
+      "phaseIntroduced": "4.0G",
+      "reviewPurpose": "Display-only comparison fixture for rejected permissive-policy evidence.",
+      "runtimeStatus": "static-display-only",
+      "evidenceRole": "display-only-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0g/policy-digest-mismatch-host-policy-review-comparison.json",
+      "artifactKind": "host-policy-review-comparison-fixture",
+      "phaseIntroduced": "4.0G",
+      "reviewPurpose": "Display-only comparison fixture for policy digest mismatch evidence.",
+      "runtimeStatus": "static-display-only",
+      "evidenceRole": "display-only-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0g/runtime-status-mismatch-host-policy-review-comparison.json",
+      "artifactKind": "host-policy-review-comparison-fixture",
+      "phaseIntroduced": "4.0G",
+      "reviewPurpose": "Display-only comparison fixture for runtime-status mismatch evidence.",
+      "runtimeStatus": "static-display-only",
+      "evidenceRole": "display-only-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/phase4-0g-host-policy-review-comparison.test.mjs",
+      "artifactKind": "host-policy-review-comparison-test",
+      "phaseIntroduced": "4.0G",
+      "reviewPurpose": "Pins comparison helper behavior, fixture determinism, inert approval metadata, and source guards.",
+      "runtimeStatus": "static-display-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "docs/phase-4-0h-reviewer-handoff-index.md",
+      "artifactKind": "reviewer-handoff-index-doc",
+      "phaseIntroduced": "4.0H",
+      "reviewPurpose": "Reviewer navigation document for Phase 4.0A through Phase 4.0H artifacts.",
+      "runtimeStatus": "static-reviewer-index-only",
+      "evidenceRole": "normative-doc",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json",
+      "artifactKind": "reviewer-handoff-index-metadata",
+      "phaseIntroduced": "4.0H",
+      "reviewPurpose": "Deterministic machine-readable metadata for reviewer handoff navigation.",
+      "runtimeStatus": "static-reviewer-index-only",
+      "evidenceRole": "metadata-index",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/phase4-0h-reviewer-handoff-index.test.mjs",
+      "artifactKind": "reviewer-handoff-index-test",
+      "phaseIntroduced": "4.0H",
+      "reviewPurpose": "Pins reviewer index determinism, artifact existence, inert runtime posture, and source guards.",
+      "runtimeStatus": "static-reviewer-index-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "scripts/report-phase-status.mjs",
+      "artifactKind": "phase-status-report-source",
+      "phaseIntroduced": "4.0H",
+      "reviewPurpose": "Local stdout-only status report source inventories Phase 4.0H and Phase 4.0I static metadata.",
+      "runtimeStatus": "static-reviewer-index-only",
+      "evidenceRole": "metadata-index",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "artifactKind": "phase-status-report-test",
+      "phaseIntroduced": "4.0H",
+      "reviewPurpose": "Pins Phase 4.0I report metadata while proving the report does not execute checks.",
+      "runtimeStatus": "static-reviewer-index-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "docs/phase-4-0i-final-pre-runtime-readiness.md",
+      "artifactKind": "final-pre-runtime-readiness-doc",
+      "phaseIntroduced": "4.0I",
+      "reviewPurpose": "Final static checklist and invariant matrix before any separately approved Phase 4.1 runtime work.",
+      "runtimeStatus": "final-pre-runtime-readiness-only",
+      "evidenceRole": "normative-doc",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json",
+      "artifactKind": "final-pre-runtime-readiness-metadata",
+      "phaseIntroduced": "4.0I",
+      "reviewPurpose": "Deterministic machine-readable readiness metadata for checklist and invariant review.",
+      "runtimeStatus": "final-pre-runtime-readiness-only",
+      "evidenceRole": "metadata-index",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/phase4-0i-final-pre-runtime-readiness.test.mjs",
+      "artifactKind": "final-pre-runtime-readiness-test",
+      "phaseIntroduced": "4.0I",
+      "reviewPurpose": "Pins readiness metadata determinism, artifact representation, approval boundary, docs, report inventory, and runtime source guards.",
+      "runtimeStatus": "final-pre-runtime-readiness-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    }
+  ],
+  "safety": {
+    "nonExecuting": true,
+    "finalPreRuntimeReadinessOnly": true,
+    "reviewOnly": true,
+    "reviewMetadataOnly": true,
+    "cliCommandAdded": false,
+    "stdoutPrinterAdded": false,
+    "fileWriterAdded": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "phase41Implemented": false,
+    "phase41RuntimeApprovalGranted": false,
+    "grantsRuntimeApproval": false,
+    "stdinCommandLoop": false,
+    "liveStdioReader": false,
+    "processStdioOwnership": false,
+    "listener": false,
+    "server": false,
+    "subprocessSpawning": false,
+    "adapterCalls": false,
+    "locusRuntimeDependency": false,
+    "mcpCalls": false,
+    "openClawCalls": false,
+    "pluginExecution": false,
+    "contentFabricRuntimeBehavior": false,
+    "contentFabricDownloadInstallEnable": false,
+    "autonomousLoop": false,
+    "secretHandling": false,
+    "productionSigningKeys": false,
+    "transcriptPersistenceReplayRuntime": false,
+    "webSocketHttpControlSurface": false,
+    "runtimeExecution": false
+  }
+}

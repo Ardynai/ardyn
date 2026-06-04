@@ -46,6 +46,9 @@ const packageJson = await readJson("package.json");
 const phase40HReviewerIndexMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json"
 );
+const phase40IFinalReadinessMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -93,8 +96,8 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.0H",
-    name: "Reviewer handoff index",
+    id: "4.0I",
+    name: "Final pre-runtime readiness",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -127,12 +130,17 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0H status report.",
+      purpose: "Render this deterministic local Phase 4.0I status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0H status report.",
+      purpose: "Run focused tests for this local Phase 4.0I status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-0i-final-pre-runtime-readiness.test.mjs",
+      purpose: "Run focused Phase 4.0I final pre-runtime readiness static checks.",
       ranByReport: false
     },
     {
@@ -2075,6 +2083,214 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase40IInventory: {
+    finalPreRuntimeReadiness: {
+      document: "docs/phase-4-0i-final-pre-runtime-readiness.md",
+      metadataFixture:
+        "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json",
+      schema: phase40IFinalReadinessMetadata.schema,
+      schemaVersion: phase40IFinalReadinessMetadata.schemaVersion,
+      readinessPhase: phase40IFinalReadinessMetadata.readinessPhase,
+      phaseIntroduced: phase40IFinalReadinessMetadata.phaseIntroduced,
+      artifactKind: phase40IFinalReadinessMetadata.artifactKind,
+      reviewedStartingSha: phase40IFinalReadinessMetadata.reviewedStartingSha,
+      reviewRange: phase40IFinalReadinessMetadata.reviewRange,
+      runtimeStatus: phase40IFinalReadinessMetadata.runtimeStatus,
+      readinessStatus: phase40IFinalReadinessMetadata.readinessStatus,
+      artifactCount: phase40IFinalReadinessMetadata.artifactCount,
+      checklistCount: phase40IFinalReadinessMetadata.checklistCount,
+      invariantCount: phase40IFinalReadinessMetadata.invariantCount,
+      finalPreRuntimeReadinessOnly: true,
+      reviewOnly: true,
+      nonExecuting: true,
+      reviewMetadataOnly: phase40IFinalReadinessMetadata.reviewMetadataOnly,
+      grantsRuntimeApproval: phase40IFinalReadinessMetadata.grantsRuntimeApproval,
+      runtimeBehaviorIntroduced: phase40IFinalReadinessMetadata.runtimeBehaviorIntroduced,
+      liveRuntimeBehaviorIntroduced:
+        phase40IFinalReadinessMetadata.liveRuntimeBehaviorIntroduced,
+      phase41Implemented: phase40IFinalReadinessMetadata.phase41Implemented,
+      requiresSeparatePhase41Approval:
+        phase40IFinalReadinessMetadata.requiresSeparatePhase41Approval,
+      phase41BlockedUnlessSeparatelyApproved:
+        phase40IFinalReadinessMetadata.phase41BlockedUnlessSeparatelyApproved
+    },
+    devinMilestoneReview: phase40IFinalReadinessMetadata.reviewedMilestone,
+    basedOnReviewerHandoffIndex: phase40IFinalReadinessMetadata.basedOnReviewerHandoffIndex,
+    phaseCoverage: phase40IFinalReadinessMetadata.phaseMilestones.map((milestone) => milestone.phase),
+    phaseMilestones: phase40IFinalReadinessMetadata.phaseMilestones.map((milestone) => ({
+      phase: milestone.phase,
+      label: milestone.label,
+      runtimeStatus: milestone.runtimeStatus,
+      evidencePaths: milestone.evidencePaths
+    })),
+    readinessChecklist: phase40IFinalReadinessMetadata.checklist.map((item) => ({
+      id: item.id,
+      phaseEvidence: item.phaseEvidence,
+      status: item.status,
+      runtimeStatus: item.runtimeStatus,
+      evidencePaths: item.evidencePaths,
+      grantsRuntimeApproval: item.grantsRuntimeApproval,
+      runtimeBehaviorIntroduced: item.runtimeBehaviorIntroduced,
+      phase41ApprovalRequired: item.phase41ApprovalRequired
+    })),
+    nonExecutionInvariantMatrix: phase40IFinalReadinessMetadata.nonExecutionInvariantMatrix.map(
+      (invariant) => ({
+        id: invariant.id,
+        status: invariant.status,
+        runtimeStatus: invariant.runtimeStatus,
+        evidencePaths: invariant.evidencePaths,
+        grantsRuntimeApproval: invariant.grantsRuntimeApproval,
+        runtimeBehaviorIntroduced: invariant.runtimeBehaviorIntroduced
+      })
+    ),
+    representedArtifacts: phase40IFinalReadinessMetadata.representedArtifacts.map((artifact) => ({
+      path: artifact.path,
+      artifactKind: artifact.artifactKind,
+      phaseIntroduced: artifact.phaseIntroduced,
+      runtimeStatus: artifact.runtimeStatus,
+      evidenceRole: artifact.evidenceRole,
+      grantsRuntimeApproval: artifact.grantsRuntimeApproval,
+      runtimeBehaviorIntroduced: artifact.runtimeBehaviorIntroduced
+    })),
+    representedArtifactCounts: {
+      total: phase40IFinalReadinessMetadata.representedArtifacts.length,
+      upstreamReviewerIndexArtifacts: phase40HReviewerIndexMetadata.artifactCount,
+      phase40IArtifacts: phase40IFinalReadinessMetadata.representedArtifacts.filter(
+        (artifact) => artifact.phaseIntroduced === "4.0I"
+      ).length
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      readinessCommandAdded: false,
+      finalReadinessCommandAdded: false,
+      phase41RuntimeCommandAdded: false,
+      stdoutPrinterAdded: false,
+      fileWriterAdded: false,
+      liveRuntimeCommandAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    phase41Boundary: {
+      implemented: false,
+      runtimeApprovalGranted: false,
+      separateApprovalRequired: true,
+      blockedUnlessSeparatelyApproved: true,
+      thisPhaseCanGrantApproval: false,
+      liveRuntimeStillBlocked: true
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-0i-final-pre-runtime-readiness.md",
+        "Documents Phase 4.0I static final pre-runtime readiness, checklist coverage, invariant matrix, and Phase 4.1 approval boundary."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-0h-reviewer-handoff-index.md",
+        "Links Phase 4.0I as the final pre-runtime readiness follow-up to the reviewer handoff index."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents Phase 4.0I as static readiness metadata that leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Cross-links Phase 4.0I while preserving no-live-runtime stdio boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Records Phase 4.0I readiness as static evidence without runtime approval or enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Documents Phase 4.0I as final pre-runtime review evidence without active runtime behavior."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.0I scope, status report metadata, and lack of new runtime CLI behavior."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.0I adds no readiness CLI command or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.0I adds no TypeScript core runtime APIs and keeps comparison helpers display-only."
+      )
+    ],
+    fixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json"
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase4-0i-final-pre-runtime-readiness.test.mjs",
+        "Pins Phase 4.0I readiness metadata determinism, artifact representation, approval boundary, docs, report inventory, and source guards."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-0h-reviewer-handoff-index.test.mjs",
+        "Keeps the upstream Phase 4.0H reviewer index deterministic and inert."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.0I report metadata and safety posture."
+      )
+    ],
+    invariantProbes: [
+      "missing --dry-run",
+      "unknown emit-session-events arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "policy-metadata",
+      "host-policy-export",
+      "serve-runtime",
+      "stdio-runtime",
+      "runtime",
+      "run",
+      "execute",
+      "live-runtime",
+      "runtime-proposal",
+      "proposal-runtime",
+      "phase-4.1-runtime",
+      "host-policy-index",
+      "policy-index",
+      "review-index",
+      "index-host-policy"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      finalPreRuntimeReadinessOnly: true,
+      reviewOnly: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noPhase41Implementation: true,
+      requiresSeparatePhase41Approval: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -2089,6 +2305,7 @@ const report = {
     stdioPolicyReviewRecords: true,
     hostPolicyReviewComparison: true,
     reviewerHandoffIndex: true,
+    finalPreRuntimeReadiness: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -2108,6 +2325,7 @@ const report = {
       contentFabricRuntimeBehavior: false,
       secretsUsed: false,
       processSpawning: false,
+      phase41RuntimeImplemented: false,
       externalCiRan: false
     },
     note:

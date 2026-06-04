@@ -65,6 +65,12 @@ helper, CLI command, stdout printer, file writer, runtime approval grant, or
 host-policy enforcement path. See
 `docs/phase-4-0h-reviewer-handoff-index.md`.
 
+Phase 4.0I adds a final static pre-runtime readiness bundle for Phase 4.0A
+through Phase 4.0I review. It does not add a TypeScript core API, Rust runtime
+helper, CLI command, stdout printer, file writer, runtime approval grant,
+Phase 4.1 implementation, or host-policy enforcement path. See
+`docs/phase-4-0i-final-pre-runtime-readiness.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

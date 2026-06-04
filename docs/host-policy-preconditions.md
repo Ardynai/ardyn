@@ -160,6 +160,14 @@ running runtime, persist transcripts, replay transcripts, handle secrets, or
 change the finite TypeScript dry-run emitter. See
 `docs/phase-4-0h-reviewer-handoff-index.md`.
 
+Phase 4.0I adds a final static pre-runtime readiness checklist and invariant
+matrix for Phase 4.0A through Phase 4.0I review. The readiness bundle is inert
+review evidence only. It does not grant runtime approval, start host-policy
+enforcement, write files, print stdout, add a CLI command, deny a running
+runtime, persist transcripts, replay transcripts, handle secrets, implement
+Phase 4.1, or change the finite TypeScript dry-run emitter. See
+`docs/phase-4-0i-final-pre-runtime-readiness.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

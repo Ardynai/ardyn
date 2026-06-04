@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.0H keeps the TypeScript core on deterministic contract and display
+Phase 4.0I keeps the TypeScript core on deterministic contract and display
 data while the Rust host keeps policy-only stdio transport contract metadata
 and static host-policy review-record fixtures. The TypeScript core still owns
 manifest and task validation, deterministic non-executing task planning,
@@ -10,7 +10,8 @@ ranked exact/tag/scope capability resolution, approval-gate data,
 approval-decision records, planner traces, shared local-only input path policy,
 finite dry-run session-event JSONL construction, formatter hardening, golden
 fixture coverage, and display-only host-policy review-record comparison
-helpers. Phase 4.0H adds only static reviewer handoff/index docs and metadata.
+helpers. Phase 4.0I adds only static final pre-runtime readiness docs and
+metadata after the Phase 4.0H reviewer handoff index.
 Autonomous execution, tool execution, plugin installation, network serving,
 torrent download, code-pack enablement, live stdin loops, live replay, runtime
 approval grants, and agent loops are intentionally out of scope.
@@ -76,6 +77,15 @@ display-only comparison helpers. It adds
 reviewer navigation across Phase 4.0A through 4.0H artifacts. The index is not
 runtime configuration, not an approval token, not a file writer, not a stdout
 printer, and not consumed by a live host loop.
+
+Phase 4.0I adds no TypeScript core runtime APIs and does not change the
+finite dry-run event construction, formatter, Rust-host policy metadata,
+review-record classes, display-only comparison helpers, or reviewer index. It
+adds `docs/phase-4-0i-final-pre-runtime-readiness.md` and deterministic
+readiness metadata for checklist and invariant review. The readiness bundle is
+not runtime configuration, not an approval token, not a file writer, not a
+stdout printer, not a Phase 4.1 implementation, and not consumed by a live host
+loop.
 
 ## Phase 3.2 Policy Review
 

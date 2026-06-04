@@ -69,6 +69,15 @@ needs to enable live runtime behavior must be introduced by a separate
 approved phase with explicit host policy, implementation, tests, and runtime
 enablement.
 
+## Phase 4.0I Follow-Up
+
+Phase 4.0I adds `docs/phase-4-0i-final-pre-runtime-readiness.md` as a static
+final pre-runtime readiness bundle on top of this index. It summarizes
+checklist coverage, the non-execution invariant matrix, Devin milestone review
+context, and the explicit Phase 4.1 approval boundary. It does not replace this
+index, grant runtime approval, add a CLI command, write files, print stdout, or
+implement Phase 4.1.
+
 ## Still Forbidden
 
 Phase 4.0H adds no CLI command, live stdin command loop, live stdio reader,
