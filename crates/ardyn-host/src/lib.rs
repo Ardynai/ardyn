@@ -23,10 +23,18 @@ pub const ARDYN_STDIO_TRANSPORT_POLICY_METADATA_PHASE: &str =
     "phase-4.0e-rust-host-policy-metadata";
 pub const ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA: &str = "ardyn.host-policy-review-record";
 pub const ARDYN_HOST_POLICY_REVIEW_RECORD_VERSION: &str = "0.1.0";
-pub const ARDYN_HOST_POLICY_REVIEW_RECORD_PHASE: &str =
-    "phase-4.0f-host-policy-review-records";
+pub const ARDYN_HOST_POLICY_REVIEW_RECORD_PHASE: &str = "phase-4.0f-host-policy-review-records";
+pub const ARDYN_HOST_POLICY_APPROVAL_RECORD_SCHEMA: &str = "ardyn.host-policy-approval-record";
+pub const ARDYN_HOST_POLICY_APPROVAL_RECORD_VERSION: &str = "0.1.0";
+pub const ARDYN_HOST_POLICY_APPROVAL_RECORD_PHASE: &str = "phase-4.1a-host-policy-approval-records";
+pub const ARDYN_HOST_POLICY_APPROVAL_RECORD_KIND: &str = "host-policy-approval-record";
 pub const ARDYN_POLICY_METADATA_DIGEST_ALGORITHM: &str = "sha256";
 const ARDYN_REVIEWED_POLICY_METADATA_PHASE_LABEL: &str = "4.0E";
+const ARDYN_HOST_POLICY_APPROVAL_REVIEWED_PHASE_LABEL: &str = "4.1A";
+const ARDYN_HOST_POLICY_APPROVAL_TARGET_KIND: &str = "future-runtime-surface";
+const ARDYN_HOST_POLICY_APPROVAL_TARGET_PHASE: &str =
+    "future-separately-approved-runtime-implementation";
+const ARDYN_HOST_POLICY_APPROVAL_RUNTIME_CAPABILITY: &str = "live-stdio-runtime";
 
 pub type HostResult<T> = Result<T, Box<dyn Error + Send + Sync>>;
 
@@ -148,6 +156,26 @@ pub enum HostPolicyReviewCompatibility {
     UnsupportedMajor,
     Malformed,
     RejectedPolicy,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum HostPolicyApprovalStatus {
+    ReviewPending,
+    ReviewApproved,
+    ReviewDenied,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum HostPolicyApprovalRecordClassification {
+    ValidReviewRecord,
+    MissingOperatorConsent,
+    ExpiredOrNotYetValid,
+    UnsupportedVersion,
+    Malformed,
+    Denied,
+    RuntimeNotAvailable,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -398,6 +426,119 @@ pub struct HostPolicyReviewRecord {
     pub compatibility: HostPolicyReviewCompatibility,
     pub decision: HostPolicyReviewDecisionMetadata,
     pub diagnostics: HostPolicyReviewDiagnostics,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyApprovalTarget {
+    pub target_kind: String,
+    pub target_phase: String,
+    pub target_commands: Vec<String>,
+    pub requires_separate_implementation_phase: bool,
+    pub devin_review_required_before_enablement: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyOperatorConsent {
+    pub consent_recorded: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub operator_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub consent_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub consented_at: Option<String>,
+    pub consent_scope: Vec<String>,
+    pub process_stdio_ownership_consent: bool,
+    pub stdin_lifecycle_control_consent: bool,
+    pub stdout_jsonl_ownership_consent: bool,
+    pub stderr_diagnostics_ownership_consent: bool,
+    pub process_termination_control_consent: bool,
+    pub transcript_persistence_review_consent: bool,
+    pub failure_audit_record_emission_consent: bool,
+    pub understands_necessary_but_not_sufficient: bool,
+    pub understands_no_runtime_enabled_in_this_phase: bool,
+    pub understands_separate_implementation_required: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyRuntimeCapabilityRequest {
+    pub capability: String,
+    pub reason: String,
+    pub runtime_implementation_available: bool,
+    pub serve_runtime_available: bool,
+    pub stdio_runtime_available: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyApprovalValidity {
+    pub not_before: String,
+    pub expires_at: String,
+    pub evaluated_at: String,
+    pub valid_at_evaluation: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyApprovalRuntimeEffect {
+    pub current_record_enables_runtime: bool,
+    pub runtime_approval_effect_allowed: bool,
+    pub runtime_implementation_available: bool,
+    pub runtime_command_available: bool,
+    pub requires_separate_runtime_implementation_approval: bool,
+    pub operator_consent_necessary_but_not_sufficient: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyApprovalNonExecutionInvariantSummary {
+    pub summary: String,
+    pub invariants: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyApprovalDenial {
+    pub fail_closed_reasons: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub denial_reason: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyApprovalAuditMetadata {
+    pub created_at: String,
+    pub created_by: String,
+    pub source_phase: String,
+    pub reviewer: String,
+    pub devin_review_required_now: bool,
+    pub preserve_devin_review_for: String,
+    pub metadata_only: bool,
+    pub writes_files: bool,
+    pub runs_runtime: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct HostPolicyApprovalRecord {
+    pub schema: String,
+    pub schema_version: String,
+    pub record_kind: String,
+    pub record_phase: String,
+    pub reviewed_phase: String,
+    pub approval_target: HostPolicyApprovalTarget,
+    pub operator_consent: HostPolicyOperatorConsent,
+    pub runtime_capability_request: HostPolicyRuntimeCapabilityRequest,
+    pub approval_status: HostPolicyApprovalStatus,
+    pub validity: HostPolicyApprovalValidity,
+    pub runtime_effect: HostPolicyApprovalRuntimeEffect,
+    pub current_record_runtime_statement: String,
+    pub non_execution_invariant_summary: HostPolicyApprovalNonExecutionInvariantSummary,
+    pub classification: HostPolicyApprovalRecordClassification,
+    pub denial: HostPolicyApprovalDenial,
+    pub audit: HostPolicyApprovalAuditMetadata,
 }
 
 impl StdioTransportPolicyContract {
@@ -1213,7 +1354,9 @@ pub fn host_policy_review_record_json_for_stdio_transport_policy_metadata(
 
 pub fn parse_host_policy_review_record_json(input: &str) -> HostResult<HostPolicyReviewRecord> {
     if input.contains('\r') {
-        return Err(validation_error("host-policy review record must be LF-only JSON"));
+        return Err(validation_error(
+            "host-policy review record must be LF-only JSON",
+        ));
     }
 
     let record: HostPolicyReviewRecord = serde_json::from_str(input)?;
@@ -1273,6 +1416,384 @@ pub fn classify_host_policy_review_record_json(input: &str) -> HostPolicyReviewC
     match validate_host_policy_review_record(&record) {
         Ok(()) => record.compatibility,
         Err(_) => HostPolicyReviewCompatibility::Malformed,
+    }
+}
+
+pub fn host_policy_approval_record_top_level_order() -> Vec<String> {
+    [
+        "schema",
+        "schemaVersion",
+        "recordKind",
+        "recordPhase",
+        "reviewedPhase",
+        "approvalTarget",
+        "operatorConsent",
+        "runtimeCapabilityRequest",
+        "approvalStatus",
+        "validity",
+        "runtimeEffect",
+        "currentRecordRuntimeStatement",
+        "nonExecutionInvariantSummary",
+        "classification",
+        "denial",
+        "audit",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn host_policy_approval_target_commands() -> Vec<String> {
+    ["serve-runtime", "stdio-runtime"]
+        .into_iter()
+        .map(String::from)
+        .collect()
+}
+
+fn host_policy_approval_consent_scope() -> Vec<String> {
+    [
+        "process-stdio-ownership",
+        "stdin-lifecycle-control",
+        "stdout-jsonl-ownership",
+        "stderr-diagnostics-ownership",
+        "process-termination-control",
+        "transcript-persistence-review",
+        "failure-audit-record-emission",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn host_policy_approval_runtime_statement() -> String {
+    "Current Phase 4.1A approval records are static review/audit artifacts only and do not enable runtime."
+        .to_string()
+}
+
+fn host_policy_approval_invariant_summary() -> String {
+    "Operator consent is necessary but not sufficient; live runtime remains unavailable until a separately approved implementation phase and major runtime-readiness checkpoint."
+        .to_string()
+}
+
+fn host_policy_approval_validity_window() -> HostPolicyApprovalValidity {
+    HostPolicyApprovalValidity {
+        not_before: "1970-01-01T00:00:00.000Z".to_string(),
+        expires_at: "2099-01-01T00:00:00.000Z".to_string(),
+        evaluated_at: "1970-01-01T00:00:00.000Z".to_string(),
+        valid_at_evaluation: true,
+    }
+}
+
+fn host_policy_approval_validity_window_is_active(validity: &HostPolicyApprovalValidity) -> bool {
+    validity.valid_at_evaluation
+        && validity.not_before.as_str() <= validity.evaluated_at.as_str()
+        && validity.evaluated_at.as_str() < validity.expires_at.as_str()
+}
+
+fn host_policy_operator_consent_complete(consent: &HostPolicyOperatorConsent) -> bool {
+    consent.consent_recorded
+        && consent.operator_id.is_some()
+        && consent.consent_version.as_deref() == Some(ARDYN_HOST_POLICY_APPROVAL_RECORD_VERSION)
+        && consent.consented_at.is_some()
+        && consent.consent_scope == host_policy_approval_consent_scope()
+        && consent.process_stdio_ownership_consent
+        && consent.stdin_lifecycle_control_consent
+        && consent.stdout_jsonl_ownership_consent
+        && consent.stderr_diagnostics_ownership_consent
+        && consent.process_termination_control_consent
+        && consent.transcript_persistence_review_consent
+        && consent.failure_audit_record_emission_consent
+        && consent.understands_necessary_but_not_sufficient
+        && consent.understands_no_runtime_enabled_in_this_phase
+        && consent.understands_separate_implementation_required
+}
+
+fn host_policy_approval_runtime_effect_is_inert(record: &HostPolicyApprovalRecord) -> bool {
+    !record.runtime_effect.current_record_enables_runtime
+        && !record.runtime_effect.runtime_approval_effect_allowed
+        && !record.runtime_effect.runtime_implementation_available
+        && !record.runtime_effect.runtime_command_available
+        && record
+            .runtime_effect
+            .requires_separate_runtime_implementation_approval
+        && record
+            .runtime_effect
+            .operator_consent_necessary_but_not_sufficient
+        && !record
+            .runtime_capability_request
+            .runtime_implementation_available
+        && !record.runtime_capability_request.serve_runtime_available
+        && !record.runtime_capability_request.stdio_runtime_available
+        && record
+            .approval_target
+            .requires_separate_implementation_phase
+        && record
+            .approval_target
+            .devin_review_required_before_enablement
+}
+
+pub fn host_policy_approval_record() -> HostPolicyApprovalRecord {
+    HostPolicyApprovalRecord {
+        schema: ARDYN_HOST_POLICY_APPROVAL_RECORD_SCHEMA.to_string(),
+        schema_version: ARDYN_HOST_POLICY_APPROVAL_RECORD_VERSION.to_string(),
+        record_kind: ARDYN_HOST_POLICY_APPROVAL_RECORD_KIND.to_string(),
+        record_phase: ARDYN_HOST_POLICY_APPROVAL_RECORD_PHASE.to_string(),
+        reviewed_phase: ARDYN_HOST_POLICY_APPROVAL_REVIEWED_PHASE_LABEL.to_string(),
+        approval_target: HostPolicyApprovalTarget {
+            target_kind: ARDYN_HOST_POLICY_APPROVAL_TARGET_KIND.to_string(),
+            target_phase: ARDYN_HOST_POLICY_APPROVAL_TARGET_PHASE.to_string(),
+            target_commands: host_policy_approval_target_commands(),
+            requires_separate_implementation_phase: true,
+            devin_review_required_before_enablement: true,
+        },
+        operator_consent: HostPolicyOperatorConsent {
+            consent_recorded: true,
+            operator_id: Some("local-operator-reviewer".to_string()),
+            consent_version: Some(ARDYN_HOST_POLICY_APPROVAL_RECORD_VERSION.to_string()),
+            consented_at: Some("1970-01-01T00:00:00.000Z".to_string()),
+            consent_scope: host_policy_approval_consent_scope(),
+            process_stdio_ownership_consent: true,
+            stdin_lifecycle_control_consent: true,
+            stdout_jsonl_ownership_consent: true,
+            stderr_diagnostics_ownership_consent: true,
+            process_termination_control_consent: true,
+            transcript_persistence_review_consent: true,
+            failure_audit_record_emission_consent: true,
+            understands_necessary_but_not_sufficient: true,
+            understands_no_runtime_enabled_in_this_phase: true,
+            understands_separate_implementation_required: true,
+        },
+        runtime_capability_request: HostPolicyRuntimeCapabilityRequest {
+            capability: ARDYN_HOST_POLICY_APPROVAL_RUNTIME_CAPABILITY.to_string(),
+            reason: "Review the operator-consent boundary required before any future stdio runtime implementation."
+                .to_string(),
+            runtime_implementation_available: false,
+            serve_runtime_available: false,
+            stdio_runtime_available: false,
+        },
+        approval_status: HostPolicyApprovalStatus::ReviewApproved,
+        validity: host_policy_approval_validity_window(),
+        runtime_effect: HostPolicyApprovalRuntimeEffect {
+            current_record_enables_runtime: false,
+            runtime_approval_effect_allowed: false,
+            runtime_implementation_available: false,
+            runtime_command_available: false,
+            requires_separate_runtime_implementation_approval: true,
+            operator_consent_necessary_but_not_sufficient: true,
+        },
+        current_record_runtime_statement: host_policy_approval_runtime_statement(),
+        non_execution_invariant_summary: HostPolicyApprovalNonExecutionInvariantSummary {
+            summary: host_policy_approval_invariant_summary(),
+            invariants: policy_non_execution_invariants(),
+        },
+        classification: HostPolicyApprovalRecordClassification::ValidReviewRecord,
+        denial: HostPolicyApprovalDenial {
+            fail_closed_reasons: Vec::new(),
+            denial_reason: None,
+        },
+        audit: HostPolicyApprovalAuditMetadata {
+            created_at: "1970-01-01T00:00:00.000Z".to_string(),
+            created_by: "codex-phase-4.1a".to_string(),
+            source_phase: "4.1A".to_string(),
+            reviewer: "Codex".to_string(),
+            devin_review_required_now: false,
+            preserve_devin_review_for: "major-runtime-readiness-checkpoint".to_string(),
+            metadata_only: true,
+            writes_files: false,
+            runs_runtime: false,
+        },
+    }
+}
+
+pub fn denied_host_policy_approval_record(reason: &str) -> HostResult<HostPolicyApprovalRecord> {
+    if reason.is_empty() {
+        return Err(validation_error(
+            "denied host-policy approval record requires a reason",
+        ));
+    }
+
+    let mut record = host_policy_approval_record();
+    record.approval_status = HostPolicyApprovalStatus::ReviewDenied;
+    record.classification = HostPolicyApprovalRecordClassification::Denied;
+    record.denial.fail_closed_reasons = vec!["operator_denied_runtime_request".to_string()];
+    record.denial.denial_reason = Some(reason.to_string());
+    validate_host_policy_approval_record(&record)?;
+    Ok(record)
+}
+
+pub fn classify_host_policy_approval_record(
+    record: &HostPolicyApprovalRecord,
+) -> HostPolicyApprovalRecordClassification {
+    if record.schema != ARDYN_HOST_POLICY_APPROVAL_RECORD_SCHEMA
+        || record.schema_version != ARDYN_HOST_POLICY_APPROVAL_RECORD_VERSION
+        || record.record_kind != ARDYN_HOST_POLICY_APPROVAL_RECORD_KIND
+        || record.record_phase != ARDYN_HOST_POLICY_APPROVAL_RECORD_PHASE
+        || record.reviewed_phase != ARDYN_HOST_POLICY_APPROVAL_REVIEWED_PHASE_LABEL
+        || record.approval_target.target_kind != ARDYN_HOST_POLICY_APPROVAL_TARGET_KIND
+        || record.approval_target.target_phase != ARDYN_HOST_POLICY_APPROVAL_TARGET_PHASE
+        || record.approval_target.target_commands != host_policy_approval_target_commands()
+        || record.runtime_capability_request.capability
+            != ARDYN_HOST_POLICY_APPROVAL_RUNTIME_CAPABILITY
+        || record.current_record_runtime_statement != host_policy_approval_runtime_statement()
+        || record.non_execution_invariant_summary.summary
+            != host_policy_approval_invariant_summary()
+        || record.non_execution_invariant_summary.invariants != policy_non_execution_invariants()
+        || record.audit.created_at != "1970-01-01T00:00:00.000Z"
+        || record.audit.created_by != "codex-phase-4.1a"
+        || record.audit.source_phase != "4.1A"
+        || record.audit.reviewer != "Codex"
+        || record.audit.devin_review_required_now
+        || record.audit.preserve_devin_review_for != "major-runtime-readiness-checkpoint"
+        || !record.audit.metadata_only
+        || record.audit.writes_files
+        || record.audit.runs_runtime
+    {
+        return HostPolicyApprovalRecordClassification::Malformed;
+    }
+
+    if !host_policy_approval_runtime_effect_is_inert(record) {
+        return HostPolicyApprovalRecordClassification::RuntimeNotAvailable;
+    }
+
+    if record.approval_status == HostPolicyApprovalStatus::ReviewDenied {
+        return HostPolicyApprovalRecordClassification::Denied;
+    }
+
+    if !host_policy_operator_consent_complete(&record.operator_consent) {
+        return HostPolicyApprovalRecordClassification::MissingOperatorConsent;
+    }
+
+    if !host_policy_approval_validity_window_is_active(&record.validity) {
+        return HostPolicyApprovalRecordClassification::ExpiredOrNotYetValid;
+    }
+
+    HostPolicyApprovalRecordClassification::ValidReviewRecord
+}
+
+pub fn validate_host_policy_approval_record(record: &HostPolicyApprovalRecord) -> HostResult<()> {
+    let classification = classify_host_policy_approval_record(record);
+    if record.classification != classification {
+        return Err(validation_error(
+            "host-policy approval record classification is unsupported",
+        ));
+    }
+
+    match classification {
+        HostPolicyApprovalRecordClassification::ValidReviewRecord => {
+            if record.approval_status != HostPolicyApprovalStatus::ReviewApproved
+                || !record.denial.fail_closed_reasons.is_empty()
+                || record.denial.denial_reason.is_some()
+            {
+                return Err(validation_error(
+                    "valid host-policy approval record must remain inert approved review metadata",
+                ));
+            }
+        }
+        HostPolicyApprovalRecordClassification::Denied => {
+            if record.denial.fail_closed_reasons.is_empty() || record.denial.denial_reason.is_none()
+            {
+                return Err(validation_error(
+                    "denied host-policy approval record requires fail-closed diagnostics",
+                ));
+            }
+        }
+        HostPolicyApprovalRecordClassification::MissingOperatorConsent
+        | HostPolicyApprovalRecordClassification::ExpiredOrNotYetValid
+        | HostPolicyApprovalRecordClassification::UnsupportedVersion
+        | HostPolicyApprovalRecordClassification::Malformed
+        | HostPolicyApprovalRecordClassification::RuntimeNotAvailable => {
+            return Err(validation_error(
+                "host-policy approval record is not an exact current review record",
+            ));
+        }
+    }
+
+    Ok(())
+}
+
+pub fn serialize_host_policy_approval_record_json(
+    record: &HostPolicyApprovalRecord,
+) -> HostResult<String> {
+    validate_host_policy_approval_record(record)?;
+    let json = serde_json::to_string_pretty(record)?;
+
+    Ok(format!("{json}\n"))
+}
+
+pub fn host_policy_approval_record_json() -> HostResult<String> {
+    serialize_host_policy_approval_record_json(&host_policy_approval_record())
+}
+
+pub fn denied_host_policy_approval_record_json(reason: &str) -> HostResult<String> {
+    serialize_host_policy_approval_record_json(&denied_host_policy_approval_record(reason)?)
+}
+
+pub fn parse_host_policy_approval_record_json(input: &str) -> HostResult<HostPolicyApprovalRecord> {
+    if input.contains('\r') {
+        return Err(validation_error(
+            "host-policy approval record must be LF-only JSON",
+        ));
+    }
+
+    let record: HostPolicyApprovalRecord = serde_json::from_str(input)?;
+    validate_host_policy_approval_record(&record)?;
+    Ok(record)
+}
+
+pub fn classify_host_policy_approval_record_json(
+    input: &str,
+) -> HostPolicyApprovalRecordClassification {
+    if input.contains('\r') {
+        return HostPolicyApprovalRecordClassification::Malformed;
+    }
+
+    let value: serde_json::Value = match serde_json::from_str(input) {
+        Ok(value) => value,
+        Err(_) => return HostPolicyApprovalRecordClassification::Malformed,
+    };
+
+    let object = match value.as_object() {
+        Some(object) => object,
+        None => return HostPolicyApprovalRecordClassification::Malformed,
+    };
+
+    let schema = object.get("schema").and_then(serde_json::Value::as_str);
+    if schema != Some(ARDYN_HOST_POLICY_APPROVAL_RECORD_SCHEMA) {
+        return HostPolicyApprovalRecordClassification::Malformed;
+    }
+
+    let schema_version = match object
+        .get("schemaVersion")
+        .and_then(serde_json::Value::as_str)
+    {
+        Some(schema_version) => schema_version,
+        None => return HostPolicyApprovalRecordClassification::Malformed,
+    };
+
+    if has_malformed_semver(schema_version) {
+        return HostPolicyApprovalRecordClassification::Malformed;
+    }
+
+    if is_unsupported_major(schema_version, ARDYN_HOST_POLICY_APPROVAL_RECORD_VERSION)
+        || is_same_major_non_current(schema_version, ARDYN_HOST_POLICY_APPROVAL_RECORD_VERSION)
+    {
+        return HostPolicyApprovalRecordClassification::UnsupportedVersion;
+    }
+
+    let json = match serde_json::to_string(&value) {
+        Ok(json) => json,
+        Err(_) => return HostPolicyApprovalRecordClassification::Malformed,
+    };
+    let record: HostPolicyApprovalRecord = match serde_json::from_str(&json) {
+        Ok(record) => record,
+        Err(_) => return HostPolicyApprovalRecordClassification::Malformed,
+    };
+
+    let classification = classify_host_policy_approval_record(&record);
+    if record.classification == classification {
+        classification
+    } else {
+        HostPolicyApprovalRecordClassification::Malformed
     }
 }
 
@@ -2178,6 +2699,24 @@ mod tests {
         );
     }
 
+    fn approval_record_json_from_value(value: serde_json::Value) -> String {
+        format!(
+            "{}\n",
+            serde_json::to_string_pretty(&value).expect("approval record value json")
+        )
+    }
+
+    fn assert_host_policy_approval_record_rejected(value: serde_json::Value, label: &str) {
+        let json = approval_record_json_from_value(value);
+        let error = parse_host_policy_approval_record_json(&json)
+            .expect_err("approval record mutation should fail closed");
+
+        assert!(
+            !error.to_string().is_empty(),
+            "{label} should produce a diagnostic"
+        );
+    }
+
     #[test]
     fn stdio_transport_policy_metadata_json_is_deterministic_and_matches_golden_fixture() {
         let first = stdio_transport_policy_metadata_json().expect("first metadata json");
@@ -2483,7 +3022,10 @@ mod tests {
             record.compatibility,
             HostPolicyReviewCompatibility::RejectedPolicy
         );
-        assert_eq!(record.decision.status, HostPolicyReviewStatus::ReviewRejected);
+        assert_eq!(
+            record.decision.status,
+            HostPolicyReviewStatus::ReviewRejected
+        );
         assert!(!record.decision.approval_recorded);
         assert!(record.decision.rejection_recorded);
         assert!(record.decision.review_metadata_only);
@@ -2492,6 +3034,241 @@ mod tests {
         assert_eq!(
             classify_host_policy_review_record_json(&json),
             HostPolicyReviewCompatibility::RejectedPolicy
+        );
+    }
+
+    #[test]
+    fn host_policy_approval_record_json_is_deterministic_and_matches_golden_fixture() {
+        let first = host_policy_approval_record_json().expect("first approval record json");
+        let second = host_policy_approval_record_json().expect("second approval record json");
+        let fixture = include_str!(
+            "../../../tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+        );
+
+        assert_eq!(first, second);
+        assert_eq!(first, fixture);
+        assert!(first.ends_with('\n'));
+        assert!(!first.contains('\r'));
+        assert!(parse_host_policy_approval_record_json(&first).is_ok());
+        assert_eq!(
+            classify_host_policy_approval_record_json(&first),
+            HostPolicyApprovalRecordClassification::ValidReviewRecord
+        );
+    }
+
+    #[test]
+    fn host_policy_approval_record_top_level_field_order_is_stable() {
+        let json = host_policy_approval_record_json().expect("approval record json");
+        let mut previous_index = None;
+
+        for field in host_policy_approval_record_top_level_order() {
+            let needle = format!("  \"{field}\":");
+            let index = json.find(&needle).expect("field should exist");
+
+            if let Some(previous_index) = previous_index {
+                assert!(
+                    previous_index < index,
+                    "{field} should appear after the previous field"
+                );
+            }
+
+            previous_index = Some(index);
+        }
+    }
+
+    #[test]
+    fn host_policy_approval_record_classification_is_deterministic() {
+        let cases = [
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+                ),
+                HostPolicyApprovalRecordClassification::ValidReviewRecord,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1a/missing-operator-consent-host-policy-approval-record.json"
+                ),
+                HostPolicyApprovalRecordClassification::MissingOperatorConsent,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1a/denied-host-policy-approval-record.json"
+                ),
+                HostPolicyApprovalRecordClassification::Denied,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1a/unsupported-major-host-policy-approval-record.json"
+                ),
+                HostPolicyApprovalRecordClassification::UnsupportedVersion,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1a/malformed-missing-record-kind-host-policy-approval-record.json"
+                ),
+                HostPolicyApprovalRecordClassification::Malformed,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1a/expired-not-yet-valid-host-policy-approval-record.json"
+                ),
+                HostPolicyApprovalRecordClassification::ExpiredOrNotYetValid,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1a/runtime-grant-attempt-host-policy-approval-record.json"
+                ),
+                HostPolicyApprovalRecordClassification::RuntimeNotAvailable,
+            ),
+        ];
+
+        for (json, expected) in cases {
+            assert_eq!(classify_host_policy_approval_record_json(json), expected);
+        }
+    }
+
+    #[test]
+    fn host_policy_approval_record_rejects_fail_closed_records() {
+        for json in [
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1a/missing-operator-consent-host-policy-approval-record.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1a/unsupported-major-host-policy-approval-record.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1a/malformed-missing-record-kind-host-policy-approval-record.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1a/expired-not-yet-valid-host-policy-approval-record.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1a/runtime-grant-attempt-host-policy-approval-record.json"
+            ),
+        ] {
+            assert!(parse_host_policy_approval_record_json(json).is_err());
+        }
+
+        assert!(parse_host_policy_approval_record_json(include_str!(
+            "../../../tests/fixtures/host-policy/phase4-1a/denied-host-policy-approval-record.json"
+        ))
+        .is_ok());
+
+        let mut current: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+        ))
+        .expect("current approval record");
+        current["runtimeEffect"]["runtimeApprovalEffectAllowed"] = serde_json::Value::Bool(true);
+        assert_host_policy_approval_record_rejected(current, "runtime approval effect");
+
+        let mut current: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+        ))
+        .expect("current approval record");
+        current["operatorConsent"]["consentRecorded"] = serde_json::Value::Bool(false);
+        assert_host_policy_approval_record_rejected(current, "missing consent");
+
+        let mut current: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+        ))
+        .expect("current approval record");
+        current["nonExecutionInvariantSummary"]["invariants"]
+            .as_array_mut()
+            .expect("invariants")
+            .pop();
+        assert_host_policy_approval_record_rejected(current, "invariant drift");
+    }
+
+    #[test]
+    fn host_policy_approval_record_operator_consent_is_necessary_but_not_sufficient() {
+        let record = host_policy_approval_record();
+
+        validate_host_policy_approval_record(&record).expect("approval record");
+        assert!(record.operator_consent.consent_recorded);
+        assert!(record.operator_consent.process_stdio_ownership_consent);
+        assert!(record.operator_consent.stdin_lifecycle_control_consent);
+        assert!(record.operator_consent.stdout_jsonl_ownership_consent);
+        assert!(record.operator_consent.stderr_diagnostics_ownership_consent);
+        assert!(record.operator_consent.process_termination_control_consent);
+        assert!(
+            record
+                .operator_consent
+                .transcript_persistence_review_consent
+        );
+        assert!(
+            record
+                .operator_consent
+                .failure_audit_record_emission_consent
+        );
+        assert!(
+            record
+                .runtime_effect
+                .operator_consent_necessary_but_not_sufficient
+        );
+        assert!(!record.runtime_effect.current_record_enables_runtime);
+        assert!(!record.runtime_effect.runtime_approval_effect_allowed);
+        assert!(!record.runtime_effect.runtime_implementation_available);
+        assert!(!record.runtime_effect.runtime_command_available);
+        assert!(
+            !record
+                .runtime_capability_request
+                .runtime_implementation_available
+        );
+        assert!(!record.runtime_capability_request.serve_runtime_available);
+        assert!(!record.runtime_capability_request.stdio_runtime_available);
+
+        let mut missing_consent = record.clone();
+        missing_consent.operator_consent.consent_recorded = false;
+        missing_consent.classification =
+            HostPolicyApprovalRecordClassification::MissingOperatorConsent;
+        missing_consent.denial.fail_closed_reasons = vec!["missing_operator_consent".to_string()];
+        assert_eq!(
+            classify_host_policy_approval_record(&missing_consent),
+            HostPolicyApprovalRecordClassification::MissingOperatorConsent
+        );
+        assert!(validate_host_policy_approval_record(&missing_consent).is_err());
+
+        let mut runtime_grant = record;
+        runtime_grant.runtime_effect.current_record_enables_runtime = true;
+        runtime_grant.runtime_effect.runtime_approval_effect_allowed = true;
+        runtime_grant.classification = HostPolicyApprovalRecordClassification::RuntimeNotAvailable;
+        runtime_grant.denial.fail_closed_reasons = vec![
+            "runtime_not_available".to_string(),
+            "runtime_effect_flag_true".to_string(),
+        ];
+        assert_eq!(
+            classify_host_policy_approval_record(&runtime_grant),
+            HostPolicyApprovalRecordClassification::RuntimeNotAvailable
+        );
+        assert!(validate_host_policy_approval_record(&runtime_grant).is_err());
+    }
+
+    #[test]
+    fn denied_host_policy_approval_record_json_is_static_review_metadata() {
+        let json = denied_host_policy_approval_record_json("operator denied runtime request")
+            .expect("denied approval record json");
+        let fixture = include_str!(
+            "../../../tests/fixtures/host-policy/phase4-1a/denied-host-policy-approval-record.json"
+        );
+        let record = parse_host_policy_approval_record_json(&json)
+            .expect("denied approval record remains parseable review metadata");
+
+        assert_eq!(json, fixture);
+        assert_eq!(
+            record.approval_status,
+            HostPolicyApprovalStatus::ReviewDenied
+        );
+        assert_eq!(
+            record.classification,
+            HostPolicyApprovalRecordClassification::Denied
+        );
+        assert!(!record.runtime_effect.current_record_enables_runtime);
+        assert!(!record.runtime_effect.runtime_approval_effect_allowed);
+        assert!(!record.audit.runs_runtime);
+        assert_eq!(
+            classify_host_policy_approval_record_json(&json),
+            HostPolicyApprovalRecordClassification::Denied
         );
     }
 

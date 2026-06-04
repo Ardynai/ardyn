@@ -176,6 +176,16 @@ stdout, add a CLI command, deny a running runtime, persist transcripts, replay
 transcripts, handle secrets, implement live stdio ownership, or change the
 finite TypeScript dry-run emitter. See `docs/phase-4-1-runtime-proposal.md`.
 
+Phase 4.1A adds static host-policy approval-record and operator-consent
+artifacts. Operator consent is necessary but not sufficient for any future
+runtime path, and current records do not enable runtime. The records remain
+inert review/audit metadata only. They do not grant runtime approval, start
+host-policy enforcement, add an approval evaluator, write files, print stdout,
+add a CLI command, deny a running runtime, persist transcripts, replay
+transcripts, handle secrets, implement live stdio ownership, or change the
+finite TypeScript dry-run emitter. See
+`docs/phase-4-1a-host-policy-approval-records.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

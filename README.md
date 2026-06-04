@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.1 Scope
+## Phase 3 and Phase 4.1A Scope
 
-This repository is currently in Phase 4.1 runtime proposal-only mode. The
+This repository is currently in Phase 4.1A host-policy approval-record mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -20,9 +20,10 @@ exist, codify those Phase 4.0C policies as inert Rust-host contract types, and
 export those contracts as deterministic review-only JSON metadata with static
 host-policy review-record fixtures, compatibility classification, and
 display-only comparison records plus a static reviewer handoff index for
-Devin/Codex review workflows, a final static readiness checklist, and a
-proposal-only runtime implementation plan before any separately approved live
-runtime work.
+Devin/Codex review workflows, a final static readiness checklist, a
+proposal-only runtime implementation plan, and static host-policy approval
+records/operator-consent fields before any separately approved live runtime
+work.
 
 Included now:
 
@@ -78,6 +79,11 @@ Included now:
   fail-closed semantics, backpressure and partial-write handling,
   dropped/duplicate/out-of-order/malformed-line behavior, required tests, and
   phased roadmap. It is proposal-only and grants no runtime approval.
+- Phase 4.1A static host-policy approval-record helpers, deterministic
+  operator-consent fixtures, compatibility classification, denial/fail-closed
+  reason coverage, and report metadata. Approval records are review/audit
+  artifacts only; operator consent is necessary but not sufficient and grants
+  no runtime approval.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -122,9 +128,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.1 CLI Usage
+## Phase 3 and Phase 4.1A CLI Usage
 
-Run non-executing commands directly from source through Phase 4.1:
+Run non-executing commands directly from source through Phase 4.1A:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -229,7 +235,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.1 proposal-only status report command is:
+The Phase 4.1A approval-record-only status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -247,7 +253,7 @@ Phase 4.0E policy metadata export/review-record mapping metadata, Phase 4.0F
 static host-policy review-record metadata, Phase 4.0G display-only comparison
 metadata, Phase 4.0H static reviewer handoff index metadata, Phase 4.0I final
 pre-runtime readiness metadata, Phase 4.1 runtime proposal metadata, and
-safety posture.
+Phase 4.1A host-policy approval-record metadata, and safety posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -342,6 +348,17 @@ line-integrity behavior, required tests, and phased roadmap. The proposal is
 static review evidence only; it is not runtime configuration, not an approval
 token, not a stdout printer, not a file writer, not a transcript replay
 runtime, and not consumed by a live host loop.
+
+Phase 4.1A adds no new CLI command and does not change the finite dry-run
+emitter, Rust-host stdio transport policy metadata, host-policy review-record
+helpers, comparison helpers, reviewer index, final readiness bundle, or Phase
+4.1 proposal bundle. It adds
+`docs/phase-4-1a-host-policy-approval-records.md`, review-only Rust helper
+types, and deterministic approval-record/operator-consent fixtures under
+`tests/fixtures/host-policy/phase4-1a/`. Approval records are static
+review/audit artifacts only; they are not runtime configuration, not approval
+tokens, not a stdout printer, not a file writer, not an approval evaluator, not
+host-policy enforcement, and not consumed by a live host loop.
 
 ## Phase 3.3-3.9 Policy Review
 

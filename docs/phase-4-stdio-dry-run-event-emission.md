@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G/4.0H/4.0I/4.1 Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G/4.0H/4.0I/4.1/4.1A Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -60,6 +60,15 @@ proposal CLI command, live stdio reader, runtime owner, transcript persistence,
 replay command, WebSocket, HTTP, adapter, plugin, Content Fabric runtime,
 secret, production signing-key path, runtime approval grant, or live runtime
 implementation.
+
+Phase 4.1A adds static host-policy approval-record documentation, review-only
+Rust helper types, and deterministic operator-consent fixtures only. It still
+does not change the finite TypeScript dry-run emitter or add an approval CLI
+command, operator-consent CLI command, approval evaluator, host-policy
+enforcement path, file writer, stdout printer, live stdio reader, runtime
+owner, transcript persistence, replay command, WebSocket, HTTP, adapter,
+plugin, Content Fabric runtime, secret, production signing-key path, runtime
+approval grant, or live runtime implementation.
 
 ## CLI Surface
 
@@ -292,11 +301,28 @@ review only. It is not runtime configuration, not an approval token, not a
 stdout printer, not a file writer, not a replay runtime, and not consumed by a
 live host loop.
 
+## Phase 4.1A Host-Policy Approval Records
+
+Phase 4.1A adds static host-policy approval records and operator-consent
+fields for Codex review. See
+`docs/phase-4-1a-host-policy-approval-records.md`.
+
+The Phase 4.1A fixtures are under
+`tests/fixtures/host-policy/phase4-1a/`. They cover a valid-looking
+review-only approval record that still cannot enable runtime, missing operator
+consent, denied approval, unsupported version, malformed record,
+expired/not-yet-valid validity, and a permissive runtime-grant attempt that
+fails closed. The fixtures are static review metadata only. They are not
+runtime configuration, not approval tokens, not an approval evaluator, not a
+stdout printer, not a file writer, not replay runtime, and not consumed by a
+live host loop.
+
 ## Deferred Runtime Work
 
-Phase 4.1 intentionally does not implement repo-root confinement, transcript
+Phase 4.1A intentionally does not implement repo-root confinement, transcript
 persistence, dropped-line replay, duplicate detection across a live stream,
 stderr redaction enforcement, or Rust-host stdout/stderr runtime ownership.
-It documents review evidence and a roadmap for later host-policy phases. A
-future live runtime still requires separate explicit host policy,
-implementation, tests, and runtime enablement.
+It documents review evidence, operator-consent fields, fail-closed approval
+record classifications, and a roadmap for later host-policy phases. A future
+live runtime still requires separate explicit host policy, implementation,
+tests, and runtime enablement.

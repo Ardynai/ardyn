@@ -1,0 +1,106 @@
+{
+  "schema": "ardyn.host-policy-approval-record",
+  "schemaVersion": "0.1.0",
+  "recordKind": "host-policy-approval-record",
+  "recordPhase": "phase-4.1a-host-policy-approval-records",
+  "reviewedPhase": "4.1A",
+  "approvalTarget": {
+    "targetKind": "future-runtime-surface",
+    "targetPhase": "future-separately-approved-runtime-implementation",
+    "targetCommands": [
+      "serve-runtime",
+      "stdio-runtime"
+    ],
+    "requiresSeparateImplementationPhase": false,
+    "devinReviewRequiredBeforeEnablement": false
+  },
+  "operatorConsent": {
+    "consentRecorded": true,
+    "operatorId": "local-operator-reviewer",
+    "consentVersion": "0.1.0",
+    "consentedAt": "1970-01-01T00:00:00.000Z",
+    "consentScope": [
+      "process-stdio-ownership",
+      "stdin-lifecycle-control",
+      "stdout-jsonl-ownership",
+      "stderr-diagnostics-ownership",
+      "process-termination-control",
+      "transcript-persistence-review",
+      "failure-audit-record-emission"
+    ],
+    "processStdioOwnershipConsent": true,
+    "stdinLifecycleControlConsent": true,
+    "stdoutJsonlOwnershipConsent": true,
+    "stderrDiagnosticsOwnershipConsent": true,
+    "processTerminationControlConsent": true,
+    "transcriptPersistenceReviewConsent": true,
+    "failureAuditRecordEmissionConsent": true,
+    "understandsNecessaryButNotSufficient": true,
+    "understandsNoRuntimeEnabledInThisPhase": true,
+    "understandsSeparateImplementationRequired": true
+  },
+  "runtimeCapabilityRequest": {
+    "capability": "live-stdio-runtime",
+    "reason": "Review the operator-consent boundary required before any future stdio runtime implementation.",
+    "runtimeImplementationAvailable": true,
+    "serveRuntimeAvailable": true,
+    "stdioRuntimeAvailable": true
+  },
+  "approvalStatus": "review-approved",
+  "validity": {
+    "notBefore": "1970-01-01T00:00:00.000Z",
+    "expiresAt": "2099-01-01T00:00:00.000Z",
+    "evaluatedAt": "1970-01-01T00:00:00.000Z",
+    "validAtEvaluation": true
+  },
+  "runtimeEffect": {
+    "currentRecordEnablesRuntime": true,
+    "runtimeApprovalEffectAllowed": true,
+    "runtimeImplementationAvailable": true,
+    "runtimeCommandAvailable": true,
+    "requiresSeparateRuntimeImplementationApproval": false,
+    "operatorConsentNecessaryButNotSufficient": false
+  },
+  "currentRecordRuntimeStatement": "Current Phase 4.1A approval records are static review/audit artifacts only and do not enable runtime.",
+  "nonExecutionInvariantSummary": {
+    "summary": "Operator consent is necessary but not sufficient; live runtime remains unavailable until a separately approved implementation phase and major runtime-readiness checkpoint.",
+    "invariants": [
+      "no-live-stdio-runtime",
+      "no-stdin-command-loop",
+      "no-live-stdio-reader",
+      "no-listener",
+      "no-server",
+      "no-subprocess-spawning",
+      "no-adapter-calls",
+      "no-locus-runtime-dependency",
+      "no-mcp-calls",
+      "no-openclaw-calls",
+      "no-plugin-execution",
+      "no-content-fabric-runtime-behavior",
+      "no-autonomous-loop",
+      "no-secret-handling",
+      "no-production-signing-keys",
+      "no-transcript-persistence-replay-runtime",
+      "no-websocket-http-control-surface",
+      "no-runtime-execution-behavior"
+    ]
+  },
+  "classification": "runtime_not_available",
+  "denial": {
+    "failClosedReasons": [
+      "runtime_not_available",
+      "runtime_effect_flag_true"
+    ]
+  },
+  "audit": {
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "createdBy": "codex-phase-4.1a",
+    "sourcePhase": "4.1A",
+    "reviewer": "Codex",
+    "devinReviewRequiredNow": false,
+    "preserveDevinReviewFor": "major-runtime-readiness-checkpoint",
+    "metadataOnly": true,
+    "writesFiles": false,
+    "runsRuntime": false
+  }
+}

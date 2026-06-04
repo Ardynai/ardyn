@@ -387,9 +387,9 @@ test("Phase 4.1 status report still inventories Phase 4.0I readiness metadata wi
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1",
-    name: "Runtime proposal",
-    executionPosture: "proposal-only non-executing"
+    id: "4.1A",
+    name: "Host policy approval records",
+    executionPosture: "approval-record-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -409,6 +409,7 @@ test("Phase 4.1 status report still inventories Phase 4.0I readiness metadata wi
   );
   assert.equal(report.safetyPosture.finalPreRuntimeReadiness, true);
   assert.equal(report.safetyPosture.runtimeProposal, true);
+  assert.equal(report.safetyPosture.hostPolicyApprovalRecords, true);
   assert.equal(report.safetyPosture.flags.phase41RuntimeImplemented, false);
 
   for (const check of [...report.configuredChecks, ...report.verificationCommands]) {

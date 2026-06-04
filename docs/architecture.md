@@ -82,6 +82,13 @@ runtime helper, CLI command, stdout printer, file writer, live stdio reader,
 process stdio ownership, runtime approval grant, or host-policy enforcement
 path. See `docs/phase-4-1-runtime-proposal.md`.
 
+Phase 4.1A adds static Rust-host approval-record and operator-consent helper
+types for review/audit evidence only. It does not add a TypeScript core API,
+Rust runtime helper, approval evaluator, active host-policy enforcement path,
+CLI command, stdout printer, file writer, live stdio reader, process stdio
+ownership, runtime approval grant, or live host loop. See
+`docs/phase-4-1a-host-policy-approval-records.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

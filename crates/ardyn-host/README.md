@@ -2,13 +2,14 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.0F still exposes static Rust host identity, handshake data, policy-only
+Phase 4.1A still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
-helpers, and static host-policy review-record helpers. Rust task planning,
-runtime execution, live stdio reading, process-level stdio ownership, tool
-execution, network serving, plugin installation, torrent download, code-pack
-enablement, runtime approval grants, and agent-loop behavior are not
-implemented here.
+helpers, static host-policy review-record helpers, and static host-policy
+approval-record/operator-consent helpers. Rust task planning, runtime
+execution, live stdio reading, process-level stdio ownership, tool execution,
+network serving, plugin installation, torrent download, code-pack enablement,
+runtime approval grants, host-policy enforcement, approval evaluation, and
+agent-loop behavior are not implemented here.
 
 The Phase 4.0D contract surface is `stdio_transport_policy_contract()` plus the
 serializable `StdioTransportPolicyContract` and `RuntimeSafetyPolicyFlags`
@@ -35,6 +36,16 @@ These helpers return strings, typed review metadata, or compatibility classes
 only; they do not write files, print to stdout, read stdin, start a runtime,
 own stdio, grant runtime approval, or load secrets. See
 `docs/phase-4-0f-host-policy-review-records.md`.
+
+The Phase 4.1A approval-record surface is
+`host_policy_approval_record_json()`,
+`denied_host_policy_approval_record_json()`,
+`parse_host_policy_approval_record_json()`, and
+`classify_host_policy_approval_record_json()`. These helpers return strings,
+typed review metadata, or classification values only; they do not write files,
+print to stdout, read stdin, start a runtime, own stdio, enforce host policy,
+evaluate live approval, grant runtime approval, or load secrets. See
+`docs/phase-4-1a-host-policy-approval-records.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

@@ -2,17 +2,20 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.1 exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
-4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, and Phase 4.0I:
+Phase 4.1A exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, and Phase
+4.1:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.1 adds runtime proposal documentation and
-deterministic metadata only; it does not add a proposal CLI command, readiness
-CLI command, reviewer-index CLI command, comparison CLI command, live stdio
-reader, replay command, listener, server, subprocess supervisor, adapter call,
-Locus dependency, MCP/OpenClaw call, plugin execution path, Content Fabric
-runtime path, runtime approval grant, live runtime implementation, or agent
-loop. See `docs/phase-4-1-runtime-proposal.md`.
+`emit-session-events`. Phase 4.1A adds host-policy approval-record
+documentation, review-only Rust helper types, and deterministic metadata only;
+it does not add an approval-record CLI command, operator-consent CLI command,
+`approve-runtime`, `grant-runtime`, `enable-runtime`, proposal CLI command,
+readiness CLI command, live stdio reader, replay command, listener, server,
+subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call,
+plugin execution path, Content Fabric runtime path, runtime approval grant,
+live runtime implementation, or agent loop. See
+`docs/phase-4-1a-host-policy-approval-records.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -141,3 +144,11 @@ unchanged. It adds no proposal CLI command, no runtime command, no
 writer, no stdout printer, no live stdio reader, no process stdio ownership,
 no transcript persistence/replay runtime, and no runtime approval grant. See
 `docs/phase-4-1-runtime-proposal.md`.
+
+Phase 4.1A adds static host-policy approval records and still leaves CLI
+behavior unchanged. It adds no approval-record CLI command, no
+operator-consent CLI command, no `approve-runtime`, no `grant-runtime`, no
+`enable-runtime`, no `serve-runtime`, no `stdio-runtime`, no file writer, no
+stdout printer, no live stdio reader, no process stdio ownership, no
+host-policy enforcement path, no approval evaluator, and no runtime approval
+grant. See `docs/phase-4-1a-host-policy-approval-records.md`.

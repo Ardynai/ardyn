@@ -212,6 +212,18 @@ secret handling, production signing-key usage, WebSocket transport, HTTP
 transport, or runtime approval grant. See
 `docs/phase-4-1-runtime-proposal.md`.
 
+Phase 4.1A adds static host-policy approval records and operator-consent
+fields for review only. Consent records may name future `serve-runtime` and
+`stdio-runtime` targets, but those command names remain unavailable and the
+records do not enable runtime. Phase 4.1A does not add a CLI command, file
+writer, stdout printer, stdin command loop, live stdio reader, runtime owner,
+transcript replay command, listener, server, subprocess supervisor, adapter
+call, Locus runtime dependency, MCP/OpenClaw call, plugin execution path,
+Content Fabric runtime behavior, secret handling, production signing-key
+usage, WebSocket transport, HTTP transport, host-policy enforcement, approval
+evaluator, or runtime approval grant. See
+`docs/phase-4-1a-host-policy-approval-records.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

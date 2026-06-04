@@ -52,6 +52,9 @@ const phase40IFinalReadinessMetadata = await readJson(
 const phase41RuntimeProposalMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-1/runtime-proposal.json"
 );
+const phase41AApprovalRecordMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -99,9 +102,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1",
-    name: "Runtime proposal",
-    executionPosture: "proposal-only non-executing"
+    id: "4.1A",
+    name: "Host policy approval records",
+    executionPosture: "approval-record-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -133,12 +136,17 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1 proposal-only status report.",
+      purpose: "Render this deterministic local Phase 4.1A approval-record-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1 status report.",
+      purpose: "Run focused tests for this local Phase 4.1A status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1a-host-policy-approval-records.test.mjs",
+      purpose: "Run focused Phase 4.1A host-policy approval-record static checks.",
       ranByReport: false
     },
     {
@@ -2523,6 +2531,290 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41AApprovalRecordInventory: {
+    hostPolicyApprovalRecords: {
+      document: "docs/phase-4-1a-host-policy-approval-records.md",
+      source: "crates/ardyn-host/src/lib.rs",
+      schema: phase41AApprovalRecordMetadata.schema,
+      schemaVersion: phase41AApprovalRecordMetadata.schemaVersion,
+      recordKind: phase41AApprovalRecordMetadata.recordKind,
+      recordPhase: phase41AApprovalRecordMetadata.recordPhase,
+      reviewedPhase: phase41AApprovalRecordMetadata.reviewedPhase,
+      runtimeCapabilityRequested:
+        phase41AApprovalRecordMetadata.runtimeCapabilityRequest.capability,
+      approvalStatus: phase41AApprovalRecordMetadata.approvalStatus,
+      classification: phase41AApprovalRecordMetadata.classification,
+      currentRecordRuntimeStatement:
+        phase41AApprovalRecordMetadata.currentRecordRuntimeStatement,
+      staticReviewArtifactOnly: true,
+      operatorConsentNecessaryButNotSufficient:
+        phase41AApprovalRecordMetadata.runtimeEffect
+          .operatorConsentNecessaryButNotSufficient,
+      currentRecordEnablesRuntime:
+        phase41AApprovalRecordMetadata.runtimeEffect.currentRecordEnablesRuntime,
+      runtimeApprovalEffectAllowed:
+        phase41AApprovalRecordMetadata.runtimeEffect.runtimeApprovalEffectAllowed,
+      runtimeImplementationAvailable:
+        phase41AApprovalRecordMetadata.runtimeEffect.runtimeImplementationAvailable,
+      runtimeCommandAvailable:
+        phase41AApprovalRecordMetadata.runtimeEffect.runtimeCommandAvailable,
+      grantsRuntimeApproval: false,
+      runtimeApprovalGranted: false,
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      hostPolicyEnforcementActive: false,
+      consumedByLiveHostLoop: false
+    },
+    basedOnRuntimeProposal: {
+      document: "docs/phase-4-1-runtime-proposal.md",
+      metadataFixture: "tests/fixtures/host-policy/phase4-1/runtime-proposal.json",
+      proposalPhase: phase41RuntimeProposalMetadata.proposalPhase,
+      approvalBoundaryId: phase41RuntimeProposalMetadata.approvalBoundary.id,
+      roadmapItem: "phase-4.1a-host-policy-approval-records",
+      grantsRuntimeApproval: phase41RuntimeProposalMetadata.grantsRuntimeApproval,
+      phase41RuntimeImplemented: phase41RuntimeProposalMetadata.phase41RuntimeImplemented
+    },
+    approvalRecordModel: {
+      rustEnum: "HostPolicyApprovalRecordClassification",
+      recordStruct: "HostPolicyApprovalRecord",
+      serializer: "serialize_host_policy_approval_record_json",
+      parser: "parse_host_policy_approval_record_json",
+      classifier: "classify_host_policy_approval_record_json",
+      helper: "host_policy_approval_record_json",
+      deniedHelper: "denied_host_policy_approval_record_json",
+      format: "pretty-json-lf-terminated",
+      finalLfRequired: true,
+      crlfAllowed: false,
+      classes: [
+        "valid_review_record",
+        "missing_operator_consent",
+        "expired_or_not_yet_valid",
+        "unsupported_version",
+        "malformed",
+        "denied",
+        "runtime_not_available"
+      ],
+      exactCurrentValidReviewRecordRequired: true,
+      nonRuntimeReviewMetadataOnly: true
+    },
+    operatorConsentDisplayFields: {
+      required: true,
+      consentRecorded: phase41AApprovalRecordMetadata.operatorConsent.consentRecorded,
+      consentVersion: phase41AApprovalRecordMetadata.operatorConsent.consentVersion,
+      consentScope: phase41AApprovalRecordMetadata.operatorConsent.consentScope,
+      processStdioOwnershipConsent:
+        phase41AApprovalRecordMetadata.operatorConsent.processStdioOwnershipConsent,
+      stdinLifecycleControlConsent:
+        phase41AApprovalRecordMetadata.operatorConsent.stdinLifecycleControlConsent,
+      stdoutJsonlOwnershipConsent:
+        phase41AApprovalRecordMetadata.operatorConsent.stdoutJsonlOwnershipConsent,
+      stderrDiagnosticsOwnershipConsent:
+        phase41AApprovalRecordMetadata.operatorConsent.stderrDiagnosticsOwnershipConsent,
+      processTerminationControlConsent:
+        phase41AApprovalRecordMetadata.operatorConsent.processTerminationControlConsent,
+      transcriptPersistenceReviewConsent:
+        phase41AApprovalRecordMetadata.operatorConsent.transcriptPersistenceReviewConsent,
+      failureAuditRecordEmissionConsent:
+        phase41AApprovalRecordMetadata.operatorConsent.failureAuditRecordEmissionConsent,
+      operatorConsentRuntimeEffectAllowed: false,
+      operatorConsentNecessaryButNotSufficient: true
+    },
+    runtimeScopeNames: {
+      runtimeCapability: phase41AApprovalRecordMetadata.runtimeCapabilityRequest.capability,
+      targetKind: phase41AApprovalRecordMetadata.approvalTarget.targetKind,
+      targetPhase: phase41AApprovalRecordMetadata.approvalTarget.targetPhase,
+      targetCommands: phase41AApprovalRecordMetadata.approvalTarget.targetCommands,
+      serveRuntimeAvailable:
+        phase41AApprovalRecordMetadata.runtimeCapabilityRequest.serveRuntimeAvailable,
+      stdioRuntimeAvailable:
+        phase41AApprovalRecordMetadata.runtimeCapabilityRequest.stdioRuntimeAvailable,
+      requiresSeparateImplementationPhase:
+        phase41AApprovalRecordMetadata.approvalTarget
+          .requiresSeparateImplementationPhase,
+      devinReviewRequiredBeforeEnablement:
+        phase41AApprovalRecordMetadata.approvalTarget
+          .devinReviewRequiredBeforeEnablement
+    },
+    denialReasonCatalog: [
+      "missing_operator_consent",
+      "consent_expired",
+      "consent_revoked",
+      "scope_mismatch",
+      "capability_mismatch",
+      "permission_scope_mismatch",
+      "policy_digest_mismatch",
+      "unsupported_schema_major",
+      "malformed_record",
+      "unknown_exact_current_field",
+      "runtime_effect_flag_true",
+      "host_policy_not_evaluated_by_rust_host",
+      "runtime_scope_not_approved",
+      "required_test_gate_missing",
+      "major_runtime_readiness_not_completed",
+      "runtime_not_available"
+    ],
+    reviewOnlyDisplayBehavior: {
+      approvalRecordsAreReviewAuditArtifactsOnly: true,
+      operatorConsentNecessaryButNotSufficient: true,
+      currentRecordsDoNotEnableRuntime: true,
+      futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+      preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+      reportRunsChecks: false,
+      writesFiles: false,
+      printsStdoutFromCli: false,
+      consumedByLiveHostLoop: false
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      approvalRecordCommandAdded: false,
+      operatorConsentCommandAdded: false,
+      approveRuntimeCommandAdded: false,
+      grantRuntimeCommandAdded: false,
+      enableRuntimeCommandAdded: false,
+      serveRuntimeCommandAdded: false,
+      stdioRuntimeCommandAdded: false,
+      stdoutPrinterAdded: false,
+      fileWriterAdded: false,
+      liveRuntimeCommandAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    apiSurface: {
+      rustReviewOnlyTypesAdded: true,
+      rustRuntimeHelperAdded: false,
+      rustStdioOwnerAdded: false,
+      typescriptCoreRuntimeApiAdded: false,
+      hostPolicyEnforcementAdded: false,
+      approvalEvaluatorAdded: false,
+      transcriptReplayRuntimeAdded: false
+    },
+    fixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1a/missing-operator-consent-host-policy-approval-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1a/denied-host-policy-approval-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1a/unsupported-major-host-policy-approval-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1a/malformed-missing-record-kind-host-policy-approval-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1a/expired-not-yet-valid-host-policy-approval-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1a/runtime-grant-attempt-host-policy-approval-record.json"
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1a-host-policy-approval-records.md",
+        "Defines Phase 4.1A host-policy approval records and operator-consent fields as review-only artifacts."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Links Phase 4.1A as the first proposal roadmap item without granting runtime approval."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1A leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.1A while preserving no-live-runtime stdio boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents approval records and consent as necessary but insufficient static preconditions."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records Phase 4.1A Rust-host review helpers without adding runtime ownership."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1A scope and unchanged non-executing CLI surface."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1A adds no approval, consent, or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.1A adds no TypeScript core runtime API or approval evaluator."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents Phase 4.1A Rust-host approval-record helpers as review-only metadata."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Contains Rust tests for deterministic approval-record JSON, classification, consent, denial, and fail-closed runtime attempts."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-1a-host-policy-approval-records.test.mjs",
+        "Pins Phase 4.1A fixtures, docs, report inventory, source guards, and rejected runtime/approval commands."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1A report metadata and safety posture."
+      )
+    ],
+    invariantProbes: [
+      "missing --dry-run",
+      "unknown emit-session-events arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "policy-metadata",
+      "host-policy-export",
+      "serve-runtime",
+      "stdio-runtime",
+      "approve-runtime",
+      "grant-runtime",
+      "host-policy-approval",
+      "operator-consent",
+      "enable-runtime",
+      "phase-4-1a-approval-records"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      approvalRecordOnly: true,
+      reviewOnly: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noHostPolicyEnforcement: true,
+      noApprovalEvaluator: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -2539,6 +2831,7 @@ const report = {
     reviewerHandoffIndex: true,
     finalPreRuntimeReadiness: true,
     runtimeProposal: true,
+    hostPolicyApprovalRecords: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

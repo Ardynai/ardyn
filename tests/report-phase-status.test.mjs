@@ -75,6 +75,33 @@ const phase41RoadmapIds = [
   "phase-4.1e-failure-audit-and-kill-semantics",
   "phase-4.1f-major-runtime-readiness-checkpoint"
 ];
+const phase41AApprovalClassifications = [
+  "valid_review_record",
+  "missing_operator_consent",
+  "expired_or_not_yet_valid",
+  "unsupported_version",
+  "malformed",
+  "denied",
+  "runtime_not_available"
+];
+const phase41AConsentScope = [
+  "process-stdio-ownership",
+  "stdin-lifecycle-control",
+  "stdout-jsonl-ownership",
+  "stderr-diagnostics-ownership",
+  "process-termination-control",
+  "transcript-persistence-review",
+  "failure-audit-record-emission"
+];
+const phase41AFixtureFiles = [
+  "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json",
+  "tests/fixtures/host-policy/phase4-1a/missing-operator-consent-host-policy-approval-record.json",
+  "tests/fixtures/host-policy/phase4-1a/denied-host-policy-approval-record.json",
+  "tests/fixtures/host-policy/phase4-1a/unsupported-major-host-policy-approval-record.json",
+  "tests/fixtures/host-policy/phase4-1a/malformed-missing-record-kind-host-policy-approval-record.json",
+  "tests/fixtures/host-policy/phase4-1a/expired-not-yet-valid-host-policy-approval-record.json",
+  "tests/fixtures/host-policy/phase4-1a/runtime-grant-attempt-host-policy-approval-record.json"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -100,14 +127,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1 proposal-only local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1A approval-record-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1",
-    name: "Runtime proposal",
-    executionPosture: "proposal-only non-executing"
+    id: "4.1A",
+    name: "Host policy approval records",
+    executionPosture: "approval-record-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -164,12 +191,17 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1 proposal-only status report.",
+      purpose: "Render this deterministic local Phase 4.1A approval-record-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1 status report.",
+      purpose: "Run focused tests for this local Phase 4.1A status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1a-host-policy-approval-records.test.mjs",
+      purpose: "Run focused Phase 4.1A host-policy approval-record static checks.",
       ranByReport: false
     },
     {
@@ -2101,6 +2133,181 @@ test("report inventories Phase 4.1 runtime proposal without implementing runtime
   });
 });
 
+test("report inventories Phase 4.1A host-policy approval records without enabling runtime", async () => {
+  const report = await runReport();
+  const inventory = report.phase41AApprovalRecordInventory;
+
+  assert.deepEqual(inventory.hostPolicyApprovalRecords, {
+    document: "docs/phase-4-1a-host-policy-approval-records.md",
+    source: "crates/ardyn-host/src/lib.rs",
+    schema: "ardyn.host-policy-approval-record",
+    schemaVersion: "0.1.0",
+    recordKind: "host-policy-approval-record",
+    recordPhase: "phase-4.1a-host-policy-approval-records",
+    reviewedPhase: "4.1A",
+    runtimeCapabilityRequested: "live-stdio-runtime",
+    approvalStatus: "review-approved",
+    classification: "valid_review_record",
+    currentRecordRuntimeStatement:
+      "Current Phase 4.1A approval records are static review/audit artifacts only and do not enable runtime.",
+    staticReviewArtifactOnly: true,
+    operatorConsentNecessaryButNotSufficient: true,
+    currentRecordEnablesRuntime: false,
+    runtimeApprovalEffectAllowed: false,
+    runtimeImplementationAvailable: false,
+    runtimeCommandAvailable: false,
+    grantsRuntimeApproval: false,
+    runtimeApprovalGranted: false,
+    runtimeBehaviorIntroduced: false,
+    liveRuntimeBehaviorIntroduced: false,
+    hostPolicyEnforcementActive: false,
+    consumedByLiveHostLoop: false
+  });
+
+  assert.deepEqual(inventory.basedOnRuntimeProposal, {
+    document: "docs/phase-4-1-runtime-proposal.md",
+    metadataFixture: "tests/fixtures/host-policy/phase4-1/runtime-proposal.json",
+    proposalPhase: "phase-4.1-runtime-proposal-only",
+    approvalBoundaryId: "phase-4-1-live-runtime-approval-boundary",
+    roadmapItem: "phase-4.1a-host-policy-approval-records",
+    grantsRuntimeApproval: false,
+    phase41RuntimeImplemented: false
+  });
+  assert.deepEqual(inventory.approvalRecordModel.classes, phase41AApprovalClassifications);
+  assert.equal(inventory.approvalRecordModel.nonRuntimeReviewMetadataOnly, true);
+  assert.deepEqual(inventory.operatorConsentDisplayFields.consentScope, phase41AConsentScope);
+  assert.equal(inventory.operatorConsentDisplayFields.operatorConsentRuntimeEffectAllowed, false);
+  assert.equal(
+    inventory.operatorConsentDisplayFields.operatorConsentNecessaryButNotSufficient,
+    true
+  );
+  assert.deepEqual(inventory.runtimeScopeNames.targetCommands, ["serve-runtime", "stdio-runtime"]);
+  assert.equal(inventory.runtimeScopeNames.serveRuntimeAvailable, false);
+  assert.equal(inventory.runtimeScopeNames.stdioRuntimeAvailable, false);
+  assert.equal(inventory.runtimeScopeNames.requiresSeparateImplementationPhase, true);
+  assert.equal(inventory.runtimeScopeNames.devinReviewRequiredBeforeEnablement, true);
+
+  for (const reason of [
+    "missing_operator_consent",
+    "unsupported_schema_major",
+    "malformed_record",
+    "runtime_effect_flag_true",
+    "runtime_not_available"
+  ]) {
+    assert.ok(inventory.denialReasonCatalog.includes(reason), reason);
+  }
+
+  assert.deepEqual(inventory.reviewOnlyDisplayBehavior, {
+    approvalRecordsAreReviewAuditArtifactsOnly: true,
+    operatorConsentNecessaryButNotSufficient: true,
+    currentRecordsDoNotEnableRuntime: true,
+    futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+    preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+    reportRunsChecks: false,
+    writesFiles: false,
+    printsStdoutFromCli: false,
+    consumedByLiveHostLoop: false
+  });
+  assert.deepEqual(inventory.cliCommandSurface, {
+    commandAdded: false,
+    approvalRecordCommandAdded: false,
+    operatorConsentCommandAdded: false,
+    approveRuntimeCommandAdded: false,
+    grantRuntimeCommandAdded: false,
+    enableRuntimeCommandAdded: false,
+    serveRuntimeCommandAdded: false,
+    stdioRuntimeCommandAdded: false,
+    stdoutPrinterAdded: false,
+    fileWriterAdded: false,
+    liveRuntimeCommandAdded: false,
+    existingDryRunEmitterUnchanged: true
+  });
+  assert.deepEqual(inventory.apiSurface, {
+    rustReviewOnlyTypesAdded: true,
+    rustRuntimeHelperAdded: false,
+    rustStdioOwnerAdded: false,
+    typescriptCoreRuntimeApiAdded: false,
+    hostPolicyEnforcementAdded: false,
+    approvalEvaluatorAdded: false,
+    transcriptReplayRuntimeAdded: false
+  });
+  assert.deepEqual(
+    inventory.fixtures.map(({ path, status }) => [path, status]),
+    phase41AFixtureFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-4-1a-host-policy-approval-records.md", "present"],
+      ["docs/phase-4-1-runtime-proposal.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/architecture.md", "present"],
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["packages/core/README.md", "present"],
+      ["crates/ardyn-host/README.md", "present"]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["crates/ardyn-host/src/lib.rs", "present"],
+      ["tests/phase4-1a-host-policy-approval-records.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+  assert.deepEqual(inventory.invariantProbes, [
+    "missing --dry-run",
+    "unknown emit-session-events arg",
+    "unsafe manifest URL",
+    "invalid JSON manifest",
+    "invalid JSON task",
+    "replay-session-transcript",
+    "policy-metadata",
+    "host-policy-export",
+    "serve-runtime",
+    "stdio-runtime",
+    "approve-runtime",
+    "grant-runtime",
+    "host-policy-approval",
+    "operator-consent",
+    "enable-runtime",
+    "phase-4-1a-approval-records"
+  ]);
+  assert.deepEqual(inventory.safetyPosture, {
+    nonExecuting: true,
+    approvalRecordOnly: true,
+    reviewOnly: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noContentFabricDownloadInstallEnable: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noHostPolicyEnforcement: true,
+    noApprovalEvaluator: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -2291,6 +2498,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.reviewerHandoffIndex, true);
   assert.equal(report.safetyPosture.finalPreRuntimeReadiness, true);
   assert.equal(report.safetyPosture.runtimeProposal, true);
+  assert.equal(report.safetyPosture.hostPolicyApprovalRecords, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {
