@@ -35,13 +35,13 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.0G local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.0H local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.0G",
-    name: "Host policy review comparison",
+    id: "4.0H",
+    name: "Reviewer handoff index",
     executionPosture: "non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
@@ -99,12 +99,17 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0G status report.",
+      purpose: "Render this deterministic local Phase 4.0H status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0G status report.",
+      purpose: "Run focused tests for this local Phase 4.0H status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-0h-reviewer-handoff-index.test.mjs",
+      purpose: "Run focused Phase 4.0H reviewer handoff index static checks.",
       ranByReport: false
     },
     {
@@ -1470,6 +1475,165 @@ test("report inventories Phase 4.0G host-policy review comparison", async () => 
   });
 });
 
+test("report inventories Phase 4.0H reviewer handoff index", async () => {
+  const report = await runReport();
+
+  assert.deepEqual(report.phase40HInventory.reviewerHandoffIndex, {
+    document: "docs/phase-4-0h-reviewer-handoff-index.md",
+    metadataFixture: "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json",
+    schema: "ardyn.phase-4-reviewer-handoff-index",
+    schemaVersion: "0.1.0",
+    indexPhase: "phase-4.0h-reviewer-handoff-index",
+    phaseIntroduced: "4.0H",
+    artifactKind: "phase_4_reviewer_handoff_index",
+    reviewRange: {
+      fromPhase: "4.0A",
+      throughPhase: "4.0H"
+    },
+    runtimeStatus: "static-reviewer-index-only",
+    artifactCount: 37,
+    staticIndexOnly: true,
+    reviewOnly: true,
+    nonExecuting: true,
+    reviewMetadataOnly: true,
+    grantsRuntimeApproval: false,
+    runtimeBehaviorIntroduced: false,
+    liveRuntimeBehaviorIntroduced: false
+  });
+
+  assert.deepEqual(report.phase40HInventory.roleBoundaries, {
+    authoritativeRoles: ["normative-doc", "source-evidence"],
+    evidenceOnlyRoles: [
+      "test-evidence",
+      "fixture-evidence",
+      "display-only-evidence",
+      "metadata-index"
+    ],
+    normativeDocsAreAuthoritative: true,
+    sourceEvidenceIsAuthoritativeForStaticContractSurface: true,
+    fixturesAreEvidenceOnly: true,
+    testsAreEvidenceOnly: true,
+    comparisonArtifactsAreDisplayOnly: true,
+    metadataIndexIsNavigationOnly: true,
+    indexDoesNotOverrideNormativeDocs: true
+  });
+
+  assert.deepEqual(report.phase40HInventory.phaseCoverage, [
+    "4.0A",
+    "4.0B",
+    "4.0C",
+    "4.0D",
+    "4.0E",
+    "4.0F",
+    "4.0G",
+    "4.0H"
+  ]);
+  assert.equal(report.phase40HInventory.indexedArtifacts.length, 37);
+  assert.deepEqual(report.phase40HInventory.artifactRoleCounts, {
+    normativeDocs: 8,
+    sourceEvidence: 1,
+    testEvidence: 10,
+    fixtureEvidence: 9,
+    displayOnlyEvidence: 7,
+    metadataIndex: 2
+  });
+
+  assert.deepEqual(report.phase40HInventory.comparisonAndReviewArtifactPosture, {
+    reviewRecordFixturesStaticOnly: true,
+    comparisonFixturesDisplayOnly: true,
+    reviewRecordsGrantRuntimeApproval: false,
+    comparisonsGrantRuntimeApproval: false,
+    metadataIndexGrantsRuntimeApproval: false,
+    futureLiveRuntimeBlockedUntilSeparateApprovedPhase: true
+  });
+
+  assert.deepEqual(report.phase40HInventory.cliCommandSurface, {
+    commandAdded: false,
+    reviewerIndexCommandAdded: false,
+    policyIndexCommandAdded: false,
+    finiteStaticOnly: true,
+    stdoutPrinterAdded: false,
+    fileWriterAdded: false,
+    liveRuntimeCommandAdded: false,
+    existingDryRunEmitterUnchanged: true
+  });
+
+  assert.deepEqual(
+    report.phase40HInventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-4-0h-reviewer-handoff-index.md", "present"],
+      ["docs/phase-4-0g-host-policy-review-comparison.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/architecture.md", "present"],
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["packages/core/README.md", "present"]
+    ]
+  );
+
+  assert.deepEqual(report.phase40HInventory.fixtures, [
+    {
+      path: "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json",
+      status: "present"
+    }
+  ]);
+
+  assert.deepEqual(
+    report.phase40HInventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase4-0h-reviewer-handoff-index.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+
+  assert.deepEqual(report.phase40HInventory.invariantProbes, [
+    "missing --dry-run",
+    "unknown emit-session-events arg",
+    "unsafe manifest URL",
+    "invalid JSON manifest",
+    "invalid JSON task",
+    "replay-session-transcript",
+    "policy-metadata",
+    "host-policy-export",
+    "serve-runtime",
+    "stdio-runtime",
+    "host-policy-index",
+    "policy-index",
+    "review-index",
+    "index-host-policy"
+  ]);
+
+  assert.deepEqual(report.phase40HInventory.safetyPosture, {
+    nonExecuting: true,
+    staticIndexOnly: true,
+    reviewOnly: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -1657,6 +1821,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.stdioPolicyMetadataExport, true);
   assert.equal(report.safetyPosture.stdioPolicyReviewRecords, true);
   assert.equal(report.safetyPosture.hostPolicyReviewComparison, true);
+  assert.equal(report.safetyPosture.reviewerHandoffIndex, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {

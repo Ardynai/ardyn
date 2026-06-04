@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G/4.0H Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -38,6 +38,13 @@ dry-run emitter or add a comparison CLI command, file writer, stdout printer,
 live stdio reader, runtime owner, transcript persistence, replay command,
 WebSocket, HTTP, adapter, plugin, Content Fabric runtime, secret, production
 signing-key path, or runtime approval grant.
+
+Phase 4.0H adds static reviewer handoff/index documentation and deterministic
+metadata for Phase 4.0A through Phase 4.0H artifacts. It still does not change
+the finite TypeScript dry-run emitter or add a reviewer-index CLI command,
+file writer, stdout printer, live stdio reader, runtime owner, transcript
+persistence, replay command, WebSocket, HTTP, adapter, plugin, Content Fabric
+runtime, secret, production signing-key path, or runtime approval grant.
 
 ## CLI Surface
 
@@ -225,9 +232,22 @@ malformed records, rejected permissive policy records, digest mismatch, and
 runtime-status mismatch. These fixtures are static review artifacts, not
 runtime configuration files.
 
+## Phase 4.0H Reviewer Handoff Index
+
+Phase 4.0H adds a static reviewer handoff index for Devin/Codex navigation
+across Phase 4.0A through Phase 4.0H artifacts. See
+`docs/phase-4-0h-reviewer-handoff-index.md`.
+
+The Phase 4.0H metadata fixture is
+`tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json`. It records
+artifact paths, artifact kinds, phase introductions, review purposes, runtime
+status, evidence role, and false runtime approval fields. The fixture is
+static metadata for review only. It is not runtime configuration and is not
+consumed by a live host loop.
+
 ## Deferred Runtime Work
 
-Phase 4.0G intentionally does not implement repo-root confinement, transcript
+Phase 4.0H intentionally does not implement repo-root confinement, transcript
 persistence, dropped-line replay, duplicate detection across a live stream,
 stderr redaction enforcement, or Rust-host stdout/stderr runtime ownership.
 It documents and types review evidence for a later host-policy phase. A future

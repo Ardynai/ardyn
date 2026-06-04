@@ -110,6 +110,11 @@ review evidence only; it does not approve runtime behavior, start runtime
 behavior, add a CLI command, write files, print stdout, or grant host-policy
 enforcement. See `docs/phase-4-0g-host-policy-review-comparison.md`.
 
+Phase 4.0H adds `docs/phase-4-0h-reviewer-handoff-index.md` as static
+reviewer navigation metadata for Phase 4.0A through Phase 4.0H artifacts. It
+indexes these review records as fixture evidence only and does not grant
+runtime approval.
+
 ## Fixture Set
 
 The Phase 4.0F fixture set is under

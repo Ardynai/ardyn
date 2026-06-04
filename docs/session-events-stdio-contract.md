@@ -179,6 +179,15 @@ Content Fabric runtime behavior, secret handling, production signing-key usage,
 WebSocket transport, HTTP transport, or runtime approval grant. See
 `docs/phase-4-0g-host-policy-review-comparison.md`.
 
+Phase 4.0H adds a static reviewer handoff index for Phase 4.0A through
+Phase 4.0H artifacts. It does not add a reviewer-index CLI command, file
+writer, stdout printer, stdin command loop, live stdio reader, runtime owner,
+transcript replay command, listener, server, subprocess supervisor, adapter
+call, Locus runtime dependency, MCP/OpenClaw call, plugin execution path,
+Content Fabric runtime behavior, secret handling, production signing-key usage,
+WebSocket transport, HTTP transport, or runtime approval grant. See
+`docs/phase-4-0h-reviewer-handoff-index.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

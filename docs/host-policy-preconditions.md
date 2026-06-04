@@ -151,6 +151,15 @@ transcripts, replay transcripts, handle secrets, or change the finite
 TypeScript dry-run emitter. See
 `docs/phase-4-0g-host-policy-review-comparison.md`.
 
+Phase 4.0H adds a static reviewer handoff index for Phase 4.0A through
+Phase 4.0H artifacts. The index separates normative docs/source surfaces from
+fixture, test, metadata, and display-only evidence, but it remains inert
+reviewer navigation metadata. It does not grant runtime approval, start
+host-policy enforcement, write files, print stdout, add a CLI command, deny a
+running runtime, persist transcripts, replay transcripts, handle secrets, or
+change the finite TypeScript dry-run emitter. See
+`docs/phase-4-0h-reviewer-handoff-index.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

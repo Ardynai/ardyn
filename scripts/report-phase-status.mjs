@@ -43,6 +43,9 @@ async function fixtureInventoryEntry(path) {
 }
 
 const packageJson = await readJson("package.json");
+const phase40HReviewerIndexMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -90,8 +93,8 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.0G",
-    name: "Host policy review comparison",
+    id: "4.0H",
+    name: "Reviewer handoff index",
     executionPosture: "non-executing"
   },
   reportMode: "local-summary-only",
@@ -124,12 +127,17 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0G status report.",
+      purpose: "Render this deterministic local Phase 4.0H status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0G status report.",
+      purpose: "Run focused tests for this local Phase 4.0H status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-0h-reviewer-handoff-index.test.mjs",
+      purpose: "Run focused Phase 4.0H reviewer handoff index static checks.",
       ranByReport: false
     },
     {
@@ -1882,6 +1890,191 @@ const report = {
       noFileWriterAdded: true
     }
   },
+  phase40HInventory: {
+    reviewerHandoffIndex: {
+      document: "docs/phase-4-0h-reviewer-handoff-index.md",
+      metadataFixture: "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json",
+      schema: phase40HReviewerIndexMetadata.schema,
+      schemaVersion: phase40HReviewerIndexMetadata.schemaVersion,
+      indexPhase: phase40HReviewerIndexMetadata.indexPhase,
+      phaseIntroduced: phase40HReviewerIndexMetadata.phaseIntroduced,
+      artifactKind: phase40HReviewerIndexMetadata.artifactKind,
+      reviewRange: phase40HReviewerIndexMetadata.reviewRange,
+      runtimeStatus: phase40HReviewerIndexMetadata.runtimeStatus,
+      artifactCount: phase40HReviewerIndexMetadata.artifactCount,
+      staticIndexOnly: true,
+      reviewOnly: true,
+      nonExecuting: true,
+      reviewMetadataOnly: true,
+      grantsRuntimeApproval: false,
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false
+    },
+    roleBoundaries: {
+      authoritativeRoles: phase40HReviewerIndexMetadata.authoritativeRoles,
+      evidenceOnlyRoles: phase40HReviewerIndexMetadata.evidenceOnlyRoles,
+      normativeDocsAreAuthoritative: true,
+      sourceEvidenceIsAuthoritativeForStaticContractSurface: true,
+      fixturesAreEvidenceOnly: true,
+      testsAreEvidenceOnly: true,
+      comparisonArtifactsAreDisplayOnly: true,
+      metadataIndexIsNavigationOnly: true,
+      indexDoesNotOverrideNormativeDocs: true
+    },
+    phaseCoverage: [
+      ...new Set(
+        phase40HReviewerIndexMetadata.artifacts.map((artifact) => artifact.phaseIntroduced)
+      )
+    ],
+    indexedArtifacts: phase40HReviewerIndexMetadata.artifacts.map((artifact) => ({
+      path: artifact.path,
+      artifactKind: artifact.artifactKind,
+      phaseIntroduced: artifact.phaseIntroduced,
+      runtimeStatus: artifact.runtimeStatus,
+      evidenceRole: artifact.evidenceRole,
+      authoritative: artifact.authoritative,
+      normative: artifact.normative,
+      fixture: artifact.fixture,
+      docs: artifact.docs,
+      displayOnlyEvidence: artifact.displayOnlyEvidence,
+      grantsRuntimeApproval: artifact.grantsRuntimeApproval,
+      runtimeBehaviorIntroduced: artifact.runtimeBehaviorIntroduced
+    })),
+    artifactRoleCounts: {
+      normativeDocs: phase40HReviewerIndexMetadata.artifacts.filter(
+        (artifact) => artifact.evidenceRole === "normative-doc"
+      ).length,
+      sourceEvidence: phase40HReviewerIndexMetadata.artifacts.filter(
+        (artifact) => artifact.evidenceRole === "source-evidence"
+      ).length,
+      testEvidence: phase40HReviewerIndexMetadata.artifacts.filter(
+        (artifact) => artifact.evidenceRole === "test-evidence"
+      ).length,
+      fixtureEvidence: phase40HReviewerIndexMetadata.artifacts.filter(
+        (artifact) => artifact.evidenceRole === "fixture-evidence"
+      ).length,
+      displayOnlyEvidence: phase40HReviewerIndexMetadata.artifacts.filter(
+        (artifact) => artifact.evidenceRole === "display-only-evidence"
+      ).length,
+      metadataIndex: phase40HReviewerIndexMetadata.artifacts.filter(
+        (artifact) => artifact.evidenceRole === "metadata-index"
+      ).length
+    },
+    comparisonAndReviewArtifactPosture: {
+      reviewRecordFixturesStaticOnly: true,
+      comparisonFixturesDisplayOnly: true,
+      reviewRecordsGrantRuntimeApproval: false,
+      comparisonsGrantRuntimeApproval: false,
+      metadataIndexGrantsRuntimeApproval: false,
+      futureLiveRuntimeBlockedUntilSeparateApprovedPhase: true
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      reviewerIndexCommandAdded: false,
+      policyIndexCommandAdded: false,
+      finiteStaticOnly: true,
+      stdoutPrinterAdded: false,
+      fileWriterAdded: false,
+      liveRuntimeCommandAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-0h-reviewer-handoff-index.md",
+        "Documents Phase 4.0H static reviewer handoff index and authority/evidence boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-0g-host-policy-review-comparison.md",
+        "Links Phase 4.0H as the static reviewer handoff index follow-up to 4.0G comparison evidence."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents Phase 4.0H as static reviewer navigation metadata that leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Cross-links Phase 4.0H while preserving no-live-runtime stdio boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Records Phase 4.0H reviewer indexing as static metadata without runtime approval or enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Documents Phase 4.0H as reviewer navigation metadata without active runtime behavior."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.0H scope, status report metadata, and lack of new runtime CLI behavior."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.0H adds no reviewer-index CLI command or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.0H adds no TypeScript core runtime APIs and keeps comparison helpers display-only."
+      )
+    ],
+    fixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json"
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase4-0h-reviewer-handoff-index.test.mjs",
+        "Pins Phase 4.0H index determinism, artifact existence, inert approval/runtime posture, docs, report inventory, and source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.0H report metadata and safety posture."
+      )
+    ],
+    invariantProbes: [
+      "missing --dry-run",
+      "unknown emit-session-events arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "policy-metadata",
+      "host-policy-export",
+      "serve-runtime",
+      "stdio-runtime",
+      "host-policy-index",
+      "policy-index",
+      "review-index",
+      "index-host-policy"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      staticIndexOnly: true,
+      reviewOnly: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -1895,6 +2088,7 @@ const report = {
     stdioPolicyMetadataExport: true,
     stdioPolicyReviewRecords: true,
     hostPolicyReviewComparison: true,
+    reviewerHandoffIndex: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

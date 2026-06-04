@@ -91,3 +91,9 @@ HTTP control surface, runtime approval grant, or task execution behavior.
 
 A future live runtime remains blocked until a separate approved phase defines
 explicit host policy, implementation, tests, and runtime enablement.
+
+Phase 4.0H adds a static reviewer handoff index for Phase 4.0A through
+Phase 4.0H artifacts. That index includes this comparison layer as
+display-only evidence and does not add a CLI command, file writer, stdout
+printer, runtime approval grant, or host-policy enforcement path. See
+`docs/phase-4-0h-reviewer-handoff-index.md`.

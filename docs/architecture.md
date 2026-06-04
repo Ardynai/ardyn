@@ -59,6 +59,12 @@ Devin/Codex handoff and cannot grant runtime approval, start runtime behavior,
 write files, print stdout, or add a CLI command. See
 `docs/phase-4-0g-host-policy-review-comparison.md`.
 
+Phase 4.0H adds static reviewer navigation metadata for Phase 4.0A through
+Phase 4.0H artifacts. It does not add a TypeScript core API, Rust runtime
+helper, CLI command, stdout printer, file writer, runtime approval grant, or
+host-policy enforcement path. See
+`docs/phase-4-0h-reviewer-handoff-index.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:
