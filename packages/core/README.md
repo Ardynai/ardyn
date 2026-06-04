@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.0I keeps the TypeScript core on deterministic contract and display
+Phase 4.1 keeps the TypeScript core on deterministic contract and display
 data while the Rust host keeps policy-only stdio transport contract metadata
 and static host-policy review-record fixtures. The TypeScript core still owns
 manifest and task validation, deterministic non-executing task planning,
@@ -11,7 +11,9 @@ approval-decision records, planner traces, shared local-only input path policy,
 finite dry-run session-event JSONL construction, formatter hardening, golden
 fixture coverage, and display-only host-policy review-record comparison
 helpers. Phase 4.0I adds only static final pre-runtime readiness docs and
-metadata after the Phase 4.0H reviewer handoff index.
+metadata after the Phase 4.0H reviewer handoff index. Phase 4.1 adds only the
+runtime proposal doc and deterministic proposal metadata after that readiness
+bundle. See `docs/phase-4-1-runtime-proposal.md`.
 Autonomous execution, tool execution, plugin installation, network serving,
 torrent download, code-pack enablement, live stdin loops, live replay, runtime
 approval grants, and agent loops are intentionally out of scope.
@@ -86,6 +88,15 @@ readiness metadata for checklist and invariant review. The readiness bundle is
 not runtime configuration, not an approval token, not a file writer, not a
 stdout printer, not a Phase 4.1 implementation, and not consumed by a live host
 loop.
+
+Phase 4.1 adds no TypeScript core runtime APIs and does not change the finite
+dry-run event construction, formatter, Rust-host policy metadata,
+review-record classes, display-only comparison helpers, reviewer index, or
+final readiness bundle. It adds `docs/phase-4-1-runtime-proposal.md` and
+deterministic runtime proposal metadata only. The proposal is not runtime
+configuration, not an approval token, not a file writer, not a stdout printer,
+not a transcript persistence/replay runtime, not a live host loop, and not a
+runtime implementation.
 
 ## Phase 3.2 Policy Review
 

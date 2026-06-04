@@ -1,0 +1,371 @@
+{
+  "schema": "ardyn.phase-4-runtime-proposal",
+  "schemaVersion": "0.1.0",
+  "proposalPhase": "phase-4.1-runtime-proposal-only",
+  "phaseIntroduced": "4.1",
+  "artifactKind": "phase_4_runtime_proposal_only_bundle",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "reviewRange": {
+    "fromPhase": "4.0A",
+    "throughPhase": "4.1"
+  },
+  "basedOnFinalReadiness": {
+    "document": "docs/phase-4-0i-final-pre-runtime-readiness.md",
+    "metadataFixture": "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json",
+    "finalReadinessCommit": "34ac1c3df105074bd5c2b1f04062e8d3da59204a"
+  },
+  "devinReviewPolicy": {
+    "priorReviewedRange": {
+      "fromPhase": "4.0A",
+      "throughPhase": "4.0H"
+    },
+    "priorReviewer": "Devin",
+    "priorVerdict": "PASS",
+    "codexValidationForThisPhase": true,
+    "requiresDevinReviewNow": false,
+    "preserveDevinReviewFor": "major-runtime-readiness-checkpoint"
+  },
+  "proposalStatus": "proposal-only-review-draft",
+  "runtimeStatus": "runtime-proposal-only",
+  "implementationStatus": "not-implemented",
+  "approvalStatus": "not-granted",
+  "roadmapStatus": "future-work-only",
+  "grantsRuntimeApproval": false,
+  "runtimeApprovalGranted": false,
+  "runtimeBehaviorIntroduced": false,
+  "liveRuntimeBehaviorIntroduced": false,
+  "phase41RuntimeImplemented": false,
+  "consumedByLiveHostLoop": false,
+  "reviewMetadataOnly": true,
+  "proposalOnly": true,
+  "requiresSeparateImplementationApproval": true,
+  "requiresSeparateRuntimeImplementationApproval": true,
+  "approvalBoundary": {
+    "id": "phase-4-1-live-runtime-approval-boundary",
+    "status": "defined-not-granted",
+    "summary": "Live runtime implementation requires a later explicit approval record, host-policy gate, implementation plan, tests, and review checkpoint; this proposal cannot grant that approval.",
+    "requiredBeforeImplementation": [
+      "explicit host-policy approval record naming the live runtime scope",
+      "operator consent for process stdio ownership and lifecycle control",
+      "Rust-host ownership of stdin/stdout/stderr lifecycle defined and tested",
+      "stdout JSONL framing contract enforced before any live stream is accepted",
+      "stderr diagnostic redaction policy enforced before bytes leave the process",
+      "transcript persistence and replay schema/version policy accepted",
+      "failure audit record schema and fixtures accepted",
+      "kill, exit, and fail-closed semantics accepted",
+      "backpressure and partial-write behavior tested with deterministic simulations",
+      "dropped, duplicate, out-of-order, and malformed-line behavior tested",
+      "negative tests prove runtime/proposal commands stay unavailable until implementation is separately approved",
+      "major runtime-readiness review checkpoint completed"
+    ],
+    "grantsRuntimeApproval": false,
+    "runtimeBehaviorIntroduced": false
+  },
+  "proposalSections": [
+    {
+      "id": "approval-boundary",
+      "title": "Approval Boundary",
+      "summary": "Defines the exact gate before live runtime work: explicit host-policy approval, operator consent, scoped implementation, passing required tests, and a later runtime-readiness review.",
+      "requiredOutcomeBeforeRuntime": "A separately approved implementation phase must create and validate an approval record before any live runtime command is added.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "rust-host-stdio-ownership",
+      "title": "Rust-Host Stdio Ownership",
+      "summary": "Future Rust host owns process stdio lifecycle, buffering, flushing, backpressure, termination, audit records, and redaction enforcement; TypeScript core remains contract-data only.",
+      "requiredOutcomeBeforeRuntime": "Rust-host ownership must be implemented behind explicit host policy in a later phase, with no TypeScript stdin loop or process supervisor.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "stdout-jsonl-emission",
+      "title": "Stdout JSONL Emission",
+      "summary": "Future stdout is reserved for UTF-8 LF-only session-event JSONL, one complete schema-valid event per line, contiguous sequence values, final LF, and no diagnostics.",
+      "requiredOutcomeBeforeRuntime": "Live stdout writer tests must prove whole-line commits, schema validation, ordering, uniqueness, final LF, and zero diagnostic leakage.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "stderr-diagnostics-redaction",
+      "title": "Stderr Diagnostics And Redaction",
+      "summary": "Future stderr is reserved for deterministic diagnostics only; secrets, tokens, raw environment dumps, stack traces, absolute local paths, usernames, and production keys must be redacted or suppressed.",
+      "requiredOutcomeBeforeRuntime": "Redaction enforcement must be active and tested before live stderr can emit runtime diagnostics.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "transcript-persistence-replay",
+      "title": "Transcript Persistence And Replay",
+      "summary": "Future persistence should store normalized ardyn.session-transcript JSON plus inert capture metadata; replay consumes validated normalized transcripts, not raw process bytes.",
+      "requiredOutcomeBeforeRuntime": "Persistence and replay require schema/version fixtures, compatibility classification, and negative tests before any replay command is implemented.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "failure-audit-records",
+      "title": "Failure Audit Records",
+      "summary": "Future host failures should create deterministic review records for transport, redaction, backpressure, line-integrity, approval denial, and internal runtime failure classes.",
+      "requiredOutcomeBeforeRuntime": "Audit record schema, fixtures, and fail-closed mapping tests must exist before runtime implementation starts.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "kill-exit-fail-closed",
+      "title": "Kill, Exit, And Fail-Closed Semantics",
+      "summary": "Future success exits require a complete valid terminal state; failures exit nonzero, avoid partial final stdout lines, flush safe diagnostics, and never count partial events as transcript evidence.",
+      "requiredOutcomeBeforeRuntime": "Exit/kill simulations must prove terminal-state success, nonzero failure classes, no partial commits, and deterministic cleanup.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "backpressure-partial-write",
+      "title": "Backpressure And Partial Writes",
+      "summary": "Future host writes must respect OS pipe backpressure, bound queues or terminate explicitly, use a full JSONL line as the smallest commit unit, and never drop events silently.",
+      "requiredOutcomeBeforeRuntime": "Backpressure and partial-write tests must simulate blocked consumers, bounded queues, whole-line commits, and reject/terminate behavior.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "line-integrity-failures",
+      "title": "Dropped, Duplicate, Out-Of-Order, And Malformed Lines",
+      "summary": "Future transport treats sequence gaps, duplicates, out-of-order events, invalid JSON, non-object JSON, schema-invalid events, CRLF, blank lines, unsafe safety flags, non-ARDYN harness, and command-like root fields as invalid.",
+      "requiredOutcomeBeforeRuntime": "Line-integrity tests must prove fail-closed classification without autocorrection, synthesis, downgrade, or replay recovery unless a later versioned policy defines it.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "required-tests-before-runtime",
+      "title": "Required Tests Before Runtime",
+      "summary": "Defines the mandatory future test families that must pass before any live stdio runtime path can exist.",
+      "requiredOutcomeBeforeRuntime": "A later implementation phase must include these tests as blocking gates, not optional review notes.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "phased-runtime-roadmap",
+      "title": "Phased Runtime Roadmap",
+      "summary": "Defines an ordered future implementation roadmap without implementing any runtime behavior in Phase 4.1.",
+      "requiredOutcomeBeforeRuntime": "Each future roadmap phase requires explicit approval, implementation, tests, and review before enabling its runtime surface.",
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    }
+  ],
+  "requiredTestsBeforeRuntime": [
+    {
+      "id": "approval-boundary-tests",
+      "summary": "Tests must prove no live runtime starts without an explicit host-policy approval record and operator consent.",
+      "blocksRuntimeUntilPresent": true,
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "rust-host-stdio-ownership-tests",
+      "summary": "Rust tests must prove the host owns stdio lifecycle, buffering, flushing, backpressure, termination, and audit emission before live stdio is enabled.",
+      "blocksRuntimeUntilPresent": true,
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "stdout-jsonl-framing-tests",
+      "summary": "Tests must prove stdout is LF-only session-event JSONL with one complete schema-valid event per line, contiguous sequence values, final LF, and no diagnostics.",
+      "blocksRuntimeUntilPresent": true,
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "stderr-redaction-tests",
+      "summary": "Tests must prove stderr diagnostics redact secrets, tokens, raw environments, stack traces, absolute paths, usernames, and production keys.",
+      "blocksRuntimeUntilPresent": true,
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "transcript-persistence-replay-tests",
+      "summary": "Tests must prove normalized transcript persistence and replay validation remain inert and reject malformed, duplicate, dropped, and out-of-order evidence.",
+      "blocksRuntimeUntilPresent": true,
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "failure-audit-record-tests",
+      "summary": "Tests must pin deterministic failure audit records for transport, redaction, backpressure, line-integrity, host-policy denial, and internal failure classes.",
+      "blocksRuntimeUntilPresent": true,
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "kill-exit-fail-closed-tests",
+      "summary": "Tests must prove exit 0 requires complete terminal state and every failure class exits nonzero without committing partial events.",
+      "blocksRuntimeUntilPresent": true,
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "backpressure-partial-write-tests",
+      "summary": "Tests must simulate blocked consumers, bounded queues, whole-line commit units, partial-write rejection, and explicit termination behavior.",
+      "blocksRuntimeUntilPresent": true,
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "line-integrity-failure-tests",
+      "summary": "Tests must reject dropped, duplicate, out-of-order, malformed, CRLF, blank, unsafe, non-ARDYN, and command-like event lines without autocorrection.",
+      "blocksRuntimeUntilPresent": true,
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "runtime-command-negative-tests",
+      "summary": "Tests must prove proposal and runtime command names remain unavailable until a later approved implementation phase adds them deliberately.",
+      "blocksRuntimeUntilPresent": true,
+      "proposalOnly": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    }
+  ],
+  "implementationRoadmap": [
+    {
+      "id": "phase-4.1a-host-policy-approval-records",
+      "summary": "Define and test host-policy approval records, operator consent fields, runtime scope names, denial reasons, and review-only display behavior.",
+      "implementationInThisPhase": false,
+      "requiresSeparateApproval": true,
+      "requiresDevinReview": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "phase-4.1b-rust-host-transport-harness",
+      "summary": "Implement Rust-host stdio lifecycle harness behind explicit approval gates with deterministic fake-process tests before any real process ownership.",
+      "implementationInThisPhase": false,
+      "requiresSeparateApproval": true,
+      "requiresDevinReview": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "phase-4.1c-stdout-stderr-enforcement",
+      "summary": "Implement stdout JSONL whole-line writer and stderr redaction enforcement with blocked-consumer and partial-write tests.",
+      "implementationInThisPhase": false,
+      "requiresSeparateApproval": true,
+      "requiresDevinReview": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "phase-4.1d-transcript-persistence-replay",
+      "summary": "Implement normalized transcript persistence and inert replay review after schema, compatibility, redaction, and failure-audit tests exist.",
+      "implementationInThisPhase": false,
+      "requiresSeparateApproval": true,
+      "requiresDevinReview": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "phase-4.1e-failure-audit-and-kill-semantics",
+      "summary": "Implement deterministic failure audit records, kill handling, cleanup, terminal-state checks, and nonzero exit mapping.",
+      "implementationInThisPhase": false,
+      "requiresSeparateApproval": true,
+      "requiresDevinReview": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "phase-4.1f-major-runtime-readiness-checkpoint",
+      "summary": "Run the major runtime-readiness checkpoint, including full Codex validation and the preserved Devin review, before enabling any live runtime surface.",
+      "implementationInThisPhase": false,
+      "requiresSeparateApproval": true,
+      "requiresDevinReview": true,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    }
+  ],
+  "representedArtifactCounts": {
+    "total": 43,
+    "upstreamFinalReadinessArtifacts": 40,
+    "phase41ProposalArtifacts": 3
+  },
+  "proposalArtifacts": [
+    {
+      "path": "docs/phase-4-1-runtime-proposal.md",
+      "artifactKind": "runtime-proposal-doc",
+      "phaseIntroduced": "4.1",
+      "runtimeStatus": "runtime-proposal-only",
+      "evidenceRole": "normative-doc",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1/runtime-proposal.json",
+      "artifactKind": "runtime-proposal-metadata",
+      "phaseIntroduced": "4.1",
+      "runtimeStatus": "runtime-proposal-only",
+      "evidenceRole": "metadata-index",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "path": "tests/phase4-1-runtime-proposal.test.mjs",
+      "artifactKind": "runtime-proposal-test",
+      "phaseIntroduced": "4.1",
+      "runtimeStatus": "runtime-proposal-only",
+      "evidenceRole": "test-evidence",
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    }
+  ],
+  "safety": {
+    "nonExecuting": true,
+    "proposalOnly": true,
+    "reviewOnly": true,
+    "reviewMetadataOnly": true,
+    "cliCommandAdded": false,
+    "stdoutPrinterAdded": false,
+    "fileWriterAdded": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "phase41RuntimeImplemented": false,
+    "consumedByLiveHostLoop": false,
+    "runtimeApprovalGranted": false,
+    "grantsRuntimeApproval": false,
+    "stdinCommandLoop": false,
+    "liveStdioReader": false,
+    "processStdioOwnership": false,
+    "listener": false,
+    "server": false,
+    "subprocessSpawning": false,
+    "adapterCalls": false,
+    "locusRuntimeDependency": false,
+    "mcpCalls": false,
+    "openClawCalls": false,
+    "pluginExecution": false,
+    "contentFabricRuntimeBehavior": false,
+    "contentFabricDownloadInstallEnable": false,
+    "autonomousLoop": false,
+    "secretHandling": false,
+    "productionSigningKeys": false,
+    "transcriptPersistenceReplayRuntime": false,
+    "webSocketHttpControlSurface": false,
+    "runtimeExecution": false
+  }
+}

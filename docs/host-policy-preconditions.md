@@ -168,6 +168,14 @@ runtime, persist transcripts, replay transcripts, handle secrets, implement
 Phase 4.1, or change the finite TypeScript dry-run emitter. See
 `docs/phase-4-0i-final-pre-runtime-readiness.md`.
 
+Phase 4.1 adds a proposal-only runtime implementation plan. It defines the
+approval boundary and future host-policy responsibilities before live runtime
+implementation can begin, but it remains inert review evidence only. It does
+not grant runtime approval, start host-policy enforcement, write files, print
+stdout, add a CLI command, deny a running runtime, persist transcripts, replay
+transcripts, handle secrets, implement live stdio ownership, or change the
+finite TypeScript dry-run emitter. See `docs/phase-4-1-runtime-proposal.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

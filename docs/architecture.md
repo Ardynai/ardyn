@@ -71,6 +71,17 @@ helper, CLI command, stdout printer, file writer, runtime approval grant,
 Phase 4.1 implementation, or host-policy enforcement path. See
 `docs/phase-4-0i-final-pre-runtime-readiness.md`.
 
+Phase 4.1 adds a runtime proposal and implementation roadmap only. It defines
+the approval boundary before any live runtime work, future Rust-host stdio
+ownership responsibilities, stdout JSONL emission responsibilities, stderr
+diagnostic/redaction enforcement, transcript persistence/replay design,
+failure audit records, kill/exit fail-closed semantics, backpressure and
+partial-write handling, line-integrity behavior, required tests, and phased
+future implementation sequence. It does not add a TypeScript core API, Rust
+runtime helper, CLI command, stdout printer, file writer, live stdio reader,
+process stdio ownership, runtime approval grant, or host-policy enforcement
+path. See `docs/phase-4-1-runtime-proposal.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

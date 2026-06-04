@@ -98,6 +98,18 @@ checks, start servers, spawn processes, write files, call network APIs, call
 adapters, call MCP/OpenClaw, connect to Locus, execute plugins, enable Content
 Fabric, use secrets, or imply external CI status.
 
+## Phase 4.1 Proposal Follow-Up
+
+Phase 4.1 is now represented by `docs/phase-4-1-runtime-proposal.md` and
+`tests/fixtures/host-policy/phase4-1/runtime-proposal.json`. That follow-up is
+proposal and implementation-plan metadata only. It defines the approval
+boundary, future Rust-host stdio ownership, stdout/stderr responsibilities,
+transcript persistence/replay design, failure audit records, kill/exit
+fail-closed semantics, backpressure and partial-write handling,
+line-integrity behavior, required tests, and phased runtime roadmap. It does
+not implement runtime behavior, add a runtime command, grant runtime approval,
+or consume the readiness bundle in a live host loop.
+
 ## Still Forbidden
 
 Phase 4.0I adds no CLI command, live runtime, stdin command loop, live stdio

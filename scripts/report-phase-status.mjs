@@ -49,6 +49,9 @@ const phase40HReviewerIndexMetadata = await readJson(
 const phase40IFinalReadinessMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json"
 );
+const phase41RuntimeProposalMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1/runtime-proposal.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -96,9 +99,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.0I",
-    name: "Final pre-runtime readiness",
-    executionPosture: "non-executing"
+    id: "4.1",
+    name: "Runtime proposal",
+    executionPosture: "proposal-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -130,12 +133,17 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0I status report.",
+      purpose: "Render this deterministic local Phase 4.1 proposal-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0I status report.",
+      purpose: "Run focused tests for this local Phase 4.1 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1-runtime-proposal.test.mjs",
+      purpose: "Run focused Phase 4.1 runtime proposal static checks.",
       ranByReport: false
     },
     {
@@ -2291,6 +2299,230 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41ProposalInventory: {
+    runtimeProposal: {
+      document: "docs/phase-4-1-runtime-proposal.md",
+      metadataFixture: "tests/fixtures/host-policy/phase4-1/runtime-proposal.json",
+      schema: phase41RuntimeProposalMetadata.schema,
+      schemaVersion: phase41RuntimeProposalMetadata.schemaVersion,
+      proposalPhase: phase41RuntimeProposalMetadata.proposalPhase,
+      phaseIntroduced: phase41RuntimeProposalMetadata.phaseIntroduced,
+      artifactKind: phase41RuntimeProposalMetadata.artifactKind,
+      reviewRange: phase41RuntimeProposalMetadata.reviewRange,
+      proposalStatus: phase41RuntimeProposalMetadata.proposalStatus,
+      runtimeStatus: phase41RuntimeProposalMetadata.runtimeStatus,
+      implementationStatus: phase41RuntimeProposalMetadata.implementationStatus,
+      approvalStatus: phase41RuntimeProposalMetadata.approvalStatus,
+      roadmapStatus: phase41RuntimeProposalMetadata.roadmapStatus,
+      proposalOnly: true,
+      reviewOnly: true,
+      nonExecuting: true,
+      reviewMetadataOnly: phase41RuntimeProposalMetadata.reviewMetadataOnly,
+      grantsRuntimeApproval: phase41RuntimeProposalMetadata.grantsRuntimeApproval,
+      runtimeApprovalGranted: phase41RuntimeProposalMetadata.runtimeApprovalGranted,
+      runtimeBehaviorIntroduced: phase41RuntimeProposalMetadata.runtimeBehaviorIntroduced,
+      liveRuntimeBehaviorIntroduced:
+        phase41RuntimeProposalMetadata.liveRuntimeBehaviorIntroduced,
+      phase41RuntimeImplemented: phase41RuntimeProposalMetadata.phase41RuntimeImplemented,
+      consumedByLiveHostLoop: phase41RuntimeProposalMetadata.consumedByLiveHostLoop,
+      requiresSeparateImplementationApproval:
+        phase41RuntimeProposalMetadata.requiresSeparateImplementationApproval,
+      requiresSeparateRuntimeImplementationApproval:
+        phase41RuntimeProposalMetadata.requiresSeparateRuntimeImplementationApproval
+    },
+    basedOnFinalReadiness: phase41RuntimeProposalMetadata.basedOnFinalReadiness,
+    devinReviewPolicy: phase41RuntimeProposalMetadata.devinReviewPolicy,
+    approvalBoundary: {
+      id: phase41RuntimeProposalMetadata.approvalBoundary.id,
+      status: phase41RuntimeProposalMetadata.approvalBoundary.status,
+      summary: phase41RuntimeProposalMetadata.approvalBoundary.summary,
+      requiredBeforeImplementation:
+        phase41RuntimeProposalMetadata.approvalBoundary.requiredBeforeImplementation,
+      grantsRuntimeApproval:
+        phase41RuntimeProposalMetadata.approvalBoundary.grantsRuntimeApproval,
+      runtimeBehaviorIntroduced:
+        phase41RuntimeProposalMetadata.approvalBoundary.runtimeBehaviorIntroduced
+    },
+    phaseCoverage: [
+      ...phase40IFinalReadinessMetadata.phaseMilestones.map((milestone) => milestone.phase),
+      "4.1"
+    ],
+    proposalSections: phase41RuntimeProposalMetadata.proposalSections.map((section) => ({
+      id: section.id,
+      title: section.title,
+      summary: section.summary,
+      requiredOutcomeBeforeRuntime: section.requiredOutcomeBeforeRuntime,
+      proposalOnly: section.proposalOnly,
+      grantsRuntimeApproval: section.grantsRuntimeApproval,
+      runtimeBehaviorIntroduced: section.runtimeBehaviorIntroduced
+    })),
+    requiredTestsBeforeRuntime: phase41RuntimeProposalMetadata.requiredTestsBeforeRuntime.map(
+      (item) => ({
+        id: item.id,
+        summary: item.summary,
+        blocksRuntimeUntilPresent: item.blocksRuntimeUntilPresent,
+        proposalOnly: item.proposalOnly,
+        grantsRuntimeApproval: item.grantsRuntimeApproval,
+        runtimeBehaviorIntroduced: item.runtimeBehaviorIntroduced
+      })
+    ),
+    implementationRoadmap: phase41RuntimeProposalMetadata.implementationRoadmap.map((item) => ({
+      id: item.id,
+      summary: item.summary,
+      implementationInThisPhase: item.implementationInThisPhase,
+      requiresSeparateApproval: item.requiresSeparateApproval,
+      requiresDevinReview: item.requiresDevinReview,
+      grantsRuntimeApproval: item.grantsRuntimeApproval,
+      runtimeBehaviorIntroduced: item.runtimeBehaviorIntroduced
+    })),
+    representedArtifactCounts: phase41RuntimeProposalMetadata.representedArtifactCounts,
+    proposalArtifacts: phase41RuntimeProposalMetadata.proposalArtifacts.map((artifact) => ({
+      path: artifact.path,
+      artifactKind: artifact.artifactKind,
+      phaseIntroduced: artifact.phaseIntroduced,
+      runtimeStatus: artifact.runtimeStatus,
+      evidenceRole: artifact.evidenceRole,
+      grantsRuntimeApproval: artifact.grantsRuntimeApproval,
+      runtimeBehaviorIntroduced: artifact.runtimeBehaviorIntroduced
+    })),
+    cliCommandSurface: {
+      commandAdded: false,
+      runtimeProposalCommandAdded: false,
+      phase41RuntimeCommandAdded: false,
+      serveRuntimeCommandAdded: false,
+      stdioRuntimeCommandAdded: false,
+      transcriptReplayCommandAdded: false,
+      stdoutPrinterAdded: false,
+      fileWriterAdded: false,
+      liveRuntimeCommandAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    apiSurface: {
+      typescriptCoreRuntimeApiAdded: false,
+      rustRuntimeHelperAdded: false,
+      rustStdioOwnerAdded: false,
+      hostPolicyEnforcementAdded: false,
+      transcriptReplayRuntimeAdded: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Defines Phase 4.1 as a proposal and implementation plan only, with no runtime implementation or approval grant."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-0i-final-pre-runtime-readiness.md",
+        "Cross-links Phase 4.1 as the proposal-only follow-up to the final pre-runtime readiness bundle."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1 leaves the finite dry-run emitter unchanged and does not add live stdio."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links the Phase 4.1 proposal while preserving stdout JSONL and no-live-runtime boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Links Phase 4.1 as a proposal-only approval-boundary design, not active host-policy enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records the future Rust-host ownership design without adding process stdio ownership."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1 proposal-only scope and unchanged non-executing CLI surface."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1 adds no CLI command and keeps runtime/proposal commands rejected."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.1 adds no TypeScript core runtime API."
+      )
+    ],
+    fixtures: [
+      await fixtureInventoryEntry("tests/fixtures/host-policy/phase4-1/runtime-proposal.json"),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json"
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase4-1-runtime-proposal.test.mjs",
+        "Pins Phase 4.1 proposal metadata, docs, source guards, and rejected runtime/proposal CLI probes."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-0i-final-pre-runtime-readiness.test.mjs",
+        "Keeps the upstream final pre-runtime readiness bundle deterministic and inert."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1 report metadata and safety posture."
+      )
+    ],
+    invariantProbes: [
+      "missing --dry-run",
+      "unknown emit-session-events arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "policy-metadata",
+      "host-policy-export",
+      "serve-runtime",
+      "stdio-runtime",
+      "runtime",
+      "run",
+      "execute",
+      "live-runtime",
+      "runtime-proposal",
+      "proposal-runtime",
+      "phase-4.1-runtime",
+      "phase-4-1-runtime-proposal",
+      "phase-4.1-proposal",
+      "persist-session-transcript",
+      "transcript-replay",
+      "start-runtime",
+      "run-runtime",
+      "approve-runtime",
+      "host-policy-index",
+      "policy-index",
+      "review-index",
+      "index-host-policy"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      proposalOnly: true,
+      reviewOnly: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noPhase41RuntimeImplementation: true,
+      requiresSeparateRuntimeImplementationApproval: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -2306,6 +2538,7 @@ const report = {
     hostPolicyReviewComparison: true,
     reviewerHandoffIndex: true,
     finalPreRuntimeReadiness: true,
+    runtimeProposal: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

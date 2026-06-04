@@ -42,6 +42,39 @@ const phase40IInvariantIds = [
   "no-runtime-approval-grant",
   "no-phase-4-1-implementation"
 ];
+const phase41ProposalSectionIds = [
+  "approval-boundary",
+  "rust-host-stdio-ownership",
+  "stdout-jsonl-emission",
+  "stderr-diagnostics-redaction",
+  "transcript-persistence-replay",
+  "failure-audit-records",
+  "kill-exit-fail-closed",
+  "backpressure-partial-write",
+  "line-integrity-failures",
+  "required-tests-before-runtime",
+  "phased-runtime-roadmap"
+];
+const phase41RequiredTestIds = [
+  "approval-boundary-tests",
+  "rust-host-stdio-ownership-tests",
+  "stdout-jsonl-framing-tests",
+  "stderr-redaction-tests",
+  "transcript-persistence-replay-tests",
+  "failure-audit-record-tests",
+  "kill-exit-fail-closed-tests",
+  "backpressure-partial-write-tests",
+  "line-integrity-failure-tests",
+  "runtime-command-negative-tests"
+];
+const phase41RoadmapIds = [
+  "phase-4.1a-host-policy-approval-records",
+  "phase-4.1b-rust-host-transport-harness",
+  "phase-4.1c-stdout-stderr-enforcement",
+  "phase-4.1d-transcript-persistence-replay",
+  "phase-4.1e-failure-audit-and-kill-semantics",
+  "phase-4.1f-major-runtime-readiness-checkpoint"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -67,14 +100,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.0I local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1 proposal-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.0I",
-    name: "Final pre-runtime readiness",
-    executionPosture: "non-executing"
+    id: "4.1",
+    name: "Runtime proposal",
+    executionPosture: "proposal-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -131,12 +164,17 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.0I status report.",
+      purpose: "Render this deterministic local Phase 4.1 proposal-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.0I status report.",
+      purpose: "Run focused tests for this local Phase 4.1 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1-runtime-proposal.test.mjs",
+      purpose: "Run focused Phase 4.1 runtime proposal static checks.",
       ranByReport: false
     },
     {
@@ -1871,6 +1909,198 @@ test("report inventories Phase 4.0I final pre-runtime readiness", async () => {
   });
 });
 
+test("report inventories Phase 4.1 runtime proposal without implementing runtime", async () => {
+  const report = await runReport();
+
+  assert.deepEqual(report.phase41ProposalInventory.runtimeProposal, {
+    document: "docs/phase-4-1-runtime-proposal.md",
+    metadataFixture: "tests/fixtures/host-policy/phase4-1/runtime-proposal.json",
+    schema: "ardyn.phase-4-runtime-proposal",
+    schemaVersion: "0.1.0",
+    proposalPhase: "phase-4.1-runtime-proposal-only",
+    phaseIntroduced: "4.1",
+    artifactKind: "phase_4_runtime_proposal_only_bundle",
+    reviewRange: {
+      fromPhase: "4.0A",
+      throughPhase: "4.1"
+    },
+    proposalStatus: "proposal-only-review-draft",
+    runtimeStatus: "runtime-proposal-only",
+    implementationStatus: "not-implemented",
+    approvalStatus: "not-granted",
+    roadmapStatus: "future-work-only",
+    proposalOnly: true,
+    reviewOnly: true,
+    nonExecuting: true,
+    reviewMetadataOnly: true,
+    grantsRuntimeApproval: false,
+    runtimeApprovalGranted: false,
+    runtimeBehaviorIntroduced: false,
+    liveRuntimeBehaviorIntroduced: false,
+    phase41RuntimeImplemented: false,
+    consumedByLiveHostLoop: false,
+    requiresSeparateImplementationApproval: true,
+    requiresSeparateRuntimeImplementationApproval: true
+  });
+
+  assert.deepEqual(report.phase41ProposalInventory.basedOnFinalReadiness, {
+    document: "docs/phase-4-0i-final-pre-runtime-readiness.md",
+    metadataFixture: "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json",
+    finalReadinessCommit: "34ac1c3df105074bd5c2b1f04062e8d3da59204a"
+  });
+  assert.deepEqual(report.phase41ProposalInventory.devinReviewPolicy, {
+    priorReviewedRange: {
+      fromPhase: "4.0A",
+      throughPhase: "4.0H"
+    },
+    priorReviewer: "Devin",
+    priorVerdict: "PASS",
+    codexValidationForThisPhase: true,
+    requiresDevinReviewNow: false,
+    preserveDevinReviewFor: "major-runtime-readiness-checkpoint"
+  });
+
+  assert.equal(report.phase41ProposalInventory.approvalBoundary.status, "defined-not-granted");
+  assert.equal(report.phase41ProposalInventory.approvalBoundary.grantsRuntimeApproval, false);
+  assert.equal(report.phase41ProposalInventory.approvalBoundary.runtimeBehaviorIntroduced, false);
+  assert.deepEqual(report.phase41ProposalInventory.phaseCoverage, [
+    "4.0A",
+    "4.0B",
+    "4.0C",
+    "4.0D",
+    "4.0E",
+    "4.0F",
+    "4.0G",
+    "4.0H",
+    "4.0I",
+    "4.1"
+  ]);
+  assert.deepEqual(
+    report.phase41ProposalInventory.proposalSections.map((section) => section.id),
+    phase41ProposalSectionIds
+  );
+  assert.deepEqual(
+    report.phase41ProposalInventory.requiredTestsBeforeRuntime.map((item) => item.id),
+    phase41RequiredTestIds
+  );
+  assert.deepEqual(
+    report.phase41ProposalInventory.implementationRoadmap.map((item) => item.id),
+    phase41RoadmapIds
+  );
+  for (const section of report.phase41ProposalInventory.proposalSections) {
+    assert.equal(section.proposalOnly, true, section.id);
+    assert.equal(section.grantsRuntimeApproval, false, section.id);
+    assert.equal(section.runtimeBehaviorIntroduced, false, section.id);
+  }
+  for (const item of report.phase41ProposalInventory.requiredTestsBeforeRuntime) {
+    assert.equal(item.blocksRuntimeUntilPresent, true, item.id);
+    assert.equal(item.proposalOnly, true, item.id);
+    assert.equal(item.grantsRuntimeApproval, false, item.id);
+  }
+  for (const item of report.phase41ProposalInventory.implementationRoadmap) {
+    assert.equal(item.implementationInThisPhase, false, item.id);
+    assert.equal(item.requiresSeparateApproval, true, item.id);
+    assert.equal(item.grantsRuntimeApproval, false, item.id);
+  }
+  assert.equal(report.phase41ProposalInventory.implementationRoadmap.at(-1).requiresDevinReview, true);
+
+  assert.deepEqual(report.phase41ProposalInventory.representedArtifactCounts, {
+    total: 43,
+    upstreamFinalReadinessArtifacts: 40,
+    phase41ProposalArtifacts: 3
+  });
+  assert.deepEqual(
+    report.phase41ProposalInventory.proposalArtifacts.map((artifact) => artifact.path),
+    [
+      "docs/phase-4-1-runtime-proposal.md",
+      "tests/fixtures/host-policy/phase4-1/runtime-proposal.json",
+      "tests/phase4-1-runtime-proposal.test.mjs"
+    ]
+  );
+
+  assert.deepEqual(report.phase41ProposalInventory.cliCommandSurface, {
+    commandAdded: false,
+    runtimeProposalCommandAdded: false,
+    phase41RuntimeCommandAdded: false,
+    serveRuntimeCommandAdded: false,
+    stdioRuntimeCommandAdded: false,
+    transcriptReplayCommandAdded: false,
+    stdoutPrinterAdded: false,
+    fileWriterAdded: false,
+    liveRuntimeCommandAdded: false,
+    existingDryRunEmitterUnchanged: true
+  });
+  assert.deepEqual(report.phase41ProposalInventory.apiSurface, {
+    typescriptCoreRuntimeApiAdded: false,
+    rustRuntimeHelperAdded: false,
+    rustStdioOwnerAdded: false,
+    hostPolicyEnforcementAdded: false,
+    transcriptReplayRuntimeAdded: false
+  });
+  assert.deepEqual(
+    report.phase41ProposalInventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-4-1-runtime-proposal.md", "present"],
+      ["docs/phase-4-0i-final-pre-runtime-readiness.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/architecture.md", "present"],
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["packages/core/README.md", "present"]
+    ]
+  );
+  assert.deepEqual(report.phase41ProposalInventory.fixtures, [
+    {
+      path: "tests/fixtures/host-policy/phase4-1/runtime-proposal.json",
+      status: "present"
+    },
+    {
+      path: "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json",
+      status: "present"
+    }
+  ]);
+  assert.deepEqual(
+    report.phase41ProposalInventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase4-1-runtime-proposal.test.mjs", "present"],
+      ["tests/phase4-0i-final-pre-runtime-readiness.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+  assert.deepEqual(report.phase41ProposalInventory.safetyPosture, {
+    nonExecuting: true,
+    proposalOnly: true,
+    reviewOnly: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noContentFabricDownloadInstallEnable: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noPhase41RuntimeImplementation: true,
+    requiresSeparateRuntimeImplementationApproval: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -2060,6 +2290,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.hostPolicyReviewComparison, true);
   assert.equal(report.safetyPosture.reviewerHandoffIndex, true);
   assert.equal(report.safetyPosture.finalPreRuntimeReadiness, true);
+  assert.equal(report.safetyPosture.runtimeProposal, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {

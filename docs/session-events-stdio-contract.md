@@ -198,6 +198,20 @@ signing-key usage, WebSocket transport, HTTP transport, runtime approval grant,
 or Phase 4.1 implementation. See
 `docs/phase-4-0i-final-pre-runtime-readiness.md`.
 
+Phase 4.1 adds a runtime proposal and implementation roadmap only. It defines
+future Rust-host stdio ownership, stdout JSONL emission responsibility, stderr
+diagnostic/redaction enforcement, transcript persistence/replay design,
+failure audit records, kill/exit fail-closed semantics, backpressure and
+partial-write handling, dropped/duplicate/out-of-order/malformed-line
+behavior, required tests, and explicit approval gates before any live runtime.
+It does not add a CLI command, file writer, stdout printer, stdin command
+loop, live stdio reader, runtime owner, transcript replay command, listener,
+server, subprocess supervisor, adapter call, Locus runtime dependency,
+MCP/OpenClaw call, plugin execution path, Content Fabric runtime behavior,
+secret handling, production signing-key usage, WebSocket transport, HTTP
+transport, or runtime approval grant. See
+`docs/phase-4-1-runtime-proposal.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 
