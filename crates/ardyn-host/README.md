@@ -2,11 +2,13 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.1B still exposes static Rust host identity, handshake data, policy-only
+Phase 4.1C still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
-contract helpers. Rust task planning, runtime
+contract helpers. Phase 4.1C adds TypeScript-side static framing/redaction
+review helpers only; it adds no Rust-host stdio ownership implementation. Rust
+task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
 network serving, plugin installation, torrent download, code-pack enablement,
 runtime approval grants, host-policy enforcement, approval evaluation, and
@@ -56,6 +58,12 @@ typed static metadata, or classification values only; they do not write files,
 print to stdout, read stdin, start a runtime, own stdio, enforce host policy,
 evaluate live approval, grant runtime approval, emit failure audits, or load
 secrets. See `docs/phase-4-1b-transport-harness-contracts.md`.
+
+Phase 4.1C adds static stdout JSONL whole-line framing and stderr redaction
+contracts in the TypeScript core, not a Rust-host runtime path. No live writer
+exists, no process stdio ownership exists, and future runtime must use these
+rules but is not implemented yet. See
+`docs/phase-4-1c-framing-redaction-contracts.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

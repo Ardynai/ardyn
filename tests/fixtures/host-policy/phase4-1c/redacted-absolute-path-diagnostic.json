@@ -1,0 +1,17 @@
+{
+  "schema": "ardyn.phase-4.1c-static-fixture",
+  "schemaVersion": "0.1.0",
+  "fixtureKind": "stderr-diagnostic-redaction",
+  "fixtureName": "redacted-absolute-path-diagnostic",
+  "phase": "phase-4.1c-framing-redaction-contracts",
+  "inputDiagnostic": {
+    "code": "stderr.redaction.path",
+    "message": "failed opening C:\\Users\\Josh\\repo\\manifest.json and /tmp/ardyn/task.json"
+  },
+  "expectedClassification": "redacted_safe",
+  "forbiddenFragments": [
+    "C:\\Users\\Josh",
+    "/tmp/ardyn"
+  ],
+  "reviewOnly": true
+}

@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G/4.0H/4.0I/4.1/4.1A/4.1B Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G/4.0H/4.0I/4.1/4.1A/4.1B/4.1C Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -79,6 +79,17 @@ stdio reader, runtime owner, transcript persistence, replay command,
 WebSocket, HTTP, adapter, plugin, Content Fabric runtime, secret, production
 signing-key path, runtime approval grant, or live runtime implementation. See
 `docs/phase-4-1b-transport-harness-contracts.md`.
+
+Phase 4.1C adds static stdout JSONL whole-line framing and stderr redaction
+contract documentation, review-only TypeScript helper functions, and
+deterministic fixtures only. It still does not change the finite TypeScript
+dry-run emitter or add a framing/redaction CLI command, stdin reader, stdout
+writer, stderr writer, live writer, failure-audit runtime, approval evaluator,
+host-policy enforcement path, file writer, stdout printer, live stdio reader,
+runtime owner, transcript persistence, replay command, WebSocket, HTTP,
+adapter, plugin, Content Fabric runtime, secret, production signing-key path,
+runtime approval grant, or live runtime implementation. See
+`docs/phase-4-1c-framing-redaction-contracts.md`.
 
 ## CLI Surface
 
@@ -343,12 +354,29 @@ stderr writer, not a stdin reader, not process stdio ownership, not a file
 writer, not failure-audit runtime, not replay runtime, and not consumed by a
 live host loop.
 
+## Phase 4.1C Framing and Redaction Contracts
+
+Phase 4.1C adds static stdout JSONL whole-line framing and stderr redaction
+contracts for Codex review. See
+`docs/phase-4-1c-framing-redaction-contracts.md`.
+
+The Phase 4.1C fixtures are under
+`tests/fixtures/host-policy/phase4-1c/`. They cover a valid static contract,
+valid whole-line JSONL, blank lines, missing final LF, CRLF, malformed JSON
+lines, partial JSON lines, redacted secrets/tokens, redacted absolute paths,
+redacted stack traces, and unredactable diagnostics that fail closed. The
+fixtures are static review metadata only. They are not runtime configuration,
+not a stdout writer, not a stderr writer, not a stdin reader, not process stdio
+ownership, not a file writer, not failure-audit runtime, not replay runtime,
+and not consumed by a live host loop.
+
 ## Deferred Runtime Work
 
-Phase 4.1B intentionally does not implement repo-root confinement, transcript
+Phase 4.1C intentionally does not implement repo-root confinement, transcript
 persistence, dropped-line replay, duplicate detection across a live stream,
 stderr redaction enforcement, or Rust-host stdout/stderr runtime ownership. It
 documents review evidence, operator-consent references, fail-closed transport
-harness classifications, and a roadmap for later host-policy phases. A future
+harness classifications, fail-closed framing/redaction classifications, and a
+roadmap for later host-policy phases. A future
 live runtime still requires separate explicit host policy, implementation,
 tests, and runtime enablement.

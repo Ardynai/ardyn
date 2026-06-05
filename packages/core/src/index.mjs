@@ -8,6 +8,20 @@ import Ajv2020 from "ajv/dist/2020.js";
 export const ARDYN_SCHEMA_VERSION = "0.1.0";
 export const ARDYN_PHASE = "phase-3-task-planning";
 export const ARDYN_STDIO_DRY_RUN_PHASE = "phase-4.0a-stdio-event-dry-run";
+export const ARDYN_STDIO_FRAMING_REDACTION_PHASE =
+  "phase-4.1c-framing-redaction-contracts";
+export const STDIO_FRAMING_REDACTION_CONTRACT_SCHEMA =
+  "ardyn.stdio-framing-redaction-contract";
+export const STDIO_FRAMING_REDACTION_CONTRACT_VERSION = "0.1.0";
+export const JSONL_WHOLE_LINE_BUNDLE_VALID = "valid_whole_line_bundle";
+export const JSONL_WHOLE_LINE_BUNDLE_BLANK_LINE_REJECTED = "blank_line_rejected";
+export const JSONL_WHOLE_LINE_BUNDLE_MISSING_FINAL_LF = "missing_final_lf";
+export const JSONL_WHOLE_LINE_BUNDLE_CRLF_REJECTED = "crlf_rejected";
+export const JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE = "malformed_json_line";
+export const JSONL_WHOLE_LINE_BUNDLE_PARTIAL_LINE_REJECTED = "partial_line_rejected";
+export const STDERR_REDACTION_SAFE = "redacted_safe";
+export const STDERR_REDACTION_UNREDACTABLE_FAIL_CLOSED = "unredactable_fail_closed";
+export const STDERR_REDACTION_MALFORMED = "malformed";
 export const APPROVAL_REVIEW_ARTIFACT_SCHEMA = "ardyn.approval-review-artifact";
 export const APPROVAL_REVIEW_ARTIFACT_VERSION = "0.1.0";
 export const SCHEMA_MIGRATION_METADATA_SCHEMA = "ardyn.schema-migration-metadata";
@@ -3569,6 +3583,420 @@ export function formatSessionEventsJsonl(events) {
   }
 
   return `${lines.join("\n")}\n`;
+}
+
+function isPlainObjectRecord(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function jsonlRuntimeEffect() {
+  return {
+    currentContractEnablesRuntime: false,
+    processStdioOwnershipAvailable: false,
+    stdoutWriterAvailable: false,
+    stderrWriterAvailable: false,
+    stdinReaderAvailable: false,
+    runtimeCommandAvailable: false,
+    writesToStdout: false,
+    writesToStderr: false
+  };
+}
+
+function framingValidationRecord(classification, fields = {}) {
+  const valid = classification === JSONL_WHOLE_LINE_BUNDLE_VALID;
+
+  return {
+    schema: "ardyn.jsonl-whole-line-bundle-validation",
+    schemaVersion: "0.1.0",
+    phase: ARDYN_STDIO_FRAMING_REDACTION_PHASE,
+    classification,
+    valid,
+    lineCount: fields.lineCount ?? 0,
+    lfOnly: fields.lfOnly ?? true,
+    finalLf: fields.finalLf ?? false,
+    blankLinesAllowed: false,
+    partialLineEmissionAllowed: false,
+    oneJsonObjectPerLine: valid,
+    errors: fields.errors ?? [],
+    reviewOnly: true,
+    runtimeEffect: jsonlRuntimeEffect()
+  };
+}
+
+export function formatJsonlWholeLinesForReview(records) {
+  if (!Array.isArray(records) || records.length === 0) {
+    throw new Error("review JSONL records must contain at least one object.");
+  }
+
+  const lines = [];
+
+  for (let index = 0; index < records.length; index += 1) {
+    if (!Object.prototype.hasOwnProperty.call(records, index)) {
+      throw new Error(`review JSONL record ${index + 1} is missing.`);
+    }
+
+    const record = records[index];
+
+    if (!isPlainObjectRecord(record)) {
+      throw new Error(`review JSONL record ${index + 1} must be a JSON object.`);
+    }
+
+    lines.push(stableJsonStringify(record));
+  }
+
+  return `${lines.join("\n")}\n`;
+}
+
+export function validateJsonlWholeLineBundle(jsonl) {
+  if (typeof jsonl !== "string") {
+    return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE, {
+      errors: ["bundle must be a string"]
+    });
+  }
+
+  if (jsonl.includes("\r")) {
+    return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_CRLF_REJECTED, {
+      lfOnly: false,
+      finalLf: jsonl.endsWith("\n"),
+      errors: ["bundle must be LF-only and must not contain CR or CRLF"]
+    });
+  }
+
+  if (!jsonl.endsWith("\n")) {
+    return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_MISSING_FINAL_LF, {
+      finalLf: false,
+      errors: ["bundle must end with a final LF"]
+    });
+  }
+
+  const lines = jsonl.split("\n");
+  const contentLines = lines.slice(0, -1);
+
+  for (let index = 0; index < contentLines.length; index += 1) {
+    if (contentLines[index] === "") {
+      return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_BLANK_LINE_REJECTED, {
+        lineCount: contentLines.length,
+        finalLf: true,
+        errors: [`line ${index + 1} must not be blank`]
+      });
+    }
+  }
+
+  for (let index = 0; index < contentLines.length; index += 1) {
+    const line = contentLines[index];
+    const trimmed = line.trim();
+
+    if (trimmed !== line) {
+      return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE, {
+        lineCount: contentLines.length,
+        finalLf: true,
+        errors: [`line ${index + 1} must not contain leading or trailing whitespace`]
+      });
+    }
+
+    if (trimmed.startsWith("{") && !trimmed.endsWith("}")) {
+      return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_PARTIAL_LINE_REJECTED, {
+        lineCount: contentLines.length,
+        finalLf: true,
+        errors: [`line ${index + 1} is a partial JSON object`]
+      });
+    }
+
+    let parsed;
+    try {
+      parsed = JSON.parse(line);
+    } catch {
+      return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE, {
+        lineCount: contentLines.length,
+        finalLf: true,
+        errors: [`line ${index + 1} must contain exactly one valid JSON object`]
+      });
+    }
+
+    if (!isPlainObjectRecord(parsed)) {
+      return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE, {
+        lineCount: contentLines.length,
+        finalLf: true,
+        errors: [`line ${index + 1} must contain a JSON object`]
+      });
+    }
+  }
+
+  return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_VALID, {
+    lineCount: contentLines.length,
+    finalLf: true
+  });
+}
+
+function diagnosticCodeIsDeterministic(code) {
+  return typeof code === "string" && /^[a-z][a-z0-9_.-]{2,63}$/.test(code);
+}
+
+function replaceAndTrack(message, pattern, replacement, kind, redactions, trackedReplacement = replacement) {
+  const matched = pattern.test(message);
+  pattern.lastIndex = 0;
+  const next = message.replace(pattern, replacement);
+
+  if (matched) {
+    redactions.push({ kind, replacement: trackedReplacement });
+  }
+
+  return next;
+}
+
+function redactSensitiveDiagnosticMessage(message) {
+  const redactions = [];
+
+  if (message.includes("\u0000") || /UNREDACTABLE_RAW_BYTES/.test(message)) {
+    return {
+      message: "[DIAGNOSTIC_REDACTION_FAILED]",
+      redactions,
+      unredactable: true
+    };
+  }
+
+  let redacted = message;
+  redacted = replaceAndTrack(
+    redacted,
+    /raw parse detail:\s*.+$/gi,
+    "raw parse detail: [REDACTED_RAW_PARSE_DETAIL]",
+    "raw_parse_detail",
+    redactions
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /stack:\s*[\s\S]+$/gi,
+    "stack: [REDACTED_STACK]",
+    "stack_trace",
+    redactions
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /\n\s*at\s+[\s\S]+$/g,
+    " [REDACTED_STACK]",
+    "stack_trace",
+    redactions
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /[A-Za-z]:\\Users\\[^ "'\n\r]+/g,
+    "[REDACTED_HOME_PATH]",
+    "user_home_path",
+    redactions
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /\/(?:Users|home)\/[^ "'\n\r]+/g,
+    "[REDACTED_HOME_PATH]",
+    "user_home_path",
+    redactions
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /[A-Za-z]:\\(?!Users\\)[^ "'\n\r]+/g,
+    "[REDACTED_ABSOLUTE_PATH]",
+    "absolute_path",
+    redactions
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /\/(?:var|tmp|etc|opt|srv|workspace|mnt)\/[^ "'\n\r]+/g,
+    "[REDACTED_ABSOLUTE_PATH]",
+    "absolute_path",
+    redactions
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /process\.env\.[A-Z0-9_]+(?:=[^ "'\n\r]+)?/g,
+    "process.env.[REDACTED_ENV]",
+    "environment_variable",
+    redactions
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /\b(?:SECRET|TOKEN|API_KEY|APIKEY|PASSWORD|AUTHORIZATION|HOME|USER)=([^ "'\n\r]+)/g,
+    "[REDACTED_ENV]=[REDACTED]",
+    "environment_variable",
+    redactions
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /\b(secret|token|api[_-]?key|password|authorization)\s*[:=]\s*[^ "'\n\r,;]+/gi,
+    "$1=[REDACTED_SECRET]",
+    "secret_or_token",
+    redactions,
+    "secret-or-token=[REDACTED_SECRET]"
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /\bBearer\s+[A-Za-z0-9._-]+/g,
+    "Bearer [REDACTED_TOKEN]",
+    "secret_or_token",
+    redactions
+  );
+  redacted = replaceAndTrack(
+    redacted,
+    /\bsk-[A-Za-z0-9_-]{8,}\b/g,
+    "[REDACTED_API_KEY]",
+    "api_key",
+    redactions
+  );
+
+  if (/[\r\n]/.test(redacted)) {
+    return {
+      message: "[DIAGNOSTIC_REDACTION_FAILED]",
+      redactions,
+      unredactable: true
+    };
+  }
+
+  return {
+    message: redacted,
+    redactions,
+    unredactable: false
+  };
+}
+
+function redactionRuntimeEffect() {
+  return {
+    currentContractEnablesRuntime: false,
+    processStdioOwnershipAvailable: false,
+    stderrWriterAvailable: false,
+    stdoutWriterAvailable: false,
+    runtimeCommandAvailable: false,
+    writesToStdout: false,
+    writesToStderr: false
+  };
+}
+
+function redactionRecord(classification, fields = {}) {
+  return {
+    schema: "ardyn.stderr-diagnostic-redaction-review",
+    schemaVersion: "0.1.0",
+    phase: ARDYN_STDIO_FRAMING_REDACTION_PHASE,
+    classification,
+    diagnostic: {
+      code: fields.code ?? "diagnostic.malformed",
+      message: fields.message ?? "[DIAGNOSTIC_REDACTION_FAILED]"
+    },
+    redactions: fields.redactions ?? [],
+    failClosed: classification !== STDERR_REDACTION_SAFE,
+    reviewOnly: true,
+    runtimeEffect: redactionRuntimeEffect()
+  };
+}
+
+export function redactStderrDiagnosticForReview(diagnostic) {
+  if (
+    !diagnostic ||
+    typeof diagnostic !== "object" ||
+    !diagnosticCodeIsDeterministic(diagnostic.code) ||
+    typeof diagnostic.message !== "string" ||
+    diagnostic.message.length === 0
+  ) {
+    return redactionRecord(STDERR_REDACTION_MALFORMED);
+  }
+
+  const redacted = redactSensitiveDiagnosticMessage(diagnostic.message);
+
+  if (redacted.unredactable) {
+    return redactionRecord(STDERR_REDACTION_UNREDACTABLE_FAIL_CLOSED, {
+      code: diagnostic.code,
+      message: redacted.message,
+      redactions: redacted.redactions
+    });
+  }
+
+  return redactionRecord(STDERR_REDACTION_SAFE, {
+    code: diagnostic.code,
+    message: redacted.message,
+    redactions: redacted.redactions
+  });
+}
+
+export function classifyRedactionSafety(diagnostic) {
+  return redactStderrDiagnosticForReview(diagnostic).classification;
+}
+
+export function createStdioFramingRedactionContractForReview() {
+  return {
+    schema: STDIO_FRAMING_REDACTION_CONTRACT_SCHEMA,
+    schemaVersion: STDIO_FRAMING_REDACTION_CONTRACT_VERSION,
+    contractKind: "stdio-framing-redaction-contract",
+    contractPhase: ARDYN_STDIO_FRAMING_REDACTION_PHASE,
+    reviewedPhase: "4.1C",
+    jsonlFraming: {
+      exactlyOneJsonObjectPerLine: true,
+      jsonObjectOnly: true,
+      lfOnly: true,
+      finalLfRequired: true,
+      blankLinesAllowed: false,
+      crlfAllowed: false,
+      partialLineEmissionAllowed: false,
+      deterministicKeyOrder: "ascii-key-order-via-stable-json-display-v1",
+      helper: "formatJsonlWholeLinesForReview"
+    },
+    stderrRedaction: {
+      deterministicCodeRequired: true,
+      deterministicMessageRequired: true,
+      codePattern: "^[a-z][a-z0-9_.-]{2,63}$",
+      redactionTokenPolicy: "typed-redaction-placeholders",
+      helper: "redactStderrDiagnosticForReview",
+      classifier: "classifyRedactionSafety",
+      failClosedOnUnredactableDiagnostics: true,
+      redactedSubjects: [
+        "secrets",
+        "environment_variables",
+        "absolute_paths",
+        "user_home_paths",
+        "tokens",
+        "api_keys",
+        "stack_traces",
+        "raw_parse_details"
+      ]
+    },
+    validation: {
+      helper: "validateJsonlWholeLineBundle",
+      jsonlClassifications: [
+        JSONL_WHOLE_LINE_BUNDLE_VALID,
+        JSONL_WHOLE_LINE_BUNDLE_BLANK_LINE_REJECTED,
+        JSONL_WHOLE_LINE_BUNDLE_MISSING_FINAL_LF,
+        JSONL_WHOLE_LINE_BUNDLE_CRLF_REJECTED,
+        JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE,
+        JSONL_WHOLE_LINE_BUNDLE_PARTIAL_LINE_REJECTED
+      ],
+      redactionClassifications: [
+        STDERR_REDACTION_SAFE,
+        STDERR_REDACTION_UNREDACTABLE_FAIL_CLOSED,
+        STDERR_REDACTION_MALFORMED
+      ]
+    },
+    runtimeEffect: {
+      currentContractEnablesRuntime: false,
+      runtimeImplementationAvailable: false,
+      runtimeCommandAvailable: false,
+      processStdioOwnershipAvailable: false,
+      stdinReaderAvailable: false,
+      stdoutWriterAvailable: false,
+      stderrWriterAvailable: false,
+      failureAuditRuntimeAvailable: false,
+      approvalEvaluatorAvailable: false
+    },
+    audit: {
+      createdAt: "1970-01-01T00:00:00.000Z",
+      createdBy: "codex-phase-4.1c",
+      reviewer: "Codex",
+      devinReviewRequiredNow: false,
+      preserveDevinReviewFor: "major-runtime-readiness-checkpoint",
+      metadataOnly: true,
+      writesFiles: false,
+      runsRuntime: false
+    }
+  };
+}
+
+export function formatStdioFramingRedactionContractJsonForReview() {
+  return `${JSON.stringify(createStdioFramingRedactionContractForReview(), null, 2)}\n`;
 }
 
 export function createHostInfo() {

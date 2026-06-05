@@ -96,6 +96,14 @@ failure audit runtime, approval evaluator, active host-policy enforcement path,
 CLI command, process stdio ownership, runtime approval grant, or live host
 loop. See `docs/phase-4-1b-transport-harness-contracts.md`.
 
+Phase 4.1C adds static TypeScript stdout JSONL whole-line framing and stderr
+redaction review helpers. It does not add a Rust runtime helper, stdout writer,
+stderr writer, live writer, live stdio reader, process stdio ownership,
+failure audit runtime, approval evaluator, active host-policy enforcement path,
+CLI command, runtime approval grant, or live host loop. Future runtime must use
+these rules but is not implemented yet. See
+`docs/phase-4-1c-framing-redaction-contracts.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

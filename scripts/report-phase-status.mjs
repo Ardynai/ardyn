@@ -58,6 +58,9 @@ const phase41AApprovalRecordMetadata = await readJson(
 const phase41BTransportHarnessMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json"
 );
+const phase41CFramingRedactionMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -105,9 +108,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1B",
-    name: "Transport harness contracts",
-    executionPosture: "transport-harness-contract-only non-executing"
+    id: "4.1C",
+    name: "Framing and redaction contracts",
+    executionPosture: "framing-redaction-contract-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -149,12 +152,17 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1B transport-harness-contract-only status report.",
+      purpose: "Render this deterministic local Phase 4.1C framing-redaction-contract-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1B status report.",
+      purpose: "Run focused tests for this local Phase 4.1C status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1c-framing-redaction-contracts.test.mjs",
+      purpose: "Run focused Phase 4.1C framing/redaction static checks.",
       ranByReport: false
     },
     {
@@ -3121,6 +3129,278 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41CFramingRedactionInventory: {
+    framingRedactionContract: {
+      document: "docs/phase-4-1c-framing-redaction-contracts.md",
+      source: "packages/core/src/index.mjs",
+      types: "packages/core/src/index.d.ts",
+      fixture:
+        "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json",
+      schema: phase41CFramingRedactionMetadata.schema,
+      schemaVersion: phase41CFramingRedactionMetadata.schemaVersion,
+      contractKind: phase41CFramingRedactionMetadata.contractKind,
+      contractPhase: phase41CFramingRedactionMetadata.contractPhase,
+      reviewedPhase: phase41CFramingRedactionMetadata.reviewedPhase,
+      staticContractOnly: true,
+      currentContractEnablesRuntime:
+        phase41CFramingRedactionMetadata.runtimeEffect.currentContractEnablesRuntime,
+      runtimeImplementationAvailable:
+        phase41CFramingRedactionMetadata.runtimeEffect.runtimeImplementationAvailable,
+      runtimeCommandAvailable:
+        phase41CFramingRedactionMetadata.runtimeEffect.runtimeCommandAvailable,
+      processStdioOwnershipAvailable:
+        phase41CFramingRedactionMetadata.runtimeEffect.processStdioOwnershipAvailable,
+      stdinReaderAvailable:
+        phase41CFramingRedactionMetadata.runtimeEffect.stdinReaderAvailable,
+      stdoutWriterAvailable:
+        phase41CFramingRedactionMetadata.runtimeEffect.stdoutWriterAvailable,
+      stderrWriterAvailable:
+        phase41CFramingRedactionMetadata.runtimeEffect.stderrWriterAvailable,
+      failureAuditRuntimeAvailable:
+        phase41CFramingRedactionMetadata.runtimeEffect.failureAuditRuntimeAvailable,
+      approvalEvaluatorAvailable:
+        phase41CFramingRedactionMetadata.runtimeEffect.approvalEvaluatorAvailable,
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      consumedByLiveHostLoop: false
+    },
+    basedOnTransportHarness: {
+      document: "docs/phase-4-1b-transport-harness-contracts.md",
+      fixture:
+        "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json",
+      schema: phase41BTransportHarnessMetadata.schema,
+      schemaVersion: phase41BTransportHarnessMetadata.schemaVersion,
+      contractKind: phase41BTransportHarnessMetadata.contractKind,
+      contractPhase: phase41BTransportHarnessMetadata.contractPhase,
+      reviewedPhase: phase41BTransportHarnessMetadata.reviewedPhase,
+      classification: phase41BTransportHarnessMetadata.classification,
+      approvalReferencesNecessaryButNotSufficient:
+        phase41BTransportHarnessMetadata.runtimeEffect
+          .approvalRecordNecessaryButNotSufficient,
+      currentContractEnablesRuntime:
+        phase41BTransportHarnessMetadata.runtimeEffect.currentContractEnablesRuntime,
+      processStdioOwnershipAvailable:
+        phase41BTransportHarnessMetadata.runtimeEffect.processStdioOwnershipAvailable,
+      stdoutWriterAvailable:
+        phase41BTransportHarnessMetadata.runtimeEffect.stdoutWriterAvailable,
+      stderrWriterAvailable:
+        phase41BTransportHarnessMetadata.runtimeEffect.stderrWriterAvailable
+    },
+    jsonlFraming: {
+      ...phase41CFramingRedactionMetadata.jsonlFraming,
+      classifications: phase41CFramingRedactionMetadata.validation.jsonlClassifications,
+      reviewOnly: true,
+      noLiveWriter: true,
+      stdoutWriterAvailable: false,
+      writesToStdout: false,
+      runtimeCommandAvailable: false
+    },
+    stderrRedaction: {
+      ...phase41CFramingRedactionMetadata.stderrRedaction,
+      classifications: phase41CFramingRedactionMetadata.validation.redactionClassifications,
+      reviewOnly: true,
+      noLiveWriter: true,
+      stderrWriterAvailable: false,
+      writesToStderr: false,
+      runtimeCommandAvailable: false
+    },
+    validation: {
+      ...phase41CFramingRedactionMetadata.validation,
+      fixtureBacked: true,
+      reportRunsChecks: false,
+      helpers: [
+        "formatJsonlWholeLinesForReview",
+        "validateJsonlWholeLineBundle",
+        "redactStderrDiagnosticForReview",
+        "classifyRedactionSafety"
+      ]
+    },
+    runtimeEffect: phase41CFramingRedactionMetadata.runtimeEffect,
+    reviewOnlyDisplayBehavior: {
+      framingRedactionContractsAreStaticArtifactsOnly: true,
+      currentContractsDoNotEnableRuntime: true,
+      futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+      preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+      reportRunsChecks: false,
+      writesFiles: false,
+      printsStdoutFromCli: false,
+      consumedByLiveHostLoop: false
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      framingRedactionCommandAdded: false,
+      stdoutFramingCommandAdded: false,
+      stderrRedactionCommandAdded: false,
+      stdoutWriterCommandAdded: false,
+      stderrWriterCommandAdded: false,
+      serveRuntimeCommandAdded: false,
+      stdioRuntimeCommandAdded: false,
+      fileWriterAdded: false,
+      stdoutPrinterAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    apiSurface: {
+      typescriptCoreStaticReviewHelpersAdded: true,
+      typescriptCoreRuntimeApiAdded: false,
+      rustRuntimeHelperAdded: false,
+      rustStdioOwnerAdded: false,
+      rustStdoutWriterAdded: false,
+      rustStderrWriterAdded: false,
+      approvalEvaluatorAdded: false,
+      failureAuditRuntimeAdded: false,
+      secretsUsed: false
+    },
+    fixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/valid-whole-line-jsonl-bundle.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/blank-line-rejected-jsonl-bundle.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/missing-final-lf-rejected-jsonl-bundle.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/crlf-rejected-jsonl-bundle.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/malformed-json-line-rejected-jsonl-bundle.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/partial-line-rejected-jsonl-bundle.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/redacted-secret-token-diagnostic.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/redacted-absolute-path-diagnostic.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/redacted-stack-trace-diagnostic.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1c/unredactable-diagnostic-fail-closed.json"
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1c-framing-redaction-contracts.md",
+        "Defines Phase 4.1C stdout JSONL framing and stderr redaction contracts as static helper metadata only."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1b-transport-harness-contracts.md",
+        "Links Phase 4.1C to static transport harness contracts while preserving no process stdio ownership."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4.1 roadmap to identify Phase 4.1C as static framing/redaction contracts."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1C leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.1C while preserving no-live-runtime stdio boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents framing/redaction contracts as static preconditions, not enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records Phase 4.1C TypeScript static helper contracts without live writer ownership."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1C scope and unchanged non-executing CLI surface."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1C adds no framing/redaction or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents Phase 4.1C static TypeScript review helpers as non-runtime APIs."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 4.1C does not add Rust-host stdio ownership."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase4-1c-framing-redaction-contracts.test.mjs",
+        "Pins Phase 4.1C fixtures, docs, report inventory, source guards, and rejected framing/redaction/runtime commands."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1C report metadata and safety posture."
+      ),
+      await localInventoryEntry(
+        "packages/core/src/index.mjs",
+        "Contains static framing/redaction review helpers without stdout/stderr writes."
+      ),
+      await localInventoryEntry(
+        "packages/core/src/index.d.ts",
+        "Declares Phase 4.1C static helper APIs and review-only metadata types."
+      )
+    ],
+    invariantProbes: [
+      "missing --dry-run",
+      "unknown emit-session-events arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "policy-metadata",
+      "host-policy-export",
+      "serve-runtime",
+      "stdio-runtime",
+      "framing-redaction",
+      "stdout-framing",
+      "stderr-redaction",
+      "redact-stderr",
+      "validate-jsonl-framing",
+      "phase-4-1c-framing-redaction"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      framingRedactionContractOnly: true,
+      reviewOnly: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noHostPolicyEnforcement: true,
+      noApprovalEvaluator: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noFailureAuditRuntime: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -3139,6 +3419,7 @@ const report = {
     runtimeProposal: true,
     hostPolicyApprovalRecords: true,
     transportHarnessContracts: true,
+    framingRedactionContracts: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

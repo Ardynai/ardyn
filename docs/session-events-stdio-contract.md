@@ -236,6 +236,21 @@ usage, WebSocket transport, HTTP transport, host-policy enforcement, approval
 evaluator, or runtime approval grant. See
 `docs/phase-4-1b-transport-harness-contracts.md`.
 
+Phase 4.1C adds static stdout JSONL whole-line framing and stderr redaction
+contracts for review only. The helpers classify `valid_whole_line_bundle`,
+`blank_line_rejected`, `missing_final_lf`, `crlf_rejected`,
+`malformed_json_line`, `partial_line_rejected`, `redacted_safe`,
+`unredactable_fail_closed`, and `malformed` states, but no live writer exists
+and no process stdio ownership exists. Phase 4.1C does not add a CLI command,
+file writer, stdout printer, stdout writer, stderr writer, stdin command loop,
+live stdio reader, runtime owner, transcript replay command, failure-audit
+runtime, listener, server, subprocess supervisor, adapter call, Locus runtime
+dependency, MCP/OpenClaw call, plugin execution path, Content Fabric runtime
+behavior, secret handling, production signing-key usage, WebSocket transport,
+HTTP transport, host-policy enforcement, approval evaluator, or runtime
+approval grant. Future runtime must use these rules but is not implemented
+yet. See `docs/phase-4-1c-framing-redaction-contracts.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

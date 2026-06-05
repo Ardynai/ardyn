@@ -98,12 +98,18 @@ failure audit tests, kill/exit/fail-closed tests, backpressure tests, and
 dropped/duplicate/out-of-order/malformed-line tests before any live runtime
 path can exist.
 
+Phase 4.1C follows this contract with static stdout JSONL whole-line framing
+and stderr redaction review helpers only. No live writer exists, no process
+stdio ownership exists, and future runtime must use these rules but is not
+implemented yet. See `docs/phase-4-1c-framing-redaction-contracts.md`.
+
 ## Cross-Links
 
 Phase 4.1B builds on:
 
 - `docs/phase-4-1-runtime-proposal.md`
 - `docs/phase-4-1a-host-policy-approval-records.md`
+- `docs/phase-4-1c-framing-redaction-contracts.md`
 - `docs/phase-4-stdio-dry-run-event-emission.md`
 - `docs/session-events-stdio-contract.md`
 - `docs/host-policy-preconditions.md`

@@ -1,0 +1,17 @@
+{
+  "schema": "ardyn.phase-4.1c-static-fixture",
+  "schemaVersion": "0.1.0",
+  "fixtureKind": "jsonl-whole-line-bundle",
+  "fixtureName": "valid-whole-line-jsonl-bundle",
+  "phase": "phase-4.1c-framing-redaction-contracts",
+  "input": "{\"phase\":\"4.1C\",\"sequence\":1,\"status\":\"static-review\"}\n{\"phase\":\"4.1C\",\"sequence\":2,\"status\":\"static-review\"}\n",
+  "expectedClassification": "valid_whole_line_bundle",
+  "reviewOnly": true,
+  "runtimeEffect": {
+    "currentContractEnablesRuntime": false,
+    "processStdioOwnershipAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "runtimeCommandAvailable": false
+  }
+}

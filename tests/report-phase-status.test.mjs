@@ -122,6 +122,32 @@ const phase41BFixtureFiles = [
   "tests/fixtures/host-policy/phase4-1b/malformed-missing-contract-kind-transport-harness-contract.json",
   "tests/fixtures/host-policy/phase4-1b/runtime-available-attempt-transport-harness-contract.json"
 ];
+const phase41CJsonlClassifications = [
+  "valid_whole_line_bundle",
+  "blank_line_rejected",
+  "missing_final_lf",
+  "crlf_rejected",
+  "malformed_json_line",
+  "partial_line_rejected"
+];
+const phase41CRedactionClassifications = [
+  "redacted_safe",
+  "unredactable_fail_closed",
+  "malformed"
+];
+const phase41CFixtureFiles = [
+  "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json",
+  "tests/fixtures/host-policy/phase4-1c/valid-whole-line-jsonl-bundle.json",
+  "tests/fixtures/host-policy/phase4-1c/blank-line-rejected-jsonl-bundle.json",
+  "tests/fixtures/host-policy/phase4-1c/missing-final-lf-rejected-jsonl-bundle.json",
+  "tests/fixtures/host-policy/phase4-1c/crlf-rejected-jsonl-bundle.json",
+  "tests/fixtures/host-policy/phase4-1c/malformed-json-line-rejected-jsonl-bundle.json",
+  "tests/fixtures/host-policy/phase4-1c/partial-line-rejected-jsonl-bundle.json",
+  "tests/fixtures/host-policy/phase4-1c/redacted-secret-token-diagnostic.json",
+  "tests/fixtures/host-policy/phase4-1c/redacted-absolute-path-diagnostic.json",
+  "tests/fixtures/host-policy/phase4-1c/redacted-stack-trace-diagnostic.json",
+  "tests/fixtures/host-policy/phase4-1c/unredactable-diagnostic-fail-closed.json"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -147,14 +173,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1B transport-harness-contract-only local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1C framing-redaction-contract-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1B",
-    name: "Transport harness contracts",
-    executionPosture: "transport-harness-contract-only non-executing"
+    id: "4.1C",
+    name: "Framing and redaction contracts",
+    executionPosture: "framing-redaction-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -221,12 +247,17 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1B transport-harness-contract-only status report.",
+      purpose: "Render this deterministic local Phase 4.1C framing-redaction-contract-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1B status report.",
+      purpose: "Run focused tests for this local Phase 4.1C status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1c-framing-redaction-contracts.test.mjs",
+      purpose: "Run focused Phase 4.1C framing/redaction static checks.",
       ranByReport: false
     },
     {
@@ -2552,6 +2583,225 @@ test("report inventories Phase 4.1B transport harness contracts without enabling
   });
 });
 
+test("report inventories Phase 4.1C framing and redaction contracts without enabling runtime", async () => {
+  const report = await runReport();
+  const inventory = report.phase41CFramingRedactionInventory;
+
+  assert.deepEqual(inventory.framingRedactionContract, {
+    document: "docs/phase-4-1c-framing-redaction-contracts.md",
+    source: "packages/core/src/index.mjs",
+    types: "packages/core/src/index.d.ts",
+    fixture: "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json",
+    schema: "ardyn.stdio-framing-redaction-contract",
+    schemaVersion: "0.1.0",
+    contractKind: "stdio-framing-redaction-contract",
+    contractPhase: "phase-4.1c-framing-redaction-contracts",
+    reviewedPhase: "4.1C",
+    staticContractOnly: true,
+    currentContractEnablesRuntime: false,
+    runtimeImplementationAvailable: false,
+    runtimeCommandAvailable: false,
+    processStdioOwnershipAvailable: false,
+    stdinReaderAvailable: false,
+    stdoutWriterAvailable: false,
+    stderrWriterAvailable: false,
+    failureAuditRuntimeAvailable: false,
+    approvalEvaluatorAvailable: false,
+    runtimeBehaviorIntroduced: false,
+    liveRuntimeBehaviorIntroduced: false,
+    consumedByLiveHostLoop: false
+  });
+  assert.deepEqual(inventory.basedOnTransportHarness, {
+    document: "docs/phase-4-1b-transport-harness-contracts.md",
+    fixture: "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json",
+    schema: "ardyn.transport-harness-contract",
+    schemaVersion: "0.1.0",
+    contractKind: "transport-harness-contract",
+    contractPhase: "phase-4.1b-transport-harness-contracts",
+    reviewedPhase: "4.1B",
+    classification: "static_contract_only",
+    approvalReferencesNecessaryButNotSufficient: true,
+    currentContractEnablesRuntime: false,
+    processStdioOwnershipAvailable: false,
+    stdoutWriterAvailable: false,
+    stderrWriterAvailable: false
+  });
+  assert.deepEqual(inventory.jsonlFraming, {
+    exactlyOneJsonObjectPerLine: true,
+    jsonObjectOnly: true,
+    lfOnly: true,
+    finalLfRequired: true,
+    blankLinesAllowed: false,
+    crlfAllowed: false,
+    partialLineEmissionAllowed: false,
+    deterministicKeyOrder: "ascii-key-order-via-stable-json-display-v1",
+    helper: "formatJsonlWholeLinesForReview",
+    classifications: phase41CJsonlClassifications,
+    reviewOnly: true,
+    noLiveWriter: true,
+    stdoutWriterAvailable: false,
+    writesToStdout: false,
+    runtimeCommandAvailable: false
+  });
+  assert.deepEqual(inventory.stderrRedaction, {
+    deterministicCodeRequired: true,
+    deterministicMessageRequired: true,
+    codePattern: "^[a-z][a-z0-9_.-]{2,63}$",
+    redactionTokenPolicy: "typed-redaction-placeholders",
+    helper: "redactStderrDiagnosticForReview",
+    classifier: "classifyRedactionSafety",
+    failClosedOnUnredactableDiagnostics: true,
+    redactedSubjects: [
+      "secrets",
+      "environment_variables",
+      "absolute_paths",
+      "user_home_paths",
+      "tokens",
+      "api_keys",
+      "stack_traces",
+      "raw_parse_details"
+    ],
+    classifications: phase41CRedactionClassifications,
+    reviewOnly: true,
+    noLiveWriter: true,
+    stderrWriterAvailable: false,
+    writesToStderr: false,
+    runtimeCommandAvailable: false
+  });
+  assert.deepEqual(inventory.validation, {
+    helper: "validateJsonlWholeLineBundle",
+    jsonlClassifications: phase41CJsonlClassifications,
+    redactionClassifications: phase41CRedactionClassifications,
+    fixtureBacked: true,
+    reportRunsChecks: false,
+    helpers: [
+      "formatJsonlWholeLinesForReview",
+      "validateJsonlWholeLineBundle",
+      "redactStderrDiagnosticForReview",
+      "classifyRedactionSafety"
+    ]
+  });
+  assert.deepEqual(inventory.runtimeEffect, {
+    currentContractEnablesRuntime: false,
+    runtimeImplementationAvailable: false,
+    runtimeCommandAvailable: false,
+    processStdioOwnershipAvailable: false,
+    stdinReaderAvailable: false,
+    stdoutWriterAvailable: false,
+    stderrWriterAvailable: false,
+    failureAuditRuntimeAvailable: false,
+    approvalEvaluatorAvailable: false
+  });
+  assert.deepEqual(inventory.reviewOnlyDisplayBehavior, {
+    framingRedactionContractsAreStaticArtifactsOnly: true,
+    currentContractsDoNotEnableRuntime: true,
+    futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+    preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+    reportRunsChecks: false,
+    writesFiles: false,
+    printsStdoutFromCli: false,
+    consumedByLiveHostLoop: false
+  });
+  assert.deepEqual(inventory.cliCommandSurface, {
+    commandAdded: false,
+    framingRedactionCommandAdded: false,
+    stdoutFramingCommandAdded: false,
+    stderrRedactionCommandAdded: false,
+    stdoutWriterCommandAdded: false,
+    stderrWriterCommandAdded: false,
+    serveRuntimeCommandAdded: false,
+    stdioRuntimeCommandAdded: false,
+    fileWriterAdded: false,
+    stdoutPrinterAdded: false,
+    existingDryRunEmitterUnchanged: true
+  });
+  assert.deepEqual(inventory.apiSurface, {
+    typescriptCoreStaticReviewHelpersAdded: true,
+    typescriptCoreRuntimeApiAdded: false,
+    rustRuntimeHelperAdded: false,
+    rustStdioOwnerAdded: false,
+    rustStdoutWriterAdded: false,
+    rustStderrWriterAdded: false,
+    approvalEvaluatorAdded: false,
+    failureAuditRuntimeAdded: false,
+    secretsUsed: false
+  });
+  assert.deepEqual(
+    inventory.fixtures.map(({ path, status }) => [path, status]),
+    phase41CFixtureFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-4-1c-framing-redaction-contracts.md", "present"],
+      ["docs/phase-4-1b-transport-harness-contracts.md", "present"],
+      ["docs/phase-4-1-runtime-proposal.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/architecture.md", "present"],
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["packages/core/README.md", "present"],
+      ["crates/ardyn-host/README.md", "present"]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase4-1c-framing-redaction-contracts.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"],
+      ["packages/core/src/index.mjs", "present"],
+      ["packages/core/src/index.d.ts", "present"]
+    ]
+  );
+
+  for (const probe of [
+    "framing-redaction",
+    "stdout-framing",
+    "stderr-redaction",
+    "redact-stderr",
+    "validate-jsonl-framing",
+    "phase-4-1c-framing-redaction"
+  ]) {
+    assert.ok(inventory.invariantProbes.includes(probe), probe);
+  }
+
+  assert.deepEqual(inventory.safetyPosture, {
+    nonExecuting: true,
+    framingRedactionContractOnly: true,
+    reviewOnly: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noContentFabricDownloadInstallEnable: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noHostPolicyEnforcement: true,
+    noApprovalEvaluator: true,
+    noStdoutWriter: true,
+    noStderrWriter: true,
+    noFailureAuditRuntime: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -2744,6 +2994,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.runtimeProposal, true);
   assert.equal(report.safetyPosture.hostPolicyApprovalRecords, true);
   assert.equal(report.safetyPosture.transportHarnessContracts, true);
+  assert.equal(report.safetyPosture.framingRedactionContracts, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {

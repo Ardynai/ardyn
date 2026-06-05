@@ -1,0 +1,13 @@
+{
+  "schema": "ardyn.phase-4.1c-static-fixture",
+  "schemaVersion": "0.1.0",
+  "fixtureKind": "stderr-diagnostic-redaction",
+  "fixtureName": "unredactable-diagnostic-fail-closed",
+  "phase": "phase-4.1c-framing-redaction-contracts",
+  "inputDiagnostic": {
+    "code": "stderr.redaction.unredactable",
+    "message": "raw-bytes=UNREDACTABLE_RAW_BYTES"
+  },
+  "expectedClassification": "unredactable_fail_closed",
+  "reviewOnly": true
+}

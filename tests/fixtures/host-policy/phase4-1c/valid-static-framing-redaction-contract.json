@@ -1,0 +1,74 @@
+{
+  "schema": "ardyn.stdio-framing-redaction-contract",
+  "schemaVersion": "0.1.0",
+  "contractKind": "stdio-framing-redaction-contract",
+  "contractPhase": "phase-4.1c-framing-redaction-contracts",
+  "reviewedPhase": "4.1C",
+  "jsonlFraming": {
+    "exactlyOneJsonObjectPerLine": true,
+    "jsonObjectOnly": true,
+    "lfOnly": true,
+    "finalLfRequired": true,
+    "blankLinesAllowed": false,
+    "crlfAllowed": false,
+    "partialLineEmissionAllowed": false,
+    "deterministicKeyOrder": "ascii-key-order-via-stable-json-display-v1",
+    "helper": "formatJsonlWholeLinesForReview"
+  },
+  "stderrRedaction": {
+    "deterministicCodeRequired": true,
+    "deterministicMessageRequired": true,
+    "codePattern": "^[a-z][a-z0-9_.-]{2,63}$",
+    "redactionTokenPolicy": "typed-redaction-placeholders",
+    "helper": "redactStderrDiagnosticForReview",
+    "classifier": "classifyRedactionSafety",
+    "failClosedOnUnredactableDiagnostics": true,
+    "redactedSubjects": [
+      "secrets",
+      "environment_variables",
+      "absolute_paths",
+      "user_home_paths",
+      "tokens",
+      "api_keys",
+      "stack_traces",
+      "raw_parse_details"
+    ]
+  },
+  "validation": {
+    "helper": "validateJsonlWholeLineBundle",
+    "jsonlClassifications": [
+      "valid_whole_line_bundle",
+      "blank_line_rejected",
+      "missing_final_lf",
+      "crlf_rejected",
+      "malformed_json_line",
+      "partial_line_rejected"
+    ],
+    "redactionClassifications": [
+      "redacted_safe",
+      "unredactable_fail_closed",
+      "malformed"
+    ]
+  },
+  "runtimeEffect": {
+    "currentContractEnablesRuntime": false,
+    "runtimeImplementationAvailable": false,
+    "runtimeCommandAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "failureAuditRuntimeAvailable": false,
+    "approvalEvaluatorAvailable": false
+  },
+  "audit": {
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "createdBy": "codex-phase-4.1c",
+    "reviewer": "Codex",
+    "devinReviewRequiredNow": false,
+    "preserveDevinReviewFor": "major-runtime-readiness-checkpoint",
+    "metadataOnly": true,
+    "writesFiles": false,
+    "runsRuntime": false
+  }
+}

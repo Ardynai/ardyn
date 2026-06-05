@@ -2,21 +2,22 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.1B exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 4.1C exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, and Phase
-4.1/4.1A:
+4.1/4.1A/4.1B:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.1B adds transport harness contract
-documentation, static Rust helper types, and deterministic metadata only; it
-does not add a transport harness CLI command, approval-record CLI command,
-operator-consent CLI command, `approve-runtime`, `grant-runtime`,
-`enable-runtime`, proposal CLI command, readiness CLI command, live stdio
-reader, stdout writer, stderr writer, failure-audit command, replay command,
-listener, server, subprocess supervisor, adapter call, Locus dependency,
-MCP/OpenClaw call, plugin execution path, Content Fabric runtime path, runtime
-approval grant, live runtime implementation, or agent loop. See
-`docs/phase-4-1b-transport-harness-contracts.md`.
+`emit-session-events`. Phase 4.1C adds stdout JSONL framing and stderr
+redaction contract documentation, static TypeScript review helpers, and
+deterministic metadata only; it does not add a framing/redaction CLI command,
+transport harness CLI command, approval-record CLI command, operator-consent
+CLI command, `approve-runtime`, `grant-runtime`, `enable-runtime`, proposal CLI
+command, readiness CLI command, live stdio reader, stdout writer, stderr
+writer, failure-audit command, replay command, listener, server, subprocess
+supervisor, adapter call, Locus dependency, MCP/OpenClaw call, plugin
+execution path, Content Fabric runtime path, runtime approval grant, live
+runtime implementation, or agent loop. See
+`docs/phase-4-1c-framing-redaction-contracts.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -162,3 +163,12 @@ behavior unchanged. It adds no transport-harness CLI command, no
 no stdout printer, no live stdio reader, no process stdio ownership, no
 host-policy enforcement path, no approval evaluator, and no runtime approval
 grant. See `docs/phase-4-1b-transport-harness-contracts.md`.
+
+Phase 4.1C adds static stdout JSONL framing and stderr redaction contracts and
+still leaves CLI behavior unchanged. It adds no framing-redaction CLI command,
+no `stdout-framing`, no `stderr-redaction`, no `redact-stderr`, no
+`validate-jsonl-framing`, no `stdout-writer`, no `stderr-writer`, no
+`serve-runtime`, no `stdio-runtime`, no file writer, no stdout printer, no
+live stdio reader, no process stdio ownership, no host-policy enforcement
+path, no approval evaluator, and no runtime approval grant. See
+`docs/phase-4-1c-framing-redaction-contracts.md`.

@@ -1,6 +1,22 @@
 export const ARDYN_SCHEMA_VERSION: "0.1.0";
 export const ARDYN_PHASE: "phase-3-task-planning";
 export const ARDYN_STDIO_DRY_RUN_PHASE: "phase-4.0a-stdio-event-dry-run";
+export const ARDYN_STDIO_FRAMING_REDACTION_PHASE:
+  "phase-4.1c-framing-redaction-contracts";
+export const STDIO_FRAMING_REDACTION_CONTRACT_SCHEMA:
+  "ardyn.stdio-framing-redaction-contract";
+export const STDIO_FRAMING_REDACTION_CONTRACT_VERSION: "0.1.0";
+export const JSONL_WHOLE_LINE_BUNDLE_VALID: "valid_whole_line_bundle";
+export const JSONL_WHOLE_LINE_BUNDLE_BLANK_LINE_REJECTED: "blank_line_rejected";
+export const JSONL_WHOLE_LINE_BUNDLE_MISSING_FINAL_LF: "missing_final_lf";
+export const JSONL_WHOLE_LINE_BUNDLE_CRLF_REJECTED: "crlf_rejected";
+export const JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE: "malformed_json_line";
+export const JSONL_WHOLE_LINE_BUNDLE_PARTIAL_LINE_REJECTED:
+  "partial_line_rejected";
+export const STDERR_REDACTION_SAFE: "redacted_safe";
+export const STDERR_REDACTION_UNREDACTABLE_FAIL_CLOSED:
+  "unredactable_fail_closed";
+export const STDERR_REDACTION_MALFORMED: "malformed";
 export const APPROVAL_REVIEW_ARTIFACT_SCHEMA: "ardyn.approval-review-artifact";
 export const APPROVAL_REVIEW_ARTIFACT_VERSION: "0.1.0";
 export const SCHEMA_MIGRATION_METADATA_SCHEMA: "ardyn.schema-migration-metadata";
@@ -224,6 +240,88 @@ export interface StdioDryRunSessionEventOptions {
   sessionId?: string;
   createdAt?: string;
   approvalDecision?: ApprovalDecisionInput;
+}
+
+export type JsonlWholeLineBundleClassification =
+  | "valid_whole_line_bundle"
+  | "blank_line_rejected"
+  | "missing_final_lf"
+  | "crlf_rejected"
+  | "malformed_json_line"
+  | "partial_line_rejected";
+
+export type StderrRedactionSafetyClassification =
+  | "redacted_safe"
+  | "unredactable_fail_closed"
+  | "malformed";
+
+export interface StaticReviewRuntimeEffect {
+  currentContractEnablesRuntime: false;
+  processStdioOwnershipAvailable: false;
+  stdoutWriterAvailable: false;
+  stderrWriterAvailable: false;
+  stdinReaderAvailable?: false;
+  runtimeCommandAvailable: false;
+  writesToStdout?: false;
+  writesToStderr?: false;
+}
+
+export interface JsonlWholeLineBundleValidation {
+  schema: "ardyn.jsonl-whole-line-bundle-validation";
+  schemaVersion: "0.1.0";
+  phase: "phase-4.1c-framing-redaction-contracts";
+  classification: JsonlWholeLineBundleClassification;
+  valid: boolean;
+  lineCount: number;
+  lfOnly: boolean;
+  finalLf: boolean;
+  blankLinesAllowed: false;
+  partialLineEmissionAllowed: false;
+  oneJsonObjectPerLine: boolean;
+  errors: string[];
+  reviewOnly: true;
+  runtimeEffect: StaticReviewRuntimeEffect;
+}
+
+export interface StaticStderrDiagnosticInput {
+  code: string;
+  message: string;
+}
+
+export interface StaticStderrDiagnosticRedaction {
+  kind: string;
+  replacement: string;
+}
+
+export interface StaticStderrDiagnosticRedactionReview {
+  schema: "ardyn.stderr-diagnostic-redaction-review";
+  schemaVersion: "0.1.0";
+  phase: "phase-4.1c-framing-redaction-contracts";
+  classification: StderrRedactionSafetyClassification;
+  diagnostic: StaticStderrDiagnosticInput;
+  redactions: StaticStderrDiagnosticRedaction[];
+  failClosed: boolean;
+  reviewOnly: true;
+  runtimeEffect: StaticReviewRuntimeEffect;
+}
+
+export interface StdioFramingRedactionContract {
+  schema: "ardyn.stdio-framing-redaction-contract";
+  schemaVersion: "0.1.0";
+  contractKind: "stdio-framing-redaction-contract";
+  contractPhase: "phase-4.1c-framing-redaction-contracts";
+  reviewedPhase: "4.1C";
+  runtimeEffect: {
+    currentContractEnablesRuntime: false;
+    runtimeImplementationAvailable: false;
+    runtimeCommandAvailable: false;
+    processStdioOwnershipAvailable: false;
+    stdinReaderAvailable: false;
+    stdoutWriterAvailable: false;
+    stderrWriterAvailable: false;
+    failureAuditRuntimeAvailable: false;
+    approvalEvaluatorAvailable: false;
+  };
 }
 
 export interface SessionTranscript {
@@ -1061,6 +1159,16 @@ export function createStdioDryRunSessionEvents(
   options?: StdioDryRunSessionEventOptions
 ): SessionEvent[];
 export function formatSessionEventsJsonl(events: SessionEvent[]): string;
+export function formatJsonlWholeLinesForReview(records: Record<string, unknown>[]): string;
+export function validateJsonlWholeLineBundle(jsonl: string): JsonlWholeLineBundleValidation;
+export function redactStderrDiagnosticForReview(
+  diagnostic: StaticStderrDiagnosticInput
+): StaticStderrDiagnosticRedactionReview;
+export function classifyRedactionSafety(
+  diagnostic: StaticStderrDiagnosticInput
+): StderrRedactionSafetyClassification;
+export function createStdioFramingRedactionContractForReview(): StdioFramingRedactionContract;
+export function formatStdioFramingRedactionContractJsonForReview(): string;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

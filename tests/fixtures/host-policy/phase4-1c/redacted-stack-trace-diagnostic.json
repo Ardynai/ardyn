@@ -1,0 +1,17 @@
+{
+  "schema": "ardyn.phase-4.1c-static-fixture",
+  "schemaVersion": "0.1.0",
+  "fixtureKind": "stderr-diagnostic-redaction",
+  "fixtureName": "redacted-stack-trace-diagnostic",
+  "phase": "phase-4.1c-framing-redaction-contracts",
+  "inputDiagnostic": {
+    "code": "stderr.redaction.stack",
+    "message": "TypeError: parse failed stack: at parse (C:\\Users\\Josh\\repo\\index.mjs:1:1)"
+  },
+  "expectedClassification": "redacted_safe",
+  "forbiddenFragments": [
+    "at parse",
+    "C:\\Users\\Josh"
+  ],
+  "reviewOnly": true
+}

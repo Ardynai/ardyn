@@ -196,6 +196,17 @@ handle secrets, implement live stdio ownership, own stdout/stderr, emit failure
 audits, or change the finite TypeScript dry-run emitter. See
 `docs/phase-4-1b-transport-harness-contracts.md`.
 
+Phase 4.1C adds static stdout JSONL framing and stderr redaction contract
+artifacts. The rules are necessary preconditions for a future runtime, but no
+live writer exists, no process stdio ownership exists, and future runtime must
+use these rules but is not implemented yet. The contracts remain inert review
+metadata only. They do not grant runtime approval, start host-policy
+enforcement, add an approval evaluator, write files, print stdout, add a CLI
+command, deny a running runtime, persist transcripts, replay transcripts,
+handle secrets, implement live stdio ownership, own stdout/stderr, emit failure
+audits, or change the finite TypeScript dry-run emitter. See
+`docs/phase-4-1c-framing-redaction-contracts.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

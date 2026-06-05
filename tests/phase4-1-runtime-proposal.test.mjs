@@ -357,9 +357,9 @@ test("Phase 4.1 status report inventories proposal metadata without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1B",
-    name: "Transport harness contracts",
-    executionPosture: "transport-harness-contract-only non-executing"
+    id: "4.1C",
+    name: "Framing and redaction contracts",
+    executionPosture: "framing-redaction-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
