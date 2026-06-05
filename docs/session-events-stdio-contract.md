@@ -224,6 +224,18 @@ usage, WebSocket transport, HTTP transport, host-policy enforcement, approval
 evaluator, or runtime approval grant. See
 `docs/phase-4-1a-host-policy-approval-records.md`.
 
+Phase 4.1B adds static transport harness contracts for review only. The
+contracts may name future stdout, stderr, and stdin transport modes, but those
+modes are metadata-only and current contracts do not enable runtime. Phase
+4.1B does not add a CLI command, file writer, stdout printer, stdout writer,
+stderr writer, stdin command loop, live stdio reader, runtime owner, transcript
+replay command, failure-audit runtime, listener, server, subprocess supervisor,
+adapter call, Locus runtime dependency, MCP/OpenClaw call, plugin execution
+path, Content Fabric runtime behavior, secret handling, production signing-key
+usage, WebSocket transport, HTTP transport, host-policy enforcement, approval
+evaluator, or runtime approval grant. See
+`docs/phase-4-1b-transport-harness-contracts.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

@@ -126,6 +126,11 @@ major runtime-readiness checkpoint.
 Devin review should remain reserved for the major runtime-readiness checkpoint
 before any live stdio/runtime surface is enabled.
 
+Phase 4.1B consumes the valid approval-record shape only as a static reference
+inside transport harness contract metadata. See
+`docs/phase-4-1b-transport-harness-contracts.md`. The reference is necessary
+but not sufficient, and current contracts still do not enable runtime.
+
 ## Still Forbidden
 
 Phase 4.1A adds no live stdin command loop, live stdio reader, runtime command,

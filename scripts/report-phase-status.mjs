@@ -55,6 +55,9 @@ const phase41RuntimeProposalMetadata = await readJson(
 const phase41AApprovalRecordMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
 );
+const phase41BTransportHarnessMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -102,9 +105,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1A",
-    name: "Host policy approval records",
-    executionPosture: "approval-record-only non-executing"
+    id: "4.1B",
+    name: "Transport harness contracts",
+    executionPosture: "transport-harness-contract-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -120,6 +123,11 @@ const report = {
       ranByReport: false
     },
     {
+      command: "npm run test:schemas",
+      purpose: "Run focused schema validation tests.",
+      ranByReport: false
+    },
+    {
       command: "cargo test --workspace",
       purpose: "Run Rust workspace tests.",
       ranByReport: false
@@ -130,18 +138,28 @@ const report = {
       ranByReport: false
     },
     {
+      command: "cargo fmt --check",
+      purpose: "Check Rust formatting without modifying files.",
+      ranByReport: false
+    },
+    {
       command: "git diff --check",
       purpose: "Check the working diff for whitespace errors.",
       ranByReport: false
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1A approval-record-only status report.",
+      purpose: "Render this deterministic local Phase 4.1B transport-harness-contract-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1A status report.",
+      purpose: "Run focused tests for this local Phase 4.1B status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1b-transport-harness-contracts.test.mjs",
+      purpose: "Run focused Phase 4.1B transport harness contract static checks.",
       ranByReport: false
     },
     {
@@ -2815,6 +2833,294 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41BTransportHarnessInventory: {
+    transportHarnessContract: {
+      document: "docs/phase-4-1b-transport-harness-contracts.md",
+      source: "crates/ardyn-host/src/lib.rs",
+      fixture:
+        "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json",
+      schema: phase41BTransportHarnessMetadata.schema,
+      schemaVersion: phase41BTransportHarnessMetadata.schemaVersion,
+      contractKind: phase41BTransportHarnessMetadata.contractKind,
+      contractPhase: phase41BTransportHarnessMetadata.contractPhase,
+      reviewedPhase: phase41BTransportHarnessMetadata.reviewedPhase,
+      harnessKind: phase41BTransportHarnessMetadata.harnessKind,
+      harnessVersion: phase41BTransportHarnessMetadata.harnessVersion,
+      classification: phase41BTransportHarnessMetadata.classification,
+      staticContractOnly: true,
+      runtimeAvailable:
+        phase41BTransportHarnessMetadata.runtimeAvailability.runtimeAvailable,
+      currentContractEnablesRuntime:
+        phase41BTransportHarnessMetadata.runtimeEffect.currentContractEnablesRuntime,
+      runtimeCommandAvailable:
+        phase41BTransportHarnessMetadata.runtimeEffect.runtimeCommandAvailable,
+      processStdioOwnershipAvailable:
+        phase41BTransportHarnessMetadata.runtimeEffect.processStdioOwnershipAvailable,
+      stdinReaderAvailable:
+        phase41BTransportHarnessMetadata.runtimeEffect.stdinReaderAvailable,
+      stdoutWriterAvailable:
+        phase41BTransportHarnessMetadata.runtimeEffect.stdoutWriterAvailable,
+      stderrWriterAvailable:
+        phase41BTransportHarnessMetadata.runtimeEffect.stderrWriterAvailable,
+      grantsRuntimeApproval:
+        phase41BTransportHarnessMetadata.approvalRecordReference
+          .approvalRecordGrantsRuntime,
+      runtimeApprovalGranted: false,
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      consumedByLiveHostLoop: false
+    },
+    basedOnApprovalRecord: {
+      document: "docs/phase-4-1a-host-policy-approval-records.md",
+      fixture:
+        "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json",
+      schema: phase41AApprovalRecordMetadata.schema,
+      classification: phase41AApprovalRecordMetadata.classification,
+      operatorConsentNecessaryButNotSufficient:
+        phase41AApprovalRecordMetadata.runtimeEffect
+          .operatorConsentNecessaryButNotSufficient,
+      approvalRecordGrantsRuntime:
+        phase41BTransportHarnessMetadata.approvalRecordReference
+          .approvalRecordGrantsRuntime
+    },
+    basedOnPolicyMetadata: {
+      document: "docs/phase-4-stdio-dry-run-event-emission.md",
+      fixture: "tests/fixtures/host-policy/phase4-0e/stdio-transport-policy-metadata.json",
+      schema: phase41BTransportHarnessMetadata.policyMetadataReference.schema,
+      schemaVersion:
+        phase41BTransportHarnessMetadata.policyMetadataReference.schemaVersion,
+      runtimeStatus:
+        phase41BTransportHarnessMetadata.policyMetadataReference.runtimeStatus,
+      reviewOnly: phase41BTransportHarnessMetadata.policyMetadataReference.reviewOnly,
+      digestAlgorithm:
+        phase41BTransportHarnessMetadata.policyMetadataReference.digestAlgorithm
+    },
+    harnessContractModel: {
+      rustEnum: "TransportHarnessContractClassification",
+      contractStruct: "TransportHarnessContract",
+      serializer: "serialize_transport_harness_contract_json",
+      parser: "parse_transport_harness_contract_json",
+      classifier: "classify_transport_harness_contract_json",
+      helper: "transport_harness_contract_json",
+      format: "pretty-json-lf-terminated",
+      finalLfRequired: true,
+      crlfAllowed: false,
+      classes: [
+        "static_contract_only",
+        "approval_missing",
+        "policy_metadata_missing",
+        "redaction_policy_missing",
+        "transcript_policy_missing",
+        "unsupported_version",
+        "malformed",
+        "runtime_unavailable"
+      ],
+      exactCurrentStaticContractRequired: true,
+      nonRuntimeReviewMetadataOnly: true
+    },
+    supportedTransportModes: phase41BTransportHarnessMetadata.supportedTransportModes,
+    runtimeAvailability: phase41BTransportHarnessMetadata.runtimeAvailability,
+    requiredReferences: {
+      approvalRecordReference:
+        phase41BTransportHarnessMetadata.approvalRecordReference,
+      policyMetadataReference:
+        phase41BTransportHarnessMetadata.policyMetadataReference,
+      stderrRedactionPolicyReference:
+        phase41BTransportHarnessMetadata.stderrRedactionPolicyReference,
+      transcriptAuditOutputPolicyReference:
+        phase41BTransportHarnessMetadata.transcriptAuditOutputPolicyReference
+    },
+    reviewOnlyDisplayBehavior: {
+      transportHarnessContractsAreStaticArtifactsOnly: true,
+      approvalReferencesNecessaryButNotSufficient: true,
+      currentContractsDoNotEnableRuntime: true,
+      futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+      preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+      reportRunsChecks: false,
+      writesFiles: false,
+      printsStdoutFromCli: false,
+      consumedByLiveHostLoop: false
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      transportHarnessCommandAdded: false,
+      serveRuntimeCommandAdded: false,
+      stdioRuntimeCommandAdded: false,
+      stdinReaderCommandAdded: false,
+      stdoutWriterCommandAdded: false,
+      stderrWriterCommandAdded: false,
+      failureAuditCommandAdded: false,
+      fileWriterAdded: false,
+      stdoutPrinterAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    apiSurface: {
+      rustStaticContractTypesAdded: true,
+      rustRuntimeHelperAdded: false,
+      rustStdioOwnerAdded: false,
+      rustStdinReaderAdded: false,
+      rustStdoutWriterAdded: false,
+      rustStderrWriterAdded: false,
+      typescriptCoreRuntimeApiAdded: false,
+      hostPolicyEnforcementAdded: false,
+      approvalEvaluatorAdded: false,
+      transcriptReplayRuntimeAdded: false,
+      failureAuditRuntimeAdded: false
+    },
+    fixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1b/missing-approval-reference-transport-harness-contract.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1b/missing-policy-metadata-reference-transport-harness-contract.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1b/missing-redaction-policy-reference-transport-harness-contract.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1b/missing-transcript-audit-policy-reference-transport-harness-contract.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1b/unsupported-major-transport-harness-contract.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1b/malformed-missing-contract-kind-transport-harness-contract.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1b/runtime-available-attempt-transport-harness-contract.json"
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1b-transport-harness-contracts.md",
+        "Defines Phase 4.1B transport harness contracts as static Rust-host review metadata only."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1a-host-policy-approval-records.md",
+        "Links Phase 4.1B to approval records while preserving necessary-but-not-sufficient semantics."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4.1 roadmap to identify Phase 4.1B as static transport harness contracts."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1B leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.1B while preserving no-live-runtime stdio boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents transport harness contracts as static preconditions, not enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records Phase 4.1B Rust-host static contracts without process stdio ownership."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1B scope and unchanged non-executing CLI surface."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1B adds no transport harness or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.1B adds no TypeScript core runtime API."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents Phase 4.1B Rust-host transport harness contracts as static metadata."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Contains Rust tests for deterministic transport harness JSON, classification, references, and fail-closed runtime attempts."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-1b-transport-harness-contracts.test.mjs",
+        "Pins Phase 4.1B fixtures, docs, report inventory, source guards, and rejected transport/runtime commands."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1B report metadata and safety posture."
+      )
+    ],
+    invariantProbes: [
+      "missing --dry-run",
+      "unknown emit-session-events arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "policy-metadata",
+      "host-policy-export",
+      "serve-runtime",
+      "stdio-runtime",
+      "approve-runtime",
+      "grant-runtime",
+      "host-policy-approval",
+      "operator-consent",
+      "enable-runtime",
+      "phase-4-1a-approval-records",
+      "transport-harness",
+      "transport-harness-contract",
+      "stdio-harness",
+      "host-transport-harness",
+      "phase-4-1b-transport-harness",
+      "phase-4.1b-transport-harness",
+      "start-transport-harness",
+      "run-transport-harness",
+      "enable-transport-harness",
+      "transport-runtime",
+      "stdio-transport",
+      "stdin-reader",
+      "stdout-writer",
+      "stderr-writer",
+      "failure-audit",
+      "emit-failure-audit"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      transportHarnessContractOnly: true,
+      reviewOnly: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noHostPolicyEnforcement: true,
+      noApprovalEvaluator: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noFailureAuditRuntime: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -2832,6 +3138,7 @@ const report = {
     finalPreRuntimeReadiness: true,
     runtimeProposal: true,
     hostPolicyApprovalRecords: true,
+    transportHarnessContracts: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

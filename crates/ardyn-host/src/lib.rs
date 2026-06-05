@@ -28,6 +28,10 @@ pub const ARDYN_HOST_POLICY_APPROVAL_RECORD_SCHEMA: &str = "ardyn.host-policy-ap
 pub const ARDYN_HOST_POLICY_APPROVAL_RECORD_VERSION: &str = "0.1.0";
 pub const ARDYN_HOST_POLICY_APPROVAL_RECORD_PHASE: &str = "phase-4.1a-host-policy-approval-records";
 pub const ARDYN_HOST_POLICY_APPROVAL_RECORD_KIND: &str = "host-policy-approval-record";
+pub const ARDYN_TRANSPORT_HARNESS_CONTRACT_SCHEMA: &str = "ardyn.transport-harness-contract";
+pub const ARDYN_TRANSPORT_HARNESS_CONTRACT_VERSION: &str = "0.1.0";
+pub const ARDYN_TRANSPORT_HARNESS_CONTRACT_PHASE: &str = "phase-4.1b-transport-harness-contracts";
+pub const ARDYN_TRANSPORT_HARNESS_CONTRACT_KIND: &str = "transport-harness-contract";
 pub const ARDYN_POLICY_METADATA_DIGEST_ALGORITHM: &str = "sha256";
 const ARDYN_REVIEWED_POLICY_METADATA_PHASE_LABEL: &str = "4.0E";
 const ARDYN_HOST_POLICY_APPROVAL_REVIEWED_PHASE_LABEL: &str = "4.1A";
@@ -35,6 +39,9 @@ const ARDYN_HOST_POLICY_APPROVAL_TARGET_KIND: &str = "future-runtime-surface";
 const ARDYN_HOST_POLICY_APPROVAL_TARGET_PHASE: &str =
     "future-separately-approved-runtime-implementation";
 const ARDYN_HOST_POLICY_APPROVAL_RUNTIME_CAPABILITY: &str = "live-stdio-runtime";
+const ARDYN_TRANSPORT_HARNESS_REVIEWED_PHASE_LABEL: &str = "4.1B";
+const ARDYN_TRANSPORT_HARNESS_KIND: &str = "rust-host-stdio-transport-harness-static-contract";
+const ARDYN_TRANSPORT_HARNESS_VERSION: &str = "0.1.0";
 
 pub type HostResult<T> = Result<T, Box<dyn Error + Send + Sync>>;
 
@@ -176,6 +183,25 @@ pub enum HostPolicyApprovalRecordClassification {
     Malformed,
     Denied,
     RuntimeNotAvailable,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum TransportHarnessRuntimeAvailabilityStatus {
+    RuntimeUnavailable,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TransportHarnessContractClassification {
+    StaticContractOnly,
+    ApprovalMissing,
+    PolicyMetadataMissing,
+    RedactionPolicyMissing,
+    TranscriptPolicyMissing,
+    UnsupportedVersion,
+    Malformed,
+    RuntimeUnavailable,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -539,6 +565,149 @@ pub struct HostPolicyApprovalRecord {
     pub classification: HostPolicyApprovalRecordClassification,
     pub denial: HostPolicyApprovalDenial,
     pub audit: HostPolicyApprovalAuditMetadata,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TransportHarnessModeMetadata {
+    pub name: String,
+    pub direction: String,
+    pub metadata_only: bool,
+    pub runtime_implemented: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TransportHarnessRuntimeAvailability {
+    pub status: TransportHarnessRuntimeAvailabilityStatus,
+    pub runtime_available: bool,
+    pub serve_runtime_available: bool,
+    pub stdio_runtime_available: bool,
+    pub process_stdio_ownership_available: bool,
+    pub stdin_reader_available: bool,
+    pub stdin_command_loop_available: bool,
+    pub listener_available: bool,
+    pub subprocess_spawning_available: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TransportHarnessApprovalRecordReference {
+    pub required: bool,
+    pub present: bool,
+    pub schema: String,
+    pub schema_version: String,
+    pub record_phase: String,
+    pub classification: HostPolicyApprovalRecordClassification,
+    pub runtime_capability: String,
+    pub operator_consent_required: bool,
+    pub approval_record_grants_runtime: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TransportHarnessPolicyMetadataReference {
+    pub required: bool,
+    pub present: bool,
+    pub schema: String,
+    pub schema_version: String,
+    pub metadata_phase: String,
+    pub contract_phase: String,
+    pub runtime_status: PolicyRuntimeStatus,
+    pub review_only: bool,
+    pub digest_algorithm: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TransportHarnessStderrRedactionPolicyReference {
+    pub required: bool,
+    pub present: bool,
+    pub source_schema: String,
+    pub source_schema_version: String,
+    pub source_field: String,
+    pub enforcement_active: bool,
+    pub required_before_live_runtime: bool,
+    pub stack_traces_allowed: bool,
+    pub environment_dumps_allowed: bool,
+    pub secrets_allowed: bool,
+    pub production_signing_keys_allowed: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TransportHarnessTranscriptAuditOutputPolicyReference {
+    pub required: bool,
+    pub present: bool,
+    pub transcript_schema: String,
+    pub session_event_schema: String,
+    pub normalized_transcript_required: bool,
+    pub failure_audit_record_required_before_runtime: bool,
+    pub transcript_persistence_runtime_implemented: bool,
+    pub replay_runtime_implemented: bool,
+    pub writes_files_in_this_phase: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TransportHarnessRuntimeEffect {
+    pub current_contract_enables_runtime: bool,
+    pub runtime_implementation_available: bool,
+    pub runtime_command_available: bool,
+    pub process_stdio_ownership_available: bool,
+    pub stdin_reader_available: bool,
+    pub stdout_writer_available: bool,
+    pub stderr_writer_available: bool,
+    pub approval_record_necessary_but_not_sufficient: bool,
+    pub requires_separate_runtime_implementation_approval: bool,
+    pub requires_devin_review_before_enablement: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TransportHarnessNonExecutionInvariantSummary {
+    pub summary: String,
+    pub invariants: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TransportHarnessAuditMetadata {
+    pub created_at: String,
+    pub created_by: String,
+    pub source_phase: String,
+    pub reviewer: String,
+    pub devin_review_required_now: bool,
+    pub preserve_devin_review_for: String,
+    pub metadata_only: bool,
+    pub writes_files: bool,
+    pub runs_runtime: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TransportHarnessContract {
+    pub schema: String,
+    pub schema_version: String,
+    pub contract_kind: String,
+    pub contract_phase: String,
+    pub reviewed_phase: String,
+    pub harness_kind: String,
+    pub harness_version: String,
+    pub supported_transport_modes: Vec<TransportHarnessModeMetadata>,
+    pub runtime_availability: TransportHarnessRuntimeAvailability,
+    pub approval_record_reference: TransportHarnessApprovalRecordReference,
+    pub policy_metadata_reference: TransportHarnessPolicyMetadataReference,
+    pub stderr_redaction_policy_reference: TransportHarnessStderrRedactionPolicyReference,
+    pub transcript_audit_output_policy_reference:
+        TransportHarnessTranscriptAuditOutputPolicyReference,
+    pub fail_closed_startup_preconditions: Vec<String>,
+    pub runtime_effect: TransportHarnessRuntimeEffect,
+    pub non_execution_invariant_summary: TransportHarnessNonExecutionInvariantSummary,
+    pub classification: TransportHarnessContractClassification,
+    pub unsupported_runtime_reasons: Vec<String>,
+    pub rejected_runtime_reasons: Vec<String>,
+    pub audit: TransportHarnessAuditMetadata,
 }
 
 impl StdioTransportPolicyContract {
@@ -1797,6 +1966,485 @@ pub fn classify_host_policy_approval_record_json(
     }
 }
 
+pub fn transport_harness_contract_top_level_order() -> Vec<String> {
+    [
+        "schema",
+        "schemaVersion",
+        "contractKind",
+        "contractPhase",
+        "reviewedPhase",
+        "harnessKind",
+        "harnessVersion",
+        "supportedTransportModes",
+        "runtimeAvailability",
+        "approvalRecordReference",
+        "policyMetadataReference",
+        "stderrRedactionPolicyReference",
+        "transcriptAuditOutputPolicyReference",
+        "failClosedStartupPreconditions",
+        "runtimeEffect",
+        "nonExecutionInvariantSummary",
+        "classification",
+        "unsupportedRuntimeReasons",
+        "rejectedRuntimeReasons",
+        "audit",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn transport_harness_supported_transport_modes() -> Vec<TransportHarnessModeMetadata> {
+    [
+        ("stdio-jsonl-session-events", "stdout"),
+        ("stderr-diagnostics", "stderr"),
+        ("stdin-command-stream", "stdin"),
+    ]
+    .into_iter()
+    .map(|(name, direction)| TransportHarnessModeMetadata {
+        name: name.to_string(),
+        direction: direction.to_string(),
+        metadata_only: true,
+        runtime_implemented: false,
+    })
+    .collect()
+}
+
+fn transport_harness_fail_closed_startup_preconditions() -> Vec<String> {
+    [
+        "host-policy-approval-record-reference-present",
+        "stdio-transport-policy-metadata-reference-present",
+        "stderr-redaction-policy-reference-present",
+        "transcript-audit-output-policy-reference-present",
+        "runtime-unavailable-until-separate-implementation-approval",
+        "major-runtime-readiness-review-required",
+        "no-process-stdio-ownership",
+        "no-live-stdin-reader",
+        "no-runtime-command",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn transport_harness_invariant_summary() -> String {
+    "Phase 4.1B transport harness contracts are static Rust-host metadata only; approval references are necessary but not sufficient and live runtime remains unavailable until a separately approved implementation phase and major runtime-readiness checkpoint."
+        .to_string()
+}
+
+fn transport_harness_unsupported_runtime_reasons() -> Vec<String> {
+    [
+        "live-stdio-runtime-not-implemented",
+        "serve-runtime-command-unavailable",
+        "stdio-runtime-command-unavailable",
+        "process-stdio-ownership-not-implemented",
+        "stdin-reader-not-implemented",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn transport_harness_rejected_runtime_reasons() -> Vec<String> {
+    [
+        "static-contract-only",
+        "approval-record-reference-cannot-grant-runtime",
+        "separate-runtime-implementation-approval-required",
+        "major-runtime-readiness-review-required",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn transport_harness_runtime_availability() -> TransportHarnessRuntimeAvailability {
+    TransportHarnessRuntimeAvailability {
+        status: TransportHarnessRuntimeAvailabilityStatus::RuntimeUnavailable,
+        runtime_available: false,
+        serve_runtime_available: false,
+        stdio_runtime_available: false,
+        process_stdio_ownership_available: false,
+        stdin_reader_available: false,
+        stdin_command_loop_available: false,
+        listener_available: false,
+        subprocess_spawning_available: false,
+    }
+}
+
+fn transport_harness_approval_record_reference() -> TransportHarnessApprovalRecordReference {
+    TransportHarnessApprovalRecordReference {
+        required: true,
+        present: true,
+        schema: ARDYN_HOST_POLICY_APPROVAL_RECORD_SCHEMA.to_string(),
+        schema_version: ARDYN_HOST_POLICY_APPROVAL_RECORD_VERSION.to_string(),
+        record_phase: ARDYN_HOST_POLICY_APPROVAL_RECORD_PHASE.to_string(),
+        classification: HostPolicyApprovalRecordClassification::ValidReviewRecord,
+        runtime_capability: ARDYN_HOST_POLICY_APPROVAL_RUNTIME_CAPABILITY.to_string(),
+        operator_consent_required: true,
+        approval_record_grants_runtime: false,
+    }
+}
+
+fn transport_harness_policy_metadata_reference() -> TransportHarnessPolicyMetadataReference {
+    TransportHarnessPolicyMetadataReference {
+        required: true,
+        present: true,
+        schema: ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA.to_string(),
+        schema_version: ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION.to_string(),
+        metadata_phase: ARDYN_STDIO_TRANSPORT_POLICY_METADATA_PHASE.to_string(),
+        contract_phase: ARDYN_STDIO_TRANSPORT_POLICY_PHASE.to_string(),
+        runtime_status: PolicyRuntimeStatus::PreRuntimePolicyOnly,
+        review_only: true,
+        digest_algorithm: ARDYN_POLICY_METADATA_DIGEST_ALGORITHM.to_string(),
+    }
+}
+
+fn transport_harness_stderr_redaction_reference() -> TransportHarnessStderrRedactionPolicyReference
+{
+    TransportHarnessStderrRedactionPolicyReference {
+        required: true,
+        present: true,
+        source_schema: ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA.to_string(),
+        source_schema_version: ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION.to_string(),
+        source_field: "policy.redaction".to_string(),
+        enforcement_active: false,
+        required_before_live_runtime: true,
+        stack_traces_allowed: false,
+        environment_dumps_allowed: false,
+        secrets_allowed: false,
+        production_signing_keys_allowed: false,
+    }
+}
+
+fn transport_harness_transcript_audit_reference(
+) -> TransportHarnessTranscriptAuditOutputPolicyReference {
+    TransportHarnessTranscriptAuditOutputPolicyReference {
+        required: true,
+        present: true,
+        transcript_schema: "ardyn.session-transcript".to_string(),
+        session_event_schema: "https://schemas.ardyn.ai/session-event.schema.json".to_string(),
+        normalized_transcript_required: true,
+        failure_audit_record_required_before_runtime: true,
+        transcript_persistence_runtime_implemented: false,
+        replay_runtime_implemented: false,
+        writes_files_in_this_phase: false,
+    }
+}
+
+fn transport_harness_runtime_effect() -> TransportHarnessRuntimeEffect {
+    TransportHarnessRuntimeEffect {
+        current_contract_enables_runtime: false,
+        runtime_implementation_available: false,
+        runtime_command_available: false,
+        process_stdio_ownership_available: false,
+        stdin_reader_available: false,
+        stdout_writer_available: false,
+        stderr_writer_available: false,
+        approval_record_necessary_but_not_sufficient: true,
+        requires_separate_runtime_implementation_approval: true,
+        requires_devin_review_before_enablement: true,
+    }
+}
+
+fn transport_harness_runtime_availability_is_unavailable(
+    availability: &TransportHarnessRuntimeAvailability,
+) -> bool {
+    availability.status == TransportHarnessRuntimeAvailabilityStatus::RuntimeUnavailable
+        && !availability.runtime_available
+        && !availability.serve_runtime_available
+        && !availability.stdio_runtime_available
+        && !availability.process_stdio_ownership_available
+        && !availability.stdin_reader_available
+        && !availability.stdin_command_loop_available
+        && !availability.listener_available
+        && !availability.subprocess_spawning_available
+}
+
+fn transport_harness_runtime_effect_is_inert(record: &TransportHarnessContract) -> bool {
+    !record.runtime_effect.current_contract_enables_runtime
+        && !record.runtime_effect.runtime_implementation_available
+        && !record.runtime_effect.runtime_command_available
+        && !record.runtime_effect.process_stdio_ownership_available
+        && !record.runtime_effect.stdin_reader_available
+        && !record.runtime_effect.stdout_writer_available
+        && !record.runtime_effect.stderr_writer_available
+        && record
+            .runtime_effect
+            .approval_record_necessary_but_not_sufficient
+        && record
+            .runtime_effect
+            .requires_separate_runtime_implementation_approval
+        && record
+            .runtime_effect
+            .requires_devin_review_before_enablement
+        && transport_harness_runtime_availability_is_unavailable(&record.runtime_availability)
+        && !record
+            .approval_record_reference
+            .approval_record_grants_runtime
+}
+
+fn transport_harness_references_are_exact(record: &TransportHarnessContract) -> bool {
+    record.approval_record_reference.required
+        && record.approval_record_reference.schema == ARDYN_HOST_POLICY_APPROVAL_RECORD_SCHEMA
+        && record.approval_record_reference.schema_version
+            == ARDYN_HOST_POLICY_APPROVAL_RECORD_VERSION
+        && record.approval_record_reference.record_phase == ARDYN_HOST_POLICY_APPROVAL_RECORD_PHASE
+        && record.approval_record_reference.classification
+            == HostPolicyApprovalRecordClassification::ValidReviewRecord
+        && record.approval_record_reference.runtime_capability
+            == ARDYN_HOST_POLICY_APPROVAL_RUNTIME_CAPABILITY
+        && record.approval_record_reference.operator_consent_required
+        && record.policy_metadata_reference.required
+        && record.policy_metadata_reference.schema == ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA
+        && record.policy_metadata_reference.schema_version
+            == ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION
+        && record.policy_metadata_reference.metadata_phase
+            == ARDYN_STDIO_TRANSPORT_POLICY_METADATA_PHASE
+        && record.policy_metadata_reference.contract_phase == ARDYN_STDIO_TRANSPORT_POLICY_PHASE
+        && record.policy_metadata_reference.runtime_status
+            == PolicyRuntimeStatus::PreRuntimePolicyOnly
+        && record.policy_metadata_reference.review_only
+        && record.policy_metadata_reference.digest_algorithm
+            == ARDYN_POLICY_METADATA_DIGEST_ALGORITHM
+        && record.stderr_redaction_policy_reference.required
+        && record.stderr_redaction_policy_reference.source_schema
+            == ARDYN_STDIO_TRANSPORT_POLICY_METADATA_SCHEMA
+        && record
+            .stderr_redaction_policy_reference
+            .source_schema_version
+            == ARDYN_STDIO_TRANSPORT_POLICY_METADATA_VERSION
+        && record.stderr_redaction_policy_reference.source_field == "policy.redaction"
+        && !record.stderr_redaction_policy_reference.enforcement_active
+        && record
+            .stderr_redaction_policy_reference
+            .required_before_live_runtime
+        && !record
+            .stderr_redaction_policy_reference
+            .stack_traces_allowed
+        && !record
+            .stderr_redaction_policy_reference
+            .environment_dumps_allowed
+        && !record.stderr_redaction_policy_reference.secrets_allowed
+        && !record
+            .stderr_redaction_policy_reference
+            .production_signing_keys_allowed
+        && record.transcript_audit_output_policy_reference.required
+        && record
+            .transcript_audit_output_policy_reference
+            .transcript_schema
+            == "ardyn.session-transcript"
+        && record
+            .transcript_audit_output_policy_reference
+            .session_event_schema
+            == "https://schemas.ardyn.ai/session-event.schema.json"
+        && record
+            .transcript_audit_output_policy_reference
+            .normalized_transcript_required
+        && record
+            .transcript_audit_output_policy_reference
+            .failure_audit_record_required_before_runtime
+        && !record
+            .transcript_audit_output_policy_reference
+            .transcript_persistence_runtime_implemented
+        && !record
+            .transcript_audit_output_policy_reference
+            .replay_runtime_implemented
+        && !record
+            .transcript_audit_output_policy_reference
+            .writes_files_in_this_phase
+}
+
+pub fn transport_harness_contract() -> TransportHarnessContract {
+    TransportHarnessContract {
+        schema: ARDYN_TRANSPORT_HARNESS_CONTRACT_SCHEMA.to_string(),
+        schema_version: ARDYN_TRANSPORT_HARNESS_CONTRACT_VERSION.to_string(),
+        contract_kind: ARDYN_TRANSPORT_HARNESS_CONTRACT_KIND.to_string(),
+        contract_phase: ARDYN_TRANSPORT_HARNESS_CONTRACT_PHASE.to_string(),
+        reviewed_phase: ARDYN_TRANSPORT_HARNESS_REVIEWED_PHASE_LABEL.to_string(),
+        harness_kind: ARDYN_TRANSPORT_HARNESS_KIND.to_string(),
+        harness_version: ARDYN_TRANSPORT_HARNESS_VERSION.to_string(),
+        supported_transport_modes: transport_harness_supported_transport_modes(),
+        runtime_availability: transport_harness_runtime_availability(),
+        approval_record_reference: transport_harness_approval_record_reference(),
+        policy_metadata_reference: transport_harness_policy_metadata_reference(),
+        stderr_redaction_policy_reference: transport_harness_stderr_redaction_reference(),
+        transcript_audit_output_policy_reference: transport_harness_transcript_audit_reference(),
+        fail_closed_startup_preconditions: transport_harness_fail_closed_startup_preconditions(),
+        runtime_effect: transport_harness_runtime_effect(),
+        non_execution_invariant_summary: TransportHarnessNonExecutionInvariantSummary {
+            summary: transport_harness_invariant_summary(),
+            invariants: policy_non_execution_invariants(),
+        },
+        classification: TransportHarnessContractClassification::StaticContractOnly,
+        unsupported_runtime_reasons: transport_harness_unsupported_runtime_reasons(),
+        rejected_runtime_reasons: transport_harness_rejected_runtime_reasons(),
+        audit: TransportHarnessAuditMetadata {
+            created_at: "1970-01-01T00:00:00.000Z".to_string(),
+            created_by: "codex-phase-4.1b".to_string(),
+            source_phase: "4.1B".to_string(),
+            reviewer: "Codex".to_string(),
+            devin_review_required_now: false,
+            preserve_devin_review_for: "major-runtime-readiness-checkpoint".to_string(),
+            metadata_only: true,
+            writes_files: false,
+            runs_runtime: false,
+        },
+    }
+}
+
+pub fn classify_transport_harness_contract(
+    record: &TransportHarnessContract,
+) -> TransportHarnessContractClassification {
+    if record.schema != ARDYN_TRANSPORT_HARNESS_CONTRACT_SCHEMA
+        || record.schema_version != ARDYN_TRANSPORT_HARNESS_CONTRACT_VERSION
+        || record.contract_kind != ARDYN_TRANSPORT_HARNESS_CONTRACT_KIND
+        || record.contract_phase != ARDYN_TRANSPORT_HARNESS_CONTRACT_PHASE
+        || record.reviewed_phase != ARDYN_TRANSPORT_HARNESS_REVIEWED_PHASE_LABEL
+        || record.harness_kind != ARDYN_TRANSPORT_HARNESS_KIND
+        || record.harness_version != ARDYN_TRANSPORT_HARNESS_VERSION
+        || record.supported_transport_modes != transport_harness_supported_transport_modes()
+        || record.fail_closed_startup_preconditions
+            != transport_harness_fail_closed_startup_preconditions()
+        || record.non_execution_invariant_summary.summary != transport_harness_invariant_summary()
+        || record.non_execution_invariant_summary.invariants != policy_non_execution_invariants()
+        || record.unsupported_runtime_reasons != transport_harness_unsupported_runtime_reasons()
+        || record.rejected_runtime_reasons != transport_harness_rejected_runtime_reasons()
+        || record.audit.created_at != "1970-01-01T00:00:00.000Z"
+        || record.audit.created_by != "codex-phase-4.1b"
+        || record.audit.source_phase != "4.1B"
+        || record.audit.reviewer != "Codex"
+        || record.audit.devin_review_required_now
+        || record.audit.preserve_devin_review_for != "major-runtime-readiness-checkpoint"
+        || !record.audit.metadata_only
+        || record.audit.writes_files
+        || record.audit.runs_runtime
+        || !transport_harness_references_are_exact(record)
+    {
+        return TransportHarnessContractClassification::Malformed;
+    }
+
+    if !transport_harness_runtime_effect_is_inert(record) {
+        return TransportHarnessContractClassification::RuntimeUnavailable;
+    }
+
+    if !record.approval_record_reference.present {
+        return TransportHarnessContractClassification::ApprovalMissing;
+    }
+
+    if !record.policy_metadata_reference.present {
+        return TransportHarnessContractClassification::PolicyMetadataMissing;
+    }
+
+    if !record.stderr_redaction_policy_reference.present {
+        return TransportHarnessContractClassification::RedactionPolicyMissing;
+    }
+
+    if !record.transcript_audit_output_policy_reference.present {
+        return TransportHarnessContractClassification::TranscriptPolicyMissing;
+    }
+
+    TransportHarnessContractClassification::StaticContractOnly
+}
+
+pub fn validate_transport_harness_contract(record: &TransportHarnessContract) -> HostResult<()> {
+    let classification = classify_transport_harness_contract(record);
+    if record.classification != classification {
+        return Err(validation_error(
+            "transport harness contract classification is unsupported",
+        ));
+    }
+
+    if classification != TransportHarnessContractClassification::StaticContractOnly {
+        return Err(validation_error(
+            "transport harness contract is not an exact current static contract",
+        ));
+    }
+
+    Ok(())
+}
+
+pub fn serialize_transport_harness_contract_json(
+    record: &TransportHarnessContract,
+) -> HostResult<String> {
+    validate_transport_harness_contract(record)?;
+    let json = serde_json::to_string_pretty(record)?;
+
+    Ok(format!("{json}\n"))
+}
+
+pub fn transport_harness_contract_json() -> HostResult<String> {
+    serialize_transport_harness_contract_json(&transport_harness_contract())
+}
+
+pub fn parse_transport_harness_contract_json(input: &str) -> HostResult<TransportHarnessContract> {
+    if input.contains('\r') {
+        return Err(validation_error(
+            "transport harness contract must be LF-only JSON",
+        ));
+    }
+
+    let record: TransportHarnessContract = serde_json::from_str(input)?;
+    validate_transport_harness_contract(&record)?;
+    Ok(record)
+}
+
+pub fn classify_transport_harness_contract_json(
+    input: &str,
+) -> TransportHarnessContractClassification {
+    if input.contains('\r') {
+        return TransportHarnessContractClassification::Malformed;
+    }
+
+    let value: serde_json::Value = match serde_json::from_str(input) {
+        Ok(value) => value,
+        Err(_) => return TransportHarnessContractClassification::Malformed,
+    };
+
+    let object = match value.as_object() {
+        Some(object) => object,
+        None => return TransportHarnessContractClassification::Malformed,
+    };
+
+    let schema = object.get("schema").and_then(serde_json::Value::as_str);
+    if schema != Some(ARDYN_TRANSPORT_HARNESS_CONTRACT_SCHEMA) {
+        return TransportHarnessContractClassification::Malformed;
+    }
+
+    let schema_version = match object
+        .get("schemaVersion")
+        .and_then(serde_json::Value::as_str)
+    {
+        Some(schema_version) => schema_version,
+        None => return TransportHarnessContractClassification::Malformed,
+    };
+
+    if has_malformed_semver(schema_version) {
+        return TransportHarnessContractClassification::Malformed;
+    }
+
+    if is_unsupported_major(schema_version, ARDYN_TRANSPORT_HARNESS_CONTRACT_VERSION)
+        || is_same_major_non_current(schema_version, ARDYN_TRANSPORT_HARNESS_CONTRACT_VERSION)
+    {
+        return TransportHarnessContractClassification::UnsupportedVersion;
+    }
+
+    let json = match serde_json::to_string(&value) {
+        Ok(json) => json,
+        Err(_) => return TransportHarnessContractClassification::Malformed,
+    };
+    let record: TransportHarnessContract = match serde_json::from_str(&json) {
+        Ok(record) => record,
+        Err(_) => return TransportHarnessContractClassification::Malformed,
+    };
+
+    let classification = classify_transport_harness_contract(&record);
+    if record.classification == classification {
+        classification
+    } else {
+        TransportHarnessContractClassification::Malformed
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum CapabilityKind {
@@ -2717,6 +3365,24 @@ mod tests {
         );
     }
 
+    fn transport_harness_contract_json_from_value(value: serde_json::Value) -> String {
+        format!(
+            "{}\n",
+            serde_json::to_string_pretty(&value).expect("transport harness value json")
+        )
+    }
+
+    fn assert_transport_harness_contract_rejected(value: serde_json::Value, label: &str) {
+        let json = transport_harness_contract_json_from_value(value);
+        let error = parse_transport_harness_contract_json(&json)
+            .expect_err("transport harness mutation should fail closed");
+
+        assert!(
+            !error.to_string().is_empty(),
+            "{label} should produce a diagnostic"
+        );
+    }
+
     #[test]
     fn stdio_transport_policy_metadata_json_is_deterministic_and_matches_golden_fixture() {
         let first = stdio_transport_policy_metadata_json().expect("first metadata json");
@@ -3270,6 +3936,229 @@ mod tests {
             classify_host_policy_approval_record_json(&json),
             HostPolicyApprovalRecordClassification::Denied
         );
+    }
+
+    #[test]
+    fn transport_harness_contract_json_is_deterministic_and_matches_golden_fixture() {
+        let first = transport_harness_contract_json().expect("first transport harness json");
+        let second = transport_harness_contract_json().expect("second transport harness json");
+        let fixture = include_str!(
+            "../../../tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json"
+        );
+
+        assert_eq!(first, second);
+        assert_eq!(first, fixture);
+        assert!(first.ends_with('\n'));
+        assert!(!first.contains('\r'));
+        assert!(parse_transport_harness_contract_json(&first).is_ok());
+        assert_eq!(
+            classify_transport_harness_contract_json(&first),
+            TransportHarnessContractClassification::StaticContractOnly
+        );
+    }
+
+    #[test]
+    fn transport_harness_contract_top_level_field_order_is_stable() {
+        let json = transport_harness_contract_json().expect("transport harness json");
+        let mut previous_index = None;
+
+        for field in transport_harness_contract_top_level_order() {
+            let needle = format!("\n  \"{field}\":");
+            let index = json.find(&needle).expect("field should exist");
+
+            if let Some(previous_index) = previous_index {
+                assert!(
+                    previous_index < index,
+                    "{field} should appear after the previous field"
+                );
+            }
+
+            previous_index = Some(index);
+        }
+    }
+
+    #[test]
+    fn transport_harness_contract_classification_is_deterministic() {
+        let cases = [
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json"
+                ),
+                TransportHarnessContractClassification::StaticContractOnly,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1b/missing-approval-reference-transport-harness-contract.json"
+                ),
+                TransportHarnessContractClassification::ApprovalMissing,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1b/missing-policy-metadata-reference-transport-harness-contract.json"
+                ),
+                TransportHarnessContractClassification::PolicyMetadataMissing,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1b/missing-redaction-policy-reference-transport-harness-contract.json"
+                ),
+                TransportHarnessContractClassification::RedactionPolicyMissing,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1b/missing-transcript-audit-policy-reference-transport-harness-contract.json"
+                ),
+                TransportHarnessContractClassification::TranscriptPolicyMissing,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1b/unsupported-major-transport-harness-contract.json"
+                ),
+                TransportHarnessContractClassification::UnsupportedVersion,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1b/malformed-missing-contract-kind-transport-harness-contract.json"
+                ),
+                TransportHarnessContractClassification::Malformed,
+            ),
+            (
+                include_str!(
+                    "../../../tests/fixtures/host-policy/phase4-1b/runtime-available-attempt-transport-harness-contract.json"
+                ),
+                TransportHarnessContractClassification::RuntimeUnavailable,
+            ),
+        ];
+
+        for (json, expected) in cases {
+            assert_eq!(classify_transport_harness_contract_json(json), expected);
+        }
+    }
+
+    #[test]
+    fn transport_harness_contract_rejects_fail_closed_records() {
+        for json in [
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1b/missing-approval-reference-transport-harness-contract.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1b/missing-policy-metadata-reference-transport-harness-contract.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1b/missing-redaction-policy-reference-transport-harness-contract.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1b/missing-transcript-audit-policy-reference-transport-harness-contract.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1b/unsupported-major-transport-harness-contract.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1b/malformed-missing-contract-kind-transport-harness-contract.json"
+            ),
+            include_str!(
+                "../../../tests/fixtures/host-policy/phase4-1b/runtime-available-attempt-transport-harness-contract.json"
+            ),
+        ] {
+            assert!(parse_transport_harness_contract_json(json).is_err());
+        }
+
+        let mut current: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json"
+        ))
+        .expect("current harness contract");
+        current["runtimeEffect"]["currentContractEnablesRuntime"] = serde_json::Value::Bool(true);
+        assert_transport_harness_contract_rejected(current, "runtime effect");
+
+        let mut current: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json"
+        ))
+        .expect("current harness contract");
+        current["approvalRecordReference"]["present"] = serde_json::Value::Bool(false);
+        current["classification"] = serde_json::Value::String("approval_missing".to_string());
+        assert_transport_harness_contract_rejected(current, "missing approval reference");
+
+        let mut current: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json"
+        ))
+        .expect("current harness contract");
+        current["nonExecutionInvariantSummary"]["invariants"]
+            .as_array_mut()
+            .expect("invariants")
+            .pop();
+        assert_transport_harness_contract_rejected(current, "invariant drift");
+    }
+
+    #[test]
+    fn transport_harness_contract_references_are_necessary_but_not_sufficient() {
+        let record = transport_harness_contract();
+
+        validate_transport_harness_contract(&record).expect("transport harness contract");
+        assert!(record.approval_record_reference.required);
+        assert!(record.approval_record_reference.present);
+        assert!(record.approval_record_reference.operator_consent_required);
+        assert!(
+            !record
+                .approval_record_reference
+                .approval_record_grants_runtime
+        );
+        assert!(record.policy_metadata_reference.required);
+        assert!(record.policy_metadata_reference.present);
+        assert!(record.stderr_redaction_policy_reference.required);
+        assert!(record.stderr_redaction_policy_reference.present);
+        assert!(record.transcript_audit_output_policy_reference.required);
+        assert!(record.transcript_audit_output_policy_reference.present);
+        assert!(!record.runtime_availability.runtime_available);
+        assert!(!record.runtime_availability.serve_runtime_available);
+        assert!(!record.runtime_availability.stdio_runtime_available);
+        assert!(
+            !record
+                .runtime_availability
+                .process_stdio_ownership_available
+        );
+        assert!(!record.runtime_availability.stdin_reader_available);
+        assert!(!record.runtime_effect.current_contract_enables_runtime);
+        assert!(!record.runtime_effect.runtime_implementation_available);
+        assert!(!record.runtime_effect.runtime_command_available);
+        assert!(!record.runtime_effect.process_stdio_ownership_available);
+        assert!(!record.runtime_effect.stdin_reader_available);
+        assert!(!record.runtime_effect.stdout_writer_available);
+        assert!(!record.runtime_effect.stderr_writer_available);
+        assert!(
+            record
+                .runtime_effect
+                .approval_record_necessary_but_not_sufficient
+        );
+        assert!(
+            record
+                .runtime_effect
+                .requires_separate_runtime_implementation_approval
+        );
+        assert!(
+            record
+                .runtime_effect
+                .requires_devin_review_before_enablement
+        );
+
+        let mut runtime_attempt = record;
+        runtime_attempt.runtime_availability.runtime_available = true;
+        runtime_attempt.runtime_availability.stdio_runtime_available = true;
+        runtime_attempt
+            .runtime_effect
+            .current_contract_enables_runtime = true;
+        runtime_attempt
+            .runtime_effect
+            .runtime_implementation_available = true;
+        runtime_attempt.runtime_effect.runtime_command_available = true;
+        runtime_attempt
+            .approval_record_reference
+            .approval_record_grants_runtime = true;
+        runtime_attempt.classification = TransportHarnessContractClassification::RuntimeUnavailable;
+        assert_eq!(
+            classify_transport_harness_contract(&runtime_attempt),
+            TransportHarnessContractClassification::RuntimeUnavailable
+        );
+        assert!(validate_transport_harness_contract(&runtime_attempt).is_err());
     }
 
     #[test]

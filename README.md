@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.1A Scope
+## Phase 3 and Phase 4.1B Scope
 
-This repository is currently in Phase 4.1A host-policy approval-record mode. The
+This repository is currently in Phase 4.1B transport-harness-contract mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -22,8 +22,8 @@ host-policy review-record fixtures, compatibility classification, and
 display-only comparison records plus a static reviewer handoff index for
 Devin/Codex review workflows, a final static readiness checklist, a
 proposal-only runtime implementation plan, and static host-policy approval
-records/operator-consent fields before any separately approved live runtime
-work.
+records/operator-consent fields plus static Rust-host transport harness
+contracts before any separately approved live runtime work.
 
 Included now:
 
@@ -84,6 +84,11 @@ Included now:
   reason coverage, and report metadata. Approval records are review/audit
   artifacts only; operator consent is necessary but not sufficient and grants
   no runtime approval.
+- Phase 4.1B static Rust-host transport harness contracts, deterministic
+  fixtures, fail-closed classification coverage, and report metadata. The
+  contracts are review metadata only; approval references are necessary but not
+  sufficient and current contracts do not enable runtime. See
+  `docs/phase-4-1b-transport-harness-contracts.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -128,9 +133,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.1A CLI Usage
+## Phase 3 and Phase 4.1B CLI Usage
 
-Run non-executing commands directly from source through Phase 4.1A:
+Run non-executing commands directly from source through Phase 4.1B:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -235,7 +240,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.1A approval-record-only status report command is:
+The Phase 4.1B transport-harness-contract-only status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -253,7 +258,8 @@ Phase 4.0E policy metadata export/review-record mapping metadata, Phase 4.0F
 static host-policy review-record metadata, Phase 4.0G display-only comparison
 metadata, Phase 4.0H static reviewer handoff index metadata, Phase 4.0I final
 pre-runtime readiness metadata, Phase 4.1 runtime proposal metadata, and
-Phase 4.1A host-policy approval-record metadata, and safety posture.
+Phase 4.1A host-policy approval-record metadata, Phase 4.1B transport harness
+contract metadata, and safety posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -359,6 +365,17 @@ types, and deterministic approval-record/operator-consent fixtures under
 review/audit artifacts only; they are not runtime configuration, not approval
 tokens, not a stdout printer, not a file writer, not an approval evaluator, not
 host-policy enforcement, and not consumed by a live host loop.
+
+Phase 4.1B adds no new CLI command and does not change the finite dry-run
+emitter, Rust-host stdio transport policy metadata, host-policy review-record
+helpers, approval-record helpers, comparison helpers, reviewer index, final
+readiness bundle, or Phase 4.1 proposal bundle. It adds
+`docs/phase-4-1b-transport-harness-contracts.md`, static Rust-host transport
+harness contract helper types, and deterministic fixtures under
+`tests/fixtures/host-policy/phase4-1b/`. Transport harness contracts are static
+review metadata only; they are not runtime configuration, not a stdout writer,
+not a stderr writer, not a file writer, not a stdin reader, not process stdio
+ownership, not failure-audit runtime, and not consumed by a live host loop.
 
 ## Phase 3.3-3.9 Policy Review
 

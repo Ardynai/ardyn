@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.1A keeps the TypeScript core on deterministic contract and display
+Phase 4.1B keeps the TypeScript core on deterministic contract and display
 data while the Rust host keeps policy-only stdio transport contract metadata
 and static host-policy review-record fixtures. The TypeScript core still owns
 manifest and task validation, deterministic non-executing task planning,
@@ -14,8 +14,9 @@ helpers. Phase 4.0I adds only static final pre-runtime readiness docs and
 metadata after the Phase 4.0H reviewer handoff index. Phase 4.1 adds only the
 runtime proposal doc and deterministic proposal metadata after that readiness
 bundle. Phase 4.1A adds only static host-policy approval-record helpers and
-operator-consent fixtures on the Rust-host side. See
-`docs/phase-4-1a-host-policy-approval-records.md`.
+operator-consent fixtures on the Rust-host side. Phase 4.1B adds only static
+transport harness contract helpers and fixtures on the Rust-host side. See
+`docs/phase-4-1b-transport-harness-contracts.md`.
 Autonomous execution, tool execution, plugin installation, network serving,
 torrent download, code-pack enablement, live stdin loops, live replay, runtime
 approval grants, and agent loops are intentionally out of scope.
@@ -107,6 +108,15 @@ review-record classes, display-only comparison helpers, reviewer index, final
 readiness bundle, or runtime proposal bundle. Approval records are static
 review/audit artifacts only and do not grant runtime approval. See
 `docs/phase-4-1a-host-policy-approval-records.md`.
+
+Phase 4.1B adds no TypeScript core runtime APIs, no transport harness runtime
+API, no approval evaluator, and no host-policy enforcement path. It does not
+change the finite dry-run event construction, formatter, Rust-host stdio
+transport policy metadata, review-record classes, approval-record classes,
+display-only comparison helpers, reviewer index, final readiness bundle, or
+runtime proposal bundle. Transport harness contracts are static review metadata
+only and do not grant runtime approval. See
+`docs/phase-4-1b-transport-harness-contracts.md`.
 
 ## Phase 3.2 Policy Review
 

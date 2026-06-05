@@ -102,6 +102,26 @@ const phase41AFixtureFiles = [
   "tests/fixtures/host-policy/phase4-1a/expired-not-yet-valid-host-policy-approval-record.json",
   "tests/fixtures/host-policy/phase4-1a/runtime-grant-attempt-host-policy-approval-record.json"
 ];
+const phase41BTransportHarnessClassifications = [
+  "static_contract_only",
+  "approval_missing",
+  "policy_metadata_missing",
+  "redaction_policy_missing",
+  "transcript_policy_missing",
+  "unsupported_version",
+  "malformed",
+  "runtime_unavailable"
+];
+const phase41BFixtureFiles = [
+  "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json",
+  "tests/fixtures/host-policy/phase4-1b/missing-approval-reference-transport-harness-contract.json",
+  "tests/fixtures/host-policy/phase4-1b/missing-policy-metadata-reference-transport-harness-contract.json",
+  "tests/fixtures/host-policy/phase4-1b/missing-redaction-policy-reference-transport-harness-contract.json",
+  "tests/fixtures/host-policy/phase4-1b/missing-transcript-audit-policy-reference-transport-harness-contract.json",
+  "tests/fixtures/host-policy/phase4-1b/unsupported-major-transport-harness-contract.json",
+  "tests/fixtures/host-policy/phase4-1b/malformed-missing-contract-kind-transport-harness-contract.json",
+  "tests/fixtures/host-policy/phase4-1b/runtime-available-attempt-transport-harness-contract.json"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -127,14 +147,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1A approval-record-only local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1B transport-harness-contract-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1A",
-    name: "Host policy approval records",
-    executionPosture: "approval-record-only non-executing"
+    id: "4.1B",
+    name: "Transport harness contracts",
+    executionPosture: "transport-harness-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -175,6 +195,11 @@ test("report lists configured checks and verification commands without running t
       ranByReport: false
     },
     {
+      command: "npm run test:schemas",
+      purpose: "Run focused schema validation tests.",
+      ranByReport: false
+    },
+    {
       command: "cargo test --workspace",
       purpose: "Run Rust workspace tests.",
       ranByReport: false
@@ -185,18 +210,28 @@ test("report lists configured checks and verification commands without running t
       ranByReport: false
     },
     {
+      command: "cargo fmt --check",
+      purpose: "Check Rust formatting without modifying files.",
+      ranByReport: false
+    },
+    {
       command: "git diff --check",
       purpose: "Check the working diff for whitespace errors.",
       ranByReport: false
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1A approval-record-only status report.",
+      purpose: "Render this deterministic local Phase 4.1B transport-harness-contract-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1A status report.",
+      purpose: "Run focused tests for this local Phase 4.1B status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1b-transport-harness-contracts.test.mjs",
+      purpose: "Run focused Phase 4.1B transport harness contract static checks.",
       ranByReport: false
     },
     {
@@ -2308,6 +2343,215 @@ test("report inventories Phase 4.1A host-policy approval records without enablin
   });
 });
 
+test("report inventories Phase 4.1B transport harness contracts without enabling runtime", async () => {
+  const report = await runReport();
+  const inventory = report.phase41BTransportHarnessInventory;
+
+  assert.deepEqual(inventory.transportHarnessContract, {
+    document: "docs/phase-4-1b-transport-harness-contracts.md",
+    source: "crates/ardyn-host/src/lib.rs",
+    fixture: "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json",
+    schema: "ardyn.transport-harness-contract",
+    schemaVersion: "0.1.0",
+    contractKind: "transport-harness-contract",
+    contractPhase: "phase-4.1b-transport-harness-contracts",
+    reviewedPhase: "4.1B",
+    harnessKind: "rust-host-stdio-transport-harness-static-contract",
+    harnessVersion: "0.1.0",
+    classification: "static_contract_only",
+    staticContractOnly: true,
+    runtimeAvailable: false,
+    currentContractEnablesRuntime: false,
+    runtimeCommandAvailable: false,
+    processStdioOwnershipAvailable: false,
+    stdinReaderAvailable: false,
+    stdoutWriterAvailable: false,
+    stderrWriterAvailable: false,
+    grantsRuntimeApproval: false,
+    runtimeApprovalGranted: false,
+    runtimeBehaviorIntroduced: false,
+    liveRuntimeBehaviorIntroduced: false,
+    consumedByLiveHostLoop: false
+  });
+
+  assert.deepEqual(inventory.basedOnApprovalRecord, {
+    document: "docs/phase-4-1a-host-policy-approval-records.md",
+    fixture: "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json",
+    schema: "ardyn.host-policy-approval-record",
+    classification: "valid_review_record",
+    operatorConsentNecessaryButNotSufficient: true,
+    approvalRecordGrantsRuntime: false
+  });
+  assert.deepEqual(inventory.basedOnPolicyMetadata, {
+    document: "docs/phase-4-stdio-dry-run-event-emission.md",
+    fixture: "tests/fixtures/host-policy/phase4-0e/stdio-transport-policy-metadata.json",
+    schema: "ardyn.stdio-transport-policy-metadata",
+    schemaVersion: "0.1.0",
+    runtimeStatus: "pre-runtime-policy-only",
+    reviewOnly: true,
+    digestAlgorithm: "sha256"
+  });
+  assert.deepEqual(inventory.harnessContractModel.classes, phase41BTransportHarnessClassifications);
+  assert.equal(inventory.harnessContractModel.exactCurrentStaticContractRequired, true);
+  assert.equal(inventory.harnessContractModel.nonRuntimeReviewMetadataOnly, true);
+  assert.deepEqual(
+    inventory.supportedTransportModes.map(({ name, direction, metadataOnly, runtimeImplemented }) => ({
+      name,
+      direction,
+      metadataOnly,
+      runtimeImplemented
+    })),
+    [
+      {
+        name: "stdio-jsonl-session-events",
+        direction: "stdout",
+        metadataOnly: true,
+        runtimeImplemented: false
+      },
+      {
+        name: "stderr-diagnostics",
+        direction: "stderr",
+        metadataOnly: true,
+        runtimeImplemented: false
+      },
+      {
+        name: "stdin-command-stream",
+        direction: "stdin",
+        metadataOnly: true,
+        runtimeImplemented: false
+      }
+    ]
+  );
+  assert.equal(inventory.runtimeAvailability.runtimeAvailable, false);
+  assert.equal(inventory.runtimeAvailability.serveRuntimeAvailable, false);
+  assert.equal(inventory.runtimeAvailability.stdioRuntimeAvailable, false);
+  assert.equal(inventory.runtimeAvailability.processStdioOwnershipAvailable, false);
+  assert.equal(inventory.runtimeAvailability.stdinReaderAvailable, false);
+  assert.equal(inventory.requiredReferences.approvalRecordReference.present, true);
+  assert.equal(inventory.requiredReferences.approvalRecordReference.approvalRecordGrantsRuntime, false);
+  assert.equal(inventory.requiredReferences.policyMetadataReference.present, true);
+  assert.equal(inventory.requiredReferences.stderrRedactionPolicyReference.present, true);
+  assert.equal(inventory.requiredReferences.stderrRedactionPolicyReference.enforcementActive, false);
+  assert.equal(inventory.requiredReferences.transcriptAuditOutputPolicyReference.present, true);
+  assert.equal(
+    inventory.requiredReferences.transcriptAuditOutputPolicyReference
+      .transcriptPersistenceRuntimeImplemented,
+    false
+  );
+
+  assert.deepEqual(inventory.reviewOnlyDisplayBehavior, {
+    transportHarnessContractsAreStaticArtifactsOnly: true,
+    approvalReferencesNecessaryButNotSufficient: true,
+    currentContractsDoNotEnableRuntime: true,
+    futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+    preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+    reportRunsChecks: false,
+    writesFiles: false,
+    printsStdoutFromCli: false,
+    consumedByLiveHostLoop: false
+  });
+  assert.deepEqual(inventory.cliCommandSurface, {
+    commandAdded: false,
+    transportHarnessCommandAdded: false,
+    serveRuntimeCommandAdded: false,
+    stdioRuntimeCommandAdded: false,
+    stdinReaderCommandAdded: false,
+    stdoutWriterCommandAdded: false,
+    stderrWriterCommandAdded: false,
+    failureAuditCommandAdded: false,
+    fileWriterAdded: false,
+    stdoutPrinterAdded: false,
+    existingDryRunEmitterUnchanged: true
+  });
+  assert.deepEqual(inventory.apiSurface, {
+    rustStaticContractTypesAdded: true,
+    rustRuntimeHelperAdded: false,
+    rustStdioOwnerAdded: false,
+    rustStdinReaderAdded: false,
+    rustStdoutWriterAdded: false,
+    rustStderrWriterAdded: false,
+    typescriptCoreRuntimeApiAdded: false,
+    hostPolicyEnforcementAdded: false,
+    approvalEvaluatorAdded: false,
+    transcriptReplayRuntimeAdded: false,
+    failureAuditRuntimeAdded: false
+  });
+  assert.deepEqual(
+    inventory.fixtures.map(({ path, status }) => [path, status]),
+    phase41BFixtureFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-4-1b-transport-harness-contracts.md", "present"],
+      ["docs/phase-4-1a-host-policy-approval-records.md", "present"],
+      ["docs/phase-4-1-runtime-proposal.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/architecture.md", "present"],
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["packages/core/README.md", "present"],
+      ["crates/ardyn-host/README.md", "present"]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["crates/ardyn-host/src/lib.rs", "present"],
+      ["tests/phase4-1b-transport-harness-contracts.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+
+  for (const probe of [
+    "transport-harness",
+    "transport-harness-contract",
+    "stdin-reader",
+    "stdout-writer",
+    "stderr-writer",
+    "failure-audit",
+    "emit-failure-audit"
+  ]) {
+    assert.ok(inventory.invariantProbes.includes(probe), probe);
+  }
+
+  assert.deepEqual(inventory.safetyPosture, {
+    nonExecuting: true,
+    transportHarnessContractOnly: true,
+    reviewOnly: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noContentFabricDownloadInstallEnable: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noHostPolicyEnforcement: true,
+    noApprovalEvaluator: true,
+    noStdoutWriter: true,
+    noStderrWriter: true,
+    noFailureAuditRuntime: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -2499,6 +2743,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.finalPreRuntimeReadiness, true);
   assert.equal(report.safetyPosture.runtimeProposal, true);
   assert.equal(report.safetyPosture.hostPolicyApprovalRecords, true);
+  assert.equal(report.safetyPosture.transportHarnessContracts, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {

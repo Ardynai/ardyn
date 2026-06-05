@@ -289,9 +289,9 @@ test("Phase 4.1A status report inventories approval records without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1A",
-    name: "Host policy approval records",
-    executionPosture: "approval-record-only non-executing"
+    id: "4.1B",
+    name: "Transport harness contracts",
+    executionPosture: "transport-harness-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -313,6 +313,7 @@ test("Phase 4.1A status report inventories approval records without running chec
     ])
   );
   assert.equal(report.safetyPosture.hostPolicyApprovalRecords, true);
+  assert.equal(report.safetyPosture.transportHarnessContracts, true);
   assert.equal(report.safetyPosture.flags.phase41RuntimeImplemented, false);
 
   for (const check of [...report.configuredChecks, ...report.verificationCommands]) {

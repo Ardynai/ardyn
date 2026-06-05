@@ -1,0 +1,157 @@
+{
+  "schema": "ardyn.transport-harness-contract",
+  "schemaVersion": "9.0.0",
+  "contractKind": "transport-harness-contract",
+  "contractPhase": "phase-4.1b-transport-harness-contracts",
+  "reviewedPhase": "4.1B",
+  "harnessKind": "rust-host-stdio-transport-harness-static-contract",
+  "harnessVersion": "0.1.0",
+  "supportedTransportModes": [
+    {
+      "name": "stdio-jsonl-session-events",
+      "direction": "stdout",
+      "metadataOnly": true,
+      "runtimeImplemented": false
+    },
+    {
+      "name": "stderr-diagnostics",
+      "direction": "stderr",
+      "metadataOnly": true,
+      "runtimeImplemented": false
+    },
+    {
+      "name": "stdin-command-stream",
+      "direction": "stdin",
+      "metadataOnly": true,
+      "runtimeImplemented": false
+    }
+  ],
+  "runtimeAvailability": {
+    "status": "runtime-unavailable",
+    "runtimeAvailable": false,
+    "serveRuntimeAvailable": false,
+    "stdioRuntimeAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdinCommandLoopAvailable": false,
+    "listenerAvailable": false,
+    "subprocessSpawningAvailable": false
+  },
+  "approvalRecordReference": {
+    "required": true,
+    "present": true,
+    "schema": "ardyn.host-policy-approval-record",
+    "schemaVersion": "0.1.0",
+    "recordPhase": "phase-4.1a-host-policy-approval-records",
+    "classification": "valid_review_record",
+    "runtimeCapability": "live-stdio-runtime",
+    "operatorConsentRequired": true,
+    "approvalRecordGrantsRuntime": false
+  },
+  "policyMetadataReference": {
+    "required": true,
+    "present": true,
+    "schema": "ardyn.stdio-transport-policy-metadata",
+    "schemaVersion": "0.1.0",
+    "metadataPhase": "phase-4.0e-rust-host-policy-metadata",
+    "contractPhase": "phase-4.0d-rust-host-transport-policy-contracts",
+    "runtimeStatus": "pre-runtime-policy-only",
+    "reviewOnly": true,
+    "digestAlgorithm": "sha256"
+  },
+  "stderrRedactionPolicyReference": {
+    "required": true,
+    "present": true,
+    "sourceSchema": "ardyn.stdio-transport-policy-metadata",
+    "sourceSchemaVersion": "0.1.0",
+    "sourceField": "policy.redaction",
+    "enforcementActive": false,
+    "requiredBeforeLiveRuntime": true,
+    "stackTracesAllowed": false,
+    "environmentDumpsAllowed": false,
+    "secretsAllowed": false,
+    "productionSigningKeysAllowed": false
+  },
+  "transcriptAuditOutputPolicyReference": {
+    "required": true,
+    "present": true,
+    "transcriptSchema": "ardyn.session-transcript",
+    "sessionEventSchema": "https://schemas.ardyn.ai/session-event.schema.json",
+    "normalizedTranscriptRequired": true,
+    "failureAuditRecordRequiredBeforeRuntime": true,
+    "transcriptPersistenceRuntimeImplemented": false,
+    "replayRuntimeImplemented": false,
+    "writesFilesInThisPhase": false
+  },
+  "failClosedStartupPreconditions": [
+    "host-policy-approval-record-reference-present",
+    "stdio-transport-policy-metadata-reference-present",
+    "stderr-redaction-policy-reference-present",
+    "transcript-audit-output-policy-reference-present",
+    "runtime-unavailable-until-separate-implementation-approval",
+    "major-runtime-readiness-review-required",
+    "no-process-stdio-ownership",
+    "no-live-stdin-reader",
+    "no-runtime-command"
+  ],
+  "runtimeEffect": {
+    "currentContractEnablesRuntime": false,
+    "runtimeImplementationAvailable": false,
+    "runtimeCommandAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "approvalRecordNecessaryButNotSufficient": true,
+    "requiresSeparateRuntimeImplementationApproval": true,
+    "requiresDevinReviewBeforeEnablement": true
+  },
+  "nonExecutionInvariantSummary": {
+    "summary": "Phase 4.1B transport harness contracts are static Rust-host metadata only; approval references are necessary but not sufficient and live runtime remains unavailable until a separately approved implementation phase and major runtime-readiness checkpoint.",
+    "invariants": [
+      "no-live-stdio-runtime",
+      "no-stdin-command-loop",
+      "no-live-stdio-reader",
+      "no-listener",
+      "no-server",
+      "no-subprocess-spawning",
+      "no-adapter-calls",
+      "no-locus-runtime-dependency",
+      "no-mcp-calls",
+      "no-openclaw-calls",
+      "no-plugin-execution",
+      "no-content-fabric-runtime-behavior",
+      "no-autonomous-loop",
+      "no-secret-handling",
+      "no-production-signing-keys",
+      "no-transcript-persistence-replay-runtime",
+      "no-websocket-http-control-surface",
+      "no-runtime-execution-behavior"
+    ]
+  },
+  "classification": "unsupported_version",
+  "unsupportedRuntimeReasons": [
+    "live-stdio-runtime-not-implemented",
+    "serve-runtime-command-unavailable",
+    "stdio-runtime-command-unavailable",
+    "process-stdio-ownership-not-implemented",
+    "stdin-reader-not-implemented"
+  ],
+  "rejectedRuntimeReasons": [
+    "static-contract-only",
+    "approval-record-reference-cannot-grant-runtime",
+    "separate-runtime-implementation-approval-required",
+    "major-runtime-readiness-review-required"
+  ],
+  "audit": {
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "createdBy": "codex-phase-4.1b",
+    "sourcePhase": "4.1B",
+    "reviewer": "Codex",
+    "devinReviewRequiredNow": false,
+    "preserveDevinReviewFor": "major-runtime-readiness-checkpoint",
+    "metadataOnly": true,
+    "writesFiles": false,
+    "runsRuntime": false
+  }
+}

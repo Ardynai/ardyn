@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G/4.0H/4.0I/4.1/4.1A Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G/4.0H/4.0I/4.1/4.1A/4.1B Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -69,6 +69,16 @@ enforcement path, file writer, stdout printer, live stdio reader, runtime
 owner, transcript persistence, replay command, WebSocket, HTTP, adapter,
 plugin, Content Fabric runtime, secret, production signing-key path, runtime
 approval grant, or live runtime implementation.
+
+Phase 4.1B adds static transport harness contract documentation, review-only
+Rust helper types, and deterministic fixtures only. It still does not change
+the finite TypeScript dry-run emitter or add a transport harness CLI command,
+stdin reader, stdout writer, stderr writer, failure-audit runtime, approval
+evaluator, host-policy enforcement path, file writer, stdout printer, live
+stdio reader, runtime owner, transcript persistence, replay command,
+WebSocket, HTTP, adapter, plugin, Content Fabric runtime, secret, production
+signing-key path, runtime approval grant, or live runtime implementation. See
+`docs/phase-4-1b-transport-harness-contracts.md`.
 
 ## CLI Surface
 
@@ -317,12 +327,28 @@ runtime configuration, not approval tokens, not an approval evaluator, not a
 stdout printer, not a file writer, not replay runtime, and not consumed by a
 live host loop.
 
+## Phase 4.1B Transport Harness Contracts
+
+Phase 4.1B adds static transport harness contracts for Codex review. See
+`docs/phase-4-1b-transport-harness-contracts.md`.
+
+The Phase 4.1B fixtures are under
+`tests/fixtures/host-policy/phase4-1b/`. They cover a valid static contract
+that still cannot enable runtime, missing approval-record references, missing
+policy metadata references, missing stderr redaction references, missing
+transcript/audit references, unsupported versions, malformed records, and a
+runtime-availability attempt that fails closed. The fixtures are static review
+metadata only. They are not runtime configuration, not a stdout writer, not a
+stderr writer, not a stdin reader, not process stdio ownership, not a file
+writer, not failure-audit runtime, not replay runtime, and not consumed by a
+live host loop.
+
 ## Deferred Runtime Work
 
-Phase 4.1A intentionally does not implement repo-root confinement, transcript
+Phase 4.1B intentionally does not implement repo-root confinement, transcript
 persistence, dropped-line replay, duplicate detection across a live stream,
-stderr redaction enforcement, or Rust-host stdout/stderr runtime ownership.
-It documents review evidence, operator-consent fields, fail-closed approval
-record classifications, and a roadmap for later host-policy phases. A future
+stderr redaction enforcement, or Rust-host stdout/stderr runtime ownership. It
+documents review evidence, operator-consent references, fail-closed transport
+harness classifications, and a roadmap for later host-policy phases. A future
 live runtime still requires separate explicit host policy, implementation,
 tests, and runtime enablement.

@@ -89,6 +89,13 @@ CLI command, stdout printer, file writer, live stdio reader, process stdio
 ownership, runtime approval grant, or live host loop. See
 `docs/phase-4-1a-host-policy-approval-records.md`.
 
+Phase 4.1B adds static Rust-host transport harness contract helper types for
+review metadata only. It does not add a TypeScript core API, Rust runtime
+helper, transport harness runtime, stdin reader, stdout writer, stderr writer,
+failure audit runtime, approval evaluator, active host-policy enforcement path,
+CLI command, process stdio ownership, runtime approval grant, or live host
+loop. See `docs/phase-4-1b-transport-harness-contracts.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:
