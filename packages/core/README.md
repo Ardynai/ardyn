@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.1E keeps the TypeScript core on deterministic contract and display
+Phase 4.1F keeps the TypeScript core on deterministic contract and display
 data while the Rust host keeps policy-only stdio transport contract metadata
 and static host-policy review-record fixtures. The TypeScript core still owns
 manifest and task validation, deterministic non-executing task planning,
@@ -21,11 +21,14 @@ review helpers and fixtures on the TypeScript side. Phase 4.1D adds only
 static transcript persistence/replay review helpers and fixtures on the
 TypeScript side. Phase 4.1E adds only static failure-audit, terminal-state,
 cleanup/kill, and nonzero-exit mapping review helpers and fixtures on the
-TypeScript side. See
+TypeScript side. Phase 4.1F adds only static runtime-readiness checkpoint
+documentation, fixture metadata, report inventory, and tests; it adds no core
+runtime helper API and no checkpoint helper API. See
 `docs/phase-4-1b-transport-harness-contracts.md` and
 `docs/phase-4-1c-framing-redaction-contracts.md` and
 `docs/phase-4-1d-transcript-replay-contracts.md` and
-`docs/phase-4-1e-failure-audit-kill-semantics.md`.
+`docs/phase-4-1e-failure-audit-kill-semantics.md` and
+`docs/phase-4-1f-runtime-readiness-checkpoint.md`.
 Autonomous execution, tool execution, plugin installation, network serving,
 torrent download, code-pack enablement, live stdin loops, live replay, runtime
 approval grants, and agent loops are intentionally out of scope.
@@ -166,6 +169,18 @@ review metadata only; `failure-audit`, `emit-failure-audit`,
 `cleanup-runtime`, `kill-runtime`, `exit-runtime`, `serve-runtime`, and
 `stdio-runtime` remain proposal-only and rejected. See
 `docs/phase-4-1e-failure-audit-kill-semantics.md`.
+
+Phase 4.1F adds no TypeScript core runtime APIs and no new TypeScript core
+checkpoint helper APIs. It does not change the finite dry-run event
+construction, formatter, Rust-host stdio transport policy metadata,
+transport-harness contracts, framing/redaction contracts, transcript
+persistence/replay contracts, failure-audit contracts, review-record classes,
+approval-record classes, display-only comparison helpers, reviewer index,
+final readiness bundle, or runtime proposal bundle. The runtime-readiness
+checkpoint is static fixture/report/doc/test metadata only; it cannot grant
+runtime approval and cannot enable `serve-runtime`, `stdio-runtime`, or
+`replay-session-transcript`. See
+`docs/phase-4-1f-runtime-readiness-checkpoint.md`.
 
 ## Phase 3.2 Policy Review
 

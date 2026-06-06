@@ -263,7 +263,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.1E failure-audit-kill-semantics-contract-only status report command is:
+The Phase 4.1F runtime-readiness-checkpoint-only status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -284,11 +284,18 @@ pre-runtime readiness metadata, Phase 4.1 runtime proposal metadata, and
 Phase 4.1A host-policy approval-record metadata, Phase 4.1B transport harness
 contract metadata, Phase 4.1C framing/redaction contract metadata, Phase 4.1D
 transcript persistence/replay contract metadata, Phase 4.1E failure-audit
-kill-semantics contract metadata, and safety posture.
+kill-semantics contract metadata, Phase 4.1F runtime-readiness checkpoint
+metadata, and safety posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
 integration.
+
+Phase 4.1F is documented in
+`docs/phase-4-1f-runtime-readiness-checkpoint.md`. It is a static
+runtime-readiness checkpoint only: it cannot grant runtime approval, cannot
+enable `serve-runtime`, `stdio-runtime`, or `replay-session-transcript`, and
+future live runtime work must be a separate approved phase.
 
 Example dry-run check:
 

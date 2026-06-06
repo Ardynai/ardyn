@@ -286,6 +286,21 @@ approval grant. Failure-audit/cleanup/kill/runtime commands remain
 proposal-only and rejected. See
 `docs/phase-4-1e-failure-audit-kill-semantics.md`.
 
+Phase 4.1F adds a static runtime-readiness checkpoint for review only. It
+consolidates Phase 4.1 through Phase 4.1E stdio, approval, transcript, and
+failure-audit evidence, but no live stdio runtime exists and no runtime
+command is implemented. Phase 4.1F does not add a CLI command, file writer,
+stdout printer, stdout writer, stderr writer, stdin command loop, live stdio
+reader, runtime owner, transcript replay command, failure-audit runtime,
+cleanup runtime, signal handling runtime, timeout runtime, process control,
+listener, server, subprocess supervisor, adapter call, Locus runtime
+dependency, MCP/OpenClaw call, plugin execution path, Content Fabric runtime
+behavior, secret handling, production signing-key usage, WebSocket transport,
+HTTP transport, host-policy enforcement, approval evaluator, or runtime
+approval grant. `runtime-readiness-checkpoint`, `serve-runtime`,
+`stdio-runtime`, and `replay-session-transcript` remain proposal-only and
+rejected. See `docs/phase-4-1f-runtime-readiness-checkpoint.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

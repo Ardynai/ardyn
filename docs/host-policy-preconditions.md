@@ -237,6 +237,17 @@ control, signal-handler, exit-handler, and runtime commands remain
 proposal-only and rejected. See
 `docs/phase-4-1e-failure-audit-kill-semantics.md`.
 
+Phase 4.1F adds a static runtime-readiness checkpoint artifact. It consolidates
+Phase 4.1 through Phase 4.1E evidence and records blockers before runtime, but
+it remains inert review metadata only. It does not grant runtime approval,
+start host-policy enforcement, add an approval evaluator, write files, print
+stdout, add a CLI command, deny a running runtime, persist transcripts, replay
+transcripts, handle secrets, implement live stdio ownership, own stdout/stderr,
+perform cleanup, kill processes, or change the finite TypeScript dry-run
+emitter. `runtime-readiness-checkpoint`, `serve-runtime`, `stdio-runtime`, and
+`replay-session-transcript` remain proposal-only and rejected. See
+`docs/phase-4-1f-runtime-readiness-checkpoint.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

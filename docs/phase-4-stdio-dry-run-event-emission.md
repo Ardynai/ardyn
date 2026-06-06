@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G/4.0H/4.0I/4.1/4.1A/4.1B/4.1C/4.1D/4.1E Stdio Dry-Run Session Event Emission
+# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G/4.0H/4.0I/4.1/4.1A/4.1B/4.1C/4.1D/4.1E/4.1F Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -114,6 +114,18 @@ runtime owner, transcript persistence runtime, replay runtime, WebSocket,
 HTTP, adapter, plugin, Content Fabric runtime, secret, production signing-key
 path, runtime approval grant, or live runtime implementation. See
 `docs/phase-4-1e-failure-audit-kill-semantics.md`.
+
+Phase 4.1F adds static runtime-readiness checkpoint documentation,
+deterministic fixture metadata, report inventory, and tests only. It still
+does not change the finite TypeScript dry-run emitter or add a
+runtime-readiness CLI command, checkpoint CLI command, stdin reader, stdout
+writer, stderr writer, live writer, failure-audit runtime, cleanup runtime,
+process killing, process control, signal handling runtime, timeout runtime,
+approval evaluator, host-policy enforcement path, file writer, stdout printer,
+live stdio reader, runtime owner, transcript persistence runtime, replay
+runtime, WebSocket, HTTP, adapter, plugin, Content Fabric runtime, secret,
+production signing-key path, runtime approval grant, or live runtime
+implementation. See `docs/phase-4-1f-runtime-readiness-checkpoint.md`.
 
 ## CLI Surface
 
@@ -430,9 +442,24 @@ control, not signal handling runtime, not timeout runtime, not a file writer,
 not a stdout writer, not a stderr writer, not a stdin reader, not process
 stdio ownership, not replay runtime, and not consumed by a live host loop.
 
+## Phase 4.1F Runtime Readiness Checkpoint
+
+Phase 4.1F adds static runtime-readiness checkpoint evidence for Codex review.
+See `docs/phase-4-1f-runtime-readiness-checkpoint.md`.
+
+The Phase 4.1F fixture is
+`tests/fixtures/host-policy/phase4-1f/runtime-readiness-checkpoint.json`. It
+consolidates the Phase 4.1 through Phase 4.1E evidence paths, readiness
+matrix, approval boundary, and blockers before runtime. The fixture is static
+review metadata only. It is not runtime configuration, not a runtime command,
+not an approval token, not a file writer, not a stdout writer, not a stderr
+writer, not a stdin reader, not process stdio ownership, not transcript
+persistence/replay runtime, not failure-audit runtime, and not consumed by a
+live host loop.
+
 ## Deferred Runtime Work
 
-Phase 4.1E intentionally does not implement repo-root confinement, transcript
+Phase 4.1F intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction
@@ -440,6 +467,7 @@ enforcement, or Rust-host stdout/stderr runtime ownership. It documents review
 evidence, operator-consent references, fail-closed transport harness
 classifications, fail-closed framing/redaction classifications, fail-closed
 transcript replay classifications, fail-closed failure-audit classifications,
-terminal-state classifications, and a roadmap for later host-policy phases. A
-future live runtime still requires separate explicit host policy,
-implementation, tests, and runtime enablement.
+terminal-state classifications, a checkpoint readiness matrix, blocker list,
+and a roadmap for later host-policy phases. A future live runtime still
+requires separate explicit host policy, implementation, tests, and runtime
+enablement.

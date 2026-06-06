@@ -141,13 +141,16 @@ and runtime command names remain rejected as unknown commands.
 
 ## Review Boundary
 
-Devin review remains reserved for the major runtime-readiness checkpoint. A
-later implementation phase must bring Rust-host stdio ownership, explicit
-host-policy approval, operator consent, failure-audit runtime tests,
-kill/exit/fail-closed tests, cleanup tests, stderr redaction enforcement tests,
-transcript persistence/replay tests, backpressure tests, partial-write tests,
-and dropped/duplicate/out-of-order/malformed-line tests before any live
-runtime path can exist.
+Phase 4.1F is the static major runtime-readiness checkpoint after this
+contract. Devin review remains reserved for the major runtime-readiness
+checkpoint, and should happen after Phase 4.1F if Josh requests an external
+runtime-readiness review. A later implementation phase must bring Rust-host
+stdio ownership, explicit host-policy approval, operator consent,
+failure-audit runtime tests, kill/exit/fail-closed tests, cleanup tests, stderr
+redaction enforcement tests, transcript persistence/replay tests, backpressure
+tests, partial-write tests, and
+dropped/duplicate/out-of-order/malformed-line tests before any live runtime
+path can exist.
 
 ## Cross-Links
 
@@ -158,6 +161,7 @@ Phase 4.1E builds on:
 - `docs/phase-4-1b-transport-harness-contracts.md`
 - `docs/phase-4-1c-framing-redaction-contracts.md`
 - `docs/phase-4-1d-transcript-replay-contracts.md`
+- `docs/phase-4-1f-runtime-readiness-checkpoint.md`
 - `docs/phase-4-stdio-dry-run-event-emission.md`
 - `docs/session-events-stdio-contract.md`
 - `docs/host-policy-preconditions.md`

@@ -223,6 +223,46 @@ const phase41EFixtureFiles = [
   "tests/fixtures/host-policy/phase4-1e/malformed-failure-audit-record.json",
   "tests/fixtures/host-policy/phase4-1e/unsupported-major-failure-audit-record.json"
 ];
+const phase41FReadinessMatrixIds = [
+  "runtime-proposal-boundary-readiness",
+  "host-policy-approval-record-readiness",
+  "transport-harness-contract-readiness",
+  "framing-redaction-contract-readiness",
+  "transcript-persistence-replay-contract-readiness",
+  "failure-audit-kill-semantics-readiness",
+  "runtime-effect-false-across-phase-4-1",
+  "report-inventory-checkpoint-readiness",
+  "runtime-command-negative-probe-readiness",
+  "source-guard-no-runtime-surface-readiness",
+  "devin-major-runtime-review-required",
+  "separate-runtime-implementation-approval-required"
+];
+const phase41FBlockerIds = [
+  "devin-major-runtime-readiness-review-not-recorded",
+  "explicit-runtime-implementation-approval-not-recorded",
+  "rust-host-live-stdio-runtime-not-implemented",
+  "stdout-jsonl-live-writer-tests-missing",
+  "stderr-redaction-live-enforcement-tests-missing",
+  "transcript-persistence-replay-runtime-not-implemented",
+  "failure-audit-cleanup-kill-runtime-not-implemented",
+  "backpressure-partial-write-runtime-tests-missing",
+  "line-integrity-runtime-tests-missing",
+  "runtime-command-surface-not-approved",
+  "approval-evaluator-host-policy-enforcement-not-implemented",
+  "external-runtime-integrations-not-approved"
+];
+const phase41FConsolidatedPhases = ["4.1", "4.1A", "4.1B", "4.1C", "4.1D", "4.1E"];
+const phase41FInventoryKeys = [
+  "phase41ProposalInventory",
+  "phase41AApprovalRecordInventory",
+  "phase41BTransportHarnessInventory",
+  "phase41CFramingRedactionInventory",
+  "phase41DTranscriptReplayInventory",
+  "phase41EFailureAuditInventory"
+];
+const phase41FFixtureFiles = [
+  "tests/fixtures/host-policy/phase4-1f/runtime-readiness-checkpoint.json"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -237,6 +277,12 @@ async function runReport() {
   return JSON.parse(stdout);
 }
 
+function assertAllFalse(record) {
+  for (const [field, value] of Object.entries(record)) {
+    assert.equal(value, false, field);
+  }
+}
+
 test("package exposes report:phase-status without replacing existing test scripts", async () => {
   const packageJson = await readJson(packageJsonUrl);
 
@@ -248,14 +294,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1E failure-audit-kill-semantics-contract-only local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1F runtime-readiness-checkpoint-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1E",
-    name: "Failure audit kill semantics",
-    executionPosture: "failure-audit-kill-semantics-contract-only non-executing"
+    id: "4.1F",
+    name: "Runtime readiness checkpoint",
+    executionPosture: "runtime-readiness-checkpoint-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -323,12 +369,17 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.1E failure-audit-kill-semantics-contract-only status report.",
+        "Render this deterministic local Phase 4.1F runtime-readiness-checkpoint-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1E status report.",
+      purpose: "Run focused tests for this local Phase 4.1F status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1f-runtime-readiness-checkpoint.test.mjs",
+      purpose: "Run focused Phase 4.1F runtime-readiness checkpoint static checks.",
       ranByReport: false
     },
     {
@@ -3362,6 +3413,218 @@ test("report inventories Phase 4.1E failure-audit kill semantics without enablin
     noRuntimeBehaviorIntroduced: true
   });
   assert.equal(report.safetyPosture.failureAuditContracts, true);
+  assert.equal(report.safetyPosture.flags.phase41RuntimeImplemented, false);
+});
+
+test("report inventories Phase 4.1F runtime readiness checkpoint without enabling runtime", async () => {
+  const report = await runReport();
+  const inventory = report.phase41FRuntimeReadinessCheckpointInventory;
+
+  assert.equal(inventory.checkpoint.schema, "ardyn.runtime-readiness-checkpoint");
+  assert.equal(inventory.checkpoint.schemaVersion, "0.1.0");
+  assert.equal(inventory.checkpoint.artifactKind, "runtime-readiness-checkpoint");
+  assert.equal(inventory.checkpoint.checkpointPhase, "phase-4.1f-runtime-readiness-checkpoint");
+  assert.equal(inventory.checkpoint.reviewedPhase, "4.1F");
+  assert.equal(inventory.checkpoint.metadataGeneratedAt, "1970-01-01T00:00:00.000Z");
+  assert.equal(inventory.checkpoint.checkpointOnly, true);
+  assert.equal(inventory.checkpoint.reviewMetadataOnly, true);
+  assert.equal(inventory.checkpoint.runtimeBehaviorIntroduced, false);
+  assert.equal(inventory.checkpoint.liveRuntimeBehaviorIntroduced, false);
+  assert.equal(inventory.checkpoint.grantsRuntimeApproval, false);
+
+  assert.deepEqual(inventory.verdict, {
+    id: "phase-4.1f-runtime-readiness-checkpoint-verdict",
+    verdict: "checkpoint-pass-runtime-still-blocked",
+    codexValidationStatus: "pass",
+    devinReviewStatus: "required-before-runtime-enable",
+    runtimeImplementationApproved: false,
+    runtimeEnablementApproved: false,
+    grantsRuntimeApproval: false,
+    runtimeBehaviorIntroduced: false,
+    liveRuntimeBehaviorIntroduced: false,
+    requiresSeparateRuntimeImplementationApproval: true,
+    blockingReasonIds: []
+  });
+  assert.deepEqual(inventory.consolidatedInventoryKeys, phase41FInventoryKeys);
+  assert.deepEqual(inventory.consolidatedPhases, phase41FConsolidatedPhases);
+  assert.deepEqual(inventory.readinessMatrixIds, phase41FReadinessMatrixIds);
+  assert.deepEqual(inventory.blockerIds, phase41FBlockerIds);
+  assert.deepEqual(inventory.requiredVerificationCommands, [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "npm run report:phase-status"
+  ]);
+  assert.deepEqual(inventory.fixtureCounts, {
+    "phase4-1": 1,
+    "phase4-1a": 7,
+    "phase4-1b": 8,
+    "phase4-1c": 11,
+    "phase4-1d": 11,
+    "phase4-1e": 14,
+    "phase4-1f": 1
+  });
+  assert.equal(inventory.approvalBoundary.grantsRuntimeApproval, false);
+  assert.equal(inventory.approvalBoundary.runtimeBehaviorIntroduced, false);
+  assert.ok(inventory.approvalBoundary.cannotApprove.includes("runtime implementation"));
+  assert.ok(
+    inventory.approvalBoundary.requiredBeforeRuntimeImplementation.includes(
+      "explicit separately approved runtime implementation phase"
+    )
+  );
+
+  for (const row of inventory.readinessMatrix) {
+    assert.equal(row.grantsRuntimeApproval, false, row.id);
+    assert.equal(row.runtimeBehaviorIntroduced, false, row.id);
+    assert.equal(row.checkpointRequiredBeforeRuntime, true, row.id);
+  }
+  assert.equal(inventory.readinessMatrix.at(-2).status, "blocked-before-runtime");
+  assert.equal(inventory.readinessMatrix.at(-1).status, "blocked-before-runtime");
+
+  for (const blocker of inventory.blockersBeforeRuntime) {
+    assert.equal(blocker.status, "blocking-live-runtime", blocker.id);
+    assert.equal(blocker.severity, "blocker", blocker.id);
+    assert.equal(blocker.runtimeUnblockRequiresSeparateApproval, true, blocker.id);
+    assert.equal(blocker.grantsRuntimeApproval, false, blocker.id);
+    assert.equal(blocker.runtimeBehaviorIntroduced, false, blocker.id);
+  }
+
+  assertAllFalse(inventory.runtimeEffect);
+  assert.deepEqual(inventory.reviewOnlyDisplayBehavior, {
+    checkpointRecordsAreStaticArtifactsOnly: true,
+    checkpointCannotGrantRuntimeApproval: true,
+    currentCheckpointDoesNotEnableRuntime: true,
+    futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+    preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+    reportRunsChecks: false,
+    writesFiles: false,
+    readsFiles: false,
+    printsStdoutFromCli: false,
+    consumedByLiveHostLoop: false
+  });
+  assert.deepEqual(inventory.cliCommandSurface, {
+    commandAdded: false,
+    readinessCheckpointCommandAdded: false,
+    runtimeReadinessCommandAdded: false,
+    serveRuntimeCommandAdded: false,
+    stdioRuntimeCommandAdded: false,
+    replaySessionTranscriptCommandAdded: false,
+    approvalEvaluatorCommandAdded: false,
+    fileWriterAdded: false,
+    stdoutPrinterAdded: false,
+    existingDryRunEmitterUnchanged: true
+  });
+  assert.deepEqual(inventory.apiSurface, {
+    typescriptCoreRuntimeApiAdded: false,
+    typescriptCoreCheckpointHelperAdded: false,
+    rustRuntimeHelperAdded: false,
+    rustStdioOwnerAdded: false,
+    approvalEvaluatorAdded: false,
+    failureAuditRuntimeAdded: false,
+    cleanupRuntimeAdded: false,
+    processKillAdded: false,
+    processControlAdded: false,
+    transcriptPersistenceReplayRuntimeAdded: false,
+    secretsUsed: false
+  });
+  assert.deepEqual(
+    inventory.fixtures.map(({ path, status }) => [path, status]),
+    phase41FFixtureFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-4-1f-runtime-readiness-checkpoint.md", "present"],
+      ["docs/phase-4-1e-failure-audit-kill-semantics.md", "present"],
+      ["docs/phase-4-1-runtime-proposal.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/architecture.md", "present"],
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["packages/core/README.md", "present"],
+      ["crates/ardyn-host/README.md", "present"]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase4-1f-runtime-readiness-checkpoint.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"],
+      ["tests/phase4-1e-failure-audit-kill-semantics.test.mjs", "present"]
+    ]
+  );
+
+  for (const probe of [
+    "missing --dry-run",
+    "unsafe manifest URL",
+    "invalid JSON manifest",
+    "invalid JSON task",
+    "serve-runtime",
+    "stdio-runtime",
+    "runtime-readiness",
+    "runtime-readiness-checkpoint",
+    "readiness-checkpoint",
+    "checkpoint-runtime",
+    "runtime-checkpoint",
+    "devin-runtime-review",
+    "approve-runtime",
+    "grant-runtime",
+    "enable-runtime",
+    "replay-session-transcript",
+    "persist-session-transcript",
+    "failure-audit",
+    "emit-failure-audit",
+    "cleanup-runtime",
+    "kill-runtime",
+    "approval-evaluator",
+    "evaluate-approval"
+  ]) {
+    assert.ok(inventory.invariantProbes.includes(probe), probe);
+  }
+
+  assert.deepEqual(inventory.safetyPosture, {
+    nonExecuting: true,
+    runtimeReadinessCheckpointOnly: true,
+    reviewOnly: true,
+    noLiveRuntime: true,
+    noRuntimeCommand: true,
+    noServeRuntime: true,
+    noStdioRuntime: true,
+    noReplaySessionTranscript: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noContentFabricDownloadInstallEnable: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noFailureAuditRuntime: true,
+    noCleanupRuntime: true,
+    noProcessKill: true,
+    noApprovalEvaluator: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+  assert.equal(report.safetyPosture.runtimeReadinessCheckpoint, true);
   assert.equal(report.safetyPosture.flags.phase41RuntimeImplemented, false);
 });
 

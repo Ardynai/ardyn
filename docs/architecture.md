@@ -122,6 +122,14 @@ live host loop. Failure-audit/cleanup/kill/runtime commands remain
 proposal-only and rejected. See
 `docs/phase-4-1e-failure-audit-kill-semantics.md`.
 
+Phase 4.1F adds a static runtime-readiness checkpoint that consolidates Phase
+4.1 through Phase 4.1E artifacts. It does not add a TypeScript core API, Rust
+runtime helper, CLI command, stdout printer, file writer, live stdio reader,
+process stdio ownership, approval evaluator, active host-policy enforcement
+path, runtime approval grant, or live host loop. The checkpoint cannot grant
+runtime approval; future live runtime work must be a separate approved phase.
+See `docs/phase-4-1f-runtime-readiness-checkpoint.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

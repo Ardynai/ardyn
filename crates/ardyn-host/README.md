@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.1E still exposes static Rust host identity, handshake data, policy-only
+Phase 4.1F still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -81,6 +81,14 @@ path. No failure-audit runtime exists, no cleanup runtime exists, no process
 killing exists, no signal handling runtime exists, no timeout runtime exists,
 and failure-audit/cleanup/kill/runtime commands remain proposal-only and
 rejected. See `docs/phase-4-1e-failure-audit-kill-semantics.md`.
+
+Phase 4.1F adds a static runtime-readiness checkpoint in docs, fixture
+metadata, report inventory, and tests only. It does not add Rust-host process
+stdio ownership, live stdin reading, stdout/stderr writers, failure-audit
+runtime, cleanup runtime, process killing, signal handling, timeout runtime,
+approval evaluation, host-policy enforcement, runtime command enablement, or
+runtime approval grant. See
+`docs/phase-4-1f-runtime-readiness-checkpoint.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write
