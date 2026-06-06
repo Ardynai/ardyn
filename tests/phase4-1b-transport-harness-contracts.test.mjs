@@ -155,15 +155,44 @@ async function runCliFailure(args, options = {}) {
   }
 }
 
-function transportHarnessSection(source) {
-  const start = source.indexOf("pub enum TransportHarnessRuntimeAvailabilityStatus");
-  const end = source.indexOf("pub enum CapabilityKind");
+function rustSourceRange(source, startMarker, endMarker, label) {
+  const start = source.indexOf(startMarker);
+  const end = source.indexOf(endMarker, start + startMarker.length);
 
-  assert.notEqual(start, -1, "Phase 4.1B transport harness types should exist");
-  assert.notEqual(end, -1, "transport harness section end marker should exist");
-  assert.ok(start < end, "transport harness section should precede capability types");
+  assert.notEqual(start, -1, `${label} start marker should exist`);
+  assert.notEqual(end, -1, `${label} end marker should exist`);
+  assert.ok(start < end, `${label} should have ordered source markers`);
 
   return source.slice(start, end);
+}
+
+function transportHarnessSection(source) {
+  return [
+    rustSourceRange(
+      source,
+      "ARDYN_TRANSPORT_HARNESS_CONTRACT_SCHEMA",
+      "ARDYN_STDIO_RUNTIME_CONTRACT_GATES_SCHEMA",
+      "Phase 4.1B transport harness constants"
+    ),
+    rustSourceRange(
+      source,
+      "pub enum TransportHarnessRuntimeAvailabilityStatus",
+      "pub enum StdioRuntimeContractGateBundleClassification",
+      "Phase 4.1B transport harness enums"
+    ),
+    rustSourceRange(
+      source,
+      "pub struct TransportHarnessModeMetadata",
+      "pub struct StdioRuntimeInputFramePayload",
+      "Phase 4.1B transport harness structs"
+    ),
+    rustSourceRange(
+      source,
+      "pub fn transport_harness_contract_top_level_order",
+      "pub fn stdio_runtime_contract_gates_top_level_order",
+      "Phase 4.1B transport harness helpers"
+    )
+  ].join("\n");
 }
 
 test("Phase 4.1B transport harness fixtures are deterministic LF-only JSON", async () => {
@@ -361,9 +390,9 @@ test("Phase 4.1B status report inventories transport harness contracts without r
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1J",
-    name: "Fixture-backed Rust-host stdio boundaries",
-    executionPosture: "fixture-backed-stdio-boundary-test-infrastructure-only non-executing"
+    id: "4.1K",
+    name: "Approval-gated Rust-host stdio runtime contract gates",
+    executionPosture: "contract-gate-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.1J still exposes static Rust host identity, handshake data, policy-only
+Phase 4.1K still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -15,6 +15,11 @@ Rust-host stdio test harness coverage plus documentation and report inventory.
 Phase 4.1J adds fixture-backed stdio boundary fixtures and private Rust replay
 tests plus documentation and report inventory; it does not add public Rust
 harness APIs or public runtime contracts.
+Phase 4.1K records approval-gated public Rust-host stdio runtime contract
+gates as review-only contract metadata. It does not approve or enable runtime
+implementation, own process stdio, add stdout/stderr writers, evaluate runtime
+approval, enforce host policy at runtime, change CLI source, or record fresh
+external or Devin review.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -131,6 +136,15 @@ failure-audit runtime, cleanup runtime, process killing, signal handling,
 timeout runtime, approval evaluation, host-policy enforcement, runtime command
 enablement, boundary command enablement, or runtime approval grant. See
 `docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
+
+Phase 4.1K adds approval-gated public Rust-host stdio runtime contract gates
+plus documentation and report inventory. The public Rust contract surface is
+contractual review metadata only: runtime implementation approval, runtime
+enablement, process stdio ownership, stdin reading, stdout/stderr writing,
+approval evaluation, active host-policy enforcement, CLI source changes,
+runtime command enablement, contract-gate command enablement, fresh external
+review, fresh Devin review, and runtime approval grants all remain blocked.
+See `docs/phase-4-1k-stdio-runtime-contract-gates.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

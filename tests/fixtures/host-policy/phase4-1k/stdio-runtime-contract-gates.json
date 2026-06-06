@@ -1,0 +1,399 @@
+{
+  "schema": "ardyn.phase-4.1k.stdio-runtime-contract-gates",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-4.1k-stdio-runtime-contract-gates",
+  "artifactKind": "approval-gated-public-rust-stdio-runtime-contract",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "contractBoundary": {
+    "publicRustContractIntroduced": true,
+    "publicRustContractScope": "static-approval-gated-contract-only",
+    "runtimeImplemented": false,
+    "runtimeEnabled": false,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeApprovalGrantPresent": false,
+    "staticContractEvidenceOnly": true
+  },
+  "externalReview": {
+    "freshExternalReviewRecorded": false,
+    "freshDevinReviewRecorded": false,
+    "lastRecordedExternalReviewPhase": "phase-4.1h-external-review-disposition",
+    "lastRecordedExternalReviewFresh": false,
+    "freshReviewRequiredButNotRuntimeGrant": true
+  },
+  "approvalState": {
+    "policyApprovalRecordedForReviewOnly": true,
+    "exactScopeHostPolicyApprovalRecordEvidenceReady": true,
+    "operatorConsentRecordedForReviewOnly": true,
+    "operatorRuntimeConsentRecorded": false,
+    "runtimeApprovalGrantPresent": false,
+    "runtimeApprovalGrantValid": false,
+    "runtimeApprovalGranted": false,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false
+  },
+  "gateChecklist": [
+    {
+      "id": "policy-approval",
+      "label": "Policy approval",
+      "status": "evidence-ready",
+      "evidenceLevel": "review-only-policy-approval",
+      "evidencePaths": [
+        "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": true,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "exact-scope-host-policy-approval-record",
+      "label": "Exact-scope host-policy approval record",
+      "status": "evidence-ready",
+      "evidenceLevel": "review-only-exact-scope-record",
+      "evidencePaths": [
+        "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": true,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "operator-consent",
+      "label": "Operator consent",
+      "status": "evidence-ready",
+      "evidenceLevel": "review-only-consent-necessary-but-not-sufficient",
+      "evidencePaths": [
+        "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": true,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "stdio-contract",
+      "label": "Stdio contract",
+      "status": "evidence-ready",
+      "evidenceLevel": "public-rust-static-contract-only",
+      "evidencePaths": [
+        "crates/ardyn-host/src/lib.rs",
+        "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": true,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "process-lifecycle",
+      "label": "Process lifecycle",
+      "status": "blocked",
+      "evidenceLevel": "no-live-process-lifecycle-runtime",
+      "evidencePaths": [
+        "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": false,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "transcript-persistence",
+      "label": "Transcript persistence",
+      "status": "evidence-ready",
+      "evidenceLevel": "static-contract-only",
+      "evidencePaths": [
+        "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": true,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "redaction",
+      "label": "Redaction",
+      "status": "evidence-ready",
+      "evidenceLevel": "static-contract-only",
+      "evidencePaths": [
+        "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": true,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "failure-audit",
+      "label": "Failure audit",
+      "status": "evidence-ready",
+      "evidenceLevel": "static-contract-only",
+      "evidencePaths": [
+        "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": true,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "kill-semantics",
+      "label": "Kill semantics",
+      "status": "evidence-ready",
+      "evidenceLevel": "static-contract-only",
+      "evidencePaths": [
+        "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": true,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "external-review-freshness",
+      "label": "External review freshness",
+      "status": "blocked",
+      "evidenceLevel": "no-fresh-external-or-devin-review",
+      "evidencePaths": [
+        "tests/fixtures/host-policy/phase4-1h/external-review-disposition.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": false,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "runtime-readiness-review",
+      "label": "Runtime readiness review",
+      "status": "blocked",
+      "evidenceLevel": "no-runtime-readiness-review-record",
+      "evidencePaths": [
+        "tests/fixtures/host-policy/phase4-1f/runtime-readiness-checkpoint.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": false,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "cli-surface-review",
+      "label": "CLI surface review",
+      "status": "not-approved",
+      "evidenceLevel": "source-guard-only",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": false,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "rollback-plan",
+      "label": "Rollback plan",
+      "status": "evidence-ready",
+      "evidenceLevel": "static-review-checklist-only",
+      "evidencePaths": [
+        "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": true,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "external-integration-gates",
+      "label": "External integration gates",
+      "status": "not-approved",
+      "evidenceLevel": "no-external-integration-approval",
+      "evidencePaths": [
+        "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs"
+      ],
+      "requiredBeforeRuntime": true,
+      "staticContractEvidenceOnly": false,
+      "futureApprovalRequired": true,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeApprovalGranted": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    }
+  ],
+  "runtimeEffect": {
+    "runtime": {
+      "publicContractEnablesRuntime": false,
+      "runtimeImplemented": false,
+      "runtimeEnabled": false,
+      "runtimeImplementationApproved": false,
+      "runtimeEnablementApproved": false,
+      "runtimeApprovalGranted": false,
+      "runtimeCommandAvailable": false,
+      "serveRuntimeCommandAvailable": false,
+      "stdioRuntimeCommandAvailable": false,
+      "replaySessionTranscriptCommandAvailable": false,
+      "externalReviewPacketCommandAvailable": false,
+      "reviewPacketCommandAvailable": false,
+      "runtimeReadinessReviewCommandAvailable": false,
+      "stdioRuntimeContractCommandAvailable": false,
+      "runtimeContractGatesCommandAvailable": false,
+      "approveRuntimeCommandAvailable": false,
+      "grantRuntimeCommandAvailable": false,
+      "enableRuntimeCommandAvailable": false,
+      "approvalEvaluatorAvailable": false,
+      "hostPolicyRuntimeEnforcementAvailable": false,
+      "processLifecycleRuntimeAvailable": false,
+      "processStdioOwnershipAvailable": false,
+      "stdinReaderAvailable": false,
+      "stdoutWriterAvailable": false,
+      "stderrWriterAvailable": false,
+      "transcriptPersistenceRuntimeAvailable": false,
+      "transcriptReplayRuntimeAvailable": false,
+      "redactionRuntimeEnforcementAvailable": false,
+      "failureAuditRuntimeAvailable": false,
+      "cleanupRuntimeAvailable": false,
+      "processKillAvailable": false,
+      "processControlAvailable": false,
+      "externalIntegrationRuntimeAvailable": false,
+      "webSocketHttpControlSurfaceAvailable": false,
+      "listenerAvailable": false,
+      "serverAvailable": false,
+      "subprocessSpawningAvailable": false,
+      "adapterCallsAvailable": false,
+      "locusRuntimeDependencyAvailable": false,
+      "mcpOpenClawCallsAvailable": false,
+      "pluginExecutionAvailable": false,
+      "contentFabricRuntimeBehaviorAvailable": false,
+      "secretsUsed": false,
+      "productionSigningKeysUsed": false,
+      "writesFiles": false,
+      "readsRuntimeInputs": false,
+      "runsRuntime": false,
+      "consumedByLiveHostLoop": false,
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false,
+      "liveRuntimeBehaviorIntroduced": false
+    },
+    "requiredFutureApprovals": {
+      "policyApprovalRequiredBeforeRuntime": true,
+      "exactScopeHostPolicyApprovalRecordRequiredBeforeRuntime": true,
+      "operatorConsentRequiredBeforeRuntime": true,
+      "freshExternalReviewRequiredBeforeRuntime": true,
+      "freshDevinReviewRequiredBeforeRuntime": true,
+      "runtimeReadinessReviewRequiredBeforeRuntime": true,
+      "cliSurfaceReviewRequiredBeforeRuntime": true,
+      "rollbackPlanRequiredBeforeRuntime": true,
+      "externalIntegrationApprovalRequiredBeforeRuntime": true,
+      "futureApprovalBooleansDoNotGrantRuntime": true,
+      "grantsRuntimeApproval": false,
+      "runtimeApprovalGranted": false,
+      "runtimeImplementationApproved": false,
+      "runtimeEnablementApproved": false
+    }
+  },
+  "nonExecutionInvariants": [
+    "serve-runtime-command",
+    "stdio-runtime-command",
+    "replay-session-transcript-command",
+    "external-review-packet-command",
+    "review-packet-command",
+    "runtime-readiness-review-command",
+    "stdio-runtime-contract-command",
+    "runtime-contract-gates-command",
+    "approve-runtime-command",
+    "grant-runtime-command",
+    "enable-runtime-command",
+    "approval-evaluator",
+    "host-policy-runtime-enforcement",
+    "process-lifecycle-runtime",
+    "process-stdio-ownership",
+    "stdin-reader",
+    "stdout-writer",
+    "stderr-writer",
+    "transcript-persistence-runtime",
+    "transcript-replay-runtime",
+    "redaction-runtime-enforcement",
+    "failure-audit-runtime",
+    "cleanup-runtime",
+    "process-kill-runtime",
+    "external-integration-runtime",
+    "websocket-http-control-surface",
+    "adapter-calls",
+    "locus-runtime-dependency",
+    "mcp-openclaw-calls",
+    "plugin-execution",
+    "content-fabric-runtime-behavior",
+    "secrets-production-signing-keys",
+    "runtime-approval-grant"
+  ],
+  "audit": {
+    "evidencePaths": [
+      "crates/ardyn-host/src/lib.rs",
+      "apps/cli/src/index.mjs",
+      "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json",
+      "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json",
+      "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json",
+      "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json",
+      "tests/fixtures/host-policy/phase4-1f/runtime-readiness-checkpoint.json",
+      "tests/fixtures/host-policy/phase4-1h/external-review-disposition.json",
+      "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+      "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs"
+    ],
+    "recordedFor": "Phase 4.1K runtime approval gate matrix",
+    "approvalWording": "public_contract_static_only_runtime_still_blocked"
+  }
+}

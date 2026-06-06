@@ -169,9 +169,9 @@ test("Phase 4.1J report inventories fixture-backed Rust harness coverage without
   const inventory = report.phase41JFixtureBackedStdioBoundaryInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1J",
-    name: "Fixture-backed Rust-host stdio boundaries",
-    executionPosture: "fixture-backed-stdio-boundary-test-infrastructure-only non-executing"
+    id: "4.1K",
+    name: "Approval-gated Rust-host stdio runtime contract gates",
+    executionPosture: "contract-gate-only non-executing"
   });
   assert.equal(inventory.boundaryLayer.fixtureBackedRustHostCoverage, true);
   assert.equal(inventory.boundaryLayer.privateRustCfgTestHarness, true);
@@ -222,6 +222,7 @@ test("Phase 4.1J source guard keeps CLI unchanged and Rust fixture harness priva
   const usage = cliSource.match(/Usage: ardyn <([^"]+)>/)?.[1] ?? "";
   const cfgTestIndex = rustSource.indexOf("#[cfg(test)]");
   const fixtureRootIndex = rustSource.indexOf("TEST_STDIO_HARNESS_PHASE_4_1J_FIXTURE_ROOT");
+  const rustProductionSource = rustSource.split(/\n#\[cfg\(test\)\]\n/)[0];
 
   assert.deepEqual(commandBranches, [
     "doctor",
@@ -280,6 +281,6 @@ test("Phase 4.1J source guard keeps CLI unchanged and Rust fixture harness priva
     /println!/,
     /eprintln!/
   ]) {
-    assert.doesNotMatch(rustSource, forbiddenPattern);
+    assert.doesNotMatch(rustProductionSource, forbiddenPattern);
   }
 });

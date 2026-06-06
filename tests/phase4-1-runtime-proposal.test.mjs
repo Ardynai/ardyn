@@ -357,9 +357,9 @@ test("Phase 4.1 status report inventories proposal metadata without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1J",
-    name: "Fixture-backed Rust-host stdio boundaries",
-    executionPosture: "fixture-backed-stdio-boundary-test-infrastructure-only non-executing"
+    id: "4.1K",
+    name: "Approval-gated Rust-host stdio runtime contract gates",
+    executionPosture: "contract-gate-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

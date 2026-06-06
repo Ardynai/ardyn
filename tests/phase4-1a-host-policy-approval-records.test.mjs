@@ -139,15 +139,44 @@ async function runCliFailure(args, options = {}) {
   }
 }
 
-function rustApprovalRecordSection(source) {
-  const start = source.indexOf("ARDYN_HOST_POLICY_APPROVAL_RECORD_SCHEMA");
-  const end = source.indexOf("pub enum CapabilityKind");
+function rustSourceRange(source, startMarker, endMarker, label) {
+  const start = source.indexOf(startMarker);
+  const end = source.indexOf(endMarker, start + startMarker.length);
 
-  assert.notEqual(start, -1, "Phase 4.1A approval-record constants should exist");
-  assert.notEqual(end, -1, "approval-record section end marker should exist");
-  assert.ok(start < end, "approval-record section should precede capability types");
+  assert.notEqual(start, -1, `${label} start marker should exist`);
+  assert.notEqual(end, -1, `${label} end marker should exist`);
+  assert.ok(start < end, `${label} should have ordered source markers`);
 
   return source.slice(start, end);
+}
+
+function rustApprovalRecordSection(source) {
+  return [
+    rustSourceRange(
+      source,
+      "ARDYN_HOST_POLICY_APPROVAL_RECORD_SCHEMA",
+      "ARDYN_TRANSPORT_HARNESS_CONTRACT_SCHEMA",
+      "Phase 4.1A approval-record constants"
+    ),
+    rustSourceRange(
+      source,
+      "pub enum HostPolicyApprovalStatus",
+      "pub enum TransportHarnessRuntimeAvailabilityStatus",
+      "Phase 4.1A approval-record enums"
+    ),
+    rustSourceRange(
+      source,
+      "pub struct HostPolicyApprovalTarget",
+      "pub struct TransportHarnessModeMetadata",
+      "Phase 4.1A approval-record structs"
+    ),
+    rustSourceRange(
+      source,
+      "pub fn host_policy_approval_record_top_level_order",
+      "pub fn transport_harness_contract_top_level_order",
+      "Phase 4.1A approval-record helpers"
+    )
+  ].join("\n");
 }
 
 test("Phase 4.1A approval-record fixtures are deterministic LF-only JSON", async () => {
@@ -289,9 +318,9 @@ test("Phase 4.1A status report inventories approval records without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1J",
-    name: "Fixture-backed Rust-host stdio boundaries",
-    executionPosture: "fixture-backed-stdio-boundary-test-infrastructure-only non-executing"
+    id: "4.1K",
+    name: "Approval-gated Rust-host stdio runtime contract gates",
+    executionPosture: "contract-gate-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

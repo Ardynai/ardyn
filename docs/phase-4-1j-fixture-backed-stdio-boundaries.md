@@ -84,6 +84,13 @@ implementation phase with explicit source ownership, tests, and review. That
 future phase must define the public runtime contract separately; Phase 4.1J
 does not.
 
+Phase 4.1K follows this fixture-backed layer by recording approval-gated
+public Rust-host stdio runtime contract gates. That follow-up is still
+contract metadata only: runtime implementation approval, runtime enablement,
+process stdio ownership, CLI source changes, fresh external review, fresh
+Devin review, and runtime approval grants remain blocked. See
+`docs/phase-4-1k-stdio-runtime-contract-gates.md`.
+
 ## Review Note
 
 Phase 4.1J covers fixture replay for valid JSONL streams, LF-only framing,

@@ -304,6 +304,20 @@ emitter. `fixture-backed-stdio-boundary`,
 `replay-session-transcript` remain proposal-only and rejected. See
 `docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
 
+Phase 4.1K adds approval-gated public Rust-host stdio runtime contract gates
+plus docs/report inventory. The public Rust contract surface defines the
+future runtime gate and blocked approval states, but it remains precondition
+metadata. It does not grant runtime approval, approve runtime implementation,
+enable runtime behavior, start host-policy enforcement, add an approval
+evaluator, write files from the CLI, print stdout from the CLI, add a CLI
+command, deny a running runtime, persist transcripts, replay transcripts,
+handle secrets, implement live stdio ownership, own process stdout/stderr,
+perform cleanup, kill processes, or change the finite TypeScript dry-run
+emitter. `stdio-runtime-contract-gates`, `runtime-contract-gates`,
+`stdio-runtime-contract`, `public-runtime-contract`, `serve-runtime`,
+`stdio-runtime`, and `replay-session-transcript` remain proposal-only and
+rejected. See `docs/phase-4-1k-stdio-runtime-contract-gates.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

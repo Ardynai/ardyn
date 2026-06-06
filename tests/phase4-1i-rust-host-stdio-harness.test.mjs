@@ -79,7 +79,7 @@ test("Phase 4.1I report records private Rust stdio harness tests without runtime
   const report = await runReport();
   const inventory = report.phase41IRustHostStdioHarnessInventory;
 
-  assert.equal(report.phase.id, "4.1J");
+  assert.equal(report.phase.id, "4.1K");
   assert.equal(inventory.harnessLayer.privateRustCfgTestHarness, true);
   assert.equal(inventory.harnessLayer.inMemoryOnly, true);
   assert.equal(inventory.harnessLayer.productionRuntimeSourceChanged, false);
@@ -123,6 +123,7 @@ test("Phase 4.1I source guard keeps CLI unchanged and Rust harness test-only", a
   const usage = cliSource.match(/Usage: ardyn <([^"]+)>/)?.[1] ?? "";
   const cfgTestIndex = rustSource.indexOf("#[cfg(test)]");
   const harnessIndex = rustSource.indexOf("TEST_STDIO_HARNESS_EVENT_SCHEMA");
+  const rustProductionSource = rustSource.split(/\n#\[cfg\(test\)\]\n/)[0];
 
   assert.deepEqual(commandBranches, [
     "doctor",
@@ -183,6 +184,6 @@ test("Phase 4.1I source guard keeps CLI unchanged and Rust harness test-only", a
     /println!/,
     /eprintln!/
   ]) {
-    assert.doesNotMatch(rustSource, forbiddenPattern);
+    assert.doesNotMatch(rustProductionSource, forbiddenPattern);
   }
 });

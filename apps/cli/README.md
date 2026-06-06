@@ -2,17 +2,18 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.1J exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 4.1K exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
-Phase 4.1I:
+Phase 4.1I, and Phase 4.1J:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.1J adds fixture-backed Rust-host stdio boundary
-documentation, report inventory, and tests only; it does not add a
+`emit-session-events`. Phase 4.1K adds approval-gated Rust-host stdio runtime
+contract-gate documentation and report inventory only; it does not add a
 rust-host-stdio-harness CLI command, stdio-harness CLI command, runtime-harness
 CLI command, fixture-backed-stdio-boundary CLI command, stdio-boundary CLI
-command, public-runtime-contract CLI command, review-disposition CLI command,
+command, public-runtime-contract CLI command, runtime-contract-gates CLI
+command, stdio-runtime-contract CLI command, review-disposition CLI command,
 review-packet CLI command, runtime-readiness CLI command, checkpoint CLI
 command, failure-audit CLI command, cleanup CLI command, kill CLI command,
 process-control CLI command, signal-handler CLI command, exit-handler CLI
@@ -23,10 +24,11 @@ CLI command, operator-consent CLI command, `approve-runtime`, `grant-runtime`,
 reader, stdout writer, stderr writer, failure-audit command, listener, server,
 subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call,
 plugin execution path, Content Fabric runtime path, runtime approval grant,
-live runtime implementation, or agent loop. Phase 4.1J is not runtime
-readiness, is not a fresh external review, does not promote the private harness
-to a public runtime contract, and keeps runtime blocked. See
-`docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
+live runtime implementation, or agent loop. Phase 4.1K is not runtime
+readiness, records no fresh external or Devin review, records a public Rust
+contract gate without approving or enabling runtime behavior, does not change
+CLI source, and keeps runtime blocked. See
+`docs/phase-4-1k-stdio-runtime-contract-gates.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -267,3 +269,14 @@ approval evaluator, and no runtime approval grant. It is not runtime readiness,
 is not a fresh external review, changes no CLI source, does not define a public
 runtime contract, and leaves runtime blocked. See
 `docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
+
+Phase 4.1K adds approval-gated Rust-host stdio runtime contract-gate
+documentation and still leaves CLI behavior unchanged. It adds no
+runtime-contract-gates CLI command, no stdio-runtime-contract CLI command, no
+public-runtime-contract CLI command, no `approve-runtime`, no `grant-runtime`,
+no `enable-runtime`, no `serve-runtime`, no `stdio-runtime`, no
+`replay-session-transcript`, no file writer, no stdout printer, no live stdio
+reader, no process stdio ownership, no host-policy enforcement path, no
+approval evaluator, and no runtime approval grant. It is contract-gate-only,
+records no fresh external or Devin review, changes no CLI source, and leaves
+runtime blocked. See `docs/phase-4-1k-stdio-runtime-contract-gates.md`.

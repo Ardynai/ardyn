@@ -178,6 +178,7 @@ test("Phase 4.0D source guards prevent live Rust and CLI runtime entrypoints", a
     readFile(rustHostSourceUrl, "utf8"),
     readFile(cliSourceUrl, "utf8")
   ]);
+  const rustProductionSource = rustSource.split(/\n#\[cfg\(test\)\]\n/)[0];
 
   for (const forbiddenRustPattern of [
     /std::io::stdin\b/,
@@ -198,7 +199,7 @@ test("Phase 4.0D source guards prevent live Rust and CLI runtime entrypoints", a
     /load_production_signing_key/i,
     /read_production_signing_key/i
   ]) {
-    assert.doesNotMatch(rustSource, forbiddenRustPattern);
+    assert.doesNotMatch(rustProductionSource, forbiddenRustPattern);
   }
 
   for (const forbiddenCliPattern of [

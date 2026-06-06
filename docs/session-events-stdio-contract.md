@@ -362,6 +362,17 @@ runtime behavior. `fixture-backed-stdio-boundary`, `stdio-boundary`,
 proposal-only and rejected. See
 `docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
 
+Phase 4.1K adds approval-gated public Rust-host stdio runtime contract-gate
+documentation plus report inventory and assertions. It records a public Rust
+contract surface for the future stdio runtime gate, but it is not runtime
+readiness, records no fresh external or Devin review, does not add a CLI
+command, does not approve or enable runtime implementation, does not add
+process stdio ownership, and does not add live stdio runtime behavior.
+`stdio-runtime-contract-gates`, `runtime-contract-gates`,
+`stdio-runtime-contract`, `public-stdio-runtime-contract`, `serve-runtime`,
+`stdio-runtime`, and `replay-session-transcript` remain proposal-only and
+rejected. See `docs/phase-4-1k-stdio-runtime-contract-gates.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

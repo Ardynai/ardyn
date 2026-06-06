@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.1J keeps the TypeScript core on deterministic contract and display
+Phase 4.1K keeps the TypeScript core on deterministic contract and display
 data while the Rust host keeps policy-only stdio transport contract metadata
 and static host-policy review-record fixtures. The TypeScript core still owns
 manifest and task validation, deterministic non-executing task planning,
@@ -35,7 +35,12 @@ Devin review, and leaves runtime blocked. Phase 4.1J adds only fixture-backed
 stdio boundary fixtures, private Rust replay tests, documentation, and report
 inventory/assertions; it adds no TypeScript core runtime helper API, no
 boundary helper API, no public runtime contract, records no fresh external
-review, is not runtime readiness, and leaves runtime blocked. See
+review, is not runtime readiness, and leaves runtime blocked.
+
+Phase 4.1K adds only approval-gated public Rust-host stdio runtime contract
+gates, documentation, and report inventory; it adds no TypeScript core runtime
+helper API, records no fresh external or Devin review, does not approve or
+enable runtime implementation, and leaves process stdio ownership blocked. See
 `docs/phase-4-1b-transport-harness-contracts.md` and
 `docs/phase-4-1c-framing-redaction-contracts.md` and
 `docs/phase-4-1d-transcript-replay-contracts.md` and
@@ -44,7 +49,8 @@ review, is not runtime readiness, and leaves runtime blocked. See
 `docs/phase-4-1g-external-review-packet.md` and
 `docs/phase-4-1h-external-review-disposition.md` and
 `docs/phase-4-1i-rust-host-stdio-harness.md` and
-`docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
+`docs/phase-4-1j-fixture-backed-stdio-boundaries.md` and
+`docs/phase-4-1k-stdio-runtime-contract-gates.md`.
 Autonomous execution, tool execution, plugin installation, network serving,
 torrent download, code-pack enablement, live stdin loops, live replay, runtime
 approval grants, and agent loops are intentionally out of scope.
@@ -253,6 +259,22 @@ review, cannot grant runtime approval, cannot define a public runtime contract,
 and cannot enable `serve-runtime`, `stdio-runtime`, or
 `replay-session-transcript`. See
 `docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
+
+Phase 4.1K adds no TypeScript core runtime APIs and no new TypeScript core
+runtime contract helper APIs. It does not change the finite dry-run event
+construction, formatter, Rust-host stdio transport policy metadata,
+transport-harness contracts, framing/redaction contracts, transcript
+persistence/replay contracts, failure-audit contracts, review-record classes,
+approval-record classes, display-only comparison helpers, reviewer index,
+final readiness bundle, runtime proposal bundle, runtime-readiness checkpoint,
+external review packet, external review disposition, private Phase 4.1I
+harness evidence, or Phase 4.1J fixture-backed boundary evidence. The
+approval-gated public Rust contract gate is review metadata only; it is not
+runtime readiness, records no fresh external or Devin review, cannot grant
+runtime approval, cannot approve or enable runtime implementation, cannot own
+process stdio, and cannot enable `serve-runtime`, `stdio-runtime`, or
+`replay-session-transcript`. See
+`docs/phase-4-1k-stdio-runtime-contract-gates.md`.
 
 ## Phase 3.2 Policy Review
 

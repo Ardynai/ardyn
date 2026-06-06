@@ -37,15 +37,44 @@ function stripRustTests(source) {
   return source.split(/\n#\[cfg\(test\)\]\n/)[0];
 }
 
-function phase40FReviewRecordSection(source) {
-  const start = source.indexOf("ARDYN_HOST_POLICY_REVIEW_RECORD_PHASE");
-  const end = source.indexOf("pub enum CapabilityKind");
+function rustSourceRange(source, startMarker, endMarker, label) {
+  const start = source.indexOf(startMarker);
+  const end = source.indexOf(endMarker, start + startMarker.length);
 
-  assert.notEqual(start, -1, "Phase 4.0F review-record phase constant should exist");
-  assert.notEqual(end, -1, "review-record section end marker should exist");
-  assert.ok(start < end, "review-record section should precede capability types");
+  assert.notEqual(start, -1, `${label} start marker should exist`);
+  assert.notEqual(end, -1, `${label} end marker should exist`);
+  assert.ok(start < end, `${label} should have ordered source markers`);
 
   return source.slice(start, end);
+}
+
+function phase40FReviewRecordSection(source) {
+  return [
+    rustSourceRange(
+      source,
+      "ARDYN_HOST_POLICY_REVIEW_RECORD_SCHEMA",
+      "ARDYN_HOST_POLICY_APPROVAL_RECORD_SCHEMA",
+      "Phase 4.0F review-record constants"
+    ),
+    rustSourceRange(
+      source,
+      "pub enum HostPolicyReviewStatus",
+      "pub enum HostPolicyApprovalStatus",
+      "Phase 4.0F review-record enums"
+    ),
+    rustSourceRange(
+      source,
+      "pub struct HostPolicyReviewRecordMapping",
+      "pub struct HostPolicyApprovalTarget",
+      "Phase 4.0F review-record structs"
+    ),
+    rustSourceRange(
+      source,
+      "pub fn host_policy_review_record_top_level_order",
+      "pub fn host_policy_approval_record_top_level_order",
+      "Phase 4.0F review-record helpers"
+    )
+  ].join("\n");
 }
 
 async function readFixture(file) {

@@ -486,6 +486,55 @@ const phase41JRuntimeLikeCommandRejectionProbes = [
   "cleanup-runtime",
   "kill-runtime"
 ];
+const phase41KDocFiles = [
+  "docs/phase-4-1k-stdio-runtime-contract-gates.md",
+  "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+  "docs/phase-4-1-runtime-proposal.md",
+  "docs/phase-4-stdio-dry-run-event-emission.md",
+  "docs/session-events-stdio-contract.md",
+  "docs/host-policy-preconditions.md",
+  "docs/architecture.md",
+  "README.md",
+  "apps/cli/README.md",
+  "packages/core/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase41KGateFixtureFiles = [
+  "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json"
+];
+const phase41KRustContractHelperNames = [
+  "stdio_transport_policy_contract",
+  "transport_harness_contract",
+  "stdio_runtime_contract_gates",
+  "parse_stdio_runtime_contract_gates_json",
+  "classify_stdio_runtime_contract_gates_json"
+];
+const phase41KRuntimeLikeCommandRejectionProbes = [
+  ...phase41HRejectedProbes,
+  "stdio-runtime-contract-gates",
+  "runtime-contract-gates",
+  "stdio-runtime-contract",
+  "public-stdio-runtime-contract",
+  "public-runtime-contract",
+  "fixture-backed-stdio-boundary",
+  "stdio-boundary",
+  "rust-host-stdio-harness",
+  "stdio-harness",
+  "runtime-harness",
+  "runtime-readiness",
+  "runtime-readiness-checkpoint",
+  "approve-runtime",
+  "grant-runtime",
+  "enable-runtime",
+  "approval-evaluator",
+  "transport-harness",
+  "stdin-reader",
+  "stdout-writer",
+  "stderr-writer",
+  "failure-audit",
+  "cleanup-runtime",
+  "kill-runtime"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -506,6 +555,12 @@ function assertAllFalse(record) {
   }
 }
 
+function assertKnownInventoryStatuses(entries) {
+  for (const entry of entries) {
+    assert.match(entry.status, /^(present|missing)$/, entry.path);
+  }
+}
+
 test("package exposes report:phase-status without replacing existing test scripts", async () => {
   const packageJson = await readJson(packageJsonUrl);
 
@@ -517,14 +572,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1J fixture-backed-stdio-boundary-test-infrastructure-only local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1K contract-gate-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1J",
-    name: "Fixture-backed Rust-host stdio boundaries",
-    executionPosture: "fixture-backed-stdio-boundary-test-infrastructure-only non-executing"
+    id: "4.1K",
+    name: "Approval-gated Rust-host stdio runtime contract gates",
+    executionPosture: "contract-gate-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -592,12 +647,24 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.1J fixture-backed-stdio-boundary-test-infrastructure-only status report.",
+        "Render this deterministic local Phase 4.1K approval-gated Rust-host stdio runtime contract-gate status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1J status report.",
+      purpose: "Run focused tests for this local Phase 4.1K status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1k-stdio-runtime-contract-gates.test.mjs",
+      purpose:
+        "Run focused Phase 4.1K approval-gated Rust-host stdio runtime contract-gate checks.",
+      ranByReport: false
+    },
+    {
+      command: "cargo test -p ardyn-host stdio_runtime_contract",
+      purpose:
+        "Run Rust-host stdio runtime contract-gate tests when the Phase 4.1K Rust contract slice is present.",
       ranByReport: false
     },
     {
@@ -4688,6 +4755,137 @@ test("report inventories Phase 4.1J fixture-backed Rust stdio boundary coverage 
   assert.equal(report.safetyPosture.flags.freshExternalReviewRan, false);
 });
 
+test("report inventories Phase 4.1K public Rust stdio runtime contract gates while runtime stays blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase41KStdioRuntimeContractGateInventory;
+
+  assert.deepEqual(inventory.contractGateLayer, {
+    document: "docs/phase-4-1k-stdio-runtime-contract-gates.md",
+    precedingPhase: "4.1J",
+    layerId: "approval-gated-rust-host-stdio-runtime-contract-gates",
+    scope: "public-rust-runtime-contract-gate-only",
+    publicRustContractIntroduced: true,
+    publicRustContractReviewOnly: true,
+    runtimeImplementationApproved: false,
+    runtimeImplementationEnabled: false,
+    runtimeEnabled: false,
+    processStdioOwnership: false,
+    cliSourceChanged: false,
+    reportRunsChecks: false,
+    freshExternalReviewRan: false,
+    freshDevinReviewRan: false,
+    runtimeBlocked: true,
+    runtimeReadinessClaimed: false,
+    runtimeBehaviorIntroduced: false,
+    liveRuntimeBehaviorIntroduced: false,
+    grantsRuntimeApproval: false
+  });
+
+  assert.equal(inventory.publicRustContractSurface.sourcePath, "crates/ardyn-host/src/lib.rs");
+  assert.equal(inventory.publicRustContractSurface.publicRustContractIntroduced, true);
+  assert.equal(
+    inventory.publicRustContractSurface.contractSurfaceKind,
+    "approval-gated-stdio-runtime-contract"
+  );
+  for (const field of [
+    "runtimeImplementationApproved",
+    "runtimeImplementationEnabled",
+    "processStdioOwnershipAvailable",
+    "stdoutWriterAvailable",
+    "stderrWriterAvailable",
+    "stdinReaderAvailable",
+    "approvalEvaluatorAvailable",
+    "hostPolicyEnforcementAvailable"
+  ]) {
+    assert.equal(inventory.publicRustContractSurface[field], false, field);
+  }
+  assert.deepEqual(
+    inventory.publicRustContractSurface.helpers.map(({ name }) => name),
+    phase41KRustContractHelperNames
+  );
+  for (const helper of inventory.publicRustContractSurface.helpers) {
+    assert.equal(helper.sourcePath, "crates/ardyn-host/src/lib.rs");
+    assert.equal(helper.runtimeImplementation, false, helper.name);
+  }
+
+  assert.deepEqual(
+    inventory.gateFixtures.map(({ path }) => path),
+    phase41KGateFixtureFiles
+  );
+  assertKnownInventoryStatuses(inventory.gateFixtures);
+  assert.deepEqual(inventory.rustSourceInventory.map(({ path, status }) => [path, status]), [
+    ["crates/ardyn-host/src/lib.rs", "present"]
+  ]);
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase41KDocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs",
+    "tests/phase4-1j-rust-host-stdio-boundary-fixtures.test.mjs"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+
+  assert.deepEqual(
+    inventory.ownershipBoundary.excludedCliRuntimeSourceFiles,
+    phase41IExcludedCliRuntimeSourceFiles
+  );
+  assert.deepEqual(inventory.ownershipBoundary.rustAndFocusedTestOwnedByOtherWorkers, [
+    "crates/ardyn-host/src/lib.rs",
+    "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+    "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs"
+  ]);
+  assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.productionRuntimeSourceChangedByThisSubagent, false);
+  assert.equal(inventory.ownershipBoundary.reportRunsChecks, false);
+  assert.equal(
+    inventory.ownershipBoundary.separateRuntimeImplementationApprovalRequired,
+    true
+  );
+  assert.ok(
+    inventory.ownershipBoundary.docsReportSubagentOwnedFiles.includes(
+      "docs/phase-4-1k-stdio-runtime-contract-gates.md"
+    )
+  );
+  assert.ok(
+    inventory.ownershipBoundary.docsReportSubagentOwnedFiles.includes(
+      "scripts/report-phase-status.mjs"
+    )
+  );
+
+  assert.deepEqual(
+    inventory.runtimeLikeCommandRejectionProbes,
+    phase41KRuntimeLikeCommandRejectionProbes
+  );
+  assertAllFalse(inventory.runtimeEffect);
+  assert.equal(inventory.safetyPosture.nonExecuting, true);
+  assert.equal(inventory.safetyPosture.contractGateOnly, true);
+  assert.equal(inventory.safetyPosture.publicRustContractReviewOnly, true);
+  assert.equal(inventory.safetyPosture.runtimeImplementationApproved, false);
+  assert.equal(inventory.safetyPosture.runtimeImplementationEnabled, false);
+  assert.equal(inventory.safetyPosture.runtimeEnabled, false);
+  assert.equal(inventory.safetyPosture.processStdioOwnershipAvailable, false);
+  assert.equal(inventory.safetyPosture.cliSourceChanged, false);
+  assert.equal(inventory.safetyPosture.reportRunsChecks, false);
+  assert.equal(inventory.safetyPosture.noFreshExternalReview, true);
+  assert.equal(inventory.safetyPosture.noFreshDevinReview, true);
+  assert.equal(inventory.safetyPosture.runtimeBlocked, true);
+  assert.equal(inventory.safetyPosture.noRuntimeCommand, true);
+  assert.equal(inventory.safetyPosture.noContractGateCommand, true);
+  assert.equal(inventory.safetyPosture.noProcessStdioOwnership, true);
+  assert.equal(inventory.safetyPosture.noApprovalEvaluator, true);
+  assert.equal(inventory.safetyPosture.noHostPolicyEnforcement, true);
+  assert.equal(inventory.safetyPosture.noRuntimeApprovalGrant, true);
+  assert.equal(inventory.safetyPosture.noRuntimeBehaviorIntroduced, true);
+  assert.equal(report.safetyPosture.stdioRuntimeContractGates, true);
+  assert.equal(report.safetyPosture.flags.phase41KRuntimeImplemented, false);
+  assert.equal(report.safetyPosture.flags.phase41KRuntimeReady, false);
+  assert.equal(report.safetyPosture.flags.phase41KRuntimeContractGateEnabled, false);
+  assert.equal(report.safetyPosture.flags.freshExternalReviewRan, false);
+  assert.equal(report.safetyPosture.flags.freshDevinReviewRan, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -4888,6 +5086,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.externalReviewDisposition, true);
   assert.equal(report.safetyPosture.rustHostStdioHarness, true);
   assert.equal(report.safetyPosture.fixtureBackedStdioBoundaries, true);
+  assert.equal(report.safetyPosture.stdioRuntimeContractGates, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {
@@ -4912,6 +5111,9 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase41IRuntimeImplemented: false,
     phase41JRuntimeImplemented: false,
     phase41JRuntimeReady: false,
+    phase41KRuntimeImplemented: false,
+    phase41KRuntimeReady: false,
+    phase41KRuntimeContractGateEnabled: false,
     freshExternalReviewRan: false,
     freshDevinReviewRan: false,
     externalCiRan: false

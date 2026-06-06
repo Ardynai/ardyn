@@ -569,9 +569,9 @@ test("Phase 4.1G status report inventories packet without running checks", async
   const inventory = report.phase41GExternalReviewPacketInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1J",
-    name: "Fixture-backed Rust-host stdio boundaries",
-    executionPosture: "fixture-backed-stdio-boundary-test-infrastructure-only non-executing"
+    id: "4.1K",
+    name: "Approval-gated Rust-host stdio runtime contract gates",
+    executionPosture: "contract-gate-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -821,7 +821,7 @@ test("Phase 4.1G source guards do not add runtime, review packet command, or dep
     /\bwrite_all\b/,
     /std::env::var/,
     /grant_runtime_approval/i,
-    /runtime_approval_granted/i
+    /runtime_approval_granted\s*:\s*true/i
   ]) {
     assert.doesNotMatch(rustProductionSource, forbiddenRustPattern);
   }

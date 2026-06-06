@@ -165,6 +165,15 @@ host loop. It is not runtime readiness, is not a fresh external review, and
 leaves runtime blocked. See
 `docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
 
+Phase 4.1K documents approval-gated public Rust-host stdio runtime contract
+gates after Phase 4.1J. It records a public Rust contract surface, but it does
+not add a TypeScript core API, Rust runtime implementation, CLI command,
+stdout printer, file writer, live stdio reader, process stdio ownership,
+approval evaluator, active host-policy enforcement path, runtime approval
+grant, or live host loop. Runtime implementation approval and runtime
+enablement remain false. See
+`docs/phase-4-1k-stdio-runtime-contract-gates.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

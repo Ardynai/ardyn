@@ -571,9 +571,23 @@ not a stderr writer, not a stdin reader, not process stdio ownership, not
 transcript persistence/replay runtime, not failure-audit runtime, and not
 consumed by a live host loop.
 
+## Phase 4.1K Stdio Runtime Contract Gates
+
+Phase 4.1K adds approval-gated public Rust-host stdio runtime contract-gate
+documentation and report inventory. See
+`docs/phase-4-1k-stdio-runtime-contract-gates.md`.
+
+The Phase 4.1K contract gate records the future runtime contract surface and
+blocked approval states, but it is not runtime readiness, not a fresh external
+or Devin review, not runtime configuration, not a runtime command, not a
+contract-gate command, not an approval token, not a CLI file writer, not a CLI
+stdout writer, not a stderr writer, not a stdin reader, not process stdio
+ownership, not transcript persistence/replay runtime, not failure-audit
+runtime, and not consumed by a live host loop.
+
 ## Deferred Runtime Work
 
-Phase 4.1J intentionally does not implement repo-root confinement, transcript
+Phase 4.1K intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction
@@ -584,6 +598,7 @@ transcript replay classifications, fail-closed failure-audit classifications,
 terminal-state classifications, a checkpoint readiness matrix, blocker list,
 external review packet, reviewer questions, packet-only outcomes, an external
 review disposition record, the first Rust-host stdio test harness layer, and a
-fixture-backed stdio boundary test-infrastructure layer. A future live runtime still
+fixture-backed stdio boundary test-infrastructure layer, plus approval-gated
+public Rust-host stdio runtime contract gates. A future live runtime still
 requires separate explicit host policy, implementation, tests, and runtime
 enablement.

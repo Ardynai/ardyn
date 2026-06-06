@@ -32,6 +32,15 @@ pub const ARDYN_TRANSPORT_HARNESS_CONTRACT_SCHEMA: &str = "ardyn.transport-harne
 pub const ARDYN_TRANSPORT_HARNESS_CONTRACT_VERSION: &str = "0.1.0";
 pub const ARDYN_TRANSPORT_HARNESS_CONTRACT_PHASE: &str = "phase-4.1b-transport-harness-contracts";
 pub const ARDYN_TRANSPORT_HARNESS_CONTRACT_KIND: &str = "transport-harness-contract";
+pub const ARDYN_STDIO_RUNTIME_CONTRACT_GATES_SCHEMA: &str =
+    "ardyn.phase-4.1k.stdio-runtime-contract-gates";
+pub const ARDYN_STDIO_RUNTIME_CONTRACT_GATES_VERSION: &str = "0.1.0";
+pub const ARDYN_STDIO_RUNTIME_CONTRACT_GATES_PHASE: &str =
+    "phase-4.1k-stdio-runtime-contract-gates";
+pub const ARDYN_STDIO_RUNTIME_CONTRACT_GATES_KIND: &str =
+    "approval-gated-public-rust-stdio-runtime-contract";
+pub const ARDYN_STDIO_RUNTIME_MAX_FRAME_BYTES: u64 = 256;
+pub const ARDYN_STDIO_RUNTIME_MAX_INPUT_BYTES: u64 = 768;
 pub const ARDYN_POLICY_METADATA_DIGEST_ALGORITHM: &str = "sha256";
 const ARDYN_REVIEWED_POLICY_METADATA_PHASE_LABEL: &str = "4.0E";
 const ARDYN_HOST_POLICY_APPROVAL_REVIEWED_PHASE_LABEL: &str = "4.1A";
@@ -42,6 +51,18 @@ const ARDYN_HOST_POLICY_APPROVAL_RUNTIME_CAPABILITY: &str = "live-stdio-runtime"
 const ARDYN_TRANSPORT_HARNESS_REVIEWED_PHASE_LABEL: &str = "4.1B";
 const ARDYN_TRANSPORT_HARNESS_KIND: &str = "rust-host-stdio-transport-harness-static-contract";
 const ARDYN_TRANSPORT_HARNESS_VERSION: &str = "0.1.0";
+const ARDYN_STDIO_RUNTIME_PHASE_4_1J_FIXTURE_SCHEMA: &str =
+    "ardyn.phase-4.1j.stdio-harness-fixtures";
+const ARDYN_STDIO_RUNTIME_PHASE_4_1J_FIXTURE_VERSION: &str = "0.1.0";
+const ARDYN_STDIO_RUNTIME_PHASE_4_1J_FIXTURE_PHASE: &str = "phase-4.1j-stdio-harness-fixtures";
+const ARDYN_STDIO_RUNTIME_PHASE_4_1J_FIXTURE_ROOT: &str = "tests/fixtures/stdio-harness/phase4-1j";
+const ARDYN_STDIO_RUNTIME_PHASE_4_1J_EXPECTED_OUTCOMES: &str = "expected-outcomes.json";
+const ARDYN_STDIO_RUNTIME_INPUT_EVENT_TYPE: &str = "harness.stdin.probe";
+const ARDYN_STDIO_RUNTIME_INPUT_PROBE_MODE: &str = "static-harness-probe";
+const ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_SCHEMA: &str = "ardyn.phase-4.1i.test-stdio-harness-event";
+const ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_VERSION: &str = "0.1.0";
+const ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_TYPE: &str = "harness.stdout.probe.accepted";
+const ARDYN_STDIO_RUNTIME_DIAGNOSTIC_SCHEMA: &str = "ardyn.phase-4.1k.stdio-runtime-diagnostic";
 
 pub type HostResult<T> = Result<T, Box<dyn Error + Send + Sync>>;
 
@@ -202,6 +223,73 @@ pub enum TransportHarnessContractClassification {
     UnsupportedVersion,
     Malformed,
     RuntimeUnavailable,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum StdioRuntimeContractGateBundleClassification {
+    ContractOnly,
+    MissingRequiredGate,
+    ApprovedGateRejected,
+    ApprovalGrantAttemptRejected,
+    RuntimeEffectAttemptRejected,
+    UnsupportedVersion,
+    Malformed,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioRuntimeStream {
+    Stdin,
+    Stdout,
+    Stderr,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum StdioRuntimeFrameClass {
+    AcceptedStaticProbe,
+    RejectedEarlyEof,
+    RejectedCrlf,
+    RejectedInvalidUtf8,
+    RejectedBlankLine,
+    RejectedMalformedInput,
+    RejectedInvalidPayload,
+    RejectedSequenceGap,
+    RejectedOversizedPayload,
+    RejectedOversizedInput,
+    RejectedRuntimeApprovalRequest,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum StdioRuntimeErrorCategory {
+    EarlyEof,
+    CrlfRejected,
+    InvalidUtf8,
+    BlankLine,
+    MalformedInput,
+    InvalidPayload,
+    SequenceGap,
+    OversizedPayload,
+    OversizedInput,
+    RuntimeRequestRejected,
+    StdoutStderrSeparation,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioRuntimeRequiredGateKind {
+    HostPolicyApprovalRecordReference,
+    StdioTransportPolicyMetadataReference,
+    TransportHarnessContractReference,
+    StderrRedactionPolicyReference,
+    TranscriptAuditOutputPolicyReference,
+    #[serde(rename = "phase-4.1j-fixture-expectations")]
+    PhaseFourOneJFixtureExpectations,
+    SeparateRuntimeImplementationApproval,
+    MajorRuntimeReadinessReview,
+    DevinReviewBeforeEnablement,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -708,6 +796,481 @@ pub struct TransportHarnessContract {
     pub unsupported_runtime_reasons: Vec<String>,
     pub rejected_runtime_reasons: Vec<String>,
     pub audit: TransportHarnessAuditMetadata,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeInputFramePayload {
+    pub mode: String,
+    pub runtime_requested: bool,
+    pub approval_requested: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeInputFrame {
+    pub event_id: String,
+    pub event_type: String,
+    pub sequence: u64,
+    pub payload: StdioRuntimeInputFramePayload,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeStdoutFrame {
+    pub schema: String,
+    pub schema_version: String,
+    pub event_id: String,
+    pub event_type: String,
+    pub sequence: u64,
+    pub accepted: bool,
+    pub runtime_enabled: bool,
+    pub approval_granted: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeStderrDiagnostic {
+    pub schema: String,
+    pub schema_version: String,
+    pub stream: StdioRuntimeStream,
+    pub category: StdioRuntimeErrorCategory,
+    pub code: String,
+    pub line: Option<u64>,
+    pub detail: String,
+    pub stdout_allowed: bool,
+    pub redacted: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimePhaseFourOneJFixtureReference {
+    pub schema: String,
+    pub schema_version: String,
+    pub phase: String,
+    pub fixture_root: String,
+    pub expected_outcomes_file: String,
+    pub required_cases: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeInputFrameShape {
+    pub stream: StdioRuntimeStream,
+    pub encoding: String,
+    pub line_ending: StdioLineEnding,
+    pub final_lf_required: bool,
+    pub crlf_allowed: bool,
+    pub blank_lines_allowed: bool,
+    pub one_json_object_per_line: bool,
+    pub accepted_event_type: String,
+    pub accepted_payload_mode: String,
+    pub required_top_level_fields: Vec<String>,
+    pub required_payload_fields: Vec<String>,
+    pub max_frame_bytes: u64,
+    pub max_input_bytes: u64,
+    pub runtime_request_fields: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeStdoutFrameShape {
+    pub stream: StdioRuntimeStream,
+    pub line_ending: StdioLineEnding,
+    pub final_lf_required: bool,
+    pub schema: String,
+    pub schema_version: String,
+    pub event_type: String,
+    pub required_fields: Vec<String>,
+    pub runtime_enabled_value: bool,
+    pub approval_granted_value: bool,
+    pub diagnostics_allowed_on_stdout: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeStderrDiagnosticShape {
+    pub stream: StdioRuntimeStream,
+    pub line_ending: StdioLineEnding,
+    pub final_lf_required: bool,
+    pub schema: String,
+    pub schema_version: String,
+    pub deterministic_code_required: bool,
+    pub deterministic_detail_required: bool,
+    pub stdout_allowed: bool,
+    pub session_events_allowed: bool,
+    pub redaction_required_before_runtime: bool,
+    pub categories: Vec<StdioRuntimeErrorCategory>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeFrameClassificationContract {
+    pub accepted_classes: Vec<StdioRuntimeFrameClass>,
+    pub rejected_classes: Vec<StdioRuntimeFrameClass>,
+    pub required_error_categories: Vec<StdioRuntimeErrorCategory>,
+    pub stdout_only_for_accepted_frames: bool,
+    pub stderr_only_for_rejected_frames: bool,
+    pub runtime_approval_requests_rejected: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeRequiredGate {
+    pub gate: StdioRuntimeRequiredGateKind,
+    pub required: bool,
+    pub present: bool,
+    pub approved: bool,
+    pub grant_attempted: bool,
+    pub grants_runtime: bool,
+    pub fail_closed_on_missing: bool,
+    pub fail_closed_on_approval: bool,
+    pub fail_closed_on_runtime_grant: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeContractRuntimeEffect {
+    pub current_contract_enables_runtime: bool,
+    pub runtime_implementation_available: bool,
+    pub runtime_command_available: bool,
+    pub process_stdio_ownership_available: bool,
+    pub stdin_reader_available: bool,
+    pub stdin_command_loop_available: bool,
+    pub stdout_writer_available: bool,
+    pub stderr_writer_available: bool,
+    pub runtime_approval_request_accepted: bool,
+    pub runtime_approval_granted: bool,
+    pub approval_record_necessary_but_not_sufficient: bool,
+    pub requires_separate_runtime_implementation_approval: bool,
+    pub requires_major_runtime_readiness_review: bool,
+    pub requires_devin_review_before_enablement: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeNoRuntimeSafetyFlags {
+    pub live_stdio_runtime: bool,
+    pub process_stdio_ownership: bool,
+    pub stdin_reader: bool,
+    pub stdin_command_loop: bool,
+    pub stdout_writer: bool,
+    pub stderr_writer: bool,
+    pub process_control: bool,
+    pub command_runner: bool,
+    pub subprocess_spawning: bool,
+    pub listener: bool,
+    pub server: bool,
+    pub websocket_http_control_surface: bool,
+    pub thread_or_async_runtime: bool,
+    pub adapter_calls: bool,
+    pub locus_runtime_dependency: bool,
+    pub mcp_calls: bool,
+    pub openclaw_calls: bool,
+    pub plugin_execution: bool,
+    pub content_fabric_runtime_behavior: bool,
+    pub approval_grant_evaluator: bool,
+    pub transcript_replay_runtime: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeFrameContractShapes {
+    pub fixture_reference: StdioRuntimePhaseFourOneJFixtureReference,
+    pub input_frame_shape: StdioRuntimeInputFrameShape,
+    pub stdout_frame_shape: StdioRuntimeStdoutFrameShape,
+    pub stderr_diagnostic_shape: StdioRuntimeStderrDiagnosticShape,
+    pub frame_classification: StdioRuntimeFrameClassificationContract,
+    pub no_runtime_safety: StdioRuntimeNoRuntimeSafetyFlags,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeContractBoundary {
+    pub public_rust_contract_introduced: bool,
+    pub public_rust_contract_scope: String,
+    pub runtime_implemented: bool,
+    pub runtime_enabled: bool,
+    pub runtime_implementation_approved: bool,
+    pub runtime_enablement_approved: bool,
+    pub runtime_approval_grant_present: bool,
+    pub static_contract_evidence_only: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeExternalReviewState {
+    pub fresh_external_review_recorded: bool,
+    pub fresh_devin_review_recorded: bool,
+    pub last_recorded_external_review_phase: String,
+    pub last_recorded_external_review_fresh: bool,
+    pub fresh_review_required_but_not_runtime_grant: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeApprovalState {
+    pub policy_approval_recorded_for_review_only: bool,
+    pub exact_scope_host_policy_approval_record_evidence_ready: bool,
+    pub operator_consent_recorded_for_review_only: bool,
+    pub operator_runtime_consent_recorded: bool,
+    pub runtime_approval_grant_present: bool,
+    pub runtime_approval_grant_valid: bool,
+    pub runtime_approval_granted: bool,
+    pub runtime_implementation_approved: bool,
+    pub runtime_enablement_approved: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeGateChecklistItem {
+    pub id: String,
+    pub label: String,
+    pub status: String,
+    pub evidence_level: String,
+    pub evidence_paths: Vec<String>,
+    pub required_before_runtime: bool,
+    pub static_contract_evidence_only: bool,
+    pub future_approval_required: bool,
+    pub runtime_implemented: bool,
+    pub runtime_enabled: bool,
+    pub runtime_approval_granted: bool,
+    pub grants_runtime_approval: bool,
+    pub runtime_behavior_introduced: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeEffectRuntimeFlags {
+    pub public_contract_enables_runtime: bool,
+    pub runtime_implemented: bool,
+    pub runtime_enabled: bool,
+    pub runtime_implementation_approved: bool,
+    pub runtime_enablement_approved: bool,
+    pub runtime_approval_granted: bool,
+    pub runtime_command_available: bool,
+    pub serve_runtime_command_available: bool,
+    pub stdio_runtime_command_available: bool,
+    pub replay_session_transcript_command_available: bool,
+    pub external_review_packet_command_available: bool,
+    pub review_packet_command_available: bool,
+    pub runtime_readiness_review_command_available: bool,
+    pub stdio_runtime_contract_command_available: bool,
+    pub runtime_contract_gates_command_available: bool,
+    pub approve_runtime_command_available: bool,
+    pub grant_runtime_command_available: bool,
+    pub enable_runtime_command_available: bool,
+    pub approval_evaluator_available: bool,
+    pub host_policy_runtime_enforcement_available: bool,
+    pub process_lifecycle_runtime_available: bool,
+    pub process_stdio_ownership_available: bool,
+    pub stdin_reader_available: bool,
+    pub stdout_writer_available: bool,
+    pub stderr_writer_available: bool,
+    pub transcript_persistence_runtime_available: bool,
+    pub transcript_replay_runtime_available: bool,
+    pub redaction_runtime_enforcement_available: bool,
+    pub failure_audit_runtime_available: bool,
+    pub cleanup_runtime_available: bool,
+    pub process_kill_available: bool,
+    pub process_control_available: bool,
+    pub external_integration_runtime_available: bool,
+    pub web_socket_http_control_surface_available: bool,
+    pub listener_available: bool,
+    pub server_available: bool,
+    pub subprocess_spawning_available: bool,
+    pub adapter_calls_available: bool,
+    pub locus_runtime_dependency_available: bool,
+    pub mcp_open_claw_calls_available: bool,
+    pub plugin_execution_available: bool,
+    pub content_fabric_runtime_behavior_available: bool,
+    pub secrets_used: bool,
+    pub production_signing_keys_used: bool,
+    pub writes_files: bool,
+    pub reads_runtime_inputs: bool,
+    pub runs_runtime: bool,
+    pub consumed_by_live_host_loop: bool,
+    pub grants_runtime_approval: bool,
+    pub runtime_behavior_introduced: bool,
+    pub live_runtime_behavior_introduced: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeRequiredFutureApprovals {
+    pub policy_approval_required_before_runtime: bool,
+    pub exact_scope_host_policy_approval_record_required_before_runtime: bool,
+    pub operator_consent_required_before_runtime: bool,
+    pub fresh_external_review_required_before_runtime: bool,
+    pub fresh_devin_review_required_before_runtime: bool,
+    pub runtime_readiness_review_required_before_runtime: bool,
+    pub cli_surface_review_required_before_runtime: bool,
+    pub rollback_plan_required_before_runtime: bool,
+    pub external_integration_approval_required_before_runtime: bool,
+    pub future_approval_booleans_do_not_grant_runtime: bool,
+    pub grants_runtime_approval: bool,
+    pub runtime_approval_granted: bool,
+    pub runtime_implementation_approved: bool,
+    pub runtime_enablement_approved: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeGateMatrixRuntimeEffect {
+    pub runtime: StdioRuntimeEffectRuntimeFlags,
+    pub required_future_approvals: StdioRuntimeRequiredFutureApprovals,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeContractGateAuditMetadata {
+    pub evidence_paths: Vec<String>,
+    pub recorded_for: String,
+    pub approval_wording: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeContractGateBundle {
+    pub schema: String,
+    pub schema_version: String,
+    pub phase: String,
+    pub artifact_kind: String,
+    pub metadata_generated_at: String,
+    pub contract_boundary: StdioRuntimeContractBoundary,
+    pub external_review: StdioRuntimeExternalReviewState,
+    pub approval_state: StdioRuntimeApprovalState,
+    pub gate_checklist: Vec<StdioRuntimeGateChecklistItem>,
+    pub runtime_effect: StdioRuntimeGateMatrixRuntimeEffect,
+    pub non_execution_invariants: Vec<String>,
+    pub audit: StdioRuntimeContractGateAuditMetadata,
+}
+
+impl StdioRuntimeContractRuntimeEffect {
+    pub fn is_inert(&self) -> bool {
+        !self.current_contract_enables_runtime
+            && !self.runtime_implementation_available
+            && !self.runtime_command_available
+            && !self.process_stdio_ownership_available
+            && !self.stdin_reader_available
+            && !self.stdin_command_loop_available
+            && !self.stdout_writer_available
+            && !self.stderr_writer_available
+            && !self.runtime_approval_request_accepted
+            && !self.runtime_approval_granted
+            && self.approval_record_necessary_but_not_sufficient
+            && self.requires_separate_runtime_implementation_approval
+            && self.requires_major_runtime_readiness_review
+            && self.requires_devin_review_before_enablement
+    }
+}
+
+impl StdioRuntimeNoRuntimeSafetyFlags {
+    pub fn all_runtime_flags_disabled(&self) -> bool {
+        !self.live_stdio_runtime
+            && !self.process_stdio_ownership
+            && !self.stdin_reader
+            && !self.stdin_command_loop
+            && !self.stdout_writer
+            && !self.stderr_writer
+            && !self.process_control
+            && !self.command_runner
+            && !self.subprocess_spawning
+            && !self.listener
+            && !self.server
+            && !self.websocket_http_control_surface
+            && !self.thread_or_async_runtime
+            && !self.adapter_calls
+            && !self.locus_runtime_dependency
+            && !self.mcp_calls
+            && !self.openclaw_calls
+            && !self.plugin_execution
+            && !self.content_fabric_runtime_behavior
+            && !self.approval_grant_evaluator
+            && !self.transcript_replay_runtime
+    }
+}
+
+impl StdioRuntimeEffectRuntimeFlags {
+    pub fn all_runtime_flags_disabled(&self) -> bool {
+        !self.public_contract_enables_runtime
+            && !self.runtime_implemented
+            && !self.runtime_enabled
+            && !self.runtime_implementation_approved
+            && !self.runtime_enablement_approved
+            && !self.runtime_approval_granted
+            && !self.runtime_command_available
+            && !self.serve_runtime_command_available
+            && !self.stdio_runtime_command_available
+            && !self.replay_session_transcript_command_available
+            && !self.external_review_packet_command_available
+            && !self.review_packet_command_available
+            && !self.runtime_readiness_review_command_available
+            && !self.stdio_runtime_contract_command_available
+            && !self.runtime_contract_gates_command_available
+            && !self.approve_runtime_command_available
+            && !self.grant_runtime_command_available
+            && !self.enable_runtime_command_available
+            && !self.approval_evaluator_available
+            && !self.host_policy_runtime_enforcement_available
+            && !self.process_lifecycle_runtime_available
+            && !self.process_stdio_ownership_available
+            && !self.stdin_reader_available
+            && !self.stdout_writer_available
+            && !self.stderr_writer_available
+            && !self.transcript_persistence_runtime_available
+            && !self.transcript_replay_runtime_available
+            && !self.redaction_runtime_enforcement_available
+            && !self.failure_audit_runtime_available
+            && !self.cleanup_runtime_available
+            && !self.process_kill_available
+            && !self.process_control_available
+            && !self.external_integration_runtime_available
+            && !self.web_socket_http_control_surface_available
+            && !self.listener_available
+            && !self.server_available
+            && !self.subprocess_spawning_available
+            && !self.adapter_calls_available
+            && !self.locus_runtime_dependency_available
+            && !self.mcp_open_claw_calls_available
+            && !self.plugin_execution_available
+            && !self.content_fabric_runtime_behavior_available
+            && !self.secrets_used
+            && !self.production_signing_keys_used
+            && !self.writes_files
+            && !self.reads_runtime_inputs
+            && !self.runs_runtime
+            && !self.consumed_by_live_host_loop
+            && !self.grants_runtime_approval
+            && !self.runtime_behavior_introduced
+            && !self.live_runtime_behavior_introduced
+    }
+}
+
+impl StdioRuntimeRequiredFutureApprovals {
+    pub fn are_required_but_not_grants(&self) -> bool {
+        self.policy_approval_required_before_runtime
+            && self.exact_scope_host_policy_approval_record_required_before_runtime
+            && self.operator_consent_required_before_runtime
+            && self.fresh_external_review_required_before_runtime
+            && self.fresh_devin_review_required_before_runtime
+            && self.runtime_readiness_review_required_before_runtime
+            && self.cli_surface_review_required_before_runtime
+            && self.rollback_plan_required_before_runtime
+            && self.external_integration_approval_required_before_runtime
+            && self.future_approval_booleans_do_not_grant_runtime
+            && !self.grants_runtime_approval
+            && !self.runtime_approval_granted
+            && !self.runtime_implementation_approved
+            && !self.runtime_enablement_approved
+    }
+}
+
+impl StdioRuntimeGateMatrixRuntimeEffect {
+    pub fn is_inert(&self) -> bool {
+        self.runtime.all_runtime_flags_disabled()
+            && self.required_future_approvals.are_required_but_not_grants()
+    }
 }
 
 impl StdioTransportPolicyContract {
@@ -2443,6 +3006,1002 @@ pub fn classify_transport_harness_contract_json(
     } else {
         TransportHarnessContractClassification::Malformed
     }
+}
+
+pub fn stdio_runtime_contract_gates_top_level_order() -> Vec<String> {
+    [
+        "schema",
+        "schemaVersion",
+        "phase",
+        "artifactKind",
+        "metadataGeneratedAt",
+        "contractBoundary",
+        "externalReview",
+        "approvalState",
+        "gateChecklist",
+        "runtimeEffect",
+        "nonExecutionInvariants",
+        "audit",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn stdio_runtime_phase_4_1j_required_cases() -> Vec<String> {
+    [
+        "valid-single-event",
+        "valid-multiple-events",
+        "malformed-json",
+        "non-object-json",
+        "missing-required-fields",
+        "invalid-event-kind",
+        "crlf-rejected",
+        "missing-final-lf",
+        "empty-input",
+        "invalid-utf8",
+        "oversized-payload",
+        "oversized-input",
+        "early-eof-partial-frame",
+        "runtime-approval-request-rejected",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn stdio_runtime_required_top_level_input_fields() -> Vec<String> {
+    ["eventId", "eventType", "sequence", "payload"]
+        .into_iter()
+        .map(String::from)
+        .collect()
+}
+
+fn stdio_runtime_required_payload_fields() -> Vec<String> {
+    ["mode", "runtimeRequested", "approvalRequested"]
+        .into_iter()
+        .map(String::from)
+        .collect()
+}
+
+fn stdio_runtime_request_fields() -> Vec<String> {
+    ["runtimeRequested", "approvalRequested"]
+        .into_iter()
+        .map(String::from)
+        .collect()
+}
+
+fn stdio_runtime_stdout_required_fields() -> Vec<String> {
+    [
+        "schema",
+        "schemaVersion",
+        "eventId",
+        "eventType",
+        "sequence",
+        "accepted",
+        "runtimeEnabled",
+        "approvalGranted",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn stdio_runtime_accepted_frame_classes() -> Vec<StdioRuntimeFrameClass> {
+    vec![StdioRuntimeFrameClass::AcceptedStaticProbe]
+}
+
+fn stdio_runtime_rejected_frame_classes() -> Vec<StdioRuntimeFrameClass> {
+    vec![
+        StdioRuntimeFrameClass::RejectedEarlyEof,
+        StdioRuntimeFrameClass::RejectedCrlf,
+        StdioRuntimeFrameClass::RejectedInvalidUtf8,
+        StdioRuntimeFrameClass::RejectedBlankLine,
+        StdioRuntimeFrameClass::RejectedMalformedInput,
+        StdioRuntimeFrameClass::RejectedInvalidPayload,
+        StdioRuntimeFrameClass::RejectedSequenceGap,
+        StdioRuntimeFrameClass::RejectedOversizedPayload,
+        StdioRuntimeFrameClass::RejectedOversizedInput,
+        StdioRuntimeFrameClass::RejectedRuntimeApprovalRequest,
+    ]
+}
+
+fn stdio_runtime_required_error_categories() -> Vec<StdioRuntimeErrorCategory> {
+    vec![
+        StdioRuntimeErrorCategory::EarlyEof,
+        StdioRuntimeErrorCategory::CrlfRejected,
+        StdioRuntimeErrorCategory::InvalidUtf8,
+        StdioRuntimeErrorCategory::BlankLine,
+        StdioRuntimeErrorCategory::MalformedInput,
+        StdioRuntimeErrorCategory::InvalidPayload,
+        StdioRuntimeErrorCategory::SequenceGap,
+        StdioRuntimeErrorCategory::OversizedPayload,
+        StdioRuntimeErrorCategory::OversizedInput,
+        StdioRuntimeErrorCategory::RuntimeRequestRejected,
+        StdioRuntimeErrorCategory::StdoutStderrSeparation,
+    ]
+}
+
+fn stdio_runtime_fixture_reference() -> StdioRuntimePhaseFourOneJFixtureReference {
+    StdioRuntimePhaseFourOneJFixtureReference {
+        schema: ARDYN_STDIO_RUNTIME_PHASE_4_1J_FIXTURE_SCHEMA.to_string(),
+        schema_version: ARDYN_STDIO_RUNTIME_PHASE_4_1J_FIXTURE_VERSION.to_string(),
+        phase: ARDYN_STDIO_RUNTIME_PHASE_4_1J_FIXTURE_PHASE.to_string(),
+        fixture_root: ARDYN_STDIO_RUNTIME_PHASE_4_1J_FIXTURE_ROOT.to_string(),
+        expected_outcomes_file: ARDYN_STDIO_RUNTIME_PHASE_4_1J_EXPECTED_OUTCOMES.to_string(),
+        required_cases: stdio_runtime_phase_4_1j_required_cases(),
+    }
+}
+
+fn stdio_runtime_input_frame_shape() -> StdioRuntimeInputFrameShape {
+    StdioRuntimeInputFrameShape {
+        stream: StdioRuntimeStream::Stdin,
+        encoding: "utf-8".to_string(),
+        line_ending: StdioLineEnding::LfOnly,
+        final_lf_required: true,
+        crlf_allowed: false,
+        blank_lines_allowed: false,
+        one_json_object_per_line: true,
+        accepted_event_type: ARDYN_STDIO_RUNTIME_INPUT_EVENT_TYPE.to_string(),
+        accepted_payload_mode: ARDYN_STDIO_RUNTIME_INPUT_PROBE_MODE.to_string(),
+        required_top_level_fields: stdio_runtime_required_top_level_input_fields(),
+        required_payload_fields: stdio_runtime_required_payload_fields(),
+        max_frame_bytes: ARDYN_STDIO_RUNTIME_MAX_FRAME_BYTES,
+        max_input_bytes: ARDYN_STDIO_RUNTIME_MAX_INPUT_BYTES,
+        runtime_request_fields: stdio_runtime_request_fields(),
+    }
+}
+
+fn stdio_runtime_stdout_frame_shape() -> StdioRuntimeStdoutFrameShape {
+    StdioRuntimeStdoutFrameShape {
+        stream: StdioRuntimeStream::Stdout,
+        line_ending: StdioLineEnding::LfOnly,
+        final_lf_required: true,
+        schema: ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_SCHEMA.to_string(),
+        schema_version: ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_VERSION.to_string(),
+        event_type: ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_TYPE.to_string(),
+        required_fields: stdio_runtime_stdout_required_fields(),
+        runtime_enabled_value: false,
+        approval_granted_value: false,
+        diagnostics_allowed_on_stdout: false,
+    }
+}
+
+fn stdio_runtime_stderr_diagnostic_shape() -> StdioRuntimeStderrDiagnosticShape {
+    StdioRuntimeStderrDiagnosticShape {
+        stream: StdioRuntimeStream::Stderr,
+        line_ending: StdioLineEnding::LfOnly,
+        final_lf_required: true,
+        schema: ARDYN_STDIO_RUNTIME_DIAGNOSTIC_SCHEMA.to_string(),
+        schema_version: ARDYN_STDIO_RUNTIME_CONTRACT_GATES_VERSION.to_string(),
+        deterministic_code_required: true,
+        deterministic_detail_required: true,
+        stdout_allowed: false,
+        session_events_allowed: false,
+        redaction_required_before_runtime: true,
+        categories: stdio_runtime_required_error_categories(),
+    }
+}
+
+fn stdio_runtime_frame_classification_contract() -> StdioRuntimeFrameClassificationContract {
+    StdioRuntimeFrameClassificationContract {
+        accepted_classes: stdio_runtime_accepted_frame_classes(),
+        rejected_classes: stdio_runtime_rejected_frame_classes(),
+        required_error_categories: stdio_runtime_required_error_categories(),
+        stdout_only_for_accepted_frames: true,
+        stderr_only_for_rejected_frames: true,
+        runtime_approval_requests_rejected: true,
+    }
+}
+
+fn stdio_runtime_no_runtime_safety_flags() -> StdioRuntimeNoRuntimeSafetyFlags {
+    StdioRuntimeNoRuntimeSafetyFlags {
+        live_stdio_runtime: false,
+        process_stdio_ownership: false,
+        stdin_reader: false,
+        stdin_command_loop: false,
+        stdout_writer: false,
+        stderr_writer: false,
+        process_control: false,
+        command_runner: false,
+        subprocess_spawning: false,
+        listener: false,
+        server: false,
+        websocket_http_control_surface: false,
+        thread_or_async_runtime: false,
+        adapter_calls: false,
+        locus_runtime_dependency: false,
+        mcp_calls: false,
+        openclaw_calls: false,
+        plugin_execution: false,
+        content_fabric_runtime_behavior: false,
+        approval_grant_evaluator: false,
+        transcript_replay_runtime: false,
+    }
+}
+
+pub fn stdio_runtime_frame_contract_shapes() -> StdioRuntimeFrameContractShapes {
+    StdioRuntimeFrameContractShapes {
+        fixture_reference: stdio_runtime_fixture_reference(),
+        input_frame_shape: stdio_runtime_input_frame_shape(),
+        stdout_frame_shape: stdio_runtime_stdout_frame_shape(),
+        stderr_diagnostic_shape: stdio_runtime_stderr_diagnostic_shape(),
+        frame_classification: stdio_runtime_frame_classification_contract(),
+        no_runtime_safety: stdio_runtime_no_runtime_safety_flags(),
+    }
+}
+
+fn stdio_runtime_gate_item(
+    id: &str,
+    label: &str,
+    status: &str,
+    evidence_level: &str,
+    evidence_paths: &[&str],
+    static_contract_evidence_only: bool,
+) -> StdioRuntimeGateChecklistItem {
+    StdioRuntimeGateChecklistItem {
+        id: id.to_string(),
+        label: label.to_string(),
+        status: status.to_string(),
+        evidence_level: evidence_level.to_string(),
+        evidence_paths: evidence_paths
+            .iter()
+            .map(|path| (*path).to_string())
+            .collect(),
+        required_before_runtime: true,
+        static_contract_evidence_only,
+        future_approval_required: true,
+        runtime_implemented: false,
+        runtime_enabled: false,
+        runtime_approval_granted: false,
+        grants_runtime_approval: false,
+        runtime_behavior_introduced: false,
+    }
+}
+
+fn stdio_runtime_gate_checklist() -> Vec<StdioRuntimeGateChecklistItem> {
+    vec![
+        stdio_runtime_gate_item(
+            "policy-approval",
+            "Policy approval",
+            "evidence-ready",
+            "review-only-policy-approval",
+            &["tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"],
+            true,
+        ),
+        stdio_runtime_gate_item(
+            "exact-scope-host-policy-approval-record",
+            "Exact-scope host-policy approval record",
+            "evidence-ready",
+            "review-only-exact-scope-record",
+            &["tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"],
+            true,
+        ),
+        stdio_runtime_gate_item(
+            "operator-consent",
+            "Operator consent",
+            "evidence-ready",
+            "review-only-consent-necessary-but-not-sufficient",
+            &["tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"],
+            true,
+        ),
+        stdio_runtime_gate_item(
+            "stdio-contract",
+            "Stdio contract",
+            "evidence-ready",
+            "public-rust-static-contract-only",
+            &[
+                "crates/ardyn-host/src/lib.rs",
+                "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+            ],
+            true,
+        ),
+        stdio_runtime_gate_item(
+            "process-lifecycle",
+            "Process lifecycle",
+            "blocked",
+            "no-live-process-lifecycle-runtime",
+            &["tests/phase4-1k-stdio-runtime-contract-gates.test.mjs"],
+            false,
+        ),
+        stdio_runtime_gate_item(
+            "transcript-persistence",
+            "Transcript persistence",
+            "evidence-ready",
+            "static-contract-only",
+            &["tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json"],
+            true,
+        ),
+        stdio_runtime_gate_item(
+            "redaction",
+            "Redaction",
+            "evidence-ready",
+            "static-contract-only",
+            &["tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json"],
+            true,
+        ),
+        stdio_runtime_gate_item(
+            "failure-audit",
+            "Failure audit",
+            "evidence-ready",
+            "static-contract-only",
+            &["tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json"],
+            true,
+        ),
+        stdio_runtime_gate_item(
+            "kill-semantics",
+            "Kill semantics",
+            "evidence-ready",
+            "static-contract-only",
+            &["tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json"],
+            true,
+        ),
+        stdio_runtime_gate_item(
+            "external-review-freshness",
+            "External review freshness",
+            "blocked",
+            "no-fresh-external-or-devin-review",
+            &["tests/fixtures/host-policy/phase4-1h/external-review-disposition.json"],
+            false,
+        ),
+        stdio_runtime_gate_item(
+            "runtime-readiness-review",
+            "Runtime readiness review",
+            "blocked",
+            "no-runtime-readiness-review-record",
+            &["tests/fixtures/host-policy/phase4-1f/runtime-readiness-checkpoint.json"],
+            false,
+        ),
+        stdio_runtime_gate_item(
+            "cli-surface-review",
+            "CLI surface review",
+            "not-approved",
+            "source-guard-only",
+            &[
+                "apps/cli/src/index.mjs",
+                "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs",
+            ],
+            false,
+        ),
+        stdio_runtime_gate_item(
+            "rollback-plan",
+            "Rollback plan",
+            "evidence-ready",
+            "static-review-checklist-only",
+            &["tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json"],
+            true,
+        ),
+        stdio_runtime_gate_item(
+            "external-integration-gates",
+            "External integration gates",
+            "not-approved",
+            "no-external-integration-approval",
+            &["tests/phase4-1k-stdio-runtime-contract-gates.test.mjs"],
+            false,
+        ),
+    ]
+}
+
+fn stdio_runtime_contract_boundary() -> StdioRuntimeContractBoundary {
+    StdioRuntimeContractBoundary {
+        public_rust_contract_introduced: true,
+        public_rust_contract_scope: "static-approval-gated-contract-only".to_string(),
+        runtime_implemented: false,
+        runtime_enabled: false,
+        runtime_implementation_approved: false,
+        runtime_enablement_approved: false,
+        runtime_approval_grant_present: false,
+        static_contract_evidence_only: true,
+    }
+}
+
+fn stdio_runtime_external_review_state() -> StdioRuntimeExternalReviewState {
+    StdioRuntimeExternalReviewState {
+        fresh_external_review_recorded: false,
+        fresh_devin_review_recorded: false,
+        last_recorded_external_review_phase: "phase-4.1h-external-review-disposition".to_string(),
+        last_recorded_external_review_fresh: false,
+        fresh_review_required_but_not_runtime_grant: true,
+    }
+}
+
+fn stdio_runtime_approval_state() -> StdioRuntimeApprovalState {
+    StdioRuntimeApprovalState {
+        policy_approval_recorded_for_review_only: true,
+        exact_scope_host_policy_approval_record_evidence_ready: true,
+        operator_consent_recorded_for_review_only: true,
+        operator_runtime_consent_recorded: false,
+        runtime_approval_grant_present: false,
+        runtime_approval_grant_valid: false,
+        runtime_approval_granted: false,
+        runtime_implementation_approved: false,
+        runtime_enablement_approved: false,
+    }
+}
+
+fn stdio_runtime_effect_runtime_flags() -> StdioRuntimeEffectRuntimeFlags {
+    StdioRuntimeEffectRuntimeFlags {
+        public_contract_enables_runtime: false,
+        runtime_implemented: false,
+        runtime_enabled: false,
+        runtime_implementation_approved: false,
+        runtime_enablement_approved: false,
+        runtime_approval_granted: false,
+        runtime_command_available: false,
+        serve_runtime_command_available: false,
+        stdio_runtime_command_available: false,
+        replay_session_transcript_command_available: false,
+        external_review_packet_command_available: false,
+        review_packet_command_available: false,
+        runtime_readiness_review_command_available: false,
+        stdio_runtime_contract_command_available: false,
+        runtime_contract_gates_command_available: false,
+        approve_runtime_command_available: false,
+        grant_runtime_command_available: false,
+        enable_runtime_command_available: false,
+        approval_evaluator_available: false,
+        host_policy_runtime_enforcement_available: false,
+        process_lifecycle_runtime_available: false,
+        process_stdio_ownership_available: false,
+        stdin_reader_available: false,
+        stdout_writer_available: false,
+        stderr_writer_available: false,
+        transcript_persistence_runtime_available: false,
+        transcript_replay_runtime_available: false,
+        redaction_runtime_enforcement_available: false,
+        failure_audit_runtime_available: false,
+        cleanup_runtime_available: false,
+        process_kill_available: false,
+        process_control_available: false,
+        external_integration_runtime_available: false,
+        web_socket_http_control_surface_available: false,
+        listener_available: false,
+        server_available: false,
+        subprocess_spawning_available: false,
+        adapter_calls_available: false,
+        locus_runtime_dependency_available: false,
+        mcp_open_claw_calls_available: false,
+        plugin_execution_available: false,
+        content_fabric_runtime_behavior_available: false,
+        secrets_used: false,
+        production_signing_keys_used: false,
+        writes_files: false,
+        reads_runtime_inputs: false,
+        runs_runtime: false,
+        consumed_by_live_host_loop: false,
+        grants_runtime_approval: false,
+        runtime_behavior_introduced: false,
+        live_runtime_behavior_introduced: false,
+    }
+}
+
+fn stdio_runtime_required_future_approvals() -> StdioRuntimeRequiredFutureApprovals {
+    StdioRuntimeRequiredFutureApprovals {
+        policy_approval_required_before_runtime: true,
+        exact_scope_host_policy_approval_record_required_before_runtime: true,
+        operator_consent_required_before_runtime: true,
+        fresh_external_review_required_before_runtime: true,
+        fresh_devin_review_required_before_runtime: true,
+        runtime_readiness_review_required_before_runtime: true,
+        cli_surface_review_required_before_runtime: true,
+        rollback_plan_required_before_runtime: true,
+        external_integration_approval_required_before_runtime: true,
+        future_approval_booleans_do_not_grant_runtime: true,
+        grants_runtime_approval: false,
+        runtime_approval_granted: false,
+        runtime_implementation_approved: false,
+        runtime_enablement_approved: false,
+    }
+}
+
+fn stdio_runtime_gate_matrix_runtime_effect() -> StdioRuntimeGateMatrixRuntimeEffect {
+    StdioRuntimeGateMatrixRuntimeEffect {
+        runtime: stdio_runtime_effect_runtime_flags(),
+        required_future_approvals: stdio_runtime_required_future_approvals(),
+    }
+}
+
+fn stdio_runtime_non_execution_invariants() -> Vec<String> {
+    [
+        "serve-runtime-command",
+        "stdio-runtime-command",
+        "replay-session-transcript-command",
+        "external-review-packet-command",
+        "review-packet-command",
+        "runtime-readiness-review-command",
+        "stdio-runtime-contract-command",
+        "runtime-contract-gates-command",
+        "approve-runtime-command",
+        "grant-runtime-command",
+        "enable-runtime-command",
+        "approval-evaluator",
+        "host-policy-runtime-enforcement",
+        "process-lifecycle-runtime",
+        "process-stdio-ownership",
+        "stdin-reader",
+        "stdout-writer",
+        "stderr-writer",
+        "transcript-persistence-runtime",
+        "transcript-replay-runtime",
+        "redaction-runtime-enforcement",
+        "failure-audit-runtime",
+        "cleanup-runtime",
+        "process-kill-runtime",
+        "external-integration-runtime",
+        "websocket-http-control-surface",
+        "adapter-calls",
+        "locus-runtime-dependency",
+        "mcp-openclaw-calls",
+        "plugin-execution",
+        "content-fabric-runtime-behavior",
+        "secrets-production-signing-keys",
+        "runtime-approval-grant",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn stdio_runtime_audit_evidence_paths() -> Vec<String> {
+    [
+        "crates/ardyn-host/src/lib.rs",
+        "apps/cli/src/index.mjs",
+        "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json",
+        "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json",
+        "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json",
+        "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json",
+        "tests/fixtures/host-policy/phase4-1f/runtime-readiness-checkpoint.json",
+        "tests/fixtures/host-policy/phase4-1h/external-review-disposition.json",
+        "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+        "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs",
+    ]
+    .into_iter()
+    .map(String::from)
+    .collect()
+}
+
+fn stdio_runtime_contract_gate_audit() -> StdioRuntimeContractGateAuditMetadata {
+    StdioRuntimeContractGateAuditMetadata {
+        evidence_paths: stdio_runtime_audit_evidence_paths(),
+        recorded_for: "Phase 4.1K runtime approval gate matrix".to_string(),
+        approval_wording: "public_contract_static_only_runtime_still_blocked".to_string(),
+    }
+}
+
+pub fn stdio_runtime_contract_gates() -> StdioRuntimeContractGateBundle {
+    StdioRuntimeContractGateBundle {
+        schema: ARDYN_STDIO_RUNTIME_CONTRACT_GATES_SCHEMA.to_string(),
+        schema_version: ARDYN_STDIO_RUNTIME_CONTRACT_GATES_VERSION.to_string(),
+        phase: ARDYN_STDIO_RUNTIME_CONTRACT_GATES_PHASE.to_string(),
+        artifact_kind: ARDYN_STDIO_RUNTIME_CONTRACT_GATES_KIND.to_string(),
+        metadata_generated_at: "1970-01-01T00:00:00.000Z".to_string(),
+        contract_boundary: stdio_runtime_contract_boundary(),
+        external_review: stdio_runtime_external_review_state(),
+        approval_state: stdio_runtime_approval_state(),
+        gate_checklist: stdio_runtime_gate_checklist(),
+        runtime_effect: stdio_runtime_gate_matrix_runtime_effect(),
+        non_execution_invariants: stdio_runtime_non_execution_invariants(),
+        audit: stdio_runtime_contract_gate_audit(),
+    }
+}
+
+fn stdio_runtime_gate_status_is_supported(status: &str) -> bool {
+    matches!(
+        status,
+        "evidence-ready" | "blocked" | "not-approved" | "missing" | "approved" | "runtime-approved"
+    )
+}
+
+fn stdio_runtime_gate_metadata_is_exact(gates: &[StdioRuntimeGateChecklistItem]) -> bool {
+    let expected = stdio_runtime_gate_checklist();
+    gates.len() == expected.len()
+        && gates.iter().zip(expected.iter()).all(|(gate, expected)| {
+            gate.id == expected.id
+                && gate.label == expected.label
+                && stdio_runtime_gate_status_is_supported(&gate.status)
+                && gate.evidence_level == expected.evidence_level
+                && gate.evidence_paths == expected.evidence_paths
+                && gate.static_contract_evidence_only == expected.static_contract_evidence_only
+                && gate.future_approval_required == expected.future_approval_required
+        })
+}
+
+fn stdio_runtime_required_gate_missing(gates: &[StdioRuntimeGateChecklistItem]) -> bool {
+    gates.iter().any(|gate| {
+        !gate.required_before_runtime || gate.status == "missing" || gate.evidence_paths.is_empty()
+    })
+}
+
+fn stdio_runtime_required_gate_approved(gates: &[StdioRuntimeGateChecklistItem]) -> bool {
+    gates
+        .iter()
+        .any(|gate| matches!(gate.status.as_str(), "approved" | "runtime-approved"))
+}
+
+fn stdio_runtime_approval_evidence_missing(record: &StdioRuntimeContractGateBundle) -> bool {
+    !record
+        .approval_state
+        .policy_approval_recorded_for_review_only
+        || !record
+            .approval_state
+            .exact_scope_host_policy_approval_record_evidence_ready
+        || !record
+            .approval_state
+            .operator_consent_recorded_for_review_only
+}
+
+fn stdio_runtime_approval_grant_attempted(record: &StdioRuntimeContractGateBundle) -> bool {
+    record.contract_boundary.runtime_approval_grant_present
+        || record.approval_state.operator_runtime_consent_recorded
+        || record.approval_state.runtime_approval_grant_present
+        || record.approval_state.runtime_approval_grant_valid
+        || record.approval_state.runtime_approval_granted
+        || record.approval_state.runtime_implementation_approved
+        || record.approval_state.runtime_enablement_approved
+        || record
+            .gate_checklist
+            .iter()
+            .any(|gate| gate.runtime_approval_granted || gate.grants_runtime_approval)
+        || record.runtime_effect.runtime.runtime_approval_granted
+        || record.runtime_effect.runtime.grants_runtime_approval
+        || record
+            .runtime_effect
+            .required_future_approvals
+            .grants_runtime_approval
+        || record
+            .runtime_effect
+            .required_future_approvals
+            .runtime_approval_granted
+        || record
+            .runtime_effect
+            .required_future_approvals
+            .runtime_implementation_approved
+        || record
+            .runtime_effect
+            .required_future_approvals
+            .runtime_enablement_approved
+}
+
+fn stdio_runtime_contract_static_metadata_is_exact(
+    record: &StdioRuntimeContractGateBundle,
+) -> bool {
+    record.schema == ARDYN_STDIO_RUNTIME_CONTRACT_GATES_SCHEMA
+        && record.schema_version == ARDYN_STDIO_RUNTIME_CONTRACT_GATES_VERSION
+        && record.phase == ARDYN_STDIO_RUNTIME_CONTRACT_GATES_PHASE
+        && record.artifact_kind == ARDYN_STDIO_RUNTIME_CONTRACT_GATES_KIND
+        && record.metadata_generated_at == "1970-01-01T00:00:00.000Z"
+        && record.contract_boundary.public_rust_contract_introduced
+        && record.contract_boundary.public_rust_contract_scope
+            == "static-approval-gated-contract-only"
+        && record.contract_boundary.static_contract_evidence_only
+        && record.external_review == stdio_runtime_external_review_state()
+        && stdio_runtime_gate_metadata_is_exact(&record.gate_checklist)
+        && record.non_execution_invariants == stdio_runtime_non_execution_invariants()
+        && record.audit == stdio_runtime_contract_gate_audit()
+}
+
+fn stdio_runtime_runtime_effect_attempted(record: &StdioRuntimeContractGateBundle) -> bool {
+    record.contract_boundary.runtime_implemented
+        || record.contract_boundary.runtime_enabled
+        || record.gate_checklist.iter().any(|gate| {
+            gate.runtime_implemented || gate.runtime_enabled || gate.runtime_behavior_introduced
+        })
+        || !record.runtime_effect.is_inert()
+}
+
+pub fn classify_stdio_runtime_contract_gates(
+    record: &StdioRuntimeContractGateBundle,
+) -> StdioRuntimeContractGateBundleClassification {
+    if !stdio_runtime_contract_static_metadata_is_exact(record) {
+        return StdioRuntimeContractGateBundleClassification::Malformed;
+    }
+
+    if stdio_runtime_approval_grant_attempted(record) {
+        return StdioRuntimeContractGateBundleClassification::ApprovalGrantAttemptRejected;
+    }
+
+    if stdio_runtime_required_gate_approved(&record.gate_checklist) {
+        return StdioRuntimeContractGateBundleClassification::ApprovedGateRejected;
+    }
+
+    if stdio_runtime_approval_evidence_missing(record)
+        || stdio_runtime_required_gate_missing(&record.gate_checklist)
+    {
+        return StdioRuntimeContractGateBundleClassification::MissingRequiredGate;
+    }
+
+    if stdio_runtime_runtime_effect_attempted(record) {
+        return StdioRuntimeContractGateBundleClassification::RuntimeEffectAttemptRejected;
+    }
+
+    StdioRuntimeContractGateBundleClassification::ContractOnly
+}
+
+pub fn validate_stdio_runtime_contract_gates(
+    record: &StdioRuntimeContractGateBundle,
+) -> HostResult<()> {
+    let classification = classify_stdio_runtime_contract_gates(record);
+    if classification != StdioRuntimeContractGateBundleClassification::ContractOnly {
+        return Err(validation_error(
+            "stdio runtime contract gates must remain contract-only",
+        ));
+    }
+
+    Ok(())
+}
+
+pub fn serialize_stdio_runtime_contract_gates_json(
+    record: &StdioRuntimeContractGateBundle,
+) -> HostResult<String> {
+    validate_stdio_runtime_contract_gates(record)?;
+    let json = serde_json::to_string_pretty(record)?;
+
+    Ok(format!("{json}\n"))
+}
+
+pub fn stdio_runtime_contract_gates_json() -> HostResult<String> {
+    serialize_stdio_runtime_contract_gates_json(&stdio_runtime_contract_gates())
+}
+
+pub fn parse_stdio_runtime_contract_gates_json(
+    input: &str,
+) -> HostResult<StdioRuntimeContractGateBundle> {
+    if input.contains('\r') {
+        return Err(validation_error(
+            "stdio runtime contract gates must be LF-only JSON",
+        ));
+    }
+    if !input.ends_with('\n') {
+        return Err(validation_error(
+            "stdio runtime contract gates must end with LF",
+        ));
+    }
+
+    let record: StdioRuntimeContractGateBundle = serde_json::from_str(input)?;
+    validate_stdio_runtime_contract_gates(&record)?;
+    Ok(record)
+}
+
+pub fn classify_stdio_runtime_contract_gates_json(
+    input: &str,
+) -> StdioRuntimeContractGateBundleClassification {
+    if input.contains('\r') || !input.ends_with('\n') {
+        return StdioRuntimeContractGateBundleClassification::Malformed;
+    }
+
+    let value: serde_json::Value = match serde_json::from_str(input) {
+        Ok(value) => value,
+        Err(_) => return StdioRuntimeContractGateBundleClassification::Malformed,
+    };
+
+    let object = match value.as_object() {
+        Some(object) => object,
+        None => return StdioRuntimeContractGateBundleClassification::Malformed,
+    };
+
+    let schema = object.get("schema").and_then(serde_json::Value::as_str);
+    if schema != Some(ARDYN_STDIO_RUNTIME_CONTRACT_GATES_SCHEMA) {
+        return StdioRuntimeContractGateBundleClassification::Malformed;
+    }
+
+    let schema_version = match object
+        .get("schemaVersion")
+        .and_then(serde_json::Value::as_str)
+    {
+        Some(schema_version) => schema_version,
+        None => return StdioRuntimeContractGateBundleClassification::Malformed,
+    };
+
+    if has_malformed_semver(schema_version) {
+        return StdioRuntimeContractGateBundleClassification::Malformed;
+    }
+
+    if is_unsupported_major(schema_version, ARDYN_STDIO_RUNTIME_CONTRACT_GATES_VERSION)
+        || is_same_major_non_current(schema_version, ARDYN_STDIO_RUNTIME_CONTRACT_GATES_VERSION)
+    {
+        return StdioRuntimeContractGateBundleClassification::UnsupportedVersion;
+    }
+
+    let json = match serde_json::to_string(&value) {
+        Ok(json) => json,
+        Err(_) => return StdioRuntimeContractGateBundleClassification::Malformed,
+    };
+    let record: StdioRuntimeContractGateBundle = match serde_json::from_str(&json) {
+        Ok(record) => record,
+        Err(_) => return StdioRuntimeContractGateBundleClassification::Malformed,
+    };
+
+    classify_stdio_runtime_contract_gates(&record)
+}
+
+pub fn validate_stdio_runtime_input_frame(frame: &StdioRuntimeInputFrame) -> HostResult<()> {
+    if frame.event_id.is_empty()
+        || frame.event_type != ARDYN_STDIO_RUNTIME_INPUT_EVENT_TYPE
+        || frame.payload.mode != ARDYN_STDIO_RUNTIME_INPUT_PROBE_MODE
+    {
+        return Err(validation_error(
+            "stdio runtime input frame is not an accepted static probe",
+        ));
+    }
+
+    if frame.payload.runtime_requested || frame.payload.approval_requested {
+        return Err(validation_error(
+            "stdio runtime input frame cannot request runtime or approval",
+        ));
+    }
+
+    Ok(())
+}
+
+pub fn validate_stdio_runtime_input_frame_sequence(
+    frame: &StdioRuntimeInputFrame,
+    expected_sequence: u64,
+) -> HostResult<()> {
+    validate_stdio_runtime_input_frame(frame)?;
+    if frame.sequence != expected_sequence {
+        return Err(validation_error(
+            "stdio runtime input frame sequence must be contiguous",
+        ));
+    }
+
+    Ok(())
+}
+
+pub fn parse_stdio_runtime_input_frame_json(input: &str) -> HostResult<StdioRuntimeInputFrame> {
+    let value: serde_json::Value = serde_json::from_str(input)?;
+    if !value.is_object() {
+        return Err(validation_error(
+            "stdio runtime input frame must be one JSON object",
+        ));
+    }
+
+    let frame: StdioRuntimeInputFrame = serde_json::from_value(value)?;
+    validate_stdio_runtime_input_frame(&frame)?;
+    Ok(frame)
+}
+
+pub fn classify_stdio_runtime_input_stream(input: &[u8]) -> StdioRuntimeFrameClass {
+    if input.is_empty() {
+        return StdioRuntimeFrameClass::RejectedEarlyEof;
+    }
+
+    if input.contains(&b'\r') {
+        return StdioRuntimeFrameClass::RejectedCrlf;
+    }
+
+    if !input.ends_with(b"\n") {
+        return StdioRuntimeFrameClass::RejectedEarlyEof;
+    }
+
+    let input = match std::str::from_utf8(input) {
+        Ok(input) => input,
+        Err(_) => return StdioRuntimeFrameClass::RejectedInvalidUtf8,
+    };
+
+    if input.len() as u64 > ARDYN_STDIO_RUNTIME_MAX_INPUT_BYTES {
+        return StdioRuntimeFrameClass::RejectedOversizedInput;
+    }
+
+    let mut expected_sequence = 1_u64;
+    for line in input.split_terminator('\n') {
+        if line.is_empty() {
+            return StdioRuntimeFrameClass::RejectedBlankLine;
+        }
+        if line.len() as u64 > ARDYN_STDIO_RUNTIME_MAX_FRAME_BYTES {
+            return StdioRuntimeFrameClass::RejectedOversizedPayload;
+        }
+
+        let value: serde_json::Value = match serde_json::from_str(line) {
+            Ok(value) => value,
+            Err(_) => return StdioRuntimeFrameClass::RejectedMalformedInput,
+        };
+        if !value.is_object() {
+            return StdioRuntimeFrameClass::RejectedMalformedInput;
+        }
+
+        let frame: StdioRuntimeInputFrame = match serde_json::from_value(value) {
+            Ok(frame) => frame,
+            Err(_) => return StdioRuntimeFrameClass::RejectedInvalidPayload,
+        };
+
+        if frame.event_id.is_empty()
+            || frame.event_type != ARDYN_STDIO_RUNTIME_INPUT_EVENT_TYPE
+            || frame.payload.mode != ARDYN_STDIO_RUNTIME_INPUT_PROBE_MODE
+        {
+            return StdioRuntimeFrameClass::RejectedInvalidPayload;
+        }
+
+        if frame.sequence != expected_sequence {
+            return StdioRuntimeFrameClass::RejectedSequenceGap;
+        }
+
+        if frame.payload.runtime_requested || frame.payload.approval_requested {
+            return StdioRuntimeFrameClass::RejectedRuntimeApprovalRequest;
+        }
+
+        expected_sequence += 1;
+    }
+
+    StdioRuntimeFrameClass::AcceptedStaticProbe
+}
+
+pub fn stdio_runtime_error_category_for_frame_class(
+    frame_class: &StdioRuntimeFrameClass,
+) -> Option<StdioRuntimeErrorCategory> {
+    match frame_class {
+        StdioRuntimeFrameClass::AcceptedStaticProbe => None,
+        StdioRuntimeFrameClass::RejectedEarlyEof => Some(StdioRuntimeErrorCategory::EarlyEof),
+        StdioRuntimeFrameClass::RejectedCrlf => Some(StdioRuntimeErrorCategory::CrlfRejected),
+        StdioRuntimeFrameClass::RejectedInvalidUtf8 => Some(StdioRuntimeErrorCategory::InvalidUtf8),
+        StdioRuntimeFrameClass::RejectedBlankLine => Some(StdioRuntimeErrorCategory::BlankLine),
+        StdioRuntimeFrameClass::RejectedMalformedInput => {
+            Some(StdioRuntimeErrorCategory::MalformedInput)
+        }
+        StdioRuntimeFrameClass::RejectedInvalidPayload => {
+            Some(StdioRuntimeErrorCategory::InvalidPayload)
+        }
+        StdioRuntimeFrameClass::RejectedSequenceGap => Some(StdioRuntimeErrorCategory::SequenceGap),
+        StdioRuntimeFrameClass::RejectedOversizedPayload => {
+            Some(StdioRuntimeErrorCategory::OversizedPayload)
+        }
+        StdioRuntimeFrameClass::RejectedOversizedInput => {
+            Some(StdioRuntimeErrorCategory::OversizedInput)
+        }
+        StdioRuntimeFrameClass::RejectedRuntimeApprovalRequest => {
+            Some(StdioRuntimeErrorCategory::RuntimeRequestRejected)
+        }
+    }
+}
+
+fn stdio_runtime_error_code(category: &StdioRuntimeErrorCategory) -> &'static str {
+    match category {
+        StdioRuntimeErrorCategory::EarlyEof => "early_eof",
+        StdioRuntimeErrorCategory::CrlfRejected => "crlf_rejected",
+        StdioRuntimeErrorCategory::InvalidUtf8 => "invalid_utf8",
+        StdioRuntimeErrorCategory::BlankLine => "blank_line",
+        StdioRuntimeErrorCategory::MalformedInput => "malformed_input",
+        StdioRuntimeErrorCategory::InvalidPayload => "invalid_payload",
+        StdioRuntimeErrorCategory::SequenceGap => "sequence_gap",
+        StdioRuntimeErrorCategory::OversizedPayload => "oversized_payload",
+        StdioRuntimeErrorCategory::OversizedInput => "oversized_input",
+        StdioRuntimeErrorCategory::RuntimeRequestRejected => "runtime_request_rejected",
+        StdioRuntimeErrorCategory::StdoutStderrSeparation => "stdout_stderr_separation",
+    }
+}
+
+pub fn stdio_runtime_stderr_diagnostic_for_error(
+    category: StdioRuntimeErrorCategory,
+    line: Option<u64>,
+    detail: &str,
+) -> StdioRuntimeStderrDiagnostic {
+    StdioRuntimeStderrDiagnostic {
+        schema: ARDYN_STDIO_RUNTIME_DIAGNOSTIC_SCHEMA.to_string(),
+        schema_version: ARDYN_STDIO_RUNTIME_CONTRACT_GATES_VERSION.to_string(),
+        stream: StdioRuntimeStream::Stderr,
+        code: stdio_runtime_error_code(&category).to_string(),
+        category,
+        line,
+        detail: detail.to_string(),
+        stdout_allowed: false,
+        redacted: true,
+    }
+}
+
+pub fn stdio_runtime_stdout_frame_for_input(
+    frame: &StdioRuntimeInputFrame,
+) -> HostResult<StdioRuntimeStdoutFrame> {
+    validate_stdio_runtime_input_frame(frame)?;
+
+    Ok(StdioRuntimeStdoutFrame {
+        schema: ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_SCHEMA.to_string(),
+        schema_version: ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_VERSION.to_string(),
+        event_id: frame.event_id.clone(),
+        event_type: ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_TYPE.to_string(),
+        sequence: frame.sequence,
+        accepted: true,
+        runtime_enabled: false,
+        approval_granted: false,
+    })
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -4236,6 +5795,436 @@ mod tests {
             "multiple-event fixture must contain at least two events"
         );
         assert_test_stdio_success(&input);
+    }
+
+    fn stdio_runtime_contract_gates_json_value() -> serde_json::Value {
+        serde_json::from_str(&stdio_runtime_contract_gates_json().expect("runtime gates json"))
+            .expect("runtime gates value")
+    }
+
+    fn stdio_runtime_contract_gates_json_from_value(value: serde_json::Value) -> String {
+        format!(
+            "{}\n",
+            serde_json::to_string_pretty(&value).expect("runtime gates value json")
+        )
+    }
+
+    fn assert_stdio_runtime_contract_gates_rejected(value: serde_json::Value, label: &str) {
+        let json = stdio_runtime_contract_gates_json_from_value(value);
+        let error = parse_stdio_runtime_contract_gates_json(&json)
+            .expect_err("stdio runtime gate mutation should fail closed");
+
+        assert!(
+            !error.to_string().is_empty(),
+            "{label} should produce a diagnostic"
+        );
+    }
+
+    fn stdio_runtime_phase_4_1k_fixture_path() -> std::path::PathBuf {
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .join("tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json")
+    }
+
+    #[test]
+    fn stdio_runtime_contract_gates_json_is_deterministic_and_matches_optional_fixture() {
+        let first = stdio_runtime_contract_gates_json().expect("first runtime gates json");
+        let second = stdio_runtime_contract_gates_json().expect("second runtime gates json");
+
+        assert_eq!(first, second);
+        assert!(first.ends_with('\n'));
+        assert!(!first.contains('\r'));
+        assert!(parse_stdio_runtime_contract_gates_json(&first).is_ok());
+        assert_eq!(
+            classify_stdio_runtime_contract_gates_json(&first),
+            StdioRuntimeContractGateBundleClassification::ContractOnly
+        );
+
+        let value: serde_json::Value =
+            serde_json::from_str(&first).expect("runtime gates json value");
+        assert_eq!(value["schema"], ARDYN_STDIO_RUNTIME_CONTRACT_GATES_SCHEMA);
+        assert_eq!(value["phase"], ARDYN_STDIO_RUNTIME_CONTRACT_GATES_PHASE);
+        assert_eq!(
+            value["artifactKind"],
+            ARDYN_STDIO_RUNTIME_CONTRACT_GATES_KIND
+        );
+        assert_eq!(
+            value["contractBoundary"]["runtimeEnabled"],
+            serde_json::Value::Bool(false)
+        );
+        assert_eq!(
+            value["runtimeEffect"]["runtime"]["publicContractEnablesRuntime"],
+            serde_json::Value::Bool(false)
+        );
+        assert_eq!(
+            value["approvalState"]["runtimeApprovalGranted"],
+            serde_json::Value::Bool(false)
+        );
+
+        let fixture_path = stdio_runtime_phase_4_1k_fixture_path();
+        let rendered = fixture_path.to_string_lossy().replace('\\', "/");
+        assert!(rendered
+            .ends_with("tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json"));
+
+        match std::fs::read_to_string(&fixture_path) {
+            Ok(fixture) => assert_eq!(first, fixture),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(error) => panic!("failed to read {}: {error}", fixture_path.display()),
+        }
+    }
+
+    #[test]
+    fn stdio_runtime_contract_gates_top_level_field_order_is_stable() {
+        let json = stdio_runtime_contract_gates_json().expect("runtime gates json");
+        let mut previous_index = None;
+
+        for field in stdio_runtime_contract_gates_top_level_order() {
+            let needle = format!("  \"{field}\":");
+            let index = json
+                .find(&needle)
+                .unwrap_or_else(|| panic!("missing top-level field {field}"));
+
+            if let Some(previous_index) = previous_index {
+                assert!(
+                    previous_index < index,
+                    "{field} should appear after the previous field"
+                );
+            }
+
+            previous_index = Some(index);
+        }
+    }
+
+    #[test]
+    fn stdio_runtime_contract_gates_pin_required_shapes_categories_and_gates() {
+        let record = stdio_runtime_contract_gates();
+        let shapes = stdio_runtime_frame_contract_shapes();
+        validate_stdio_runtime_contract_gates(&record).expect("runtime gates");
+
+        assert_eq!(shapes.input_frame_shape.stream, StdioRuntimeStream::Stdin);
+        assert_eq!(
+            shapes.input_frame_shape.accepted_event_type,
+            ARDYN_STDIO_RUNTIME_INPUT_EVENT_TYPE
+        );
+        assert_eq!(
+            shapes.input_frame_shape.accepted_payload_mode,
+            ARDYN_STDIO_RUNTIME_INPUT_PROBE_MODE
+        );
+        assert!(shapes.input_frame_shape.final_lf_required);
+        assert!(!shapes.input_frame_shape.crlf_allowed);
+        assert!(!shapes.input_frame_shape.blank_lines_allowed);
+        assert_eq!(
+            shapes.input_frame_shape.max_frame_bytes,
+            ARDYN_STDIO_RUNTIME_MAX_FRAME_BYTES
+        );
+
+        assert_eq!(shapes.stdout_frame_shape.stream, StdioRuntimeStream::Stdout);
+        assert!(!shapes.stdout_frame_shape.diagnostics_allowed_on_stdout);
+        assert!(!shapes.stdout_frame_shape.runtime_enabled_value);
+        assert!(!shapes.stdout_frame_shape.approval_granted_value);
+        assert_eq!(
+            shapes.stderr_diagnostic_shape.stream,
+            StdioRuntimeStream::Stderr
+        );
+        assert!(!shapes.stderr_diagnostic_shape.stdout_allowed);
+        assert!(!shapes.stderr_diagnostic_shape.session_events_allowed);
+
+        let categories = &shapes.frame_classification.required_error_categories;
+        for category in [
+            StdioRuntimeErrorCategory::EarlyEof,
+            StdioRuntimeErrorCategory::CrlfRejected,
+            StdioRuntimeErrorCategory::InvalidUtf8,
+            StdioRuntimeErrorCategory::MalformedInput,
+            StdioRuntimeErrorCategory::InvalidPayload,
+            StdioRuntimeErrorCategory::RuntimeRequestRejected,
+            StdioRuntimeErrorCategory::StdoutStderrSeparation,
+        ] {
+            assert!(categories.contains(&category), "{category:?} missing");
+        }
+        assert_eq!(record.gate_checklist.len(), 14);
+        assert!(record
+            .gate_checklist
+            .iter()
+            .all(|gate| gate.required_before_runtime));
+        assert!(record
+            .gate_checklist
+            .iter()
+            .all(|gate| gate.future_approval_required));
+        assert!(record
+            .gate_checklist
+            .iter()
+            .all(|gate| !gate.runtime_enabled));
+        assert!(record
+            .gate_checklist
+            .iter()
+            .all(|gate| !gate.grants_runtime_approval));
+        assert!(record.runtime_effect.is_inert());
+        assert!(shapes.no_runtime_safety.all_runtime_flags_disabled());
+    }
+
+    #[test]
+    fn stdio_runtime_contract_frame_classifier_matches_phase4_1j_expectations() {
+        let valid = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "valid-single-event.jsonl",
+            "valid-single-event",
+            test_stdio_probe_line("valid-runtime-gate", 1).as_bytes(),
+        );
+        assert_eq!(
+            classify_stdio_runtime_input_stream(&valid),
+            StdioRuntimeFrameClass::AcceptedStaticProbe
+        );
+
+        let multiple = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "valid-multiple-events.jsonl",
+            "valid-multiple-events",
+            test_stdio_probe_stream("multiple-runtime-gate", 2).as_bytes(),
+        );
+        assert_eq!(
+            classify_stdio_runtime_input_stream(&multiple),
+            StdioRuntimeFrameClass::AcceptedStaticProbe
+        );
+
+        assert_eq!(
+            classify_stdio_runtime_input_stream(b""),
+            StdioRuntimeFrameClass::RejectedEarlyEof
+        );
+        assert_eq!(
+            classify_stdio_runtime_input_stream(b"{not json}\n"),
+            StdioRuntimeFrameClass::RejectedMalformedInput
+        );
+        assert_eq!(
+            classify_stdio_runtime_input_stream(b"[]\n"),
+            StdioRuntimeFrameClass::RejectedMalformedInput
+        );
+        assert_eq!(
+            classify_stdio_runtime_input_stream(&[0xff, b'\n']),
+            StdioRuntimeFrameClass::RejectedInvalidUtf8
+        );
+
+        let crlf = test_stdio_probe_line("crlf-runtime-gate", 1).replace('\n', "\r\n");
+        assert_eq!(
+            classify_stdio_runtime_input_stream(crlf.as_bytes()),
+            StdioRuntimeFrameClass::RejectedCrlf
+        );
+
+        let mut missing_lf = test_stdio_probe_line("missing-lf-runtime-gate", 1);
+        missing_lf.pop();
+        assert_eq!(
+            classify_stdio_runtime_input_stream(missing_lf.as_bytes()),
+            StdioRuntimeFrameClass::RejectedEarlyEof
+        );
+
+        let missing_required = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "missing-required-fields.jsonl",
+            "missing-required-fields",
+            b"{\"eventType\":\"harness.stdin.probe\",\"sequence\":1,\"payload\":{\"mode\":\"static-harness-probe\",\"runtimeRequested\":false,\"approvalRequested\":false}}\n",
+        );
+        assert_eq!(
+            classify_stdio_runtime_input_stream(&missing_required),
+            StdioRuntimeFrameClass::RejectedInvalidPayload
+        );
+
+        let runtime_request = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "runtime-approval-request-rejected.jsonl",
+            "runtime-approval-request-rejected",
+            concat!(
+                "{\"eventId\":\"input-runtime-request\",\"eventType\":\"harness.stdin.probe\",\"sequence\":1,",
+                "\"payload\":{\"mode\":\"static-harness-probe\",\"runtimeRequested\":true,\"approvalRequested\":true}}\n"
+            )
+            .as_bytes(),
+        );
+        assert_eq!(
+            classify_stdio_runtime_input_stream(&runtime_request),
+            StdioRuntimeFrameClass::RejectedRuntimeApprovalRequest
+        );
+        assert_eq!(
+            stdio_runtime_error_category_for_frame_class(
+                &StdioRuntimeFrameClass::RejectedRuntimeApprovalRequest
+            ),
+            Some(StdioRuntimeErrorCategory::RuntimeRequestRejected)
+        );
+    }
+
+    #[test]
+    fn stdio_runtime_contract_frame_helpers_keep_stdout_and_stderr_shapes_separate() {
+        let input = test_stdio_probe_line("shape-runtime-gate", 1);
+        let frame =
+            parse_stdio_runtime_input_frame_json(input.trim_end()).expect("accepted input frame");
+        let stdout = stdio_runtime_stdout_frame_for_input(&frame).expect("stdout frame shape");
+
+        assert_eq!(stdout.schema, ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_SCHEMA);
+        assert_eq!(stdout.event_type, ARDYN_STDIO_RUNTIME_OUTPUT_EVENT_TYPE);
+        assert!(stdout.accepted);
+        assert!(!stdout.runtime_enabled);
+        assert!(!stdout.approval_granted);
+
+        let diagnostic = stdio_runtime_stderr_diagnostic_for_error(
+            StdioRuntimeErrorCategory::RuntimeRequestRejected,
+            Some(1),
+            "test harness cannot grant runtime or approval",
+        );
+        assert_eq!(diagnostic.stream, StdioRuntimeStream::Stderr);
+        assert_eq!(diagnostic.code, "runtime_request_rejected");
+        assert!(!diagnostic.stdout_allowed);
+        assert!(diagnostic.redacted);
+    }
+
+    #[test]
+    fn stdio_runtime_contract_gates_fail_closed_on_runtime_effect_mutation() {
+        let mut record = stdio_runtime_contract_gates();
+        record
+            .runtime_effect
+            .runtime
+            .public_contract_enables_runtime = true;
+        assert_eq!(
+            classify_stdio_runtime_contract_gates(&record),
+            StdioRuntimeContractGateBundleClassification::RuntimeEffectAttemptRejected
+        );
+        assert!(validate_stdio_runtime_contract_gates(&record).is_err());
+
+        let mut value = stdio_runtime_contract_gates_json_value();
+        value["runtimeEffect"]["runtime"]["publicContractEnablesRuntime"] =
+            serde_json::Value::Bool(true);
+        assert_eq!(
+            classify_stdio_runtime_contract_gates_json(
+                &stdio_runtime_contract_gates_json_from_value(value.clone())
+            ),
+            StdioRuntimeContractGateBundleClassification::RuntimeEffectAttemptRejected
+        );
+        assert_stdio_runtime_contract_gates_rejected(value, "runtime effect mutation");
+
+        let mut record = stdio_runtime_contract_gates();
+        record.runtime_effect.runtime.process_control_available = true;
+        assert_eq!(
+            classify_stdio_runtime_contract_gates(&record),
+            StdioRuntimeContractGateBundleClassification::RuntimeEffectAttemptRejected
+        );
+        assert!(validate_stdio_runtime_contract_gates(&record).is_err());
+    }
+
+    #[test]
+    fn stdio_runtime_contract_gates_reject_missing_and_approved_gates() {
+        let mut missing = stdio_runtime_contract_gates();
+        missing.gate_checklist[0].status = "missing".to_string();
+        assert_eq!(
+            classify_stdio_runtime_contract_gates(&missing),
+            StdioRuntimeContractGateBundleClassification::MissingRequiredGate
+        );
+        assert!(validate_stdio_runtime_contract_gates(&missing).is_err());
+
+        let mut value = stdio_runtime_contract_gates_json_value();
+        value["gateChecklist"][0]["status"] = serde_json::Value::String("missing".to_string());
+        assert_eq!(
+            classify_stdio_runtime_contract_gates_json(
+                &stdio_runtime_contract_gates_json_from_value(value.clone())
+            ),
+            StdioRuntimeContractGateBundleClassification::MissingRequiredGate
+        );
+        assert_stdio_runtime_contract_gates_rejected(value, "missing gate");
+
+        let mut approved = stdio_runtime_contract_gates();
+        approved.gate_checklist[1].status = "approved".to_string();
+        assert_eq!(
+            classify_stdio_runtime_contract_gates(&approved),
+            StdioRuntimeContractGateBundleClassification::ApprovedGateRejected
+        );
+        assert!(validate_stdio_runtime_contract_gates(&approved).is_err());
+
+        let mut value = stdio_runtime_contract_gates_json_value();
+        value["gateChecklist"][1]["status"] = serde_json::Value::String("approved".to_string());
+        assert_eq!(
+            classify_stdio_runtime_contract_gates_json(
+                &stdio_runtime_contract_gates_json_from_value(value.clone())
+            ),
+            StdioRuntimeContractGateBundleClassification::ApprovedGateRejected
+        );
+        assert_stdio_runtime_contract_gates_rejected(value, "approved gate");
+    }
+
+    #[test]
+    fn stdio_runtime_contract_gates_reject_approval_grant_attempts() {
+        let mut grant = stdio_runtime_contract_gates();
+        grant.approval_state.runtime_approval_granted = true;
+        assert_eq!(
+            classify_stdio_runtime_contract_gates(&grant),
+            StdioRuntimeContractGateBundleClassification::ApprovalGrantAttemptRejected
+        );
+        assert!(validate_stdio_runtime_contract_gates(&grant).is_err());
+
+        let mut grants_runtime = stdio_runtime_contract_gates();
+        grants_runtime.gate_checklist[2].grants_runtime_approval = true;
+        assert_eq!(
+            classify_stdio_runtime_contract_gates(&grants_runtime),
+            StdioRuntimeContractGateBundleClassification::ApprovalGrantAttemptRejected
+        );
+        assert!(validate_stdio_runtime_contract_gates(&grants_runtime).is_err());
+
+        let mut runtime_grant = stdio_runtime_contract_gates();
+        runtime_grant.runtime_effect.runtime.grants_runtime_approval = true;
+        assert_eq!(
+            classify_stdio_runtime_contract_gates(&runtime_grant),
+            StdioRuntimeContractGateBundleClassification::ApprovalGrantAttemptRejected
+        );
+        assert!(validate_stdio_runtime_contract_gates(&runtime_grant).is_err());
+    }
+
+    #[test]
+    fn stdio_runtime_contract_gates_reject_unsupported_or_malformed_json() {
+        let mut value = stdio_runtime_contract_gates_json_value();
+        value["schemaVersion"] = serde_json::Value::String("9.0.0".to_string());
+        assert_eq!(
+            classify_stdio_runtime_contract_gates_json(
+                &stdio_runtime_contract_gates_json_from_value(value)
+            ),
+            StdioRuntimeContractGateBundleClassification::UnsupportedVersion
+        );
+
+        let crlf_json = stdio_runtime_contract_gates_json()
+            .expect("runtime gates json")
+            .replace('\n', "\r\n");
+        assert_eq!(
+            classify_stdio_runtime_contract_gates_json(&crlf_json),
+            StdioRuntimeContractGateBundleClassification::Malformed
+        );
+        assert!(parse_stdio_runtime_contract_gates_json(&crlf_json).is_err());
+
+        let mut missing_lf = stdio_runtime_contract_gates_json().expect("runtime gates json");
+        missing_lf.pop();
+        assert_eq!(
+            classify_stdio_runtime_contract_gates_json(&missing_lf),
+            StdioRuntimeContractGateBundleClassification::Malformed
+        );
+        assert!(parse_stdio_runtime_contract_gates_json(&missing_lf).is_err());
+    }
+
+    #[test]
+    fn stdio_runtime_contract_gates_source_guard_has_no_runtime_apis() {
+        let source_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/lib.rs");
+        let source = std::fs::read_to_string(&source_path).expect("lib.rs source");
+        let production_source = source
+            .split("#[cfg(test)]")
+            .next()
+            .expect("production source before tests");
+
+        for banned in [
+            "std::io::stdin",
+            "std::io::stdout",
+            "std::io::stderr",
+            "std::process",
+            "Command::new",
+            "TcpListener",
+            "UdpSocket",
+            "thread::spawn",
+            "tokio::",
+            "async_std::",
+            "println!",
+            "eprintln!",
+        ] {
+            assert!(
+                !production_source.contains(banned),
+                "production lib.rs must not contain runtime API {banned}"
+            );
+        }
     }
 
     fn policy_metadata_json_value() -> serde_json::Value {

@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.1J Scope
+## Phase 3 and Phase 4.1K Scope
 
-This repository is currently in Phase 4.1J fixture-backed stdio-boundary mode. The
+This repository is currently in Phase 4.1K stdio-runtime-contract-gate mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -31,7 +31,9 @@ plus a static external review disposition record for the Devin targeted fix
 plus private Rust `#[cfg(test)]` in-memory tests and docs/report inventory for
 the first Rust-host stdio test harness layer plus fixture-backed boundary
 fixtures and replay tests that keep the private harness out of the public
-runtime contract
+runtime contract plus approval-gated public Rust-host stdio runtime contract
+gates that keep runtime implementation approval, runtime enablement, process
+stdio ownership, and CLI source changes blocked
 before any separately approved live runtime work.
 
 Included now:
@@ -144,6 +146,12 @@ Included now:
   readiness, records no fresh external review, keeps the private harness from
   becoming a public runtime contract, and leaves runtime blocked. See
   `docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
+- Phase 4.1K approval-gated public Rust-host stdio runtime contract gates,
+  documentation, and report inventory. The public Rust contract surface is
+  recorded as review-only contract metadata; runtime implementation approval,
+  runtime enablement, process stdio ownership, CLI source changes, fresh
+  external review, and fresh Devin review remain false. See
+  `docs/phase-4-1k-stdio-runtime-contract-gates.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -188,9 +196,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.1J CLI Usage
+## Phase 3 and Phase 4.1K CLI Usage
 
-Run non-executing commands directly from source through Phase 4.1J:
+Run non-executing commands directly from source through Phase 4.1K:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -295,8 +303,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.1I rust-host-stdio-test-harness-infrastructure-only status report
-command is:
+The Phase 4.1K contract-gate-only status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -320,7 +327,9 @@ transcript persistence/replay contract metadata, Phase 4.1E failure-audit
 kill-semantics contract metadata, Phase 4.1F runtime-readiness checkpoint
 metadata, Phase 4.1G external review packet metadata, and safety posture.
 Phase 4.1H external review disposition metadata and Phase 4.1I Rust-host stdio
-test harness inventory are included as the current static audit layers.
+test harness inventory, Phase 4.1J fixture-backed stdio boundary inventory,
+and Phase 4.1K approval-gated public Rust-host stdio runtime contract-gate
+inventory are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -351,6 +360,17 @@ stdio test harness layer as private `#[cfg(test)]` in-memory Rust test
 infrastructure plus docs/report inventory. It is not a fresh Devin review,
 adds no runtime command, changes no production runtime source, and leaves
 runtime blocked.
+
+Phase 4.1J is documented in
+`docs/phase-4-1j-fixture-backed-stdio-boundaries.md`. It records
+fixture-backed Rust-host stdio boundary coverage for the private Phase 4.1I
+harness and remains test infrastructure only.
+
+Phase 4.1K is documented in
+`docs/phase-4-1k-stdio-runtime-contract-gates.md`. It records approval-gated
+public Rust-host stdio runtime contract gates only; runtime implementation
+approval, runtime enablement, process stdio ownership, CLI source changes, and
+runtime approval grants remain blocked.
 
 Example dry-run check:
 
