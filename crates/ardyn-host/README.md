@@ -2,12 +2,14 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.1C still exposes static Rust host identity, handshake data, policy-only
+Phase 4.1D still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
 contract helpers. Phase 4.1C adds TypeScript-side static framing/redaction
-review helpers only; it adds no Rust-host stdio ownership implementation. Rust
+review helpers only, and Phase 4.1D adds TypeScript-side static transcript
+persistence/replay contract helpers only; neither phase adds a Rust-host stdio
+ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
 network serving, plugin installation, torrent download, code-pack enablement,
@@ -65,7 +67,14 @@ exists, no process stdio ownership exists, and future runtime must use these
 rules but is not implemented yet. See
 `docs/phase-4-1c-framing-redaction-contracts.md`.
 
+Phase 4.1D adds static transcript persistence and replay contracts in the
+TypeScript core, not a Rust-host runtime path. No transcript persistence
+runtime exists, no replay runtime exists, and `replay-session-transcript`
+remains proposal-only and rejected. See
+`docs/phase-4-1d-transcript-replay-contracts.md`.
+
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write
-handling, process exit semantics, redaction enforcement, and transport-failure
-audit records before any runtime loop exists.
+handling, process exit semantics, redaction enforcement, transcript
+persistence/replay runtime behavior, and transport-failure audit records before
+any runtime loop exists.

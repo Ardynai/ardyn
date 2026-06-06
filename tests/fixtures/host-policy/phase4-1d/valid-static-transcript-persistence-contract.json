@@ -1,0 +1,147 @@
+{
+  "schema": "ardyn.transcript-persistence-contract",
+  "schemaVersion": "0.1.0",
+  "contractKind": "transcript-persistence-contract",
+  "contractPhase": "phase-4.1d-transcript-replay-contracts",
+  "reviewedPhase": "4.1D",
+  "transcriptArtifact": {
+    "artifactKind": "ardyn.session-transcript",
+    "transcriptVersion": "0.1.0",
+    "sessionId": "session.phase3.9.transcript.002",
+    "sourceHarness": "ardyn"
+  },
+  "sourceEventStreamReference": {
+    "reference": "stdio-jsonl-session-events.phase4.static",
+    "streamKind": "stdio-jsonl-session-events",
+    "sourcePhase": "phase-4.0a-stdio-event-dry-run",
+    "liveStreamReaderAvailable": false,
+    "replayRuntimeConsumerAvailable": false
+  },
+  "eventCount": 7,
+  "sequenceRange": {
+    "first": 1,
+    "last": 7
+  },
+  "eventDigest": {
+    "algorithm": "sha256",
+    "value": "sha256:875ccaabfc21962d5d1beeacfe434c70767ae8b984ca2c0c4a69e9c7797345cf"
+  },
+  "eventIndex": [
+    {
+      "eventId": "evt.transcript-task.001",
+      "eventType": "session.started",
+      "sequence": 1,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:7903ff99e4eb75e3a3877b9eeef5525ecdef6aebc10796b8ab17e0aa95acbd6e"
+      }
+    },
+    {
+      "eventId": "evt.transcript-task.002",
+      "eventType": "session.heartbeat",
+      "sequence": 2,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:379fb32b8b440819fb2b0909fb3169bea320221d70bc7137bc5f3683f0357289"
+      }
+    },
+    {
+      "eventId": "evt.transcript-task.003",
+      "eventType": "session.capabilities",
+      "sequence": 3,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:c99c7dc992592e0ae2a85f432b05274e280cda9be77ea9b3476843f0de18460e"
+      }
+    },
+    {
+      "eventId": "evt.transcript-task.004",
+      "eventType": "task.planned",
+      "sequence": 4,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:2798f3cbb47ad2ae1a3560cef55a909ec86d3a06dfa76cc7b5f82b429b718081"
+      }
+    },
+    {
+      "eventId": "evt.transcript-task.005",
+      "eventType": "approval.requested",
+      "sequence": 5,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:391f6a48f3c965f0536680f5a425c2fa484ce7092f67b07a34d46b8ca6d7a386"
+      }
+    },
+    {
+      "eventId": "evt.transcript-task.006",
+      "eventType": "approval.recorded",
+      "sequence": 6,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:9eba4abba2641b09337949c51ba4bbbbd153ed04b2f6f7dc9d86328185bf4bbf"
+      }
+    },
+    {
+      "eventId": "evt.transcript-task.007",
+      "eventType": "session.completed",
+      "sequence": 7,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:713f23e38a96e18930a605d6264d443fcf14d5c5268de15a4c619d48407b8384"
+      }
+    }
+  ],
+  "persistedAt": "1970-01-01T00:00:00.000Z",
+  "persistedAtIsDeterministicFixtureMetadataOnly": true,
+  "replayCompatibilityClassification": "replay_contract_only",
+  "replaySafetyStatus": "static-contract-only",
+  "nonExecutionInvariantSummary": [
+    "no-adapter-calls",
+    "no-autonomous-loop",
+    "no-content-fabric-runtime-behavior",
+    "no-listener",
+    "no-live-stdio-reader",
+    "no-live-stdio-runtime",
+    "no-locus-runtime-dependency",
+    "no-mcp-calls",
+    "no-openclaw-calls",
+    "no-plugin-execution",
+    "no-production-signing-keys",
+    "no-runtime-execution-behavior",
+    "no-secret-handling",
+    "no-server",
+    "no-stdin-command-loop",
+    "no-subprocess-spawning",
+    "no-transcript-persistence-replay-runtime",
+    "no-websocket-http-control-surface"
+  ],
+  "failureReasons": [
+    "contract metadata is review-only and cannot run replay in Phase 4.1D"
+  ],
+  "runtimeEffect": {
+    "currentContractEnablesRuntime": false,
+    "runtimeImplementationAvailable": false,
+    "runtimeCommandAvailable": false,
+    "replayCommandAvailable": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "failureAuditRuntimeAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "writesFiles": false,
+    "readsFiles": false
+  },
+  "audit": {
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "createdBy": "codex-phase-4.1d",
+    "reviewer": "Codex",
+    "devinReviewRequiredNow": false,
+    "preserveDevinReviewFor": "major-runtime-readiness-checkpoint",
+    "metadataOnly": true,
+    "writesFiles": false,
+    "runsRuntime": false
+  }
+}

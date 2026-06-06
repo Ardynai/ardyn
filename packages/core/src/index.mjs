@@ -22,6 +22,24 @@ export const JSONL_WHOLE_LINE_BUNDLE_PARTIAL_LINE_REJECTED = "partial_line_rejec
 export const STDERR_REDACTION_SAFE = "redacted_safe";
 export const STDERR_REDACTION_UNREDACTABLE_FAIL_CLOSED = "unredactable_fail_closed";
 export const STDERR_REDACTION_MALFORMED = "malformed";
+export const ARDYN_TRANSCRIPT_REPLAY_CONTRACT_PHASE =
+  "phase-4.1d-transcript-replay-contracts";
+export const TRANSCRIPT_PERSISTENCE_CONTRACT_SCHEMA =
+  "ardyn.transcript-persistence-contract";
+export const TRANSCRIPT_REPLAY_CONTRACT_SCHEMA = "ardyn.transcript-replay-contract";
+export const TRANSCRIPT_REPLAY_COMPATIBILITY_RECORD_SCHEMA =
+  "ardyn.transcript-replay-compatibility-record";
+export const TRANSCRIPT_REPLAY_CONTRACT_VERSION = "0.1.0";
+export const TRANSCRIPT_REPLAY_CONTRACT_ONLY = "replay_contract_only";
+export const TRANSCRIPT_REPLAY_COMPATIBLE = "compatible";
+export const TRANSCRIPT_REPLAY_UPGRADE_AVAILABLE = "upgrade_available";
+export const TRANSCRIPT_REPLAY_UNSUPPORTED_MAJOR = "unsupported_major";
+export const TRANSCRIPT_REPLAY_MALFORMED = "malformed";
+export const TRANSCRIPT_REPLAY_DIGEST_MISMATCH = "digest_mismatch";
+export const TRANSCRIPT_REPLAY_SEQUENCE_GAP = "sequence_gap";
+export const TRANSCRIPT_REPLAY_DUPLICATE_SEQUENCE = "duplicate_sequence";
+export const TRANSCRIPT_REPLAY_OUT_OF_ORDER_SEQUENCE = "out_of_order_sequence";
+export const TRANSCRIPT_REPLAY_RUNTIME_UNAVAILABLE = "replay_runtime_unavailable";
 export const APPROVAL_REVIEW_ARTIFACT_SCHEMA = "ardyn.approval-review-artifact";
 export const APPROVAL_REVIEW_ARTIFACT_VERSION = "0.1.0";
 export const SCHEMA_MIGRATION_METADATA_SCHEMA = "ardyn.schema-migration-metadata";
@@ -3997,6 +4015,441 @@ export function createStdioFramingRedactionContractForReview() {
 
 export function formatStdioFramingRedactionContractJsonForReview() {
   return `${JSON.stringify(createStdioFramingRedactionContractForReview(), null, 2)}\n`;
+}
+
+const TRANSCRIPT_REPLAY_CLASSIFICATIONS = Object.freeze([
+  TRANSCRIPT_REPLAY_CONTRACT_ONLY,
+  TRANSCRIPT_REPLAY_COMPATIBLE,
+  TRANSCRIPT_REPLAY_UPGRADE_AVAILABLE,
+  TRANSCRIPT_REPLAY_UNSUPPORTED_MAJOR,
+  TRANSCRIPT_REPLAY_MALFORMED,
+  TRANSCRIPT_REPLAY_DIGEST_MISMATCH,
+  TRANSCRIPT_REPLAY_SEQUENCE_GAP,
+  TRANSCRIPT_REPLAY_DUPLICATE_SEQUENCE,
+  TRANSCRIPT_REPLAY_OUT_OF_ORDER_SEQUENCE,
+  TRANSCRIPT_REPLAY_RUNTIME_UNAVAILABLE
+]);
+const TRANSCRIPT_REPLAY_CLASSIFICATION_SET = new Set(TRANSCRIPT_REPLAY_CLASSIFICATIONS);
+const STATIC_TRANSCRIPT_REPLAY_PERSISTED_AT = "1970-01-01T00:00:00.000Z";
+
+function transcriptReplayRuntimeEffect() {
+  return {
+    currentContractEnablesRuntime: false,
+    runtimeImplementationAvailable: false,
+    runtimeCommandAvailable: false,
+    replayCommandAvailable: false,
+    transcriptPersistenceRuntimeAvailable: false,
+    transcriptReplayRuntimeAvailable: false,
+    processStdioOwnershipAvailable: false,
+    stdinReaderAvailable: false,
+    stdoutWriterAvailable: false,
+    stderrWriterAvailable: false,
+    failureAuditRuntimeAvailable: false,
+    approvalEvaluatorAvailable: false,
+    writesFiles: false,
+    readsFiles: false
+  };
+}
+
+function transcriptReplayInvariantSummary() {
+  return [...HOST_POLICY_REVIEW_REQUIRED_INVARIANTS].sort(compareAscii);
+}
+
+function sha256StableJson(value) {
+  return createHash("sha256").update(stableJsonStringify(value)).digest("hex");
+}
+
+function eventDigestRecord(value) {
+  return {
+    algorithm: "sha256",
+    value: `sha256:${sha256StableJson(value)}`
+  };
+}
+
+function transcriptEventIndex(transcript) {
+  const events = Array.isArray(transcript?.events) ? transcript.events : [];
+
+  return events.map((event) => ({
+    eventId: typeof event?.eventId === "string" ? event.eventId : null,
+    eventType: typeof event?.eventType === "string" ? event.eventType : null,
+    sequence: Number.isInteger(event?.sequence) ? event.sequence : null,
+    eventDigest: eventDigestRecord(event)
+  }));
+}
+
+function sequenceRangeFromEventIndex(eventIndex) {
+  const sequences = eventIndex
+    .map((event) => event.sequence)
+    .filter((sequence) => Number.isInteger(sequence));
+
+  return {
+    first: sequences.length > 0 ? sequences[0] : null,
+    last: sequences.length > 0 ? sequences.at(-1) : null
+  };
+}
+
+function transcriptReplaySourceReference(options = {}) {
+  return {
+    reference: options.sourceEventStreamReference ?? "stdio-jsonl-session-events.phase4.static",
+    streamKind: "stdio-jsonl-session-events",
+    sourcePhase: ARDYN_STDIO_DRY_RUN_PHASE,
+    liveStreamReaderAvailable: false,
+    replayRuntimeConsumerAvailable: false
+  };
+}
+
+function transcriptReplayAudit(createdBy) {
+  return {
+    createdAt: STATIC_TRANSCRIPT_REPLAY_PERSISTED_AT,
+    createdBy,
+    reviewer: "Codex",
+    devinReviewRequiredNow: false,
+    preserveDevinReviewFor: "major-runtime-readiness-checkpoint",
+    metadataOnly: true,
+    writesFiles: false,
+    runsRuntime: false
+  };
+}
+
+function transcriptArtifactFromTranscript(transcript) {
+  return {
+    artifactKind: "ardyn.session-transcript",
+    transcriptVersion:
+      typeof transcript?.schemaVersion === "string" ? transcript.schemaVersion : null,
+    sessionId: typeof transcript?.sessionId === "string" ? transcript.sessionId : null,
+    sourceHarness: typeof transcript?.sourceHarness === "string" ? transcript.sourceHarness : null
+  };
+}
+
+function transcriptReplayFailureReasons(classification, reasons = []) {
+  if (classification === TRANSCRIPT_REPLAY_COMPATIBLE) {
+    return [...reasons];
+  }
+
+  if (classification === TRANSCRIPT_REPLAY_UPGRADE_AVAILABLE) {
+    return [
+      ...reasons,
+      "same-major transcript upgrade is display-only and cannot run replay in Phase 4.1D"
+    ];
+  }
+
+  if (classification === TRANSCRIPT_REPLAY_CONTRACT_ONLY) {
+    return [...reasons, "contract metadata is review-only and cannot run replay in Phase 4.1D"];
+  }
+
+  if (classification === TRANSCRIPT_REPLAY_RUNTIME_UNAVAILABLE) {
+    return [...reasons, "replay runtime remains unavailable in Phase 4.1D"];
+  }
+
+  return [...reasons];
+}
+
+export function createTranscriptPersistenceContractForReview(transcript, options = {}) {
+  const compatibility = classifySessionTranscriptCompatibility(transcript);
+
+  if (
+    compatibility.compatibility !== SESSION_TRANSCRIPT_COMPATIBLE &&
+    compatibility.compatibility !== SESSION_TRANSCRIPT_UPGRADE_AVAILABLE
+  ) {
+    throw new Error(
+      `transcript must be compatible for static persistence review: ${compatibility.compatibility}`
+    );
+  }
+
+  const eventIndex = transcriptEventIndex(transcript);
+  const sequenceRange = sequenceRangeFromEventIndex(eventIndex);
+
+  return {
+    schema: TRANSCRIPT_PERSISTENCE_CONTRACT_SCHEMA,
+    schemaVersion: TRANSCRIPT_REPLAY_CONTRACT_VERSION,
+    contractKind: "transcript-persistence-contract",
+    contractPhase: ARDYN_TRANSCRIPT_REPLAY_CONTRACT_PHASE,
+    reviewedPhase: "4.1D",
+    transcriptArtifact: transcriptArtifactFromTranscript(transcript),
+    sourceEventStreamReference: transcriptReplaySourceReference(options),
+    eventCount: eventIndex.length,
+    sequenceRange,
+    eventDigest: eventDigestRecord(eventIndex),
+    eventIndex,
+    persistedAt: options.persistedAt ?? STATIC_TRANSCRIPT_REPLAY_PERSISTED_AT,
+    persistedAtIsDeterministicFixtureMetadataOnly: true,
+    replayCompatibilityClassification: TRANSCRIPT_REPLAY_CONTRACT_ONLY,
+    replaySafetyStatus: "static-contract-only",
+    nonExecutionInvariantSummary: transcriptReplayInvariantSummary(),
+    failureReasons: transcriptReplayFailureReasons(TRANSCRIPT_REPLAY_CONTRACT_ONLY),
+    runtimeEffect: transcriptReplayRuntimeEffect(),
+    audit: transcriptReplayAudit("codex-phase-4.1d")
+  };
+}
+
+export function createTranscriptReplayContractForReview(persistenceContract) {
+  if (
+    !isPlainObjectRecord(persistenceContract) ||
+    persistenceContract.schema !== TRANSCRIPT_PERSISTENCE_CONTRACT_SCHEMA
+  ) {
+    throw new Error("persistenceContract must be a static transcript persistence contract.");
+  }
+
+  return {
+    schema: TRANSCRIPT_REPLAY_CONTRACT_SCHEMA,
+    schemaVersion: TRANSCRIPT_REPLAY_CONTRACT_VERSION,
+    contractKind: "transcript-replay-contract",
+    contractPhase: ARDYN_TRANSCRIPT_REPLAY_CONTRACT_PHASE,
+    reviewedPhase: "4.1D",
+    transcriptArtifact: persistenceContract.transcriptArtifact,
+    sourceEventStreamReference: persistenceContract.sourceEventStreamReference,
+    eventCount: persistenceContract.eventCount,
+    sequenceRange: persistenceContract.sequenceRange,
+    eventDigest: persistenceContract.eventDigest,
+    persistedAt: persistenceContract.persistedAt,
+    replayCompatibilityClassification: TRANSCRIPT_REPLAY_CONTRACT_ONLY,
+    replaySafetyStatus: "replay-runtime-unavailable",
+    replayCommand: {
+      name: "replay-session-transcript",
+      implemented: false,
+      rejectedByCli: true
+    },
+    nonExecutionInvariantSummary: transcriptReplayInvariantSummary(),
+    failureReasons: transcriptReplayFailureReasons(TRANSCRIPT_REPLAY_CONTRACT_ONLY),
+    runtimeEffect: transcriptReplayRuntimeEffect(),
+    audit: transcriptReplayAudit("codex-phase-4.1d")
+  };
+}
+
+export function createTranscriptReplayCompatibilityRecordForReview(transcript, options = {}) {
+  const persistenceContract = createTranscriptPersistenceContractForReview(transcript, options);
+  const classification =
+    options.replayCompatibilityClassification ??
+    (persistenceContract.transcriptArtifact.transcriptVersion === SESSION_TRANSCRIPT_SCHEMA_VERSION
+      ? TRANSCRIPT_REPLAY_COMPATIBLE
+      : TRANSCRIPT_REPLAY_UPGRADE_AVAILABLE);
+  const failClosed =
+    classification !== TRANSCRIPT_REPLAY_COMPATIBLE &&
+    classification !== TRANSCRIPT_REPLAY_UPGRADE_AVAILABLE;
+
+  return {
+    schema: TRANSCRIPT_REPLAY_COMPATIBILITY_RECORD_SCHEMA,
+    schemaVersion: TRANSCRIPT_REPLAY_CONTRACT_VERSION,
+    recordKind: "transcript-replay-compatibility-record",
+    recordPhase: ARDYN_TRANSCRIPT_REPLAY_CONTRACT_PHASE,
+    reviewedPhase: "4.1D",
+    transcriptArtifact: persistenceContract.transcriptArtifact,
+    sourceEventStreamReference: persistenceContract.sourceEventStreamReference,
+    eventCount: persistenceContract.eventCount,
+    sequenceRange: persistenceContract.sequenceRange,
+    eventDigest: persistenceContract.eventDigest,
+    eventIndex: persistenceContract.eventIndex,
+    persistedAt: persistenceContract.persistedAt,
+    replayCompatibilityClassification: classification,
+    replaySafetyStatus: failClosed ? "fail-closed" : "static-compatible-review-only",
+    nonExecutionInvariantSummary: transcriptReplayInvariantSummary(),
+    failureReasons: transcriptReplayFailureReasons(classification, options.failureReasons),
+    runtimeEffect: transcriptReplayRuntimeEffect(),
+    audit: transcriptReplayAudit("codex-phase-4.1d")
+  };
+}
+
+function transcriptReplayClassificationRecord(classification, fields = {}) {
+  const failClosed = ![
+    TRANSCRIPT_REPLAY_CONTRACT_ONLY,
+    TRANSCRIPT_REPLAY_COMPATIBLE,
+    TRANSCRIPT_REPLAY_UPGRADE_AVAILABLE
+  ].includes(classification);
+
+  return {
+    schema: "ardyn.transcript-replay-compatibility-classification",
+    schemaVersion: TRANSCRIPT_REPLAY_CONTRACT_VERSION,
+    phase: ARDYN_TRANSCRIPT_REPLAY_CONTRACT_PHASE,
+    classification,
+    valid: fields.valid ?? !failClosed,
+    failClosed,
+    replayRuntimeAvailable: false,
+    replayCommandAvailable: false,
+    errors: fields.errors ?? [],
+    failureReasons: transcriptReplayFailureReasons(classification, fields.failureReasons),
+    reviewOnly: true,
+    runtimeEffect: transcriptReplayRuntimeEffect()
+  };
+}
+
+function runtimeEffectAttemptsTranscriptReplay(runtimeEffect) {
+  if (!isPlainObjectRecord(runtimeEffect)) {
+    return false;
+  }
+
+  return [
+    "currentContractEnablesRuntime",
+    "runtimeImplementationAvailable",
+    "runtimeCommandAvailable",
+    "replayCommandAvailable",
+    "transcriptPersistenceRuntimeAvailable",
+    "transcriptReplayRuntimeAvailable",
+    "processStdioOwnershipAvailable",
+    "stdinReaderAvailable",
+    "stdoutWriterAvailable",
+    "stderrWriterAvailable",
+    "failureAuditRuntimeAvailable",
+    "approvalEvaluatorAvailable",
+    "writesFiles",
+    "readsFiles"
+  ].some((field) => runtimeEffect[field] === true);
+}
+
+function transcriptReplayRecordMalformedErrors(record) {
+  const errors = [];
+
+  if (!isPlainObjectRecord(record)) {
+    return ["record must be an object"];
+  }
+
+  if (record.schema !== TRANSCRIPT_REPLAY_COMPATIBILITY_RECORD_SCHEMA) {
+    errors.push(`schema must be ${TRANSCRIPT_REPLAY_COMPATIBILITY_RECORD_SCHEMA}`);
+  }
+
+  if (record.recordKind !== "transcript-replay-compatibility-record") {
+    errors.push("recordKind must be transcript-replay-compatibility-record");
+  }
+
+  validateSemverMajor(errors, record.schemaVersion, "schemaVersion");
+
+  if (!isPlainObjectRecord(record.transcriptArtifact)) {
+    errors.push("transcriptArtifact must be an object");
+  } else {
+    if (record.transcriptArtifact.artifactKind !== "ardyn.session-transcript") {
+      errors.push("transcriptArtifact.artifactKind must be ardyn.session-transcript");
+    }
+    validateSemverMajor(errors, record.transcriptArtifact.transcriptVersion, "transcriptVersion");
+  }
+
+  if (!Array.isArray(record.eventIndex) || record.eventIndex.length === 0) {
+    errors.push("eventIndex must contain at least one event summary");
+  }
+
+  if (!Number.isInteger(record.eventCount) || record.eventCount < 1) {
+    errors.push("eventCount must be a positive integer");
+  } else if (Array.isArray(record.eventIndex) && record.eventCount !== record.eventIndex.length) {
+    errors.push("eventCount must match eventIndex length");
+  }
+
+  if (!isPlainObjectRecord(record.sequenceRange)) {
+    errors.push("sequenceRange must be an object");
+  }
+
+  if (
+    !isPlainObjectRecord(record.eventDigest) ||
+    record.eventDigest.algorithm !== "sha256" ||
+    typeof record.eventDigest.value !== "string" ||
+    !/^sha256:[0-9a-f]{64}$/.test(record.eventDigest.value)
+  ) {
+    errors.push("eventDigest must be a sha256 digest record");
+  }
+
+  if (!TRANSCRIPT_REPLAY_CLASSIFICATION_SET.has(record.replayCompatibilityClassification)) {
+    errors.push("replayCompatibilityClassification must be supported");
+  }
+
+  return errors;
+}
+
+export function classifyTranscriptReplayCompatibilityForReview(record) {
+  if (
+    isPlainObjectRecord(record) &&
+    record.schema === TRANSCRIPT_REPLAY_CONTRACT_SCHEMA &&
+    record.contractKind === "transcript-replay-contract"
+  ) {
+    if (runtimeEffectAttemptsTranscriptReplay(record.runtimeEffect)) {
+      return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_RUNTIME_UNAVAILABLE, {
+        valid: false,
+        failureReasons: ["static replay contract attempted to enable replay runtime"]
+      });
+    }
+
+    return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_CONTRACT_ONLY);
+  }
+
+  const malformedErrors = transcriptReplayRecordMalformedErrors(record);
+  if (malformedErrors.length > 0) {
+    return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_MALFORMED, {
+      valid: false,
+      errors: malformedErrors,
+      failureReasons: malformedErrors
+    });
+  }
+
+  const schemaMajor = semverMajor(record.schemaVersion);
+  const transcriptMajor = semverMajor(record.transcriptArtifact.transcriptVersion);
+  if (schemaMajor !== 0 || transcriptMajor !== 0) {
+    return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_UNSUPPORTED_MAJOR, {
+      valid: false,
+      failureReasons: ["record or transcript major version is unsupported"]
+    });
+  }
+
+  if (runtimeEffectAttemptsTranscriptReplay(record.runtimeEffect)) {
+    return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_RUNTIME_UNAVAILABLE, {
+      valid: false,
+      failureReasons: ["record attempted to enable transcript persistence or replay runtime"]
+    });
+  }
+
+  const sequences = record.eventIndex.map((event) => event.sequence);
+  if (sequences.some((sequence) => !Number.isInteger(sequence))) {
+    return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_MALFORMED, {
+      valid: false,
+      failureReasons: ["eventIndex sequence values must be integers"]
+    });
+  }
+
+  if (new Set(sequences).size !== sequences.length) {
+    return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_DUPLICATE_SEQUENCE, {
+      valid: false,
+      failureReasons: ["eventIndex contains duplicate sequence numbers"]
+    });
+  }
+
+  for (let index = 1; index < sequences.length; index += 1) {
+    if (sequences[index] < sequences[index - 1]) {
+      return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_OUT_OF_ORDER_SEQUENCE, {
+        valid: false,
+        failureReasons: ["eventIndex sequence numbers are out of order"]
+      });
+    }
+  }
+
+  for (let index = 0; index < sequences.length; index += 1) {
+    if (sequences[index] !== index + 1) {
+      return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_SEQUENCE_GAP, {
+        valid: false,
+        failureReasons: ["eventIndex sequence numbers must be contiguous from 1"]
+      });
+    }
+  }
+
+  const expectedDigest = eventDigestRecord(record.eventIndex).value;
+  if (record.eventDigest.value !== expectedDigest) {
+    return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_DIGEST_MISMATCH, {
+      valid: false,
+      failureReasons: ["eventDigest does not match the deterministic eventIndex digest"]
+    });
+  }
+
+  if (record.transcriptArtifact.transcriptVersion !== SESSION_TRANSCRIPT_SCHEMA_VERSION) {
+    return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_UPGRADE_AVAILABLE);
+  }
+
+  return transcriptReplayClassificationRecord(TRANSCRIPT_REPLAY_COMPATIBLE);
+}
+
+export function formatTranscriptPersistenceContractJsonForReview(transcript, options = {}) {
+  return `${JSON.stringify(createTranscriptPersistenceContractForReview(transcript, options), null, 2)}\n`;
+}
+
+export function formatTranscriptReplayContractJsonForReview(persistenceContract) {
+  return `${JSON.stringify(createTranscriptReplayContractForReview(persistenceContract), null, 2)}\n`;
+}
+
+export function formatTranscriptReplayCompatibilityRecordJsonForReview(transcript, options = {}) {
+  return `${JSON.stringify(createTranscriptReplayCompatibilityRecordForReview(transcript, options), null, 2)}\n`;
 }
 
 export function createHostInfo() {

@@ -94,6 +94,7 @@ Phase 4.1C builds on:
 - `docs/phase-4-1-runtime-proposal.md`
 - `docs/phase-4-1a-host-policy-approval-records.md`
 - `docs/phase-4-1b-transport-harness-contracts.md`
+- `docs/phase-4-1d-transcript-replay-contracts.md`
 - `docs/phase-4-stdio-dry-run-event-emission.md`
 - `docs/session-events-stdio-contract.md`
 - `docs/host-policy-preconditions.md`

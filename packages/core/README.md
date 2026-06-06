@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.1C keeps the TypeScript core on deterministic contract and display
+Phase 4.1D keeps the TypeScript core on deterministic contract and display
 data while the Rust host keeps policy-only stdio transport contract metadata
 and static host-policy review-record fixtures. The TypeScript core still owns
 manifest and task validation, deterministic non-executing task planning,
@@ -17,9 +17,12 @@ bundle. Phase 4.1A adds only static host-policy approval-record helpers and
 operator-consent fixtures on the Rust-host side. Phase 4.1B adds only static
 transport harness contract helpers and fixtures on the Rust-host side. Phase
 4.1C adds only static stdout JSONL whole-line framing and stderr redaction
-review helpers and fixtures on the TypeScript side. See
+review helpers and fixtures on the TypeScript side. Phase 4.1D adds only
+static transcript persistence/replay review helpers and fixtures on the
+TypeScript side. See
 `docs/phase-4-1b-transport-harness-contracts.md` and
-`docs/phase-4-1c-framing-redaction-contracts.md`.
+`docs/phase-4-1c-framing-redaction-contracts.md` and
+`docs/phase-4-1d-transcript-replay-contracts.md`.
 Autonomous execution, tool execution, plugin installation, network serving,
 torrent download, code-pack enablement, live stdin loops, live replay, runtime
 approval grants, and agent loops are intentionally out of scope.
@@ -132,6 +135,18 @@ runtime proposal bundle. Framing/redaction contracts are static review metadata
 only; no live writer exists, no process stdio ownership exists, and future
 runtime must use these rules but is not implemented yet. See
 `docs/phase-4-1c-framing-redaction-contracts.md`.
+
+Phase 4.1D adds static TypeScript review helpers for transcript persistence
+and replay contracts, but still adds no TypeScript core runtime APIs, no
+transcript persistence runtime, no replay runtime, no stdout writer, no stderr
+writer, no file writer, no approval evaluator, and no host-policy enforcement
+path. It does not change the finite dry-run event construction, formatter,
+Rust-host stdio transport policy metadata, transport-harness contracts,
+framing/redaction contracts, review-record classes, approval-record classes,
+display-only comparison helpers, reviewer index, final readiness bundle, or
+runtime proposal bundle. Transcript persistence/replay contracts are static
+review metadata only; `replay-session-transcript` remains proposal-only and
+rejected. See `docs/phase-4-1d-transcript-replay-contracts.md`.
 
 ## Phase 3.2 Policy Review
 

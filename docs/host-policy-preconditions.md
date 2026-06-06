@@ -207,6 +207,19 @@ handle secrets, implement live stdio ownership, own stdout/stderr, emit failure
 audits, or change the finite TypeScript dry-run emitter. See
 `docs/phase-4-1c-framing-redaction-contracts.md`.
 
+Phase 4.1D adds static transcript persistence and replay contract artifacts.
+The records define deterministic fixture metadata, digest checks, sequence
+classifications, compatibility states, and fail-closed review behavior, but no
+transcript persistence runtime exists and no replay runtime exists. The
+contracts remain inert review metadata only. They do not grant runtime
+approval, start host-policy enforcement, add an approval evaluator, write
+files, print stdout, add a CLI command, deny a running runtime, persist
+transcripts, replay transcripts, handle secrets, implement live stdio
+ownership, own stdout/stderr, emit failure audits, or change the finite
+TypeScript dry-run emitter. `replay-session-transcript` remains
+proposal-only and rejected. See
+`docs/phase-4-1d-transcript-replay-contracts.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

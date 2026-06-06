@@ -1,0 +1,86 @@
+{
+  "schema": "ardyn.transcript-replay-contract",
+  "schemaVersion": "0.1.0",
+  "contractKind": "transcript-replay-contract",
+  "contractPhase": "phase-4.1d-transcript-replay-contracts",
+  "reviewedPhase": "4.1D",
+  "transcriptArtifact": {
+    "artifactKind": "ardyn.session-transcript",
+    "transcriptVersion": "0.1.0",
+    "sessionId": "session.phase3.9.transcript.002",
+    "sourceHarness": "ardyn"
+  },
+  "sourceEventStreamReference": {
+    "reference": "stdio-jsonl-session-events.phase4.static",
+    "streamKind": "stdio-jsonl-session-events",
+    "sourcePhase": "phase-4.0a-stdio-event-dry-run",
+    "liveStreamReaderAvailable": false,
+    "replayRuntimeConsumerAvailable": false
+  },
+  "eventCount": 7,
+  "sequenceRange": {
+    "first": 1,
+    "last": 7
+  },
+  "eventDigest": {
+    "algorithm": "sha256",
+    "value": "sha256:875ccaabfc21962d5d1beeacfe434c70767ae8b984ca2c0c4a69e9c7797345cf"
+  },
+  "persistedAt": "1970-01-01T00:00:00.000Z",
+  "replayCompatibilityClassification": "replay_contract_only",
+  "replaySafetyStatus": "replay-runtime-unavailable",
+  "replayCommand": {
+    "name": "replay-session-transcript",
+    "implemented": false,
+    "rejectedByCli": true
+  },
+  "nonExecutionInvariantSummary": [
+    "no-adapter-calls",
+    "no-autonomous-loop",
+    "no-content-fabric-runtime-behavior",
+    "no-listener",
+    "no-live-stdio-reader",
+    "no-live-stdio-runtime",
+    "no-locus-runtime-dependency",
+    "no-mcp-calls",
+    "no-openclaw-calls",
+    "no-plugin-execution",
+    "no-production-signing-keys",
+    "no-runtime-execution-behavior",
+    "no-secret-handling",
+    "no-server",
+    "no-stdin-command-loop",
+    "no-subprocess-spawning",
+    "no-transcript-persistence-replay-runtime",
+    "no-websocket-http-control-surface"
+  ],
+  "failureReasons": [
+    "contract metadata is review-only and cannot run replay in Phase 4.1D"
+  ],
+  "runtimeEffect": {
+    "currentContractEnablesRuntime": false,
+    "runtimeImplementationAvailable": false,
+    "runtimeCommandAvailable": false,
+    "replayCommandAvailable": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "failureAuditRuntimeAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "writesFiles": false,
+    "readsFiles": false
+  },
+  "audit": {
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "createdBy": "codex-phase-4.1d",
+    "reviewer": "Codex",
+    "devinReviewRequiredNow": false,
+    "preserveDevinReviewFor": "major-runtime-readiness-checkpoint",
+    "metadataOnly": true,
+    "writesFiles": false,
+    "runsRuntime": false
+  }
+}

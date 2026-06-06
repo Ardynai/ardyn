@@ -148,6 +148,40 @@ const phase41CFixtureFiles = [
   "tests/fixtures/host-policy/phase4-1c/redacted-stack-trace-diagnostic.json",
   "tests/fixtures/host-policy/phase4-1c/unredactable-diagnostic-fail-closed.json"
 ];
+const phase41DReplayClassifications = [
+  "replay_contract_only",
+  "compatible",
+  "upgrade_available",
+  "unsupported_major",
+  "malformed",
+  "digest_mismatch",
+  "sequence_gap",
+  "duplicate_sequence",
+  "out_of_order_sequence",
+  "replay_runtime_unavailable"
+];
+const phase41DFailClosedClassifications = [
+  "unsupported_major",
+  "malformed",
+  "digest_mismatch",
+  "sequence_gap",
+  "duplicate_sequence",
+  "out_of_order_sequence",
+  "replay_runtime_unavailable"
+];
+const phase41DFixtureFiles = [
+  "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json",
+  "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-replay-contract.json",
+  "tests/fixtures/host-policy/phase4-1d/compatible-transcript-replay-record.json",
+  "tests/fixtures/host-policy/phase4-1d/upgrade-available-transcript-replay-record.json",
+  "tests/fixtures/host-policy/phase4-1d/unsupported-major-transcript-replay-record.json",
+  "tests/fixtures/host-policy/phase4-1d/malformed-transcript-replay-record.json",
+  "tests/fixtures/host-policy/phase4-1d/digest-mismatch-transcript-replay-record.json",
+  "tests/fixtures/host-policy/phase4-1d/sequence-gap-transcript-replay-record.json",
+  "tests/fixtures/host-policy/phase4-1d/duplicate-sequence-transcript-replay-record.json",
+  "tests/fixtures/host-policy/phase4-1d/out-of-order-sequence-transcript-replay-record.json",
+  "tests/fixtures/host-policy/phase4-1d/runtime-available-attempt-transcript-replay-record.json"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -173,14 +207,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1C framing-redaction-contract-only local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1D transcript-replay-contract-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1C",
-    name: "Framing and redaction contracts",
-    executionPosture: "framing-redaction-contract-only non-executing"
+    id: "4.1D",
+    name: "Transcript replay contracts",
+    executionPosture: "transcript-replay-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -247,12 +281,17 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1C framing-redaction-contract-only status report.",
+      purpose: "Render this deterministic local Phase 4.1D transcript-replay-contract-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1C status report.",
+      purpose: "Run focused tests for this local Phase 4.1D status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1d-transcript-replay-contracts.test.mjs",
+      purpose: "Run focused Phase 4.1D transcript persistence/replay static checks.",
       ranByReport: false
     },
     {
@@ -2802,6 +2841,224 @@ test("report inventories Phase 4.1C framing and redaction contracts without enab
   });
 });
 
+test("report inventories Phase 4.1D transcript replay contracts without enabling runtime", async () => {
+  const report = await runReport();
+  const inventory = report.phase41DTranscriptReplayInventory;
+
+  assert.equal(inventory.transcriptPersistenceContract.schema, "ardyn.transcript-persistence-contract");
+  assert.equal(inventory.transcriptPersistenceContract.schemaVersion, "0.1.0");
+  assert.equal(inventory.transcriptPersistenceContract.contractKind, "transcript-persistence-contract");
+  assert.equal(inventory.transcriptPersistenceContract.contractPhase, "phase-4.1d-transcript-replay-contracts");
+  assert.equal(inventory.transcriptPersistenceContract.reviewedPhase, "4.1D");
+  assert.equal(inventory.transcriptPersistenceContract.transcriptArtifactKind, "ardyn.session-transcript");
+  assert.equal(inventory.transcriptPersistenceContract.transcriptVersion, "0.1.0");
+  assert.equal(inventory.transcriptPersistenceContract.eventCount, 7);
+  assert.deepEqual(inventory.transcriptPersistenceContract.sequenceRange, { first: 1, last: 7 });
+  assert.equal(inventory.transcriptPersistenceContract.eventDigest.algorithm, "sha256");
+  assert.match(inventory.transcriptPersistenceContract.eventDigest.value, /^sha256:[0-9a-f]{64}$/);
+  assert.equal(inventory.transcriptPersistenceContract.persistedAt, "1970-01-01T00:00:00.000Z");
+  assert.equal(
+    inventory.transcriptPersistenceContract.persistedAtIsDeterministicFixtureMetadataOnly,
+    true
+  );
+  assert.equal(inventory.transcriptPersistenceContract.staticContractOnly, true);
+  assert.equal(inventory.transcriptPersistenceContract.replayCompatibilityClassification, "replay_contract_only");
+  assert.equal(inventory.transcriptPersistenceContract.transcriptPersistenceRuntimeAvailable, false);
+  assert.equal(inventory.transcriptPersistenceContract.transcriptReplayRuntimeAvailable, false);
+  assert.equal(inventory.transcriptPersistenceContract.replayCommandAvailable, false);
+  assert.equal(inventory.transcriptPersistenceContract.writesFiles, false);
+
+  assert.equal(inventory.transcriptReplayContract.schema, "ardyn.transcript-replay-contract");
+  assert.equal(inventory.transcriptReplayContract.contractKind, "transcript-replay-contract");
+  assert.equal(inventory.transcriptReplayContract.staticContractOnly, true);
+  assert.deepEqual(inventory.transcriptReplayContract.replayCommand, {
+    name: "replay-session-transcript",
+    implemented: false,
+    rejectedByCli: true
+  });
+  assert.equal(inventory.transcriptReplayContract.transcriptPersistenceRuntimeAvailable, false);
+  assert.equal(inventory.transcriptReplayContract.transcriptReplayRuntimeAvailable, false);
+  assert.equal(inventory.transcriptReplayContract.replayCommandAvailable, false);
+  assert.equal(inventory.transcriptReplayContract.writesFiles, false);
+
+  assert.equal(inventory.compatibilityRecord.schema, "ardyn.transcript-replay-compatibility-record");
+  assert.equal(inventory.compatibilityRecord.recordKind, "transcript-replay-compatibility-record");
+  assert.equal(inventory.compatibilityRecord.classification, "compatible");
+  assert.equal(inventory.compatibilityRecord.replaySafetyStatus, "static-compatible-review-only");
+  assert.equal(inventory.compatibilityRecord.replayRuntimeAvailable, false);
+  assert.equal(inventory.compatibilityRecord.replayCommandAvailable, false);
+  assert.equal(inventory.compatibilityRecord.writesFiles, false);
+
+  assert.deepEqual(inventory.basedOnFramingRedaction, {
+    document: "docs/phase-4-1c-framing-redaction-contracts.md",
+    fixture: "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json",
+    schema: "ardyn.stdio-framing-redaction-contract",
+    contractKind: "stdio-framing-redaction-contract",
+    reviewedPhase: "4.1C",
+    currentContractEnablesRuntime: false,
+    stdoutWriterAvailable: false,
+    stderrWriterAvailable: false
+  });
+  assert.deepEqual(inventory.normalizedTranscriptContract, {
+    schema: "ardyn.session-transcript",
+    schemaVersion: "0.1.0",
+    helpers: [
+      "validateSessionTranscript",
+      "classifySessionTranscriptCompatibility",
+      "buildSessionTranscriptDisplaySummary",
+      "buildSessionTranscriptMigrationMetadata"
+    ],
+    compatibilityClasses: ["compatible", "upgrade_available", "unsupported_major", "malformed"],
+    normalizedTranscriptInputOnly: true,
+    rawJsonlForensicOnly: true
+  });
+  assert.deepEqual(inventory.replayCompatibility, {
+    classifier: "classifyTranscriptReplayCompatibilityForReview",
+    persistenceHelper: "createTranscriptPersistenceContractForReview",
+    replayContractHelper: "createTranscriptReplayContractForReview",
+    compatibilityRecordHelper: "createTranscriptReplayCompatibilityRecordForReview",
+    classifications: phase41DReplayClassifications,
+    failClosedClassifications: phase41DFailClosedClassifications
+  });
+  assert.deepEqual(inventory.inertReplayReview, {
+    normalizedTranscriptInputOnly: true,
+    rawJsonlForensicOnly: true,
+    noLiveReplayConsumer: true,
+    noAdapters: true,
+    noTaskExecution: true,
+    noTranscriptPersistenceRuntime: true,
+    noReplayRuntime: true,
+    replaySessionTranscriptRejected: true
+  });
+  assert.deepEqual(inventory.runtimeEffect, {
+    currentContractEnablesRuntime: false,
+    runtimeImplementationAvailable: false,
+    runtimeCommandAvailable: false,
+    replayCommandAvailable: false,
+    transcriptPersistenceRuntimeAvailable: false,
+    transcriptReplayRuntimeAvailable: false,
+    processStdioOwnershipAvailable: false,
+    stdinReaderAvailable: false,
+    stdoutWriterAvailable: false,
+    stderrWriterAvailable: false,
+    failureAuditRuntimeAvailable: false,
+    approvalEvaluatorAvailable: false,
+    writesFiles: false,
+    readsFiles: false
+  });
+  assert.deepEqual(inventory.reviewOnlyDisplayBehavior, {
+    transcriptReplayContractsAreStaticArtifactsOnly: true,
+    currentContractsDoNotEnableRuntime: true,
+    futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+    preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+    reportRunsChecks: false,
+    writesFiles: false,
+    readsFiles: false,
+    printsStdoutFromCli: false,
+    consumedByLiveHostLoop: false
+  });
+  assert.deepEqual(inventory.cliCommandSurface, {
+    commandAdded: false,
+    replaySessionTranscriptCommandAdded: false,
+    persistSessionTranscriptCommandAdded: false,
+    transcriptReplayCommandAdded: false,
+    transcriptPersistenceCommandAdded: false,
+    serveRuntimeCommandAdded: false,
+    stdioRuntimeCommandAdded: false,
+    fileWriterAdded: false,
+    stdoutPrinterAdded: false,
+    existingDryRunEmitterUnchanged: true,
+    existingValidateSessionTranscriptUnchanged: true
+  });
+  assert.deepEqual(inventory.apiSurface, {
+    typescriptCoreStaticReviewHelpersAdded: true,
+    typescriptCoreRuntimeApiAdded: false,
+    rustRuntimeHelperAdded: false,
+    rustStdioOwnerAdded: false,
+    rustTranscriptPersistenceRuntimeAdded: false,
+    rustTranscriptReplayRuntimeAdded: false,
+    approvalEvaluatorAdded: false,
+    failureAuditRuntimeAdded: false,
+    secretsUsed: false
+  });
+  assert.deepEqual(
+    inventory.fixtures.map(({ path, status }) => [path, status]),
+    phase41DFixtureFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-4-1d-transcript-replay-contracts.md", "present"],
+      ["docs/phase-4-1c-framing-redaction-contracts.md", "present"],
+      ["docs/phase-4-1-runtime-proposal.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/architecture.md", "present"],
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["packages/core/README.md", "present"],
+      ["crates/ardyn-host/README.md", "present"]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase4-1d-transcript-replay-contracts.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"],
+      ["packages/core/src/index.mjs", "present"],
+      ["packages/core/src/index.d.ts", "present"]
+    ]
+  );
+
+  for (const probe of [
+    "replay-session-transcript",
+    "persist-session-transcript",
+    "transcript-replay",
+    "transcript-persistence",
+    "transcript-sidecar",
+    "serve-runtime",
+    "stdio-runtime"
+  ]) {
+    assert.ok(inventory.invariantProbes.includes(probe), probe);
+  }
+
+  assert.deepEqual(inventory.safetyPosture, {
+    nonExecuting: true,
+    transcriptReplayContractOnly: true,
+    reviewOnly: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noContentFabricDownloadInstallEnable: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noReplayRuntime: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noHostPolicyEnforcement: true,
+    noApprovalEvaluator: true,
+    noStdoutWriter: true,
+    noStderrWriter: true,
+    noFailureAuditRuntime: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -2995,6 +3252,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.hostPolicyApprovalRecords, true);
   assert.equal(report.safetyPosture.transportHarnessContracts, true);
   assert.equal(report.safetyPosture.framingRedactionContracts, true);
+  assert.equal(report.safetyPosture.transcriptReplayContracts, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {

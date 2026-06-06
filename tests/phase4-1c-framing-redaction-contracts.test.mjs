@@ -348,9 +348,9 @@ test("Phase 4.1C status report inventories framing/redaction contracts without r
   const inventory = report.phase41CFramingRedactionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1C",
-    name: "Framing and redaction contracts",
-    executionPosture: "framing-redaction-contract-only non-executing"
+    id: "4.1D",
+    name: "Transcript replay contracts",
+    executionPosture: "transcript-replay-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

@@ -387,9 +387,9 @@ test("Phase 4.1 status report still inventories Phase 4.0I readiness metadata wi
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1C",
-    name: "Framing and redaction contracts",
-    executionPosture: "framing-redaction-contract-only non-executing"
+    id: "4.1D",
+    name: "Transcript replay contracts",
+    executionPosture: "transcript-replay-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

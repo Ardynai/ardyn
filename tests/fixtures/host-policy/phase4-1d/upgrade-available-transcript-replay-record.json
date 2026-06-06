@@ -1,0 +1,128 @@
+{
+  "schema": "ardyn.transcript-replay-compatibility-record",
+  "schemaVersion": "0.1.0",
+  "recordKind": "transcript-replay-compatibility-record",
+  "recordPhase": "phase-4.1d-transcript-replay-contracts",
+  "reviewedPhase": "4.1D",
+  "transcriptArtifact": {
+    "artifactKind": "ardyn.session-transcript",
+    "transcriptVersion": "0.0.9",
+    "sessionId": "session.phase3.10.current",
+    "sourceHarness": "ardyn"
+  },
+  "sourceEventStreamReference": {
+    "reference": "stdio-jsonl-session-events.phase4.static",
+    "streamKind": "stdio-jsonl-session-events",
+    "sourcePhase": "phase-4.0a-stdio-event-dry-run",
+    "liveStreamReaderAvailable": false,
+    "replayRuntimeConsumerAvailable": false
+  },
+  "eventCount": 5,
+  "sequenceRange": {
+    "first": 1,
+    "last": 5
+  },
+  "eventDigest": {
+    "algorithm": "sha256",
+    "value": "sha256:96cab59ed06a2dd84b97fa1a3d837f92102c64ba1ee467667818da82996cb3e6"
+  },
+  "eventIndex": [
+    {
+      "eventId": "evt.phase3.10.current.001",
+      "eventType": "session.started",
+      "sequence": 1,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:0875209163ad425bc08c0b1e935e04be946a96c282529e27fe573233dfbe48c2"
+      }
+    },
+    {
+      "eventId": "evt.phase3.10.current.002",
+      "eventType": "task.planned",
+      "sequence": 2,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:de5308746f8c4ded4302078d7880c8bdac41ddc4cbf9b7af022cfcd7d0d1f7f7"
+      }
+    },
+    {
+      "eventId": "evt.phase3.10.current.003",
+      "eventType": "approval.requested",
+      "sequence": 3,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:fc7c2b73bedc8438e6738f63c805581e5cae4dc507c074f013790856dc539819"
+      }
+    },
+    {
+      "eventId": "evt.phase3.10.current.004",
+      "eventType": "approval.recorded",
+      "sequence": 4,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:2800f106a478380083b7438664870c711ad00dfb9e60fbaaa0113c195c964743"
+      }
+    },
+    {
+      "eventId": "evt.phase3.10.current.005",
+      "eventType": "session.error",
+      "sequence": 5,
+      "eventDigest": {
+        "algorithm": "sha256",
+        "value": "sha256:ddc01398fee2bd062182b3c2e67d2090e1cbbea9b79db3317a713dccacd35744"
+      }
+    }
+  ],
+  "persistedAt": "1970-01-01T00:00:00.000Z",
+  "replayCompatibilityClassification": "upgrade_available",
+  "replaySafetyStatus": "static-compatible-review-only",
+  "nonExecutionInvariantSummary": [
+    "no-adapter-calls",
+    "no-autonomous-loop",
+    "no-content-fabric-runtime-behavior",
+    "no-listener",
+    "no-live-stdio-reader",
+    "no-live-stdio-runtime",
+    "no-locus-runtime-dependency",
+    "no-mcp-calls",
+    "no-openclaw-calls",
+    "no-plugin-execution",
+    "no-production-signing-keys",
+    "no-runtime-execution-behavior",
+    "no-secret-handling",
+    "no-server",
+    "no-stdin-command-loop",
+    "no-subprocess-spawning",
+    "no-transcript-persistence-replay-runtime",
+    "no-websocket-http-control-surface"
+  ],
+  "failureReasons": [
+    "same-major transcript upgrade is display-only and cannot run replay in Phase 4.1D"
+  ],
+  "runtimeEffect": {
+    "currentContractEnablesRuntime": false,
+    "runtimeImplementationAvailable": false,
+    "runtimeCommandAvailable": false,
+    "replayCommandAvailable": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "failureAuditRuntimeAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "writesFiles": false,
+    "readsFiles": false
+  },
+  "audit": {
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "createdBy": "codex-phase-4.1d",
+    "reviewer": "Codex",
+    "devinReviewRequiredNow": false,
+    "preserveDevinReviewFor": "major-runtime-readiness-checkpoint",
+    "metadataOnly": true,
+    "writesFiles": false,
+    "runsRuntime": false
+  }
+}

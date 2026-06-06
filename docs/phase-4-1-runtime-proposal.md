@@ -249,7 +249,7 @@ Proposed future phases:
 | 4.1A | Host-policy approval records, operator consent fields, runtime scope names, denial reasons, and review-only display behavior. See `docs/phase-4-1a-host-policy-approval-records.md`. | false |
 | 4.1B | Static Rust-host transport harness contracts and fail-closed contract fixtures. See `docs/phase-4-1b-transport-harness-contracts.md`. | false |
 | 4.1C | Static stdout JSONL whole-line framing and stderr redaction contracts with fail-closed fixtures. See `docs/phase-4-1c-framing-redaction-contracts.md`. | false |
-| 4.1D | Normalized transcript persistence and inert replay review after schema, compatibility, redaction, and failure-audit tests exist. | false |
+| 4.1D | Static transcript persistence and replay contracts with compatibility, digest, sequence, and fail-closed fixtures. See `docs/phase-4-1d-transcript-replay-contracts.md`. | false |
 | 4.1E | Failure audit records, kill handling, cleanup, terminal-state checks, and nonzero exit mapping. | false |
 | 4.1F | Major runtime-readiness checkpoint with full Codex validation and preserved Devin review before enabling any live runtime surface. | false |
 
@@ -258,8 +258,10 @@ before enabling its runtime surface. Phase 4.1A implements the first roadmap
 item as static approval-record review metadata only. Phase 4.1B implements the
 second roadmap item as static transport harness contract metadata only. Phase
 4.1C implements the third roadmap item as static framing/redaction contract
-metadata only. This Phase 4.1 proposal, Phase 4.1A, Phase 4.1B, and Phase 4.1C
-implement none of the live runtime surfaces.
+metadata only. Phase 4.1D implements the fourth roadmap item as static
+transcript persistence/replay contract metadata only. This Phase 4.1 proposal,
+Phase 4.1A, Phase 4.1B, Phase 4.1C, and Phase 4.1D implement none of the live
+runtime surfaces.
 
 ## Still Forbidden
 

@@ -61,6 +61,15 @@ const phase41BTransportHarnessMetadata = await readJson(
 const phase41CFramingRedactionMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json"
 );
+const phase41DTranscriptPersistenceMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json"
+);
+const phase41DTranscriptReplayMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-replay-contract.json"
+);
+const phase41DTranscriptReplayCompatibilityMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1d/compatible-transcript-replay-record.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -108,9 +117,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1C",
-    name: "Framing and redaction contracts",
-    executionPosture: "framing-redaction-contract-only non-executing"
+    id: "4.1D",
+    name: "Transcript replay contracts",
+    executionPosture: "transcript-replay-contract-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -152,12 +161,17 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1C framing-redaction-contract-only status report.",
+      purpose: "Render this deterministic local Phase 4.1D transcript-replay-contract-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1C status report.",
+      purpose: "Run focused tests for this local Phase 4.1D status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1d-transcript-replay-contracts.test.mjs",
+      purpose: "Run focused Phase 4.1D transcript persistence/replay static checks.",
       ranByReport: false
     },
     {
@@ -3401,6 +3415,351 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41DTranscriptReplayInventory: {
+    transcriptPersistenceContract: {
+      document: "docs/phase-4-1d-transcript-replay-contracts.md",
+      source: "packages/core/src/index.mjs",
+      types: "packages/core/src/index.d.ts",
+      fixture:
+        "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json",
+      schema: phase41DTranscriptPersistenceMetadata.schema,
+      schemaVersion: phase41DTranscriptPersistenceMetadata.schemaVersion,
+      contractKind: phase41DTranscriptPersistenceMetadata.contractKind,
+      contractPhase: phase41DTranscriptPersistenceMetadata.contractPhase,
+      reviewedPhase: phase41DTranscriptPersistenceMetadata.reviewedPhase,
+      transcriptArtifactKind:
+        phase41DTranscriptPersistenceMetadata.transcriptArtifact.artifactKind,
+      transcriptVersion:
+        phase41DTranscriptPersistenceMetadata.transcriptArtifact.transcriptVersion,
+      sourceEventStreamReference:
+        phase41DTranscriptPersistenceMetadata.sourceEventStreamReference.reference,
+      eventCount: phase41DTranscriptPersistenceMetadata.eventCount,
+      sequenceRange: phase41DTranscriptPersistenceMetadata.sequenceRange,
+      eventDigest: phase41DTranscriptPersistenceMetadata.eventDigest,
+      persistedAt: phase41DTranscriptPersistenceMetadata.persistedAt,
+      persistedAtIsDeterministicFixtureMetadataOnly:
+        phase41DTranscriptPersistenceMetadata.persistedAtIsDeterministicFixtureMetadataOnly,
+      staticContractOnly: true,
+      replayCompatibilityClassification:
+        phase41DTranscriptPersistenceMetadata.replayCompatibilityClassification,
+      replaySafetyStatus: phase41DTranscriptPersistenceMetadata.replaySafetyStatus,
+      transcriptPersistenceRuntimeAvailable:
+        phase41DTranscriptPersistenceMetadata.runtimeEffect
+          .transcriptPersistenceRuntimeAvailable,
+      transcriptReplayRuntimeAvailable:
+        phase41DTranscriptPersistenceMetadata.runtimeEffect.transcriptReplayRuntimeAvailable,
+      replayCommandAvailable:
+        phase41DTranscriptPersistenceMetadata.runtimeEffect.replayCommandAvailable,
+      writesFiles: phase41DTranscriptPersistenceMetadata.runtimeEffect.writesFiles,
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      consumedByLiveHostLoop: false
+    },
+    transcriptReplayContract: {
+      document: "docs/phase-4-1d-transcript-replay-contracts.md",
+      fixture:
+        "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-replay-contract.json",
+      schema: phase41DTranscriptReplayMetadata.schema,
+      schemaVersion: phase41DTranscriptReplayMetadata.schemaVersion,
+      contractKind: phase41DTranscriptReplayMetadata.contractKind,
+      contractPhase: phase41DTranscriptReplayMetadata.contractPhase,
+      reviewedPhase: phase41DTranscriptReplayMetadata.reviewedPhase,
+      staticContractOnly: true,
+      replayCompatibilityClassification:
+        phase41DTranscriptReplayMetadata.replayCompatibilityClassification,
+      replaySafetyStatus: phase41DTranscriptReplayMetadata.replaySafetyStatus,
+      replayCommand: phase41DTranscriptReplayMetadata.replayCommand,
+      transcriptPersistenceRuntimeAvailable:
+        phase41DTranscriptReplayMetadata.runtimeEffect
+          .transcriptPersistenceRuntimeAvailable,
+      transcriptReplayRuntimeAvailable:
+        phase41DTranscriptReplayMetadata.runtimeEffect.transcriptReplayRuntimeAvailable,
+      replayCommandAvailable:
+        phase41DTranscriptReplayMetadata.runtimeEffect.replayCommandAvailable,
+      writesFiles: phase41DTranscriptReplayMetadata.runtimeEffect.writesFiles,
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      consumedByLiveHostLoop: false
+    },
+    compatibilityRecord: {
+      document: "docs/phase-4-1d-transcript-replay-contracts.md",
+      fixture: "tests/fixtures/host-policy/phase4-1d/compatible-transcript-replay-record.json",
+      schema: phase41DTranscriptReplayCompatibilityMetadata.schema,
+      schemaVersion: phase41DTranscriptReplayCompatibilityMetadata.schemaVersion,
+      recordKind: phase41DTranscriptReplayCompatibilityMetadata.recordKind,
+      recordPhase: phase41DTranscriptReplayCompatibilityMetadata.recordPhase,
+      reviewedPhase: phase41DTranscriptReplayCompatibilityMetadata.reviewedPhase,
+      classification:
+        phase41DTranscriptReplayCompatibilityMetadata.replayCompatibilityClassification,
+      replaySafetyStatus:
+        phase41DTranscriptReplayCompatibilityMetadata.replaySafetyStatus,
+      eventCount: phase41DTranscriptReplayCompatibilityMetadata.eventCount,
+      sequenceRange: phase41DTranscriptReplayCompatibilityMetadata.sequenceRange,
+      eventDigest: phase41DTranscriptReplayCompatibilityMetadata.eventDigest,
+      replayRuntimeAvailable:
+        phase41DTranscriptReplayCompatibilityMetadata.runtimeEffect
+          .transcriptReplayRuntimeAvailable,
+      replayCommandAvailable:
+        phase41DTranscriptReplayCompatibilityMetadata.runtimeEffect.replayCommandAvailable,
+      writesFiles: phase41DTranscriptReplayCompatibilityMetadata.runtimeEffect.writesFiles,
+      consumedByLiveHostLoop: false
+    },
+    basedOnFramingRedaction: {
+      document: "docs/phase-4-1c-framing-redaction-contracts.md",
+      fixture:
+        "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json",
+      schema: phase41CFramingRedactionMetadata.schema,
+      contractKind: phase41CFramingRedactionMetadata.contractKind,
+      reviewedPhase: phase41CFramingRedactionMetadata.reviewedPhase,
+      currentContractEnablesRuntime:
+        phase41CFramingRedactionMetadata.runtimeEffect.currentContractEnablesRuntime,
+      stdoutWriterAvailable:
+        phase41CFramingRedactionMetadata.runtimeEffect.stdoutWriterAvailable,
+      stderrWriterAvailable:
+        phase41CFramingRedactionMetadata.runtimeEffect.stderrWriterAvailable
+    },
+    normalizedTranscriptContract: {
+      schema: "ardyn.session-transcript",
+      schemaVersion: "0.1.0",
+      helpers: [
+        "validateSessionTranscript",
+        "classifySessionTranscriptCompatibility",
+        "buildSessionTranscriptDisplaySummary",
+        "buildSessionTranscriptMigrationMetadata"
+      ],
+      compatibilityClasses: [
+        "compatible",
+        "upgrade_available",
+        "unsupported_major",
+        "malformed"
+      ],
+      normalizedTranscriptInputOnly: true,
+      rawJsonlForensicOnly: true
+    },
+    replayCompatibility: {
+      classifier: "classifyTranscriptReplayCompatibilityForReview",
+      persistenceHelper: "createTranscriptPersistenceContractForReview",
+      replayContractHelper: "createTranscriptReplayContractForReview",
+      compatibilityRecordHelper: "createTranscriptReplayCompatibilityRecordForReview",
+      classifications: [
+        "replay_contract_only",
+        "compatible",
+        "upgrade_available",
+        "unsupported_major",
+        "malformed",
+        "digest_mismatch",
+        "sequence_gap",
+        "duplicate_sequence",
+        "out_of_order_sequence",
+        "replay_runtime_unavailable"
+      ],
+      failClosedClassifications: [
+        "unsupported_major",
+        "malformed",
+        "digest_mismatch",
+        "sequence_gap",
+        "duplicate_sequence",
+        "out_of_order_sequence",
+        "replay_runtime_unavailable"
+      ]
+    },
+    inertReplayReview: {
+      normalizedTranscriptInputOnly: true,
+      rawJsonlForensicOnly: true,
+      noLiveReplayConsumer: true,
+      noAdapters: true,
+      noTaskExecution: true,
+      noTranscriptPersistenceRuntime: true,
+      noReplayRuntime: true,
+      replaySessionTranscriptRejected: true
+    },
+    runtimeEffect: phase41DTranscriptReplayCompatibilityMetadata.runtimeEffect,
+    reviewOnlyDisplayBehavior: {
+      transcriptReplayContractsAreStaticArtifactsOnly: true,
+      currentContractsDoNotEnableRuntime: true,
+      futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+      preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+      reportRunsChecks: false,
+      writesFiles: false,
+      readsFiles: false,
+      printsStdoutFromCli: false,
+      consumedByLiveHostLoop: false
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      replaySessionTranscriptCommandAdded: false,
+      persistSessionTranscriptCommandAdded: false,
+      transcriptReplayCommandAdded: false,
+      transcriptPersistenceCommandAdded: false,
+      serveRuntimeCommandAdded: false,
+      stdioRuntimeCommandAdded: false,
+      fileWriterAdded: false,
+      stdoutPrinterAdded: false,
+      existingDryRunEmitterUnchanged: true,
+      existingValidateSessionTranscriptUnchanged: true
+    },
+    apiSurface: {
+      typescriptCoreStaticReviewHelpersAdded: true,
+      typescriptCoreRuntimeApiAdded: false,
+      rustRuntimeHelperAdded: false,
+      rustStdioOwnerAdded: false,
+      rustTranscriptPersistenceRuntimeAdded: false,
+      rustTranscriptReplayRuntimeAdded: false,
+      approvalEvaluatorAdded: false,
+      failureAuditRuntimeAdded: false,
+      secretsUsed: false
+    },
+    fixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-replay-contract.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/compatible-transcript-replay-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/upgrade-available-transcript-replay-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/unsupported-major-transcript-replay-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/malformed-transcript-replay-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/digest-mismatch-transcript-replay-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/sequence-gap-transcript-replay-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/duplicate-sequence-transcript-replay-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/out-of-order-sequence-transcript-replay-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1d/runtime-available-attempt-transcript-replay-record.json"
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1d-transcript-replay-contracts.md",
+        "Defines Phase 4.1D transcript persistence and replay contracts as static review metadata only."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1c-framing-redaction-contracts.md",
+        "Links Phase 4.1D to static framing/redaction contracts while preserving no live writer."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4.1 roadmap to identify Phase 4.1D as static transcript replay contracts."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1D leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.1D while preserving no-live-runtime replay boundaries."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents transcript replay contracts as static preconditions, not enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records Phase 4.1D TypeScript static helper contracts without persistence or replay runtime."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1D scope and unchanged non-executing CLI surface."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1D adds no transcript replay or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents Phase 4.1D static TypeScript review helpers as non-runtime APIs."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 4.1D does not add Rust-host persistence or replay runtime."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase4-1d-transcript-replay-contracts.test.mjs",
+        "Pins Phase 4.1D fixtures, docs, report inventory, source guards, and rejected transcript replay/runtime commands."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1D report metadata and safety posture."
+      ),
+      await localInventoryEntry(
+        "packages/core/src/index.mjs",
+        "Contains static transcript replay review helpers without file writes or replay runtime."
+      ),
+      await localInventoryEntry(
+        "packages/core/src/index.d.ts",
+        "Declares Phase 4.1D static helper APIs and review-only metadata types."
+      )
+    ],
+    invariantProbes: [
+      "missing --dry-run",
+      "unknown emit-session-events arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "persist-session-transcript",
+      "transcript-replay",
+      "transcript-persistence",
+      "transcript-replay-contract",
+      "transcript-persistence-contract",
+      "transcript-sidecar",
+      "sidecar-writer",
+      "serve-runtime",
+      "stdio-runtime"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      transcriptReplayContractOnly: true,
+      reviewOnly: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noHostPolicyEnforcement: true,
+      noApprovalEvaluator: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noFailureAuditRuntime: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -3420,6 +3779,7 @@ const report = {
     hostPolicyApprovalRecords: true,
     transportHarnessContracts: true,
     framingRedactionContracts: true,
+    transcriptReplayContracts: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

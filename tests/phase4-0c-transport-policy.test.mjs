@@ -135,9 +135,13 @@ test("Phase 4.0C source does not add replay execution or live transport hooks", 
     readFile(coreSourceUrl, "utf8")
   ]);
   const combinedSource = `${cliSource}\n${coreSource}`;
+  const commandBranches = [...cliSource.matchAll(/if \(command === "([^"]+)"\)/g)].map(
+    (match) => match[1]
+  );
+
+  assert.equal(commandBranches.includes("replay-session-transcript"), false);
 
   for (const forbiddenPattern of [
-    /replay-session-transcript/,
     /process\.stdin/,
     /node:readline/,
     /node:child_process/,

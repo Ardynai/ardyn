@@ -104,6 +104,14 @@ CLI command, runtime approval grant, or live host loop. Future runtime must use
 these rules but is not implemented yet. See
 `docs/phase-4-1c-framing-redaction-contracts.md`.
 
+Phase 4.1D adds static TypeScript transcript persistence and replay contract
+helpers. It does not add a Rust runtime helper, transcript persistence runtime,
+replay runtime, file writer, stdout writer, stderr writer, live stdio reader,
+process stdio ownership, approval evaluator, active host-policy enforcement
+path, CLI command, runtime approval grant, or live host loop.
+`replay-session-transcript` remains proposal-only and rejected. See
+`docs/phase-4-1d-transcript-replay-contracts.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

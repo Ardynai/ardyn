@@ -251,6 +251,21 @@ HTTP transport, host-policy enforcement, approval evaluator, or runtime
 approval grant. Future runtime must use these rules but is not implemented
 yet. See `docs/phase-4-1c-framing-redaction-contracts.md`.
 
+Phase 4.1D adds static transcript persistence and replay contracts for review
+only. The helpers classify `replay_contract_only`, `compatible`,
+`upgrade_available`, `unsupported_major`, `malformed`, `digest_mismatch`,
+`sequence_gap`, `duplicate_sequence`, `out_of_order_sequence`, and
+`replay_runtime_unavailable` states, but no transcript persistence runtime
+exists and no replay runtime exists. Phase 4.1D does not add a CLI command,
+file writer, stdout printer, stdout writer, stderr writer, stdin command loop,
+live stdio reader, runtime owner, transcript replay command, failure-audit
+runtime, listener, server, subprocess supervisor, adapter call, Locus runtime
+dependency, MCP/OpenClaw call, plugin execution path, Content Fabric runtime
+behavior, secret handling, production signing-key usage, WebSocket transport,
+HTTP transport, host-policy enforcement, approval evaluator, or runtime
+approval grant. `replay-session-transcript` remains proposal-only and
+rejected. See `docs/phase-4-1d-transcript-replay-contracts.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

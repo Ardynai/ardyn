@@ -17,6 +17,24 @@ export const STDERR_REDACTION_SAFE: "redacted_safe";
 export const STDERR_REDACTION_UNREDACTABLE_FAIL_CLOSED:
   "unredactable_fail_closed";
 export const STDERR_REDACTION_MALFORMED: "malformed";
+export const ARDYN_TRANSCRIPT_REPLAY_CONTRACT_PHASE:
+  "phase-4.1d-transcript-replay-contracts";
+export const TRANSCRIPT_PERSISTENCE_CONTRACT_SCHEMA:
+  "ardyn.transcript-persistence-contract";
+export const TRANSCRIPT_REPLAY_CONTRACT_SCHEMA: "ardyn.transcript-replay-contract";
+export const TRANSCRIPT_REPLAY_COMPATIBILITY_RECORD_SCHEMA:
+  "ardyn.transcript-replay-compatibility-record";
+export const TRANSCRIPT_REPLAY_CONTRACT_VERSION: "0.1.0";
+export const TRANSCRIPT_REPLAY_CONTRACT_ONLY: "replay_contract_only";
+export const TRANSCRIPT_REPLAY_COMPATIBLE: "compatible";
+export const TRANSCRIPT_REPLAY_UPGRADE_AVAILABLE: "upgrade_available";
+export const TRANSCRIPT_REPLAY_UNSUPPORTED_MAJOR: "unsupported_major";
+export const TRANSCRIPT_REPLAY_MALFORMED: "malformed";
+export const TRANSCRIPT_REPLAY_DIGEST_MISMATCH: "digest_mismatch";
+export const TRANSCRIPT_REPLAY_SEQUENCE_GAP: "sequence_gap";
+export const TRANSCRIPT_REPLAY_DUPLICATE_SEQUENCE: "duplicate_sequence";
+export const TRANSCRIPT_REPLAY_OUT_OF_ORDER_SEQUENCE: "out_of_order_sequence";
+export const TRANSCRIPT_REPLAY_RUNTIME_UNAVAILABLE: "replay_runtime_unavailable";
 export const APPROVAL_REVIEW_ARTIFACT_SCHEMA: "ardyn.approval-review-artifact";
 export const APPROVAL_REVIEW_ARTIFACT_VERSION: "0.1.0";
 export const SCHEMA_MIGRATION_METADATA_SCHEMA: "ardyn.schema-migration-metadata";
@@ -322,6 +340,150 @@ export interface StdioFramingRedactionContract {
     failureAuditRuntimeAvailable: false;
     approvalEvaluatorAvailable: false;
   };
+}
+
+export type TranscriptReplayCompatibilityClassification =
+  | "replay_contract_only"
+  | "compatible"
+  | "upgrade_available"
+  | "unsupported_major"
+  | "malformed"
+  | "digest_mismatch"
+  | "sequence_gap"
+  | "duplicate_sequence"
+  | "out_of_order_sequence"
+  | "replay_runtime_unavailable";
+
+export interface TranscriptDigestRecord {
+  algorithm: "sha256";
+  value: string;
+}
+
+export interface TranscriptReplayRuntimeEffect {
+  currentContractEnablesRuntime: false;
+  runtimeImplementationAvailable: false;
+  runtimeCommandAvailable: false;
+  replayCommandAvailable: false;
+  transcriptPersistenceRuntimeAvailable: false;
+  transcriptReplayRuntimeAvailable: false;
+  processStdioOwnershipAvailable: false;
+  stdinReaderAvailable: false;
+  stdoutWriterAvailable: false;
+  stderrWriterAvailable: false;
+  failureAuditRuntimeAvailable: false;
+  approvalEvaluatorAvailable: false;
+  writesFiles: false;
+  readsFiles: false;
+}
+
+export interface TranscriptArtifactReference {
+  artifactKind: "ardyn.session-transcript";
+  transcriptVersion: string | null;
+  sessionId: string | null;
+  sourceHarness: string | null;
+}
+
+export interface TranscriptSourceEventStreamReference {
+  reference: string;
+  streamKind: "stdio-jsonl-session-events";
+  sourcePhase: "phase-4.0a-stdio-event-dry-run";
+  liveStreamReaderAvailable: false;
+  replayRuntimeConsumerAvailable: false;
+}
+
+export interface TranscriptEventIndexEntry {
+  eventId: string | null;
+  eventType: string | null;
+  sequence: number | null;
+  eventDigest: TranscriptDigestRecord;
+}
+
+export interface TranscriptSequenceRange {
+  first: number | null;
+  last: number | null;
+}
+
+export interface TranscriptPersistenceContract {
+  schema: "ardyn.transcript-persistence-contract";
+  schemaVersion: "0.1.0";
+  contractKind: "transcript-persistence-contract";
+  contractPhase: "phase-4.1d-transcript-replay-contracts";
+  reviewedPhase: "4.1D";
+  transcriptArtifact: TranscriptArtifactReference;
+  sourceEventStreamReference: TranscriptSourceEventStreamReference;
+  eventCount: number;
+  sequenceRange: TranscriptSequenceRange;
+  eventDigest: TranscriptDigestRecord;
+  eventIndex: TranscriptEventIndexEntry[];
+  persistedAt: string;
+  persistedAtIsDeterministicFixtureMetadataOnly: true;
+  replayCompatibilityClassification: "replay_contract_only";
+  replaySafetyStatus: "static-contract-only";
+  nonExecutionInvariantSummary: string[];
+  failureReasons: string[];
+  runtimeEffect: TranscriptReplayRuntimeEffect;
+  audit: Record<string, unknown>;
+}
+
+export interface TranscriptReplayContract {
+  schema: "ardyn.transcript-replay-contract";
+  schemaVersion: "0.1.0";
+  contractKind: "transcript-replay-contract";
+  contractPhase: "phase-4.1d-transcript-replay-contracts";
+  reviewedPhase: "4.1D";
+  transcriptArtifact: TranscriptArtifactReference;
+  sourceEventStreamReference: TranscriptSourceEventStreamReference;
+  eventCount: number;
+  sequenceRange: TranscriptSequenceRange;
+  eventDigest: TranscriptDigestRecord;
+  persistedAt: string;
+  replayCompatibilityClassification: "replay_contract_only";
+  replaySafetyStatus: "replay-runtime-unavailable";
+  replayCommand: {
+    name: "replay-session-transcript";
+    implemented: false;
+    rejectedByCli: true;
+  };
+  nonExecutionInvariantSummary: string[];
+  failureReasons: string[];
+  runtimeEffect: TranscriptReplayRuntimeEffect;
+  audit: Record<string, unknown>;
+}
+
+export interface TranscriptReplayCompatibilityRecord {
+  schema: "ardyn.transcript-replay-compatibility-record";
+  schemaVersion: "0.1.0";
+  recordKind: "transcript-replay-compatibility-record";
+  recordPhase: "phase-4.1d-transcript-replay-contracts";
+  reviewedPhase: "4.1D";
+  transcriptArtifact: TranscriptArtifactReference;
+  sourceEventStreamReference: TranscriptSourceEventStreamReference;
+  eventCount: number;
+  sequenceRange: TranscriptSequenceRange;
+  eventDigest: TranscriptDigestRecord;
+  eventIndex: TranscriptEventIndexEntry[];
+  persistedAt: string;
+  replayCompatibilityClassification: TranscriptReplayCompatibilityClassification;
+  replaySafetyStatus: "static-compatible-review-only" | "fail-closed";
+  nonExecutionInvariantSummary: string[];
+  failureReasons: string[];
+  runtimeEffect: TranscriptReplayRuntimeEffect;
+  audit: Record<string, unknown>;
+}
+
+export interface TranscriptReplayCompatibilityClassificationResult {
+  schema: "ardyn.transcript-replay-compatibility-classification";
+  schemaVersion: "0.1.0";
+  phase: "phase-4.1d-transcript-replay-contracts";
+  classification: TranscriptReplayCompatibilityClassification;
+  valid: boolean;
+  failClosed: boolean;
+  replayRuntimeAvailable: false;
+  replayCommandAvailable: false;
+  errors: string[];
+  failureReasons: string[];
+  reviewOnly: true;
+  runtimeEffect: TranscriptReplayRuntimeEffect;
 }
 
 export interface SessionTranscript {
@@ -1169,6 +1331,47 @@ export function classifyRedactionSafety(
 ): StderrRedactionSafetyClassification;
 export function createStdioFramingRedactionContractForReview(): StdioFramingRedactionContract;
 export function formatStdioFramingRedactionContractJsonForReview(): string;
+export function createTranscriptPersistenceContractForReview(
+  transcript: unknown,
+  options?: {
+    sourceEventStreamReference?: string;
+    persistedAt?: string;
+  }
+): TranscriptPersistenceContract;
+export function createTranscriptReplayContractForReview(
+  persistenceContract: TranscriptPersistenceContract
+): TranscriptReplayContract;
+export function createTranscriptReplayCompatibilityRecordForReview(
+  transcript: unknown,
+  options?: {
+    sourceEventStreamReference?: string;
+    persistedAt?: string;
+    replayCompatibilityClassification?: TranscriptReplayCompatibilityClassification;
+    failureReasons?: string[];
+  }
+): TranscriptReplayCompatibilityRecord;
+export function classifyTranscriptReplayCompatibilityForReview(
+  record: unknown
+): TranscriptReplayCompatibilityClassificationResult;
+export function formatTranscriptPersistenceContractJsonForReview(
+  transcript: unknown,
+  options?: {
+    sourceEventStreamReference?: string;
+    persistedAt?: string;
+  }
+): string;
+export function formatTranscriptReplayContractJsonForReview(
+  persistenceContract: TranscriptPersistenceContract
+): string;
+export function formatTranscriptReplayCompatibilityRecordJsonForReview(
+  transcript: unknown,
+  options?: {
+    sourceEventStreamReference?: string;
+    persistedAt?: string;
+    replayCompatibilityClassification?: TranscriptReplayCompatibilityClassification;
+    failureReasons?: string[];
+  }
+): string;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
