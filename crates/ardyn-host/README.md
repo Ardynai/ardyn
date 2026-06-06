@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.1G still exposes static Rust host identity, handshake data, policy-only
+Phase 4.1H still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -97,6 +97,16 @@ cleanup runtime, process killing, signal handling, timeout runtime, approval
 evaluation, host-policy enforcement, runtime command enablement, review-packet
 command enablement, or runtime approval grant. See
 `docs/phase-4-1g-external-review-packet.md`.
+
+Phase 4.1H adds a static external review disposition record in docs, fixture
+metadata, report inventory, and tests only. It records Devin's targeted-fix
+disposition and the corrected Phase 4.1G SHA metadata evidence. It is not a
+fresh Devin re-review and does not add Rust-host process stdio ownership, live
+stdin reading, stdout/stderr writers, failure-audit runtime, cleanup runtime,
+process killing, signal handling, timeout runtime, approval evaluation,
+host-policy enforcement, runtime command enablement, review-disposition command
+enablement, or runtime approval grant. See
+`docs/phase-4-1h-external-review-disposition.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

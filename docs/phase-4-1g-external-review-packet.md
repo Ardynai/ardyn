@@ -172,3 +172,12 @@ usage.
 If a reviewer finds the packet acceptable, the next step is still a separate
 explicit runtime implementation approval. Phase 4.1G itself is not that
 approval.
+
+## Phase 4.1H Disposition Follow-Up
+
+Phase 4.1H records Devin's targeted-fix disposition after this packet. See
+`docs/phase-4-1h-external-review-disposition.md`. Phase 4.1H is static review
+metadata only: it records the fixed `currentMainSha`, the targeted fix commit,
+validation and smoke summaries, still-blocked runtime surfaces, and the
+planning-only next step. It is not a fresh Devin re-review and cannot grant
+runtime approval.

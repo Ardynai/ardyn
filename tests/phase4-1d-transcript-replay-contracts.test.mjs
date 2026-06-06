@@ -284,9 +284,9 @@ test("Phase 4.1D status report inventories transcript replay contracts without r
   const inventory = report.phase41DTranscriptReplayInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1G",
-    name: "External review packet",
-    executionPosture: "external-review-packet-only non-executing"
+    id: "4.1H",
+    name: "External review disposition",
+    executionPosture: "external-review-disposition-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

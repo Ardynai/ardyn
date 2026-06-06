@@ -317,6 +317,25 @@ evaluator, or runtime approval grant. `external-review-packet`,
 and `replay-session-transcript` remain proposal-only and rejected. See
 `docs/phase-4-1g-external-review-packet.md`.
 
+Phase 4.1H adds a static external review disposition record for Devin's
+targeted-fix result only. It records that the stale Phase 4.1G `currentMainSha`
+blocker was fixed, that this is not a fresh Devin re-review, and that the next
+allowed step is planning the first Rust-host stdio runtime test harness only.
+No live stdio runtime exists and no runtime, review-disposition, or
+review-packet command is implemented. Phase 4.1H does not add a CLI command,
+file writer, stdout printer, stdout writer, stderr writer, stdin command loop,
+live stdio reader, runtime owner, transcript replay command, failure-audit
+runtime, cleanup runtime, signal handling runtime, timeout runtime, process
+control, listener, server, subprocess supervisor, adapter call, Locus runtime
+dependency, MCP/OpenClaw call, plugin execution path, Content Fabric runtime
+behavior, secret handling, production signing-key usage, WebSocket transport,
+HTTP transport, host-policy enforcement, approval evaluator, or runtime
+approval grant. `external-review-disposition`, `review-disposition`,
+`external-review-packet`, `review-packet`, `runtime-readiness-review`,
+`serve-runtime`, `stdio-runtime`, and `replay-session-transcript` remain
+proposal-only and rejected. See
+`docs/phase-4-1h-external-review-disposition.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

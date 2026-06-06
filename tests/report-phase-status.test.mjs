@@ -335,6 +335,36 @@ const phase41GReviewerOutcomeCategories = [
 const phase41GFixtureFiles = [
   "tests/fixtures/host-policy/phase4-1g/external-review-packet.json"
 ];
+const phase41HBlockedSurfaceIds = [
+  "serve-runtime-command",
+  "stdio-runtime-command",
+  "replay-session-transcript-command",
+  "approval-evaluator-runtime",
+  "process-stdio-ownership-runtime",
+  "failure-audit-cleanup-kill-runtime",
+  "transcript-persistence-replay-runtime",
+  "external-integration-runtime",
+  "websocket-http-control-surface",
+  "runtime-approval-grant"
+];
+const phase41HRejectedProbes = [
+  "missing --dry-run",
+  "unknown arg",
+  "unsafe manifest URL",
+  "invalid JSON manifest",
+  "invalid JSON task",
+  "replay-session-transcript",
+  "policy-metadata",
+  "host-policy-export",
+  "serve-runtime",
+  "stdio-runtime",
+  "external-review-packet",
+  "review-packet",
+  "runtime-readiness-review"
+];
+const phase41HFixtureFiles = [
+  "tests/fixtures/host-policy/phase4-1h/external-review-disposition.json"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -366,14 +396,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1G external-review-packet-only local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1H external-review-disposition-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1G",
-    name: "External review packet",
-    executionPosture: "external-review-packet-only non-executing"
+    id: "4.1H",
+    name: "External review disposition",
+    executionPosture: "external-review-disposition-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -441,12 +471,17 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.1G external-review-packet-only status report.",
+        "Render this deterministic local Phase 4.1H external-review-disposition-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1G status report.",
+      purpose: "Run focused tests for this local Phase 4.1H status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1h-external-review-disposition.test.mjs",
+      purpose: "Run focused Phase 4.1H external review disposition static checks.",
       ranByReport: false
     },
     {
@@ -3923,6 +3958,229 @@ test("report inventories Phase 4.1G external review packet without enabling runt
   assert.equal(report.safetyPosture.flags.phase41RuntimeImplemented, false);
 });
 
+test("report inventories Phase 4.1H external review disposition without enabling runtime", async () => {
+  const report = await runReport();
+  const inventory = report.phase41HExternalReviewDispositionInventory;
+
+  assert.equal(inventory.disposition.schema, "ardyn.external-review-disposition-record");
+  assert.equal(inventory.disposition.schemaVersion, "0.1.0");
+  assert.equal(inventory.disposition.artifactKind, "external-review-disposition-record");
+  assert.equal(inventory.disposition.dispositionPhase, "phase-4.1h-external-review-disposition");
+  assert.equal(inventory.disposition.reviewedPhase, "4.1H");
+  assert.equal(inventory.disposition.metadataGeneratedAt, "1970-01-01T00:00:00.000Z");
+  assert.equal(
+    inventory.disposition.currentMainSha,
+    "74b9872a7e44972fcc6d9bf33eb5a93829554cd0"
+  );
+  assert.equal(inventory.disposition.reviewMetadataOnly, true);
+  assert.equal(inventory.disposition.notFreshDevinReReview, true);
+  assert.equal(inventory.disposition.runtimeBehaviorIntroduced, false);
+  assert.equal(inventory.disposition.liveRuntimeBehaviorIntroduced, false);
+  assert.equal(inventory.disposition.grantsRuntimeApproval, false);
+
+  assert.deepEqual(inventory.sourceReview, {
+    reviewer: "Devin",
+    reviewedPacketPhase: "4.1G",
+    reviewedPacketCurrentMainSha: "3a2f28e02494cb2ac0735e6bec32f283f4b616db",
+    priorDisposition: "request_targeted_fixes_before_approval",
+    architectureRuntimeBlockerFound: false,
+    targetedBlocker: "stale_phase_4.1g_currentMainSha",
+    freshDevinReReview: false,
+    freshReReviewUnavailableReason: "devin_credits_unavailable"
+  });
+  assert.equal(inventory.targetedFix.blockerFixed, true);
+  assert.equal(
+    inventory.targetedFix.staleMainSha,
+    "070b327b6132e14170598d3e865dcf5ec4b0993e"
+  );
+  assert.equal(
+    inventory.targetedFix.correctedReviewedSha,
+    "3a2f28e02494cb2ac0735e6bec32f283f4b616db"
+  );
+  assert.equal(
+    inventory.targetedFix.fixCommitSha,
+    "74b9872a7e44972fcc6d9bf33eb5a93829554cd0"
+  );
+  assert.equal(inventory.targetedFix.staleShaRemainingPhase41GPacketMatches, 0);
+  assert.equal(inventory.targetedFix.appsCliSourceTouched, false);
+  assert.deepEqual(inventory.targetedFix.filesChangedByFix, [
+    "docs/phase-4-1g-external-review-packet.md",
+    "tests/fixtures/host-policy/phase4-1g/external-review-packet.json",
+    "tests/phase4-1g-external-review-packet.test.mjs",
+    "tests/report-phase-status.test.mjs"
+  ]);
+  assert.equal(inventory.validationSummary.recordedFromTargetedFix, true);
+  assert.deepEqual(
+    inventory.validationSummary.commands.map(({ command, result }) => [command, result]),
+    [
+      ["npm test", "passed"],
+      ["npm run test:schemas", "passed"],
+      ["cargo test --workspace", "passed"],
+      ["cargo check --workspace", "passed"],
+      ["cargo fmt --check", "passed"],
+      ["git diff --check", "passed"],
+      ["npm run report:phase-status", "passed"]
+    ]
+  );
+  assert.deepEqual(inventory.smokeProbeSummary.rejectionProbes, phase41HRejectedProbes);
+  assert.equal(inventory.smokeProbeSummary.allRejected, true);
+  assert.equal(inventory.smokeProbeSummary.allZeroStdout, true);
+  assert.equal(inventory.smokeProbeSummary.emitSessionEventsDryRun.eventLines, 6);
+  assert.equal(inventory.reviewOnlyBoundary.externalReviewDispositionRecordOnly, true);
+  assert.equal(inventory.reviewOnlyBoundary.notFreshDevinReReview, true);
+  assert.equal(
+    inventory.reviewOnlyBoundary.readyToPlanFirstRustHostStdioRuntimeTestHarnessOnly,
+    true
+  );
+  assert.equal(inventory.reviewOnlyBoundary.grantsRuntimeApproval, false);
+  assert.equal(inventory.nextAllowedStep.id, "plan-first-rust-host-stdio-runtime-test-harness-only");
+  assert.equal(inventory.nextAllowedStep.planningOnly, true);
+  assert.equal(inventory.nextAllowedStep.implementationAllowedInThisPhase, false);
+  assert.deepEqual(inventory.blockedRuntimeSurfaceIds, phase41HBlockedSurfaceIds);
+  assertAllFalse(inventory.runtimeEffect);
+
+  assert.deepEqual(inventory.reviewOnlyDisplayBehavior, {
+    externalReviewDispositionIsStaticArtifactOnly: true,
+    dispositionCannotGrantRuntimeApproval: true,
+    dispositionDoesNotEnableRuntime: true,
+    notFreshDevinReReview: true,
+    futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+    nextStepIsPlanningOnly: true,
+    reportRunsChecks: false,
+    writesFiles: false,
+    readsFiles: false,
+    printsStdoutFromCli: false,
+    consumedByLiveHostLoop: false
+  });
+  assert.deepEqual(inventory.cliCommandSurface, {
+    commandAdded: false,
+    externalReviewDispositionCommandAdded: false,
+    reviewDispositionCommandAdded: false,
+    externalReviewPacketCommandAdded: false,
+    reviewPacketCommandAdded: false,
+    runtimeReadinessReviewCommandAdded: false,
+    serveRuntimeCommandAdded: false,
+    stdioRuntimeCommandAdded: false,
+    replaySessionTranscriptCommandAdded: false,
+    approvalEvaluatorCommandAdded: false,
+    policyMetadataCommandAdded: false,
+    hostPolicyExportCommandAdded: false,
+    fileWriterAdded: false,
+    stdoutPrinterAdded: false,
+    existingDryRunEmitterUnchanged: true
+  });
+  assert.deepEqual(inventory.apiSurface, {
+    typescriptCoreRuntimeApiAdded: false,
+    typescriptCoreReviewDispositionHelperAdded: false,
+    typescriptCoreReviewPacketHelperAdded: false,
+    rustRuntimeHelperAdded: false,
+    rustStdioOwnerAdded: false,
+    approvalEvaluatorAdded: false,
+    hostPolicyEnforcementAdded: false,
+    failureAuditRuntimeAdded: false,
+    cleanupRuntimeAdded: false,
+    processKillAdded: false,
+    processControlAdded: false,
+    transcriptPersistenceReplayRuntimeAdded: false,
+    secretsUsed: false
+  });
+
+  assert.deepEqual(
+    inventory.fixtures.map((entry) => entry.path),
+    phase41HFixtureFiles
+  );
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-4-1h-external-review-disposition.md", "present"],
+      ["docs/phase-4-1g-external-review-packet.md", "present"],
+      ["docs/phase-4-1f-runtime-readiness-checkpoint.md", "present"],
+      ["docs/phase-4-1-runtime-proposal.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/architecture.md", "present"],
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["packages/core/README.md", "present"],
+      ["crates/ardyn-host/README.md", "present"]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase4-1h-external-review-disposition.test.mjs", "present"],
+      ["tests/phase4-1g-external-review-packet.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+
+  for (const probe of [
+    ...phase41HRejectedProbes,
+    "approve-runtime",
+    "grant-runtime",
+    "enable-runtime",
+    "approval-evaluator",
+    "transport-harness",
+    "stdin-reader",
+    "stdout-writer",
+    "stderr-writer",
+    "failure-audit",
+    "cleanup-runtime",
+    "kill-runtime"
+  ]) {
+    assert.ok(inventory.invariantProbes.includes(probe), probe);
+  }
+
+  assert.deepEqual(inventory.safetyPosture, {
+    nonExecuting: true,
+    externalReviewDispositionOnly: true,
+    reviewOnly: true,
+    noFreshDevinReReview: true,
+    targetedBlockerFixed: true,
+    noLiveRuntime: true,
+    noRuntimeCommand: true,
+    noReviewDispositionCommand: true,
+    noReviewPacketCommand: true,
+    noServeRuntime: true,
+    noStdioRuntime: true,
+    noReplaySessionTranscript: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noStdoutWriter: true,
+    noStderrWriter: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noContentFabricDownloadInstallEnable: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noFailureAuditRuntime: true,
+    noCleanupRuntime: true,
+    noProcessKill: true,
+    noApprovalEvaluator: true,
+    noHostPolicyEnforcement: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+  assert.equal(report.safetyPosture.externalReviewPacket, true);
+  assert.equal(report.safetyPosture.externalReviewDisposition, true);
+  assert.equal(report.safetyPosture.flags.phase41RuntimeImplemented, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -4120,6 +4378,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.failureAuditContracts, true);
   assert.equal(report.safetyPosture.runtimeReadinessCheckpoint, true);
   assert.equal(report.safetyPosture.externalReviewPacket, true);
+  assert.equal(report.safetyPosture.externalReviewDisposition, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {

@@ -85,6 +85,9 @@ const phase41FRuntimeReadinessCheckpointMetadata = await readJson(
 const phase41GExternalReviewPacketMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-1g/external-review-packet.json"
 );
+const phase41HExternalReviewDispositionMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1h/external-review-disposition.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -132,9 +135,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1G",
-    name: "External review packet",
-    executionPosture: "external-review-packet-only non-executing"
+    id: "4.1H",
+    name: "External review disposition",
+    executionPosture: "external-review-disposition-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -176,12 +179,18 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1G external-review-packet-only status report.",
+      purpose:
+        "Render this deterministic local Phase 4.1H external-review-disposition-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1G status report.",
+      purpose: "Run focused tests for this local Phase 4.1H status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1h-external-review-disposition.test.mjs",
+      purpose: "Run focused Phase 4.1H external review disposition static checks.",
       ranByReport: false
     },
     {
@@ -4573,6 +4582,218 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41HExternalReviewDispositionInventory: {
+    disposition: {
+      document: "docs/phase-4-1h-external-review-disposition.md",
+      fixture: "tests/fixtures/host-policy/phase4-1h/external-review-disposition.json",
+      test: "tests/phase4-1h-external-review-disposition.test.mjs",
+      schema: phase41HExternalReviewDispositionMetadata.schema,
+      schemaVersion: phase41HExternalReviewDispositionMetadata.schemaVersion,
+      artifactKind: phase41HExternalReviewDispositionMetadata.artifactKind,
+      dispositionPhase: phase41HExternalReviewDispositionMetadata.dispositionPhase,
+      reviewedPhase: phase41HExternalReviewDispositionMetadata.reviewedPhase,
+      metadataGeneratedAt: phase41HExternalReviewDispositionMetadata.metadataGeneratedAt,
+      currentMainSha: phase41HExternalReviewDispositionMetadata.currentMainSha,
+      reviewMetadataOnly:
+        phase41HExternalReviewDispositionMetadata.reviewOnlyBoundary.reviewMetadataOnly,
+      notFreshDevinReReview:
+        phase41HExternalReviewDispositionMetadata.reviewOnlyBoundary.notFreshDevinReReview,
+      runtimeBehaviorIntroduced:
+        phase41HExternalReviewDispositionMetadata.reviewOnlyBoundary
+          .runtimeBehaviorIntroduced,
+      liveRuntimeBehaviorIntroduced:
+        phase41HExternalReviewDispositionMetadata.runtimeEffect
+          .liveRuntimeBehaviorIntroduced,
+      grantsRuntimeApproval:
+        phase41HExternalReviewDispositionMetadata.reviewOnlyBoundary.grantsRuntimeApproval
+    },
+    sourceReview: phase41HExternalReviewDispositionMetadata.sourceReview,
+    targetedFix: phase41HExternalReviewDispositionMetadata.targetedFix,
+    validationSummary: phase41HExternalReviewDispositionMetadata.validationSummary,
+    smokeProbeSummary: phase41HExternalReviewDispositionMetadata.smokeProbeSummary,
+    reviewOnlyBoundary: phase41HExternalReviewDispositionMetadata.reviewOnlyBoundary,
+    nextAllowedStep: phase41HExternalReviewDispositionMetadata.nextAllowedStep,
+    stillBlockedRuntimeSurfaces:
+      phase41HExternalReviewDispositionMetadata.stillBlockedRuntimeSurfaces,
+    blockedRuntimeSurfaceIds:
+      phase41HExternalReviewDispositionMetadata.stillBlockedRuntimeSurfaces.map(
+        ({ id }) => id
+      ),
+    runtimeEffect: phase41HExternalReviewDispositionMetadata.runtimeEffect,
+    audit: phase41HExternalReviewDispositionMetadata.audit,
+    reviewOnlyDisplayBehavior: {
+      externalReviewDispositionIsStaticArtifactOnly: true,
+      dispositionCannotGrantRuntimeApproval: true,
+      dispositionDoesNotEnableRuntime: true,
+      notFreshDevinReReview: true,
+      futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+      nextStepIsPlanningOnly: true,
+      reportRunsChecks: false,
+      writesFiles: false,
+      readsFiles: false,
+      printsStdoutFromCli: false,
+      consumedByLiveHostLoop: false
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      externalReviewDispositionCommandAdded: false,
+      reviewDispositionCommandAdded: false,
+      externalReviewPacketCommandAdded: false,
+      reviewPacketCommandAdded: false,
+      runtimeReadinessReviewCommandAdded: false,
+      serveRuntimeCommandAdded: false,
+      stdioRuntimeCommandAdded: false,
+      replaySessionTranscriptCommandAdded: false,
+      approvalEvaluatorCommandAdded: false,
+      policyMetadataCommandAdded: false,
+      hostPolicyExportCommandAdded: false,
+      fileWriterAdded: false,
+      stdoutPrinterAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    apiSurface: {
+      typescriptCoreRuntimeApiAdded: false,
+      typescriptCoreReviewDispositionHelperAdded: false,
+      typescriptCoreReviewPacketHelperAdded: false,
+      rustRuntimeHelperAdded: false,
+      rustStdioOwnerAdded: false,
+      approvalEvaluatorAdded: false,
+      hostPolicyEnforcementAdded: false,
+      failureAuditRuntimeAdded: false,
+      cleanupRuntimeAdded: false,
+      processKillAdded: false,
+      processControlAdded: false,
+      transcriptPersistenceReplayRuntimeAdded: false,
+      secretsUsed: false
+    },
+    fixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1h/external-review-disposition.json"
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1h-external-review-disposition.md",
+        "Records Devin's Phase 4.1G targeted-fix disposition, validation evidence, smoke evidence, and planning-only next step while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1g-external-review-packet.md",
+        "Links Phase 4.1H as the external review disposition after the targeted SHA metadata fix."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1f-runtime-readiness-checkpoint.md",
+        "Remains the static runtime-readiness checkpoint before the 4.1G packet and 4.1H disposition."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4.1 roadmap to identify Phase 4.1H as external-review-disposition-only."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1H leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.1H while preserving no live stdio runtime."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents the Phase 4.1H external review disposition as review evidence, not enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records Phase 4.1H as a static external review disposition without new runtime architecture."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1H scope and unchanged non-executing CLI surface."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1H adds no disposition, review-packet, runtime-readiness, or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.1H adds no core runtime helper API and no review-disposition helper API."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 4.1H does not add Rust-host process stdio ownership or runtime behavior."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase4-1h-external-review-disposition.test.mjs",
+        "Pins Phase 4.1H fixture, docs, report inventory, targeted-fix evidence, source guards, and rejected runtime/review commands."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-1g-external-review-packet.test.mjs",
+        "Confirms the Phase 4.1G packet now pins the corrected reviewed SHA and remains static."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1H report metadata and safety posture."
+      )
+    ],
+    invariantProbes: [
+      ...phase41HExternalReviewDispositionMetadata.smokeProbeSummary.rejectionProbes,
+      "approve-runtime",
+      "grant-runtime",
+      "enable-runtime",
+      "approval-evaluator",
+      "transport-harness",
+      "stdin-reader",
+      "stdout-writer",
+      "stderr-writer",
+      "failure-audit",
+      "cleanup-runtime",
+      "kill-runtime"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      externalReviewDispositionOnly: true,
+      reviewOnly: true,
+      noFreshDevinReReview: true,
+      targetedBlockerFixed: true,
+      noLiveRuntime: true,
+      noRuntimeCommand: true,
+      noReviewDispositionCommand: true,
+      noReviewPacketCommand: true,
+      noServeRuntime: true,
+      noStdioRuntime: true,
+      noReplaySessionTranscript: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noFailureAuditRuntime: true,
+      noCleanupRuntime: true,
+      noProcessKill: true,
+      noApprovalEvaluator: true,
+      noHostPolicyEnforcement: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -4596,6 +4817,7 @@ const report = {
     failureAuditContracts: true,
     runtimeReadinessCheckpoint: true,
     externalReviewPacket: true,
+    externalReviewDisposition: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

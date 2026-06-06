@@ -473,9 +473,26 @@ writer, not a stderr writer, not a stdin reader, not process stdio ownership,
 not transcript persistence/replay runtime, not failure-audit runtime, and not
 consumed by a live host loop.
 
+## Phase 4.1H External Review Disposition
+
+Phase 4.1H adds static external review disposition evidence for Devin targeted
+fix traceability. See `docs/phase-4-1h-external-review-disposition.md`.
+
+The Phase 4.1H fixture is
+`tests/fixtures/host-policy/phase4-1h/external-review-disposition.json`. It
+records Devin's prior REQUEST targeted fixes disposition, the stale Phase 4.1G
+`currentMainSha` blocker, the corrected reviewed SHA, the targeted fix commit,
+validation and smoke summaries, still-blocked runtime surfaces, and the
+planning-only next step. The fixture is static review metadata only. It is not
+a fresh Devin re-review, not runtime configuration, not a runtime command, not
+a review-disposition command, not a review-packet command, not an approval
+token, not a file writer, not a stdout writer, not a stderr writer, not a stdin
+reader, not process stdio ownership, not transcript persistence/replay runtime,
+not failure-audit runtime, and not consumed by a live host loop.
+
 ## Deferred Runtime Work
 
-Phase 4.1G intentionally does not implement repo-root confinement, transcript
+Phase 4.1H intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction
@@ -484,7 +501,7 @@ evidence, operator-consent references, fail-closed transport harness
 classifications, fail-closed framing/redaction classifications, fail-closed
 transcript replay classifications, fail-closed failure-audit classifications,
 terminal-state classifications, a checkpoint readiness matrix, blocker list,
-external review packet, reviewer questions, packet-only outcomes, and a
-roadmap for later host-policy phases. A future live runtime still
-requires separate explicit host policy, implementation, tests, and runtime
-enablement.
+external review packet, reviewer questions, packet-only outcomes, an external
+review disposition record, and a roadmap for later host-policy phases. A future
+live runtime still requires separate explicit host policy, implementation,
+tests, and runtime enablement.

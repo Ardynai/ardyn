@@ -1,0 +1,234 @@
+{
+  "schema": "ardyn.external-review-disposition-record",
+  "schemaVersion": "0.1.0",
+  "artifactKind": "external-review-disposition-record",
+  "dispositionPhase": "phase-4.1h-external-review-disposition",
+  "reviewedPhase": "4.1H",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "currentMainSha": "74b9872a7e44972fcc6d9bf33eb5a93829554cd0",
+  "sourceReview": {
+    "reviewer": "Devin",
+    "reviewedPacketPhase": "4.1G",
+    "reviewedPacketCurrentMainSha": "3a2f28e02494cb2ac0735e6bec32f283f4b616db",
+    "priorDisposition": "request_targeted_fixes_before_approval",
+    "architectureRuntimeBlockerFound": false,
+    "targetedBlocker": "stale_phase_4.1g_currentMainSha",
+    "freshDevinReReview": false,
+    "freshReReviewUnavailableReason": "devin_credits_unavailable"
+  },
+  "targetedFix": {
+    "blockerFixed": true,
+    "staleMainSha": "070b327b6132e14170598d3e865dcf5ec4b0993e",
+    "correctedReviewedSha": "3a2f28e02494cb2ac0735e6bec32f283f4b616db",
+    "fixCommitSha": "74b9872a7e44972fcc6d9bf33eb5a93829554cd0",
+    "staleShaRemainingPhase41GPacketMatches": 0,
+    "appsCliSourceTouched": false,
+    "filesChangedByFix": [
+      "docs/phase-4-1g-external-review-packet.md",
+      "tests/fixtures/host-policy/phase4-1g/external-review-packet.json",
+      "tests/phase4-1g-external-review-packet.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ]
+  },
+  "validationSummary": {
+    "ranByDispositionPhase": false,
+    "recordedFromTargetedFix": true,
+    "commands": [
+      {
+        "command": "npm test",
+        "result": "passed",
+        "summary": "339 tests passed."
+      },
+      {
+        "command": "npm run test:schemas",
+        "result": "passed",
+        "summary": "18 schema tests passed."
+      },
+      {
+        "command": "cargo test --workspace",
+        "result": "passed",
+        "summary": "45 Rust tests passed."
+      },
+      {
+        "command": "cargo check --workspace",
+        "result": "passed",
+        "summary": "Rust workspace checked."
+      },
+      {
+        "command": "cargo fmt --check",
+        "result": "passed",
+        "summary": "Rust formatting check passed."
+      },
+      {
+        "command": "git diff --check",
+        "result": "passed",
+        "summary": "No whitespace errors."
+      },
+      {
+        "command": "npm run report:phase-status",
+        "result": "passed",
+        "summary": "Phase status report rendered local metadata only."
+      }
+    ]
+  },
+  "smokeProbeSummary": {
+    "recordedFromTargetedFix": true,
+    "emitSessionEventsDryRun": {
+      "exitCode": 0,
+      "stdoutJsonlOnly": true,
+      "lfOnly": true,
+      "finalLf": true,
+      "eventLines": 6,
+      "zeroStderr": true
+    },
+    "rejectionProbes": [
+      "missing --dry-run",
+      "unknown arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "policy-metadata",
+      "host-policy-export",
+      "serve-runtime",
+      "stdio-runtime",
+      "external-review-packet",
+      "review-packet",
+      "runtime-readiness-review"
+    ],
+    "allRejected": true,
+    "allZeroStdout": true
+  },
+  "reviewOnlyBoundary": {
+    "externalReviewDispositionRecordOnly": true,
+    "reviewMetadataOnly": true,
+    "notFreshDevinReReview": true,
+    "readyToPlanFirstRustHostStdioRuntimeTestHarnessOnly": true,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "grantsRuntimeApproval": false,
+    "runtimeBehaviorIntroduced": false,
+    "requiresSeparateRuntimeImplementationApproval": true
+  },
+  "nextAllowedStep": {
+    "id": "plan-first-rust-host-stdio-runtime-test-harness-only",
+    "description": "Plan the first Rust-host stdio runtime test harness only; do not implement runtime behavior in this disposition phase.",
+    "planningOnly": true,
+    "implementationAllowedInThisPhase": false,
+    "runtimeApprovalGranted": false
+  },
+  "stillBlockedRuntimeSurfaces": [
+    {
+      "id": "serve-runtime-command",
+      "status": "blocked",
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "stdio-runtime-command",
+      "status": "blocked",
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "replay-session-transcript-command",
+      "status": "blocked",
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "approval-evaluator-runtime",
+      "status": "blocked",
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "process-stdio-ownership-runtime",
+      "status": "blocked",
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "failure-audit-cleanup-kill-runtime",
+      "status": "blocked",
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "transcript-persistence-replay-runtime",
+      "status": "blocked",
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "external-integration-runtime",
+      "status": "blocked",
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "websocket-http-control-surface",
+      "status": "blocked",
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "runtime-approval-grant",
+      "status": "blocked",
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    }
+  ],
+  "runtimeEffect": {
+    "currentDispositionEnablesRuntime": false,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeCommandAvailable": false,
+    "serveRuntimeCommandAvailable": false,
+    "stdioRuntimeCommandAvailable": false,
+    "replaySessionTranscriptCommandAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "hostPolicyEnforcementAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "failureAuditRuntimeAvailable": false,
+    "cleanupRuntimeAvailable": false,
+    "processKillAvailable": false,
+    "processControlAvailable": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "listenerAvailable": false,
+    "serverAvailable": false,
+    "adapterCallsAvailable": false,
+    "locusRuntimeDependencyAvailable": false,
+    "mcpOpenClawCallsAvailable": false,
+    "pluginExecutionAvailable": false,
+    "contentFabricRuntimeBehaviorAvailable": false,
+    "webSocketHttpControlSurfaceAvailable": false,
+    "writesFiles": false,
+    "readsFiles": false,
+    "runsRuntime": false,
+    "consumedByLiveHostLoop": false,
+    "grantsRuntimeApproval": false,
+    "secretsUsed": false,
+    "productionSigningKeysUsed": false,
+    "phase41RuntimeImplemented": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false
+  },
+  "audit": {
+    "evidencePaths": [
+      "docs/phase-4-1h-external-review-disposition.md",
+      "docs/phase-4-1g-external-review-packet.md",
+      "tests/fixtures/host-policy/phase4-1g/external-review-packet.json",
+      "tests/fixtures/host-policy/phase4-1h/external-review-disposition.json",
+      "tests/phase4-1h-external-review-disposition.test.mjs",
+      "tests/report-phase-status.test.mjs",
+      "scripts/report-phase-status.mjs"
+    ],
+    "recordedFor": "Devin targeted-fix audit trail",
+    "approvalWording": "targeted_blocker_fixed_ready_to_plan_harness_runtime_still_blocked"
+  }
+}

@@ -138,6 +138,16 @@ approval grant, or live host loop. The packet cannot grant runtime approval,
 approve runtime implementation, or enable runtime commands. See
 `docs/phase-4-1g-external-review-packet.md`.
 
+Phase 4.1H adds a static external review disposition record for Devin's
+targeted-fix result after Phase 4.1G. It does not add a TypeScript core API,
+Rust runtime helper, CLI command, stdout printer, file writer, live stdio
+reader, process stdio ownership, approval evaluator, active host-policy
+enforcement path, runtime approval grant, or live host loop. The disposition is
+not a fresh Devin re-review; it records that the targeted SHA metadata blocker
+was fixed and that only planning the first Rust-host stdio runtime test harness
+is the next allowed step. See
+`docs/phase-4-1h-external-review-disposition.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

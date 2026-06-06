@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.1G Scope
+## Phase 3 and Phase 4.1H Scope
 
-This repository is currently in Phase 4.1G external-review-packet mode. The
+This repository is currently in Phase 4.1H external-review-disposition mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -27,6 +27,7 @@ fields plus static Rust-host transport harness contracts plus static stdout
 JSONL framing, stderr redaction, transcript persistence/replay, and
 failure-audit/kill-semantics review helpers, a static runtime-readiness
 checkpoint, and an external review packet for Devin/human reviewer handoff
+plus a static external review disposition record for the Devin targeted fix
 before any separately approved live runtime work.
 
 Included now:
@@ -112,6 +113,23 @@ Included now:
   process killing exists, and failure-audit/cleanup/kill/runtime commands
   remain rejected. See
   `docs/phase-4-1e-failure-audit-kill-semantics.md`.
+- Phase 4.1F static runtime-readiness checkpoint documentation, deterministic
+  fixture metadata, blocker inventory, validation bundle, and report metadata.
+  The checkpoint is review metadata only; no runtime-readiness command,
+  checkpoint command, runtime command, or runtime approval grant exists. See
+  `docs/phase-4-1f-runtime-readiness-checkpoint.md`.
+- Phase 4.1G static external review packet documentation, deterministic
+  fixture metadata, reviewer questions, blocked runtime surfaces, packet-only
+  outcomes, and report metadata. The packet is review metadata only; no
+  external-review-packet command, review-packet command, runtime-readiness
+  review command, runtime command, or runtime approval grant exists. See
+  `docs/phase-4-1g-external-review-packet.md`.
+- Phase 4.1H static external review disposition documentation, deterministic
+  fixture metadata, Devin targeted-fix evidence, validation/smoke summaries,
+  and report metadata. The disposition is review metadata only; it is not a
+  fresh Devin re-review, cannot grant runtime approval, and only allows
+  planning the first Rust-host stdio runtime test harness as a separate next
+  step. See `docs/phase-4-1h-external-review-disposition.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -263,7 +281,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.1G external-review-packet-only status report command is:
+The Phase 4.1H external-review-disposition-only status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -286,6 +304,8 @@ contract metadata, Phase 4.1C framing/redaction contract metadata, Phase 4.1D
 transcript persistence/replay contract metadata, Phase 4.1E failure-audit
 kill-semantics contract metadata, Phase 4.1F runtime-readiness checkpoint
 metadata, Phase 4.1G external review packet metadata, and safety posture.
+Phase 4.1H external review disposition metadata is included as the current
+static audit layer.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -302,6 +322,13 @@ Phase 4.1G is documented in
 only for Devin/human reviewer questions, evidence mapping, blocked runtime
 surfaces, and packet-only outcomes. It cannot grant runtime approval, approve
 runtime implementation, or enable runtime commands.
+
+Phase 4.1H is documented in
+`docs/phase-4-1h-external-review-disposition.md`. It records Devin's prior
+targeted-fix disposition and the fixed Phase 4.1G SHA metadata evidence. It is
+not a fresh Devin re-review, cannot grant runtime approval, and leaves runtime
+blocked while allowing only a separate plan for the first Rust-host stdio
+runtime test harness.
 
 Example dry-run check:
 

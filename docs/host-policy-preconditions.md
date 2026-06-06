@@ -260,6 +260,21 @@ change the finite TypeScript dry-run emitter. `external-review-packet`,
 and `replay-session-transcript` remain proposal-only and rejected. See
 `docs/phase-4-1g-external-review-packet.md`.
 
+Phase 4.1H adds a static external review disposition artifact. It records
+Devin's prior REQUEST targeted fixes disposition, the fixed Phase 4.1G
+`currentMainSha` metadata, the targeted fix commit, validation results, smoke
+results, and the planning-only next step, but it remains inert review metadata
+only. It is not a fresh Devin re-review and does not grant runtime approval,
+start host-policy enforcement, add an approval evaluator, write files, print
+stdout, add a CLI command, deny a running runtime, persist transcripts, replay
+transcripts, handle secrets, implement live stdio ownership, own stdout/stderr,
+perform cleanup, kill processes, or change the finite TypeScript dry-run
+emitter. `external-review-disposition`, `review-disposition`,
+`external-review-packet`, `review-packet`, `runtime-readiness-review`,
+`serve-runtime`, `stdio-runtime`, and `replay-session-transcript` remain
+proposal-only and rejected. See
+`docs/phase-4-1h-external-review-disposition.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

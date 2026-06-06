@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.1G keeps the TypeScript core on deterministic contract and display
+Phase 4.1H keeps the TypeScript core on deterministic contract and display
 data while the Rust host keeps policy-only stdio transport contract metadata
 and static host-policy review-record fixtures. The TypeScript core still owns
 manifest and task validation, deterministic non-executing task planning,
@@ -25,13 +25,17 @@ TypeScript side. Phase 4.1F adds only static runtime-readiness checkpoint
 documentation, fixture metadata, report inventory, and tests; it adds no core
 runtime helper API and no checkpoint helper API. Phase 4.1G adds only static
 external review packet documentation, fixture metadata, report inventory, and
-tests; it adds no core runtime helper API and no review-packet helper API. See
+tests; it adds no core runtime helper API and no review-packet helper API.
+Phase 4.1H adds only static external review disposition documentation, fixture
+metadata, report inventory, and tests; it adds no core runtime helper API and
+no review-disposition helper API. See
 `docs/phase-4-1b-transport-harness-contracts.md` and
 `docs/phase-4-1c-framing-redaction-contracts.md` and
 `docs/phase-4-1d-transcript-replay-contracts.md` and
 `docs/phase-4-1e-failure-audit-kill-semantics.md` and
 `docs/phase-4-1f-runtime-readiness-checkpoint.md` and
-`docs/phase-4-1g-external-review-packet.md`.
+`docs/phase-4-1g-external-review-packet.md` and
+`docs/phase-4-1h-external-review-disposition.md`.
 Autonomous execution, tool execution, plugin installation, network serving,
 torrent download, code-pack enablement, live stdin loops, live replay, runtime
 approval grants, and agent loops are intentionally out of scope.
@@ -197,6 +201,20 @@ metadata only; it cannot grant runtime approval, cannot approve runtime
 implementation, and cannot enable `serve-runtime`, `stdio-runtime`, or
 `replay-session-transcript`. See
 `docs/phase-4-1g-external-review-packet.md`.
+
+Phase 4.1H adds no TypeScript core runtime APIs and no new TypeScript core
+review-disposition helper APIs. It does not change the finite dry-run event
+construction, formatter, Rust-host stdio transport policy metadata,
+transport-harness contracts, framing/redaction contracts, transcript
+persistence/replay contracts, failure-audit contracts, review-record classes,
+approval-record classes, display-only comparison helpers, reviewer index,
+final readiness bundle, runtime proposal bundle, runtime-readiness checkpoint,
+or external review packet. The external review disposition is static
+fixture/report/doc/test metadata only; it records the Devin targeted-fix
+disposition, is not a fresh Devin re-review, cannot grant runtime approval,
+and cannot enable `serve-runtime`, `stdio-runtime`, or
+`replay-session-transcript`. See
+`docs/phase-4-1h-external-review-disposition.md`.
 
 ## Phase 3.2 Policy Review
 
