@@ -1,0 +1,215 @@
+{
+  "schema": "ardyn.phase-4.1j.stdio-harness-fixtures",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-4.1j-stdio-harness-fixtures",
+  "fixtureKind": "private-rust-stdio-harness-stream-cases",
+  "harness": {
+    "scope": "private-rust-cfg-test-only",
+    "inputEventType": "harness.stdin.probe",
+    "inputProbeMode": "static-harness-probe",
+    "outputSchema": "ardyn.phase-4.1i.test-stdio-harness-event",
+    "outputEventType": "harness.stdout.probe.accepted",
+    "maxFrameBytes": 256,
+    "lineEnding": "lf-only"
+  },
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "approvalGranted": false,
+    "runtimeApprovalGranted": false,
+    "processStdioOwnershipRequired": false,
+    "runtimeCommandAvailable": false
+  },
+  "cases": [
+    {
+      "name": "valid-single-event",
+      "inputRepresentation": "file",
+      "inputFile": "valid-single-event.jsonl",
+      "expected": {
+        "accepted": true,
+        "stdoutLineCount": 1,
+        "stdoutEvents": [
+          {
+            "schema": "ardyn.phase-4.1i.test-stdio-harness-event",
+            "schemaVersion": "0.1.0",
+            "eventId": "input-1",
+            "eventType": "harness.stdout.probe.accepted",
+            "sequence": 1,
+            "accepted": true,
+            "runtimeEnabled": false,
+            "approvalGranted": false
+          }
+        ],
+        "stderr": ""
+      }
+    },
+    {
+      "name": "valid-multiple-events",
+      "inputRepresentation": "file",
+      "inputFile": "valid-multiple-events.jsonl",
+      "expected": {
+        "accepted": true,
+        "stdoutLineCount": 2,
+        "stdoutEvents": [
+          {
+            "schema": "ardyn.phase-4.1i.test-stdio-harness-event",
+            "schemaVersion": "0.1.0",
+            "eventId": "input-1",
+            "eventType": "harness.stdout.probe.accepted",
+            "sequence": 1,
+            "accepted": true,
+            "runtimeEnabled": false,
+            "approvalGranted": false
+          },
+          {
+            "schema": "ardyn.phase-4.1i.test-stdio-harness-event",
+            "schemaVersion": "0.1.0",
+            "eventId": "input-2",
+            "eventType": "harness.stdout.probe.accepted",
+            "sequence": 2,
+            "accepted": true,
+            "runtimeEnabled": false,
+            "approvalGranted": false
+          }
+        ],
+        "stderr": ""
+      }
+    },
+    {
+      "name": "malformed-json",
+      "inputRepresentation": "file",
+      "inputFile": "malformed-json.jsonl",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=malformed_input line=1 detail=stdin frame must be one JSON object\n"
+      }
+    },
+    {
+      "name": "non-object-json",
+      "inputRepresentation": "file",
+      "inputFile": "non-object-json.jsonl",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=malformed_input line=1 detail=stdin frame must be one JSON object\n"
+      }
+    },
+    {
+      "name": "missing-required-fields",
+      "inputRepresentation": "file",
+      "inputFile": "missing-required-fields.jsonl",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=invalid_payload line=1 detail=stdin frame payload is not an accepted static probe\n"
+      }
+    },
+    {
+      "name": "invalid-event-kind",
+      "inputRepresentation": "file",
+      "inputFile": "invalid-event-kind.jsonl",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=invalid_payload line=1 detail=stdin frame payload is not an accepted static probe\n"
+      }
+    },
+    {
+      "name": "crlf-rejected",
+      "inputRepresentation": "escaped-text",
+      "inputText": "{\"eventId\":\"input-1\",\"eventType\":\"harness.stdin.probe\",\"sequence\":1,\"payload\":{\"mode\":\"static-harness-probe\",\"runtimeRequested\":false,\"approvalRequested\":false}}\r\n",
+      "representationNote": "Stored as escaped text because tests/fixtures is normalized to LF by .gitattributes.",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=crlf_rejected line=1 detail=CR bytes are not accepted in stdin frames\n"
+      }
+    },
+    {
+      "name": "missing-final-lf",
+      "inputRepresentation": "escaped-text",
+      "inputText": "{\"eventId\":\"input-1\",\"eventType\":\"harness.stdin.probe\",\"sequence\":1,\"payload\":{\"mode\":\"static-harness-probe\",\"runtimeRequested\":false,\"approvalRequested\":false}}",
+      "representationNote": "Stored as escaped text because patch-based fixture additions keep text files LF-terminated.",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=early_eof line=none detail=final LF required before frame commit\n"
+      }
+    },
+    {
+      "name": "empty-input",
+      "inputRepresentation": "escaped-text",
+      "inputText": "",
+      "representationNote": "Empty stdin marker for early EOF behavior.",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=early_eof line=none detail=stdin ended before a complete LF-terminated frame\n"
+      }
+    },
+    {
+      "name": "invalid-utf8",
+      "inputRepresentation": "hex",
+      "inputHex": "ff0a",
+      "representationNote": "Invalid UTF-8 byte followed by LF so UTF-8 validation is the failing boundary.",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=invalid_utf8 line=none detail=stdin frames must be UTF-8\n"
+      }
+    },
+    {
+      "name": "oversized-payload",
+      "inputRepresentation": "file",
+      "inputFile": "oversized-payload.jsonl",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=oversized_payload line=1 detail=stdin frame exceeds test harness byte limit\n"
+      }
+    },
+    {
+      "name": "oversized-input",
+      "inputRepresentation": "file",
+      "inputFile": "oversized-input.jsonl",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=oversized_input line=none detail=stdin stream exceeds test harness byte limit\n"
+      }
+    },
+    {
+      "name": "early-eof-partial-frame",
+      "inputRepresentation": "escaped-text",
+      "inputText": "{\"eventId\":\"early-eof-fixture\",\"eventType\":\"harness.stdin.probe\"",
+      "representationNote": "Partial frame without final LF; stored as escaped text so the fixture can model missing final LF.",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=early_eof line=none detail=final LF required before frame commit\n"
+      }
+    },
+    {
+      "name": "runtime-approval-request-rejected",
+      "inputRepresentation": "file",
+      "inputFile": "runtime-approval-request-rejected.jsonl",
+      "expected": {
+        "accepted": false,
+        "stdoutLineCount": 0,
+        "stdoutEvents": [],
+        "stderr": "ardyn-test-stdio-harness error code=runtime_request_rejected line=1 detail=test harness cannot grant runtime or approval\n"
+      }
+    }
+  ]
+}

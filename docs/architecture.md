@@ -156,6 +156,15 @@ path, runtime approval grant, or live host loop. It is not a fresh Devin
 review, changes no production runtime source, and leaves runtime blocked. See
 `docs/phase-4-1i-rust-host-stdio-harness.md`.
 
+Phase 4.1J documents fixture-backed Rust-host stdio boundary coverage from the
+private Phase 4.1I harness. It does not add a TypeScript core API, Rust runtime
+helper, public Rust harness API, public runtime contract, CLI command, stdout
+printer, file writer, live stdio reader, process stdio ownership, approval
+evaluator, active host-policy enforcement path, runtime approval grant, or live
+host loop. It is not runtime readiness, is not a fresh external review, and
+leaves runtime blocked. See
+`docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

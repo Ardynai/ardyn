@@ -507,9 +507,9 @@ test("Phase 4.1F status report inventories checkpoint without running checks", a
   const inventory = report.phase41FRuntimeReadinessCheckpointInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1I",
-    name: "Rust-host stdio test harness layer",
-    executionPosture: "rust-host-stdio-test-harness-infrastructure-only non-executing"
+    id: "4.1J",
+    name: "Fixture-backed Rust-host stdio boundaries",
+    executionPosture: "fixture-backed-stdio-boundary-test-infrastructure-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

@@ -288,6 +288,22 @@ change the finite TypeScript dry-run emitter. `rust-host-stdio-harness`,
 `replay-session-transcript` remain proposal-only and rejected. See
 `docs/phase-4-1i-rust-host-stdio-harness.md`.
 
+Phase 4.1J adds fixture-backed Rust-host stdio boundary fixtures and private
+Rust replay tests plus docs/report inventory. It extends the Phase 4.1I
+private in-memory harness coverage, but remains non-runtime test
+infrastructure. It is not runtime readiness, is not a fresh external review,
+does not turn the private harness into a public runtime contract, and does not
+grant runtime approval, start host-policy enforcement, add an approval
+evaluator, write files from the CLI, print stdout from the CLI, add a CLI
+command, deny a running runtime, persist transcripts, replay transcripts,
+handle secrets, implement live stdio ownership, own process stdout/stderr,
+perform cleanup, kill processes, or change the finite TypeScript dry-run
+emitter. `fixture-backed-stdio-boundary`,
+`stdio-boundary`, `public-runtime-contract`, `runtime-readiness`,
+`runtime-readiness-checkpoint`, `serve-runtime`, `stdio-runtime`, and
+`replay-session-transcript` remain proposal-only and rejected. See
+`docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

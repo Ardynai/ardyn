@@ -255,6 +255,7 @@ Proposed future phases:
 | 4.1G | Static external review packet for Devin/human reviewer questions, evidence mapping, blocked runtime surfaces, and packet-only outcomes. See `docs/phase-4-1g-external-review-packet.md`. | false |
 | 4.1H | Static external review disposition record for Devin targeted-fix evidence, validation/smoke summaries, still-blocked runtime surfaces, and planning-only next step. See `docs/phase-4-1h-external-review-disposition.md`. | false |
 | 4.1I | Private `#[cfg(test)]` in-memory Rust-host stdio test harness layer plus documentation/report inventory, limited to test infrastructure with runtime still blocked and no fresh Devin review. See `docs/phase-4-1i-rust-host-stdio-harness.md`. | false |
+| 4.1J | Fixture-backed Rust-host stdio boundary fixtures and private Rust replay tests, limited to test infrastructure with no runtime readiness claim, no fresh external review, and no public runtime contract. See `docs/phase-4-1j-fixture-backed-stdio-boundaries.md`. | false |
 
 Each future phase requires separate approval, implementation, tests, and review
 before enabling its runtime surface. Phase 4.1A implements the first roadmap
@@ -272,10 +273,13 @@ only. Phase 4.1H implements the eighth roadmap item as a static external
 review disposition record with deterministic fixture/report/doc/test metadata
 only. Phase 4.1I implements the ninth roadmap item as a private `#[cfg(test)]`
 in-memory Rust-host stdio test harness layer plus docs/report inventory, no
-fresh Devin review, and runtime still blocked. This Phase 4.1 proposal, Phase
-4.1A, Phase 4.1B,
+fresh Devin review, and runtime still blocked. Phase 4.1J implements the tenth
+roadmap item as fixture-backed stdio boundary fixtures and private Rust replay
+tests plus docs/report inventory, no runtime readiness, no fresh external
+review, no public runtime contract, and runtime still blocked. This Phase 4.1
+proposal, Phase 4.1A, Phase 4.1B,
 Phase 4.1C, Phase 4.1D, Phase 4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
-Phase 4.1I implement none of the live runtime surfaces.
+Phase 4.1I, and Phase 4.1J implement none of the live runtime surfaces.
 
 ## Still Forbidden
 

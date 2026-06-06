@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.1I still exposes static Rust host identity, handshake data, policy-only
+Phase 4.1J still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -12,6 +12,9 @@ persistence/replay contract helpers only. Phase 4.1E adds TypeScript-side
 static failure-audit, terminal-state, cleanup/kill, and nonzero-exit mapping
 contract helpers only. Phase 4.1I adds private `#[cfg(test)]` in-memory
 Rust-host stdio test harness coverage plus documentation and report inventory.
+Phase 4.1J adds fixture-backed stdio boundary fixtures and private Rust replay
+tests plus documentation and report inventory; it does not add public Rust
+harness APIs or public runtime contracts.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -117,6 +120,17 @@ failure-audit runtime, cleanup runtime, process killing, signal handling,
 timeout runtime, approval evaluation, host-policy enforcement, runtime command
 enablement, harness command enablement, or runtime approval grant. See
 `docs/phase-4-1i-rust-host-stdio-harness.md`.
+
+Phase 4.1J adds fixture-backed Rust-host stdio boundary fixtures and private
+Rust replay tests plus documentation and report inventory. It extends the
+private Phase 4.1I in-memory harness coverage, but it is not runtime
+readiness, is not a fresh external review, does not define a public runtime
+contract, does not add public Rust harness APIs, and does not add Rust-host
+process stdio ownership, live stdin reading, stdout/stderr writers,
+failure-audit runtime, cleanup runtime, process killing, signal handling,
+timeout runtime, approval evaluation, host-policy enforcement, runtime command
+enablement, boundary command enablement, or runtime approval grant. See
+`docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

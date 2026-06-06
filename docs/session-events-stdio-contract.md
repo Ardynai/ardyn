@@ -350,6 +350,18 @@ behavior.
 proposal-only and rejected. See
 `docs/phase-4-1i-rust-host-stdio-harness.md`.
 
+Phase 4.1J adds fixture-backed Rust-host stdio boundary documentation plus
+report inventory and assertions. It carries forward the Phase 4.1I private
+in-memory harness coverage for deterministic JSONL framing, stderr isolation,
+malformed/EOF/CRLF rejection, and runtime-like command rejection, but it is not
+runtime readiness, is not a fresh external review, does not add a public
+runtime contract, does not add a CLI command, and does not add live stdio
+runtime behavior. `fixture-backed-stdio-boundary`, `stdio-boundary`,
+`public-runtime-contract`, `runtime-readiness`, `runtime-readiness-checkpoint`,
+`serve-runtime`, `stdio-runtime`, and `replay-session-transcript` remain
+proposal-only and rejected. See
+`docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

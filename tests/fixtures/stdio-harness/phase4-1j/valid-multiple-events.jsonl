@@ -1,0 +1,2 @@
+{"eventId":"input-1","eventType":"harness.stdin.probe","sequence":1,"payload":{"mode":"static-harness-probe","runtimeRequested":false,"approvalRequested":false}}
+{"eventId":"input-2","eventType":"harness.stdin.probe","sequence":2,"payload":{"mode":"static-harness-probe","runtimeRequested":false,"approvalRequested":false}}

@@ -405,6 +405,87 @@ const phase41IDocFiles = [
   "packages/core/README.md",
   "crates/ardyn-host/README.md"
 ];
+const phase41JOwnedFiles = [
+  "crates/ardyn-host/src/lib.rs",
+  "tests/fixtures/stdio-harness/phase4-1j/expected-outcomes.json",
+  "tests/fixtures/stdio-harness/phase4-1j/valid-single-event.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/valid-multiple-events.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/malformed-json.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/non-object-json.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/missing-required-fields.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/invalid-event-kind.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/oversized-payload.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/oversized-input.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/runtime-approval-request-rejected.jsonl",
+  "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+  "scripts/report-phase-status.mjs",
+  "tests/report-phase-status.test.mjs",
+  "tests/phase4-1j-rust-host-stdio-boundary-fixtures.test.mjs",
+  "README.md",
+  "apps/cli/README.md",
+  "packages/core/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/architecture.md",
+  "docs/host-policy-preconditions.md",
+  "docs/session-events-stdio-contract.md",
+  "docs/phase-4-stdio-dry-run-event-emission.md",
+  "docs/phase-4-1-runtime-proposal.md",
+  "docs/phase-4-1i-rust-host-stdio-harness.md"
+];
+const phase41JDocFiles = [
+  "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+  "docs/phase-4-1i-rust-host-stdio-harness.md",
+  "docs/phase-4-1-runtime-proposal.md",
+  "docs/phase-4-stdio-dry-run-event-emission.md",
+  "docs/session-events-stdio-contract.md",
+  "docs/host-policy-preconditions.md",
+  "docs/architecture.md",
+  "README.md",
+  "apps/cli/README.md",
+  "packages/core/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase41JFixtureBackedBoundaryEvidenceIds = [
+  "phase-4.1j-fixture-suite-replay",
+  "deterministic-jsonl-final-lf-boundary",
+  "stderr-isolation-boundary",
+  "malformed-eof-crlf-rejection-boundary",
+  "runtime-like-command-rejection-boundary"
+];
+const phase41JFixtureFiles = [
+  "tests/fixtures/stdio-harness/phase4-1j/expected-outcomes.json",
+  "tests/fixtures/stdio-harness/phase4-1j/valid-single-event.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/valid-multiple-events.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/malformed-json.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/non-object-json.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/missing-required-fields.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/invalid-event-kind.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/oversized-payload.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/oversized-input.jsonl",
+  "tests/fixtures/stdio-harness/phase4-1j/runtime-approval-request-rejected.jsonl"
+];
+const phase41JRuntimeLikeCommandRejectionProbes = [
+  ...phase41HRejectedProbes,
+  "fixture-backed-stdio-boundary",
+  "stdio-boundary",
+  "public-runtime-contract",
+  "rust-host-stdio-harness",
+  "stdio-harness",
+  "runtime-harness",
+  "runtime-readiness",
+  "runtime-readiness-checkpoint",
+  "approve-runtime",
+  "grant-runtime",
+  "enable-runtime",
+  "approval-evaluator",
+  "transport-harness",
+  "stdin-reader",
+  "stdout-writer",
+  "stderr-writer",
+  "failure-audit",
+  "cleanup-runtime",
+  "kill-runtime"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -436,14 +517,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1I rust-host-stdio-test-harness-infrastructure-only local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1J fixture-backed-stdio-boundary-test-infrastructure-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1I",
-    name: "Rust-host stdio test harness layer",
-    executionPosture: "rust-host-stdio-test-harness-infrastructure-only non-executing"
+    id: "4.1J",
+    name: "Fixture-backed Rust-host stdio boundaries",
+    executionPosture: "fixture-backed-stdio-boundary-test-infrastructure-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -511,12 +592,17 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.1I rust-host-stdio-test-harness-infrastructure-only status report.",
+        "Render this deterministic local Phase 4.1J fixture-backed-stdio-boundary-test-infrastructure-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1I status report.",
+      purpose: "Run focused tests for this local Phase 4.1J status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1j-rust-host-stdio-boundary-fixtures.test.mjs",
+      purpose: "Run focused Phase 4.1J fixture-backed Rust-host stdio boundary checks.",
       ranByReport: false
     },
     {
@@ -4407,6 +4493,201 @@ test("report inventories Phase 4.1I Rust-host stdio harness test infrastructure 
   assert.equal(report.safetyPosture.flags.freshDevinReviewRan, false);
 });
 
+test("report inventories Phase 4.1J fixture-backed Rust stdio boundary coverage while runtime stays blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase41JFixtureBackedStdioBoundaryInventory;
+
+  assert.deepEqual(inventory.boundaryLayer, {
+    document: "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+    precedingPhase: "4.1I",
+    layerId: "fixture-backed-rust-host-stdio-boundary-test-infrastructure",
+    scope: "private-rust-fixture-backed-test-infrastructure",
+    fixtureBackedRustHostCoverage: true,
+    privateRustCfgTestHarness: true,
+    inMemoryOnly: true,
+    concreteFixtureSuiteAdded: true,
+    privateHarnessNotPublicRuntimeContract: true,
+    publicRuntimeContractIntroduced: false,
+    runtimeReadinessClaimed: false,
+    productionRuntimeSourceChanged: false,
+    noFreshExternalReview: true,
+    noFreshDevinReview: true,
+    runtimeBlocked: true,
+    runtimeBehaviorIntroduced: false,
+    liveRuntimeBehaviorIntroduced: false,
+    grantsRuntimeApproval: false
+  });
+
+  assert.deepEqual(inventory.carriedForwardHarnessEvidence, {
+    phase41IHarnessDocument: "docs/phase-4-1i-rust-host-stdio-harness.md",
+    phase41HDispositionDocument: "docs/phase-4-1h-external-review-disposition.md",
+    privateRustCfgTestHarness: true,
+    inMemoryOnly: true,
+    extendedByPhase41JFixtures: true,
+    notPublicRuntimeContract: true,
+    noFreshExternalReview: true,
+    noFreshDevinReview: true,
+    runtimeStillBlocked: true,
+    implementedHarnessEvidenceIds: phase41IImplementedHarnessEvidenceIds
+  });
+
+  assert.deepEqual(
+    inventory.ownershipBoundary.ownedByThisPhase,
+    phase41JOwnedFiles
+  );
+  assert.deepEqual(
+    inventory.ownershipBoundary.excludedCliRuntimeSourceFiles,
+    phase41IExcludedCliRuntimeSourceFiles
+  );
+  assert.equal(inventory.ownershipBoundary.rustTestHarnessSourceChangedByThisPhase, true);
+  assert.equal(inventory.ownershipBoundary.productionRuntimeSourceChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fixtureBackedTestInfrastructureOnly, true);
+  assert.equal(
+    inventory.ownershipBoundary.separateRuntimeImplementationApprovalRequired,
+    true
+  );
+
+  assert.deepEqual(
+    inventory.fixtureBackedBoundaryEvidence.map(({ id }) => id),
+    phase41JFixtureBackedBoundaryEvidenceIds
+  );
+  assert.deepEqual(inventory.harnessBoundary, {
+    privateRustFixtureBackedTestInfrastructureOnly: true,
+    notRuntimeReadiness: true,
+    noFreshExternalReview: true,
+    noFreshDevinReview: true,
+    privateHarnessNotPublicRuntimeContract: true,
+    noPublicRuntimeContract: true,
+    futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+    reportRunsChecks: false,
+    writesFiles: false,
+    printsStdoutFromCli: false,
+    consumedByLiveHostLoop: false
+  });
+  assert.deepEqual(inventory.cliCommandSurface, {
+    commandAdded: false,
+    fixtureBackedStdioBoundaryCommandAdded: false,
+    rustHostStdioBoundaryCommandAdded: false,
+    rustHostStdioHarnessCommandAdded: false,
+    stdioHarnessCommandAdded: false,
+    runtimeHarnessCommandAdded: false,
+    externalReviewDispositionCommandAdded: false,
+    reviewDispositionCommandAdded: false,
+    externalReviewPacketCommandAdded: false,
+    reviewPacketCommandAdded: false,
+    runtimeReadinessCommandAdded: false,
+    runtimeReadinessReviewCommandAdded: false,
+    serveRuntimeCommandAdded: false,
+    stdioRuntimeCommandAdded: false,
+    replaySessionTranscriptCommandAdded: false,
+    approvalEvaluatorCommandAdded: false,
+    policyMetadataCommandAdded: false,
+    hostPolicyExportCommandAdded: false,
+    fileWriterAdded: false,
+    stdoutPrinterAdded: false,
+    existingDryRunEmitterUnchanged: true
+  });
+  assert.deepEqual(inventory.apiSurface, {
+    typescriptCoreRuntimeApiAdded: false,
+    typescriptCoreBoundaryHelperAdded: false,
+    typescriptCoreHarnessHelperAdded: false,
+    rustRuntimeHelperAdded: false,
+    rustStdioOwnerAdded: false,
+    rustHarnessRuntimeAdded: false,
+    publicRustHarnessApiAdded: false,
+    publicRuntimeContractAdded: false,
+    approvalEvaluatorAdded: false,
+    hostPolicyEnforcementAdded: false,
+    failureAuditRuntimeAdded: false,
+    cleanupRuntimeAdded: false,
+    processKillAdded: false,
+    processControlAdded: false,
+    transcriptPersistenceReplayRuntimeAdded: false,
+    secretsUsed: false
+  });
+  assert.deepEqual(
+    inventory.fixtures.map(({ path, status }) => [path, status]),
+    phase41JFixtureFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.rustTestSource.map(({ path, status }) => [path, status]), [
+    ["crates/ardyn-host/src/lib.rs", "present"]
+  ]);
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase41JDocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    ["tests/report-phase-status.test.mjs", "present"],
+    ["tests/phase4-1j-rust-host-stdio-boundary-fixtures.test.mjs", "present"],
+    ["tests/phase4-1i-rust-host-stdio-harness.test.mjs", "present"]
+  ]);
+  assert.deepEqual(
+    inventory.runtimeLikeCommandRejectionProbes,
+    phase41JRuntimeLikeCommandRejectionProbes
+  );
+
+  assertAllFalse(inventory.runtimeEffect);
+  assert.deepEqual(inventory.safetyPosture, {
+    nonExecuting: true,
+    fixtureBackedStdioBoundariesOnly: true,
+    privateRustTestHarnessOnly: true,
+    fixtureBackedTestInfrastructureOnly: true,
+    notRuntimeReadiness: true,
+    privateHarnessNotPublicRuntimeContract: true,
+    noPublicRuntimeContract: true,
+    phase41IPrivateHarnessCoverageCarriedForward: true,
+    productionRuntimeUnchanged: true,
+    noFreshExternalReview: true,
+    noFreshDevinReview: true,
+    runtimeBlocked: true,
+    noLiveRuntime: true,
+    noRuntimeCommand: true,
+    noHarnessCommand: true,
+    noBoundaryCommand: true,
+    noReviewDispositionCommand: true,
+    noReviewPacketCommand: true,
+    noRuntimeReadinessCommand: true,
+    noServeRuntime: true,
+    noStdioRuntime: true,
+    noReplaySessionTranscript: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noStdoutWriter: true,
+    noStderrWriter: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noContentFabricDownloadInstallEnable: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noFailureAuditRuntime: true,
+    noCleanupRuntime: true,
+    noProcessKill: true,
+    noApprovalEvaluator: true,
+    noHostPolicyEnforcement: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+  assert.equal(report.safetyPosture.fixtureBackedStdioBoundaries, true);
+  assert.equal(report.safetyPosture.flags.phase41JRuntimeImplemented, false);
+  assert.equal(report.safetyPosture.flags.phase41JRuntimeReady, false);
+  assert.equal(report.safetyPosture.flags.freshExternalReviewRan, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -4606,6 +4887,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.externalReviewPacket, true);
   assert.equal(report.safetyPosture.externalReviewDisposition, true);
   assert.equal(report.safetyPosture.rustHostStdioHarness, true);
+  assert.equal(report.safetyPosture.fixtureBackedStdioBoundaries, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {
@@ -4628,6 +4910,9 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     processSpawning: false,
     phase41RuntimeImplemented: false,
     phase41IRuntimeImplemented: false,
+    phase41JRuntimeImplemented: false,
+    phase41JRuntimeReady: false,
+    freshExternalReviewRan: false,
     freshDevinReviewRan: false,
     externalCiRan: false
   };

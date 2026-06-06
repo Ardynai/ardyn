@@ -3008,11 +3008,26 @@ mod tests {
     }
 
     const TEST_STDIO_HARNESS_MAX_FRAME_BYTES: usize = 256;
+    const TEST_STDIO_HARNESS_MAX_INPUT_BYTES: usize = 768;
     const TEST_STDIO_HARNESS_EVENT_SCHEMA: &str = "ardyn.phase-4.1i.test-stdio-harness-event";
     const TEST_STDIO_HARNESS_EVENT_VERSION: &str = "0.1.0";
     const TEST_STDIO_HARNESS_INPUT_EVENT_TYPE: &str = "harness.stdin.probe";
     const TEST_STDIO_HARNESS_OUTPUT_EVENT_TYPE: &str = "harness.stdout.probe.accepted";
     const TEST_STDIO_HARNESS_PROBE_MODE: &str = "static-harness-probe";
+    const TEST_STDIO_HARNESS_PHASE_4_1J_FIXTURE_ROOT: &str =
+        "tests/fixtures/stdio-harness/phase4-1j";
+    const TEST_STDIO_HARNESS_PHASE_4_1J_EXPECTED_FIXTURE_FILENAMES: &[&str] = &[
+        "expected-outcomes.json",
+        "valid-single-event.jsonl",
+        "valid-multiple-events.jsonl",
+        "malformed-json.jsonl",
+        "non-object-json.jsonl",
+        "missing-required-fields.jsonl",
+        "invalid-event-kind.jsonl",
+        "oversized-payload.jsonl",
+        "oversized-input.jsonl",
+        "runtime-approval-request-rejected.jsonl",
+    ];
 
     #[derive(Debug, serde::Deserialize)]
     #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -3136,6 +3151,14 @@ mod tests {
         let input = std::str::from_utf8(input)
             .map_err(|_| test_stdio_failure("invalid_utf8", None, "stdin frames must be UTF-8"))?;
 
+        if input.len() > TEST_STDIO_HARNESS_MAX_INPUT_BYTES {
+            return Err(test_stdio_failure(
+                "oversized_input",
+                None,
+                "stdin stream exceeds test harness byte limit",
+            ));
+        }
+
         let mut stdout = Vec::new();
         let mut expected_sequence = 1_u64;
 
@@ -3235,25 +3258,164 @@ mod tests {
         )
     }
 
+    fn test_stdio_probe_stream(prefix: &str, events: u64) -> String {
+        let mut input = String::new();
+        for sequence in 1..=events {
+            input.push_str(&test_stdio_probe_line(
+                &format!("{prefix}-{sequence}"),
+                sequence,
+            ));
+        }
+        input
+    }
+
+    fn test_stdio_phase_4_1j_fixture_path(filename: &str) -> std::path::PathBuf {
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .join(TEST_STDIO_HARNESS_PHASE_4_1J_FIXTURE_ROOT)
+            .join(filename)
+    }
+
+    fn test_stdio_phase_4_1j_read_fixture_file(filename: &str) -> Option<Vec<u8>> {
+        let path = test_stdio_phase_4_1j_fixture_path(filename);
+        match std::fs::read(&path) {
+            Ok(bytes) => Some(bytes),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(error) => panic!("failed to read {}: {error}", path.display()),
+        }
+    }
+
+    fn test_stdio_phase_4_1j_expected_case_input(case_name: &str) -> Option<Vec<u8>> {
+        let bytes = test_stdio_phase_4_1j_read_fixture_file("expected-outcomes.json")?;
+        let value: serde_json::Value =
+            serde_json::from_slice(&bytes).expect("phase 4.1J expected outcomes json");
+        let cases = value["cases"]
+            .as_array()
+            .expect("phase 4.1J expected outcomes cases");
+        let case = cases.iter().find(|case| case["name"] == case_name)?;
+
+        match case["inputRepresentation"].as_str() {
+            Some("escaped-text") => Some(
+                case["inputText"]
+                    .as_str()
+                    .expect("phase 4.1J escaped input text")
+                    .as_bytes()
+                    .to_vec(),
+            ),
+            Some("file") => {
+                let filename = case["inputFile"]
+                    .as_str()
+                    .expect("phase 4.1J case input file");
+                test_stdio_phase_4_1j_read_fixture_file(filename)
+            }
+            Some("hex") => Some(test_stdio_phase_4_1j_decode_hex(
+                case["inputHex"].as_str().expect("phase 4.1J hex input"),
+            )),
+            _ => None,
+        }
+    }
+
+    fn test_stdio_phase_4_1j_decode_hex(value: &str) -> Vec<u8> {
+        assert_eq!(value.len() % 2, 0, "hex fixture must have whole bytes");
+        (0..value.len())
+            .step_by(2)
+            .map(|index| {
+                u8::from_str_radix(&value[index..index + 2], 16).expect("hex fixture byte")
+            })
+            .collect()
+    }
+
+    fn test_stdio_phase_4_1j_fixture_or_case_bytes(
+        filename: &str,
+        expected_case_name: &str,
+        fallback: &[u8],
+    ) -> Vec<u8> {
+        test_stdio_phase_4_1j_read_fixture_file(filename)
+            .or_else(|| test_stdio_phase_4_1j_expected_case_input(expected_case_name))
+            .unwrap_or_else(|| fallback.to_vec())
+    }
+
     fn assert_lf_only_final_lf(bytes: &[u8], label: &str) {
         assert!(!bytes.contains(&b'\r'), "{label} must not contain CR bytes");
         assert!(bytes.ends_with(b"\n"), "{label} must end with LF");
     }
 
-    fn assert_stdout_jsonl_events(stdout: &[u8], expected_events: usize) {
+    fn test_stdio_stdout_jsonl_values(stdout: &[u8]) -> Vec<serde_json::Value> {
         assert_lf_only_final_lf(stdout, "stdout");
 
-        let text = std::str::from_utf8(stdout).expect("stdout utf8");
-        let lines: Vec<&str> = text.split_terminator('\n').collect();
-        assert_eq!(lines.len(), expected_events);
+        std::str::from_utf8(stdout)
+            .expect("stdout utf8")
+            .split_terminator('\n')
+            .map(|line| serde_json::from_str(line).expect("stdout JSONL"))
+            .collect()
+    }
 
-        for line in lines {
-            let value: serde_json::Value = serde_json::from_str(line).expect("stdout JSONL");
+    fn test_stdio_input_event_ids_and_sequences(input: &[u8]) -> Vec<(String, u64)> {
+        assert_lf_only_final_lf(input, "input fixture");
+
+        std::str::from_utf8(input)
+            .expect("input fixture utf8")
+            .split_terminator('\n')
+            .map(|line| {
+                let event: TestStdioHarnessInputEvent =
+                    serde_json::from_str(line).expect("input fixture event");
+                (event.event_id, event.sequence)
+            })
+            .collect()
+    }
+
+    fn assert_test_stdio_success(input: &[u8]) -> TestStdioHarnessResult {
+        let expected_events = test_stdio_input_event_ids_and_sequences(input);
+        let result = run_test_stdio_harness(input);
+
+        assert!(result.accepted);
+        assert!(result.stderr.is_empty());
+        assert_stdout_jsonl_events(&result.stdout, expected_events.len());
+        assert_stdout_order_matches_input(&expected_events, &result.stdout);
+
+        result
+    }
+
+    fn assert_stdout_order_matches_input(expected_events: &[(String, u64)], stdout: &[u8]) {
+        let stdout_events = test_stdio_stdout_jsonl_values(stdout);
+        assert_eq!(stdout_events.len(), expected_events.len());
+
+        for (event, (expected_id, expected_sequence)) in
+            stdout_events.iter().zip(expected_events.iter())
+        {
+            assert_eq!(event["eventId"].as_str(), Some(expected_id.as_str()));
+            assert_eq!(event["sequence"].as_u64(), Some(*expected_sequence));
+            assert_eq!(
+                event["eventType"].as_str(),
+                Some(TEST_STDIO_HARNESS_OUTPUT_EVENT_TYPE)
+            );
+        }
+    }
+
+    fn assert_stdout_jsonl_events(stdout: &[u8], expected_events: usize) {
+        let values = test_stdio_stdout_jsonl_values(stdout);
+        assert_eq!(values.len(), expected_events);
+
+        for value in values {
             assert!(value.is_object(), "stdout JSONL line must be an object");
             assert_eq!(value["schema"], TEST_STDIO_HARNESS_EVENT_SCHEMA);
             assert_eq!(value["runtimeEnabled"], false);
             assert_eq!(value["approvalGranted"], false);
         }
+    }
+
+    fn assert_test_stdio_failure(input: &[u8], expected_stderr: &str) -> TestStdioHarnessResult {
+        let result = run_test_stdio_harness(input);
+
+        assert!(!result.accepted);
+        assert!(result.stdout.is_empty());
+        assert_lf_only_final_lf(&result.stderr, "stderr");
+        assert_eq!(
+            std::str::from_utf8(&result.stderr).expect("stderr text"),
+            expected_stderr
+        );
+
+        result
     }
 
     #[test]
@@ -3691,6 +3853,389 @@ mod tests {
         assert!(!stderr.contains("secret-token-123"));
         assert!(!stderr.contains(TEST_STDIO_HARNESS_EVENT_SCHEMA));
         assert!(!stderr.contains(TEST_STDIO_HARNESS_OUTPUT_EVENT_TYPE));
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_expected_fixture_filenames_are_stable() {
+        let mut unique = std::collections::BTreeSet::new();
+
+        for filename in TEST_STDIO_HARNESS_PHASE_4_1J_EXPECTED_FIXTURE_FILENAMES {
+            assert!(unique.insert(*filename));
+            assert!(filename.ends_with(".jsonl") || filename.ends_with(".json"));
+            assert!(!filename.contains('\\'));
+
+            let rendered = test_stdio_phase_4_1j_fixture_path(filename)
+                .to_string_lossy()
+                .replace('\\', "/");
+            assert!(rendered.ends_with(&format!(
+                "{}/{}",
+                TEST_STDIO_HARNESS_PHASE_4_1J_FIXTURE_ROOT, filename
+            )));
+            assert!(
+                test_stdio_phase_4_1j_read_fixture_file(filename).is_some(),
+                "{filename} should exist in Phase 4.1J fixtures"
+            );
+        }
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_replays_expected_fixture_suite() {
+        let suite_bytes = test_stdio_phase_4_1j_read_fixture_file("expected-outcomes.json")
+            .expect("phase 4.1J expected outcomes fixture");
+        let suite: serde_json::Value =
+            serde_json::from_slice(&suite_bytes).expect("phase 4.1J expected outcomes json");
+
+        assert_eq!(suite["schema"], "ardyn.phase-4.1j.stdio-harness-fixtures");
+        assert_eq!(suite["schemaVersion"], "0.1.0");
+        assert_eq!(
+            suite["fixtureKind"],
+            "private-rust-stdio-harness-stream-cases"
+        );
+        assert_eq!(suite["runtimeEffect"]["runtimeEnabled"], false);
+        assert_eq!(suite["runtimeEffect"]["approvalGranted"], false);
+        assert_eq!(suite["runtimeEffect"]["runtimeApprovalGranted"], false);
+        assert_eq!(
+            suite["runtimeEffect"]["processStdioOwnershipRequired"],
+            false
+        );
+        assert_eq!(suite["runtimeEffect"]["runtimeCommandAvailable"], false);
+
+        let cases = suite["cases"]
+            .as_array()
+            .expect("phase 4.1J expected outcomes cases");
+        let mut names = std::collections::BTreeSet::new();
+
+        for case in cases {
+            let name = case["name"].as_str().expect("phase 4.1J case name");
+            assert!(
+                names.insert(name.to_string()),
+                "duplicate fixture case {name}"
+            );
+
+            let input = test_stdio_phase_4_1j_expected_case_input(name)
+                .unwrap_or_else(|| panic!("missing phase 4.1J case input for {name}"));
+            let expected = &case["expected"];
+            let first = run_test_stdio_harness(&input);
+            let second = run_test_stdio_harness(&input);
+
+            assert_eq!(first, second, "{name} should be deterministic");
+            assert_eq!(
+                first.accepted,
+                expected["accepted"].as_bool().expect("expected accepted"),
+                "{name} accepted"
+            );
+            assert_eq!(
+                std::str::from_utf8(&first.stderr).expect("stderr text"),
+                expected["stderr"].as_str().expect("expected stderr"),
+                "{name} stderr"
+            );
+
+            let stdout_line_count = if first.stdout.is_empty() {
+                0
+            } else {
+                assert_lf_only_final_lf(&first.stdout, "stdout");
+                std::str::from_utf8(&first.stdout)
+                    .expect("stdout text")
+                    .split_terminator('\n')
+                    .count()
+            };
+            assert_eq!(
+                stdout_line_count as u64,
+                expected["stdoutLineCount"]
+                    .as_u64()
+                    .expect("expected stdout line count"),
+                "{name} stdout line count"
+            );
+
+            let expected_stdout_events = expected["stdoutEvents"]
+                .as_array()
+                .expect("expected stdout events")
+                .clone();
+            if expected_stdout_events.is_empty() {
+                assert!(first.stdout.is_empty(), "{name} should have zero stdout");
+            } else {
+                let actual_stdout_events = test_stdio_stdout_jsonl_values(&first.stdout);
+                assert_eq!(
+                    actual_stdout_events, expected_stdout_events,
+                    "{name} stdout events"
+                );
+                for event in actual_stdout_events {
+                    assert_eq!(event["runtimeEnabled"], false);
+                    assert_eq!(event["approvalGranted"], false);
+                }
+            }
+        }
+
+        for required_case in [
+            "valid-single-event",
+            "valid-multiple-events",
+            "malformed-json",
+            "non-object-json",
+            "missing-required-fields",
+            "invalid-event-kind",
+            "crlf-rejected",
+            "missing-final-lf",
+            "empty-input",
+            "invalid-utf8",
+            "oversized-payload",
+            "oversized-input",
+            "early-eof-partial-frame",
+            "runtime-approval-request-rejected",
+        ] {
+            assert!(
+                names.contains(required_case),
+                "{required_case} fixture case missing"
+            );
+        }
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_accepts_valid_jsonl_fixture_stream() {
+        let fallback = test_stdio_probe_line("valid-fixture-1", 1);
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "valid-single-event.jsonl",
+            "valid-single-event",
+            fallback.as_bytes(),
+        );
+
+        assert_test_stdio_success(&input);
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_preserves_lf_only_framing_and_final_lf() {
+        let fallback = test_stdio_probe_line("lf-only-fixture-1", 1);
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "valid-single-event.jsonl",
+            "valid-single-event",
+            fallback.as_bytes(),
+        );
+
+        assert_lf_only_final_lf(&input, "input fixture");
+        let result = assert_test_stdio_success(&input);
+        assert_lf_only_final_lf(&result.stdout, "stdout");
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_rejects_crlf_framing_fixture() {
+        let fallback = test_stdio_probe_line("crlf-fixture-1", 1).replace('\n', "\r\n");
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "crlf-rejected.jsonl",
+            "crlf-rejected",
+            fallback.as_bytes(),
+        );
+
+        assert!(input.contains(&b'\r'), "CRLF fixture must contain CR");
+        assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=crlf_rejected line=1 detail=CR bytes are not accepted in stdin frames\n",
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_requires_final_lf_fixture() {
+        let mut fallback = test_stdio_probe_line("missing-final-lf-fixture-1", 1);
+        fallback.pop();
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "missing-final-lf.jsonl",
+            "missing-final-lf",
+            fallback.as_bytes(),
+        );
+
+        assert!(!input.ends_with(b"\n"));
+        assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=early_eof line=none detail=final LF required before frame commit\n",
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_keeps_stdout_and_stderr_separate() {
+        let fallback = concat!(
+            "{\"eventId\":\"separation-secret-token\",\"eventType\":\"harness.stdin.probe\",\"sequence\":1,",
+            "\"payload\":{\"mode\":\"static-harness-probe\",\"runtimeRequested\":true,\"approvalRequested\":false}}\n"
+        );
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "runtime-approval-request-rejected.jsonl",
+            "runtime-approval-request-rejected",
+            fallback.as_bytes(),
+        );
+
+        let result = assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=runtime_request_rejected line=1 detail=test harness cannot grant runtime or approval\n",
+        );
+        let stderr = std::str::from_utf8(&result.stderr).expect("stderr text");
+        assert!(!stderr.contains("separation-secret-token"));
+        assert!(!stderr.contains("input-runtime-request"));
+        assert!(!stderr.contains(TEST_STDIO_HARNESS_EVENT_SCHEMA));
+        assert!(!stderr.contains(TEST_STDIO_HARNESS_OUTPUT_EVENT_TYPE));
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_preserves_deterministic_event_ordering() {
+        let fallback = test_stdio_probe_stream("ordering-fixture", 3);
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "valid-multiple-events.jsonl",
+            "valid-multiple-events",
+            fallback.as_bytes(),
+        );
+        let expected_events = test_stdio_input_event_ids_and_sequences(&input);
+
+        assert!(expected_events.len() >= 2);
+        let first = assert_test_stdio_success(&input);
+        let second = run_test_stdio_harness(&input);
+
+        assert_eq!(first, second);
+        assert_stdout_order_matches_input(&expected_events, &first.stdout);
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_rejects_malformed_json_fixture() {
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "malformed-json.jsonl",
+            "malformed-json",
+            b"{not json}\n",
+        );
+
+        assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=malformed_input line=1 detail=stdin frame must be one JSON object\n",
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_rejects_non_object_json_fixture() {
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "non-object-json.jsonl",
+            "non-object-json",
+            b"[]\n",
+        );
+
+        assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=malformed_input line=1 detail=stdin frame must be one JSON object\n",
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_rejects_missing_required_fields_fixture() {
+        let fallback = concat!(
+            "{\"eventType\":\"harness.stdin.probe\",\"sequence\":1,",
+            "\"payload\":{\"mode\":\"static-harness-probe\",\"runtimeRequested\":false,\"approvalRequested\":false}}\n"
+        );
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "missing-required-fields.jsonl",
+            "missing-required-fields",
+            fallback.as_bytes(),
+        );
+
+        assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=invalid_payload line=1 detail=stdin frame payload is not an accepted static probe\n",
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_rejects_invalid_event_kind_fixture() {
+        let fallback = test_stdio_probe_line("invalid-kind-fixture-1", 1).replace(
+            TEST_STDIO_HARNESS_INPUT_EVENT_TYPE,
+            "harness.stdin.unsupported",
+        );
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "invalid-event-kind.jsonl",
+            "invalid-event-kind",
+            fallback.as_bytes(),
+        );
+
+        assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=invalid_payload line=1 detail=stdin frame payload is not an accepted static probe\n",
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_rejects_oversized_payload_fixture() {
+        let fallback = test_stdio_probe_line(&"x".repeat(TEST_STDIO_HARNESS_MAX_FRAME_BYTES), 1);
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "oversized-payload.jsonl",
+            "oversized-payload",
+            fallback.as_bytes(),
+        );
+
+        assert!(
+            input.len() > TEST_STDIO_HARNESS_MAX_FRAME_BYTES,
+            "oversized payload fixture must exceed frame limit"
+        );
+        assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=oversized_payload line=1 detail=stdin frame exceeds test harness byte limit\n",
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_rejects_oversized_input_fixture() {
+        let fallback = test_stdio_probe_stream("oversized-input-fixture", 6);
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "oversized-input.jsonl",
+            "oversized-input",
+            fallback.as_bytes(),
+        );
+
+        assert!(
+            input.len() > TEST_STDIO_HARNESS_MAX_INPUT_BYTES,
+            "oversized input fixture must exceed stream limit"
+        );
+        assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=oversized_input line=none detail=stdin stream exceeds test harness byte limit\n",
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_rejects_early_eof_fixture() {
+        let fallback =
+            b"{\"eventId\":\"early-eof-fixture\",\"eventType\":\"harness.stdin.probe\"".to_vec();
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "early-eof-partial-frame.jsonl",
+            "early-eof-partial-frame",
+            fallback.as_slice(),
+        );
+
+        assert!(!input.is_empty());
+        assert!(!input.ends_with(b"\n"));
+        assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=early_eof line=none detail=final LF required before frame commit\n",
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_rejects_empty_input_fixture() {
+        let input =
+            test_stdio_phase_4_1j_fixture_or_case_bytes("empty-input.jsonl", "empty-input", b"");
+
+        assert!(input.is_empty());
+        assert_test_stdio_failure(
+            &input,
+            "ardyn-test-stdio-harness error code=early_eof line=none detail=stdin ended before a complete LF-terminated frame\n",
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_phase4_1j_accepts_multiple_event_stream_fixture() {
+        let fallback = test_stdio_probe_stream("multiple-fixture", 3);
+        let input = test_stdio_phase_4_1j_fixture_or_case_bytes(
+            "valid-multiple-events.jsonl",
+            "valid-multiple-events",
+            fallback.as_bytes(),
+        );
+        let expected_events = test_stdio_input_event_ids_and_sequences(&input);
+
+        assert!(
+            expected_events.len() >= 2,
+            "multiple-event fixture must contain at least two events"
+        );
+        assert_test_stdio_success(&input);
     }
 
     fn policy_metadata_json_value() -> serde_json::Value {

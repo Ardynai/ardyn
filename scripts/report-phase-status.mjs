@@ -135,9 +135,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1I",
-    name: "Rust-host stdio test harness layer",
-    executionPosture: "rust-host-stdio-test-harness-infrastructure-only non-executing"
+    id: "4.1J",
+    name: "Fixture-backed Rust-host stdio boundaries",
+    executionPosture: "fixture-backed-stdio-boundary-test-infrastructure-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -180,12 +180,17 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.1I rust-host-stdio-test-harness-infrastructure-only status report.",
+        "Render this deterministic local Phase 4.1J fixture-backed-stdio-boundary-test-infrastructure-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1I status report.",
+      purpose: "Run focused tests for this local Phase 4.1J status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1j-rust-host-stdio-boundary-fixtures.test.mjs",
+      purpose: "Run focused Phase 4.1J fixture-backed Rust-host stdio boundary checks.",
       ranByReport: false
     },
     {
@@ -5061,6 +5066,366 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41JFixtureBackedStdioBoundaryInventory: {
+    boundaryLayer: {
+      document: "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+      precedingPhase: "4.1I",
+      layerId: "fixture-backed-rust-host-stdio-boundary-test-infrastructure",
+      scope: "private-rust-fixture-backed-test-infrastructure",
+      fixtureBackedRustHostCoverage: true,
+      privateRustCfgTestHarness: true,
+      inMemoryOnly: true,
+      concreteFixtureSuiteAdded: true,
+      privateHarnessNotPublicRuntimeContract: true,
+      publicRuntimeContractIntroduced: false,
+      runtimeReadinessClaimed: false,
+      productionRuntimeSourceChanged: false,
+      noFreshExternalReview: true,
+      noFreshDevinReview: true,
+      runtimeBlocked: true,
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      grantsRuntimeApproval: false
+    },
+    carriedForwardHarnessEvidence: {
+      phase41IHarnessDocument: "docs/phase-4-1i-rust-host-stdio-harness.md",
+      phase41HDispositionDocument: "docs/phase-4-1h-external-review-disposition.md",
+      privateRustCfgTestHarness: true,
+      inMemoryOnly: true,
+      extendedByPhase41JFixtures: true,
+      notPublicRuntimeContract: true,
+      noFreshExternalReview: true,
+      noFreshDevinReview: true,
+      runtimeStillBlocked: true,
+      implementedHarnessEvidenceIds: [
+        "deterministic-stdout-jsonl-framing-tests",
+        "stderr-isolation-tests",
+        "malformed-and-early-eof-rejection-tests",
+        "oversized-and-invalid-payload-rejection-tests",
+        "negative-runtime-command-probes"
+      ]
+    },
+    ownershipBoundary: {
+      ownedByThisPhase: [
+        "crates/ardyn-host/src/lib.rs",
+        "tests/fixtures/stdio-harness/phase4-1j/expected-outcomes.json",
+        "tests/fixtures/stdio-harness/phase4-1j/valid-single-event.jsonl",
+        "tests/fixtures/stdio-harness/phase4-1j/valid-multiple-events.jsonl",
+        "tests/fixtures/stdio-harness/phase4-1j/malformed-json.jsonl",
+        "tests/fixtures/stdio-harness/phase4-1j/non-object-json.jsonl",
+        "tests/fixtures/stdio-harness/phase4-1j/missing-required-fields.jsonl",
+        "tests/fixtures/stdio-harness/phase4-1j/invalid-event-kind.jsonl",
+        "tests/fixtures/stdio-harness/phase4-1j/oversized-payload.jsonl",
+        "tests/fixtures/stdio-harness/phase4-1j/oversized-input.jsonl",
+        "tests/fixtures/stdio-harness/phase4-1j/runtime-approval-request-rejected.jsonl",
+        "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs",
+        "tests/phase4-1j-rust-host-stdio-boundary-fixtures.test.mjs",
+        "README.md",
+        "apps/cli/README.md",
+        "packages/core/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/architecture.md",
+        "docs/host-policy-preconditions.md",
+        "docs/session-events-stdio-contract.md",
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "docs/phase-4-1-runtime-proposal.md",
+        "docs/phase-4-1i-rust-host-stdio-harness.md"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      rustTestHarnessSourceChangedByThisPhase: true,
+      productionRuntimeSourceChangedByThisPhase: false,
+      cliSourceChangedByThisPhase: false,
+      fixtureBackedTestInfrastructureOnly: true,
+      separateRuntimeImplementationApprovalRequired: true
+    },
+    fixtureBackedBoundaryEvidence: [
+      {
+        id: "phase-4.1j-fixture-suite-replay",
+        summary:
+          "Phase 4.1J replays positive and negative fixture cases through the private Rust #[cfg(test)] stdio harness."
+      },
+      {
+        id: "deterministic-jsonl-final-lf-boundary",
+        summary:
+          "Fixture-backed harness coverage proves deterministic LF-only JSONL output boundaries with a final LF in memory."
+      },
+      {
+        id: "stderr-isolation-boundary",
+        summary:
+          "Fixture-backed harness coverage keeps rejected inputs on deterministic stderr diagnostics with zero stdout."
+      },
+      {
+        id: "malformed-eof-crlf-rejection-boundary",
+        summary:
+          "Fixture-backed harness coverage rejects malformed JSON, non-object JSON, missing fields, invalid event kinds, invalid UTF-8, CRLF, missing final LF, early EOF, empty input, oversized payloads, oversized streams, and runtime/approval requests."
+      },
+      {
+        id: "runtime-like-command-rejection-boundary",
+        summary:
+          "Runtime-like command names remain rejected and cannot be promoted by docs, status reports, or private harness evidence."
+      }
+    ],
+    harnessBoundary: {
+      privateRustFixtureBackedTestInfrastructureOnly: true,
+      notRuntimeReadiness: true,
+      noFreshExternalReview: true,
+      noFreshDevinReview: true,
+      privateHarnessNotPublicRuntimeContract: true,
+      noPublicRuntimeContract: true,
+      futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+      reportRunsChecks: false,
+      writesFiles: false,
+      printsStdoutFromCli: false,
+      consumedByLiveHostLoop: false
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      fixtureBackedStdioBoundaryCommandAdded: false,
+      rustHostStdioBoundaryCommandAdded: false,
+      rustHostStdioHarnessCommandAdded: false,
+      stdioHarnessCommandAdded: false,
+      runtimeHarnessCommandAdded: false,
+      externalReviewDispositionCommandAdded: false,
+      reviewDispositionCommandAdded: false,
+      externalReviewPacketCommandAdded: false,
+      reviewPacketCommandAdded: false,
+      runtimeReadinessCommandAdded: false,
+      runtimeReadinessReviewCommandAdded: false,
+      serveRuntimeCommandAdded: false,
+      stdioRuntimeCommandAdded: false,
+      replaySessionTranscriptCommandAdded: false,
+      approvalEvaluatorCommandAdded: false,
+      policyMetadataCommandAdded: false,
+      hostPolicyExportCommandAdded: false,
+      fileWriterAdded: false,
+      stdoutPrinterAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    apiSurface: {
+      typescriptCoreRuntimeApiAdded: false,
+      typescriptCoreBoundaryHelperAdded: false,
+      typescriptCoreHarnessHelperAdded: false,
+      rustRuntimeHelperAdded: false,
+      rustStdioOwnerAdded: false,
+      rustHarnessRuntimeAdded: false,
+      publicRustHarnessApiAdded: false,
+      publicRuntimeContractAdded: false,
+      approvalEvaluatorAdded: false,
+      hostPolicyEnforcementAdded: false,
+      failureAuditRuntimeAdded: false,
+      cleanupRuntimeAdded: false,
+      processKillAdded: false,
+      processControlAdded: false,
+      transcriptPersistenceReplayRuntimeAdded: false,
+      secretsUsed: false
+    },
+    fixtures: [
+      await localInventoryEntry(
+        "tests/fixtures/stdio-harness/phase4-1j/expected-outcomes.json",
+        "Pins the Phase 4.1J fixture-backed stdio boundary case matrix and expected stdout/stderr outcomes."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/stdio-harness/phase4-1j/valid-single-event.jsonl",
+        "Accepted single-event input fixture."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/stdio-harness/phase4-1j/valid-multiple-events.jsonl",
+        "Accepted multiple-event input fixture with deterministic ordering."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/stdio-harness/phase4-1j/malformed-json.jsonl",
+        "Malformed JSON rejection fixture."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/stdio-harness/phase4-1j/non-object-json.jsonl",
+        "Non-object JSON rejection fixture."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/stdio-harness/phase4-1j/missing-required-fields.jsonl",
+        "Missing required fields rejection fixture."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/stdio-harness/phase4-1j/invalid-event-kind.jsonl",
+        "Invalid event kind rejection fixture."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/stdio-harness/phase4-1j/oversized-payload.jsonl",
+        "Oversized single-frame payload rejection fixture."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/stdio-harness/phase4-1j/oversized-input.jsonl",
+        "Oversized aggregate input stream rejection fixture."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/stdio-harness/phase4-1j/runtime-approval-request-rejected.jsonl",
+        "Runtime and approval request rejection fixture."
+      )
+    ],
+    rustTestSource: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Contains private #[cfg(test)] fixture-backed stdio boundary replay coverage; no production runtime API or process stdio ownership is added."
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+        "Records Phase 4.1J as fixture-backed Rust-host stdio boundary test infrastructure, with no runtime readiness claim and no public runtime contract."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1i-rust-host-stdio-harness.md",
+        "Links Phase 4.1J as fixture-backed follow-up while the private harness remains non-public test infrastructure."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4.1 roadmap to identify Phase 4.1J as fixture-backed private test infrastructure."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1J leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.1J while preserving no live stdio runtime and no public runtime contract."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents Phase 4.1J boundary coverage as private test evidence, not active enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records Phase 4.1J as fixture-backed boundary coverage without new runtime architecture."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1J scope and unchanged non-executing CLI surface."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1J adds no boundary, harness, review, runtime-readiness, or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.1J adds no core runtime helper API, boundary helper API, or public harness contract."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 4.1J does not add Rust-host process stdio ownership, public harness APIs, or runtime behavior."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1J report metadata, docs inventory, ownership boundary, runtime-like command rejection, and safety posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-1j-rust-host-stdio-boundary-fixtures.test.mjs",
+        "Pins Phase 4.1J fixture metadata, source guards, report inventory, and runtime-like command rejection."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-1i-rust-host-stdio-harness.test.mjs",
+        "Keeps the Phase 4.1I private harness boundary guard active after Phase 4.1J."
+      )
+    ],
+    runtimeLikeCommandRejectionProbes: [
+      ...phase41HExternalReviewDispositionMetadata.smokeProbeSummary.rejectionProbes,
+      "fixture-backed-stdio-boundary",
+      "stdio-boundary",
+      "public-runtime-contract",
+      "rust-host-stdio-harness",
+      "stdio-harness",
+      "runtime-harness",
+      "runtime-readiness",
+      "runtime-readiness-checkpoint",
+      "approve-runtime",
+      "grant-runtime",
+      "enable-runtime",
+      "approval-evaluator",
+      "transport-harness",
+      "stdin-reader",
+      "stdout-writer",
+      "stderr-writer",
+      "failure-audit",
+      "cleanup-runtime",
+      "kill-runtime"
+    ],
+    runtimeEffect: {
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      runtimeImplementationApproved: false,
+      runtimeEnabled: false,
+      runtimeReadinessClaimed: false,
+      publicRuntimeContractAdded: false,
+      grantsRuntimeApproval: false,
+      rustHostLiveStdioRuntimeAdded: false,
+      cliCommandAdded: false,
+      productionRuntimeSourceChanged: false,
+      rustTestHarnessRuntimeSurfaceAdded: false,
+      processStdioOwnershipAdded: false,
+      approvalEvaluatorAdded: false,
+      hostPolicyEnforcementAdded: false,
+      freshExternalReviewRan: false,
+      freshDevinReviewRan: false
+    },
+    safetyPosture: {
+      nonExecuting: true,
+      fixtureBackedStdioBoundariesOnly: true,
+      privateRustTestHarnessOnly: true,
+      fixtureBackedTestInfrastructureOnly: true,
+      notRuntimeReadiness: true,
+      privateHarnessNotPublicRuntimeContract: true,
+      noPublicRuntimeContract: true,
+      phase41IPrivateHarnessCoverageCarriedForward: true,
+      productionRuntimeUnchanged: true,
+      noFreshExternalReview: true,
+      noFreshDevinReview: true,
+      runtimeBlocked: true,
+      noLiveRuntime: true,
+      noRuntimeCommand: true,
+      noHarnessCommand: true,
+      noBoundaryCommand: true,
+      noReviewDispositionCommand: true,
+      noReviewPacketCommand: true,
+      noRuntimeReadinessCommand: true,
+      noServeRuntime: true,
+      noStdioRuntime: true,
+      noReplaySessionTranscript: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noFailureAuditRuntime: true,
+      noCleanupRuntime: true,
+      noProcessKill: true,
+      noApprovalEvaluator: true,
+      noHostPolicyEnforcement: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -5086,6 +5451,7 @@ const report = {
     externalReviewPacket: true,
     externalReviewDisposition: true,
     rustHostStdioHarness: true,
+    fixtureBackedStdioBoundaries: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -5107,6 +5473,9 @@ const report = {
       processSpawning: false,
       phase41RuntimeImplemented: false,
       phase41IRuntimeImplemented: false,
+      phase41JRuntimeImplemented: false,
+      phase41JRuntimeReady: false,
+      freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       externalCiRan: false
     },

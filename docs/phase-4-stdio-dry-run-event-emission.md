@@ -1,4 +1,4 @@
-# Phase 4.0A/4.0B/4.0C/4.0D/4.0E/4.0F/4.0G/4.0H/4.0I/4.1/4.1A/4.1B/4.1C/4.1D/4.1E/4.1F Stdio Dry-Run Session Event Emission
+# Phase 4 Stdio Dry-Run Session Event Emission
 
 Phase 4.0A introduces the first non-executing stdio session-event emission
 path. It emits deterministic session events as JSON Lines to stdout for local
@@ -126,6 +126,54 @@ live stdio reader, runtime owner, transcript persistence runtime, replay
 runtime, WebSocket, HTTP, adapter, plugin, Content Fabric runtime, secret,
 production signing-key path, runtime approval grant, or live runtime
 implementation. See `docs/phase-4-1f-runtime-readiness-checkpoint.md`.
+
+Phase 4.1G adds static external review packet documentation, deterministic
+fixture metadata, report inventory, and tests only. It still does not change the
+finite TypeScript dry-run emitter or add an external-review-packet CLI command,
+review-packet CLI command, runtime-readiness-review CLI command, stdin reader,
+stdout writer, stderr writer, live writer, failure-audit runtime, cleanup
+runtime, process killing, process control, approval evaluator, host-policy
+enforcement path, file writer, stdout printer, live stdio reader, runtime owner,
+transcript persistence runtime, replay runtime, WebSocket, HTTP, adapter,
+plugin, Content Fabric runtime, secret, production signing-key path, runtime
+approval grant, or live runtime implementation. See
+`docs/phase-4-1g-external-review-packet.md`.
+
+Phase 4.1H adds static external review disposition documentation,
+deterministic fixture metadata, report inventory, and tests only. It still does
+not change the finite TypeScript dry-run emitter or add a review-disposition CLI
+command, review-packet CLI command, runtime-readiness-review CLI command, stdin
+reader, stdout writer, stderr writer, live writer, failure-audit runtime,
+cleanup runtime, process killing, process control, approval evaluator,
+host-policy enforcement path, file writer, stdout printer, live stdio reader,
+runtime owner, transcript persistence runtime, replay runtime, WebSocket, HTTP,
+adapter, plugin, Content Fabric runtime, secret, production signing-key path,
+runtime approval grant, or live runtime implementation. It is not a fresh Devin
+re-review. See `docs/phase-4-1h-external-review-disposition.md`.
+
+Phase 4.1I adds private Rust-host stdio harness coverage, documentation, report
+inventory, and tests only. It still does not change the finite TypeScript
+dry-run emitter or add a harness CLI command, stdin reader, stdout writer,
+stderr writer, live writer, failure-audit runtime, cleanup runtime, process
+killing, process control, approval evaluator, host-policy enforcement path,
+file writer, stdout printer, live stdio reader, runtime owner, transcript
+persistence runtime, replay runtime, WebSocket, HTTP, adapter, plugin, Content
+Fabric runtime, secret, production signing-key path, runtime approval grant, or
+live runtime implementation. It is private test infrastructure only. See
+`docs/phase-4-1i-rust-host-stdio-harness.md`.
+
+Phase 4.1J adds fixture-backed Rust-host stdio boundary documentation, report
+inventory, and assertions only. It still does not change the finite TypeScript
+dry-run emitter or add a boundary CLI command, harness CLI command,
+runtime-readiness CLI command, stdin reader, stdout writer, stderr writer, live
+writer, failure-audit runtime, cleanup runtime, process killing, process
+control, approval evaluator, host-policy enforcement path, file writer, stdout
+printer, live stdio reader, runtime owner, transcript persistence runtime,
+replay runtime, WebSocket, HTTP, adapter, plugin, Content Fabric runtime,
+secret, production signing-key path, runtime approval grant, public runtime
+contract, or live runtime implementation. It is not runtime readiness and is
+not a fresh external review. See
+`docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
 
 ## CLI Surface
 
@@ -505,9 +553,27 @@ review command, an approval token, a file writer, a stdout writer, a stderr
 writer, a stdin reader, process stdio ownership, transcript persistence/replay
 runtime, failure-audit runtime, or live host-loop consumption.
 
+## Phase 4.1J Fixture-Backed Stdio Boundaries
+
+Phase 4.1J adds fixture-backed Rust-host stdio boundary coverage to the
+private Phase 4.1I harness. See
+`docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
+
+The Phase 4.1J fixture suite and status inventory record deterministic
+JSONL/final-LF behavior, stdout/stderr separation, deterministic event
+ordering, malformed/non-object/missing-field/invalid-kind rejection, invalid
+UTF-8/EOF/CRLF rejection, oversized payload/input rejection, and runtime-like
+command rejection as private harness evidence. It is not runtime readiness,
+not a fresh external review, not a public runtime contract, not runtime
+configuration, not a runtime command, not a boundary command, not a harness
+command, not an approval token, not a CLI file writer, not a CLI stdout writer,
+not a stderr writer, not a stdin reader, not process stdio ownership, not
+transcript persistence/replay runtime, not failure-audit runtime, and not
+consumed by a live host loop.
+
 ## Deferred Runtime Work
 
-Phase 4.1I intentionally does not implement repo-root confinement, transcript
+Phase 4.1J intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction
@@ -518,5 +584,6 @@ transcript replay classifications, fail-closed failure-audit classifications,
 terminal-state classifications, a checkpoint readiness matrix, blocker list,
 external review packet, reviewer questions, packet-only outcomes, an external
 review disposition record, the first Rust-host stdio test harness layer, and a
-roadmap for later host-policy phases. A future live runtime still requires
-separate explicit host policy, implementation, tests, and runtime enablement.
+fixture-backed stdio boundary test-infrastructure layer. A future live runtime still
+requires separate explicit host policy, implementation, tests, and runtime
+enablement.

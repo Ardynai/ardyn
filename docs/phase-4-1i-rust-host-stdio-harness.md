@@ -83,3 +83,11 @@ runtime commands, process stdio ownership, host-policy enforcement runtime,
 adapter calls, Locus runtime dependency, MCP/OpenClaw calls, plugin execution,
 Content Fabric download/install/enable behavior, secret handling, production
 signing-key usage, or any runtime approval grant.
+
+## Phase 4.1J Follow-Up
+
+Phase 4.1J extends this private harness with fixture-backed stdio boundary
+replay tests and a deterministic fixture suite. It does not make the private
+`#[cfg(test)]` helpers a public runtime contract, does not add runtime
+readiness, and does not record a fresh external review. See
+`docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.

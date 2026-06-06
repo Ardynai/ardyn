@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.1I Scope
+## Phase 3 and Phase 4.1J Scope
 
-This repository is currently in Phase 4.1I Rust-host stdio test-harness mode. The
+This repository is currently in Phase 4.1J fixture-backed stdio-boundary mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -29,7 +29,9 @@ failure-audit/kill-semantics review helpers, a static runtime-readiness
 checkpoint, and an external review packet for Devin/human reviewer handoff
 plus a static external review disposition record for the Devin targeted fix
 plus private Rust `#[cfg(test)]` in-memory tests and docs/report inventory for
-the first Rust-host stdio test harness layer
+the first Rust-host stdio test harness layer plus fixture-backed boundary
+fixtures and replay tests that keep the private harness out of the public
+runtime contract
 before any separately approved live runtime work.
 
 Included now:
@@ -137,6 +139,11 @@ Included now:
   no fresh Devin review, adds no runtime command, changes no production
   runtime source, and leaves runtime blocked. See
   `docs/phase-4-1i-rust-host-stdio-harness.md`.
+- Phase 4.1J fixture-backed Rust-host stdio boundary fixtures, private Rust
+  replay tests, documentation, and report inventory. It is not runtime
+  readiness, records no fresh external review, keeps the private harness from
+  becoming a public runtime contract, and leaves runtime blocked. See
+  `docs/phase-4-1j-fixture-backed-stdio-boundaries.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -181,9 +188,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.1I CLI Usage
+## Phase 3 and Phase 4.1J CLI Usage
 
-Run non-executing commands directly from source through Phase 4.1I:
+Run non-executing commands directly from source through Phase 4.1J:
 
 ```powershell
 node apps/cli/src/index.mjs doctor

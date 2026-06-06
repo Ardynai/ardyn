@@ -569,9 +569,9 @@ test("Phase 4.1G status report inventories packet without running checks", async
   const inventory = report.phase41GExternalReviewPacketInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1I",
-    name: "Rust-host stdio test harness layer",
-    executionPosture: "rust-host-stdio-test-harness-infrastructure-only non-executing"
+    id: "4.1J",
+    name: "Fixture-backed Rust-host stdio boundaries",
+    executionPosture: "fixture-backed-stdio-boundary-test-infrastructure-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
