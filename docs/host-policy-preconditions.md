@@ -275,6 +275,19 @@ emitter. `external-review-disposition`, `review-disposition`,
 proposal-only and rejected. See
 `docs/phase-4-1h-external-review-disposition.md`.
 
+Phase 4.1I adds a private `#[cfg(test)]` in-memory Rust-host stdio test harness
+artifact plus docs/report inventory. It records the first test-infrastructure
+layer for future Rust-host stdio work, but it remains non-runtime
+test infrastructure. It is not a fresh Devin review and does not grant runtime
+approval, start host-policy enforcement, add an approval evaluator, write
+files, print stdout, add a CLI command, deny a running runtime, persist
+transcripts, replay transcripts, handle secrets, implement live stdio
+ownership, own process stdout/stderr, perform cleanup, kill processes, or
+change the finite TypeScript dry-run emitter. `rust-host-stdio-harness`,
+`stdio-harness`, `runtime-harness`, `serve-runtime`, `stdio-runtime`, and
+`replay-session-transcript` remain proposal-only and rejected. See
+`docs/phase-4-1i-rust-host-stdio-harness.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

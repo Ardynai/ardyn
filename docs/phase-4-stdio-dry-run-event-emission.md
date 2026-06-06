@@ -490,9 +490,24 @@ token, not a file writer, not a stdout writer, not a stderr writer, not a stdin
 reader, not process stdio ownership, not transcript persistence/replay runtime,
 not failure-audit runtime, and not consumed by a live host loop.
 
+## Phase 4.1I Rust-Host Stdio Harness
+
+Phase 4.1I adds private `#[cfg(test)]` in-memory Rust-host stdio harness
+evidence for the first test-infrastructure layer. See
+`docs/phase-4-1i-rust-host-stdio-harness.md`.
+
+The Phase 4.1I harness tests cover deterministic stdin/stdout framing,
+LF-only/final-LF behavior, JSONL output events, stderr diagnostic isolation,
+malformed input rejection, early EOF, oversized/invalid payload rejection, and
+runtime/approval request rejection. The report inventory records that evidence
+without adding runtime configuration, a runtime command, a harness command, a
+review command, an approval token, a file writer, a stdout writer, a stderr
+writer, a stdin reader, process stdio ownership, transcript persistence/replay
+runtime, failure-audit runtime, or live host-loop consumption.
+
 ## Deferred Runtime Work
 
-Phase 4.1H intentionally does not implement repo-root confinement, transcript
+Phase 4.1I intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction
@@ -502,6 +517,6 @@ classifications, fail-closed framing/redaction classifications, fail-closed
 transcript replay classifications, fail-closed failure-audit classifications,
 terminal-state classifications, a checkpoint readiness matrix, blocker list,
 external review packet, reviewer questions, packet-only outcomes, an external
-review disposition record, and a roadmap for later host-policy phases. A future
-live runtime still requires separate explicit host policy, implementation,
-tests, and runtime enablement.
+review disposition record, the first Rust-host stdio test harness layer, and a
+roadmap for later host-policy phases. A future live runtime still requires
+separate explicit host policy, implementation, tests, and runtime enablement.

@@ -2,25 +2,28 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.1H exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 4.1I exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
-4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, and Phase 4.1G:
+4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, and Phase 4.1H:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.1H adds external review disposition documentation, a
-deterministic static fixture, report inventory, and tests only; it does not add
-a review-disposition CLI command, review-packet CLI command, runtime-readiness CLI
-command, checkpoint CLI command, failure-audit CLI command, cleanup CLI command, kill CLI command,
-process-control CLI command, signal-handler CLI command, exit-handler CLI
-command, transcript persistence CLI command, replay CLI command,
+`emit-session-events`. Phase 4.1I adds Rust-host stdio test harness
+documentation, report inventory, and tests only; it does not add a
+rust-host-stdio-harness CLI command, stdio-harness CLI command, runtime-harness
+CLI command, review-disposition CLI command, review-packet CLI command,
+runtime-readiness CLI command, checkpoint CLI command, failure-audit CLI
+command, cleanup CLI command, kill CLI command, process-control CLI command,
+signal-handler CLI command, exit-handler CLI command, transcript persistence
+CLI command, replay CLI command,
 framing/redaction CLI command, transport harness CLI command, approval-record
 CLI command, operator-consent CLI command, `approve-runtime`, `grant-runtime`,
 `enable-runtime`, proposal CLI command, readiness CLI command, live stdio
 reader, stdout writer, stderr writer, failure-audit command, listener, server,
 subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call,
 plugin execution path, Content Fabric runtime path, runtime approval grant,
-live runtime implementation, or agent loop. See
-`docs/phase-4-1h-external-review-disposition.md`.
+live runtime implementation, or agent loop. Phase 4.1I is not a fresh Devin
+review and keeps runtime blocked. See
+`docs/phase-4-1i-rust-host-stdio-harness.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -232,3 +235,18 @@ no live stdio reader, no process stdio ownership, no host-policy enforcement
 path, no approval evaluator, and no runtime approval grant. It is not a fresh
 Devin re-review and only records the targeted-fix disposition. See
 `docs/phase-4-1h-external-review-disposition.md`.
+
+Phase 4.1I adds private Rust-host stdio test harness coverage plus
+documentation and report inventory, and still leaves CLI behavior unchanged. It
+adds no
+rust-host-stdio-harness CLI command, no stdio-harness CLI command, no
+runtime-harness CLI command, no review-disposition CLI command, no
+external-review-packet CLI command, no review-packet CLI command, no
+runtime-readiness-review CLI command, no `approve-runtime`, no
+`grant-runtime`, no `enable-runtime`, no `serve-runtime`, no `stdio-runtime`,
+no `replay-session-transcript`, no `policy-metadata`, no `host-policy-export`,
+no file writer, no stdout printer, no live stdio reader, no process stdio
+ownership, no host-policy enforcement path, no approval evaluator, and no
+runtime approval grant. It is test infrastructure only, is not a fresh Devin
+review, changes no CLI source, and leaves runtime blocked. See
+`docs/phase-4-1i-rust-host-stdio-harness.md`.

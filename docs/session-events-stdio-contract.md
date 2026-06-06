@@ -336,6 +336,20 @@ approval grant. `external-review-disposition`, `review-disposition`,
 proposal-only and rejected. See
 `docs/phase-4-1h-external-review-disposition.md`.
 
+Phase 4.1I adds private `#[cfg(test)]` in-memory Rust-host stdio test harness
+coverage plus documentation and report inventory. It records the first
+test-infrastructure layer before runtime work by testing deterministic
+stdin/stdout framing, LF-only/final-LF behavior, JSONL output events, stderr
+diagnostic isolation, malformed input rejection, early EOF, oversized/invalid
+payload rejection, runtime/approval request rejection, and negative runtime
+command probes. It is not a fresh Devin review, does not add a CLI command,
+does not change production runtime source, and does not add live stdio runtime
+behavior.
+`rust-host-stdio-harness`, `stdio-harness`, `runtime-harness`,
+`serve-runtime`, `stdio-runtime`, and `replay-session-transcript` remain
+proposal-only and rejected. See
+`docs/phase-4-1i-rust-host-stdio-harness.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

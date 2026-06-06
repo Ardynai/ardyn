@@ -3007,6 +3007,255 @@ mod tests {
         path
     }
 
+    const TEST_STDIO_HARNESS_MAX_FRAME_BYTES: usize = 256;
+    const TEST_STDIO_HARNESS_EVENT_SCHEMA: &str = "ardyn.phase-4.1i.test-stdio-harness-event";
+    const TEST_STDIO_HARNESS_EVENT_VERSION: &str = "0.1.0";
+    const TEST_STDIO_HARNESS_INPUT_EVENT_TYPE: &str = "harness.stdin.probe";
+    const TEST_STDIO_HARNESS_OUTPUT_EVENT_TYPE: &str = "harness.stdout.probe.accepted";
+    const TEST_STDIO_HARNESS_PROBE_MODE: &str = "static-harness-probe";
+
+    #[derive(Debug, serde::Deserialize)]
+    #[serde(rename_all = "camelCase", deny_unknown_fields)]
+    struct TestStdioHarnessInputEvent {
+        event_id: String,
+        event_type: String,
+        sequence: u64,
+        payload: TestStdioHarnessInputPayload,
+    }
+
+    #[derive(Debug, serde::Deserialize)]
+    #[serde(rename_all = "camelCase", deny_unknown_fields)]
+    struct TestStdioHarnessInputPayload {
+        mode: String,
+        runtime_requested: bool,
+        approval_requested: bool,
+    }
+
+    #[derive(Debug, serde::Serialize)]
+    #[serde(rename_all = "camelCase")]
+    struct TestStdioHarnessOutputEvent<'a> {
+        schema: &'static str,
+        schema_version: &'static str,
+        event_id: &'a str,
+        event_type: &'static str,
+        sequence: u64,
+        accepted: bool,
+        runtime_enabled: bool,
+        approval_granted: bool,
+    }
+
+    #[derive(Debug, Clone, PartialEq, Eq)]
+    struct TestStdioHarnessFailure {
+        code: &'static str,
+        line: Option<usize>,
+        detail: &'static str,
+    }
+
+    #[derive(Debug, Clone, PartialEq, Eq)]
+    struct TestStdioHarnessResult {
+        accepted: bool,
+        stdout: Vec<u8>,
+        stderr: Vec<u8>,
+    }
+
+    fn test_stdio_input_line(input: &[u8], byte_offset: usize) -> usize {
+        input[..byte_offset]
+            .iter()
+            .filter(|byte| **byte == b'\n')
+            .count()
+            + 1
+    }
+
+    fn test_stdio_failure(
+        code: &'static str,
+        line: Option<usize>,
+        detail: &'static str,
+    ) -> TestStdioHarnessFailure {
+        TestStdioHarnessFailure { code, line, detail }
+    }
+
+    fn test_stdio_failure_stderr(failure: &TestStdioHarnessFailure) -> Vec<u8> {
+        let line = failure
+            .line
+            .map(|line| line.to_string())
+            .unwrap_or_else(|| "none".to_string());
+
+        format!(
+            "ardyn-test-stdio-harness error code={} line={} detail={}\n",
+            failure.code, line, failure.detail
+        )
+        .into_bytes()
+    }
+
+    fn run_test_stdio_harness(input: &[u8]) -> TestStdioHarnessResult {
+        let policy = stdio_transport_policy_contract();
+        assert!(
+            policy.is_pre_runtime_fail_closed(),
+            "test harness coverage must not enable runtime policy"
+        );
+
+        match render_test_stdio_stdout(input) {
+            Ok(stdout) => TestStdioHarnessResult {
+                accepted: true,
+                stdout,
+                stderr: Vec::new(),
+            },
+            Err(failure) => TestStdioHarnessResult {
+                accepted: false,
+                stdout: Vec::new(),
+                stderr: test_stdio_failure_stderr(&failure),
+            },
+        }
+    }
+
+    fn render_test_stdio_stdout(input: &[u8]) -> Result<Vec<u8>, TestStdioHarnessFailure> {
+        if input.is_empty() {
+            return Err(test_stdio_failure(
+                "early_eof",
+                None,
+                "stdin ended before a complete LF-terminated frame",
+            ));
+        }
+
+        if let Some(offset) = input.iter().position(|byte| *byte == b'\r') {
+            return Err(test_stdio_failure(
+                "crlf_rejected",
+                Some(test_stdio_input_line(input, offset)),
+                "CR bytes are not accepted in stdin frames",
+            ));
+        }
+
+        if !input.ends_with(b"\n") {
+            return Err(test_stdio_failure(
+                "early_eof",
+                None,
+                "final LF required before frame commit",
+            ));
+        }
+
+        let input = std::str::from_utf8(input)
+            .map_err(|_| test_stdio_failure("invalid_utf8", None, "stdin frames must be UTF-8"))?;
+
+        let mut stdout = Vec::new();
+        let mut expected_sequence = 1_u64;
+
+        for (index, line) in input.split_terminator('\n').enumerate() {
+            let line_number = index + 1;
+            if line.is_empty() {
+                return Err(test_stdio_failure(
+                    "blank_line",
+                    Some(line_number),
+                    "blank stdin frames are rejected",
+                ));
+            }
+
+            if line.len() > TEST_STDIO_HARNESS_MAX_FRAME_BYTES {
+                return Err(test_stdio_failure(
+                    "oversized_payload",
+                    Some(line_number),
+                    "stdin frame exceeds test harness byte limit",
+                ));
+            }
+
+            let value: serde_json::Value = serde_json::from_str(line).map_err(|_| {
+                test_stdio_failure(
+                    "malformed_input",
+                    Some(line_number),
+                    "stdin frame must be one JSON object",
+                )
+            })?;
+
+            if !value.is_object() {
+                return Err(test_stdio_failure(
+                    "malformed_input",
+                    Some(line_number),
+                    "stdin frame must be one JSON object",
+                ));
+            }
+
+            let event: TestStdioHarnessInputEvent =
+                serde_json::from_value(value).map_err(|_| {
+                    test_stdio_failure(
+                        "invalid_payload",
+                        Some(line_number),
+                        "stdin frame payload is not an accepted static probe",
+                    )
+                })?;
+
+            if event.event_id.is_empty()
+                || event.event_type != TEST_STDIO_HARNESS_INPUT_EVENT_TYPE
+                || event.payload.mode != TEST_STDIO_HARNESS_PROBE_MODE
+            {
+                return Err(test_stdio_failure(
+                    "invalid_payload",
+                    Some(line_number),
+                    "stdin frame payload is not an accepted static probe",
+                ));
+            }
+
+            if event.sequence != expected_sequence {
+                return Err(test_stdio_failure(
+                    "sequence_gap",
+                    Some(line_number),
+                    "stdin sequence must be contiguous from 1",
+                ));
+            }
+
+            if event.payload.runtime_requested || event.payload.approval_requested {
+                return Err(test_stdio_failure(
+                    "runtime_request_rejected",
+                    Some(line_number),
+                    "test harness cannot grant runtime or approval",
+                ));
+            }
+
+            let output_event = TestStdioHarnessOutputEvent {
+                schema: TEST_STDIO_HARNESS_EVENT_SCHEMA,
+                schema_version: TEST_STDIO_HARNESS_EVENT_VERSION,
+                event_id: &event.event_id,
+                event_type: TEST_STDIO_HARNESS_OUTPUT_EVENT_TYPE,
+                sequence: event.sequence,
+                accepted: true,
+                runtime_enabled: false,
+                approval_granted: false,
+            };
+            let line = serde_json::to_string(&output_event).expect("stdout event json");
+            stdout.extend_from_slice(line.as_bytes());
+            stdout.push(b'\n');
+            expected_sequence += 1;
+        }
+
+        Ok(stdout)
+    }
+
+    fn test_stdio_probe_line(id: &str, sequence: u64) -> String {
+        format!(
+            "{{\"eventId\":\"{id}\",\"eventType\":\"{}\",\"sequence\":{sequence},\"payload\":{{\"mode\":\"{}\",\"runtimeRequested\":false,\"approvalRequested\":false}}}}\n",
+            TEST_STDIO_HARNESS_INPUT_EVENT_TYPE, TEST_STDIO_HARNESS_PROBE_MODE
+        )
+    }
+
+    fn assert_lf_only_final_lf(bytes: &[u8], label: &str) {
+        assert!(!bytes.contains(&b'\r'), "{label} must not contain CR bytes");
+        assert!(bytes.ends_with(b"\n"), "{label} must end with LF");
+    }
+
+    fn assert_stdout_jsonl_events(stdout: &[u8], expected_events: usize) {
+        assert_lf_only_final_lf(stdout, "stdout");
+
+        let text = std::str::from_utf8(stdout).expect("stdout utf8");
+        let lines: Vec<&str> = text.split_terminator('\n').collect();
+        assert_eq!(lines.len(), expected_events);
+
+        for line in lines {
+            let value: serde_json::Value = serde_json::from_str(line).expect("stdout JSONL");
+            assert!(value.is_object(), "stdout JSONL line must be an object");
+            assert_eq!(value["schema"], TEST_STDIO_HARNESS_EVENT_SCHEMA);
+            assert_eq!(value["runtimeEnabled"], false);
+            assert_eq!(value["approvalGranted"], false);
+        }
+    }
+
     #[test]
     fn host_handshake_reports_platform_and_disables_execution() {
         let handshake = host_handshake(None).expect("handshake");
@@ -3304,6 +3553,144 @@ mod tests {
         let mut policy = stdio_transport_policy_contract();
         policy.transcript_replay.replay_runtime_implemented = true;
         assert!(!policy.is_pre_runtime_fail_closed());
+    }
+
+    #[test]
+    fn test_stdio_harness_frames_deterministic_stdout_jsonl_without_stderr() {
+        let input = format!(
+            "{}{}",
+            test_stdio_probe_line("input-1", 1),
+            test_stdio_probe_line("input-2", 2)
+        );
+
+        let result = run_test_stdio_harness(input.as_bytes());
+
+        assert!(result.accepted);
+        assert!(result.stderr.is_empty());
+        assert_stdout_jsonl_events(&result.stdout, 2);
+        assert_eq!(
+            std::str::from_utf8(&result.stdout).expect("stdout text"),
+            concat!(
+                "{\"schema\":\"ardyn.phase-4.1i.test-stdio-harness-event\",\"schemaVersion\":\"0.1.0\",\"eventId\":\"input-1\",\"eventType\":\"harness.stdout.probe.accepted\",\"sequence\":1,\"accepted\":true,\"runtimeEnabled\":false,\"approvalGranted\":false}\n",
+                "{\"schema\":\"ardyn.phase-4.1i.test-stdio-harness-event\",\"schemaVersion\":\"0.1.0\",\"eventId\":\"input-2\",\"eventType\":\"harness.stdout.probe.accepted\",\"sequence\":2,\"accepted\":true,\"runtimeEnabled\":false,\"approvalGranted\":false}\n"
+            )
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_rejects_crlf_and_missing_final_lf_before_output() {
+        let crlf_input = test_stdio_probe_line("input-1", 1).replace('\n', "\r\n");
+        let crlf = run_test_stdio_harness(crlf_input.as_bytes());
+
+        assert!(!crlf.accepted);
+        assert!(crlf.stdout.is_empty());
+        assert_lf_only_final_lf(&crlf.stderr, "stderr");
+        assert_eq!(
+            std::str::from_utf8(&crlf.stderr).expect("stderr text"),
+            "ardyn-test-stdio-harness error code=crlf_rejected line=1 detail=CR bytes are not accepted in stdin frames\n"
+        );
+
+        let mut missing_lf_input = test_stdio_probe_line("input-1", 1);
+        missing_lf_input.pop();
+        let missing_lf = run_test_stdio_harness(missing_lf_input.as_bytes());
+
+        assert!(!missing_lf.accepted);
+        assert!(missing_lf.stdout.is_empty());
+        assert_lf_only_final_lf(&missing_lf.stderr, "stderr");
+        assert_eq!(
+            std::str::from_utf8(&missing_lf.stderr).expect("stderr text"),
+            "ardyn-test-stdio-harness error code=early_eof line=none detail=final LF required before frame commit\n"
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_rejects_malformed_blank_and_invalid_payloads() {
+        let wrong_mode = test_stdio_probe_line("input-1", 1)
+            .replace(TEST_STDIO_HARNESS_PROBE_MODE, "runtime-probe");
+
+        for (input, expected_stderr) in [
+            (
+                "{not json}\n".to_string(),
+                "ardyn-test-stdio-harness error code=malformed_input line=1 detail=stdin frame must be one JSON object\n",
+            ),
+            (
+                "\n".to_string(),
+                "ardyn-test-stdio-harness error code=blank_line line=1 detail=blank stdin frames are rejected\n",
+            ),
+            (
+                "[]\n".to_string(),
+                "ardyn-test-stdio-harness error code=malformed_input line=1 detail=stdin frame must be one JSON object\n",
+            ),
+            (
+                wrong_mode,
+                "ardyn-test-stdio-harness error code=invalid_payload line=1 detail=stdin frame payload is not an accepted static probe\n",
+            ),
+        ] {
+            let result = run_test_stdio_harness(input.as_bytes());
+
+            assert!(!result.accepted);
+            assert!(result.stdout.is_empty());
+            assert_lf_only_final_lf(&result.stderr, "stderr");
+            assert_eq!(
+                std::str::from_utf8(&result.stderr).expect("stderr text"),
+                expected_stderr
+            );
+        }
+    }
+
+    #[test]
+    fn test_stdio_harness_rejects_early_eof_oversized_and_invalid_utf8() {
+        let empty = run_test_stdio_harness(b"");
+        assert!(!empty.accepted);
+        assert!(empty.stdout.is_empty());
+        assert_eq!(
+            std::str::from_utf8(&empty.stderr).expect("stderr text"),
+            "ardyn-test-stdio-harness error code=early_eof line=none detail=stdin ended before a complete LF-terminated frame\n"
+        );
+
+        let oversized = test_stdio_probe_line(&"x".repeat(TEST_STDIO_HARNESS_MAX_FRAME_BYTES), 1);
+        let oversized_result = run_test_stdio_harness(oversized.as_bytes());
+        assert!(!oversized_result.accepted);
+        assert!(oversized_result.stdout.is_empty());
+        assert_lf_only_final_lf(&oversized_result.stderr, "stderr");
+        assert_eq!(
+            std::str::from_utf8(&oversized_result.stderr).expect("stderr text"),
+            "ardyn-test-stdio-harness error code=oversized_payload line=1 detail=stdin frame exceeds test harness byte limit\n"
+        );
+
+        let invalid_utf8 = run_test_stdio_harness(&[0xff, b'\n']);
+        assert!(!invalid_utf8.accepted);
+        assert!(invalid_utf8.stdout.is_empty());
+        assert_lf_only_final_lf(&invalid_utf8.stderr, "stderr");
+        assert_eq!(
+            std::str::from_utf8(&invalid_utf8.stderr).expect("stderr text"),
+            "ardyn-test-stdio-harness error code=invalid_utf8 line=none detail=stdin frames must be UTF-8\n"
+        );
+    }
+
+    #[test]
+    fn test_stdio_harness_failure_reporting_is_deterministic_and_isolated() {
+        let input = concat!(
+            "{\"eventId\":\"secret-token-123\",\"eventType\":\"harness.stdin.probe\",\"sequence\":1,",
+            "\"payload\":{\"mode\":\"static-harness-probe\",\"runtimeRequested\":true,\"approvalRequested\":true}}\n"
+        );
+
+        let first = run_test_stdio_harness(input.as_bytes());
+        let second = run_test_stdio_harness(input.as_bytes());
+
+        assert_eq!(first, second);
+        assert!(!first.accepted);
+        assert!(first.stdout.is_empty());
+        assert_lf_only_final_lf(&first.stderr, "stderr");
+
+        let stderr = std::str::from_utf8(&first.stderr).expect("stderr text");
+        assert_eq!(
+            stderr,
+            "ardyn-test-stdio-harness error code=runtime_request_rejected line=1 detail=test harness cannot grant runtime or approval\n"
+        );
+        assert!(!stderr.contains("secret-token-123"));
+        assert!(!stderr.contains(TEST_STDIO_HARNESS_EVENT_SCHEMA));
+        assert!(!stderr.contains(TEST_STDIO_HARNESS_OUTPUT_EVENT_TYPE));
     }
 
     fn policy_metadata_json_value() -> serde_json::Value {

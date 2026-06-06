@@ -135,9 +135,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1H",
-    name: "External review disposition",
-    executionPosture: "external-review-disposition-only non-executing"
+    id: "4.1I",
+    name: "Rust-host stdio test harness layer",
+    executionPosture: "rust-host-stdio-test-harness-infrastructure-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -180,12 +180,17 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.1H external-review-disposition-only status report.",
+        "Render this deterministic local Phase 4.1I rust-host-stdio-test-harness-infrastructure-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1H status report.",
+      purpose: "Run focused tests for this local Phase 4.1I status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1i-rust-host-stdio-harness.test.mjs",
+      purpose: "Run focused Phase 4.1I Rust-host stdio harness boundary checks.",
       ranByReport: false
     },
     {
@@ -4794,6 +4799,268 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41IRustHostStdioHarnessInventory: {
+    harnessLayer: {
+      document: "docs/phase-4-1i-rust-host-stdio-harness.md",
+      precedingPhase: "4.1H",
+      layerId: "first-rust-host-stdio-test-harness-layer",
+      scope: "test-infrastructure-only",
+      privateRustCfgTestHarness: true,
+      inMemoryOnly: true,
+      productionRuntimeSourceChanged: false,
+      noFreshDevinReview: true,
+      runtimeBlocked: true,
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      grantsRuntimeApproval: false
+    },
+    carriedForwardReview: {
+      sourceReview: phase41HExternalReviewDispositionMetadata.sourceReview,
+      targetedFix: phase41HExternalReviewDispositionMetadata.targetedFix,
+      phase41HDispositionDocument: "docs/phase-4-1h-external-review-disposition.md",
+      noFreshDevinReview: true,
+      runtimeStillBlocked: true
+    },
+    ownershipBoundary: {
+      ownedByThisPhase: [
+        "crates/ardyn-host/src/lib.rs",
+        "docs/phase-4-1i-rust-host-stdio-harness.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs",
+        "tests/phase4-1i-rust-host-stdio-harness.test.mjs",
+        "README.md",
+        "apps/cli/README.md",
+        "packages/core/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/architecture.md",
+        "docs/host-policy-preconditions.md",
+        "docs/session-events-stdio-contract.md",
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "docs/phase-4-1-runtime-proposal.md",
+        "docs/phase-4-1h-external-review-disposition.md"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      rustTestHarnessSourceChangedByThisPhase: true,
+      productionRuntimeSourceChangedByThisPhase: false,
+      cliSourceChangedByThisPhase: false,
+      separateRuntimeImplementationApprovalRequired: true
+    },
+    implementedHarnessEvidence: [
+      {
+        id: "deterministic-stdout-jsonl-framing-tests",
+        summary:
+          "Private Rust unit tests prove deterministic LF-only stdout JSONL framing with final LF and zero stderr."
+      },
+      {
+        id: "stderr-isolation-tests",
+        summary:
+          "Private Rust unit tests prove rejected inputs produce zero stdout and deterministic stderr diagnostics."
+      },
+      {
+        id: "malformed-and-early-eof-rejection-tests",
+        summary:
+          "Private Rust unit tests reject malformed JSON, blank frames, invalid UTF-8, CRLF, and missing final LF."
+      },
+      {
+        id: "oversized-and-invalid-payload-rejection-tests",
+        summary:
+          "Private Rust unit tests reject oversized frames, invalid probe payloads, sequence gaps, and runtime/approval requests."
+      },
+      {
+        id: "negative-runtime-command-probes",
+        summary:
+          "Runtime, review, approval, replay, process-control, and harness command names remain rejected until separately approved."
+      }
+    ],
+    reviewOnlyDisplayBehavior: {
+      rustHostStdioHarnessIsPrivateTestInfrastructureOnly: true,
+      testInfrastructureOnly: true,
+      noFreshDevinReview: true,
+      futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+      reportRunsChecks: false,
+      writesFiles: false,
+      printsStdoutFromCli: false,
+      consumedByLiveHostLoop: false
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      rustHostStdioHarnessCommandAdded: false,
+      stdioHarnessCommandAdded: false,
+      runtimeHarnessCommandAdded: false,
+      externalReviewDispositionCommandAdded: false,
+      reviewDispositionCommandAdded: false,
+      externalReviewPacketCommandAdded: false,
+      reviewPacketCommandAdded: false,
+      runtimeReadinessReviewCommandAdded: false,
+      serveRuntimeCommandAdded: false,
+      stdioRuntimeCommandAdded: false,
+      replaySessionTranscriptCommandAdded: false,
+      approvalEvaluatorCommandAdded: false,
+      policyMetadataCommandAdded: false,
+      hostPolicyExportCommandAdded: false,
+      fileWriterAdded: false,
+      stdoutPrinterAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    apiSurface: {
+      typescriptCoreRuntimeApiAdded: false,
+      typescriptCoreHarnessHelperAdded: false,
+      rustRuntimeHelperAdded: false,
+      rustStdioOwnerAdded: false,
+      rustHarnessRuntimeAdded: false,
+      approvalEvaluatorAdded: false,
+      hostPolicyEnforcementAdded: false,
+      failureAuditRuntimeAdded: false,
+      cleanupRuntimeAdded: false,
+      processKillAdded: false,
+      processControlAdded: false,
+      transcriptPersistenceReplayRuntimeAdded: false,
+      secretsUsed: false
+    },
+    fixtures: [],
+    rustTestSource: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Contains private #[cfg(test)] in-memory Rust-host stdio harness coverage; no production runtime API or process stdio ownership is added."
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1i-rust-host-stdio-harness.md",
+        "Records Phase 4.1I as the first Rust-host stdio test harness layer, limited to private in-memory test infrastructure."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1h-external-review-disposition.md",
+        "Links Phase 4.1I as the private Rust test-harness follow-up after the Phase 4.1H disposition."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4.1 roadmap to identify Phase 4.1I as private Rust test-infrastructure-only."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1I leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.1I while preserving no live stdio runtime."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents the Phase 4.1I harness layer as test infrastructure evidence, not enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records Phase 4.1I as a static test-infrastructure harness layer without new runtime architecture."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1I scope and unchanged non-executing CLI surface."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1I adds no harness, review, runtime-readiness, or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.1I adds no core runtime helper API and no harness helper API."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 4.1I does not add Rust-host process stdio ownership or runtime behavior."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1I report metadata, docs inventory, ownership boundary, and safety posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-1i-rust-host-stdio-harness.test.mjs",
+        "Pins Phase 4.1I CLI rejection probes, source guards, and private Rust test-harness boundary."
+      )
+    ],
+    invariantProbes: [
+      ...phase41HExternalReviewDispositionMetadata.smokeProbeSummary.rejectionProbes,
+      "rust-host-stdio-harness",
+      "stdio-harness",
+      "runtime-harness",
+      "approve-runtime",
+      "grant-runtime",
+      "enable-runtime",
+      "approval-evaluator",
+      "transport-harness",
+      "stdin-reader",
+      "stdout-writer",
+      "stderr-writer",
+      "failure-audit",
+      "cleanup-runtime",
+      "kill-runtime"
+    ],
+    runtimeEffect: {
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      runtimeImplementationApproved: false,
+      runtimeEnabled: false,
+      grantsRuntimeApproval: false,
+      rustHostLiveStdioRuntimeAdded: false,
+      cliCommandAdded: false,
+      productionRuntimeSourceChanged: false,
+      processStdioOwnershipAdded: false,
+      approvalEvaluatorAdded: false,
+      hostPolicyEnforcementAdded: false,
+      freshDevinReviewRan: false
+    },
+    safetyPosture: {
+      nonExecuting: true,
+      rustHostStdioHarnessLayerOnly: true,
+      privateRustTestHarnessOnly: true,
+      testInfrastructureOnly: true,
+      productionRuntimeUnchanged: true,
+      noFreshDevinReview: true,
+      runtimeBlocked: true,
+      noLiveRuntime: true,
+      noRuntimeCommand: true,
+      noHarnessCommand: true,
+      noReviewDispositionCommand: true,
+      noReviewPacketCommand: true,
+      noServeRuntime: true,
+      noStdioRuntime: true,
+      noReplaySessionTranscript: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noFailureAuditRuntime: true,
+      noCleanupRuntime: true,
+      noProcessKill: true,
+      noApprovalEvaluator: true,
+      noHostPolicyEnforcement: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -4818,6 +5085,7 @@ const report = {
     runtimeReadinessCheckpoint: true,
     externalReviewPacket: true,
     externalReviewDisposition: true,
+    rustHostStdioHarness: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -4838,6 +5106,8 @@ const report = {
       secretsUsed: false,
       processSpawning: false,
       phase41RuntimeImplemented: false,
+      phase41IRuntimeImplemented: false,
+      freshDevinReviewRan: false,
       externalCiRan: false
     },
     note:

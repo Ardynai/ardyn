@@ -100,6 +100,15 @@ be separate from runtime implementation and must not add `serve-runtime`,
 `stdio-runtime`, live stdio ownership, process control, transcript persistence,
 or runtime approval behavior in this disposition phase.
 
+## Phase 4.1I Follow-Up
+
+Phase 4.1I records and tests the first Rust-host stdio harness layer as
+private `#[cfg(test)]` in-memory Rust test infrastructure plus docs/report
+inventory. See `docs/phase-4-1i-rust-host-stdio-harness.md`. It is not a fresh
+Devin review, does not implement live runtime source, does not add a CLI
+command, and leaves all runtime surfaces blocked until a separate approved
+implementation phase.
+
 ## Approval Boundary
 
 Phase 4.1H may record that Devin's targeted blocker was fixed and that the repo

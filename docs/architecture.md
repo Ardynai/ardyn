@@ -148,6 +148,14 @@ was fixed and that only planning the first Rust-host stdio runtime test harness
 is the next allowed step. See
 `docs/phase-4-1h-external-review-disposition.md`.
 
+Phase 4.1I adds a private `#[cfg(test)]` in-memory Rust-host stdio test
+harness layer after Phase 4.1H. It does not add a TypeScript core API, Rust
+runtime helper, CLI command, stdout printer, file writer, live stdio reader,
+process stdio ownership, approval evaluator, active host-policy enforcement
+path, runtime approval grant, or live host loop. It is not a fresh Devin
+review, changes no production runtime source, and leaves runtime blocked. See
+`docs/phase-4-1i-rust-host-stdio-harness.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

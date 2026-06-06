@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.1H still exposes static Rust host identity, handshake data, policy-only
+Phase 4.1I still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -10,8 +10,9 @@ contract helpers. Phase 4.1C adds TypeScript-side static framing/redaction
 review helpers only, and Phase 4.1D adds TypeScript-side static transcript
 persistence/replay contract helpers only. Phase 4.1E adds TypeScript-side
 static failure-audit, terminal-state, cleanup/kill, and nonzero-exit mapping
-contract helpers only. None of these phases adds a Rust-host stdio ownership
-implementation. Rust
+contract helpers only. Phase 4.1I adds private `#[cfg(test)]` in-memory
+Rust-host stdio test harness coverage plus documentation and report inventory.
+None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
 network serving, plugin installation, torrent download, code-pack enablement,
@@ -107,6 +108,15 @@ process killing, signal handling, timeout runtime, approval evaluation,
 host-policy enforcement, runtime command enablement, review-disposition command
 enablement, or runtime approval grant. See
 `docs/phase-4-1h-external-review-disposition.md`.
+
+Phase 4.1I adds a private `#[cfg(test)]` in-memory Rust-host stdio test harness
+layer plus docs and report inventory. It is test infrastructure only, is not a
+fresh Devin review, changes no production Rust runtime source, and does not add
+Rust-host process stdio ownership, live stdin reading, stdout/stderr writers,
+failure-audit runtime, cleanup runtime, process killing, signal handling,
+timeout runtime, approval evaluation, host-policy enforcement, runtime command
+enablement, harness command enablement, or runtime approval grant. See
+`docs/phase-4-1i-rust-host-stdio-harness.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

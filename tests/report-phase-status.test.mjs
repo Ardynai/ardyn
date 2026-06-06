@@ -365,6 +365,46 @@ const phase41HRejectedProbes = [
 const phase41HFixtureFiles = [
   "tests/fixtures/host-policy/phase4-1h/external-review-disposition.json"
 ];
+const phase41IImplementedHarnessEvidenceIds = [
+  "deterministic-stdout-jsonl-framing-tests",
+  "stderr-isolation-tests",
+  "malformed-and-early-eof-rejection-tests",
+  "oversized-and-invalid-payload-rejection-tests",
+  "negative-runtime-command-probes"
+];
+const phase41IOwnedFiles = [
+  "crates/ardyn-host/src/lib.rs",
+  "docs/phase-4-1i-rust-host-stdio-harness.md",
+  "scripts/report-phase-status.mjs",
+  "tests/report-phase-status.test.mjs",
+  "tests/phase4-1i-rust-host-stdio-harness.test.mjs",
+  "README.md",
+  "apps/cli/README.md",
+  "packages/core/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/architecture.md",
+  "docs/host-policy-preconditions.md",
+  "docs/session-events-stdio-contract.md",
+  "docs/phase-4-stdio-dry-run-event-emission.md",
+  "docs/phase-4-1-runtime-proposal.md",
+  "docs/phase-4-1h-external-review-disposition.md"
+];
+const phase41IExcludedCliRuntimeSourceFiles = [
+  "apps/cli/src/index.mjs"
+];
+const phase41IDocFiles = [
+  "docs/phase-4-1i-rust-host-stdio-harness.md",
+  "docs/phase-4-1h-external-review-disposition.md",
+  "docs/phase-4-1-runtime-proposal.md",
+  "docs/phase-4-stdio-dry-run-event-emission.md",
+  "docs/session-events-stdio-contract.md",
+  "docs/host-policy-preconditions.md",
+  "docs/architecture.md",
+  "README.md",
+  "apps/cli/README.md",
+  "packages/core/README.md",
+  "crates/ardyn-host/README.md"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -396,14 +436,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1H external-review-disposition-only local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1I rust-host-stdio-test-harness-infrastructure-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1H",
-    name: "External review disposition",
-    executionPosture: "external-review-disposition-only non-executing"
+    id: "4.1I",
+    name: "Rust-host stdio test harness layer",
+    executionPosture: "rust-host-stdio-test-harness-infrastructure-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -471,12 +511,17 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.1H external-review-disposition-only status report.",
+        "Render this deterministic local Phase 4.1I rust-host-stdio-test-harness-infrastructure-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1H status report.",
+      purpose: "Run focused tests for this local Phase 4.1I status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1i-rust-host-stdio-harness.test.mjs",
+      purpose: "Run focused Phase 4.1I Rust-host stdio harness boundary checks.",
       ranByReport: false
     },
     {
@@ -4181,6 +4226,187 @@ test("report inventories Phase 4.1H external review disposition without enabling
   assert.equal(report.safetyPosture.flags.phase41RuntimeImplemented, false);
 });
 
+test("report inventories Phase 4.1I Rust-host stdio harness test infrastructure without enabling runtime", async () => {
+  const report = await runReport();
+  const inventory = report.phase41IRustHostStdioHarnessInventory;
+
+  assert.deepEqual(inventory.harnessLayer, {
+    document: "docs/phase-4-1i-rust-host-stdio-harness.md",
+    precedingPhase: "4.1H",
+    layerId: "first-rust-host-stdio-test-harness-layer",
+    scope: "test-infrastructure-only",
+    privateRustCfgTestHarness: true,
+    inMemoryOnly: true,
+    productionRuntimeSourceChanged: false,
+    noFreshDevinReview: true,
+    runtimeBlocked: true,
+    runtimeBehaviorIntroduced: false,
+    liveRuntimeBehaviorIntroduced: false,
+    grantsRuntimeApproval: false
+  });
+  assert.equal(inventory.carriedForwardReview.noFreshDevinReview, true);
+  assert.equal(inventory.carriedForwardReview.runtimeStillBlocked, true);
+  assert.equal(
+    inventory.carriedForwardReview.phase41HDispositionDocument,
+    "docs/phase-4-1h-external-review-disposition.md"
+  );
+  assert.equal(
+    inventory.carriedForwardReview.sourceReview.freshReReviewUnavailableReason,
+    "devin_credits_unavailable"
+  );
+  assert.equal(inventory.carriedForwardReview.targetedFix.blockerFixed, true);
+
+  assert.deepEqual(
+    inventory.ownershipBoundary.ownedByThisPhase,
+    phase41IOwnedFiles
+  );
+  assert.deepEqual(
+    inventory.ownershipBoundary.excludedCliRuntimeSourceFiles,
+    phase41IExcludedCliRuntimeSourceFiles
+  );
+  assert.equal(inventory.ownershipBoundary.rustTestHarnessSourceChangedByThisPhase, true);
+  assert.equal(inventory.ownershipBoundary.productionRuntimeSourceChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.separateRuntimeImplementationApprovalRequired,
+    true
+  );
+  assert.deepEqual(
+    inventory.implementedHarnessEvidence.map(({ id }) => id),
+    phase41IImplementedHarnessEvidenceIds
+  );
+
+  assert.deepEqual(inventory.reviewOnlyDisplayBehavior, {
+    rustHostStdioHarnessIsPrivateTestInfrastructureOnly: true,
+    testInfrastructureOnly: true,
+    noFreshDevinReview: true,
+    futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+    reportRunsChecks: false,
+    writesFiles: false,
+    printsStdoutFromCli: false,
+    consumedByLiveHostLoop: false
+  });
+  assert.deepEqual(inventory.cliCommandSurface, {
+    commandAdded: false,
+    rustHostStdioHarnessCommandAdded: false,
+    stdioHarnessCommandAdded: false,
+    runtimeHarnessCommandAdded: false,
+    externalReviewDispositionCommandAdded: false,
+    reviewDispositionCommandAdded: false,
+    externalReviewPacketCommandAdded: false,
+    reviewPacketCommandAdded: false,
+    runtimeReadinessReviewCommandAdded: false,
+    serveRuntimeCommandAdded: false,
+    stdioRuntimeCommandAdded: false,
+    replaySessionTranscriptCommandAdded: false,
+    approvalEvaluatorCommandAdded: false,
+    policyMetadataCommandAdded: false,
+    hostPolicyExportCommandAdded: false,
+    fileWriterAdded: false,
+    stdoutPrinterAdded: false,
+    existingDryRunEmitterUnchanged: true
+  });
+  assert.deepEqual(inventory.apiSurface, {
+    typescriptCoreRuntimeApiAdded: false,
+    typescriptCoreHarnessHelperAdded: false,
+    rustRuntimeHelperAdded: false,
+    rustStdioOwnerAdded: false,
+    rustHarnessRuntimeAdded: false,
+    approvalEvaluatorAdded: false,
+    hostPolicyEnforcementAdded: false,
+    failureAuditRuntimeAdded: false,
+    cleanupRuntimeAdded: false,
+    processKillAdded: false,
+    processControlAdded: false,
+    transcriptPersistenceReplayRuntimeAdded: false,
+    secretsUsed: false
+  });
+  assert.deepEqual(inventory.fixtures, []);
+  assert.deepEqual(inventory.rustTestSource.map(({ path, status }) => [path, status]), [
+    ["crates/ardyn-host/src/lib.rs", "present"]
+  ]);
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase41IDocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    ["tests/report-phase-status.test.mjs", "present"],
+    ["tests/phase4-1i-rust-host-stdio-harness.test.mjs", "present"]
+  ]);
+
+  for (const probe of [
+    ...phase41HRejectedProbes,
+    "rust-host-stdio-harness",
+    "stdio-harness",
+    "runtime-harness",
+    "approve-runtime",
+    "grant-runtime",
+    "enable-runtime",
+    "approval-evaluator",
+    "transport-harness",
+    "stdin-reader",
+    "stdout-writer",
+    "stderr-writer",
+    "failure-audit",
+    "cleanup-runtime",
+    "kill-runtime"
+  ]) {
+    assert.ok(inventory.invariantProbes.includes(probe), probe);
+  }
+
+  assertAllFalse(inventory.runtimeEffect);
+  assert.deepEqual(inventory.safetyPosture, {
+    nonExecuting: true,
+    rustHostStdioHarnessLayerOnly: true,
+    privateRustTestHarnessOnly: true,
+    testInfrastructureOnly: true,
+    productionRuntimeUnchanged: true,
+    noFreshDevinReview: true,
+    runtimeBlocked: true,
+    noLiveRuntime: true,
+    noRuntimeCommand: true,
+    noHarnessCommand: true,
+    noReviewDispositionCommand: true,
+    noReviewPacketCommand: true,
+    noServeRuntime: true,
+    noStdioRuntime: true,
+    noReplaySessionTranscript: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noStdoutWriter: true,
+    noStderrWriter: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noContentFabricDownloadInstallEnable: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noFailureAuditRuntime: true,
+    noCleanupRuntime: true,
+    noProcessKill: true,
+    noApprovalEvaluator: true,
+    noHostPolicyEnforcement: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+  assert.equal(report.safetyPosture.rustHostStdioHarness, true);
+  assert.equal(report.safetyPosture.flags.phase41IRuntimeImplemented, false);
+  assert.equal(report.safetyPosture.flags.freshDevinReviewRan, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -4379,6 +4605,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.runtimeReadinessCheckpoint, true);
   assert.equal(report.safetyPosture.externalReviewPacket, true);
   assert.equal(report.safetyPosture.externalReviewDisposition, true);
+  assert.equal(report.safetyPosture.rustHostStdioHarness, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {
@@ -4400,6 +4627,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     secretsUsed: false,
     processSpawning: false,
     phase41RuntimeImplemented: false,
+    phase41IRuntimeImplemented: false,
+    freshDevinReviewRan: false,
     externalCiRan: false
   };
 
