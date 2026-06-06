@@ -6,7 +6,7 @@ runtime behavior, does not add a CLI command, does not evaluate approval
 records, and cannot grant runtime approval.
 
 Current main SHA at packet preparation:
-`070b327b6132e14170598d3e865dcf5ec4b0993e`.
+`3a2f28e02494cb2ac0735e6bec32f283f4b616db`.
 
 The deterministic packet fixture is
 `tests/fixtures/host-policy/phase4-1g/external-review-packet.json`. That

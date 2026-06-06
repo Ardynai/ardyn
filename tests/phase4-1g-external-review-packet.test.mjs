@@ -29,6 +29,7 @@ const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
 const cliPath = fileURLToPath(cliSourceUrl);
 const reportScriptPath = fileURLToPath(reportScriptUrl);
+const reviewedMainSha = "3a2f28e02494cb2ac0735e6bec32f283f4b616db";
 
 const docUrls = [
   new URL("../README.md", import.meta.url),
@@ -332,7 +333,7 @@ test("Phase 4.1G review packet fixture is deterministic LF-only metadata", async
   assert.equal(json.packetPhase, "phase-4.1g-external-review-packet");
   assert.equal(json.reviewedPhase, "4.1G");
   assert.equal(json.metadataGeneratedAt, "1970-01-01T00:00:00.000Z");
-  assert.equal(json.currentMainSha, "070b327b6132e14170598d3e865dcf5ec4b0993e");
+  assert.equal(json.currentMainSha, reviewedMainSha);
   assert.deepEqual(json.reviewedPhaseRange, {
     fromPhase: "4.0A",
     throughPhase: "4.1F",
@@ -414,6 +415,14 @@ test("Phase 4.1G review packet fixture is deterministic LF-only metadata", async
     assert.equal(outcome.runtimeBehaviorIntroduced, false, outcome.outcome);
     assert.equal(outcome.runtimeUnblockRequiresSeparateApproval, true, outcome.outcome);
   }
+});
+
+test("Phase 4.1G review packet currentMainSha matches Devin-reviewed main SHA", async () => {
+  const { json } = await readPacketFixture();
+  const packetDoc = await readFile(packetDocUrl, "utf8");
+
+  assert.equal(json.currentMainSha, reviewedMainSha);
+  assert.match(packetDoc, new RegExp(reviewedMainSha, "g"));
 });
 
 test("Phase 4.1G review packet references committed Phase 4.0A through 4.1F evidence", async () => {
@@ -518,7 +527,7 @@ test("Phase 4.1G docs cross-link packet without implying runtime", async () => {
     "review packet metadata only",
     "cannot grant runtime approval",
     "Current main SHA at packet preparation",
-    "070b327b6132e14170598d3e865dcf5ec4b0993e",
+    reviewedMainSha,
     "Phase 4.0A through Phase 4.1F",
     "Runtime-Readiness Evidence Map",
     "Required Validation And Smoke Commands",
@@ -570,7 +579,7 @@ test("Phase 4.1G status report inventories packet without running checks", async
   assert.equal(inventory.packet.artifactKind, "external-runtime-readiness-review-packet");
   assert.equal(inventory.packet.packetPhase, "phase-4.1g-external-review-packet");
   assert.equal(inventory.packet.reviewedPhase, "4.1G");
-  assert.equal(inventory.packet.currentMainSha, "070b327b6132e14170598d3e865dcf5ec4b0993e");
+  assert.equal(inventory.packet.currentMainSha, reviewedMainSha);
   assert.equal(inventory.packet.reviewPacketOnly, true);
   assert.equal(inventory.packet.reviewMetadataOnly, true);
   assert.equal(inventory.packet.runtimeBehaviorIntroduced, false);

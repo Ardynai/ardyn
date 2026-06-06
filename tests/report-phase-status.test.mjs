@@ -3715,7 +3715,7 @@ test("report inventories Phase 4.1G external review packet without enabling runt
   assert.equal(inventory.packet.packetPhase, "phase-4.1g-external-review-packet");
   assert.equal(inventory.packet.reviewedPhase, "4.1G");
   assert.equal(inventory.packet.metadataGeneratedAt, "1970-01-01T00:00:00.000Z");
-  assert.equal(inventory.packet.currentMainSha, "070b327b6132e14170598d3e865dcf5ec4b0993e");
+  assert.equal(inventory.packet.currentMainSha, "3a2f28e02494cb2ac0735e6bec32f283f4b616db");
   assert.equal(inventory.packet.reviewPacketOnly, true);
   assert.equal(inventory.packet.reviewMetadataOnly, true);
   assert.equal(inventory.packet.runtimeBehaviorIntroduced, false);
