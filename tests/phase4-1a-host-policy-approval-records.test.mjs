@@ -289,9 +289,9 @@ test("Phase 4.1A status report inventories approval records without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1D",
-    name: "Transcript replay contracts",
-    executionPosture: "transcript-replay-contract-only non-executing"
+    id: "4.1E",
+    name: "Failure audit kill semantics",
+    executionPosture: "failure-audit-kill-semantics-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

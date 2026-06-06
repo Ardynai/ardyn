@@ -8,24 +8,26 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.1D Scope
+## Phase 3 and Phase 4.1E Scope
 
-This repository is currently in Phase 4.1D transcript-replay-contract mode. The
+This repository is currently in Phase 4.1E failure-audit-kill-semantics
+contract mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
 dry-run session-event JSONL, define the stdout/stderr, redaction, transcript
-persistence, and replay policies required before any live stdio runtime can
-exist, codify those Phase 4.0C policies as inert Rust-host contract types, and
-export those contracts as deterministic review-only JSON metadata with static
-host-policy review-record fixtures, compatibility classification, and
-display-only comparison records plus a static reviewer handoff index for
-Devin/Codex review workflows, a final static readiness checklist, a
-proposal-only runtime implementation plan, and static host-policy approval
-records/operator-consent fields plus static Rust-host transport harness
-contracts plus static stdout JSONL framing, stderr redaction, transcript
-persistence, and replay contract review helpers before any separately approved
-live runtime work.
+persistence, replay, failure-audit, terminal-state, cleanup/kill, and exit
+mapping policies required before any live stdio runtime can exist, codify those
+Phase 4.0C policies as inert Rust-host contract types, and export those
+contracts as deterministic review-only JSON metadata with static host-policy
+review-record fixtures, compatibility classification, and display-only
+comparison records plus a static reviewer handoff index for Devin/Codex review
+workflows, a final static readiness checklist, a proposal-only runtime
+implementation plan, and static host-policy approval records/operator-consent
+fields plus static Rust-host transport harness contracts plus static stdout
+JSONL framing, stderr redaction, transcript persistence/replay, and
+failure-audit/kill-semantics review helpers before any separately approved live
+runtime work.
 
 Included now:
 
@@ -103,6 +105,13 @@ Included now:
   metadata only; no transcript persistence runtime exists, no replay runtime
   exists, and `replay-session-transcript` remains rejected. See
   `docs/phase-4-1d-transcript-replay-contracts.md`.
+- Phase 4.1E static TypeScript failure-audit, terminal-state, cleanup/kill,
+  and nonzero-exit mapping review helpers, deterministic fixtures, fail-closed
+  classification coverage, and report metadata. The contracts are review
+  metadata only; no failure-audit runtime exists, no cleanup runtime exists, no
+  process killing exists, and failure-audit/cleanup/kill/runtime commands
+  remain rejected. See
+  `docs/phase-4-1e-failure-audit-kill-semantics.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -147,9 +156,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.1D CLI Usage
+## Phase 3 and Phase 4.1E CLI Usage
 
-Run non-executing commands directly from source through Phase 4.1D:
+Run non-executing commands directly from source through Phase 4.1E:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -254,7 +263,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.1D transcript-replay-contract-only status report command is:
+The Phase 4.1E failure-audit-kill-semantics-contract-only status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -274,7 +283,8 @@ metadata, Phase 4.0H static reviewer handoff index metadata, Phase 4.0I final
 pre-runtime readiness metadata, Phase 4.1 runtime proposal metadata, and
 Phase 4.1A host-policy approval-record metadata, Phase 4.1B transport harness
 contract metadata, Phase 4.1C framing/redaction contract metadata, Phase 4.1D
-transcript persistence/replay contract metadata, and safety posture.
+transcript persistence/replay contract metadata, Phase 4.1E failure-audit
+kill-semantics contract metadata, and safety posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -415,6 +425,23 @@ not a transcript persistence runtime, not a replay runtime, not a file writer,
 not a stdin reader, not process stdio ownership, not failure-audit runtime, and
 not consumed by a live host loop. `replay-session-transcript` remains
 proposal-only and rejected.
+
+Phase 4.1E adds no new CLI command and does not change the finite dry-run
+emitter, Rust-host transport harness contracts, framing/redaction helpers,
+transcript persistence/replay helpers, host-policy review-record helpers,
+approval-record helpers, comparison helpers, reviewer index, final readiness
+bundle, or Phase 4.1 proposal bundle. It adds
+`docs/phase-4-1e-failure-audit-kill-semantics.md`, static TypeScript review
+helpers, and deterministic fixtures under
+`tests/fixtures/host-policy/phase4-1e/`. Failure-audit, terminal-state,
+cleanup/kill, and nonzero-exit contracts are static review metadata only; they
+are not runtime configuration, not a failure-audit runtime, not a cleanup
+runtime, not process killing, not signal handling, not timeout runtime, not a
+file writer, not a stdin reader, not process stdio ownership, and not consumed
+by a live host loop. `failure-audit`, `emit-failure-audit`,
+`cleanup-runtime`, `kill-runtime`, `exit-runtime`, `serve-runtime`,
+`stdio-runtime`, and `replay-session-transcript` remain proposal-only and
+rejected. See `docs/phase-4-1e-failure-audit-kill-semantics.md`.
 
 ## Phase 3.3-3.9 Policy Review
 

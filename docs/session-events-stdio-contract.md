@@ -266,6 +266,26 @@ HTTP transport, host-policy enforcement, approval evaluator, or runtime
 approval grant. `replay-session-transcript` remains proposal-only and
 rejected. See `docs/phase-4-1d-transcript-replay-contracts.md`.
 
+Phase 4.1E adds static failure-audit, terminal-state, cleanup/kill, and
+nonzero-exit mapping contracts for review only. The helpers classify
+`static_contract_only`, `clean_failure`, `redacted_failure`,
+`unredactable_failure`, `terminal_completed`, `terminal_failed`,
+`terminal_aborted`, `terminal_rejected`, `nonzero_exit_expected`,
+`nonzero_exit_unexpected`, `cleanup_required`, `cleanup_not_available`,
+`runtime_unavailable`, `malformed`, and `unsupported_major` states, but no
+failure-audit runtime exists, no cleanup runtime exists, no process killing
+exists, and no live runtime exists. Phase 4.1E does not add a CLI command,
+file writer, stdout printer, stdout writer, stderr writer, stdin command loop,
+live stdio reader, runtime owner, transcript replay command, failure-audit
+runtime, cleanup runtime, signal handling runtime, timeout runtime, process
+control, listener, server, subprocess supervisor, adapter call, Locus runtime
+dependency, MCP/OpenClaw call, plugin execution path, Content Fabric runtime
+behavior, secret handling, production signing-key usage, WebSocket transport,
+HTTP transport, host-policy enforcement, approval evaluator, or runtime
+approval grant. Failure-audit/cleanup/kill/runtime commands remain
+proposal-only and rejected. See
+`docs/phase-4-1e-failure-audit-kill-semantics.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

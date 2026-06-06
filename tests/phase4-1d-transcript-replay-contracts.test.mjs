@@ -284,9 +284,9 @@ test("Phase 4.1D status report inventories transcript replay contracts without r
   const inventory = report.phase41DTranscriptReplayInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1D",
-    name: "Transcript replay contracts",
-    executionPosture: "transcript-replay-contract-only non-executing"
+    id: "4.1E",
+    name: "Failure audit kill semantics",
+    executionPosture: "failure-audit-kill-semantics-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

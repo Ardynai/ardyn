@@ -35,6 +35,25 @@ export const TRANSCRIPT_REPLAY_SEQUENCE_GAP: "sequence_gap";
 export const TRANSCRIPT_REPLAY_DUPLICATE_SEQUENCE: "duplicate_sequence";
 export const TRANSCRIPT_REPLAY_OUT_OF_ORDER_SEQUENCE: "out_of_order_sequence";
 export const TRANSCRIPT_REPLAY_RUNTIME_UNAVAILABLE: "replay_runtime_unavailable";
+export const ARDYN_FAILURE_AUDIT_CONTRACT_PHASE:
+  "phase-4.1e-failure-audit-kill-semantics";
+export const FAILURE_AUDIT_RECORD_SCHEMA: "ardyn.failure-audit-record";
+export const FAILURE_AUDIT_CONTRACT_VERSION: "0.1.0";
+export const FAILURE_AUDIT_STATIC_CONTRACT_ONLY: "static_contract_only";
+export const FAILURE_AUDIT_CLEAN_FAILURE: "clean_failure";
+export const FAILURE_AUDIT_REDACTED_FAILURE: "redacted_failure";
+export const FAILURE_AUDIT_UNREDACTABLE_FAILURE: "unredactable_failure";
+export const FAILURE_AUDIT_TERMINAL_COMPLETED: "terminal_completed";
+export const FAILURE_AUDIT_TERMINAL_FAILED: "terminal_failed";
+export const FAILURE_AUDIT_TERMINAL_ABORTED: "terminal_aborted";
+export const FAILURE_AUDIT_TERMINAL_REJECTED: "terminal_rejected";
+export const FAILURE_AUDIT_NONZERO_EXIT_EXPECTED: "nonzero_exit_expected";
+export const FAILURE_AUDIT_NONZERO_EXIT_UNEXPECTED: "nonzero_exit_unexpected";
+export const FAILURE_AUDIT_CLEANUP_REQUIRED: "cleanup_required";
+export const FAILURE_AUDIT_CLEANUP_NOT_AVAILABLE: "cleanup_not_available";
+export const FAILURE_AUDIT_RUNTIME_UNAVAILABLE: "runtime_unavailable";
+export const FAILURE_AUDIT_MALFORMED: "malformed";
+export const FAILURE_AUDIT_UNSUPPORTED_MAJOR: "unsupported_major";
 export const APPROVAL_REVIEW_ARTIFACT_SCHEMA: "ardyn.approval-review-artifact";
 export const APPROVAL_REVIEW_ARTIFACT_VERSION: "0.1.0";
 export const SCHEMA_MIGRATION_METADATA_SCHEMA: "ardyn.schema-migration-metadata";
@@ -484,6 +503,111 @@ export interface TranscriptReplayCompatibilityClassificationResult {
   failureReasons: string[];
   reviewOnly: true;
   runtimeEffect: TranscriptReplayRuntimeEffect;
+}
+
+export type FailureAuditClassification =
+  | "static_contract_only"
+  | "clean_failure"
+  | "redacted_failure"
+  | "unredactable_failure"
+  | "terminal_completed"
+  | "terminal_failed"
+  | "terminal_aborted"
+  | "terminal_rejected"
+  | "nonzero_exit_expected"
+  | "nonzero_exit_unexpected"
+  | "cleanup_required"
+  | "cleanup_not_available"
+  | "runtime_unavailable"
+  | "malformed"
+  | "unsupported_major";
+
+export interface FailureAuditRuntimeEffect {
+  currentContractEnablesRuntime: false;
+  runtimeImplementationAvailable: false;
+  runtimeCommandAvailable: false;
+  failureAuditCommandAvailable: false;
+  failureAuditRuntimeAvailable: false;
+  cleanupRuntimeAvailable: false;
+  processKillAvailable: false;
+  processControlAvailable: false;
+  signalHandlerAvailable: false;
+  signalHandlingRuntimeAvailable: false;
+  exitHandlerAvailable: false;
+  exitMappingRuntimeAvailable: false;
+  timeoutRuntimeAvailable: false;
+  processStdioOwnershipAvailable: false;
+  stdinReaderAvailable: false;
+  stdoutWriterAvailable: false;
+  stderrWriterAvailable: false;
+  transcriptPersistenceRuntimeAvailable: false;
+  transcriptReplayRuntimeAvailable: false;
+  approvalEvaluatorAvailable: false;
+  listenerAvailable: false;
+  serverAvailable: false;
+  subprocessSpawningAvailable: false;
+  writesFiles: false;
+  readsFiles: false;
+  runsRuntime: false;
+  consumedByLiveHostLoop: false;
+  grantsRuntimeApproval: false;
+}
+
+export interface FailureAuditRecord {
+  schema: "ardyn.failure-audit-record";
+  schemaVersion: string;
+  recordKind: "failure-audit-record";
+  recordPhase: "phase-4.1e-failure-audit-kill-semantics";
+  reviewedPhase: "4.1E";
+  sourcePhase: string;
+  classification: FailureAuditClassification;
+  failureCategory: string;
+  terminalState: string;
+  exitCodeClassification: string;
+  exitCodeMapping: {
+    code: number;
+    classification: string;
+    deterministic: true;
+    policyOnly: true;
+  };
+  terminalStateRules: Record<string, unknown>;
+  stdoutCommitBoundary: Record<string, unknown>;
+  nonzeroExitMappingRules: Record<string, unknown>;
+  stderrDiagnosticClassification: string;
+  stderrDiagnostic: {
+    code: string;
+    message: string;
+  };
+  redactionStatus: string;
+  redactions: StaticStderrDiagnosticRedaction[];
+  cleanupRequirement: Record<string, unknown>;
+  killInterruptTimeoutSemantics: Record<string, unknown>;
+  transcriptPersistenceReplayImpact: Record<string, unknown>;
+  runtimeAvailabilityStatus: "runtime_unavailable";
+  runtimeEffect: FailureAuditRuntimeEffect;
+  nonExecutionInvariantSummary: string[];
+  failClosed: boolean;
+  failureReasons: string[];
+  recordDigest: TranscriptDigestRecord;
+  audit: Record<string, unknown>;
+}
+
+export interface FailureAuditClassificationResult {
+  schema: "ardyn.failure-audit-classification";
+  schemaVersion: "0.1.0";
+  phase: "phase-4.1e-failure-audit-kill-semantics";
+  classification: FailureAuditClassification;
+  valid: boolean;
+  failClosed: boolean;
+  failureAuditRuntimeAvailable: false;
+  cleanupRuntimeAvailable: false;
+  processKillAvailable: false;
+  processControlAvailable: false;
+  runtimeCommandAvailable: false;
+  errors: string[];
+  failureReasons: string[];
+  reviewOnly: true;
+  runtimeEffect: FailureAuditRuntimeEffect;
 }
 
 export interface SessionTranscript {
@@ -1372,6 +1496,45 @@ export function formatTranscriptReplayCompatibilityRecordJsonForReview(
     failureReasons?: string[];
   }
 ): string;
+export function createFailureAuditRecordForReview(options?: {
+  classification?: FailureAuditClassification;
+  schemaVersion?: string;
+  sourcePhase?: string;
+  failureCategory?: string;
+  terminalState?: string;
+  exitCodeClassification?: string;
+  exitCode?: number;
+  stderrDiagnosticClassification?: string;
+  diagnostic?: {
+    code: string;
+    message: string;
+  };
+  stdoutCommitBoundary?: Record<string, unknown>;
+  cleanupRequirement?: Record<string, unknown>;
+  killInterruptTimeoutSemantics?: Record<string, unknown>;
+  failureReasons?: string[];
+}): FailureAuditRecord;
+export function classifyFailureAuditRecordForReview(
+  record: unknown
+): FailureAuditClassificationResult;
+export function formatFailureAuditRecordJsonForReview(options?: {
+  classification?: FailureAuditClassification;
+  schemaVersion?: string;
+  sourcePhase?: string;
+  failureCategory?: string;
+  terminalState?: string;
+  exitCodeClassification?: string;
+  exitCode?: number;
+  stderrDiagnosticClassification?: string;
+  diagnostic?: {
+    code: string;
+    message: string;
+  };
+  stdoutCommitBoundary?: Record<string, unknown>;
+  cleanupRequirement?: Record<string, unknown>;
+  killInterruptTimeoutSemantics?: Record<string, unknown>;
+  failureReasons?: string[];
+}): string;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

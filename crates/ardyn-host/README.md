@@ -2,14 +2,16 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.1D still exposes static Rust host identity, handshake data, policy-only
+Phase 4.1E still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
 contract helpers. Phase 4.1C adds TypeScript-side static framing/redaction
 review helpers only, and Phase 4.1D adds TypeScript-side static transcript
-persistence/replay contract helpers only; neither phase adds a Rust-host stdio
-ownership implementation. Rust
+persistence/replay contract helpers only. Phase 4.1E adds TypeScript-side
+static failure-audit, terminal-state, cleanup/kill, and nonzero-exit mapping
+contract helpers only. None of these phases adds a Rust-host stdio ownership
+implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
 network serving, plugin installation, torrent download, code-pack enablement,
@@ -72,6 +74,13 @@ TypeScript core, not a Rust-host runtime path. No transcript persistence
 runtime exists, no replay runtime exists, and `replay-session-transcript`
 remains proposal-only and rejected. See
 `docs/phase-4-1d-transcript-replay-contracts.md`.
+
+Phase 4.1E adds static failure-audit, terminal-state, cleanup/kill, and
+nonzero-exit mapping contracts in the TypeScript core, not a Rust-host runtime
+path. No failure-audit runtime exists, no cleanup runtime exists, no process
+killing exists, no signal handling runtime exists, no timeout runtime exists,
+and failure-audit/cleanup/kill/runtime commands remain proposal-only and
+rejected. See `docs/phase-4-1e-failure-audit-kill-semantics.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

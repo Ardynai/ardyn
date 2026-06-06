@@ -1,0 +1,161 @@
+{
+  "schema": "ardyn.failure-audit-record",
+  "schemaVersion": "0.1.0",
+  "recordKind": "failure-audit-record",
+  "recordPhase": "phase-4.1e-failure-audit-kill-semantics",
+  "reviewedPhase": "4.1E",
+  "sourcePhase": "phase-4.1d-transcript-replay-contracts",
+  "classification": "unredactable_failure",
+  "failureCategory": "stderr-diagnostic",
+  "terminalState": "failed",
+  "exitCodeClassification": "nonzero_exit_unexpected",
+  "exitCodeMapping": {
+    "code": 1,
+    "classification": "nonzero_exit_unexpected",
+    "deterministic": true,
+    "policyOnly": true
+  },
+  "terminalStateRules": {
+    "deterministic": true,
+    "terminalCompletedRequiresSessionCompletedLast": true,
+    "terminalFailedMayUseSessionError": true,
+    "terminalAbortedRequiresFutureHostPolicyEvidence": true,
+    "terminalRejectedRequiresHostPolicyDenial": true,
+    "missingTerminalEventFailsClosed": true,
+    "terminalEventNotLastFailsClosed": true,
+    "duplicateTerminalEventFailsClosed": true,
+    "synthesizedTerminalEventsAllowed": false,
+    "partialOutputMayBecomeTranscriptEvidence": false
+  },
+  "stdoutCommitBoundary": {
+    "policyOnly": true,
+    "committedEventCount": 0,
+    "committedSequenceRange": {
+      "first": null,
+      "last": null
+    },
+    "terminalEventObserved": true,
+    "stdoutEndedWithFinalLf": false,
+    "partialFinalLineObserved": false,
+    "partialOutputMayBecomeTranscriptEvidence": false,
+    "synthesizedTerminalEventAllowed": false
+  },
+  "nonzeroExitMappingRules": {
+    "deterministic": true,
+    "osSignalBehaviorEvaluated": false,
+    "exitZeroRequiresTerminalCompleted": true,
+    "sessionErrorMapsToNonzero": true,
+    "missingTerminalEventMapsToNonzero": true,
+    "redactionFailureMapsToNonzero": true,
+    "cleanupFailureMapsToNonzero": true,
+    "unexpectedNonzeroFailsClosed": true
+  },
+  "stderrDiagnosticClassification": "unredactable_failure",
+  "stderrDiagnostic": {
+    "code": "failure.audit.unredactable",
+    "message": "[DIAGNOSTIC_REDACTION_FAILED]"
+  },
+  "redactionStatus": "unredactable_fail_closed",
+  "redactions": [],
+  "cleanupRequirement": {
+    "required": false,
+    "reason": "no cleanup required for this static fixture",
+    "policyOnly": true,
+    "cleanupRuntimeAvailable": false,
+    "processKillAvailable": false,
+    "processControlAvailable": false,
+    "signalHandlerAvailable": false,
+    "signalHandlingRuntimeAvailable": false,
+    "exitHandlerAvailable": false,
+    "timeoutRuntimeAvailable": false
+  },
+  "killInterruptTimeoutSemantics": {
+    "policyOnly": true,
+    "killRuntimeAvailable": false,
+    "interruptRuntimeAvailable": false,
+    "timeoutRuntimeAvailable": false,
+    "signalHandlingRuntimeAvailable": false,
+    "processControlAvailable": false,
+    "killMaySynthesizeTerminalEvent": false,
+    "partialOutputMayBecomeTranscriptEvidence": false,
+    "failClosedOnUnsafeCleanup": true,
+    "expectedPolicy": "future Rust-host runtime must fail closed on kill, interrupt, timeout, or cleanup uncertainty"
+  },
+  "transcriptPersistenceReplayImpact": {
+    "policyOnly": true,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "partialTranscriptMayBePersisted": false,
+    "replayPermitted": false,
+    "normalizedTranscriptRequiredBeforeReplay": true
+  },
+  "runtimeAvailabilityStatus": "runtime_unavailable",
+  "runtimeEffect": {
+    "currentContractEnablesRuntime": false,
+    "runtimeImplementationAvailable": false,
+    "runtimeCommandAvailable": false,
+    "failureAuditCommandAvailable": false,
+    "failureAuditRuntimeAvailable": false,
+    "cleanupRuntimeAvailable": false,
+    "processKillAvailable": false,
+    "processControlAvailable": false,
+    "signalHandlerAvailable": false,
+    "signalHandlingRuntimeAvailable": false,
+    "exitHandlerAvailable": false,
+    "exitMappingRuntimeAvailable": false,
+    "timeoutRuntimeAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "listenerAvailable": false,
+    "serverAvailable": false,
+    "subprocessSpawningAvailable": false,
+    "writesFiles": false,
+    "readsFiles": false,
+    "runsRuntime": false,
+    "consumedByLiveHostLoop": false,
+    "grantsRuntimeApproval": false
+  },
+  "nonExecutionInvariantSummary": [
+    "no-adapter-calls",
+    "no-autonomous-loop",
+    "no-content-fabric-runtime-behavior",
+    "no-listener",
+    "no-live-stdio-reader",
+    "no-live-stdio-runtime",
+    "no-locus-runtime-dependency",
+    "no-mcp-calls",
+    "no-openclaw-calls",
+    "no-plugin-execution",
+    "no-production-signing-keys",
+    "no-runtime-execution-behavior",
+    "no-secret-handling",
+    "no-server",
+    "no-stdin-command-loop",
+    "no-subprocess-spawning",
+    "no-transcript-persistence-replay-runtime",
+    "no-websocket-http-control-surface"
+  ],
+  "failClosed": true,
+  "failureReasons": [
+    "stderr diagnostic cannot be safely redacted and must fail closed"
+  ],
+  "recordDigest": {
+    "algorithm": "sha256",
+    "value": "sha256:9ceb3fee341a5b6d3033a8d7a98654e0ef4409e7e9e1eaa7357d39a284aca882"
+  },
+  "audit": {
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "createdBy": "codex-phase-4.1e",
+    "reviewer": "Codex",
+    "devinReviewRequiredNow": false,
+    "preserveDevinReviewFor": "major-runtime-readiness-checkpoint",
+    "metadataOnly": true,
+    "writesFiles": false,
+    "runsRuntime": false
+  }
+}

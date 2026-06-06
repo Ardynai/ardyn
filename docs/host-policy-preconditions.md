@@ -220,6 +220,23 @@ TypeScript dry-run emitter. `replay-session-transcript` remains
 proposal-only and rejected. See
 `docs/phase-4-1d-transcript-replay-contracts.md`.
 
+Phase 4.1E adds static failure-audit, terminal-state, cleanup/kill, and
+nonzero-exit mapping contract artifacts. The records define deterministic
+failure categories, terminal states, exit code classifications, stderr
+diagnostic classifications, redaction status, cleanup requirement metadata,
+kill/interrupt/timeout policy, transcript replay impact, runtime availability
+status, and fail-closed reason fields, but no failure-audit runtime exists, no
+cleanup runtime exists, no process killing exists, and no live runtime exists.
+The contracts remain inert review metadata only. They do not grant runtime
+approval, start host-policy enforcement, add an approval evaluator, write
+files, print stdout, add a CLI command, deny a running runtime, persist
+transcripts, replay transcripts, handle secrets, implement live stdio
+ownership, own stdout/stderr, perform cleanup, kill processes, or change the
+finite TypeScript dry-run emitter. Failure-audit, cleanup, kill, process
+control, signal-handler, exit-handler, and runtime commands remain
+proposal-only and rejected. See
+`docs/phase-4-1e-failure-audit-kill-semantics.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

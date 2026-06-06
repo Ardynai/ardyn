@@ -112,6 +112,16 @@ path, CLI command, runtime approval grant, or live host loop.
 `replay-session-transcript` remains proposal-only and rejected. See
 `docs/phase-4-1d-transcript-replay-contracts.md`.
 
+Phase 4.1E adds static TypeScript failure-audit, terminal-state,
+cleanup/kill, and nonzero-exit mapping contract helpers. It does not add a
+Rust runtime helper, failure-audit runtime, cleanup runtime, process killing,
+process control, signal handling runtime, timeout runtime, stdout writer,
+stderr writer, live stdio reader, process stdio ownership, approval evaluator,
+active host-policy enforcement path, CLI command, runtime approval grant, or
+live host loop. Failure-audit/cleanup/kill/runtime commands remain
+proposal-only and rejected. See
+`docs/phase-4-1e-failure-audit-kill-semantics.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

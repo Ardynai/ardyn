@@ -182,6 +182,47 @@ const phase41DFixtureFiles = [
   "tests/fixtures/host-policy/phase4-1d/out-of-order-sequence-transcript-replay-record.json",
   "tests/fixtures/host-policy/phase4-1d/runtime-available-attempt-transcript-replay-record.json"
 ];
+const phase41EFailureAuditClassifications = [
+  "static_contract_only",
+  "clean_failure",
+  "redacted_failure",
+  "unredactable_failure",
+  "terminal_completed",
+  "terminal_failed",
+  "terminal_aborted",
+  "terminal_rejected",
+  "nonzero_exit_expected",
+  "nonzero_exit_unexpected",
+  "cleanup_required",
+  "cleanup_not_available",
+  "runtime_unavailable",
+  "malformed",
+  "unsupported_major"
+];
+const phase41EFailClosedClassifications = [
+  "unredactable_failure",
+  "nonzero_exit_unexpected",
+  "cleanup_not_available",
+  "runtime_unavailable",
+  "malformed",
+  "unsupported_major"
+];
+const phase41EFixtureFiles = [
+  "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json",
+  "tests/fixtures/host-policy/phase4-1e/redacted-failure-diagnostic-record.json",
+  "tests/fixtures/host-policy/phase4-1e/unredactable-failure-diagnostic-fail-closed-record.json",
+  "tests/fixtures/host-policy/phase4-1e/expected-nonzero-exit-mapping-record.json",
+  "tests/fixtures/host-policy/phase4-1e/unexpected-nonzero-exit-mapping-record.json",
+  "tests/fixtures/host-policy/phase4-1e/terminal-completed-record.json",
+  "tests/fixtures/host-policy/phase4-1e/terminal-failed-record.json",
+  "tests/fixtures/host-policy/phase4-1e/terminal-aborted-record.json",
+  "tests/fixtures/host-policy/phase4-1e/terminal-rejected-record.json",
+  "tests/fixtures/host-policy/phase4-1e/cleanup-required-policy-only-record.json",
+  "tests/fixtures/host-policy/phase4-1e/cleanup-not-available-record.json",
+  "tests/fixtures/host-policy/phase4-1e/runtime-cleanup-kill-attempt-record.json",
+  "tests/fixtures/host-policy/phase4-1e/malformed-failure-audit-record.json",
+  "tests/fixtures/host-policy/phase4-1e/unsupported-major-failure-audit-record.json"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -207,14 +248,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1D transcript-replay-contract-only local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.1E failure-audit-kill-semantics-contract-only local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1D",
-    name: "Transcript replay contracts",
-    executionPosture: "transcript-replay-contract-only non-executing"
+    id: "4.1E",
+    name: "Failure audit kill semantics",
+    executionPosture: "failure-audit-kill-semantics-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -281,12 +322,18 @@ test("report lists configured checks and verification commands without running t
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1D transcript-replay-contract-only status report.",
+      purpose:
+        "Render this deterministic local Phase 4.1E failure-audit-kill-semantics-contract-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1D status report.",
+      purpose: "Run focused tests for this local Phase 4.1E status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1e-failure-audit-kill-semantics.test.mjs",
+      purpose: "Run focused Phase 4.1E failure-audit/terminal-state/kill-exit static checks.",
       ranByReport: false
     },
     {
@@ -3057,6 +3104,265 @@ test("report inventories Phase 4.1D transcript replay contracts without enabling
     noStdoutPrinterAdded: true,
     noRuntimeBehaviorIntroduced: true
   });
+});
+
+test("report inventories Phase 4.1E failure-audit kill semantics without enabling runtime", async () => {
+  const report = await runReport();
+  const inventory = report.phase41EFailureAuditInventory;
+
+  assert.equal(inventory.failureAuditRecord.schema, "ardyn.failure-audit-record");
+  assert.equal(inventory.failureAuditRecord.schemaVersion, "0.1.0");
+  assert.equal(inventory.failureAuditRecord.recordKind, "failure-audit-record");
+  assert.equal(inventory.failureAuditRecord.recordPhase, "phase-4.1e-failure-audit-kill-semantics");
+  assert.equal(inventory.failureAuditRecord.reviewedPhase, "4.1E");
+  assert.equal(inventory.failureAuditRecord.sourcePhase, "phase-4.1d-transcript-replay-contracts");
+  assert.equal(inventory.failureAuditRecord.classification, "static_contract_only");
+  assert.equal(inventory.failureAuditRecord.failureCategory, "contract-definition");
+  assert.equal(inventory.failureAuditRecord.terminalState, "not-run");
+  assert.equal(inventory.failureAuditRecord.exitCodeClassification, "not-applicable");
+  assert.equal(inventory.failureAuditRecord.stderrDiagnosticClassification, "clean_failure");
+  assert.equal(inventory.failureAuditRecord.redactionStatus, "redacted_safe");
+  assert.equal(inventory.failureAuditRecord.runtimeAvailabilityStatus, "runtime_unavailable");
+  assert.equal(inventory.failureAuditRecord.failureAuditRuntimeAvailable, false);
+  assert.equal(inventory.failureAuditRecord.cleanupRuntimeAvailable, false);
+  assert.equal(inventory.failureAuditRecord.processKillAvailable, false);
+  assert.equal(inventory.failureAuditRecord.processControlAvailable, false);
+  assert.equal(inventory.failureAuditRecord.signalHandlerAvailable, false);
+  assert.equal(inventory.failureAuditRecord.exitHandlerAvailable, false);
+  assert.equal(inventory.failureAuditRecord.runtimeBehaviorIntroduced, false);
+  assert.equal(inventory.failureAuditRecord.liveRuntimeBehaviorIntroduced, false);
+  assert.equal(inventory.failureAuditRecord.consumedByLiveHostLoop, false);
+
+  assert.deepEqual(inventory.redactedFailureDiagnostic, {
+    fixture: "tests/fixtures/host-policy/phase4-1e/redacted-failure-diagnostic-record.json",
+    classification: "redacted_failure",
+    stderrDiagnosticClassification: "redacted_failure",
+    redactionStatus: "redacted_safe",
+    redactionCount: 1,
+    rawDiagnosticIncluded: false
+  });
+  assert.deepEqual(inventory.runtimeAttempt, {
+    fixture: "tests/fixtures/host-policy/phase4-1e/runtime-cleanup-kill-attempt-record.json",
+    classification: "runtime_unavailable",
+    sourceClassification: "cleanup_required",
+    cleanupRuntimeAttempted: true,
+    processKillAttempted: true,
+    signalHandlerAttempted: true,
+    failClosedExpected: true
+  });
+  assert.deepEqual(inventory.terminalStateRules, {
+    deterministic: true,
+    terminalCompletedRequiresSessionCompletedLast: true,
+    terminalFailedMayUseSessionError: true,
+    terminalAbortedRequiresFutureHostPolicyEvidence: true,
+    terminalRejectedRequiresHostPolicyDenial: true,
+    missingTerminalEventFailsClosed: true,
+    terminalEventNotLastFailsClosed: true,
+    duplicateTerminalEventFailsClosed: true,
+    synthesizedTerminalEventsAllowed: false,
+    partialOutputMayBecomeTranscriptEvidence: false
+  });
+  assert.deepEqual(inventory.nonzeroExitMappingRules, {
+    deterministic: true,
+    osSignalBehaviorEvaluated: false,
+    exitZeroRequiresTerminalCompleted: true,
+    sessionErrorMapsToNonzero: true,
+    missingTerminalEventMapsToNonzero: true,
+    redactionFailureMapsToNonzero: true,
+    cleanupFailureMapsToNonzero: true,
+    unexpectedNonzeroFailsClosed: true
+  });
+  assert.equal(inventory.stdoutCommitBoundary.policyOnly, true);
+  assert.equal(inventory.stdoutCommitBoundary.partialOutputMayBecomeTranscriptEvidence, false);
+  assert.equal(inventory.stdoutCommitBoundary.synthesizedTerminalEventAllowed, false);
+  assert.equal(inventory.cleanupKillSemantics.cleanupRequirement.policyOnly, true);
+  assert.equal(inventory.cleanupKillSemantics.killInterruptTimeoutSemantics.policyOnly, true);
+  assert.equal(inventory.cleanupKillSemantics.cleanupRuntimeAvailable, false);
+  assert.equal(inventory.cleanupKillSemantics.processKillAvailable, false);
+  assert.equal(inventory.cleanupKillSemantics.killRuntimeAvailable, false);
+  assert.equal(inventory.cleanupKillSemantics.interruptRuntimeAvailable, false);
+  assert.equal(inventory.cleanupKillSemantics.timeoutRuntimeAvailable, false);
+  assert.equal(inventory.cleanupKillSemantics.processControlAvailable, false);
+  assert.deepEqual(inventory.transcriptPersistenceReplayImpact, {
+    policyOnly: true,
+    transcriptPersistenceRuntimeAvailable: false,
+    transcriptReplayRuntimeAvailable: false,
+    partialTranscriptMayBePersisted: false,
+    replayPermitted: false,
+    normalizedTranscriptRequiredBeforeReplay: true
+  });
+  assert.deepEqual(inventory.runtimeEffect, {
+    currentContractEnablesRuntime: false,
+    runtimeImplementationAvailable: false,
+    runtimeCommandAvailable: false,
+    failureAuditCommandAvailable: false,
+    failureAuditRuntimeAvailable: false,
+    cleanupRuntimeAvailable: false,
+    processKillAvailable: false,
+    processControlAvailable: false,
+    signalHandlerAvailable: false,
+    signalHandlingRuntimeAvailable: false,
+    exitHandlerAvailable: false,
+    exitMappingRuntimeAvailable: false,
+    timeoutRuntimeAvailable: false,
+    processStdioOwnershipAvailable: false,
+    stdinReaderAvailable: false,
+    stdoutWriterAvailable: false,
+    stderrWriterAvailable: false,
+    transcriptPersistenceRuntimeAvailable: false,
+    transcriptReplayRuntimeAvailable: false,
+    approvalEvaluatorAvailable: false,
+    listenerAvailable: false,
+    serverAvailable: false,
+    subprocessSpawningAvailable: false,
+    writesFiles: false,
+    readsFiles: false,
+    runsRuntime: false,
+    consumedByLiveHostLoop: false,
+    grantsRuntimeApproval: false
+  });
+  assert.deepEqual(inventory.classifications, phase41EFailureAuditClassifications);
+  assert.deepEqual(inventory.failClosedClassifications, phase41EFailClosedClassifications);
+  assert.deepEqual(inventory.reviewOnlyDisplayBehavior, {
+    failureAuditRecordsAreStaticArtifactsOnly: true,
+    currentContractsDoNotEnableRuntime: true,
+    futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+    preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+    reportRunsChecks: false,
+    writesFiles: false,
+    readsFiles: false,
+    printsStdoutFromCli: false,
+    consumedByLiveHostLoop: false
+  });
+  assert.deepEqual(inventory.cliCommandSurface, {
+    commandAdded: false,
+    failureAuditCommandAdded: false,
+    emitFailureAuditCommandAdded: false,
+    cleanupRuntimeCommandAdded: false,
+    killRuntimeCommandAdded: false,
+    exitRuntimeCommandAdded: false,
+    signalHandlerCommandAdded: false,
+    serveRuntimeCommandAdded: false,
+    stdioRuntimeCommandAdded: false,
+    fileWriterAdded: false,
+    stdoutPrinterAdded: false,
+    existingDryRunEmitterUnchanged: true
+  });
+  assert.deepEqual(inventory.apiSurface, {
+    typescriptCoreStaticReviewHelpersAdded: true,
+    typescriptCoreRuntimeApiAdded: false,
+    rustRuntimeHelperAdded: false,
+    rustStdioOwnerAdded: false,
+    failureAuditRuntimeAdded: false,
+    cleanupRuntimeAdded: false,
+    processKillAdded: false,
+    processControlAdded: false,
+    signalHandlerAdded: false,
+    exitHandlerAdded: false,
+    timeoutRuntimeAdded: false,
+    approvalEvaluatorAdded: false,
+    secretsUsed: false
+  });
+  assert.deepEqual(
+    inventory.fixtures.map(({ path, status }) => [path, status]),
+    phase41EFixtureFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-4-1e-failure-audit-kill-semantics.md", "present"],
+      ["docs/phase-4-1d-transcript-replay-contracts.md", "present"],
+      ["docs/phase-4-1-runtime-proposal.md", "present"],
+      ["docs/phase-4-stdio-dry-run-event-emission.md", "present"],
+      ["docs/session-events-stdio-contract.md", "present"],
+      ["docs/host-policy-preconditions.md", "present"],
+      ["docs/architecture.md", "present"],
+      ["README.md", "present"],
+      ["apps/cli/README.md", "present"],
+      ["packages/core/README.md", "present"],
+      ["crates/ardyn-host/README.md", "present"]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase4-1e-failure-audit-kill-semantics.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"],
+      ["packages/core/src/index.mjs", "present"],
+      ["packages/core/src/index.d.ts", "present"]
+    ]
+  );
+
+  for (const probe of [
+    "missing --dry-run",
+    "unsafe manifest URL",
+    "invalid JSON manifest",
+    "invalid JSON task",
+    "replay-session-transcript",
+    "serve-runtime",
+    "stdio-runtime",
+    "failure-audit",
+    "failure-audit-record",
+    "emit-failure-audit",
+    "failure-audit-runtime",
+    "cleanup-runtime",
+    "run-cleanup",
+    "kill-runtime",
+    "kill-process",
+    "terminate-process",
+    "process-kill",
+    "exit-runtime",
+    "exit-handler",
+    "signal-handler",
+    "handle-signal",
+    "approval-evaluator",
+    "evaluate-approval"
+  ]) {
+    assert.ok(inventory.invariantProbes.includes(probe), probe);
+  }
+
+  assert.deepEqual(inventory.safetyPosture, {
+    nonExecuting: true,
+    failureAuditContractOnly: true,
+    reviewOnly: true,
+    noLiveRuntime: true,
+    noFailureAuditRuntime: true,
+    noCleanupRuntime: true,
+    noProcessKill: true,
+    noProcessControl: true,
+    noSignalHandler: true,
+    noTimeoutRuntime: true,
+    noLiveStdioRuntime: true,
+    noStdinCommandLoop: true,
+    noLiveStdioReader: true,
+    noProcessStdioOwnership: true,
+    noListener: true,
+    noServer: true,
+    noSubprocessSpawning: true,
+    noAdapterCalls: true,
+    noLocusRuntimeDependency: true,
+    noMcpCalls: true,
+    noOpenClawCalls: true,
+    noPluginExecution: true,
+    noContentFabricRuntimeBehavior: true,
+    noContentFabricDownloadInstallEnable: true,
+    noTranscriptPersistenceReplayRuntime: true,
+    noReplayRuntime: true,
+    noWebSocketHttpControlSurface: true,
+    noSecrets: true,
+    noProductionSigningKeys: true,
+    noRuntimeApprovalGrant: true,
+    noHostPolicyEnforcement: true,
+    noApprovalEvaluator: true,
+    noStdoutWriter: true,
+    noStderrWriter: true,
+    noCliCommandAdded: true,
+    noFileWriterAdded: true,
+    noStdoutPrinterAdded: true,
+    noRuntimeBehaviorIntroduced: true
+  });
+  assert.equal(report.safetyPosture.failureAuditContracts, true);
+  assert.equal(report.safetyPosture.flags.phase41RuntimeImplemented, false);
 });
 
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {

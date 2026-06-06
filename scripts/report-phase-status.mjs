@@ -70,6 +70,15 @@ const phase41DTranscriptReplayMetadata = await readJson(
 const phase41DTranscriptReplayCompatibilityMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-1d/compatible-transcript-replay-record.json"
 );
+const phase41EFailureAuditMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json"
+);
+const phase41ERedactedFailureMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1e/redacted-failure-diagnostic-record.json"
+);
+const phase41ERuntimeAttemptMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1e/runtime-cleanup-kill-attempt-record.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -117,9 +126,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1D",
-    name: "Transcript replay contracts",
-    executionPosture: "transcript-replay-contract-only non-executing"
+    id: "4.1E",
+    name: "Failure audit kill semantics",
+    executionPosture: "failure-audit-kill-semantics-contract-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -161,12 +170,17 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1D transcript-replay-contract-only status report.",
+      purpose: "Render this deterministic local Phase 4.1E failure-audit-kill-semantics-contract-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1D status report.",
+      purpose: "Run focused tests for this local Phase 4.1E status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1e-failure-audit-kill-semantics.test.mjs",
+      purpose: "Run focused Phase 4.1E failure-audit/terminal-state/kill-exit static checks.",
       ranByReport: false
     },
     {
@@ -3760,6 +3774,322 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41EFailureAuditInventory: {
+    failureAuditRecord: {
+      document: "docs/phase-4-1e-failure-audit-kill-semantics.md",
+      source: "packages/core/src/index.mjs",
+      types: "packages/core/src/index.d.ts",
+      fixture: "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json",
+      schema: phase41EFailureAuditMetadata.schema,
+      schemaVersion: phase41EFailureAuditMetadata.schemaVersion,
+      recordKind: phase41EFailureAuditMetadata.recordKind,
+      recordPhase: phase41EFailureAuditMetadata.recordPhase,
+      reviewedPhase: phase41EFailureAuditMetadata.reviewedPhase,
+      sourcePhase: phase41EFailureAuditMetadata.sourcePhase,
+      classification: phase41EFailureAuditMetadata.classification,
+      failureCategory: phase41EFailureAuditMetadata.failureCategory,
+      terminalState: phase41EFailureAuditMetadata.terminalState,
+      exitCodeClassification: phase41EFailureAuditMetadata.exitCodeClassification,
+      stderrDiagnosticClassification:
+        phase41EFailureAuditMetadata.stderrDiagnosticClassification,
+      redactionStatus: phase41EFailureAuditMetadata.redactionStatus,
+      runtimeAvailabilityStatus: phase41EFailureAuditMetadata.runtimeAvailabilityStatus,
+      failureAuditRuntimeAvailable:
+        phase41EFailureAuditMetadata.runtimeEffect.failureAuditRuntimeAvailable,
+      cleanupRuntimeAvailable:
+        phase41EFailureAuditMetadata.runtimeEffect.cleanupRuntimeAvailable,
+      processKillAvailable: phase41EFailureAuditMetadata.runtimeEffect.processKillAvailable,
+      processControlAvailable:
+        phase41EFailureAuditMetadata.runtimeEffect.processControlAvailable,
+      signalHandlerAvailable: phase41EFailureAuditMetadata.runtimeEffect.signalHandlerAvailable,
+      exitHandlerAvailable: phase41EFailureAuditMetadata.runtimeEffect.exitHandlerAvailable,
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      consumedByLiveHostLoop: false
+    },
+    redactedFailureDiagnostic: {
+      fixture: "tests/fixtures/host-policy/phase4-1e/redacted-failure-diagnostic-record.json",
+      classification: phase41ERedactedFailureMetadata.classification,
+      stderrDiagnosticClassification:
+        phase41ERedactedFailureMetadata.stderrDiagnosticClassification,
+      redactionStatus: phase41ERedactedFailureMetadata.redactionStatus,
+      redactionCount: phase41ERedactedFailureMetadata.redactions.length,
+      rawDiagnosticIncluded: false
+    },
+    runtimeAttempt: {
+      fixture: "tests/fixtures/host-policy/phase4-1e/runtime-cleanup-kill-attempt-record.json",
+      classification: "runtime_unavailable",
+      sourceClassification: phase41ERuntimeAttemptMetadata.classification,
+      cleanupRuntimeAttempted:
+        phase41ERuntimeAttemptMetadata.runtimeEffect.cleanupRuntimeAvailable,
+      processKillAttempted: phase41ERuntimeAttemptMetadata.runtimeEffect.processKillAvailable,
+      signalHandlerAttempted:
+        phase41ERuntimeAttemptMetadata.runtimeEffect.signalHandlerAvailable,
+      failClosedExpected: true
+    },
+    terminalStateRules: phase41EFailureAuditMetadata.terminalStateRules,
+    stdoutCommitBoundary: phase41EFailureAuditMetadata.stdoutCommitBoundary,
+    nonzeroExitMappingRules: phase41EFailureAuditMetadata.nonzeroExitMappingRules,
+    cleanupKillSemantics: {
+      cleanupRequirement: phase41EFailureAuditMetadata.cleanupRequirement,
+      killInterruptTimeoutSemantics: phase41EFailureAuditMetadata.killInterruptTimeoutSemantics,
+      cleanupRuntimeAvailable:
+        phase41EFailureAuditMetadata.cleanupRequirement.cleanupRuntimeAvailable,
+      processKillAvailable: phase41EFailureAuditMetadata.cleanupRequirement.processKillAvailable,
+      killRuntimeAvailable:
+        phase41EFailureAuditMetadata.killInterruptTimeoutSemantics.killRuntimeAvailable,
+      interruptRuntimeAvailable:
+        phase41EFailureAuditMetadata.killInterruptTimeoutSemantics.interruptRuntimeAvailable,
+      timeoutRuntimeAvailable:
+        phase41EFailureAuditMetadata.killInterruptTimeoutSemantics.timeoutRuntimeAvailable,
+      processControlAvailable:
+        phase41EFailureAuditMetadata.killInterruptTimeoutSemantics.processControlAvailable
+    },
+    transcriptPersistenceReplayImpact:
+      phase41EFailureAuditMetadata.transcriptPersistenceReplayImpact,
+    runtimeEffect: phase41EFailureAuditMetadata.runtimeEffect,
+    classifications: [
+      "static_contract_only",
+      "clean_failure",
+      "redacted_failure",
+      "unredactable_failure",
+      "terminal_completed",
+      "terminal_failed",
+      "terminal_aborted",
+      "terminal_rejected",
+      "nonzero_exit_expected",
+      "nonzero_exit_unexpected",
+      "cleanup_required",
+      "cleanup_not_available",
+      "runtime_unavailable",
+      "malformed",
+      "unsupported_major"
+    ],
+    failClosedClassifications: [
+      "unredactable_failure",
+      "nonzero_exit_unexpected",
+      "cleanup_not_available",
+      "runtime_unavailable",
+      "malformed",
+      "unsupported_major"
+    ],
+    reviewOnlyDisplayBehavior: {
+      failureAuditRecordsAreStaticArtifactsOnly: true,
+      currentContractsDoNotEnableRuntime: true,
+      futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+      preserveDevinReviewForMajorRuntimeReadinessCheckpoint: true,
+      reportRunsChecks: false,
+      writesFiles: false,
+      readsFiles: false,
+      printsStdoutFromCli: false,
+      consumedByLiveHostLoop: false
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      failureAuditCommandAdded: false,
+      emitFailureAuditCommandAdded: false,
+      cleanupRuntimeCommandAdded: false,
+      killRuntimeCommandAdded: false,
+      exitRuntimeCommandAdded: false,
+      signalHandlerCommandAdded: false,
+      serveRuntimeCommandAdded: false,
+      stdioRuntimeCommandAdded: false,
+      fileWriterAdded: false,
+      stdoutPrinterAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    apiSurface: {
+      typescriptCoreStaticReviewHelpersAdded: true,
+      typescriptCoreRuntimeApiAdded: false,
+      rustRuntimeHelperAdded: false,
+      rustStdioOwnerAdded: false,
+      failureAuditRuntimeAdded: false,
+      cleanupRuntimeAdded: false,
+      processKillAdded: false,
+      processControlAdded: false,
+      signalHandlerAdded: false,
+      exitHandlerAdded: false,
+      timeoutRuntimeAdded: false,
+      approvalEvaluatorAdded: false,
+      secretsUsed: false
+    },
+    fixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/redacted-failure-diagnostic-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/unredactable-failure-diagnostic-fail-closed-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/expected-nonzero-exit-mapping-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/unexpected-nonzero-exit-mapping-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/terminal-completed-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/terminal-failed-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/terminal-aborted-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/terminal-rejected-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/cleanup-required-policy-only-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/cleanup-not-available-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/runtime-cleanup-kill-attempt-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/malformed-failure-audit-record.json"
+      ),
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1e/unsupported-major-failure-audit-record.json"
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1e-failure-audit-kill-semantics.md",
+        "Defines Phase 4.1E failure-audit, terminal-state, kill/exit, and cleanup contracts as static review metadata only."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1d-transcript-replay-contracts.md",
+        "Links Phase 4.1E after static transcript replay contracts while preserving no replay runtime."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4.1 roadmap to identify Phase 4.1E as static failure-audit kill semantics."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1E leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.1E while preserving no live failure-audit runtime."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents failure-audit contracts as static preconditions, not enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records Phase 4.1E TypeScript static helper contracts without process control."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1E scope and unchanged non-executing CLI surface."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1E adds no failure-audit, cleanup, kill, or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents Phase 4.1E static TypeScript review helpers as non-runtime APIs."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 4.1E does not add Rust-host process control or cleanup runtime."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase4-1e-failure-audit-kill-semantics.test.mjs",
+        "Pins Phase 4.1E fixtures, docs, report inventory, source guards, and rejected failure-audit/cleanup/runtime commands."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1E report metadata and safety posture."
+      ),
+      await localInventoryEntry(
+        "packages/core/src/index.mjs",
+        "Contains static failure-audit review helpers without cleanup, kill, or runtime behavior."
+      ),
+      await localInventoryEntry(
+        "packages/core/src/index.d.ts",
+        "Declares Phase 4.1E static helper APIs and review-only metadata types."
+      )
+    ],
+    invariantProbes: [
+      "missing --dry-run",
+      "unknown emit-session-events arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "policy-metadata",
+      "host-policy-export",
+      "serve-runtime",
+      "stdio-runtime",
+      "failure-audit",
+      "failure-audit-record",
+      "emit-failure-audit",
+      "failure-audit-runtime",
+      "cleanup-runtime",
+      "run-cleanup",
+      "kill-runtime",
+      "kill-process",
+      "terminate-process",
+      "process-kill",
+      "exit-runtime",
+      "exit-handler",
+      "signal-handler",
+      "handle-signal",
+      "approval-evaluator",
+      "evaluate-approval"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      failureAuditContractOnly: true,
+      reviewOnly: true,
+      noLiveRuntime: true,
+      noFailureAuditRuntime: true,
+      noCleanupRuntime: true,
+      noProcessKill: true,
+      noProcessControl: true,
+      noSignalHandler: true,
+      noTimeoutRuntime: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noReplayRuntime: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noHostPolicyEnforcement: true,
+      noApprovalEvaluator: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -3780,6 +4110,7 @@ const report = {
     transportHarnessContracts: true,
     framingRedactionContracts: true,
     transcriptReplayContracts: true,
+    failureAuditContracts: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

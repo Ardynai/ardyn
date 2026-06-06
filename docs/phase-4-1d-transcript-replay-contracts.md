@@ -120,6 +120,7 @@ Phase 4.1D builds on:
 - `docs/phase-4-1a-host-policy-approval-records.md`
 - `docs/phase-4-1b-transport-harness-contracts.md`
 - `docs/phase-4-1c-framing-redaction-contracts.md`
+- `docs/phase-4-1e-failure-audit-kill-semantics.md`
 - `docs/phase-4-stdio-dry-run-event-emission.md`
 - `docs/session-events-stdio-contract.md`
 - `docs/host-policy-preconditions.md`

@@ -361,9 +361,9 @@ test("Phase 4.1B status report inventories transport harness contracts without r
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1D",
-    name: "Transcript replay contracts",
-    executionPosture: "transcript-replay-contract-only non-executing"
+    id: "4.1E",
+    name: "Failure audit kill semantics",
+    executionPosture: "failure-audit-kill-semantics-contract-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -494,8 +494,7 @@ test("Phase 4.1B source guards do not add runtime or command surfaces", async ()
       /phase-4-1b/i,
       /stdin-reader/i,
       /stdout-writer/i,
-      /stderr-writer/i,
-      /failure-audit/i
+      /stderr-writer/i
     ]) {
       assert.doesNotMatch(source, forbiddenPattern, `${label} source should avoid ${forbiddenPattern}`);
     }

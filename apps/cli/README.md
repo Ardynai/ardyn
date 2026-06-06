@@ -2,14 +2,17 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.1D exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 4.1E exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, and Phase
-4.1/4.1A/4.1B/4.1C:
+4.1/4.1A/4.1B/4.1C/4.1D:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.1D adds transcript persistence/replay contract
+`emit-session-events`. Phase 4.1E adds failure-audit, terminal-state,
+cleanup/kill, and nonzero-exit mapping contract
 documentation, static TypeScript review helpers, and deterministic metadata
-only; it does not add a transcript persistence CLI command, replay CLI command,
+only; it does not add a failure-audit CLI command, cleanup CLI command, kill
+CLI command, process-control CLI command, signal-handler CLI command,
+exit-handler CLI command, transcript persistence CLI command, replay CLI command,
 framing/redaction CLI command, transport harness CLI command, approval-record
 CLI command, operator-consent CLI command, `approve-runtime`, `grant-runtime`,
 `enable-runtime`, proposal CLI command, readiness CLI command, live stdio
@@ -17,7 +20,7 @@ reader, stdout writer, stderr writer, failure-audit command, listener, server,
 subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call,
 plugin execution path, Content Fabric runtime path, runtime approval grant,
 live runtime implementation, or agent loop. See
-`docs/phase-4-1d-transcript-replay-contracts.md`.
+`docs/phase-4-1e-failure-audit-kill-semantics.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -184,3 +187,18 @@ no replay CLI command, no `replay-session-transcript`, no
 process stdio ownership, no host-policy enforcement path, no approval
 evaluator, and no runtime approval grant. See
 `docs/phase-4-1d-transcript-replay-contracts.md`.
+
+Phase 4.1E adds static failure-audit, terminal-state, cleanup/kill, and
+nonzero-exit mapping contracts and still leaves CLI behavior unchanged. It
+adds no failure-audit CLI command, no cleanup CLI command, no kill CLI command,
+no process-control CLI command, no signal-handler CLI command, no exit-handler
+CLI command, no `failure-audit`, no `failure-audit-record`, no
+`emit-failure-audit`, no `failure-audit-runtime`, no `cleanup-runtime`, no
+`run-cleanup`, no `kill-runtime`, no `kill-process`, no
+`terminate-process`, no `process-kill`, no `exit-runtime`, no
+`exit-handler`, no `signal-handler`, no `handle-signal`, no
+`approval-evaluator`, no `evaluate-approval`, no `serve-runtime`, no
+`stdio-runtime`, no file writer, no stdout printer, no live stdio reader, no
+process stdio ownership, no host-policy enforcement path, no approval
+evaluator, and no runtime approval grant. See
+`docs/phase-4-1e-failure-audit-kill-semantics.md`.

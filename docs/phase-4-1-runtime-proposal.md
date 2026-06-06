@@ -250,7 +250,7 @@ Proposed future phases:
 | 4.1B | Static Rust-host transport harness contracts and fail-closed contract fixtures. See `docs/phase-4-1b-transport-harness-contracts.md`. | false |
 | 4.1C | Static stdout JSONL whole-line framing and stderr redaction contracts with fail-closed fixtures. See `docs/phase-4-1c-framing-redaction-contracts.md`. | false |
 | 4.1D | Static transcript persistence and replay contracts with compatibility, digest, sequence, and fail-closed fixtures. See `docs/phase-4-1d-transcript-replay-contracts.md`. | false |
-| 4.1E | Failure audit records, kill handling, cleanup, terminal-state checks, and nonzero exit mapping. | false |
+| 4.1E | Static failure-audit records, kill/cleanup policy, terminal-state checks, and nonzero exit mapping. See `docs/phase-4-1e-failure-audit-kill-semantics.md`. | false |
 | 4.1F | Major runtime-readiness checkpoint with full Codex validation and preserved Devin review before enabling any live runtime surface. | false |
 
 Each future phase requires separate approval, implementation, tests, and review
@@ -259,9 +259,10 @@ item as static approval-record review metadata only. Phase 4.1B implements the
 second roadmap item as static transport harness contract metadata only. Phase
 4.1C implements the third roadmap item as static framing/redaction contract
 metadata only. Phase 4.1D implements the fourth roadmap item as static
-transcript persistence/replay contract metadata only. This Phase 4.1 proposal,
-Phase 4.1A, Phase 4.1B, Phase 4.1C, and Phase 4.1D implement none of the live
-runtime surfaces.
+transcript persistence/replay contract metadata only. Phase 4.1E implements the
+fifth roadmap item as static failure-audit kill-semantics contract metadata
+only. This Phase 4.1 proposal, Phase 4.1A, Phase 4.1B, Phase 4.1C, Phase
+4.1D, and Phase 4.1E implement none of the live runtime surfaces.
 
 ## Still Forbidden
 

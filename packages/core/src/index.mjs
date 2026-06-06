@@ -40,6 +40,25 @@ export const TRANSCRIPT_REPLAY_SEQUENCE_GAP = "sequence_gap";
 export const TRANSCRIPT_REPLAY_DUPLICATE_SEQUENCE = "duplicate_sequence";
 export const TRANSCRIPT_REPLAY_OUT_OF_ORDER_SEQUENCE = "out_of_order_sequence";
 export const TRANSCRIPT_REPLAY_RUNTIME_UNAVAILABLE = "replay_runtime_unavailable";
+export const ARDYN_FAILURE_AUDIT_CONTRACT_PHASE =
+  "phase-4.1e-failure-audit-kill-semantics";
+export const FAILURE_AUDIT_RECORD_SCHEMA = "ardyn.failure-audit-record";
+export const FAILURE_AUDIT_CONTRACT_VERSION = "0.1.0";
+export const FAILURE_AUDIT_STATIC_CONTRACT_ONLY = "static_contract_only";
+export const FAILURE_AUDIT_CLEAN_FAILURE = "clean_failure";
+export const FAILURE_AUDIT_REDACTED_FAILURE = "redacted_failure";
+export const FAILURE_AUDIT_UNREDACTABLE_FAILURE = "unredactable_failure";
+export const FAILURE_AUDIT_TERMINAL_COMPLETED = "terminal_completed";
+export const FAILURE_AUDIT_TERMINAL_FAILED = "terminal_failed";
+export const FAILURE_AUDIT_TERMINAL_ABORTED = "terminal_aborted";
+export const FAILURE_AUDIT_TERMINAL_REJECTED = "terminal_rejected";
+export const FAILURE_AUDIT_NONZERO_EXIT_EXPECTED = "nonzero_exit_expected";
+export const FAILURE_AUDIT_NONZERO_EXIT_UNEXPECTED = "nonzero_exit_unexpected";
+export const FAILURE_AUDIT_CLEANUP_REQUIRED = "cleanup_required";
+export const FAILURE_AUDIT_CLEANUP_NOT_AVAILABLE = "cleanup_not_available";
+export const FAILURE_AUDIT_RUNTIME_UNAVAILABLE = "runtime_unavailable";
+export const FAILURE_AUDIT_MALFORMED = "malformed";
+export const FAILURE_AUDIT_UNSUPPORTED_MAJOR = "unsupported_major";
 export const APPROVAL_REVIEW_ARTIFACT_SCHEMA = "ardyn.approval-review-artifact";
 export const APPROVAL_REVIEW_ARTIFACT_VERSION = "0.1.0";
 export const SCHEMA_MIGRATION_METADATA_SCHEMA = "ardyn.schema-migration-metadata";
@@ -4450,6 +4469,608 @@ export function formatTranscriptReplayContractJsonForReview(persistenceContract)
 
 export function formatTranscriptReplayCompatibilityRecordJsonForReview(transcript, options = {}) {
   return `${JSON.stringify(createTranscriptReplayCompatibilityRecordForReview(transcript, options), null, 2)}\n`;
+}
+
+const FAILURE_AUDIT_CLASSIFICATIONS = Object.freeze([
+  FAILURE_AUDIT_STATIC_CONTRACT_ONLY,
+  FAILURE_AUDIT_CLEAN_FAILURE,
+  FAILURE_AUDIT_REDACTED_FAILURE,
+  FAILURE_AUDIT_UNREDACTABLE_FAILURE,
+  FAILURE_AUDIT_TERMINAL_COMPLETED,
+  FAILURE_AUDIT_TERMINAL_FAILED,
+  FAILURE_AUDIT_TERMINAL_ABORTED,
+  FAILURE_AUDIT_TERMINAL_REJECTED,
+  FAILURE_AUDIT_NONZERO_EXIT_EXPECTED,
+  FAILURE_AUDIT_NONZERO_EXIT_UNEXPECTED,
+  FAILURE_AUDIT_CLEANUP_REQUIRED,
+  FAILURE_AUDIT_CLEANUP_NOT_AVAILABLE,
+  FAILURE_AUDIT_RUNTIME_UNAVAILABLE,
+  FAILURE_AUDIT_MALFORMED,
+  FAILURE_AUDIT_UNSUPPORTED_MAJOR
+]);
+const FAILURE_AUDIT_CLASSIFICATION_SET = new Set(FAILURE_AUDIT_CLASSIFICATIONS);
+const FAILURE_AUDIT_FAIL_CLOSED_CLASSIFICATIONS = new Set([
+  FAILURE_AUDIT_UNREDACTABLE_FAILURE,
+  FAILURE_AUDIT_NONZERO_EXIT_UNEXPECTED,
+  FAILURE_AUDIT_CLEANUP_NOT_AVAILABLE,
+  FAILURE_AUDIT_RUNTIME_UNAVAILABLE,
+  FAILURE_AUDIT_MALFORMED,
+  FAILURE_AUDIT_UNSUPPORTED_MAJOR
+]);
+const STATIC_FAILURE_AUDIT_CREATED_AT = "1970-01-01T00:00:00.000Z";
+
+function failureAuditRuntimeAvailability() {
+  return {
+    currentContractEnablesRuntime: false,
+    runtimeImplementationAvailable: false,
+    runtimeCommandAvailable: false,
+    failureAuditCommandAvailable: false,
+    failureAuditRuntimeAvailable: false,
+    cleanupRuntimeAvailable: false,
+    processKillAvailable: false,
+    processControlAvailable: false,
+    signalHandlerAvailable: false,
+    signalHandlingRuntimeAvailable: false,
+    exitHandlerAvailable: false,
+    exitMappingRuntimeAvailable: false,
+    timeoutRuntimeAvailable: false,
+    processStdioOwnershipAvailable: false,
+    stdinReaderAvailable: false,
+    stdoutWriterAvailable: false,
+    stderrWriterAvailable: false,
+    transcriptPersistenceRuntimeAvailable: false,
+    transcriptReplayRuntimeAvailable: false,
+    approvalEvaluatorAvailable: false,
+    listenerAvailable: false,
+    serverAvailable: false,
+    subprocessSpawningAvailable: false,
+    writesFiles: false,
+    readsFiles: false,
+    runsRuntime: false,
+    consumedByLiveHostLoop: false,
+    grantsRuntimeApproval: false
+  };
+}
+
+function failureAuditInvariantSummary() {
+  return [...HOST_POLICY_REVIEW_REQUIRED_INVARIANTS].sort(compareAscii);
+}
+
+function failureAuditRecordAudit(createdBy) {
+  return {
+    createdAt: STATIC_FAILURE_AUDIT_CREATED_AT,
+    createdBy,
+    reviewer: "Codex",
+    devinReviewRequiredNow: false,
+    preserveDevinReviewFor: "major-runtime-readiness-checkpoint",
+    metadataOnly: true,
+    writesFiles: false,
+    runsRuntime: false
+  };
+}
+
+function failureAuditTerminalState(classification) {
+  if (classification === FAILURE_AUDIT_TERMINAL_COMPLETED) {
+    return "completed";
+  }
+
+  if (
+    classification === FAILURE_AUDIT_TERMINAL_ABORTED ||
+    classification === FAILURE_AUDIT_CLEANUP_REQUIRED ||
+    classification === FAILURE_AUDIT_CLEANUP_NOT_AVAILABLE
+  ) {
+    return "aborted";
+  }
+
+  if (classification === FAILURE_AUDIT_TERMINAL_REJECTED) {
+    return "rejected";
+  }
+
+  if (classification === FAILURE_AUDIT_STATIC_CONTRACT_ONLY) {
+    return "not-run";
+  }
+
+  return "failed";
+}
+
+function failureAuditExitCodeClassification(classification) {
+  if (classification === FAILURE_AUDIT_TERMINAL_COMPLETED) {
+    return "zero_exit";
+  }
+
+  if (
+    classification === FAILURE_AUDIT_NONZERO_EXIT_UNEXPECTED ||
+    classification === FAILURE_AUDIT_UNREDACTABLE_FAILURE ||
+    classification === FAILURE_AUDIT_CLEANUP_NOT_AVAILABLE
+  ) {
+    return FAILURE_AUDIT_NONZERO_EXIT_UNEXPECTED;
+  }
+
+  if (classification === FAILURE_AUDIT_STATIC_CONTRACT_ONLY) {
+    return "not-applicable";
+  }
+
+  return FAILURE_AUDIT_NONZERO_EXIT_EXPECTED;
+}
+
+function failureAuditFailureCategory(classification) {
+  if (classification === FAILURE_AUDIT_TERMINAL_COMPLETED) {
+    return "terminal-success";
+  }
+
+  if (
+    classification === FAILURE_AUDIT_TERMINAL_ABORTED ||
+    classification === FAILURE_AUDIT_TERMINAL_REJECTED
+  ) {
+    return "terminal-state";
+  }
+
+  if (
+    classification === FAILURE_AUDIT_CLEANUP_REQUIRED ||
+    classification === FAILURE_AUDIT_CLEANUP_NOT_AVAILABLE
+  ) {
+    return "cleanup-policy";
+  }
+
+  if (
+    classification === FAILURE_AUDIT_NONZERO_EXIT_EXPECTED ||
+    classification === FAILURE_AUDIT_NONZERO_EXIT_UNEXPECTED
+  ) {
+    return "exit-code";
+  }
+
+  if (
+    classification === FAILURE_AUDIT_UNREDACTABLE_FAILURE ||
+    classification === FAILURE_AUDIT_REDACTED_FAILURE ||
+    classification === FAILURE_AUDIT_CLEAN_FAILURE
+  ) {
+    return "stderr-diagnostic";
+  }
+
+  if (classification === FAILURE_AUDIT_STATIC_CONTRACT_ONLY) {
+    return "contract-definition";
+  }
+
+  return "invalid-record";
+}
+
+function failureAuditDiagnostic(classification, diagnostic) {
+  if (diagnostic) {
+    return diagnostic;
+  }
+
+  if (classification === FAILURE_AUDIT_REDACTED_FAILURE) {
+    return {
+      code: "failure.audit.redacted",
+      message: "Runtime failed with bearer token sk-live-redacted-example in diagnostic."
+    };
+  }
+
+  if (classification === FAILURE_AUDIT_UNREDACTABLE_FAILURE) {
+    return {
+      code: "failure.audit.unredactable",
+      message: "Runtime failed before redaction\nraw diagnostic continued"
+    };
+  }
+
+  return {
+    code: "failure.audit.static",
+    message: "Static failure audit contract fixture."
+  };
+}
+
+function failureAuditStderrDiagnosticClassification(classification, redactionReview) {
+  if (classification === FAILURE_AUDIT_UNREDACTABLE_FAILURE) {
+    return FAILURE_AUDIT_UNREDACTABLE_FAILURE;
+  }
+
+  if (
+    redactionReview.classification === STDERR_REDACTION_SAFE &&
+    Array.isArray(redactionReview.redactions) &&
+    redactionReview.redactions.length > 0
+  ) {
+    return FAILURE_AUDIT_REDACTED_FAILURE;
+  }
+
+  if (redactionReview.classification !== STDERR_REDACTION_SAFE) {
+    return FAILURE_AUDIT_UNREDACTABLE_FAILURE;
+  }
+
+  return FAILURE_AUDIT_CLEAN_FAILURE;
+}
+
+function failureAuditCleanupRequirement(classification, fields = {}) {
+  const cleanupRequired =
+    fields.required ?? classification === FAILURE_AUDIT_CLEANUP_REQUIRED;
+
+  return {
+    required: cleanupRequired,
+    reason:
+      fields.reason ??
+      (cleanupRequired
+        ? "future runtime cleanup would be required by policy"
+        : "no cleanup required for this static fixture"),
+    policyOnly: true,
+    cleanupRuntimeAvailable: false,
+    processKillAvailable: false,
+    processControlAvailable: false,
+    signalHandlerAvailable: false,
+    signalHandlingRuntimeAvailable: false,
+    exitHandlerAvailable: false,
+    timeoutRuntimeAvailable: false
+  };
+}
+
+function failureAuditKillInterruptTimeoutSemantics(fields = {}) {
+  return {
+    policyOnly: true,
+    killRuntimeAvailable: false,
+    interruptRuntimeAvailable: false,
+    timeoutRuntimeAvailable: false,
+    signalHandlingRuntimeAvailable: false,
+    processControlAvailable: false,
+    killMaySynthesizeTerminalEvent: false,
+    partialOutputMayBecomeTranscriptEvidence: false,
+    failClosedOnUnsafeCleanup: true,
+    expectedPolicy:
+      fields.expectedPolicy ??
+      "future Rust-host runtime must fail closed on kill, interrupt, timeout, or cleanup uncertainty"
+  };
+}
+
+function failureAuditTranscriptImpact() {
+  return {
+    policyOnly: true,
+    transcriptPersistenceRuntimeAvailable: false,
+    transcriptReplayRuntimeAvailable: false,
+    partialTranscriptMayBePersisted: false,
+    replayPermitted: false,
+    normalizedTranscriptRequiredBeforeReplay: true
+  };
+}
+
+function failureAuditTerminalStateRules() {
+  return {
+    deterministic: true,
+    terminalCompletedRequiresSessionCompletedLast: true,
+    terminalFailedMayUseSessionError: true,
+    terminalAbortedRequiresFutureHostPolicyEvidence: true,
+    terminalRejectedRequiresHostPolicyDenial: true,
+    missingTerminalEventFailsClosed: true,
+    terminalEventNotLastFailsClosed: true,
+    duplicateTerminalEventFailsClosed: true,
+    synthesizedTerminalEventsAllowed: false,
+    partialOutputMayBecomeTranscriptEvidence: false
+  };
+}
+
+function failureAuditStdoutCommitBoundary(classification, terminalState, options = {}) {
+  return {
+    policyOnly: true,
+    committedEventCount: options.committedEventCount ?? 0,
+    committedSequenceRange: options.committedSequenceRange ?? { first: null, last: null },
+    terminalEventObserved:
+      options.terminalEventObserved ?? ["completed", "failed", "aborted", "rejected"].includes(terminalState),
+    stdoutEndedWithFinalLf:
+      options.stdoutEndedWithFinalLf ?? classification === FAILURE_AUDIT_TERMINAL_COMPLETED,
+    partialFinalLineObserved: options.partialFinalLineObserved ?? false,
+    partialOutputMayBecomeTranscriptEvidence: false,
+    synthesizedTerminalEventAllowed: false
+  };
+}
+
+function failureAuditNonzeroExitMappingRules() {
+  return {
+    deterministic: true,
+    osSignalBehaviorEvaluated: false,
+    exitZeroRequiresTerminalCompleted: true,
+    sessionErrorMapsToNonzero: true,
+    missingTerminalEventMapsToNonzero: true,
+    redactionFailureMapsToNonzero: true,
+    cleanupFailureMapsToNonzero: true,
+    unexpectedNonzeroFailsClosed: true
+  };
+}
+
+function failureAuditFailureReasons(classification, reasons = []) {
+  if (classification === FAILURE_AUDIT_STATIC_CONTRACT_ONLY) {
+    return [...reasons, "failure-audit contract metadata is review-only in Phase 4.1E"];
+  }
+
+  if (classification === FAILURE_AUDIT_UNREDACTABLE_FAILURE) {
+    return [...reasons, "stderr diagnostic cannot be safely redacted and must fail closed"];
+  }
+
+  if (classification === FAILURE_AUDIT_NONZERO_EXIT_UNEXPECTED) {
+    return [...reasons, "nonzero exit code was not expected by the static mapping"];
+  }
+
+  if (classification === FAILURE_AUDIT_CLEANUP_NOT_AVAILABLE) {
+    return [...reasons, "cleanup is required but no cleanup runtime exists in Phase 4.1E"];
+  }
+
+  if (classification === FAILURE_AUDIT_RUNTIME_UNAVAILABLE) {
+    return [...reasons, "record attempted to enable runtime cleanup, kill, or failure audit behavior"];
+  }
+
+  if (classification === FAILURE_AUDIT_MALFORMED) {
+    return [...reasons, "failure-audit record is malformed"];
+  }
+
+  if (classification === FAILURE_AUDIT_UNSUPPORTED_MAJOR) {
+    return [...reasons, "failure-audit record major version is unsupported"];
+  }
+
+  return [...reasons];
+}
+
+export function createFailureAuditRecordForReview(options = {}) {
+  const classification = options.classification ?? FAILURE_AUDIT_STATIC_CONTRACT_ONLY;
+  const diagnostic = failureAuditDiagnostic(classification, options.diagnostic);
+  const redactionReview = redactStderrDiagnosticForReview(diagnostic);
+  const stderrDiagnosticClassification =
+    options.stderrDiagnosticClassification ??
+    failureAuditStderrDiagnosticClassification(classification, redactionReview);
+  const exitCodeClassification =
+    options.exitCodeClassification ?? failureAuditExitCodeClassification(classification);
+  const terminalState = options.terminalState ?? failureAuditTerminalState(classification);
+
+  return {
+    schema: FAILURE_AUDIT_RECORD_SCHEMA,
+    schemaVersion: options.schemaVersion ?? FAILURE_AUDIT_CONTRACT_VERSION,
+    recordKind: "failure-audit-record",
+    recordPhase: ARDYN_FAILURE_AUDIT_CONTRACT_PHASE,
+    reviewedPhase: "4.1E",
+    sourcePhase: options.sourcePhase ?? ARDYN_TRANSCRIPT_REPLAY_CONTRACT_PHASE,
+    classification,
+    failureCategory: options.failureCategory ?? failureAuditFailureCategory(classification),
+    terminalState,
+    exitCodeClassification,
+    exitCodeMapping: {
+      code: options.exitCode ?? (exitCodeClassification === "zero_exit" ? 0 : 1),
+      classification: exitCodeClassification,
+      deterministic: true,
+      policyOnly: true
+    },
+    terminalStateRules: failureAuditTerminalStateRules(),
+    stdoutCommitBoundary: failureAuditStdoutCommitBoundary(
+      classification,
+      terminalState,
+      options.stdoutCommitBoundary
+    ),
+    nonzeroExitMappingRules: failureAuditNonzeroExitMappingRules(),
+    stderrDiagnosticClassification,
+    stderrDiagnostic: {
+      code: diagnostic.code,
+      message: redactionReview.diagnostic.message
+    },
+    redactionStatus: redactionReview.classification,
+    redactions: redactionReview.redactions,
+    cleanupRequirement: failureAuditCleanupRequirement(classification, options.cleanupRequirement),
+    killInterruptTimeoutSemantics: failureAuditKillInterruptTimeoutSemantics(
+      options.killInterruptTimeoutSemantics
+    ),
+    transcriptPersistenceReplayImpact: failureAuditTranscriptImpact(),
+    runtimeAvailabilityStatus: FAILURE_AUDIT_RUNTIME_UNAVAILABLE,
+    runtimeEffect: failureAuditRuntimeAvailability(),
+    nonExecutionInvariantSummary: failureAuditInvariantSummary(),
+    failClosed: FAILURE_AUDIT_FAIL_CLOSED_CLASSIFICATIONS.has(classification),
+    failureReasons: failureAuditFailureReasons(classification, options.failureReasons),
+    recordDigest: eventDigestRecord({
+      classification,
+      terminalState,
+      exitCodeClassification,
+      stderrDiagnosticClassification,
+      redactionStatus: redactionReview.classification
+    }),
+    audit: failureAuditRecordAudit("codex-phase-4.1e")
+  };
+}
+
+function failureAuditClassificationRecord(classification, fields = {}) {
+  const failClosed = FAILURE_AUDIT_FAIL_CLOSED_CLASSIFICATIONS.has(classification);
+
+  return {
+    schema: "ardyn.failure-audit-classification",
+    schemaVersion: FAILURE_AUDIT_CONTRACT_VERSION,
+    phase: ARDYN_FAILURE_AUDIT_CONTRACT_PHASE,
+    classification,
+    valid: fields.valid ?? !failClosed,
+    failClosed,
+    failureAuditRuntimeAvailable: false,
+    cleanupRuntimeAvailable: false,
+    processKillAvailable: false,
+    processControlAvailable: false,
+    runtimeCommandAvailable: false,
+    errors: fields.errors ?? [],
+    failureReasons: failureAuditFailureReasons(classification, fields.failureReasons),
+    reviewOnly: true,
+    runtimeEffect: failureAuditRuntimeAvailability()
+  };
+}
+
+function runtimeEffectAttemptsFailureAuditRuntime(runtimeEffect) {
+  if (!isPlainObjectRecord(runtimeEffect)) {
+    return false;
+  }
+
+  return [
+    "currentContractEnablesRuntime",
+    "runtimeImplementationAvailable",
+    "runtimeCommandAvailable",
+    "failureAuditCommandAvailable",
+    "failureAuditRuntimeAvailable",
+    "cleanupRuntimeAvailable",
+    "processKillAvailable",
+    "processControlAvailable",
+    "signalHandlerAvailable",
+    "signalHandlingRuntimeAvailable",
+    "exitHandlerAvailable",
+    "exitMappingRuntimeAvailable",
+    "timeoutRuntimeAvailable",
+    "processStdioOwnershipAvailable",
+    "stdinReaderAvailable",
+    "stdoutWriterAvailable",
+    "stderrWriterAvailable",
+    "transcriptPersistenceRuntimeAvailable",
+    "transcriptReplayRuntimeAvailable",
+    "approvalEvaluatorAvailable",
+    "listenerAvailable",
+    "serverAvailable",
+    "subprocessSpawningAvailable",
+    "writesFiles",
+    "readsFiles",
+    "runsRuntime",
+    "consumedByLiveHostLoop",
+    "grantsRuntimeApproval"
+  ].some((field) => runtimeEffect[field] === true);
+}
+
+function cleanupOrKillAttemptsRuntime(record) {
+  const cleanup = record?.cleanupRequirement;
+  const kill = record?.killInterruptTimeoutSemantics;
+
+  return [
+    cleanup?.cleanupRuntimeAvailable,
+    cleanup?.processKillAvailable,
+    cleanup?.processControlAvailable,
+    cleanup?.signalHandlerAvailable,
+    cleanup?.signalHandlingRuntimeAvailable,
+    cleanup?.exitHandlerAvailable,
+    cleanup?.timeoutRuntimeAvailable,
+    kill?.killRuntimeAvailable,
+    kill?.interruptRuntimeAvailable,
+    kill?.timeoutRuntimeAvailable,
+    kill?.signalHandlingRuntimeAvailable,
+    kill?.processControlAvailable,
+    kill?.killMaySynthesizeTerminalEvent,
+    kill?.partialOutputMayBecomeTranscriptEvidence
+  ].some((value) => value === true);
+}
+
+function failureAuditRecordMalformedErrors(record) {
+  const errors = [];
+
+  if (!isPlainObjectRecord(record)) {
+    return ["record must be an object"];
+  }
+
+  if (record.schema !== FAILURE_AUDIT_RECORD_SCHEMA) {
+    errors.push(`schema must be ${FAILURE_AUDIT_RECORD_SCHEMA}`);
+  }
+
+  if (record.recordKind !== "failure-audit-record") {
+    errors.push("recordKind must be failure-audit-record");
+  }
+
+  validateSemverMajor(errors, record.schemaVersion, "schemaVersion");
+
+  if (!FAILURE_AUDIT_CLASSIFICATION_SET.has(record.classification)) {
+    errors.push("classification must be supported");
+  }
+
+  for (const [field, value] of [
+    ["sourcePhase", record.sourcePhase],
+    ["failureCategory", record.failureCategory],
+    ["terminalState", record.terminalState],
+    ["exitCodeClassification", record.exitCodeClassification],
+    ["stderrDiagnosticClassification", record.stderrDiagnosticClassification],
+    ["redactionStatus", record.redactionStatus],
+    ["runtimeAvailabilityStatus", record.runtimeAvailabilityStatus]
+  ]) {
+    if (typeof value !== "string" || value.length === 0) {
+      errors.push(`${field} must be a non-empty string`);
+    }
+  }
+
+  if (
+    !isPlainObjectRecord(record.exitCodeMapping) ||
+    !Number.isInteger(record.exitCodeMapping.code) ||
+    record.exitCodeMapping.deterministic !== true ||
+    record.exitCodeMapping.policyOnly !== true
+  ) {
+    errors.push("exitCodeMapping must be deterministic policy-only metadata");
+  }
+
+  if (!isPlainObjectRecord(record.stderrDiagnostic)) {
+    errors.push("stderrDiagnostic must be an object");
+  }
+
+  if (!isPlainObjectRecord(record.cleanupRequirement)) {
+    errors.push("cleanupRequirement must be an object");
+  }
+
+  if (!isPlainObjectRecord(record.killInterruptTimeoutSemantics)) {
+    errors.push("killInterruptTimeoutSemantics must be an object");
+  }
+
+  if (!isPlainObjectRecord(record.transcriptPersistenceReplayImpact)) {
+    errors.push("transcriptPersistenceReplayImpact must be an object");
+  }
+
+  if (!isPlainObjectRecord(record.runtimeEffect)) {
+    errors.push("runtimeEffect must be an object");
+  }
+
+  return errors;
+}
+
+export function classifyFailureAuditRecordForReview(record) {
+  const malformedErrors = failureAuditRecordMalformedErrors(record);
+  if (malformedErrors.length > 0) {
+    return failureAuditClassificationRecord(FAILURE_AUDIT_MALFORMED, {
+      valid: false,
+      errors: malformedErrors,
+      failureReasons: malformedErrors
+    });
+  }
+
+  if (semverMajor(record.schemaVersion) !== 0) {
+    return failureAuditClassificationRecord(FAILURE_AUDIT_UNSUPPORTED_MAJOR, {
+      valid: false,
+      failureReasons: ["failure-audit record major version is unsupported"]
+    });
+  }
+
+  if (
+    runtimeEffectAttemptsFailureAuditRuntime(record.runtimeEffect) ||
+    cleanupOrKillAttemptsRuntime(record)
+  ) {
+    return failureAuditClassificationRecord(FAILURE_AUDIT_RUNTIME_UNAVAILABLE, {
+      valid: false,
+      failureReasons: ["record attempted to enable cleanup, kill, process control, or runtime"]
+    });
+  }
+
+  if (
+    record.redactionStatus === STDERR_REDACTION_UNREDACTABLE_FAIL_CLOSED ||
+    record.classification === FAILURE_AUDIT_UNREDACTABLE_FAILURE
+  ) {
+    return failureAuditClassificationRecord(FAILURE_AUDIT_UNREDACTABLE_FAILURE, {
+      valid: false,
+      failureReasons: ["stderr diagnostic cannot be safely redacted"]
+    });
+  }
+
+  if (record.classification === FAILURE_AUDIT_NONZERO_EXIT_UNEXPECTED) {
+    return failureAuditClassificationRecord(FAILURE_AUDIT_NONZERO_EXIT_UNEXPECTED, {
+      valid: false,
+      failureReasons: ["unexpected nonzero exit code must fail closed"]
+    });
+  }
+
+  if (record.classification === FAILURE_AUDIT_CLEANUP_NOT_AVAILABLE) {
+    return failureAuditClassificationRecord(FAILURE_AUDIT_CLEANUP_NOT_AVAILABLE, {
+      valid: false,
+      failureReasons: ["cleanup requirement cannot be satisfied because runtime cleanup is unavailable"]
+    });
+  }
+
+  return failureAuditClassificationRecord(record.classification);
+}
+
+export function formatFailureAuditRecordJsonForReview(options = {}) {
+  return `${JSON.stringify(createFailureAuditRecordForReview(options), null, 2)}\n`;
 }
 
 export function createHostInfo() {
