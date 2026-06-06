@@ -163,9 +163,12 @@ Phase 4.1E builds on:
 - `docs/phase-4-1b-transport-harness-contracts.md`
 - `docs/phase-4-1c-framing-redaction-contracts.md`
 - `docs/phase-4-1d-transcript-replay-contracts.md`
-- `docs/phase-4-1f-runtime-readiness-checkpoint.md`
-- `docs/phase-4-1g-external-review-packet.md`
 - `docs/phase-4-stdio-dry-run-event-emission.md`
 - `docs/session-events-stdio-contract.md`
 - `docs/host-policy-preconditions.md`
 - `docs/architecture.md`
+
+Later static review artifacts that reference Phase 4.1E:
+
+- `docs/phase-4-1f-runtime-readiness-checkpoint.md`
+- `docs/phase-4-1g-external-review-packet.md`
