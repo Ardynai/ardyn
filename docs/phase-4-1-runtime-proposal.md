@@ -252,6 +252,7 @@ Proposed future phases:
 | 4.1D | Static transcript persistence and replay contracts with compatibility, digest, sequence, and fail-closed fixtures. See `docs/phase-4-1d-transcript-replay-contracts.md`. | false |
 | 4.1E | Static failure-audit records, kill/cleanup policy, terminal-state checks, and nonzero exit mapping. See `docs/phase-4-1e-failure-audit-kill-semantics.md`. | false |
 | 4.1F | Static runtime-readiness checkpoint with full Codex validation evidence, readiness matrix, blocker list, and preserved Devin review before enabling any live runtime surface. See `docs/phase-4-1f-runtime-readiness-checkpoint.md`. | false |
+| 4.1G | Static external review packet for Devin/human reviewer questions, evidence mapping, blocked runtime surfaces, and packet-only outcomes. See `docs/phase-4-1g-external-review-packet.md`. | false |
 
 Each future phase requires separate approval, implementation, tests, and review
 before enabling its runtime surface. Phase 4.1A implements the first roadmap
@@ -263,9 +264,11 @@ transcript persistence/replay contract metadata only. Phase 4.1E implements the
 fifth roadmap item as static failure-audit kill-semantics contract metadata
 only. Phase 4.1F implements the sixth roadmap item as a static
 runtime-readiness checkpoint with deterministic fixture/report/doc/test
-metadata only. This Phase 4.1 proposal, Phase 4.1A, Phase 4.1B, Phase 4.1C,
-Phase 4.1D, Phase 4.1E, and Phase 4.1F implement none of the live runtime
-surfaces.
+metadata only. Phase 4.1G implements the seventh roadmap item as a static
+external review packet with deterministic fixture/report/doc/test metadata
+only. This Phase 4.1 proposal, Phase 4.1A, Phase 4.1B, Phase 4.1C, Phase
+4.1D, Phase 4.1E, Phase 4.1F, and Phase 4.1G implement none of the live
+runtime surfaces.
 
 ## Still Forbidden
 

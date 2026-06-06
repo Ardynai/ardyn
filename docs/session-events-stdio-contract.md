@@ -301,6 +301,22 @@ approval grant. `runtime-readiness-checkpoint`, `serve-runtime`,
 `stdio-runtime`, and `replay-session-transcript` remain proposal-only and
 rejected. See `docs/phase-4-1f-runtime-readiness-checkpoint.md`.
 
+Phase 4.1G adds a static external review packet for Devin/human review only.
+It maps Phase 4.0A through Phase 4.1F stdio, approval, transcript,
+failure-audit, and checkpoint evidence, but no live stdio runtime exists and
+no runtime or review-packet command is implemented. Phase 4.1G does not add a
+CLI command, file writer, stdout printer, stdout writer, stderr writer, stdin
+command loop, live stdio reader, runtime owner, transcript replay command,
+failure-audit runtime, cleanup runtime, signal handling runtime, timeout
+runtime, process control, listener, server, subprocess supervisor, adapter
+call, Locus runtime dependency, MCP/OpenClaw call, plugin execution path,
+Content Fabric runtime behavior, secret handling, production signing-key
+usage, WebSocket transport, HTTP transport, host-policy enforcement, approval
+evaluator, or runtime approval grant. `external-review-packet`,
+`review-packet`, `runtime-readiness-review`, `serve-runtime`, `stdio-runtime`,
+and `replay-session-transcript` remain proposal-only and rejected. See
+`docs/phase-4-1g-external-review-packet.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

@@ -348,9 +348,9 @@ test("Phase 4.1C status report inventories framing/redaction contracts without r
   const inventory = report.phase41CFramingRedactionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1F",
-    name: "Runtime readiness checkpoint",
-    executionPosture: "runtime-readiness-checkpoint-only non-executing"
+    id: "4.1G",
+    name: "External review packet",
+    executionPosture: "external-review-packet-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

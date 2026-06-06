@@ -357,9 +357,9 @@ test("Phase 4.1 status report inventories proposal metadata without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1F",
-    name: "Runtime readiness checkpoint",
-    executionPosture: "runtime-readiness-checkpoint-only non-executing"
+    id: "4.1G",
+    name: "External review packet",
+    executionPosture: "external-review-packet-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

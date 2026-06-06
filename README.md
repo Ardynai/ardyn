@@ -8,10 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.1E Scope
+## Phase 3 and Phase 4.1G Scope
 
-This repository is currently in Phase 4.1E failure-audit-kill-semantics
-contract mode. The
+This repository is currently in Phase 4.1G external-review-packet mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -26,8 +25,9 @@ workflows, a final static readiness checklist, a proposal-only runtime
 implementation plan, and static host-policy approval records/operator-consent
 fields plus static Rust-host transport harness contracts plus static stdout
 JSONL framing, stderr redaction, transcript persistence/replay, and
-failure-audit/kill-semantics review helpers before any separately approved live
-runtime work.
+failure-audit/kill-semantics review helpers, a static runtime-readiness
+checkpoint, and an external review packet for Devin/human reviewer handoff
+before any separately approved live runtime work.
 
 Included now:
 
@@ -263,7 +263,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.1F runtime-readiness-checkpoint-only status report command is:
+The Phase 4.1G external-review-packet-only status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -285,7 +285,7 @@ Phase 4.1A host-policy approval-record metadata, Phase 4.1B transport harness
 contract metadata, Phase 4.1C framing/redaction contract metadata, Phase 4.1D
 transcript persistence/replay contract metadata, Phase 4.1E failure-audit
 kill-semantics contract metadata, Phase 4.1F runtime-readiness checkpoint
-metadata, and safety posture.
+metadata, Phase 4.1G external review packet metadata, and safety posture.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -296,6 +296,12 @@ Phase 4.1F is documented in
 runtime-readiness checkpoint only: it cannot grant runtime approval, cannot
 enable `serve-runtime`, `stdio-runtime`, or `replay-session-transcript`, and
 future live runtime work must be a separate approved phase.
+
+Phase 4.1G is documented in
+`docs/phase-4-1g-external-review-packet.md`. It is an external review packet
+only for Devin/human reviewer questions, evidence mapping, blocked runtime
+surfaces, and packet-only outcomes. It cannot grant runtime approval, approve
+runtime implementation, or enable runtime commands.
 
 Example dry-run check:
 

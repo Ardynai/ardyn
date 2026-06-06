@@ -19,6 +19,12 @@ runtime-readiness review. This checkpoint records the Codex validation bundle
 and preserves the external review for the major runtime-readiness decision
 before live runtime can be implemented or enabled.
 
+Phase 4.1G follows this checkpoint with an external review packet for
+Devin/human handoff. See `docs/phase-4-1g-external-review-packet.md`. The
+Phase 4.1G packet is review metadata only: it cannot grant runtime approval,
+cannot approve runtime implementation, cannot enable runtime commands, and
+cannot unblock any live runtime surface.
+
 ## Consolidated Evidence
 
 Phase 4.1F consolidates these static artifacts:

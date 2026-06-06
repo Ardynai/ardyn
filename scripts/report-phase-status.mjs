@@ -82,6 +82,9 @@ const phase41ERuntimeAttemptMetadata = await readJson(
 const phase41FRuntimeReadinessCheckpointMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-1f/runtime-readiness-checkpoint.json"
 );
+const phase41GExternalReviewPacketMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1g/external-review-packet.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -129,9 +132,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1F",
-    name: "Runtime readiness checkpoint",
-    executionPosture: "runtime-readiness-checkpoint-only non-executing"
+    id: "4.1G",
+    name: "External review packet",
+    executionPosture: "external-review-packet-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -173,12 +176,17 @@ const report = {
     },
     {
       command: "npm run report:phase-status",
-      purpose: "Render this deterministic local Phase 4.1F runtime-readiness-checkpoint-only status report.",
+      purpose: "Render this deterministic local Phase 4.1G external-review-packet-only status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1F status report.",
+      purpose: "Run focused tests for this local Phase 4.1G status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1g-external-review-packet.test.mjs",
+      purpose: "Run focused Phase 4.1G external review packet static checks.",
       ranByReport: false
     },
     {
@@ -4310,6 +4318,261 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41GExternalReviewPacketInventory: {
+    packet: {
+      document: "docs/phase-4-1g-external-review-packet.md",
+      fixture: "tests/fixtures/host-policy/phase4-1g/external-review-packet.json",
+      test: "tests/phase4-1g-external-review-packet.test.mjs",
+      schema: phase41GExternalReviewPacketMetadata.schema,
+      schemaVersion: phase41GExternalReviewPacketMetadata.schemaVersion,
+      artifactKind: phase41GExternalReviewPacketMetadata.artifactKind,
+      packetPhase: phase41GExternalReviewPacketMetadata.packetPhase,
+      reviewedPhase: phase41GExternalReviewPacketMetadata.reviewedPhase,
+      metadataGeneratedAt: phase41GExternalReviewPacketMetadata.metadataGeneratedAt,
+      currentMainSha: phase41GExternalReviewPacketMetadata.currentMainSha,
+      reviewPacketOnly: phase41GExternalReviewPacketMetadata.reviewPacketOnly,
+      reviewMetadataOnly: phase41GExternalReviewPacketMetadata.reviewMetadataOnly,
+      runtimeBehaviorIntroduced:
+        phase41GExternalReviewPacketMetadata.reviewPacketVerdict.runtimeBehaviorIntroduced,
+      liveRuntimeBehaviorIntroduced:
+        phase41GExternalReviewPacketMetadata.reviewPacketVerdict
+          .liveRuntimeBehaviorIntroduced,
+      grantsRuntimeApproval:
+        phase41GExternalReviewPacketMetadata.reviewPacketVerdict.grantsRuntimeApproval
+    },
+    verdict: phase41GExternalReviewPacketMetadata.reviewPacketVerdict,
+    reviewedPhaseRange: phase41GExternalReviewPacketMetadata.reviewedPhaseRange,
+    phaseSummaries: phase41GExternalReviewPacketMetadata.phaseSummaries,
+    phaseSummaryPhases: phase41GExternalReviewPacketMetadata.phaseSummaries.map(
+      ({ phase }) => phase
+    ),
+    runtimeReadinessEvidenceMap:
+      phase41GExternalReviewPacketMetadata.runtimeReadinessEvidenceMap,
+    evidenceMapIds: phase41GExternalReviewPacketMetadata.runtimeReadinessEvidenceMap.map(
+      ({ id }) => id
+    ),
+    testAndSmokeCommands: phase41GExternalReviewPacketMetadata.testAndSmokeCommands,
+    nonRuntimeInvariantMatrix:
+      phase41GExternalReviewPacketMetadata.nonRuntimeInvariantMatrix,
+    nonRuntimeInvariantIds:
+      phase41GExternalReviewPacketMetadata.nonRuntimeInvariantMatrix.map(({ id }) => id),
+    blockedRuntimeSurfaces: phase41GExternalReviewPacketMetadata.blockedRuntimeSurfaces,
+    blockedRuntimeSurfaceIds:
+      phase41GExternalReviewPacketMetadata.blockedRuntimeSurfaces.map(({ id }) => id),
+    reviewerQuestionCategories:
+      phase41GExternalReviewPacketMetadata.reviewerQuestionCategories,
+    reviewerOutcomeCategories:
+      phase41GExternalReviewPacketMetadata.reviewerOutcomeCategories,
+    reviewerQuestions: phase41GExternalReviewPacketMetadata.reviewerQuestions,
+    reviewerQuestionIds: phase41GExternalReviewPacketMetadata.reviewerQuestions.map(
+      ({ id }) => id
+    ),
+    recommendedOutcomes: phase41GExternalReviewPacketMetadata.recommendedOutcomes,
+    recommendedOutcomeIds: phase41GExternalReviewPacketMetadata.recommendedOutcomes.map(
+      ({ outcome }) => outcome
+    ),
+    runtimeEffect: phase41GExternalReviewPacketMetadata.runtimeEffect,
+    reviewOnlyDisplayBehavior: {
+      externalReviewPacketIsStaticArtifactOnly: true,
+      packetCannotGrantRuntimeApproval: true,
+      packetDoesNotEnableRuntime: true,
+      futureRuntimeRequiresSeparateApprovedImplementationPhase: true,
+      reportRunsChecks: false,
+      writesFiles: false,
+      readsFiles: false,
+      printsStdoutFromCli: false,
+      consumedByLiveHostLoop: false
+    },
+    cliCommandSurface: {
+      commandAdded: false,
+      externalReviewPacketCommandAdded: false,
+      reviewPacketCommandAdded: false,
+      runtimeReviewPacketCommandAdded: false,
+      runtimeReadinessReviewCommandAdded: false,
+      serveRuntimeCommandAdded: false,
+      stdioRuntimeCommandAdded: false,
+      replaySessionTranscriptCommandAdded: false,
+      approvalEvaluatorCommandAdded: false,
+      policyMetadataCommandAdded: false,
+      hostPolicyExportCommandAdded: false,
+      fileWriterAdded: false,
+      stdoutPrinterAdded: false,
+      existingDryRunEmitterUnchanged: true
+    },
+    apiSurface: {
+      typescriptCoreRuntimeApiAdded: false,
+      typescriptCoreReviewPacketHelperAdded: false,
+      rustRuntimeHelperAdded: false,
+      rustStdioOwnerAdded: false,
+      approvalEvaluatorAdded: false,
+      hostPolicyEnforcementAdded: false,
+      failureAuditRuntimeAdded: false,
+      cleanupRuntimeAdded: false,
+      processKillAdded: false,
+      processControlAdded: false,
+      transcriptPersistenceReplayRuntimeAdded: false,
+      secretsUsed: false
+    },
+    fixtures: [
+      await fixtureInventoryEntry(
+        "tests/fixtures/host-policy/phase4-1g/external-review-packet.json"
+      )
+    ],
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1g-external-review-packet.md",
+        "Defines Phase 4.1G as an external review packet only, with evidence map, reviewer questions, outcomes, blockers, and approval boundary."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1f-runtime-readiness-checkpoint.md",
+        "Links Phase 4.1G as the external review packet after the static runtime-readiness checkpoint."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4.1 roadmap to identify Phase 4.1G as external-review-packet-only."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1G leaves the finite dry-run emitter unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.1G while preserving no live stdio runtime."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents the Phase 4.1G external review packet as review evidence, not enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records Phase 4.1G as a static external review packet without new runtime architecture."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1G scope and unchanged non-executing CLI surface."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1G adds no review-packet, runtime-readiness, checkpoint, or runtime command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.1G adds no core runtime helper API and no review-packet helper API."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 4.1G does not add Rust-host process stdio ownership or runtime behavior."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase4-1g-external-review-packet.test.mjs",
+        "Pins Phase 4.1G fixture, docs, report inventory, source guards, evidence paths, and rejected runtime/review-packet commands."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1G report metadata and safety posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-1f-runtime-readiness-checkpoint.test.mjs",
+        "Confirms the prior runtime-readiness checkpoint remains static and non-runtime."
+      )
+    ],
+    invariantProbes: [
+      "missing --dry-run",
+      "unknown emit-session-events arg",
+      "unsafe manifest URL",
+      "invalid JSON manifest",
+      "invalid JSON task",
+      "replay-session-transcript",
+      "policy-metadata",
+      "host-policy-export",
+      "serve-runtime",
+      "stdio-runtime",
+      "runtime",
+      "run",
+      "execute",
+      "live-runtime",
+      "start-runtime",
+      "run-runtime",
+      "enable-runtime",
+      "runtime-readiness",
+      "runtime-readiness-checkpoint",
+      "readiness-checkpoint",
+      "checkpoint-runtime",
+      "runtime-checkpoint",
+      "runtime-readiness-review",
+      "external-review-packet",
+      "review-packet",
+      "runtime-review-packet",
+      "devin-review-packet",
+      "phase-4-1g-review",
+      "devin-runtime-review",
+      "approve-runtime",
+      "grant-runtime",
+      "host-policy-approval",
+      "operator-consent",
+      "approval-evaluator",
+      "evaluate-approval",
+      "persist-session-transcript",
+      "transcript-replay",
+      "transport-harness",
+      "stdin-reader",
+      "stdout-writer",
+      "stderr-writer",
+      "failure-audit",
+      "failure-audit-record",
+      "emit-failure-audit",
+      "cleanup-runtime",
+      "kill-runtime",
+      "kill-process",
+      "terminate-process",
+      "process-kill",
+      "exit-runtime",
+      "signal-handler"
+    ],
+    safetyPosture: {
+      nonExecuting: true,
+      externalReviewPacketOnly: true,
+      reviewOnly: true,
+      noLiveRuntime: true,
+      noRuntimeCommand: true,
+      noReviewPacketCommand: true,
+      noServeRuntime: true,
+      noStdioRuntime: true,
+      noReplaySessionTranscript: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noProcessStdioOwnership: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noContentFabricDownloadInstallEnable: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noFailureAuditRuntime: true,
+      noCleanupRuntime: true,
+      noProcessKill: true,
+      noApprovalEvaluator: true,
+      noHostPolicyEnforcement: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -4332,6 +4595,7 @@ const report = {
     transcriptReplayContracts: true,
     failureAuditContracts: true,
     runtimeReadinessCheckpoint: true,
+    externalReviewPacket: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

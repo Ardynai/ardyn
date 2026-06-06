@@ -457,9 +457,25 @@ writer, not a stdin reader, not process stdio ownership, not transcript
 persistence/replay runtime, not failure-audit runtime, and not consumed by a
 live host loop.
 
+## Phase 4.1G External Review Packet
+
+Phase 4.1G adds static external review packet evidence for Devin/human review.
+See `docs/phase-4-1g-external-review-packet.md`.
+
+The Phase 4.1G fixture is
+`tests/fixtures/host-policy/phase4-1g/external-review-packet.json`. It maps
+the Phase 4.0A through Phase 4.1F evidence paths, required validation and
+smoke commands, non-runtime invariant matrix, blocked runtime surfaces,
+reviewer questions, and packet-only outcomes. The fixture is static review
+metadata only. It is not runtime configuration, not a runtime command, not a
+review-packet command, not an approval token, not a file writer, not a stdout
+writer, not a stderr writer, not a stdin reader, not process stdio ownership,
+not transcript persistence/replay runtime, not failure-audit runtime, and not
+consumed by a live host loop.
+
 ## Deferred Runtime Work
 
-Phase 4.1F intentionally does not implement repo-root confinement, transcript
+Phase 4.1G intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction
@@ -468,6 +484,7 @@ evidence, operator-consent references, fail-closed transport harness
 classifications, fail-closed framing/redaction classifications, fail-closed
 transcript replay classifications, fail-closed failure-audit classifications,
 terminal-state classifications, a checkpoint readiness matrix, blocker list,
-and a roadmap for later host-policy phases. A future live runtime still
+external review packet, reviewer questions, packet-only outcomes, and a
+roadmap for later host-policy phases. A future live runtime still
 requires separate explicit host policy, implementation, tests, and runtime
 enablement.

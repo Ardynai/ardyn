@@ -1,0 +1,746 @@
+{
+  "schema": "ardyn.external-runtime-readiness-review-packet",
+  "schemaVersion": "0.1.0",
+  "artifactKind": "external-runtime-readiness-review-packet",
+  "packetPhase": "phase-4.1g-external-review-packet",
+  "reviewedPhase": "4.1G",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "currentMainSha": "070b327b6132e14170598d3e865dcf5ec4b0993e",
+  "reviewedPhaseRange": {
+    "fromPhase": "4.0A",
+    "throughPhase": "4.1F",
+    "externalReviewTarget": "Devin or human runtime-readiness reviewer",
+    "addsRuntimeImplementation": false
+  },
+  "reviewPacketOnly": true,
+  "reviewMetadataOnly": true,
+  "reviewPacketVerdict": {
+    "id": "phase-4.1g-external-review-packet-verdict",
+    "verdict": "packet-ready-runtime-still-blocked",
+    "codexPacketStatus": "ready-for-external-review",
+    "devinReviewTarget": true,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "grantsRuntimeApproval": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "requiresSeparateRuntimeImplementationApproval": true,
+    "requiresReviewerDecisionBeforeRuntime": true
+  },
+  "phaseSummaries": [
+    {
+      "phase": "4.0A",
+      "summary": "Finite non-executing stdio dry-run emitter, local JSON path guards, deterministic JSONL formatting, and stderr diagnostics.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "tests/cli-phase4-stdio-dry-run.test.mjs",
+        "tests/core-phase4-stdio-dry-run.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.0B",
+      "summary": "Dry-run hardening and golden JSONL coverage for parser and formatter behavior without live stdio runtime.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "tests/fixtures/stdio-dry-run/phase4-0b-minimal-session-events.jsonl",
+        "tests/cli-phase4-stdio-dry-run.test.mjs",
+        "tests/core-phase4-stdio-dry-run.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.0C",
+      "summary": "Pre-runtime stdio transport policy for stdout JSONL, stderr diagnostics, redaction, replay design, and ownership split.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-0c-pre-runtime-transport-policy.md",
+        "tests/phase4-0c-transport-policy.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.0D",
+      "summary": "Rust-host transport policy contracts and fail-closed modeling, still static and not process stdio ownership.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-0d-rust-host-transport-policy-contracts.md",
+        "crates/ardyn-host/src/lib.rs",
+        "tests/phase4-0d-rust-host-policy-contracts.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.0E",
+      "summary": "Static Rust-host policy metadata export fixture and documentation, with no host-policy enforcement runtime.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-0e-rust-host-policy-metadata.md",
+        "tests/fixtures/host-policy/phase4-0e-stdio-transport-policy-metadata.json",
+        "tests/phase4-0e-policy-metadata.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.0F",
+      "summary": "Static host-policy review records and compatibility classifications without approval enforcement.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-0f-host-policy-review-records.md",
+        "tests/fixtures/host-policy/phase4-0f/current-host-policy-review-record.json",
+        "tests/phase4-0f-host-policy-review-records.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.0G",
+      "summary": "Static host-policy review comparison records and fail-closed comparison behavior without runtime effects.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-0g-host-policy-review-comparison.md",
+        "tests/fixtures/host-policy/phase4-0g/identical-current-host-policy-review-comparison.json",
+        "tests/phase4-0g-host-policy-review-comparison.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.0H",
+      "summary": "Reviewer handoff index for static Phase 4 evidence, preserving role boundaries and no runtime command surface.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-0h-reviewer-handoff-index.md",
+        "tests/fixtures/host-policy/phase4-0h/reviewer-handoff-index.json",
+        "tests/phase4-0h-reviewer-handoff-index.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.0I",
+      "summary": "Final static pre-runtime readiness bundle and checklist before Phase 4.1 planning.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-0i-final-pre-runtime-readiness.md",
+        "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json",
+        "tests/phase4-0i-final-pre-runtime-readiness.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.1",
+      "summary": "Runtime proposal and phased implementation plan only, with explicit approval boundary before live runtime work.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-1-runtime-proposal.md",
+        "tests/fixtures/host-policy/phase4-1/runtime-proposal.json",
+        "tests/phase4-1-runtime-proposal.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.1A",
+      "summary": "Static host-policy approval records and operator consent model, necessary but not sufficient for runtime.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-1a-host-policy-approval-records.md",
+        "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json",
+        "tests/phase4-1a-host-policy-approval-records.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.1B",
+      "summary": "Static Rust-host transport harness contracts and runtime-unavailable attempts, no stdio owner.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-1b-transport-harness-contracts.md",
+        "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json",
+        "tests/phase4-1b-transport-harness-contracts.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.1C",
+      "summary": "Static stdout JSONL framing and stderr redaction contracts, including malformed-line and fail-closed redaction cases.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-1c-framing-redaction-contracts.md",
+        "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json",
+        "tests/phase4-1c-framing-redaction-contracts.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.1D",
+      "summary": "Static transcript persistence/replay contracts and compatibility records without replay runtime.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-1d-transcript-replay-contracts.md",
+        "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-replay-contract.json",
+        "tests/phase4-1d-transcript-replay-contracts.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.1E",
+      "summary": "Static failure-audit, terminal-state, kill, cleanup, and exit semantics contracts without process control runtime.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-1e-failure-audit-kill-semantics.md",
+        "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json",
+        "tests/phase4-1e-failure-audit-kill-semantics.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "phase": "4.1F",
+      "summary": "Static runtime-readiness checkpoint with readiness matrix, blockers, Codex validation bundle, and runtime still blocked.",
+      "primaryEvidencePaths": [
+        "docs/phase-4-1f-runtime-readiness-checkpoint.md",
+        "tests/fixtures/host-policy/phase4-1f/runtime-readiness-checkpoint.json",
+        "tests/phase4-1f-runtime-readiness-checkpoint.test.mjs"
+      ],
+      "runtimeImplemented": false,
+      "grantsRuntimeApproval": false
+    }
+  ],
+  "runtimeReadinessEvidenceMap": [
+    {
+      "id": "dry-run-emitter-evidence",
+      "label": "Finite dry-run emitter",
+      "phaseCoverage": [
+        "4.0A",
+        "4.0B"
+      ],
+      "evidencePaths": [
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "tests/cli-phase4-stdio-dry-run.test.mjs",
+        "tests/core-phase4-stdio-dry-run.test.mjs"
+      ],
+      "runtimeStatus": "finite-dry-run-only",
+      "reviewOnly": true
+    },
+    {
+      "id": "transport-policy-evidence",
+      "label": "Pre-runtime transport and Rust-host ownership policy",
+      "phaseCoverage": [
+        "4.0C",
+        "4.0D",
+        "4.0E"
+      ],
+      "evidencePaths": [
+        "docs/phase-4-0c-pre-runtime-transport-policy.md",
+        "docs/phase-4-0d-rust-host-transport-policy-contracts.md",
+        "docs/phase-4-0e-rust-host-policy-metadata.md",
+        "tests/phase4-0c-transport-policy.test.mjs",
+        "tests/phase4-0d-rust-host-policy-contracts.test.mjs",
+        "tests/phase4-0e-policy-metadata.test.mjs"
+      ],
+      "runtimeStatus": "policy-only",
+      "reviewOnly": true
+    },
+    {
+      "id": "host-policy-review-evidence",
+      "label": "Host-policy review records, comparison, and handoff",
+      "phaseCoverage": [
+        "4.0F",
+        "4.0G",
+        "4.0H"
+      ],
+      "evidencePaths": [
+        "docs/phase-4-0f-host-policy-review-records.md",
+        "docs/phase-4-0g-host-policy-review-comparison.md",
+        "docs/phase-4-0h-reviewer-handoff-index.md",
+        "tests/phase4-0f-host-policy-review-records.test.mjs",
+        "tests/phase4-0g-host-policy-review-comparison.test.mjs",
+        "tests/phase4-0h-reviewer-handoff-index.test.mjs"
+      ],
+      "runtimeStatus": "review-only",
+      "reviewOnly": true
+    },
+    {
+      "id": "pre-runtime-readiness-evidence",
+      "label": "Final pre-runtime readiness boundary",
+      "phaseCoverage": [
+        "4.0I"
+      ],
+      "evidencePaths": [
+        "docs/phase-4-0i-final-pre-runtime-readiness.md",
+        "tests/fixtures/host-policy/phase4-0i/final-pre-runtime-readiness.json",
+        "tests/phase4-0i-final-pre-runtime-readiness.test.mjs"
+      ],
+      "runtimeStatus": "final-pre-runtime-readiness-only",
+      "reviewOnly": true
+    },
+    {
+      "id": "phase-4.1-planning-evidence",
+      "label": "Phase 4.1 proposal, approval, transport, framing, transcript, failure-audit, and checkpoint evidence",
+      "phaseCoverage": [
+        "4.1",
+        "4.1A",
+        "4.1B",
+        "4.1C",
+        "4.1D",
+        "4.1E",
+        "4.1F"
+      ],
+      "evidencePaths": [
+        "docs/phase-4-1-runtime-proposal.md",
+        "docs/phase-4-1a-host-policy-approval-records.md",
+        "docs/phase-4-1b-transport-harness-contracts.md",
+        "docs/phase-4-1c-framing-redaction-contracts.md",
+        "docs/phase-4-1d-transcript-replay-contracts.md",
+        "docs/phase-4-1e-failure-audit-kill-semantics.md",
+        "docs/phase-4-1f-runtime-readiness-checkpoint.md",
+        "tests/phase4-1-runtime-proposal.test.mjs",
+        "tests/phase4-1a-host-policy-approval-records.test.mjs",
+        "tests/phase4-1b-transport-harness-contracts.test.mjs",
+        "tests/phase4-1c-framing-redaction-contracts.test.mjs",
+        "tests/phase4-1d-transcript-replay-contracts.test.mjs",
+        "tests/phase4-1e-failure-audit-kill-semantics.test.mjs",
+        "tests/phase4-1f-runtime-readiness-checkpoint.test.mjs"
+      ],
+      "runtimeStatus": "runtime-still-blocked",
+      "reviewOnly": true
+    },
+    {
+      "id": "status-report-evidence",
+      "label": "Local deterministic phase status report",
+      "phaseCoverage": [
+        "4.0A",
+        "4.1G"
+      ],
+      "evidencePaths": [
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      "runtimeStatus": "local-summary-only",
+      "reviewOnly": true
+    }
+  ],
+  "testAndSmokeCommands": [
+    {
+      "command": "npm test",
+      "purpose": "Run the repository node:test suite.",
+      "required": true,
+      "runtimeCommand": false
+    },
+    {
+      "command": "npm run test:schemas",
+      "purpose": "Run schema validation tests.",
+      "required": true,
+      "runtimeCommand": false
+    },
+    {
+      "command": "cargo test --workspace",
+      "purpose": "Run Rust workspace tests.",
+      "required": true,
+      "runtimeCommand": false
+    },
+    {
+      "command": "cargo check --workspace",
+      "purpose": "Check Rust workspace compilation.",
+      "required": true,
+      "runtimeCommand": false
+    },
+    {
+      "command": "cargo fmt --check",
+      "purpose": "Check Rust formatting.",
+      "required": true,
+      "runtimeCommand": false
+    },
+    {
+      "command": "git diff --check",
+      "purpose": "Check the working diff for whitespace errors.",
+      "required": true,
+      "runtimeCommand": false
+    },
+    {
+      "command": "npm run report:phase-status",
+      "purpose": "Render deterministic local status metadata only.",
+      "required": true,
+      "runtimeCommand": false
+    },
+    {
+      "command": "smoke: emit-session-events --dry-run success",
+      "purpose": "Confirm successful dry-run stdout remains JSONL only, LF-only, final LF, six lines, and zero stderr.",
+      "required": true,
+      "runtimeCommand": false
+    },
+    {
+      "command": "smoke: rejected failure/proposal/runtime probes",
+      "purpose": "Confirm missing --dry-run, unsafe paths, invalid JSON, proposal commands, and runtime commands fail with zero stdout.",
+      "required": true,
+      "runtimeCommand": false
+    }
+  ],
+  "nonRuntimeInvariantMatrix": [
+    {
+      "id": "no-live-runtime",
+      "status": "preserved",
+      "evidencePaths": [
+        "docs/phase-4-1g-external-review-packet.md",
+        "tests/phase4-1g-external-review-packet.test.mjs",
+        "apps/cli/src/index.mjs"
+      ],
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "no-live-stdin-command-loop",
+      "status": "preserved",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "tests/phase4-1g-external-review-packet.test.mjs"
+      ],
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "no-live-stdio-reader-or-writer",
+      "status": "preserved",
+      "evidencePaths": [
+        "packages/core/src/index.mjs",
+        "crates/ardyn-host/src/lib.rs",
+        "tests/phase4-1g-external-review-packet.test.mjs"
+      ],
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "no-listener-server-or-web-control-surface",
+      "status": "preserved",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "scripts/report-phase-status.mjs",
+        "tests/phase4-1g-external-review-packet.test.mjs"
+      ],
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "no-subprocess-spawning-or-process-control",
+      "status": "preserved",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "crates/ardyn-host/src/lib.rs",
+        "tests/phase4-1g-external-review-packet.test.mjs"
+      ],
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "no-adapter-locus-mcp-openclaw-plugin-or-content-fabric-runtime",
+      "status": "preserved",
+      "evidencePaths": [
+        "package.json",
+        "Cargo.toml",
+        "crates/ardyn-host/Cargo.toml",
+        "tests/phase4-1g-external-review-packet.test.mjs"
+      ],
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "no-secret-or-production-signing-key-use",
+      "status": "preserved",
+      "evidencePaths": [
+        "scripts/report-phase-status.mjs",
+        "tests/phase4-1g-external-review-packet.test.mjs"
+      ],
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "no-transcript-persistence-replay-runtime",
+      "status": "preserved",
+      "evidencePaths": [
+        "docs/phase-4-1d-transcript-replay-contracts.md",
+        "tests/phase4-1d-transcript-replay-contracts.test.mjs",
+        "tests/phase4-1g-external-review-packet.test.mjs"
+      ],
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "no-runtime-approval-grant",
+      "status": "preserved",
+      "evidencePaths": [
+        "docs/phase-4-1g-external-review-packet.md",
+        "tests/fixtures/host-policy/phase4-1g/external-review-packet.json",
+        "tests/phase4-1g-external-review-packet.test.mjs"
+      ],
+      "runtimeBehaviorIntroduced": false,
+      "grantsRuntimeApproval": false
+    }
+  ],
+  "blockedRuntimeSurfaces": [
+    {
+      "id": "serve-runtime-command",
+      "surface": "serve-runtime",
+      "status": "blocked",
+      "requiredBeforeUnblock": "Explicit separate runtime command approval and implementation phase.",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "tests/phase4-1f-runtime-readiness-checkpoint.test.mjs"
+      ],
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "stdio-runtime-command",
+      "surface": "stdio-runtime",
+      "status": "blocked",
+      "requiredBeforeUnblock": "Explicit separate runtime command approval and implementation phase.",
+      "evidencePaths": [
+        "apps/cli/src/index.mjs",
+        "tests/phase4-1f-runtime-readiness-checkpoint.test.mjs"
+      ],
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "replay-session-transcript-command",
+      "surface": "replay-session-transcript",
+      "status": "blocked",
+      "requiredBeforeUnblock": "Separate transcript replay runtime approval and implementation phase.",
+      "evidencePaths": [
+        "docs/phase-4-1d-transcript-replay-contracts.md",
+        "apps/cli/src/index.mjs"
+      ],
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "approval-evaluator-runtime",
+      "surface": "approval evaluator and host-policy enforcement",
+      "status": "blocked",
+      "requiredBeforeUnblock": "Separate approval evaluator design, tests, and implementation approval.",
+      "evidencePaths": [
+        "docs/phase-4-1a-host-policy-approval-records.md",
+        "docs/phase-4-1f-runtime-readiness-checkpoint.md"
+      ],
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "process-stdio-ownership-runtime",
+      "surface": "process stdio ownership, stdin loop, stdout writer, stderr writer",
+      "status": "blocked",
+      "requiredBeforeUnblock": "Rust-host stdio ownership runtime implementation and live writer/redaction tests.",
+      "evidencePaths": [
+        "docs/phase-4-1b-transport-harness-contracts.md",
+        "docs/phase-4-1c-framing-redaction-contracts.md"
+      ],
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "failure-audit-cleanup-kill-runtime",
+      "surface": "failure audit, cleanup, kill, signal, timeout, and fail-closed runtime",
+      "status": "blocked",
+      "requiredBeforeUnblock": "Separate runtime implementation with failure audit and process-control test coverage.",
+      "evidencePaths": [
+        "docs/phase-4-1e-failure-audit-kill-semantics.md",
+        "tests/fixtures/host-policy/phase4-1e/runtime-cleanup-kill-attempt-record.json"
+      ],
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "transcript-persistence-replay-runtime",
+      "surface": "transcript persistence and replay runtime",
+      "status": "blocked",
+      "requiredBeforeUnblock": "Separate runtime implementation with persistence, replay, digest, ordering, and malformed-line tests.",
+      "evidencePaths": [
+        "docs/phase-4-1d-transcript-replay-contracts.md",
+        "tests/fixtures/host-policy/phase4-1d/runtime-available-attempt-transcript-replay-record.json"
+      ],
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    },
+    {
+      "id": "external-integration-runtime",
+      "surface": "adapter, Locus runtime, MCP/OpenClaw, plugin, and Content Fabric runtime integration",
+      "status": "blocked",
+      "requiredBeforeUnblock": "Separate integration approval for each external runtime surface.",
+      "evidencePaths": [
+        "docs/phase-4-1f-runtime-readiness-checkpoint.md",
+        "tests/phase4-1g-external-review-packet.test.mjs"
+      ],
+      "grantsRuntimeApproval": false,
+      "runtimeBehaviorIntroduced": false
+    }
+  ],
+  "reviewerQuestionCategories": [
+    "packet-navigation",
+    "documentation-consistency",
+    "evidence-completeness",
+    "scope-boundary",
+    "approval-consent-boundary",
+    "runtime-negative-surface",
+    "transport-stdio-boundary",
+    "transcript-replay-boundary",
+    "failure-audit-kill-boundary",
+    "external-integration-boundary",
+    "blocker-disposition"
+  ],
+  "reviewerOutcomeCategories": [
+    "packet-pass-runtime-still-blocked",
+    "packet-pass-with-nits-runtime-still-blocked",
+    "needs-clarification-runtime-still-blocked",
+    "evidence-gap-runtime-still-blocked",
+    "runtime-claim-detected-fail-closed",
+    "out-of-scope-runtime-request",
+    "external-review-recorded-runtime-still-blocked"
+  ],
+  "reviewerQuestions": [
+    {
+      "id": "evidence-map-complete",
+      "category": "evidence-completeness",
+      "question": "Does the packet accurately map the Phase 4.0A through Phase 4.1F evidence needed for a runtime-readiness review?",
+      "expectedEvidencePaths": [
+        "docs/phase-4-1g-external-review-packet.md",
+        "tests/fixtures/host-policy/phase4-1g/external-review-packet.json",
+        "scripts/report-phase-status.mjs"
+      ],
+      "answerType": "approve-packet-only-deny-runtime-or-check-again",
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "blocked-runtime-surfaces-complete",
+      "category": "blocker-disposition",
+      "question": "Are any blocked runtime surfaces missing from the packet before ARDYN starts a separately approved runtime implementation phase?",
+      "expectedEvidencePaths": [
+        "docs/phase-4-1f-runtime-readiness-checkpoint.md",
+        "docs/phase-4-1g-external-review-packet.md"
+      ],
+      "answerType": "approve-packet-only-deny-runtime-or-check-again",
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "non-runtime-invariants-sufficient",
+      "category": "runtime-negative-surface",
+      "question": "Do the non-runtime invariants and probes demonstrate that the current repo still contains no live runtime command, approval evaluator, process control, or external integration runtime?",
+      "expectedEvidencePaths": [
+        "tests/phase4-1f-runtime-readiness-checkpoint.test.mjs",
+        "tests/phase4-1g-external-review-packet.test.mjs",
+        "apps/cli/src/index.mjs"
+      ],
+      "answerType": "approve-packet-only-deny-runtime-or-check-again",
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "minimum-before-runtime-implementation",
+      "category": "approval-consent-boundary",
+      "question": "What exact additional evidence, tests, and approvals are required before any live runtime implementation path may exist?",
+      "expectedEvidencePaths": [
+        "docs/phase-4-1-runtime-proposal.md",
+        "docs/phase-4-1f-runtime-readiness-checkpoint.md",
+        "docs/phase-4-1g-external-review-packet.md"
+      ],
+      "answerType": "approve-packet-only-deny-runtime-or-check-again",
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "runtime-approval-decision",
+      "category": "scope-boundary",
+      "question": "Should ARDYN remain blocked from live runtime implementation until a separate implementation phase is approved after this packet review?",
+      "expectedEvidencePaths": [
+        "docs/phase-4-1g-external-review-packet.md",
+        "tests/fixtures/host-policy/phase4-1g/external-review-packet.json"
+      ],
+      "answerType": "approve-packet-only-deny-runtime-or-check-again",
+      "grantsRuntimeApproval": false
+    }
+  ],
+  "recommendedOutcomes": [
+    {
+      "outcome": "approve-packet-only",
+      "category": "packet-pass-runtime-still-blocked",
+      "meaning": "The packet is complete enough for review handoff; runtime remains blocked.",
+      "nextStep": "Record reviewer feedback, then request a separate runtime implementation phase if appropriate.",
+      "grantsRuntimeApproval": false,
+      "runtimeImplementationApproved": false,
+      "runtimeEnablementApproved": false,
+      "runtimeBehaviorIntroduced": false,
+      "runtimeUnblockRequiresSeparateApproval": true
+    },
+    {
+      "outcome": "deny-runtime",
+      "category": "out-of-scope-runtime-request",
+      "meaning": "Runtime must remain blocked and no live runtime implementation may start.",
+      "nextStep": "Address missing evidence or unresolved blockers in another static phase.",
+      "grantsRuntimeApproval": false,
+      "runtimeImplementationApproved": false,
+      "runtimeEnablementApproved": false,
+      "runtimeBehaviorIntroduced": false,
+      "runtimeUnblockRequiresSeparateApproval": true
+    },
+    {
+      "outcome": "check-again",
+      "category": "evidence-gap-runtime-still-blocked",
+      "meaning": "The reviewer needs additional static evidence before making the packet-only decision.",
+      "nextStep": "Add the requested static evidence and rerun validation; do not implement runtime.",
+      "grantsRuntimeApproval": false,
+      "runtimeImplementationApproved": false,
+      "runtimeEnablementApproved": false,
+      "runtimeBehaviorIntroduced": false,
+      "runtimeUnblockRequiresSeparateApproval": true
+    }
+  ],
+  "runtimeEffect": {
+    "currentPacketEnablesRuntime": false,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeCommandAvailable": false,
+    "serveRuntimeCommandAvailable": false,
+    "stdioRuntimeCommandAvailable": false,
+    "replaySessionTranscriptCommandAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "hostPolicyEnforcementAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "failureAuditRuntimeAvailable": false,
+    "cleanupRuntimeAvailable": false,
+    "processKillAvailable": false,
+    "processControlAvailable": false,
+    "signalHandlerAvailable": false,
+    "timeoutRuntimeAvailable": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "listenerAvailable": false,
+    "serverAvailable": false,
+    "subprocessSpawningAvailable": false,
+    "adapterCallsAvailable": false,
+    "locusRuntimeDependencyAvailable": false,
+    "mcpOpenClawCallsAvailable": false,
+    "pluginExecutionAvailable": false,
+    "contentFabricDownloadInstallEnableAvailable": false,
+    "contentFabricRuntimeBehaviorAvailable": false,
+    "webSocketHttpControlSurfaceAvailable": false,
+    "writesFiles": false,
+    "readsFiles": false,
+    "runsRuntime": false,
+    "consumedByLiveHostLoop": false,
+    "grantsRuntimeApproval": false,
+    "secretsUsed": false,
+    "productionSigningKeysUsed": false,
+    "phase41RuntimeImplemented": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false
+  },
+  "audit": {
+    "createdAt": "1970-01-01T00:00:00.000Z",
+    "createdBy": "codex-phase-4.1g",
+    "sourcePhase": "4.1G",
+    "reviewer": "Codex",
+    "devinReviewTarget": true,
+    "metadataOnly": true,
+    "writesFiles": false,
+    "runsRuntime": false
+  }
+}

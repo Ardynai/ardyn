@@ -130,6 +130,14 @@ path, runtime approval grant, or live host loop. The checkpoint cannot grant
 runtime approval; future live runtime work must be a separate approved phase.
 See `docs/phase-4-1f-runtime-readiness-checkpoint.md`.
 
+Phase 4.1G adds a static external review packet for Devin/human runtime
+readiness review. It does not add a TypeScript core API, Rust runtime helper,
+CLI command, stdout printer, file writer, live stdio reader, process stdio
+ownership, approval evaluator, active host-policy enforcement path, runtime
+approval grant, or live host loop. The packet cannot grant runtime approval,
+approve runtime implementation, or enable runtime commands. See
+`docs/phase-4-1g-external-review-packet.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:
