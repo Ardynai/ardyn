@@ -1,0 +1,419 @@
+{
+  "schema": "ardyn.phase-5.4.disabled-command-exposure-plan",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.4-disabled-command-exposure-plan",
+  "artifactKind": "disabled-runtime-command-exposure-plan",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhases": {
+    "commandSurfaceApprovalPreflight": "tests/fixtures/command-surface/phase5-3/command-surface-approval-preflight.json",
+    "candidateRuntimeCommandRejectionMatrix": "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json",
+    "controlledRuntimeImplementationApprovalBoundary": "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json"
+  },
+  "runtimeExposureState": {
+    "status": "planned_disabled_unavailable",
+    "runtimeEnabled": false,
+    "commandExposedToday": false,
+    "runtimeCommandsAvailable": false,
+    "runtimeCommandHandlersImplemented": false,
+    "runtimeCommandDispatchAdded": false,
+    "approvalGrantCreated": false,
+    "exposureComplete": false
+  },
+  "futureExposurePhase": {
+    "status": "requires_new_review_before_cli_exposure",
+    "mayExposeCommandsInThisPhase": false,
+    "requiredReviewers": [
+      "Jules",
+      "Devin"
+    ],
+    "julesReviewRequiredBeforeExposure": true,
+    "devinReviewRequiredBeforeExposure": true,
+    "externalReviewComplete": false,
+    "mustRecordReviewedBranchAndCommit": true,
+    "mustNotMarkExposureCompleteBeforeReview": true
+  },
+  "futureFilesExpectedToChange": [
+    "apps/cli/src/index.mjs",
+    "tests/fixtures/command-surface/phase5-5/runtime-command-exposure-review.json",
+    "tests/phase5-5-runtime-command-exposure-review.test.mjs",
+    "docs/status/PHASE_5_5_RUNTIME_COMMAND_EXPOSURE_REVIEW.md"
+  ],
+  "filesForbiddenBeforeReview": [
+    "apps/cli/src/index.mjs",
+    "apps/host/src/runtime/**",
+    "packages/fabric/src/runtime/**",
+    "docs/status/**",
+    "tests/fixtures/command-surface/phase5-5/**"
+  ],
+  "defaultRejectedUnavailableResult": {
+    "exitCode": "nonzero",
+    "stdout": "",
+    "stderrPrefix": "Usage: ardyn ",
+    "runtimeAvailable": false,
+    "writes": [],
+    "approvalGrantWrites": [],
+    "runtimeStateWrites": []
+  },
+  "stdoutStderrRules": {
+    "stdoutWhileDisabled": "zero_stdout",
+    "stderrWhileDisabled": "usage_stderr_only",
+    "mustNotPrintStack": true,
+    "mustNotPrintSecrets": true,
+    "mustNotPrintRuntimeState": true
+  },
+  "dryRunBehavior": {
+    "availableToday": false,
+    "dryRunVariantResult": "rejected_unavailable_nonzero_zero_stdout",
+    "mustNotWriteFiles": true,
+    "mustNotCreateApprovalGrant": true,
+    "mustNotReadOrWriteRuntimeState": true
+  },
+  "approvalRequirements": {
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeCommandExposureApproved": false,
+    "approvalBoundaryCheckRequired": true,
+    "operatorConsentRequired": true,
+    "approvalMustBeRevocable": true,
+    "approvalCommandMustNotSelfGrantRuntime": true
+  },
+  "rollbackPlan": {
+    "requiredBeforeExposure": true,
+    "killSwitchRequired": true,
+    "mustRemoveCliDispatchWithoutRuntimeCleanupSideEffects": true,
+    "mustRevokeRuntimeCommandGrants": true,
+    "mustReturnToUnavailableUsageRejection": true,
+    "mustPreserveZeroStdoutForRejectedCommands": true
+  },
+  "candidateRuntimeCommands": [
+    {
+      "commandName": "serve-runtime",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "runtime-command-exposure-approved",
+        "runtime-enablement-approved",
+        "rollback-plan-approved"
+      ]
+    },
+    {
+      "commandName": "stdio-runtime",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "bounded-stdin-loop-reviewed",
+        "redacted-writers-reviewed",
+        "operator-consent-approved"
+      ]
+    },
+    {
+      "commandName": "replay-session-transcript",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "readonly-replay-approved",
+        "path-confinement-approved",
+        "runtime-command-exposure-approved"
+      ]
+    },
+    {
+      "commandName": "runtime-command-surface-review",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "per-command-contract-approved",
+        "approval-evaluator-approved",
+        "runtime-command-exposure-approved"
+      ]
+    },
+    {
+      "commandName": "command-surface-approval-preflight",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "all-preflight-blockers-true",
+        "runtime-command-exposure-approved",
+        "runtime-enablement-approved"
+      ]
+    },
+    {
+      "commandName": "phase-5-3-command-surface-approval-preflight",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "phase-alias-review-complete",
+        "runtime-command-exposure-approved",
+        "positive-and-negative-smokes-recorded"
+      ]
+    },
+    {
+      "commandName": "approve-runtime-command",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "approval-command-cannot-self-grant",
+        "operator-consent-approved",
+        "runtime-command-exposure-approved"
+      ]
+    },
+    {
+      "commandName": "enable-runtime",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "runtime-enablement-approved",
+        "host-policy-runtime-enforcement-approved",
+        "rollback-plan-approved"
+      ]
+    },
+    {
+      "commandName": "runtime-start",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "runtime-enablement-approved",
+        "process-lifecycle-review-complete",
+        "operator-consent-approved"
+      ]
+    },
+    {
+      "commandName": "runtime-stop",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "safe-stop-semantics-approved",
+        "approval-boundary-check-approved",
+        "runtime-command-exposure-approved"
+      ]
+    },
+    {
+      "commandName": "runtime-status",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "readonly-status-approved",
+        "runtime-state-redaction-approved",
+        "runtime-command-exposure-approved"
+      ]
+    },
+    {
+      "commandName": "runtime-rollback",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "rollback-plan-approved",
+        "kill-switch-approved",
+        "runtime-command-exposure-approved"
+      ]
+    },
+    {
+      "commandName": "runtime-failure-audit",
+      "introducedBy": "phase-5.3-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "failure-audit-redaction-approved",
+        "audit-path-confinement-approved",
+        "runtime-command-exposure-approved"
+      ]
+    },
+    {
+      "commandName": "disabled-command-exposure-plan",
+      "introducedBy": "phase-5.4-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "plan-command-reviewed",
+        "runtime-command-exposure-approved",
+        "docs-status-change-approved"
+      ]
+    },
+    {
+      "commandName": "phase-5-4-disabled-command-exposure-plan",
+      "introducedBy": "phase-5.4-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "phase-alias-review-complete",
+        "runtime-command-exposure-approved",
+        "apps-cli-src-index-mjs-change-approved"
+      ]
+    },
+    {
+      "commandName": "runtime-command-exposure-plan",
+      "introducedBy": "phase-5.4-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "exposure-plan-reviewed",
+        "rollback-plan-approved",
+        "runtime-command-exposure-approved"
+      ]
+    },
+    {
+      "commandName": "expose-runtime-commands",
+      "introducedBy": "phase-5.4-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "runtime-command-exposure-approved",
+        "runtime-enablement-approved",
+        "operator-consent-approved"
+      ]
+    },
+    {
+      "commandName": "runtime-command-exposure-review",
+      "introducedBy": "phase-5.4-candidate",
+      "runtimeEnabled": false,
+      "commandExposedToday": false,
+      "defaultResult": "rejected_unavailable_nonzero_zero_stdout",
+      "stdoutRule": "zero_stdout_while_disabled",
+      "stderrRule": "usage_stderr_while_disabled",
+      "dryRunBehavior": "dry_run_variant_rejected_while_disabled",
+      "requiredBeforeExposure": [
+        "jules-review-complete",
+        "devin-review-complete",
+        "review-record-schema-approved",
+        "reviewed-branch-and-commit-recorded",
+        "runtime-command-exposure-approved"
+      ]
+    }
+  ],
+  "nonExecutionInvariants": [
+    "runtimeEnabled-false",
+    "commandExposedToday-false",
+    "runtime-commands-unavailable",
+    "future-command-names-not-exposed-today",
+    "candidate-commands-reject-nonzero-zero-stdout",
+    "dry-run-variants-reject-nonzero-zero-stdout",
+    "exposure-complete-cannot-be-true",
+    "jules-and-devin-review-required-before-cli-exposure",
+    "apps-cli-src-index-mjs-unchanged-from-e996996624edadbeb356d2834ff9fa605f6eed36"
+  ],
+  "validationCommands": [
+    {
+      "command": "node --test tests/phase5-4-disabled-command-exposure-plan.test.mjs",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "runtime command and dry-run rejection probes for Phase 5.3 plus Phase 5.4 candidate names",
+      "required": true,
+      "ranByFixture": false
+    }
+  ]
+}

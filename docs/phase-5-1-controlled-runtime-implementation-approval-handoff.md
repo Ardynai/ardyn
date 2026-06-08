@@ -14,6 +14,7 @@ Cross-links:
 - Source disposition: `phase-4-2d-external-review-disposition-phase5-handoff.md`
 - Next guarded slice: `phase-5-2-guarded-runtime-implementation-slice.md`
 - Current command preflight: `phase-5-3-command-surface-approval-preflight.md`
+- Current disabled command exposure plan: `phase-5-4-disabled-command-exposure-plan.md`
 
 Machine-readable Phase 5.1 artifacts:
 
@@ -90,9 +91,13 @@ planning helpers and fixture-backed blocked-runtime tests. It did not expose
 runtime commands, did not change `apps/cli/src/index.mjs`, and did not enable
 runtime. Phase 5.3 records command-surface approval preflight docs/status
 metadata only and still does not expose runtime commands, change
-`apps/cli/src/index.mjs`, or enable runtime. See
+`apps/cli/src/index.mjs`, or enable runtime. Phase 5.4 records a disabled
+command exposure plan with a future CLI checklist, Jules/Devin packet,
+rollback plan, and diff-risk notes only; it also does not expose runtime
+commands, change `apps/cli/src/index.mjs`, or enable runtime. See
 `phase-5-2-guarded-runtime-implementation-slice.md` and
-`phase-5-3-command-surface-approval-preflight.md`.
+`phase-5-3-command-surface-approval-preflight.md` and
+`phase-5-4-disabled-command-exposure-plan.md`.
 
 ## Guarded After Implementation
 

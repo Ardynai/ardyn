@@ -64,6 +64,12 @@ approval, enable runtime behavior, change CLI source, add stdout/stderr
 writers, add process control, write transcripts or audit files, or call
 adapters/Fabric runtime behavior. See
 `docs/phase-5-3-command-surface-approval-preflight.md`.
+Phase 5.4 records disabled command exposure plan docs/status metadata only. It
+does not expose Rust-host runtime commands, publish `stdio_runtime`, grant
+approval, enable runtime behavior, change CLI source, change Rust source, add
+stdout/stderr writers, add process control, write transcripts or audit files,
+or call adapters/Fabric runtime behavior. See
+`docs/phase-5-4-disabled-command-exposure-plan.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -247,6 +253,13 @@ remains private, runtime command exposure remains blocked, and stdout/stderr
 writers, process control, transcript writes, failure-audit writes, adapter
 runtime behavior, and Content Fabric runtime behavior remain disabled. See
 `docs/phase-5-3-command-surface-approval-preflight.md`.
+
+Phase 5.4 adds no Rust-host runtime implementation. It records disabled command
+exposure plan documentation and report metadata only; `stdio_runtime` remains
+private, runtime command exposure remains blocked, and stdout/stderr writers,
+process control, transcript writes, failure-audit writes, adapter runtime
+behavior, Content Fabric runtime behavior, and Rust source changes remain
+disabled. See `docs/phase-5-4-disabled-command-exposure-plan.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

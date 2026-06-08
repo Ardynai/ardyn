@@ -115,6 +115,9 @@ const phase52GuardedRuntimeDefaultBlockedBoundaryMetadata = await readJson(
 const phase52RuntimeCommandRejectionMatrixMetadata = await readJson(
   "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json"
 );
+const phase54DisabledCommandExposurePlanMetadata = await readJson(
+  "tests/fixtures/command-surface/phase5-4/disabled-command-exposure-plan.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -162,9 +165,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.3",
-    name: "Command surface approval preflight",
-    executionPosture: "command-surface-approval-preflight runtime-enablement-blocked no-runtime-commands"
+    id: "5.4",
+    name: "Disabled command exposure plan",
+    executionPosture: "disabled-command-exposure-plan runtime-enablement-blocked no-runtime-commands"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -212,12 +215,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.3 command surface approval preflight status report.",
+        "Render this deterministic local Phase 5.4 disabled command exposure plan status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.3 status report.",
+      purpose: "Run focused tests for this local Phase 5.4 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-4-disabled-command-exposure-plan.test.mjs",
+      purpose:
+        "Run focused Phase 5.4 disabled command exposure fixture and runtime rejection checks.",
       ranByReport: false
     },
     {
@@ -7272,7 +7281,7 @@ const report = {
     docs: [
       await localInventoryEntry(
         "docs/phase-5-3-command-surface-approval-preflight.md",
-        "Records Phase 5.3 as the current command-surface approval preflight status while runtime command exposure remains blocked."
+        "Records Phase 5.3 command-surface approval preflight status while runtime command exposure remains blocked."
       ),
       await localInventoryEntry(
         "docs/phase-5-2-guarded-runtime-implementation-slice.md",
@@ -7284,7 +7293,7 @@ const report = {
       ),
       await localInventoryEntry(
         "README.md",
-        "Marks Phase 5.3 as current docs/status mode while runtime commands remain blocked."
+        "Links Phase 5.3 preflight as the preceding docs/status mode while runtime commands remain blocked."
       ),
       await localInventoryEntry(
         "apps/cli/README.md",
@@ -7427,6 +7436,239 @@ const report = {
       noContentFabricRuntimeBehavior: true
     }
   },
+  phase54DisabledCommandExposurePlanInventory: {
+    statusLayer: {
+      document: "docs/phase-5-4-disabled-command-exposure-plan.md",
+      commandSurfacePreflightSourceDocument:
+        "docs/phase-5-3-command-surface-approval-preflight.md",
+      guardedImplementationSourceDocument:
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      approvalSourceDocument:
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      precedingPhase: "5.3",
+      layerId: "disabled-command-exposure-plan",
+      scope: "docs-status-disabled-command-exposure-plan-runtime-enablement-blocked",
+      disabledCommandExposurePlanRecorded: true,
+      futureCliImplementationChecklistDocumented: true,
+      julesDevinReviewPacketDocumented: true,
+      rollbackPlanDocumented: true,
+      commandSurfaceDiffRiskNotesDocumented: true,
+      runtimeCommandExposureApproved: false,
+      runtimeCommandSurfaceApproved: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeEnablementApproved: false,
+      runtimeEnabled: false,
+      approvalCommandEnabled: false,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      rustSourceChanged: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      stdoutStderrWritersEnabled: false,
+      processControlEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-4-disabled-command-exposure-plan.md",
+        "Records Phase 5.4 disabled command exposure planning, future CLI checklist, review packet, rollback plan, and diff-risk notes while runtime exposure remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-3-command-surface-approval-preflight.md",
+        "Provides the preceding command-surface preflight source for the Phase 5.4 disabled exposure plan."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+        "Provides the guarded implementation-slice source that remains unexposed by Phase 5.4."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "Provides the Phase 5.1 approval source for future controlled runtime implementation work."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.4 as current docs/status mode while runtime commands remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.4 adds no CLI runtime command, command exposure, or approval command."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.4 exposes no Rust-host runtime commands and enables no runtime behavior."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/command-surface/phase5-4/disabled-command-exposure-plan.json",
+        "Records the Phase 5.4 disabled command exposure fixture path owned by the command-surface worker."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.4 report metadata, docs cross-links, runtime-blocked flags, and docs/status ownership."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-4-disabled-command-exposure-plan.test.mjs",
+        "Pins Phase 5.4 disabled command exposure fixture semantics and command rejection checks in the command-surface worker lane."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Expected unchanged CLI source; Phase 5.4 adds no runtime, approval, or command-exposure command."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+        "docs/phase-5-3-command-surface-approval-preflight.md",
+        "docs/phase-5-4-disabled-command-exposure-plan.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/command-surface/phase5-4/disabled-command-exposure-plan.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-4-disabled-command-exposure-plan.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeCommandSurfaceApprovalRequired: true,
+      separateRuntimeEnablementRequired: true
+    },
+    futureCliImplementationChecklist: [
+      "exact-command-names-aliases-and-help-text",
+      "deny-by-default-before-file-reads-or-runtime-work",
+      "approval-record-validation-expiration-revocation-and-scope",
+      "host-policy-enforcement-points-for-approved-and-denied-paths",
+      "bounded-stdin-loop-and-jsonl-stdout-writer-ownership",
+      "redacted-stderr-diagnostics-and-line-integrity-fail-closed",
+      "transcript-and-failure-audit-path-confinement",
+      "positive-and-negative-cli-smokes-for-approved-denied-malformed-expired-and-revoked-records",
+      "rollback-kill-switch-and-terminal-state-proof"
+    ],
+    reviewPacketRequiredIfExposureIsProposed: [
+      "jules-devin-review-summary",
+      "exact-command-surface-diff",
+      "apps-cli-index-change-evidence",
+      "rust-host-public-surface-diff",
+      "phase-5-3-preflight-and-phase-5-4-plan-links",
+      "denied-path-test-output",
+      "approved-path-test-output",
+      "rollback-plan-and-kill-switch-evidence",
+      "adapter-locus-mcp-openclaw-plugin-http-and-fabric-non-goals"
+    ],
+    rollbackPlanRequiredIfExposureIsProposed: [
+      "single-flag-disable-runtime-command-surface",
+      "remove-or-disable-cli-command-registration",
+      "revert-public-rust-runtime-export-if-added",
+      "preserve-denied-path-error-shape-and-empty-stdout",
+      "record-terminal-aborted-or-rejected-state",
+      "retain-transcript-and-failure-audit-confinement",
+      "run-denied-path-smokes-after-rollback"
+    ],
+    commandSurfaceDiffRiskNotes: [
+      "new-cli-command-registration-could-accidentally-create-runtime-exposure",
+      "help-text-or-aliases-could-advertise-disabled-commands-as-available",
+      "approval-evaluator-wiring-could-confuse-implementation-approval-with-enable-runtime-approval",
+      "stdout-stderr-writer-ownership-could-bypass-redaction-or-jsonl-framing",
+      "transcript-or-failure-audit-writes-could-create-side-effects-before-approval",
+      "adapter-locus-mcp-openclaw-plugin-http-or-fabric-wiring-could-expand-scope"
+    ],
+    disabledCommandExposurePlan: {
+      document: "docs/phase-5-4-disabled-command-exposure-plan.md",
+      fixture: "tests/fixtures/command-surface/phase5-4/disabled-command-exposure-plan.json",
+      schema: phase54DisabledCommandExposurePlanMetadata.schema,
+      phase: phase54DisabledCommandExposurePlanMetadata.phase,
+      fixtureStatus: await localStatus(
+        "tests/fixtures/command-surface/phase5-4/disabled-command-exposure-plan.json"
+      ),
+      status: phase54DisabledCommandExposurePlanMetadata.runtimeExposureState.status,
+      commandExposedToday:
+        phase54DisabledCommandExposurePlanMetadata.runtimeExposureState.commandExposedToday,
+      futureCandidateCommandCount:
+        phase54DisabledCommandExposurePlanMetadata.candidateRuntimeCommands.length,
+      runtimeCommandExposureApproved: false,
+      runtimeCommandSurfaceApproved: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeEnabled: false,
+      approvalCommandEnabled: false,
+      appsCliIndexChanged: false,
+      rustSourceChanged: false,
+      machineReadableArtifactsChanged: true
+    },
+    runtimeEffect: {
+      runtimeEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeCommandSurfaceApproved: false,
+      runtimeCommandExposureApproved: false,
+      runtimeEnablementApproved: false,
+      approvalCommandEnabled: false,
+      cliSourceChanged: false,
+      stdoutStderrWritersEnabled: false,
+      processControlEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false
+    },
+    nonExecutionInvariants: [
+      "phase5-4-disabled-command-exposure-plan-only",
+      "runtime-enablement-remains-blocked",
+      "runtime-command-exposure-remains-blocked",
+      "runtime-command-surface-remains-blocked",
+      "apps-cli-index-unchanged",
+      "no-approval-command",
+      "no-live-stdin-stdout-stderr-or-process-control",
+      "no-adapter-or-fabric-runtime-behavior"
+    ],
+    safetyPosture: {
+      disabledCommandExposurePlanRecorded: true,
+      futureCliImplementationChecklistDocumented: true,
+      julesDevinReviewPacketDocumented: true,
+      rollbackPlanDocumented: true,
+      commandSurfaceDiffRiskNotesDocumented: true,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureApproved: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeCommandSurfaceApproved: false,
+      runtimeEnablementApproved: false,
+      noRuntimeCommand: true,
+      noApprovalCommand: true,
+      noProcessControl: true,
+      noStdoutStderrWriters: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -7462,6 +7704,7 @@ const report = {
     phase51ControlledRuntimeImplementationApproval: true,
     phase52GuardedRuntimeImplementationSlice: true,
     phase53CommandSurfaceApprovalPreflight: true,
+    phase54DisabledCommandExposurePlan: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -7573,6 +7816,25 @@ const report = {
       phase53TranscriptAuditSideEffectsEnabled: false,
       phase53AdapterRuntimeBehaviorEnabled: false,
       phase53ContentFabricRuntimeBehaviorEnabled: false,
+      phase54DisabledCommandExposurePlanRecorded: true,
+      phase54FutureCliImplementationChecklistDocumented: true,
+      phase54JulesDevinReviewPacketDocumented: true,
+      phase54RollbackPlanDocumented: true,
+      phase54CommandSurfaceDiffRiskNotesDocumented: true,
+      phase54RuntimeEnablementApproved: false,
+      phase54RuntimeEnabled: false,
+      phase54RuntimeCommandEnabled: false,
+      phase54RuntimeCommandExposureApproved: false,
+      phase54RuntimeCommandSurfaceApproved: false,
+      phase54RuntimeCommandSurfaceEnabled: false,
+      phase54ApprovalCommandEnabled: false,
+      phase54AppsCliIndexChanged: false,
+      phase54RustSourceChanged: false,
+      phase54ProcessControlEnabled: false,
+      phase54StdoutStderrWritersEnabled: false,
+      phase54TranscriptAuditSideEffectsEnabled: false,
+      phase54AdapterRuntimeBehaviorEnabled: false,
+      phase54ContentFabricRuntimeBehaviorEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

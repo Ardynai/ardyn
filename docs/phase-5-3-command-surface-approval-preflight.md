@@ -1,7 +1,7 @@
 # Phase 5.3 Command Surface Approval Preflight
 
-Phase 5.3 is the current docs/status boundary after the Phase 5.2 guarded
-runtime implementation slice. It prepares the command-surface approval record
+Phase 5.3 is the command-surface preflight docs/status boundary after the Phase
+5.2 guarded runtime implementation slice. It prepares the command-surface approval record
 for a possible later runtime command exposure phase. It does not add a CLI
 command, expose a runtime command surface, grant approval, or enable runtime
 behavior.
@@ -13,6 +13,7 @@ Cross-links:
 - Rust host status: `../crates/ardyn-host/README.md`
 - Approval source: `phase-5-1-controlled-runtime-implementation-approval-handoff.md`
 - Guarded implementation slice: `phase-5-2-guarded-runtime-implementation-slice.md`
+- Current disabled command exposure plan: `phase-5-4-disabled-command-exposure-plan.md`
 
 Machine-readable Phase 5.3 artifact path:
 
@@ -29,7 +30,7 @@ the command surface.
 
 Allowed work in this lane:
 
-- record Phase 5.3 as the current local status-report phase
+- record Phase 5.3 as the local status-report phase for that preflight slice
 - document future command contract fields that must exist before exposure
 - inventory the Phase 5.3 command-surface fixture path in report metadata
 - cross-link Phase 5.3 from the root README, CLI README, Rust host README,
@@ -87,3 +88,9 @@ Phase 5.3 leaves these surfaces disabled:
 - transcript/audit write side effects
 - adapter or Content Fabric runtime behavior
 - changes to `apps/cli/src/index.mjs`
+
+Phase 5.4 follows this preflight as a disabled command exposure plan. It
+documents the future CLI checklist, Jules/Devin review packet, rollback plan,
+and command-surface diff-risk notes only. It still does not expose runtime
+commands, change `apps/cli/src/index.mjs`, grant approval, or enable runtime.
+See `phase-5-4-disabled-command-exposure-plan.md`.

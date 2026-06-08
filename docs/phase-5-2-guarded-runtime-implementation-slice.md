@@ -15,6 +15,7 @@ Cross-links:
 - Rust host status: `../crates/ardyn-host/README.md`
 - Approval source: `phase-5-1-controlled-runtime-implementation-approval-handoff.md`
 - Current command preflight: `phase-5-3-command-surface-approval-preflight.md`
+- Current disabled command exposure plan: `phase-5-4-disabled-command-exposure-plan.md`
 - External-review source: `phase-4-2d-external-review-disposition-phase5-handoff.md`
 - Readiness source: `phase-4-2c-runtime-readiness-review-gate.md`
 
@@ -105,6 +106,12 @@ Phase 5.3 follows this slice as command-surface approval preflight docs/status
 metadata only. It still does not expose runtime commands, change
 `apps/cli/src/index.mjs`, grant approval, or enable runtime. See
 `phase-5-3-command-surface-approval-preflight.md`.
+
+Phase 5.4 follows as a disabled command exposure plan with a future CLI
+checklist, Jules/Devin packet, rollback plan, and diff-risk notes only. It
+still does not expose runtime commands, change `apps/cli/src/index.mjs`, grant
+approval, or enable runtime. See
+`phase-5-4-disabled-command-exposure-plan.md`.
 
 Phase 5.2 remains local report/docs status for a guarded implementation slice;
 runtime enablement remains blocked.

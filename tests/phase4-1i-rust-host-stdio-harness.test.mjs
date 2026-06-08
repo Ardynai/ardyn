@@ -79,7 +79,7 @@ test("Phase 4.1I report records private Rust stdio harness tests without runtime
   const report = await runReport();
   const inventory = report.phase41IRustHostStdioHarnessInventory;
 
-  assert.equal(report.phase.id, "5.3");
+  assert.equal(report.phase.id, "5.4");
   assert.equal(inventory.harnessLayer.privateRustCfgTestHarness, true);
   assert.equal(inventory.harnessLayer.inMemoryOnly, true);
   assert.equal(inventory.harnessLayer.productionRuntimeSourceChanged, false);
