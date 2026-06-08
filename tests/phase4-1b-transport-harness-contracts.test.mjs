@@ -390,9 +390,9 @@ test("Phase 4.1B status report inventories transport harness contracts without r
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.2B",
-    name: "Blocked lifecycle and failure-audit skeleton",
-    executionPosture: "blocked-lifecycle-failure-audit-skeleton-only non-executing"
+    id: "4.2C",
+    name: "Runtime readiness review gate",
+    executionPosture: "runtime-readiness-review-gate-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

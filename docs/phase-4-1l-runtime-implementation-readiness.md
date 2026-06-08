@@ -145,3 +145,12 @@ private blocked skeleton with planned-only lifecycle, transcript-plan,
 failure-audit, and kill-semantics helpers while keeping runtime enablement,
 process control, transcript writes, failure-audit writes, CLI runtime commands,
 approval grants, external integrations, and live execution unavailable.
+
+## Phase 4.2C Follow-Up
+
+Phase 4.2C is documented in
+`docs/phase-4-2c-runtime-readiness-review-gate.md`. It consolidates this
+readiness evidence with the 4.2A and 4.2B blocked skeleton evidence into a
+Jules/Devin review packet and blocker burn-down while runtime approval,
+external review completion, CLI runtime commands, and live execution remain
+unavailable.

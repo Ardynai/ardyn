@@ -614,9 +614,17 @@ read stdin, does not control processes, and does not write transcripts or
 failure-audit files. See
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
 
+## Phase 4.2C Runtime Readiness Review Gate
+
+Phase 4.2C adds a runtime readiness review gate, Jules/Devin packet, blocker
+burn-down, and external-review status rules. It does not change this
+TypeScript dry-run emitter, does not add a CLI runtime or review command, does
+not complete external review, does not grant runtime approval, and does not
+enable runtime. See `docs/phase-4-2c-runtime-readiness-review-gate.md`.
+
 ## Deferred Runtime Work
 
-Through Phase 4.2B, ARDYN intentionally does not implement repo-root confinement, transcript
+Through Phase 4.2C, ARDYN intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction

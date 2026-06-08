@@ -114,3 +114,12 @@ fail-closed; and whether blocked-path tests are sufficient for this phase.
 
 No fresh Devin or Jules review is claimed for Phase 4.2B unless that review is
 actually performed against this diff.
+
+## Phase 4.2C Follow-Up
+
+Phase 4.2C is documented in
+`docs/phase-4-2c-runtime-readiness-review-gate.md`. It packages the 4.2A and
+4.2B blocked skeleton evidence for Jules/Devin review, records blocker
+burn-down and external-review status rules, and keeps runtime approval,
+external review completion, CLI runtime commands, process control, transcript
+writes, failure-audit writes, and live execution blocked.

@@ -119,3 +119,11 @@ Phase 4.2B is documented in
 private blocked skeleton with planned-only lifecycle, transcript-plan,
 failure-audit, and kill-semantics helpers while preserving the same no-runtime,
 no-CLI-command, no-process-control, no-write-side-effect boundary.
+
+## Phase 4.2C Follow-Up
+
+Phase 4.2C is documented in
+`docs/phase-4-2c-runtime-readiness-review-gate.md`. It uses this blocked
+skeleton as evidence for a readiness review gate and Jules/Devin packet, but
+does not approve runtime, complete external review, publish the private module,
+or enable a CLI runtime command.

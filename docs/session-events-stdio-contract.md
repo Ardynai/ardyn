@@ -395,6 +395,11 @@ control, transcript persistence runtime, failure-audit runtime, live stdio
 transport, or CLI runtime command. See
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
 
+Phase 4.2C packages the 4.1I through 4.2B evidence into a runtime readiness
+review gate and Jules/Devin packet. It adds no live stdio transport, no
+runtime approval, no external-review completion, and no CLI runtime command.
+See `docs/phase-4-2c-runtime-readiness-review-gate.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

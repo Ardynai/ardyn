@@ -2,17 +2,18 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.2B exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 4.2C exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
-Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, and Phase 4.2B:
+Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
+and Phase 4.2C:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.2B extends the internal blocked Rust-host stdio
-runtime skeleton with lifecycle, transcript-plan, failure-audit, and
-kill-semantics planning data, fixture expectation metadata, tests, docs, and
-report inventory only; it does not add a runtime-implementation-readiness CLI
-command, 4.2A runtime-skeleton CLI command, 4.2B lifecycle CLI command,
+`emit-session-events`. Phase 4.2C adds readiness-gate metadata, a Jules/Devin
+review packet, blocker burn-down, external-review status rules, tests, docs,
+and report inventory only; it does not add a runtime-implementation-readiness
+CLI command, 4.2A runtime-skeleton CLI command, 4.2B lifecycle CLI command,
+4.2C readiness-gate CLI command, external-review completion CLI command,
 rust-host-stdio-harness CLI command, stdio-harness CLI command, runtime-harness
 CLI command, fixture-backed-stdio-boundary CLI command, stdio-boundary CLI
 command, public-runtime-contract CLI command, runtime-contract-gates CLI
@@ -28,10 +29,12 @@ reader, stdout writer, stderr writer, failure-audit command, listener, server,
 subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call,
 plugin execution path, Content Fabric runtime path, runtime approval grant,
 live runtime implementation, or agent loop. Phase 4.2B is not runtime
-readiness, records no fresh external or Devin review, does not change CLI
-source, and keeps runtime blocked. See
+readiness, and Phase 4.2C is not runtime approval or runtime enablement.
+Phase 4.2C records no fresh external, Devin, or Jules review, does not change
+CLI source, and keeps runtime blocked. See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
-`docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
+`docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
+`docs/phase-4-2c-runtime-readiness-review-gate.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -308,3 +311,12 @@ command, no kill CLI command, no process control, no transcript write side
 effect, no audit write side effect, no approval evaluator, and no runtime
 approval grant. See
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
+
+Phase 4.2C adds a runtime readiness review gate, Jules/Devin review packet,
+blocker burn-down, external-review status rules, focused tests, and report
+inventory while leaving CLI behavior unchanged. It adds no readiness-gate CLI
+command, no external-review-packet CLI command, no review-packet CLI command,
+no runtime-readiness-review CLI command, no approval command, no runtime
+command, no process control, no transcript or audit write side effect, and no
+runtime approval grant. See
+`docs/phase-4-2c-runtime-readiness-review-gate.md`.

@@ -3,6 +3,13 @@
 //! Phase 3 models the native host side of the static identity and handshake.
 //! It intentionally does not implement live Rust task planning, autonomous execution,
 //! tool execution, network listeners, API calls, or long-running services.
+//!
+//! The blocked stdio runtime skeleton remains private until a separately
+//! approved runtime enablement phase creates a public surface:
+//!
+//! ```compile_fail
+//! let _ = ardyn_host::stdio_runtime::blocked_stdio_runtime_entrypoint(b"");
+//! ```
 
 mod stdio_runtime;
 

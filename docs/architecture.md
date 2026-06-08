@@ -195,6 +195,12 @@ and execute requests still return blocked/unavailable data and do not spawn,
 signal, kill, poll, wait on, or manage child processes. See
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
 
+Phase 4.2C adds a runtime readiness review gate and Jules/Devin packet over
+the blocked skeleton evidence. It changes no architecture boundary: the
+private Rust skeleton is not a public runtime module, external review is not
+complete, runtime approval is not granted, and CLI runtime commands remain
+unavailable. See `docs/phase-4-2c-runtime-readiness-review-gate.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

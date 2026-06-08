@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.2B still exposes static Rust host identity, handshake data, policy-only
+Phase 4.2C still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -37,6 +37,10 @@ failure-audit, and kill-semantics planning helpers and tests. It does not
 spawn, kill, signal, poll, wait on, or manage child processes; write
 transcripts or audit files; change CLI source; approve runtime; or record
 fresh external, Devin, or Jules review.
+Phase 4.2C adds a runtime readiness review gate, Jules/Devin packet, blocker
+burn-down, external-review status rules, and a compile-fail public-boundary
+doctest. It keeps `stdio_runtime` private, records no fresh external, Devin,
+or Jules review, grants no runtime approval, and enables no runtime behavior.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -183,6 +187,11 @@ kill-semantics helpers inside the same private module. Start, stop, kill, and
 execute requests all return blocked/unavailable data with no process identity,
 process control, transcript writes, or failure-audit writes. See
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
+
+Phase 4.2C adds no Rust-host runtime implementation. It records the readiness
+gate, Jules/Devin packet, blocker burn-down, and external-review status rules,
+and it pins that `stdio_runtime` remains private. See
+`docs/phase-4-2c-runtime-readiness-review-gate.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

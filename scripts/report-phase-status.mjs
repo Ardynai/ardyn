@@ -97,6 +97,9 @@ const phase42ABlockedRuntimeSkeletonMetadata = await readJson(
 const phase42BLifecycleFailureAuditMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-2b/lifecycle-failure-audit-skeleton-plan.json"
 );
+const phase42CRuntimeReadinessReviewGateMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -144,9 +147,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.2B",
-    name: "Blocked lifecycle and failure-audit skeleton",
-    executionPosture: "blocked-lifecycle-failure-audit-skeleton-only non-executing"
+    id: "4.2C",
+    name: "Runtime readiness review gate",
+    executionPosture: "runtime-readiness-review-gate-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -187,14 +190,25 @@ const report = {
       ranByReport: false
     },
     {
+      command: "git diff --cached --check",
+      purpose: "Check the staged diff for whitespace errors after new files are staged.",
+      ranByReport: false
+    },
+    {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.2B blocked lifecycle/failure-audit skeleton status report.",
+        "Render this deterministic local Phase 4.2C runtime readiness review gate status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.2B status report.",
+      purpose: "Run focused tests for this local Phase 4.2C status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-2c-runtime-readiness-review-gate.test.mjs",
+      purpose:
+        "Run focused Phase 4.2C readiness gate fixture, source-guard, external-review, and rejection checks.",
       ranByReport: false
     },
     {
@@ -6383,6 +6397,169 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase42CRuntimeReadinessReviewGateInventory: {
+    gateLayer: {
+      document: "docs/phase-4-2c-runtime-readiness-review-gate.md",
+      precedingPhase: "4.2B",
+      layerId: "runtime-readiness-review-gate",
+      scope: "external-review-packet-and-blocker-burn-down-runtime-still-blocked",
+      fixture: "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json",
+      readyForExternalReview:
+        phase42CRuntimeReadinessReviewGateMetadata.readinessGate.readyForExternalReview,
+      externalReviewComplete:
+        phase42CRuntimeReadinessReviewGateMetadata.externalReview.externalReviewComplete,
+      runtimeReadinessApproved:
+        phase42CRuntimeReadinessReviewGateMetadata.readinessGate.runtimeReadinessApproved,
+      runtimeEnablementApproved:
+        phase42CRuntimeReadinessReviewGateMetadata.readinessGate.runtimeEnablementApproved,
+      runtimeEnabled: phase42CRuntimeReadinessReviewGateMetadata.readinessGate.runtimeEnabled,
+      runtimeBlocked: phase42CRuntimeReadinessReviewGateMetadata.readinessGate.runtimeBlocked,
+      runtimeUnblockRequiresSeparatePhase:
+        phase42CRuntimeReadinessReviewGateMetadata.readinessGate
+          .runtimeUnblockRequiresSeparatePhase,
+      runtimeApprovalRequiresSeparatePhase:
+        phase42CRuntimeReadinessReviewGateMetadata.readinessGate
+          .runtimeApprovalRequiresSeparatePhase,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      reportRunsChecks: false
+    },
+    gateFixture: await localInventoryEntry(
+      "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json",
+      "Expected Phase 4.2C runtime readiness review gate fixture with evidence links, blocker burn-down, external-review rules, and runtime-blocked flags."
+    ),
+    gateMetadata: {
+      schema: phase42CRuntimeReadinessReviewGateMetadata.schema,
+      schemaVersion: phase42CRuntimeReadinessReviewGateMetadata.schemaVersion,
+      phase: phase42CRuntimeReadinessReviewGateMetadata.phase,
+      artifactKind: phase42CRuntimeReadinessReviewGateMetadata.artifactKind,
+      metadataGeneratedAt: phase42CRuntimeReadinessReviewGateMetadata.metadataGeneratedAt,
+      currentState: phase42CRuntimeReadinessReviewGateMetadata.currentState,
+      nextAllowedState: phase42CRuntimeReadinessReviewGateMetadata.nextAllowedState,
+      prohibitedTransitions:
+        phase42CRuntimeReadinessReviewGateMetadata.prohibitedTransitions
+    },
+    readinessGate: phase42CRuntimeReadinessReviewGateMetadata.readinessGate,
+    externalReview: phase42CRuntimeReadinessReviewGateMetadata.externalReview,
+    reviewPacket: phase42CRuntimeReadinessReviewGateMetadata.reviewPacket,
+    evidenceLinks: phase42CRuntimeReadinessReviewGateMetadata.evidenceLinks,
+    blockerBurnDown: phase42CRuntimeReadinessReviewGateMetadata.blockerBurnDown,
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-2c-runtime-readiness-review-gate.md",
+        "Records Phase 4.2C as a runtime readiness review gate, Jules/Devin packet, blocker burn-down, and explicit future enablement boundary."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md",
+        "Provides the blocked lifecycle/failure-audit skeleton evidence consumed by this gate."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+        "Provides the blocked runtime skeleton evidence consumed by this gate."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1l-runtime-implementation-readiness.md",
+        "Provides implementation-readiness and blocker burn-down evidence consumed by this gate."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4 roadmap with 4.2C as review-gate work rather than runtime enablement."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.2C leaves finite TypeScript dry-run event emission unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.2C while preserving no live stdio transport or process stdio ownership."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents Phase 4.2C as a readiness gate, not active runtime enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records the readiness gate boundary without adding live runtime architecture."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.2C scope and unchanged non-executing CLI/runtime posture."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.2C adds no readiness, external-review, or runtime CLI command."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.2C adds no TypeScript core runtime helper API and cannot grant runtime approval."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 4.2C keeps the private Rust-host skeleton blocked and review-gated."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.2C report metadata, readiness gate inventory, runtime flags, and safety posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-2c-runtime-readiness-review-gate.test.mjs",
+        "Expected focused Phase 4.2C fixture, source-guard, external-review, and runtime rejection test path."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-2b-blocked-lifecycle-failure-audit-skeleton.test.mjs",
+        "Keeps Phase 4.2B blocked lifecycle/failure-audit guard active after the review gate lands."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs",
+        "Keeps Phase 4.2A blocked runtime skeleton guard active after the review gate lands."
+      )
+    ],
+    rustSourceInventory: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Expected private stdio_runtime module registration and compile-fail public-boundary doctest."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/src/stdio_runtime/mod.rs",
+        "Expected internal blocked runtime skeleton; Phase 4.2C adds no live IO or process behavior."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Expected unchanged CLI source; Phase 4.2C adds no readiness, review, or runtime command."
+      )
+    ],
+    ownershipBoundary: {
+      docsReportAndFocusedTestFiles: [
+        "docs/phase-4-2c-runtime-readiness-review-gate.md",
+        "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json",
+        "tests/phase4-2c-runtime-readiness-review-gate.test.mjs",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      rustBoundarySourceFiles: [
+        "crates/ardyn-host/src/lib.rs",
+        "crates/ardyn-host/src/stdio_runtime/mod.rs"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      reportRunsChecks: false,
+      separateExternalReviewRequired: true,
+      separateRuntimeImplementationApprovalRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    runtimeLikeCommandRejectionProbes:
+      phase42CRuntimeReadinessReviewGateMetadata.runtimeLikeCommandRejectionProbes,
+    runtimeEffect: phase42CRuntimeReadinessReviewGateMetadata.runtimeEffect,
+    nonExecutionInvariants: phase42CRuntimeReadinessReviewGateMetadata.nonExecutionInvariants,
+    safetyPosture: phase42CRuntimeReadinessReviewGateMetadata.safetyPosture
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -6413,6 +6590,7 @@ const report = {
     runtimeImplementationReadinessInventory: true,
     phase42ADeliberatelyBlockedRuntimeSkeleton: true,
     phase42BLifecycleFailureAuditSkeleton: true,
+    phase42CRuntimeReadinessReviewGate: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -6455,6 +6633,18 @@ const report = {
       phase42BProcessControlEnabled: false,
       phase42BFailureAuditRuntimeEnabled: false,
       phase42BTranscriptPersistenceRuntimeEnabled: false,
+      phase42CReadyForExternalReview: true,
+      phase42CRuntimeImplemented: false,
+      phase42CRuntimeReady: false,
+      phase42CRuntimeApproved: false,
+      phase42CRuntimeEnabled: false,
+      phase42CRuntimeCommandEnabled: false,
+      phase42CAppsCliIndexChanged: false,
+      phase42CExternalReviewComplete: false,
+      phase42CReadinessApprovalCommandEnabled: false,
+      phase42CProcessControlEnabled: false,
+      phase42CFailureAuditRuntimeEnabled: false,
+      phase42CTranscriptPersistenceRuntimeEnabled: false,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,

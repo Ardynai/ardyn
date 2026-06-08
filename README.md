@@ -8,10 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.2B Scope
+## Phase 3 and Phase 4.2C Scope
 
-This repository is currently in Phase 4.2B deliberately blocked Rust-host
-lifecycle and failure-audit skeleton mode. The
+This repository is currently in Phase 4.2C runtime readiness review gate mode.
+The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -41,8 +41,10 @@ skeleton while runtime enablement remains blocked plus an internal Rust
 library skeleton that plans frames and gate state but always returns blocked
 or `runtime_unavailable` plus a blocked lifecycle/failure-audit skeleton that
 plans start, stop, kill, execute, transcript, and audit outcomes without
-process control or write side effects before any separately approved live
-runtime work.
+process control or write side effects plus a readiness gate and Jules/Devin
+review packet that consolidates 4.1I through 4.2B evidence, records open
+runtime enablement blockers, and allows external review preparation without
+runtime approval before any separately approved live runtime work.
 
 Included now:
 
@@ -179,6 +181,12 @@ Included now:
   writes, failure-audit writes, runtime commands, approval grants, and CLI
   source changes remain blocked. See
   `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
+- Phase 4.2C runtime readiness review gate documentation, deterministic
+  fixture metadata, Jules/Devin review packet, blocker burn-down, external
+  review status rules, focused tests, and report inventory. It is ready for
+  external review only; it is not runtime approval, does not complete external
+  review, does not change CLI source, and keeps runtime blocked. See
+  `docs/phase-4-2c-runtime-readiness-review-gate.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -223,9 +231,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.2B CLI Usage
+## Phase 3 and Phase 4.2C CLI Usage
 
-Run non-executing commands directly from source through Phase 4.2B:
+Run non-executing commands directly from source through Phase 4.2C:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -420,6 +428,13 @@ planned-only lifecycle, transcript, failure-audit, and kill-semantics helpers
 inside the private Rust-host skeleton. It is not runtime readiness, does not
 change `apps/cli/src/index.mjs`, does not enable runtime commands, and keeps
 runtime blocked.
+
+Phase 4.2C is documented in
+`docs/phase-4-2c-runtime-readiness-review-gate.md`. It adds a readiness gate,
+Jules/Devin review packet, blocker burn-down, and external-review status rules.
+It is ready for external review only; it does not complete external review,
+does not grant runtime approval, does not change `apps/cli/src/index.mjs`, does
+not enable runtime commands, and keeps runtime blocked.
 
 Example dry-run check:
 

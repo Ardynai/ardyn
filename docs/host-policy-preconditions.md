@@ -341,6 +341,12 @@ remains pre-runtime metadata only: there is no process control, transcript
 write, failure-audit write, approval evaluation, or runtime approval grant.
 See `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
 
+Phase 4.2C adds a runtime readiness review gate, Jules/Devin packet, blocker
+burn-down, and external-review status rules. Host policy still remains
+pre-runtime metadata only: packet-ready status cannot complete external review,
+grant runtime approval, or enable runtime. See
+`docs/phase-4-2c-runtime-readiness-review-gate.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting
