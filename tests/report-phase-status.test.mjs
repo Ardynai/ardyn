@@ -675,6 +675,7 @@ const phase51CrossLinks = [
 const phase52DocFiles = [
   "docs/phase-5-2-guarded-runtime-implementation-slice.md",
   "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md",
   "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
   "docs/phase-4-2c-runtime-readiness-review-gate.md",
   "README.md",
@@ -690,7 +691,24 @@ const phase52CrossLinks = [
   "docs/phase-4-2c-runtime-readiness-review-gate.md",
   "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
   "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
-  "docs/phase-5-2-guarded-runtime-implementation-slice.md"
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md"
+];
+const phase53DocFiles = [
+  "docs/phase-5-3-command-surface-approval-preflight.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase53CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md"
 ];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
@@ -813,14 +831,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.2 guarded implementation-slice docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.3 command-surface preflight docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.2",
-    name: "Guarded runtime implementation slice",
-    executionPosture: "guarded-implementation-slice runtime-enablement-blocked no-runtime-commands"
+    id: "5.3",
+    name: "Command surface approval preflight",
+    executionPosture: "command-surface-approval-preflight runtime-enablement-blocked no-runtime-commands"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -893,12 +911,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.2 guarded runtime implementation slice status report.",
+        "Render this deterministic local Phase 5.3 command surface approval preflight status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.2 status report.",
+      purpose: "Run focused tests for this local Phase 5.3 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-3-command-surface-preflight.test.mjs",
+      purpose:
+        "Run focused Phase 5.3 command-surface approval preflight fixture and runtime rejection checks.",
       ranByReport: false
     },
     {
@@ -6354,6 +6378,7 @@ test("report inventories Phase 5.2 as guarded implementation-slice status with r
     "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
     "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
     "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    "docs/phase-5-3-command-surface-approval-preflight.md",
     "scripts/report-phase-status.mjs",
     "tests/report-phase-status.test.mjs"
   ]);
@@ -6440,6 +6465,157 @@ test("report inventories Phase 5.2 as guarded implementation-slice status with r
   assert.equal(report.safetyPosture.flags.phase52TranscriptAuditSideEffectsEnabled, false);
   assert.equal(report.safetyPosture.flags.phase52AdapterRuntimeBehaviorEnabled, false);
   assert.equal(report.safetyPosture.flags.phase52ContentFabricRuntimeBehaviorEnabled, false);
+});
+
+test("report inventories Phase 5.3 as command-surface approval preflight with runtime commands blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase53CommandSurfaceApprovalPreflightInventory;
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-3-command-surface-approval-preflight.md",
+    guardedImplementationSourceDocument:
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    approvalSourceDocument:
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    precedingPhase: "5.2",
+    layerId: "command-surface-approval-preflight",
+    scope: "docs-status-command-surface-preflight-runtime-enablement-blocked",
+    commandSurfacePreflightRecorded: true,
+    futureCommandContractDocumented: true,
+    futureReviewPacketDocumented: true,
+    runtimeCommandSurfaceApproved: false,
+    runtimeCommandSurfaceEnabled: false,
+    runtimeEnablementApproved: false,
+    runtimeEnabled: false,
+    approvalCommandEnabled: false,
+    cliSourceChanged: false,
+    appsCliIndexChanged: false,
+    rustSourceChanged: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    stdoutStderrWritersEnabled: false,
+    processControlEnabled: false,
+    transcriptAuditSideEffectsEnabled: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase53DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase53CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/command-surface/phase5-3/command-surface-approval-preflight.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-3-command-surface-preflight.test.mjs"
+  ]);
+  assert.deepEqual(inventory.cliSourceInventory.map(({ path, status }) => [path, status]), [
+    ["apps/cli/src/index.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.docsStatusFiles, [
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    "docs/phase-5-3-command-surface-approval-preflight.md",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.machineReadableArtifactFiles, [
+    "tests/fixtures/command-surface/phase5-3/command-surface-approval-preflight.json"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.focusedTestFiles, [
+    "tests/phase5-3-command-surface-preflight.test.mjs",
+    "tests/report-phase-status.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
+  ]);
+  assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.rustSourceChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.machineReadableArtifactsChangedByThisPhase, true);
+  assert.equal(inventory.ownershipBoundary.reportRunsChecks, false);
+  assert.equal(inventory.ownershipBoundary.separateRuntimeCommandSurfaceApprovalRequired, true);
+  assert.equal(inventory.ownershipBoundary.separateRuntimeEnablementRequired, true);
+  assert.deepEqual(inventory.commandSurfaceApprovalPreflight, {
+    fixture: "tests/fixtures/command-surface/phase5-3/command-surface-approval-preflight.json",
+    status: inventory.commandSurfaceApprovalPreflight.status,
+    runtimeCommandSurfaceApproved: false,
+    runtimeCommandSurfaceEnabled: false,
+    runtimeEnabled: false,
+    approvalCommandEnabled: false,
+    appsCliIndexChanged: false
+  });
+  assert.match(inventory.commandSurfaceApprovalPreflight.status, /^(present|missing)$/);
+  assert.deepEqual(inventory.futureCommandContractRequiredFields, [
+    "exact-command-names-and-aliases",
+    "denied-by-default-behavior",
+    "approval-grant-scope-expiration-revocation-audit",
+    "host-policy-enforcement-points",
+    "stdout-jsonl-and-stderr-diagnostic-ownership",
+    "transcript-and-failure-audit-write-confinement",
+    "rollback-kill-switch-and-terminal-state-behavior",
+    "approved-and-denied-cli-smokes"
+  ]);
+  assert.deepEqual(inventory.futureReviewPacketRequiredIfCommandExposureIsProposed, [
+    "exact-command-surface-diff",
+    "phase-5-3-preflight-fixture",
+    "focused-denied-path-tests",
+    "focused-approved-path-tests",
+    "apps-cli-index-change-evidence",
+    "runtime-enablements-separated-from-adapter-locus-mcp-openclaw-plugin-http-and-fabric"
+  ]);
+  assertAllFalse(inventory.runtimeEffect);
+  assert.deepEqual(inventory.nonExecutionInvariants, [
+    "phase5-3-command-surface-preflight-only",
+    "runtime-enablement-remains-blocked",
+    "runtime-command-surface-remains-blocked",
+    "apps-cli-index-unchanged",
+    "no-approval-command",
+    "no-live-stdin-stdout-stderr-or-process-control",
+    "no-adapter-or-fabric-runtime-behavior"
+  ]);
+  assert.deepEqual(inventory.safetyPosture, {
+    commandSurfacePreflightRecorded: true,
+    futureCommandContractDocumented: true,
+    futureReviewPacketDocumented: true,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandSurfaceEnabled: false,
+    runtimeCommandSurfaceApproved: false,
+    runtimeEnablementApproved: false,
+    noRuntimeCommand: true,
+    noApprovalCommand: true,
+    noProcessControl: true,
+    noStdoutStderrWriters: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true
+  });
+  assert.equal(report.safetyPosture.phase53CommandSurfaceApprovalPreflight, true);
+  assert.equal(report.safetyPosture.flags.phase53CommandSurfacePreflightRecorded, true);
+  assert.equal(report.safetyPosture.flags.phase53FutureCommandContractDocumented, true);
+  assert.equal(report.safetyPosture.flags.phase53FutureReviewPacketDocumented, true);
+  assert.equal(report.safetyPosture.flags.phase53RuntimeEnablementApproved, false);
+  assert.equal(report.safetyPosture.flags.phase53RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase53RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase53RuntimeCommandSurfaceApproved, false);
+  assert.equal(report.safetyPosture.flags.phase53RuntimeCommandSurfaceEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase53ApprovalCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase53AppsCliIndexChanged, false);
+  assert.equal(report.safetyPosture.flags.phase53ProcessControlEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase53StdoutStderrWritersEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase53TranscriptAuditSideEffectsEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase53AdapterRuntimeBehaviorEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase53ContentFabricRuntimeBehaviorEnabled, false);
 });
 
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
@@ -6650,6 +6826,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase42DExternalReviewDispositionPhase5Handoff, true);
   assert.equal(report.safetyPosture.phase51ControlledRuntimeImplementationApproval, true);
   assert.equal(report.safetyPosture.phase52GuardedRuntimeImplementationSlice, true);
+  assert.equal(report.safetyPosture.phase53CommandSurfaceApprovalPreflight, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -6747,6 +6924,21 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase52TranscriptAuditSideEffectsEnabled: false,
     phase52AdapterRuntimeBehaviorEnabled: false,
     phase52ContentFabricRuntimeBehaviorEnabled: false,
+    phase53CommandSurfacePreflightRecorded: true,
+    phase53FutureCommandContractDocumented: true,
+    phase53FutureReviewPacketDocumented: true,
+    phase53RuntimeEnablementApproved: false,
+    phase53RuntimeEnabled: false,
+    phase53RuntimeCommandEnabled: false,
+    phase53RuntimeCommandSurfaceApproved: false,
+    phase53RuntimeCommandSurfaceEnabled: false,
+    phase53ApprovalCommandEnabled: false,
+    phase53AppsCliIndexChanged: false,
+    phase53ProcessControlEnabled: false,
+    phase53StdoutStderrWritersEnabled: false,
+    phase53TranscriptAuditSideEffectsEnabled: false,
+    phase53AdapterRuntimeBehaviorEnabled: false,
+    phase53ContentFabricRuntimeBehaviorEnabled: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,

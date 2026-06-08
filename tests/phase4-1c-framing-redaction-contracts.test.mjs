@@ -348,9 +348,9 @@ test("Phase 4.1C status report inventories framing/redaction contracts without r
   const inventory = report.phase41CFramingRedactionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.2",
-    name: "Guarded runtime implementation slice",
-    executionPosture: "guarded-implementation-slice runtime-enablement-blocked no-runtime-commands"
+    id: "5.3",
+    name: "Command surface approval preflight",
+    executionPosture: "command-surface-approval-preflight runtime-enablement-blocked no-runtime-commands"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

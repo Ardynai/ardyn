@@ -384,9 +384,9 @@ test("Phase 4.1E status report inventories failure-audit contracts without runni
   const inventory = report.phase41EFailureAuditInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.2",
-    name: "Guarded runtime implementation slice",
-    executionPosture: "guarded-implementation-slice runtime-enablement-blocked no-runtime-commands"
+    id: "5.3",
+    name: "Command surface approval preflight",
+    executionPosture: "command-surface-approval-preflight runtime-enablement-blocked no-runtime-commands"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

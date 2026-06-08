@@ -1,0 +1,417 @@
+{
+  "schema": "ardyn.phase-5.3.command-surface-approval-preflight",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.3-command-surface-approval-preflight",
+  "artifactKind": "command-surface-approval-preflight-runtime-disabled",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhases": {
+    "runtimeReadinessGate": "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json",
+    "externalReviewDisposition": "tests/fixtures/host-policy/phase4-2d/external-review-disposition-phase5-handoff.json",
+    "implementationApprovalBoundary": "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json",
+    "guardedRuntimeDefaultBlockedBoundary": "tests/fixtures/host-policy/phase5-2/guarded-runtime-default-blocked-boundary.json",
+    "candidateRuntimeCommandRejectionMatrix": "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json"
+  },
+  "commandSurfaceApproval": {
+    "status": "approved-for-future-preflight-only-runtime-still-disabled",
+    "approvalRecorded": true,
+    "candidateCommandNamesReviewed": true,
+    "approvalBoundaryRequirementsReviewed": true,
+    "stdoutStderrRulesReviewed": true,
+    "rollbackRulesReviewed": true,
+    "runtimeEnablementStatus": false,
+    "runtimeEnablementApproved": false,
+    "runtimeEnabled": false,
+    "commandExposureApprovedToday": false,
+    "approvalGrantsRuntime": false,
+    "approvalCreatesRuntimeCommand": false
+  },
+  "preflightStatus": {
+    "status": "blocked_required_preconditions_false",
+    "canPass": false,
+    "runtimeEnablementStatus": false,
+    "runtimeEnabled": false,
+    "candidateCommandsExposedToday": false,
+    "preflightDryRunAvailableToday": false,
+    "failureMode": "fail_closed_zero_stdout_nonzero_exit"
+  },
+  "requiredBlockersBeforePreflightCanPass": {
+    "freshExternalReviewComplete": false,
+    "externalReviewCoversThisPhaseDiff": false,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeCommandSurfaceExposureApproved": false,
+    "hostPolicyRuntimeEnforcementImplemented": false,
+    "approvalEvaluatorImplemented": false,
+    "boundedStdinLoopImplemented": false,
+    "redactedStdoutJsonlWriterImplemented": false,
+    "redactedStderrDiagnosticWriterImplemented": false,
+    "transcriptAndFailureAuditPathConfinementImplemented": false,
+    "rollbackAndKillSwitchImplemented": false,
+    "positiveAndNegativeRuntimeSmokesRecorded": false
+  },
+  "approvalBoundaryRequirements": {
+    "status": "required-before-any-command-exposure",
+    "mustCheckBeforeCommandExposure": true,
+    "mustCheckBeforeRuntimeStart": true,
+    "mustCheckBeforeApprovalGrantCreation": true,
+    "mustRejectMissingExpiredRevokedOrOutOfScopeApproval": true,
+    "mustNotSelfGrantRuntimeApproval": true,
+    "mustRemainAuditableAndRevocable": true,
+    "currentApprovalCreatesRuntimeGrant": false
+  },
+  "externalReviewRequirement": {
+    "status": "required-before-command-exposure",
+    "required": true,
+    "reviewerSystems": [
+      "Jules",
+      "Devin"
+    ],
+    "mustReviewThisPhaseDiffBeforeExposure": true,
+    "mustRecordReviewedBranchAndCommit": true,
+    "externalReviewComplete": false,
+    "externalReviewMayGrantRuntimeEnablement": false
+  },
+  "runtimeEnablementStatus": false,
+  "runtimeEffect": {
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeCommandSurfaceExposed": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorAdded": false,
+    "hostPolicyRuntimeEnforcementAdded": false,
+    "stdinLoopAdded": false,
+    "stdoutWriterAdded": false,
+    "stderrWriterAdded": false,
+    "processControlAdded": false,
+    "rollbackRuntimeAdded": false,
+    "failureAuditRuntimeAdded": false,
+    "adapterRuntimeBehaviorAdded": false,
+    "contentFabricRuntimeBehaviorAdded": false
+  },
+  "candidateRuntimeCommands": [
+    {
+      "commandName": "serve-runtime",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-implementation-approved",
+        "runtime-enablement-approved",
+        "runtime-command-surface-exposure-approved",
+        "host-policy-runtime-enforcement-implemented",
+        "rollback-and-kill-switch-implemented"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "missing-expired-revoked-or-out-of-scope-approval-rejects",
+        "approval-command-must-not-self-grant-runtime",
+        "operator-consent-scope-expiration-and-revocation-required"
+      ],
+      "rollbackBehavior": "must_disable_command_and_runtime_start_path_without_process_side_effects",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "stdio-runtime",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-command-surface-exposure-approved",
+        "bounded-stdin-loop-implemented",
+        "redacted-stdout-jsonl-writer-implemented",
+        "redacted-stderr-diagnostic-writer-implemented",
+        "host-policy-runtime-enforcement-implemented"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "approval-boundary-check-before-stdin-loop",
+        "operator-consent-required-before-live-stdio",
+        "approval-grant-remains-revocable"
+      ],
+      "rollbackBehavior": "must_disable_stdin_loop_and_redacted_writers_before_any_runtime_release",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "replay-session-transcript",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-command-surface-exposure-approved",
+        "readonly-replay-contract-reviewed",
+        "path-confinement-implemented",
+        "positive-and-negative-runtime-smokes-recorded"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "readonly-replay-cannot-grant-runtime",
+        "path-confinement-required-before-file-access",
+        "approval-boundary-check-before-output"
+      ],
+      "rollbackBehavior": "must_remove_replay_entrypoint_without_runtime_cleanup_side_effects",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "runtime-command-surface-review",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-command-surface-exposure-approved",
+        "per-command-stdout-stderr-contract-approved",
+        "per-command-rollback-contract-approved",
+        "approval-evaluator-implemented"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "review-command-cannot-enable-runtime",
+        "per-command-approval-required",
+        "audit-record-required-before-exposure"
+      ],
+      "rollbackBehavior": "must_remove_candidate_command_surface_without_runtime_cleanup",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "command-surface-approval-preflight",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "all-preflight-blockers-true",
+        "runtime-command-surface-exposure-approved",
+        "runtime-enablement-approved",
+        "rollback-and-kill-switch-implemented"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "preflight-command-cannot-self-certify",
+        "missing-blockers-force-fail-closed",
+        "runtime-enable-approval-remains-separate"
+      ],
+      "rollbackBehavior": "must_fail_closed_and_remove_preflight_entrypoint_without_runtime_state",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "phase-5-3-command-surface-approval-preflight",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "all-preflight-blockers-true",
+        "runtime-command-surface-exposure-approved",
+        "runtime-enablement-approved",
+        "positive-and-negative-runtime-smokes-recorded"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "phase-command-cannot-self-grant-runtime",
+        "runtime-enable-approval-remains-separate",
+        "external-review-record-required"
+      ],
+      "rollbackBehavior": "must_remove_phase_alias_and_leave_runtime_unavailable",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "approve-runtime-command",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-command-surface-exposure-approved",
+        "approval-evaluator-implemented",
+        "operator-consent-scope-expiration-and-revocation-required",
+        "host-policy-runtime-enforcement-implemented"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "approval-command-must-not-self-authorize-command-surface",
+        "runtime-enable-approval-remains-separate",
+        "approval-record-must-be-revocable"
+      ],
+      "rollbackBehavior": "must_remove_or_deny_command_grant_and_keep_runtime_disabled",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "enable-runtime",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-implementation-approved",
+        "runtime-enablement-approved",
+        "runtime-command-surface-exposure-approved",
+        "host-policy-runtime-enforcement-implemented",
+        "rollback-and-kill-switch-implemented",
+        "positive-and-negative-runtime-smokes-recorded"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "host-policy-enforced-before-enable",
+        "revocable-scope-bound-operator-consent",
+        "runtime-approval-must-be-time-bound"
+      ],
+      "rollbackBehavior": "must_disable_runtime_and_revoke_grants_before_any_further_command_runs",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "runtime-start",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-enablement-approved",
+        "runtime-command-surface-exposure-approved",
+        "process-lifecycle-timeout-cleanup-implemented",
+        "rollback-and-kill-switch-implemented"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "approval-boundary-check-before-process-start",
+        "revocable-operator-consent-required",
+        "deny-missing-approval-with-zero-stdout"
+      ],
+      "rollbackBehavior": "must_stop_started_runtime_and_revoke_start_grant_before_release",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "runtime-stop",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-command-surface-exposure-approved",
+        "safe-stop-semantics-reviewed",
+        "failure-audit-redaction-implemented",
+        "host-policy-runtime-enforcement-implemented"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "stop-command-cannot-imply-runtime-start",
+        "approval-boundary-check-before-signal",
+        "runtime-state-confined-to-approved-records"
+      ],
+      "rollbackBehavior": "must_preserve_fail_closed_stop_path_without_signal_or_kill_side_effects",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "runtime-status",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-command-surface-exposure-approved",
+        "readonly-status-contract-reviewed",
+        "runtime-state-redaction-reviewed",
+        "host-policy-runtime-enforcement-implemented"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "readonly-status-cannot-start-runtime",
+        "approval-boundary-check-before-status-read",
+        "no-process-polling-before-approval"
+      ],
+      "rollbackBehavior": "must_remove_status_entrypoint_without_polling_processes",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "runtime-rollback",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-command-surface-exposure-approved",
+        "rollback-and-kill-switch-implemented",
+        "host-policy-runtime-enforcement-implemented",
+        "positive-and-negative-runtime-smokes-recorded"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "rollback-command-cannot-start-runtime",
+        "rollback-path-reviewed-before-runtime-enable",
+        "approval-boundary-check-before-kill-switch"
+      ],
+      "rollbackBehavior": "must_fail_closed_and_revoke_runtime_enablement_without_unapproved_kill_signal",
+      "externalReviewRequiredBeforeExposure": true
+    },
+    {
+      "commandName": "runtime-failure-audit",
+      "allowedToday": false,
+      "exposedToday": false,
+      "requiredFuturePreconditions": [
+        "fresh-external-review-complete",
+        "runtime-command-surface-exposure-approved",
+        "failure-audit-redaction-implemented",
+        "audit-path-confinement-implemented",
+        "positive-and-negative-runtime-smokes-recorded"
+      ],
+      "stdoutRule": "zero_stdout_while_blocked",
+      "stderrRule": "usage_stderr_while_blocked",
+      "dryRunBehavior": "dry_run_variant_rejected_while_blocked",
+      "approvalBoundaryRequirements": [
+        "audit-writes-confined-to-approved-paths",
+        "no-secret-or-stack-leakage",
+        "approval-boundary-check-before-audit-write"
+      ],
+      "rollbackBehavior": "must_disable_audit_writer_and_keep_existing_records_readonly",
+      "externalReviewRequiredBeforeExposure": true
+    }
+  ],
+  "rejectionProbeExpectation": {
+    "exitCode": "nonzero",
+    "stdout": "empty",
+    "stderrPrefix": "Usage: ardyn ",
+    "scratchDirectoryWrites": "none",
+    "approvalGrantWrites": "none",
+    "runtimeStateWrites": "none",
+    "stackOrSecretLeakage": "none"
+  },
+  "nonExecutionInvariants": [
+    "command-surface-approval-does-not-enable-runtime",
+    "runtimeEnablementStatus-false",
+    "runtime-enabled-false",
+    "candidate-commands-allowedToday-false",
+    "future-command-names-not-exposed-today",
+    "preflight-cannot-pass-while-required-blockers-false",
+    "candidate-runtime-commands-reject-with-usage",
+    "candidate-runtime-commands-write-no-files",
+    "apps-cli-src-index-mjs-unchanged"
+  ],
+  "validationCommands": [
+    {
+      "command": "node --test tests/phase5-3-command-surface-preflight.test.mjs",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "runtime command and dry-run rejection probes for Phase 5.3 candidate commands",
+      "required": true,
+      "ranByFixture": false
+    }
+  ]
+}

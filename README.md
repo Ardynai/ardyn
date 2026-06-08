@@ -8,10 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.2 Scope
+## Phase 3 through Phase 5.3 Scope
 
-This repository is currently in Phase 5.2 guarded runtime implementation
-slice mode.
+This repository is currently in Phase 5.3 command surface approval preflight
+mode.
 The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
@@ -49,7 +49,9 @@ runtime approval plus a Jules post-merge APPROVE disposition for Phase 4.2C
 and a Phase 5.1 controlled runtime implementation approval record that approves
 proceeding to a separate future implementation phase only plus Phase 5.2
 private Rust-host guarded runtime planning helpers, fixture-backed blocked
-runtime checks, and report metadata. Phase 5.2 is not runtime enablement.
+runtime checks, and report metadata plus Phase 5.3 command surface approval
+preflight documentation and status metadata. Phase 5.3 is not runtime
+enablement.
 Runtime command-surface enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -216,11 +218,19 @@ Included now:
   behavior. See
   `docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
 - Phase 5.2 guarded runtime implementation slice documentation and report
-  metadata. This records the current guarded implementation-slice status while
+  metadata. This records the guarded implementation-slice status while
   runtime command exposure, runtime enablement, approval commands, process
   control, transcript/audit write side effects, adapter/Fabric runtime
   behavior, and changes to `apps/cli/src/index.mjs` remain blocked. See
   `docs/phase-5-2-guarded-runtime-implementation-slice.md`.
+- Phase 5.3 command surface approval preflight documentation and report
+  metadata. This records the current command-surface preflight status and the
+  future command contract/review-packet checklist while runtime command
+  exposure, runtime enablement, approval commands, process control,
+  transcript/audit write side effects, adapter/Fabric runtime behavior, and
+  changes to `apps/cli/src/index.mjs` remain blocked. It inventories
+  `tests/fixtures/command-surface/phase5-3/command-surface-approval-preflight.json`.
+  See `docs/phase-5-3-command-surface-approval-preflight.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -372,7 +382,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.2 guarded runtime implementation-slice status report command is:
+The Phase 5.3 command surface approval preflight status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -401,9 +411,10 @@ Phase 4.1K approval-gated public Rust-host stdio runtime contract-gate
 inventory, Phase 4.1L runtime implementation-readiness and 4.2A handoff
 inventory, Phase 4.2A/4.2B blocked runtime skeleton inventories, Phase 4.2C
 readiness gate inventory, Phase 4.2D Jules disposition/Phase 5 handoff
-inventory, and Phase 5.1 future-implementation-approval docs/status inventory
-plus Phase 5.2 guarded runtime implementation-slice fixture/test/Rust-private
-helper inventory are included as the current static audit layers.
+inventory, Phase 5.1 future-implementation-approval docs/status inventory,
+Phase 5.2 guarded runtime implementation-slice fixture/test/Rust-private
+helper inventory, and Phase 5.3 command-surface approval preflight metadata
+are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -504,6 +515,13 @@ CLI is unchanged, runtime-like commands still reject, and no live stdin reads,
 stdout/stderr writes, process control, transcript/audit writes, approval grant,
 adapter runtime behavior, WebSocket/HTTP surface, or Content Fabric runtime
 execution is enabled.
+
+Phase 5.3 is documented in
+`docs/phase-5-3-command-surface-approval-preflight.md`. It records the
+command-surface approval preflight and future command contract checklist only.
+It does not expose runtime commands, does not change `apps/cli/src/index.mjs`,
+does not grant approval, does not enable runtime, and does not alter adapter
+or Content Fabric runtime behavior.
 
 Example dry-run check:
 

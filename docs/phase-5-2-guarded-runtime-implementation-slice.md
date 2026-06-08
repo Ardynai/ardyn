@@ -1,11 +1,11 @@
 # Phase 5.2 Guarded Runtime Implementation Slice
 
-Phase 5.2 is the current guarded runtime implementation slice after Phase 5.1
-recorded approval to proceed with a separate controlled implementation phase.
-It adds private Rust-host guarded planning helpers and deterministic
-fixture-backed tests only. It does not add a CLI runtime command, runtime
-command-surface enablement, approval grant, approval evaluator, or runtime
-enablement approval.
+Phase 5.2 is the guarded runtime implementation slice after Phase 5.1 recorded
+approval to proceed with a separate controlled implementation phase. It adds
+private Rust-host guarded planning helpers and deterministic fixture-backed
+tests only. It does not add a CLI runtime command, runtime command-surface
+enablement, approval grant, approval evaluator, or runtime enablement
+approval.
 
 Cross-links:
 
@@ -14,6 +14,7 @@ Cross-links:
 - TypeScript core status: `../packages/core/README.md`
 - Rust host status: `../crates/ardyn-host/README.md`
 - Approval source: `phase-5-1-controlled-runtime-implementation-approval-handoff.md`
+- Current command preflight: `phase-5-3-command-surface-approval-preflight.md`
 - External-review source: `phase-4-2d-external-review-disposition-phase5-handoff.md`
 - Readiness source: `phase-4-2c-runtime-readiness-review-gate.md`
 
@@ -99,6 +100,11 @@ stdout until a later approved command-surface phase changes them:
 - `approve-runtime`
 - `grant-runtime`
 - `enable-runtime`
+
+Phase 5.3 follows this slice as command-surface approval preflight docs/status
+metadata only. It still does not expose runtime commands, change
+`apps/cli/src/index.mjs`, grant approval, or enable runtime. See
+`phase-5-3-command-surface-approval-preflight.md`.
 
 Phase 5.2 remains local report/docs status for a guarded implementation slice;
 runtime enablement remains blocked.

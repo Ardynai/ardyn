@@ -162,9 +162,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.2",
-    name: "Guarded runtime implementation slice",
-    executionPosture: "guarded-implementation-slice runtime-enablement-blocked no-runtime-commands"
+    id: "5.3",
+    name: "Command surface approval preflight",
+    executionPosture: "command-surface-approval-preflight runtime-enablement-blocked no-runtime-commands"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -212,12 +212,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.2 guarded runtime implementation slice status report.",
+        "Render this deterministic local Phase 5.3 command surface approval preflight status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.2 status report.",
+      purpose: "Run focused tests for this local Phase 5.3 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-3-command-surface-preflight.test.mjs",
+      purpose:
+        "Run focused Phase 5.3 command-surface approval preflight fixture and runtime rejection checks.",
       ranByReport: false
     },
     {
@@ -7040,6 +7046,10 @@ const report = {
         "Provides the Phase 5.1 approval source for the Phase 5.2 guarded implementation slice."
       ),
       await localInventoryEntry(
+        "docs/phase-5-3-command-surface-approval-preflight.md",
+        "Documents the next Phase 5.3 command-surface approval preflight while runtime command exposure remains blocked."
+      ),
+      await localInventoryEntry(
         "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
         "Provides the Jules external-review disposition source for Phase 5."
       ),
@@ -7072,7 +7082,8 @@ const report = {
       "docs/phase-4-2c-runtime-readiness-review-gate.md",
       "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
       "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
-      "docs/phase-5-2-guarded-runtime-implementation-slice.md"
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md"
     ],
     machineReadableArtifacts: [
       await localInventoryEntry(
@@ -7135,6 +7146,7 @@ const report = {
         "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
         "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
         "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+        "docs/phase-5-3-command-surface-approval-preflight.md",
         "scripts/report-phase-status.mjs",
         "tests/report-phase-status.test.mjs"
       ],
@@ -7229,6 +7241,192 @@ const report = {
       noContentFabricRuntimeBehavior: true
     }
   },
+  phase53CommandSurfaceApprovalPreflightInventory: {
+    statusLayer: {
+      document: "docs/phase-5-3-command-surface-approval-preflight.md",
+      guardedImplementationSourceDocument:
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      approvalSourceDocument:
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      precedingPhase: "5.2",
+      layerId: "command-surface-approval-preflight",
+      scope: "docs-status-command-surface-preflight-runtime-enablement-blocked",
+      commandSurfacePreflightRecorded: true,
+      futureCommandContractDocumented: true,
+      futureReviewPacketDocumented: true,
+      runtimeCommandSurfaceApproved: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeEnablementApproved: false,
+      runtimeEnabled: false,
+      approvalCommandEnabled: false,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      rustSourceChanged: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      stdoutStderrWritersEnabled: false,
+      processControlEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-3-command-surface-approval-preflight.md",
+        "Records Phase 5.3 as the current command-surface approval preflight status while runtime command exposure remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+        "Provides the preceding guarded implementation-slice source for the Phase 5.3 preflight."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "Provides the Phase 5.1 approval source for future controlled runtime implementation work."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.3 as current docs/status mode while runtime commands remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.3 adds no CLI runtime command or command-surface approval command."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.3 exposes no Rust-host runtime commands and enables no runtime behavior."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/command-surface/phase5-3/command-surface-approval-preflight.json",
+        "Records the Phase 5.3 command-surface approval preflight fixture path owned by the command-surface worker."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.3 report metadata, docs cross-links, runtime-blocked flags, and docs/status ownership."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-3-command-surface-preflight.test.mjs",
+        "Pins Phase 5.3 command-surface approval preflight fixture semantics and candidate command rejection probes."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Expected unchanged CLI source; Phase 5.3 adds no runtime, approval, or command-surface command."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+        "docs/phase-5-3-command-surface-approval-preflight.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/command-surface/phase5-3/command-surface-approval-preflight.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-3-command-surface-preflight.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeCommandSurfaceApprovalRequired: true,
+      separateRuntimeEnablementRequired: true
+    },
+    commandSurfaceApprovalPreflight: {
+      fixture:
+        "tests/fixtures/command-surface/phase5-3/command-surface-approval-preflight.json",
+      status: await localStatus(
+        "tests/fixtures/command-surface/phase5-3/command-surface-approval-preflight.json"
+      ),
+      runtimeCommandSurfaceApproved: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeEnabled: false,
+      approvalCommandEnabled: false,
+      appsCliIndexChanged: false
+    },
+    futureCommandContractRequiredFields: [
+      "exact-command-names-and-aliases",
+      "denied-by-default-behavior",
+      "approval-grant-scope-expiration-revocation-audit",
+      "host-policy-enforcement-points",
+      "stdout-jsonl-and-stderr-diagnostic-ownership",
+      "transcript-and-failure-audit-write-confinement",
+      "rollback-kill-switch-and-terminal-state-behavior",
+      "approved-and-denied-cli-smokes"
+    ],
+    futureReviewPacketRequiredIfCommandExposureIsProposed: [
+      "exact-command-surface-diff",
+      "phase-5-3-preflight-fixture",
+      "focused-denied-path-tests",
+      "focused-approved-path-tests",
+      "apps-cli-index-change-evidence",
+      "runtime-enablements-separated-from-adapter-locus-mcp-openclaw-plugin-http-and-fabric"
+    ],
+    runtimeEffect: {
+      runtimeEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeCommandSurfaceApproved: false,
+      runtimeEnablementApproved: false,
+      approvalCommandEnabled: false,
+      cliSourceChanged: false,
+      stdoutStderrWritersEnabled: false,
+      processControlEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false
+    },
+    nonExecutionInvariants: [
+      "phase5-3-command-surface-preflight-only",
+      "runtime-enablement-remains-blocked",
+      "runtime-command-surface-remains-blocked",
+      "apps-cli-index-unchanged",
+      "no-approval-command",
+      "no-live-stdin-stdout-stderr-or-process-control",
+      "no-adapter-or-fabric-runtime-behavior"
+    ],
+    safetyPosture: {
+      commandSurfacePreflightRecorded: true,
+      futureCommandContractDocumented: true,
+      futureReviewPacketDocumented: true,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeCommandSurfaceApproved: false,
+      runtimeEnablementApproved: false,
+      noRuntimeCommand: true,
+      noApprovalCommand: true,
+      noProcessControl: true,
+      noStdoutStderrWriters: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -7263,6 +7461,7 @@ const report = {
     phase42DExternalReviewDispositionPhase5Handoff: true,
     phase51ControlledRuntimeImplementationApproval: true,
     phase52GuardedRuntimeImplementationSlice: true,
+    phase53CommandSurfaceApprovalPreflight: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -7359,6 +7558,21 @@ const report = {
       phase52TranscriptAuditSideEffectsEnabled: false,
       phase52AdapterRuntimeBehaviorEnabled: false,
       phase52ContentFabricRuntimeBehaviorEnabled: false,
+      phase53CommandSurfacePreflightRecorded: true,
+      phase53FutureCommandContractDocumented: true,
+      phase53FutureReviewPacketDocumented: true,
+      phase53RuntimeEnablementApproved: false,
+      phase53RuntimeEnabled: false,
+      phase53RuntimeCommandEnabled: false,
+      phase53RuntimeCommandSurfaceApproved: false,
+      phase53RuntimeCommandSurfaceEnabled: false,
+      phase53ApprovalCommandEnabled: false,
+      phase53AppsCliIndexChanged: false,
+      phase53ProcessControlEnabled: false,
+      phase53StdoutStderrWritersEnabled: false,
+      phase53TranscriptAuditSideEffectsEnabled: false,
+      phase53AdapterRuntimeBehaviorEnabled: false,
+      phase53ContentFabricRuntimeBehaviorEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

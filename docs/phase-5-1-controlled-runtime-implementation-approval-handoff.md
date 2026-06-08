@@ -1,9 +1,9 @@
 # Phase 5.1 Controlled Runtime Implementation Approval Handoff
 
-Phase 5.1 is the current docs/status boundary after Jules's Phase 4.2C
-approval was recorded in Phase 4.2D. Phase 5.1 records approval to proceed
-with a separate future controlled runtime implementation phase only. It is an
-approval and design gate; it does not add or enable live runtime behavior.
+Phase 5.1 is the docs/status boundary after Jules's Phase 4.2C approval was
+recorded in Phase 4.2D. Phase 5.1 records approval to proceed with a separate
+future controlled runtime implementation phase only. It is an approval and
+design gate; it does not add or enable live runtime behavior.
 
 Cross-links:
 
@@ -13,6 +13,7 @@ Cross-links:
 - Rust host status: `../crates/ardyn-host/README.md`
 - Source disposition: `phase-4-2d-external-review-disposition-phase5-handoff.md`
 - Next guarded slice: `phase-5-2-guarded-runtime-implementation-slice.md`
+- Current command preflight: `phase-5-3-command-surface-approval-preflight.md`
 
 Machine-readable Phase 5.1 artifacts:
 
@@ -87,7 +88,11 @@ The first implementation phase after Phase 5.1 must still design and test:
 Phase 5.2 began that implementation work only as private Rust-host guarded
 planning helpers and fixture-backed blocked-runtime tests. It did not expose
 runtime commands, did not change `apps/cli/src/index.mjs`, and did not enable
-runtime. See `phase-5-2-guarded-runtime-implementation-slice.md`.
+runtime. Phase 5.3 records command-surface approval preflight docs/status
+metadata only and still does not expose runtime commands, change
+`apps/cli/src/index.mjs`, or enable runtime. See
+`phase-5-2-guarded-runtime-implementation-slice.md` and
+`phase-5-3-command-surface-approval-preflight.md`.
 
 ## Guarded After Implementation
 
