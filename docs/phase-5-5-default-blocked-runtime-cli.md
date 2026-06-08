@@ -15,6 +15,7 @@ Cross-links:
 - Command-surface preflight: `phase-5-3-command-surface-approval-preflight.md`
 - Disabled command exposure plan: `phase-5-4-disabled-command-exposure-plan.md`
 - Jules review disposition: `phase-5-4a-jules-review-disposition.md`
+- Runtime enablement preconditions: `phase-5-6-runtime-enable-preconditions.md`
 
 Machine-readable Phase 5.5 artifact path:
 
@@ -70,3 +71,7 @@ Remaining blockers before any enabled runtime path:
 - process-control and terminal-state review
 - rollback and kill-switch review
 - approved positive runtime smokes
+
+Phase 5.6 records these future runtime enablement requirements as an explicit
+machine-readable precondition gate while keeping `serve-runtime`
+default-blocked and runtime disabled.

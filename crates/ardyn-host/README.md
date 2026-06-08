@@ -83,6 +83,12 @@ approval, enable runtime behavior, change Rust source, add stdout/stderr
 writers, add process control, write transcripts or audit files, or call
 adapters/Fabric runtime behavior. See
 `docs/phase-5-5-default-blocked-runtime-cli.md`.
+Phase 5.6 records runtime enablement preconditions only. It keeps
+`stdio_runtime` private, grants no approval, enables no runtime behavior,
+changes no Rust or CLI source, and records approval, host-policy, stdio safety,
+transcript/audit confinement, process-control, rollback/kill-switch, and
+positive runtime smoke requirements as blocked and unsatisfied. See
+`docs/phase-5-6-runtime-enable-preconditions.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -288,6 +294,14 @@ and stdout/stderr writers, process control, transcript writes, failure-audit
 writes, adapter runtime behavior, Content Fabric runtime behavior, WebSocket or
 HTTP runtime surfaces, and Rust source changes remain disabled. See
 `docs/phase-5-5-default-blocked-runtime-cli.md`.
+
+Phase 5.6 adds no Rust-host runtime implementation. It records a
+machine-readable precondition gate for future runtime enablement and keeps all
+preconditions blocked: approval, host-policy enforcement, stdio safety,
+transcript/audit confinement, process-control boundaries, rollback/kill-switch,
+and positive runtime smokes. Runtime remains disabled, `stdio_runtime` remains
+private, and no Rust source changes are made. See
+`docs/phase-5-6-runtime-enable-preconditions.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

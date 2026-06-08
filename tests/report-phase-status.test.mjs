@@ -767,6 +767,25 @@ const phase55CrossLinks = [
   "docs/phase-5-4a-jules-review-disposition.md",
   "docs/phase-5-5-default-blocked-runtime-cli.md"
 ];
+const phase56DocFiles = [
+  "docs/phase-5-6-runtime-enable-preconditions.md",
+  "docs/phase-5-5-default-blocked-runtime-cli.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase56CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md",
+  "docs/phase-5-4-disabled-command-exposure-plan.md",
+  "docs/phase-5-4a-jules-review-disposition.md",
+  "docs/phase-5-5-default-blocked-runtime-cli.md",
+  "docs/phase-5-6-runtime-enable-preconditions.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -888,14 +907,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.5 default-blocked runtime CLI docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.6 runtime enablement precondition docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.5",
-    name: "Default-blocked runtime CLI",
-    executionPosture: "default-blocked-runtime-cli runtime-unavailable no-runtime-execution"
+    id: "5.6",
+    name: "Runtime enablement preconditions",
+    executionPosture: "runtime-enablement-precondition-gate runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -968,12 +987,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.5 default-blocked runtime CLI status report.",
+        "Render this deterministic local Phase 5.6 runtime enablement precondition status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.5 status report.",
+      purpose: "Run focused tests for this local Phase 5.6 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-6-runtime-enable-preconditions.test.mjs",
+      purpose:
+        "Run focused Phase 5.6 runtime enablement precondition gate and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -7289,6 +7314,195 @@ test("report inventories Phase 5.5 as default-blocked runtime CLI with runtime u
   assert.equal(report.safetyPosture.flags.phase55ContentFabricRuntimeBehaviorEnabled, false);
 });
 
+test("report inventories Phase 5.6 as runtime enablement preconditions with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase56RuntimeEnablePreconditionGateInventory;
+  const expectedPreconditionIds = [
+    "runtime-enablement-approval",
+    "runtime-command-exposure-approval",
+    "approval-record-validation-and-revocation",
+    "host-policy-runtime-enforcement",
+    "stdio-safety-boundary",
+    "transcript-audit-confinement",
+    "process-control-boundary",
+    "rollback-kill-switch",
+    "positive-runtime-smokes"
+  ];
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-6-runtime-enable-preconditions.md",
+    fixture: "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json",
+    sourceDefaultBlockedRuntimeCliDocument: "docs/phase-5-5-default-blocked-runtime-cli.md",
+    sourceDefaultBlockedRuntimeCliFixture:
+      "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json",
+    precedingPhase: "5.5",
+    layerId: "runtime-enable-precondition-gate",
+    scope: "runtime-enable-preconditions-only-runtime-disabled",
+    runtimeEnablementGateRecorded: true,
+    gateSatisfied: false,
+    requiredPreconditionCount: 9,
+    satisfiedPreconditionCount: 0,
+    canEnableRuntime: false,
+    runtimeEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeCommandEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    approvalCommandEnabled: false,
+    approvalGrantCreated: false,
+    approvalEvaluatorEnabled: false,
+    processControlEnabled: false,
+    stdoutStderrWritersEnabled: false,
+    transcriptAuditSideEffectsEnabled: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase56DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase56CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-6-runtime-enable-preconditions.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary, {
+    docsStatusFiles: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    machineReadableArtifactFiles: [
+      "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json"
+    ],
+    focusedTestFiles: [
+      "tests/phase5-6-runtime-enable-preconditions.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    cliRuntimeSourceFilesChanged: [],
+    rustRuntimeSourceFilesChanged: [],
+    cliSourceChangedByThisPhase: false,
+    appsCliIndexChangedByThisPhase: false,
+    rustSourceChangedByThisPhase: false,
+    machineReadableArtifactsChangedByThisPhase: true,
+    reportRunsChecks: false,
+    separateRuntimeImplementationPhaseRequired: true,
+    separateRuntimeEnablementApprovalRequired: true
+  });
+  assert.deepEqual(inventory.gateSummary, {
+    runtimeEnablementGateRecorded: true,
+    gateSatisfied: false,
+    requiredPreconditionCount: 9,
+    satisfiedPreconditionCount: 0,
+    canEnableRuntime: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    requiresFutureReviewBeforeEnablement: true
+  });
+  assert.deepEqual(
+    inventory.requiredPreconditions.map((precondition) => precondition.id),
+    expectedPreconditionIds
+  );
+  for (const precondition of inventory.requiredPreconditions) {
+    assert.equal(precondition.requiredBeforeRuntimeEnablement, true, precondition.id);
+    assert.equal(precondition.satisfied, false, precondition.id);
+    assert.equal(precondition.status, "blocked", precondition.id);
+    assert.ok(precondition.requiredEvidence.length >= 3, precondition.id);
+  }
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior, {
+    args: ["serve-runtime"],
+    dryRunArgs: ["serve-runtime", "--dry-run"],
+    recognizedByCli: true,
+    exitCode: "nonzero",
+    stdout: "",
+    stderr:
+      "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    runtimeExecution: false,
+    writesFiles: false
+  });
+  assert.deepEqual(inventory.forbiddenBehavior, [
+    "runtime-enabled-true",
+    "runtime-command-enabled-true",
+    "runtime-start",
+    "live-stdin-loop",
+    "runtime-stdout-stderr-writer",
+    "process-control",
+    "transcript-audit-runtime-write",
+    "adapter-runtime-behavior",
+    "content-fabric-runtime-behavior",
+    "websocket-http-runtime-surface",
+    "approval-grant-or-evaluator"
+  ]);
+  assert.deepEqual(inventory.safetyPosture, {
+    runtimeEnablementGateRecorded: true,
+    runtimeEnablementGateSatisfied: false,
+    canEnableRuntime: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    approvalCommandEnabled: false,
+    approvalGrantCreated: false,
+    approvalEvaluatorEnabled: false,
+    noLiveStdinLoop: true,
+    noStdoutStderrWriters: true,
+    noProcessControl: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true,
+    noWebSocketHttpSurface: true,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase56RuntimeEnablePreconditionGate, true);
+  assert.equal(report.safetyPosture.flags.phase56RuntimeEnablementGateRecorded, true);
+  assert.equal(report.safetyPosture.flags.phase56RuntimeEnablementGateSatisfied, false);
+  assert.equal(report.safetyPosture.flags.phase56RequiredPreconditionCount, 9);
+  assert.equal(report.safetyPosture.flags.phase56SatisfiedPreconditionCount, 0);
+  assert.equal(report.safetyPosture.flags.phase56CanEnableRuntime, false);
+  assert.equal(report.safetyPosture.flags.phase56RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase56RuntimeStarted, false);
+  assert.equal(report.safetyPosture.flags.phase56RuntimeReady, false);
+  assert.equal(report.safetyPosture.flags.phase56RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase56RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase56ServeRuntimeStillDefaultBlocked, true);
+  assert.equal(report.safetyPosture.flags.phase56DryRunBypassesBlock, false);
+  assert.equal(report.safetyPosture.flags.phase56ApprovalCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase56ApprovalGrantCreated, false);
+  assert.equal(report.safetyPosture.flags.phase56ApprovalEvaluatorEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase56CliSourceChanged, false);
+  assert.equal(report.safetyPosture.flags.phase56RustSourceChanged, false);
+  assert.equal(report.safetyPosture.flags.phase56ProcessControlEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase56StdoutStderrWritersEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase56TranscriptAuditSideEffectsEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase56AdapterRuntimeBehaviorEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase56ContentFabricRuntimeBehaviorEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase56WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -7501,6 +7715,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase54DisabledCommandExposurePlan, true);
   assert.equal(report.safetyPosture.phase54AJulesReviewDisposition, true);
   assert.equal(report.safetyPosture.phase55DefaultBlockedRuntimeCli, true);
+  assert.equal(report.safetyPosture.phase56RuntimeEnablePreconditionGate, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -7676,6 +7891,29 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase55TranscriptAuditSideEffectsEnabled: false,
     phase55AdapterRuntimeBehaviorEnabled: false,
     phase55ContentFabricRuntimeBehaviorEnabled: false,
+    phase56RuntimeEnablementGateRecorded: true,
+    phase56RuntimeEnablementGateSatisfied: false,
+    phase56RequiredPreconditionCount: 9,
+    phase56SatisfiedPreconditionCount: 0,
+    phase56CanEnableRuntime: false,
+    phase56RuntimeEnabled: false,
+    phase56RuntimeStarted: false,
+    phase56RuntimeReady: false,
+    phase56RuntimeCommandEnabled: false,
+    phase56RuntimeExecutionEnabled: false,
+    phase56ServeRuntimeStillDefaultBlocked: true,
+    phase56DryRunBypassesBlock: false,
+    phase56ApprovalCommandEnabled: false,
+    phase56ApprovalGrantCreated: false,
+    phase56ApprovalEvaluatorEnabled: false,
+    phase56CliSourceChanged: false,
+    phase56RustSourceChanged: false,
+    phase56ProcessControlEnabled: false,
+    phase56StdoutStderrWritersEnabled: false,
+    phase56TranscriptAuditSideEffectsEnabled: false,
+    phase56AdapterRuntimeBehaviorEnabled: false,
+    phase56ContentFabricRuntimeBehaviorEnabled: false,
+    phase56WebSocketHttpSurfaceEnabled: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,

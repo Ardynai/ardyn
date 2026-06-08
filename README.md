@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.5 Scope
+## Phase 3 through Phase 5.6 Scope
 
-This repository is currently in Phase 5.5 default-blocked runtime CLI mode. The
+This repository is currently in Phase 5.6 runtime enablement precondition mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -52,8 +52,9 @@ preflight documentation and status metadata plus Phase 5.4 disabled command
 exposure planning, future CLI checklist, Jules/Devin review packet, rollback
 plan, command-surface diff-risk notes, and report metadata plus Phase 5.4A
 Jules `APPROVE` review disposition metadata plus Phase 5.5 default-blocked
-`serve-runtime` CLI recognition. Phase 5.5 is not runtime enablement.
-Runtime command enablement, live runtime behavior,
+`serve-runtime` CLI recognition plus Phase 5.6 runtime enablement precondition
+gate metadata. Phase 5.6 is not runtime enablement. Runtime command enablement,
+live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
 any separately approved live runtime work.
@@ -254,6 +255,13 @@ Included now:
   transcript/audit side effects, adapter/Fabric runtime behavior, and Rust
   source changes remain blocked. See
   `docs/phase-5-5-default-blocked-runtime-cli.md`.
+- Phase 5.6 runtime enablement precondition gate documentation, fixture, and
+  report metadata. This records the required approval, host-policy, stdio
+  safety, transcript/audit confinement, process-control, rollback/kill-switch,
+  and positive runtime smoke preconditions before any future runtime
+  enablement. Every precondition is currently blocked and unsatisfied, and
+  `serve-runtime` remains default-blocked. See
+  `docs/phase-5-6-runtime-enable-preconditions.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -405,7 +413,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.5 default-blocked runtime CLI status report command is:
+The Phase 5.6 runtime enablement precondition status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -438,7 +446,8 @@ inventory, Phase 5.1 future-implementation-approval docs/status inventory,
 Phase 5.2 guarded runtime implementation-slice fixture/test/Rust-private
 helper inventory, Phase 5.3 command-surface approval preflight metadata, and
 Phase 5.4 disabled command exposure plan metadata, Phase 5.4A Jules review
-disposition metadata, and Phase 5.5 default-blocked runtime CLI metadata
+disposition metadata, Phase 5.5 default-blocked runtime CLI metadata, and
+Phase 5.6 runtime enablement precondition gate metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
@@ -568,6 +577,14 @@ as a default-blocked CLI command that exits nonzero, writes zero stdout, and
 reports deterministic runtime-unavailable stderr. It does not enable runtime,
 does not bypass the block with `--dry-run`, and does not add Rust-host runtime
 execution.
+
+Phase 5.6 is documented in
+`docs/phase-5-6-runtime-enable-preconditions.md`. It records a machine-readable
+runtime enablement precondition gate covering approval, host policy, stdio
+safety, transcript/audit confinement, process-control boundaries,
+rollback/kill-switch behavior, and positive runtime smokes. The gate is not
+satisfied, runtime remains disabled, and `serve-runtime` remains
+default-blocked.
 
 Example dry-run check:
 

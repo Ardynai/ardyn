@@ -124,6 +124,9 @@ const phase54AJulesReviewDispositionMetadata = await readJson(
 const phase55DefaultBlockedRuntimeCliMetadata = await readJson(
   "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json"
 );
+const phase56RuntimeEnablePreconditionGateMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -171,9 +174,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.5",
-    name: "Default-blocked runtime CLI",
-    executionPosture: "default-blocked-runtime-cli runtime-unavailable no-runtime-execution"
+    id: "5.6",
+    name: "Runtime enablement preconditions",
+    executionPosture: "runtime-enablement-precondition-gate runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -221,12 +224,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.5 default-blocked runtime CLI status report.",
+        "Render this deterministic local Phase 5.6 runtime enablement precondition status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.5 status report.",
+      purpose: "Run focused tests for this local Phase 5.6 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-6-runtime-enable-preconditions.test.mjs",
+      purpose:
+        "Run focused Phase 5.6 runtime enablement precondition gate and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -8064,6 +8073,158 @@ const report = {
       deterministicUnavailableStderr: true
     }
   },
+  phase56RuntimeEnablePreconditionGateInventory: {
+    statusLayer: {
+      document: "docs/phase-5-6-runtime-enable-preconditions.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json",
+      sourceDefaultBlockedRuntimeCliDocument:
+        "docs/phase-5-5-default-blocked-runtime-cli.md",
+      sourceDefaultBlockedRuntimeCliFixture:
+        "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json",
+      precedingPhase: "5.5",
+      layerId: "runtime-enable-precondition-gate",
+      scope: "runtime-enable-preconditions-only-runtime-disabled",
+      runtimeEnablementGateRecorded:
+        phase56RuntimeEnablePreconditionGateMetadata.gateSummary
+          .runtimeEnablementGateRecorded,
+      gateSatisfied: phase56RuntimeEnablePreconditionGateMetadata.gateSummary.gateSatisfied,
+      requiredPreconditionCount:
+        phase56RuntimeEnablePreconditionGateMetadata.gateSummary.requiredPreconditionCount,
+      satisfiedPreconditionCount:
+        phase56RuntimeEnablePreconditionGateMetadata.gateSummary.satisfiedPreconditionCount,
+      canEnableRuntime: phase56RuntimeEnablePreconditionGateMetadata.gateSummary.canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase56RuntimeEnablePreconditionGateMetadata.gateSummary.serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      approvalCommandEnabled: false,
+      approvalGrantCreated: false,
+      approvalEvaluatorEnabled: false,
+      processControlEnabled: false,
+      stdoutStderrWritersEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-6-runtime-enable-preconditions.md",
+        "Records the Phase 5.6 runtime enablement precondition gate while runtime remains disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-5-default-blocked-runtime-cli.md",
+        "Provides the default-blocked serve-runtime source boundary that Phase 5.6 preserves."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.6 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.6 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.6 changes no Rust-host runtime source and records preconditions only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json",
+        "Records the required runtime enablement preconditions, all currently blocked and unsatisfied."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.6 report metadata, docs cross-links, blocked gate flags, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-6-runtime-enable-preconditions.test.mjs",
+        "Pins Phase 5.6 precondition fixture shape, blocked gate classification, serve-runtime rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-5-default-blocked-runtime-cli.md",
+        "docs/phase-5-6-runtime-enable-preconditions.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-6-runtime-enable-preconditions.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    gateSummary: phase56RuntimeEnablePreconditionGateMetadata.gateSummary,
+    requiredPreconditions:
+      phase56RuntimeEnablePreconditionGateMetadata.requiredPreconditions,
+    blockedRuntimeEffect:
+      phase56RuntimeEnablePreconditionGateMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase56RuntimeEnablePreconditionGateMetadata.serveRuntimeBlockedBehavior,
+    forbiddenBehavior: phase56RuntimeEnablePreconditionGateMetadata.forbiddenBehavior,
+    safetyPosture: {
+      runtimeEnablementGateRecorded: true,
+      runtimeEnablementGateSatisfied: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      approvalCommandEnabled: false,
+      approvalGrantCreated: false,
+      approvalEvaluatorEnabled: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -8102,6 +8263,7 @@ const report = {
     phase54DisabledCommandExposurePlan: true,
     phase54AJulesReviewDisposition: true,
     phase55DefaultBlockedRuntimeCli: true,
+    phase56RuntimeEnablePreconditionGate: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -8276,6 +8438,29 @@ const report = {
       phase55TranscriptAuditSideEffectsEnabled: false,
       phase55AdapterRuntimeBehaviorEnabled: false,
       phase55ContentFabricRuntimeBehaviorEnabled: false,
+      phase56RuntimeEnablementGateRecorded: true,
+      phase56RuntimeEnablementGateSatisfied: false,
+      phase56RequiredPreconditionCount: 9,
+      phase56SatisfiedPreconditionCount: 0,
+      phase56CanEnableRuntime: false,
+      phase56RuntimeEnabled: false,
+      phase56RuntimeStarted: false,
+      phase56RuntimeReady: false,
+      phase56RuntimeCommandEnabled: false,
+      phase56RuntimeExecutionEnabled: false,
+      phase56ServeRuntimeStillDefaultBlocked: true,
+      phase56DryRunBypassesBlock: false,
+      phase56ApprovalCommandEnabled: false,
+      phase56ApprovalGrantCreated: false,
+      phase56ApprovalEvaluatorEnabled: false,
+      phase56CliSourceChanged: false,
+      phase56RustSourceChanged: false,
+      phase56ProcessControlEnabled: false,
+      phase56StdoutStderrWritersEnabled: false,
+      phase56TranscriptAuditSideEffectsEnabled: false,
+      phase56AdapterRuntimeBehaviorEnabled: false,
+      phase56ContentFabricRuntimeBehaviorEnabled: false,
+      phase56WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

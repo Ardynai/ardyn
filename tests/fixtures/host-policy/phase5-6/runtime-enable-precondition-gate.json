@@ -1,0 +1,222 @@
+{
+  "schema": "ardyn.phase-5.6.runtime-enable-precondition-gate",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.6-runtime-enable-preconditions",
+  "artifactKind": "runtime-enable-precondition-gate",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhase": {
+    "phase": "phase-5.5-default-blocked-runtime-cli",
+    "document": "docs/phase-5-5-default-blocked-runtime-cli.md",
+    "fixture": "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json",
+    "recognizedRuntimeCommand": "serve-runtime",
+    "runtimeEnabled": false
+  },
+  "gateSummary": {
+    "runtimeEnablementGateRecorded": true,
+    "gateSatisfied": false,
+    "requiredPreconditionCount": 9,
+    "satisfiedPreconditionCount": 0,
+    "canEnableRuntime": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "requiresFutureReviewBeforeEnablement": true
+  },
+  "requiredPreconditions": [
+    {
+      "id": "runtime-enablement-approval",
+      "category": "approval",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "external-runtime-enablement-review-approve",
+        "explicit-runtime-enable-approval-record",
+        "runtime-enable-scope-boundary"
+      ],
+      "failureMode": "runtime_enablement_must_remain_false"
+    },
+    {
+      "id": "runtime-command-exposure-approval",
+      "category": "approval",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "approved-runtime-command-contract",
+        "approved-command-exposure-diff",
+        "serve-runtime-positive-and-negative-cli-smokes"
+      ],
+      "failureMode": "runtime_command_must_remain_default_blocked"
+    },
+    {
+      "id": "approval-record-validation-and-revocation",
+      "category": "approval",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "approval-record-schema-validation",
+        "revocation-and-expiry-behavior",
+        "fail-closed-invalid-approval-tests"
+      ],
+      "failureMode": "approval_grant_or_evaluator_must_not_exist"
+    },
+    {
+      "id": "host-policy-runtime-enforcement",
+      "category": "host-policy",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "host-policy-runtime-enforcement-tests",
+        "policy-denial-prevents-runtime-start",
+        "policy-mismatch-fails-before-stdio-loop"
+      ],
+      "failureMode": "host_policy_runtime_path_must_not_execute"
+    },
+    {
+      "id": "stdio-safety-boundary",
+      "category": "stdio-safety",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "bounded-stdin-loop-review",
+        "stdout-stderr-writer-redaction-review",
+        "framing-backpressure-and-eof-tests"
+      ],
+      "failureMode": "live_stdin_loop_and_runtime_writers_must_not_exist"
+    },
+    {
+      "id": "transcript-audit-confinement",
+      "category": "transcript-audit",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "transcript-write-path-confinement-tests",
+        "failure-audit-write-path-confinement-tests",
+        "redaction-and-retention-review"
+      ],
+      "failureMode": "transcript_and_audit_runtime_writes_must_not_exist"
+    },
+    {
+      "id": "process-control-boundary",
+      "category": "process-control",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "spawn-kill-signal-wait-boundary-review",
+        "terminal-state-transition-tests",
+        "process-control-denial-tests"
+      ],
+      "failureMode": "process_control_must_not_exist"
+    },
+    {
+      "id": "rollback-kill-switch",
+      "category": "rollback",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "default-off-kill-switch",
+        "rollback-command-or-config-plan",
+        "fail-closed-kill-switch-smokes"
+      ],
+      "failureMode": "runtime_enablement_must_be_immediately_reversible_before_launch"
+    },
+    {
+      "id": "positive-runtime-smokes",
+      "category": "validation",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "approved-positive-runtime-start-smoke",
+        "approved-positive-runtime-stop-smoke",
+        "approved-negative-policy-denial-smoke"
+      ],
+      "failureMode": "no_positive_runtime_smoke_exists"
+    }
+  ],
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorEnabled": false,
+    "stdinLoopEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "recognizedByCli": true,
+    "exitCode": "nonzero",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "runtime-enabled-true",
+    "runtime-command-enabled-true",
+    "runtime-start",
+    "live-stdin-loop",
+    "runtime-stdout-stderr-writer",
+    "process-control",
+    "transcript-audit-runtime-write",
+    "adapter-runtime-behavior",
+    "content-fabric-runtime-behavior",
+    "websocket-http-runtime-surface",
+    "approval-grant-or-evaluator"
+  ],
+  "filesAllowedToChange": [
+    "docs/phase-5-6-runtime-enable-preconditions.md",
+    "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json",
+    "tests/phase5-6-runtime-enable-preconditions.test.mjs",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs",
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-5-default-blocked-runtime-cli.md"
+  ],
+  "filesForbiddenToChange": [
+    "apps/cli/src/index.mjs",
+    "crates/ardyn-host/src/**",
+    "packages/fabric/src/runtime/**",
+    "apps/host/src/runtime/**"
+  ],
+  "validationCommands": [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status",
+    "node --test tests/phase5-6-runtime-enable-preconditions.test.mjs",
+    "fallow health --score --hotspots --targets --format json",
+    "fallow audit --format json",
+    "fallow dead-code --format json --summary"
+  ]
+}

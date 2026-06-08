@@ -323,9 +323,9 @@ test("Phase 4.1L report inventories readiness without claiming runtime readiness
   const inventory = report.phase41LRuntimeImplementationReadinessInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.5",
-    name: "Default-blocked runtime CLI",
-    executionPosture: "default-blocked-runtime-cli runtime-unavailable no-runtime-execution"
+    id: "5.6",
+    name: "Runtime enablement preconditions",
+    executionPosture: "runtime-enablement-precondition-gate runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
