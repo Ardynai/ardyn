@@ -29,6 +29,16 @@ behavior.
 | Runtime enabled | No |
 | Runtime blocked | Yes |
 
+## Phase 4.2D Follow-Up
+
+Phase 4.2D records Jules's post-merge review of this packet with verdict
+`APPROVE`. That disposition closes the fresh Jules/Devin external-review
+blocker for Phase 4.2C only; it does not grant runtime implementation
+approval, approve the runtime command surface, change CLI source, or enable
+runtime. The Phase 5.1 handoff is documented in
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`. The
+Phase 4.2C fixture remains historical evidence for the packet-ready state.
+
 ## Evidence Consolidated
 
 Phase 4.2C links the current blocked runtime evidence instead of reclassifying

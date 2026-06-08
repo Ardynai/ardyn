@@ -8,9 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.2C Scope
+## Phase 3 and Phase 4.2D Scope
 
-This repository is currently in Phase 4.2C runtime readiness review gate mode.
+This repository is currently in Phase 4.2D external review disposition and
+Phase 5 handoff mode.
 The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
@@ -44,7 +45,12 @@ plans start, stop, kill, execute, transcript, and audit outcomes without
 process control or write side effects plus a readiness gate and Jules/Devin
 review packet that consolidates 4.1I through 4.2B evidence, records open
 runtime enablement blockers, and allows external review preparation without
-runtime approval before any separately approved live runtime work.
+runtime approval plus a Jules post-merge APPROVE disposition for Phase 4.2C
+and a Phase 5.1 controlled runtime implementation approval handoff that remain
+documentation, fixture, report, and test artifacts only. Runtime implementation
+approval, runtime command-surface approval, live runtime behavior, and CLI
+runtime commands remain blocked before any separately approved live runtime
+work.
 
 Included now:
 
@@ -184,9 +190,17 @@ Included now:
 - Phase 4.2C runtime readiness review gate documentation, deterministic
   fixture metadata, Jules/Devin review packet, blocker burn-down, external
   review status rules, focused tests, and report inventory. It is ready for
-  external review only; it is not runtime approval, does not complete external
-  review, does not change CLI source, and keeps runtime blocked. See
+  external review only before the Phase 4.2D disposition; it is not runtime
+  approval, does not change CLI source, and keeps runtime blocked. See
   `docs/phase-4-2c-runtime-readiness-review-gate.md`.
+- Phase 4.2D external review disposition documentation, deterministic fixture
+  metadata, focused tests, and report inventory recording Jules's post-merge
+  Phase 4.2C `APPROVE` verdict as external-review disposition only. It closes
+  the fresh Jules/Devin external-review blocker, creates the Phase 5.1 handoff,
+  does not approve runtime implementation or command surfaces, does not change
+  CLI source, and keeps runtime blocked. See
+  `docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+  `docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -231,9 +245,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.2C CLI Usage
+## Phase 3 and Phase 4.2D CLI Usage
 
-Run non-executing commands directly from source through Phase 4.2C:
+Run non-executing commands directly from source through Phase 4.2D:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -432,9 +446,20 @@ runtime blocked.
 Phase 4.2C is documented in
 `docs/phase-4-2c-runtime-readiness-review-gate.md`. It adds a readiness gate,
 Jules/Devin review packet, blocker burn-down, and external-review status rules.
-It is ready for external review only; it does not complete external review,
-does not grant runtime approval, does not change `apps/cli/src/index.mjs`, does
-not enable runtime commands, and keeps runtime blocked.
+It was ready for external review before Phase 4.2D; it does not grant runtime
+approval, does not change `apps/cli/src/index.mjs`, does not enable runtime
+commands, and keeps runtime blocked.
+
+Phase 4.2D is documented in
+`docs/phase-4-2d-external-review-disposition-phase5-handoff.md`, with the next
+handoff in
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`. It
+records Jules's post-merge Phase 4.2C `APPROVE` verdict as external-review
+disposition only, closes the fresh Jules/Devin review blocker, and creates a
+Phase 5.1 approval-record/design handoff. It does not grant runtime
+implementation approval, does not approve the runtime command surface, does not
+change `apps/cli/src/index.mjs`, does not enable runtime commands, and keeps
+runtime blocked.
 
 Example dry-run check:
 

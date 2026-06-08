@@ -2,18 +2,22 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.2C exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 4.2D exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
-and Phase 4.2C:
+Phase 4.2C, and Phase 4.2D:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
 `emit-session-events`. Phase 4.2C adds readiness-gate metadata, a Jules/Devin
 review packet, blocker burn-down, external-review status rules, tests, docs,
-and report inventory only; it does not add a runtime-implementation-readiness
-CLI command, 4.2A runtime-skeleton CLI command, 4.2B lifecycle CLI command,
-4.2C readiness-gate CLI command, external-review completion CLI command,
+and report inventory only. Phase 4.2D records Jules's post-merge Phase 4.2C
+`APPROVE` verdict as external-review disposition plus a Phase 5.1 handoff only;
+it does not add a runtime-implementation-readiness CLI command, 4.2A
+runtime-skeleton CLI command, 4.2B lifecycle CLI command, 4.2C readiness-gate
+CLI command, 4.2D disposition CLI command, Phase 5.1 handoff CLI command,
+runtime implementation approval CLI command, runtime command-surface review CLI
+command, external-review completion CLI command,
 rust-host-stdio-harness CLI command, stdio-harness CLI command, runtime-harness
 CLI command, fixture-backed-stdio-boundary CLI command, stdio-boundary CLI
 command, public-runtime-contract CLI command, runtime-contract-gates CLI
@@ -23,18 +27,23 @@ command, failure-audit CLI command, cleanup CLI command, kill CLI command,
 process-control CLI command, signal-handler CLI command, exit-handler CLI
 command, transcript persistence CLI command, replay CLI command,
 framing/redaction CLI command, transport harness CLI command, approval-record
-CLI command, operator-consent CLI command, `approve-runtime`, `grant-runtime`,
-`enable-runtime`, proposal CLI command, readiness CLI command, live stdio
-reader, stdout writer, stderr writer, failure-audit command, listener, server,
-subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call,
-plugin execution path, Content Fabric runtime path, runtime approval grant,
-live runtime implementation, or agent loop. Phase 4.2B is not runtime
-readiness, and Phase 4.2C is not runtime approval or runtime enablement.
-Phase 4.2C records no fresh external, Devin, or Jules review, does not change
-CLI source, and keeps runtime blocked. See
+CLI command, operator-consent CLI command, `approve-runtime-implementation`,
+`approve-runtime-command`, `approve-runtime`, `grant-runtime`,
+`enable-runtime`, `phase-5-runtime`, `phase-5-1-runtime`, proposal CLI command,
+readiness CLI command, live stdio reader, stdout writer, stderr writer,
+failure-audit command, listener, server, subprocess supervisor, adapter call,
+Locus dependency, MCP/OpenClaw call, plugin execution path, Content Fabric
+runtime path, runtime approval grant, live runtime implementation, or agent
+loop. Phase 4.2B is not runtime readiness, Phase 4.2C is not runtime approval
+or runtime enablement, and Phase 4.2D does not grant runtime implementation
+approval or command-surface approval. Phase 4.2C itself recorded no fresh
+external, Devin, or Jules review; Phase 4.2D records Jules's external review
+disposition while keeping CLI source and runtime behavior unchanged. See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
-`docs/phase-4-2c-runtime-readiness-review-gate.md`.
+`docs/phase-4-2c-runtime-readiness-review-gate.md` and
+`docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -320,3 +329,13 @@ no runtime-readiness-review CLI command, no approval command, no runtime
 command, no process control, no transcript or audit write side effect, and no
 runtime approval grant. See
 `docs/phase-4-2c-runtime-readiness-review-gate.md`.
+
+Phase 4.2D records Jules's post-merge Phase 4.2C `APPROVE` disposition and
+the Phase 5.1 approval-record/design handoff while leaving CLI behavior
+unchanged. It adds no Phase 4.2D disposition CLI command, no Phase 5.1 handoff
+CLI command, no runtime implementation approval CLI command, no runtime
+command-surface review CLI command, no approval command, no runtime command,
+no process control, no transcript or audit write side effect, and no runtime
+approval grant. See
+`docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.

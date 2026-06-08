@@ -261,6 +261,7 @@ Proposed future phases:
 | 4.2A | Deliberately blocked internal Rust-host stdio runtime skeleton, limited to in-memory frame/gate planning and unavailable entrypoint results with runtime commands, process stdio ownership, approval grants, and CLI source changes still blocked. See `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`. | false |
 | 4.2B | Deliberately blocked internal Rust-host lifecycle/failure-audit skeleton, limited to in-memory start/stop/kill/execute, transcript-plan, failure-audit, and kill-semantics planning with runtime commands, process control, write side effects, approval grants, and CLI source changes still blocked. See `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`. | false |
 | 4.2C | Runtime readiness review gate and Jules/Devin review packet, limited to evidence consolidation, blocker burn-down, external-review status rules, and future enablement boundary with runtime approval, external review completion, CLI runtime commands, process control, write side effects, and CLI source changes still blocked. See `docs/phase-4-2c-runtime-readiness-review-gate.md`. | false |
+| 4.2D | Jules post-merge Phase 4.2C `APPROVE` disposition plus Phase 5.1 controlled runtime implementation approval handoff, limited to docs, fixture metadata, report inventory, and focused tests with runtime implementation approval, runtime command-surface approval, live runtime behavior, and CLI source changes still blocked. See `docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and `docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`. | false |
 
 Each future phase requires separate approval, implementation, tests, and review
 before enabling its runtime surface. Phase 4.1A implements the first roadmap
@@ -293,11 +294,14 @@ stdio ownership false, CLI source changed false, no fresh external review, no
 fresh Devin review, and runtime still blocked. Phase 4.2B implements the next
 blocked private skeleton layer for lifecycle/failure-audit planning with no
 process control or write side effects. Phase 4.2C implements the next review
-gate and Jules/Devin packet with runtime still blocked and external review not
-complete. This Phase 4.1 proposal, Phase 4.1A, Phase 4.1B, Phase 4.1C, Phase
+gate and Jules/Devin packet with runtime still blocked. Phase 4.2D records
+Jules's post-merge `APPROVE` disposition for Phase 4.2C and hands off Phase
+5.1 as approval-record/design work only, while runtime implementation approval,
+runtime command-surface approval, and runtime enablement remain false. This
+Phase 4.1 proposal, Phase 4.1A, Phase 4.1B, Phase 4.1C, Phase
 4.1D, Phase 4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, Phase 4.1I, Phase 4.1J,
-Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B, and Phase 4.2C implement none
-of the live runtime surfaces.
+Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B, Phase 4.2C, and Phase 4.2D
+implement none of the live runtime surfaces.
 
 ## Still Forbidden
 

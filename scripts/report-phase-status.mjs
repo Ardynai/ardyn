@@ -100,6 +100,9 @@ const phase42BLifecycleFailureAuditMetadata = await readJson(
 const phase42CRuntimeReadinessReviewGateMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json"
 );
+const phase42DExternalReviewDispositionPhase5HandoffMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-2d/external-review-disposition-phase5-handoff.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -147,9 +150,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.2C",
-    name: "Runtime readiness review gate",
-    executionPosture: "runtime-readiness-review-gate-only non-executing"
+    id: "4.2D",
+    name: "External review disposition and Phase 5 handoff",
+    executionPosture: "external-review-disposition-phase5-handoff-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -197,12 +200,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.2C runtime readiness review gate status report.",
+        "Render this deterministic local Phase 4.2D external review disposition and Phase 5 handoff status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.2C status report.",
+      purpose: "Run focused tests for this local Phase 4.2D status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-2d-external-review-disposition-phase5-handoff.test.mjs",
+      purpose:
+        "Run focused Phase 4.2D Jules review disposition, Phase 5 handoff, and runtime rejection checks.",
       ranByReport: false
     },
     {
@@ -6560,6 +6569,168 @@ const report = {
     nonExecutionInvariants: phase42CRuntimeReadinessReviewGateMetadata.nonExecutionInvariants,
     safetyPosture: phase42CRuntimeReadinessReviewGateMetadata.safetyPosture
   },
+  phase42DExternalReviewDispositionPhase5HandoffInventory: {
+    dispositionLayer: {
+      document: "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+      handoffDocument: "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      precedingPhase: "4.2C",
+      layerId: "external-review-disposition-phase5-handoff",
+      scope: "record-jules-approve-and-handoff-phase5-runtime-still-blocked",
+      fixture:
+        "tests/fixtures/host-policy/phase4-2d/external-review-disposition-phase5-handoff.json",
+      reviewer:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition.reviewer,
+      verdict:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition.verdict,
+      externalReviewComplete:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition
+          .externalReviewComplete,
+      julesReviewRecorded:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.safetyPosture
+          .julesReviewRecorded,
+      phase5HandoffReady:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.safetyPosture
+          .phase5HandoffReady,
+      runtimeImplementationApproved:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition
+          .runtimeImplementationApproved,
+      runtimeCommandSurfaceApproved:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition
+          .runtimeCommandSurfaceApproved,
+      runtimeEnabled:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition
+          .runtimeEnabled,
+      runtimeBlocked:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.safetyPosture.runtimeBlocked,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      reportRunsChecks: false
+    },
+    dispositionFixture: await localInventoryEntry(
+      "tests/fixtures/host-policy/phase4-2d/external-review-disposition-phase5-handoff.json",
+      "Expected Phase 4.2D external review disposition fixture recording Jules APPROVE for 4.2C and Phase 5.1 handoff while runtime stays blocked."
+    ),
+    dispositionMetadata: {
+      schema: phase42DExternalReviewDispositionPhase5HandoffMetadata.schema,
+      schemaVersion:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.schemaVersion,
+      phase: phase42DExternalReviewDispositionPhase5HandoffMetadata.phase,
+      artifactKind:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.artifactKind,
+      metadataGeneratedAt:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.metadataGeneratedAt
+    },
+    sourcePhase: phase42DExternalReviewDispositionPhase5HandoffMetadata.sourcePhase,
+    julesReviewDisposition:
+      phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition,
+    blockerDisposition:
+      phase42DExternalReviewDispositionPhase5HandoffMetadata.blockerDisposition,
+    phase5Handoff: phase42DExternalReviewDispositionPhase5HandoffMetadata.phase5Handoff,
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+        "Records Jules's Phase 4.2C APPROVE disposition as external review only and keeps runtime blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "Defines Phase 5.1 as controlled runtime implementation approval and command-surface review gate work, not runtime enablement."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-2c-runtime-readiness-review-gate.md",
+        "Provides the reviewed Phase 4.2C runtime readiness gate evidence."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md",
+        "Provides the reviewed blocked lifecycle/failure-audit skeleton evidence."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+        "Provides the reviewed blocked runtime skeleton evidence."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4 roadmap with 4.2D disposition and Phase 5.1 handoff."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.2D leaves finite TypeScript dry-run event emission unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.2D while preserving no live stdio transport or process stdio ownership."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents Phase 4.2D as external-review disposition and Phase 5.1 handoff, not active runtime host-policy enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Documents that Phase 4.2D changes no Rust-host, CLI, or runtime architecture boundary."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.2D scope and unchanged non-executing CLI/runtime posture."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.2D and Phase 5.1 command-like names remain unavailable."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Jules approval and Phase 5 handoff add no TypeScript core runtime API."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Jules approval and Phase 5 handoff add no Rust-host runtime implementation."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.2D report metadata, Jules disposition inventory, Phase 5 handoff, runtime flags, and safety posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-2d-external-review-disposition-phase5-handoff.test.mjs",
+        "Expected focused Phase 4.2D fixture, Phase 5 handoff, and runtime rejection test path."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-2c-runtime-readiness-review-gate.test.mjs",
+        "Keeps Phase 4.2C readiness gate guard active after Jules disposition is recorded."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Expected unchanged CLI source; Phase 4.2D adds no review, handoff, approval, or runtime command."
+      )
+    ],
+    ownershipBoundary: {
+      docsReportAndFocusedTestFiles: [
+        "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "tests/fixtures/host-policy/phase4-2d/external-review-disposition-phase5-handoff.json",
+        "tests/phase4-2d-external-review-disposition-phase5-handoff.test.mjs",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      reportRunsChecks: false,
+      separatePhase51ApprovalRequired: true,
+      separateRuntimeImplementationRequired: true,
+      separateRuntimeEnablementRequired: true
+    },
+    runtimeLikeCommandRejectionProbes:
+      phase42DExternalReviewDispositionPhase5HandoffMetadata
+        .runtimeLikeCommandRejectionProbes,
+    runtimeEffect: phase42DExternalReviewDispositionPhase5HandoffMetadata.runtimeEffect,
+    nonExecutionInvariants:
+      phase42DExternalReviewDispositionPhase5HandoffMetadata.nonExecutionInvariants,
+    safetyPosture: phase42DExternalReviewDispositionPhase5HandoffMetadata.safetyPosture
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -6591,6 +6762,7 @@ const report = {
     phase42ADeliberatelyBlockedRuntimeSkeleton: true,
     phase42BLifecycleFailureAuditSkeleton: true,
     phase42CRuntimeReadinessReviewGate: true,
+    phase42DExternalReviewDispositionPhase5Handoff: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -6645,9 +6817,29 @@ const report = {
       phase42CProcessControlEnabled: false,
       phase42CFailureAuditRuntimeEnabled: false,
       phase42CTranscriptPersistenceRuntimeEnabled: false,
-      freshExternalReviewRan: false,
+      phase42DJulesReviewRecorded: true,
+      phase42DJulesReviewApproved: true,
+      phase42DExternalReviewComplete: true,
+      phase42DPhase5HandoffReady: true,
+      phase42DRuntimeImplemented: false,
+      phase42DRuntimeReady: false,
+      phase42DRuntimeApproved: false,
+      phase42DRuntimeImplementationApproved: false,
+      phase42DRuntimeEnablementApproved: false,
+      phase42DRuntimeCommandSurfaceApproved: false,
+      phase42DRuntimeEnabled: false,
+      phase42DRuntimeCommandEnabled: false,
+      phase42DAppsCliIndexChanged: false,
+      phase42DProcessControlEnabled: false,
+      phase42DFailureAuditRuntimeEnabled: false,
+      phase42DTranscriptPersistenceRuntimeEnabled: false,
+      phase51RuntimeImplemented: false,
+      phase51RuntimeEnabled: false,
+      phase51RuntimeCommandEnabled: false,
+      phase51ApprovalCommandEnabled: false,
+      freshExternalReviewRan: true,
       freshDevinReviewRan: false,
-      freshJulesReviewRan: false,
+      freshJulesReviewRan: true,
       externalCiRan: false
     },
     note:

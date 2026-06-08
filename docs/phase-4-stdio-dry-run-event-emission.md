@@ -622,9 +622,19 @@ TypeScript dry-run emitter, does not add a CLI runtime or review command, does
 not complete external review, does not grant runtime approval, and does not
 enable runtime. See `docs/phase-4-2c-runtime-readiness-review-gate.md`.
 
+## Phase 4.2D External Review Disposition And Phase 5 Handoff
+
+Phase 4.2D records Jules's post-merge Phase 4.2C `APPROVE` disposition and
+creates the Phase 5.1 approval-record/design handoff. It does not change this
+TypeScript dry-run emitter, does not add a CLI runtime, review, approval, or
+handoff command, does not grant runtime implementation approval, does not
+approve the runtime command surface, and does not enable runtime. See
+`docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
+
 ## Deferred Runtime Work
 
-Through Phase 4.2C, ARDYN intentionally does not implement repo-root confinement, transcript
+Through Phase 4.2D, ARDYN intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction

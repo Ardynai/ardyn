@@ -1,0 +1,302 @@
+{
+  "schema": "ardyn.phase-4.2d.external-review-disposition-phase5-handoff",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-4.2d-external-review-disposition-phase5-handoff",
+  "artifactKind": "external-review-disposition-and-phase5-handoff",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhase": {
+    "previousPhase": "phase-4.2c-runtime-readiness-review-gate",
+    "previousCommit": "6f2097816cf1f93dbfffb468d8444ef7ec87e2ac",
+    "previousBranch": "codex/phase-4-2c-runtime-readiness-review-gate",
+    "previousFixture": "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json",
+    "postMergeReview": true
+  },
+  "julesReviewDisposition": {
+    "reviewer": "Jules",
+    "reviewerSystem": "Jules",
+    "verdict": "APPROVE",
+    "status": "review-recorded-runtime-still-blocked",
+    "reviewedPhase": "4.2C",
+    "reviewedBranch": "codex/phase-4-2c-runtime-readiness-review-gate",
+    "reviewedCommit": "6f2097816cf1f93dbfffb468d8444ef7ec87e2ac",
+    "reviewRecordPath": "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+    "reviewRecordedAfterMerge": true,
+    "externalReviewPerformed": true,
+    "externalReviewComplete": true,
+    "freshJulesReviewRan": true,
+    "freshDevinReviewRan": false,
+    "runtimeApprovalGranted": false,
+    "runtimeEnabled": false,
+    "runtimeImplementationApproved": false,
+    "runtimeCommandSurfaceApproved": false,
+    "reviewFindings": [
+      {
+        "id": "no-accidental-runtime-enablement",
+        "status": "approved",
+        "summary": "No accidental runtime enablement found."
+      },
+      {
+        "id": "no-missing-gate-or-test-before-merge",
+        "status": "approved",
+        "summary": "No missing gate or test before merge."
+      },
+      {
+        "id": "runtime-remains-blocked",
+        "status": "approved",
+        "summary": "Runtime remains blocked."
+      },
+      {
+        "id": "source-guards-private-boundaries-adequate",
+        "status": "approved",
+        "summary": "Source guards and private Rust module boundaries are adequate."
+      },
+      {
+        "id": "runtime-unavailable-entrypoints",
+        "status": "approved",
+        "summary": "Runtime entrypoints return runtime_unavailable."
+      },
+      {
+        "id": "forbidden-api-guards-covered",
+        "status": "approved",
+        "summary": "Forbidden API/source guards cover live runtime APIs such as std::process, Command::new, and network listeners."
+      },
+      {
+        "id": "blocked-effects-enforced",
+        "status": "approved",
+        "summary": "all_effects_blocked() and all_runtime_paths_blocked() remain enforced."
+      },
+      {
+        "id": "cli-runtime-commands-reject",
+        "status": "approved",
+        "summary": "CLI rejects runtime-related commands with nonzero exit and zero stdout."
+      },
+      {
+        "id": "apps-cli-index-unchanged",
+        "status": "approved",
+        "summary": "apps/cli/src/index.mjs remains unchanged."
+      }
+    ],
+    "recommendedNextBoundary": {
+      "phase": "5.1",
+      "name": "Controlled Runtime Implementation Approval",
+      "summary": "Resolve runtime-implementation-approval and runtime-command-surface-review blockers before any guarded live loop or redacted writers.",
+      "runtimeEnablementAllowedByThisReview": false,
+      "runtimeImplementationAllowedByThisReview": false
+    }
+  },
+  "blockerDisposition": {
+    "closedByJulesReview": [
+      {
+        "id": "fresh-jules-or-devin-review",
+        "previousStatus": "open",
+        "status": "closed-by-jules-approve",
+        "grantsRuntimeApproval": false,
+        "runtimeBehaviorIntroduced": false
+      }
+    ],
+    "stillOpenBeforeAnyImplementation": [
+      {
+        "id": "runtime-implementation-approval",
+        "classification": "must-fix-before-implementation",
+        "status": "open",
+        "requiredBeforeRuntimeImplementation": true,
+        "requiredBeforeRuntimeEnablement": true,
+        "grantsRuntimeApproval": false,
+        "runtimeBehaviorIntroduced": false,
+        "nextPhase": "5.1"
+      },
+      {
+        "id": "runtime-command-surface-review",
+        "classification": "must-fix-before-command-surface",
+        "status": "open",
+        "requiredBeforeRuntimeImplementation": true,
+        "requiredBeforeRuntimeEnablement": true,
+        "grantsRuntimeApproval": false,
+        "runtimeBehaviorIntroduced": false,
+        "nextPhase": "5.1"
+      },
+      {
+        "id": "host-policy-runtime-enforcement",
+        "classification": "must-fix-during-controlled-implementation",
+        "status": "open",
+        "requiredBeforeRuntimeEnablement": true,
+        "grantsRuntimeApproval": false,
+        "runtimeBehaviorIntroduced": false,
+        "nextPhase": "future-controlled-implementation"
+      },
+      {
+        "id": "rollback-kill-switch",
+        "classification": "must-fix-during-controlled-implementation",
+        "status": "open",
+        "requiredBeforeRuntimeEnablement": true,
+        "grantsRuntimeApproval": false,
+        "runtimeBehaviorIntroduced": false,
+        "nextPhase": "future-controlled-implementation"
+      }
+    ],
+    "mustRemainGuardedAfterImplementation": [
+      "adapter-runtime-behavior",
+      "locus-mcp-openclaw-plugin-runtime-behavior",
+      "websocket-http-control-surface",
+      "content-fabric-runtime-behavior",
+      "secrets-and-production-signing-keys",
+      "plugin-install-torrent-download-code-pack-enablement",
+      "scope-bound-revocable-runtime-approval-grants",
+      "file-writes-outside-approved-transcript-and-audit-locations"
+    ]
+  },
+  "phase5Handoff": {
+    "document": "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "nextPhase": "phase-5.1-controlled-runtime-implementation-approval",
+    "nextPhaseIsApprovalGateOnly": true,
+    "liveRuntimeImplementationAllowedByHandoff": false,
+    "runtimeEnablementAllowedByHandoff": false,
+    "requiredApprovalRecordsBeforeRuntimeCommand": [
+      "runtime-implementation-approval-record",
+      "runtime-command-surface-review-record",
+      "runtime-command-denied-by-default-policy-record",
+      "operator-consent-scope-and-expiration-record",
+      "rollback-and-kill-switch-design-record"
+    ],
+    "requiredDesignBeforeAnyLiveLoop": [
+      "bounded-stdin-loop-design",
+      "redacted-stdout-jsonl-writer-design",
+      "redacted-stderr-diagnostic-writer-design",
+      "host-policy-runtime-enforcement-design",
+      "transcript-and-failure-audit-path-confinement-design",
+      "process-lifecycle-timeout-cleanup-design"
+    ],
+    "phase51Prompt": "Start Phase 5.1 Controlled Runtime Implementation Approval from clean main. Record explicit runtime implementation approval-boundary and runtime command-surface review artifacts only. Do not implement or enable a live runtime, CLI runtime command, stdin loop, stdout/stderr writer, process control, transcript/audit side effects, adapters, or external control surfaces."
+  },
+  "runtimeLikeCommandRejectionProbes": [
+    "serve-runtime",
+    "stdio-runtime",
+    "replay-session-transcript",
+    "external-review-packet",
+    "review-packet",
+    "runtime-readiness-review",
+    "runtime-implementation-readiness",
+    "phase-4-2a-runtime-skeleton",
+    "runtime-skeleton",
+    "runtime-lifecycle",
+    "phase-4-2b-lifecycle-runtime",
+    "phase-4-2b-failure-audit",
+    "phase-4-2c-runtime-readiness-review-gate",
+    "phase-4-2c-readiness-gate",
+    "phase-4-2d-external-review-disposition",
+    "phase-4-2d-phase5-handoff",
+    "runtime-readiness-gate",
+    "readiness-gate",
+    "phase-5-1-controlled-runtime-implementation-approval",
+    "controlled-runtime-implementation-approval",
+    "runtime-implementation-approval",
+    "runtime-command-surface-review",
+    "approve-runtime-implementation",
+    "approve-runtime-command",
+    "phase-5-runtime",
+    "phase-5-1-runtime",
+    "failure-audit-runtime",
+    "cleanup-runtime",
+    "kill-runtime",
+    "approve-runtime",
+    "grant-runtime",
+    "enable-runtime"
+  ],
+  "runtimeEffect": {
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeEnabled": false,
+    "runtimeApproved": false,
+    "runtimeReadinessApproved": false,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeCommandSurfaceApproved": false,
+    "cliRuntimeCommandAdded": false,
+    "phase5RuntimeCommandAdded": false,
+    "readinessApprovalCommandAdded": false,
+    "externalReviewCommandAdded": false,
+    "approvalEvaluatorAdded": false,
+    "processControlAvailable": false,
+    "processStarted": false,
+    "processStopped": false,
+    "processKilled": false,
+    "signalSent": false,
+    "processPolled": false,
+    "processWaited": false,
+    "stdinRead": false,
+    "stdoutWritten": false,
+    "stderrWritten": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptWritten": false,
+    "failureAuditRuntimeAvailable": false,
+    "failureAuditWritten": false,
+    "cleanupRuntimeAvailable": false,
+    "processKillAvailable": false,
+    "signalHandlerAvailable": false,
+    "exitHandlerAvailable": false,
+    "timeoutRuntimeAvailable": false,
+    "adapterRuntimeBehaviorAdded": false,
+    "contentFabricRuntimeBehaviorAdded": false,
+    "webSocketHttpControlSurfaceAdded": false
+  },
+  "nonExecutionInvariants": [
+    "apps-cli-index-unchanged",
+    "jules-approval-is-not-runtime-approval",
+    "phase5-handoff-is-not-runtime-enablement",
+    "no-cli-runtime-command",
+    "no-runtime-implementation-approval-command",
+    "no-readiness-approval-command",
+    "no-external-review-command",
+    "no-live-stdin-loop",
+    "no-live-stdout-writer",
+    "no-live-stderr-writer",
+    "no-child-process-spawn",
+    "no-process-kill",
+    "no-process-signal",
+    "no-process-poll-or-wait",
+    "no-transcript-write-side-effect",
+    "no-failure-audit-write-side-effect",
+    "no-approval-evaluator",
+    "no-runtime-approval-grant",
+    "runtime-unavailable-by-construction"
+  ],
+  "safetyPosture": {
+    "julesReviewRecorded": true,
+    "julesVerdictApproved": true,
+    "externalReviewComplete": true,
+    "phase5HandoffReady": true,
+    "runtimeBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeApproved": false,
+    "runtimeReadinessApproved": false,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeCommandSurfaceApproved": false,
+    "freshExternalReviewRan": true,
+    "freshJulesReviewRan": true,
+    "freshDevinReviewRan": false,
+    "runtimeBehaviorIntroduced": false,
+    "cliSourceChanged": false,
+    "appsCliIndexChanged": false,
+    "reportRunsChecks": false,
+    "noRuntimeCommand": true,
+    "noRuntimeImplementationApprovalCommand": true,
+    "noReadinessApprovalCommand": true,
+    "noExternalReviewCommand": true,
+    "noProcessControl": true,
+    "noProcessSpawn": true,
+    "noProcessKill": true,
+    "noProcessSignal": true,
+    "noTranscriptWrite": true,
+    "noFailureAuditWrite": true,
+    "noApprovalEvaluator": true,
+    "noRuntimeApprovalGrant": true,
+    "noWebSocketHttpControlSurface": true,
+    "noAdapterCalls": true,
+    "noLocusRuntimeDependency": true,
+    "noMcpCalls": true,
+    "noOpenClawCalls": true,
+    "noPluginExecution": true,
+    "noContentFabricRuntimeBehavior": true
+  }
+}

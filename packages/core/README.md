@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.2C keeps the TypeScript core on deterministic contract and display
+Phase 4.2D keeps the TypeScript core on deterministic contract and display
 data while the Rust host keeps policy-only stdio transport contract metadata
 and static host-policy review-record fixtures. The TypeScript core still owns
 manifest and task validation, deterministic non-executing task planning,
@@ -311,6 +311,15 @@ runtime behavior. The readiness gate, Jules/Devin review packet, blocker
 burn-down, and external-review status rules are docs, fixture metadata, tests,
 and report inventory only. Packet-ready status cannot grant runtime approval
 or enable runtime. See `docs/phase-4-2c-runtime-readiness-review-gate.md`.
+
+Phase 4.2D also adds no TypeScript core runtime APIs and no new TypeScript core
+runtime behavior. Jules's post-merge Phase 4.2C `APPROVE` verdict is recorded
+as external-review disposition only, and the Phase 5.1 handoff is an
+approval-record/design gate for future work. Neither artifact grants runtime
+implementation approval, approves a runtime command surface, changes CLI
+source, or enables runtime. See
+`docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
 
 ## Phase 3.2 Policy Review
 

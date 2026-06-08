@@ -400,6 +400,13 @@ review gate and Jules/Devin packet. It adds no live stdio transport, no
 runtime approval, no external-review completion, and no CLI runtime command.
 See `docs/phase-4-2c-runtime-readiness-review-gate.md`.
 
+Phase 4.2D records Jules's post-merge Phase 4.2C `APPROVE` disposition and
+hands off Phase 5.1 approval-record/design work only. It adds no live stdio
+transport, no runtime implementation approval, no runtime command-surface
+approval, and no CLI runtime command. See
+`docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

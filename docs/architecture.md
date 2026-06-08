@@ -201,6 +201,14 @@ private Rust skeleton is not a public runtime module, external review is not
 complete, runtime approval is not granted, and CLI runtime commands remain
 unavailable. See `docs/phase-4-2c-runtime-readiness-review-gate.md`.
 
+Phase 4.2D records Jules's post-merge Phase 4.2C `APPROVE` disposition and a
+Phase 5.1 controlled runtime implementation approval handoff. It changes no
+architecture boundary: the private Rust skeleton stays private, runtime
+implementation approval and command-surface approval remain false, CLI source
+is unchanged, and runtime commands remain unavailable. See
+`docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

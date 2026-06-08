@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.2C still exposes static Rust host identity, handshake data, policy-only
+Phase 4.2D still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -41,6 +41,11 @@ Phase 4.2C adds a runtime readiness review gate, Jules/Devin packet, blocker
 burn-down, external-review status rules, and a compile-fail public-boundary
 doctest. It keeps `stdio_runtime` private, records no fresh external, Devin,
 or Jules review, grants no runtime approval, and enables no runtime behavior.
+Phase 4.2D records Jules's post-merge Phase 4.2C `APPROVE` verdict as
+external-review disposition only and creates a Phase 5.1 approval-record/design
+handoff. It keeps `stdio_runtime` private, grants no runtime implementation
+approval or command-surface approval, changes no CLI source, and enables no
+runtime behavior.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -192,6 +197,14 @@ Phase 4.2C adds no Rust-host runtime implementation. It records the readiness
 gate, Jules/Devin packet, blocker burn-down, and external-review status rules,
 and it pins that `stdio_runtime` remains private. See
 `docs/phase-4-2c-runtime-readiness-review-gate.md`.
+
+Phase 4.2D adds no Rust-host runtime implementation. It records Jules's
+post-merge `APPROVE` disposition for Phase 4.2C and hands off Phase 5.1 as an
+approval-record/design gate only. Runtime implementation approval,
+command-surface approval, process control, stdout/stderr writers, transcript
+writes, failure-audit writes, and CLI runtime commands remain blocked. See
+`docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

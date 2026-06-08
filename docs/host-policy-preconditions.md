@@ -347,6 +347,14 @@ pre-runtime metadata only: packet-ready status cannot complete external review,
 grant runtime approval, or enable runtime. See
 `docs/phase-4-2c-runtime-readiness-review-gate.md`.
 
+Phase 4.2D records Jules's post-merge Phase 4.2C `APPROVE` disposition and a
+Phase 5.1 controlled runtime implementation approval handoff. Host policy still
+remains pre-runtime metadata only: the disposition closes the external-review
+blocker but does not approve runtime implementation, approve a runtime command
+surface, activate host-policy runtime enforcement, or enable runtime. See
+`docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting
