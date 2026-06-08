@@ -656,6 +656,22 @@ const phase42DDocFiles = [
   "packages/core/README.md",
   "crates/ardyn-host/README.md"
 ];
+const phase51DocFiles = [
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+  "README.md",
+  "apps/cli/README.md",
+  "packages/core/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase51CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "packages/core/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -689,6 +705,30 @@ const phase42DRuntimeLikeCommandRejectionProbes = [
   "approve-runtime",
   "grant-runtime",
   "enable-runtime"
+];
+const phase51RuntimeLikeCommandRejectionProbes = [
+  "serve-runtime",
+  "stdio-runtime",
+  "replay-session-transcript",
+  "external-review-packet",
+  "review-packet",
+  "runtime-readiness-review",
+  "grant-runtime",
+  "runtime-implementation-approval",
+  "runtime-command-surface-review",
+  "controlled-runtime-implementation-approval",
+  "phase-5-1-controlled-runtime-implementation-approval",
+  "approve-runtime-implementation",
+  "approve-runtime-command",
+  "approve-runtime",
+  "enable-runtime",
+  "phase-5-runtime",
+  "phase-5-1-runtime",
+  "runtime-start",
+  "runtime-stop",
+  "runtime-status",
+  "runtime-rollback",
+  "runtime-failure-audit"
 ];
 
 async function readJson(url) {
@@ -727,14 +767,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.2D external review disposition and Phase 5 handoff metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.1 approval-only docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.2D",
-    name: "External review disposition and Phase 5 handoff",
-    executionPosture: "external-review-disposition-phase5-handoff-only non-executing"
+    id: "5.1",
+    name: "Controlled runtime implementation approval",
+    executionPosture: "future-implementation-approval-only runtime-enablement-blocked non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -807,12 +847,24 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.2D external review disposition and Phase 5 handoff status report.",
+        "Render this deterministic local Phase 5.1 controlled runtime implementation approval status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.2D status report.",
+      purpose: "Run focused tests for this local Phase 5.1 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-1-controlled-runtime-implementation-approval-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.1 implementation approval-boundary fixture and runtime rejection checks.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-1-command-surface-review.test.mjs",
+      purpose:
+        "Run focused Phase 5.1 command-surface review matrix and candidate command rejection checks.",
       ranByReport: false
     },
     {
@@ -5983,6 +6035,179 @@ test("report inventories Phase 4.2D Jules disposition and Phase 5 handoff while 
   assert.equal(report.safetyPosture.flags.freshJulesReviewRan, true);
 });
 
+test("report inventories Phase 5.1 as approval to proceed with future implementation only", async () => {
+  const report = await runReport();
+  const inventory = report.phase51ControlledRuntimeImplementationApprovalInventory;
+
+  assert.deepEqual(inventory.approvalLayer, {
+    document: "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    sourceDispositionDocument:
+      "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+    approvalBoundaryFixture:
+      "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json",
+    commandSurfaceReviewArtifact:
+      "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json",
+    precedingPhase: "4.2D",
+    layerId: "controlled-runtime-implementation-approval",
+    scope: "approve-separate-future-implementation-phase-only-runtime-still-blocked",
+    approvalRecordedForFutureImplementationPhase: true,
+    runtimeImplementationInThisPhase: false,
+    runtimeEnablementApproved: false,
+    runtimeEnabled: false,
+    runtimeCommandSurfaceEnabled: false,
+    cliSourceChanged: false,
+    appsCliIndexChanged: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    stdoutStderrWritersAdded: false,
+    processControlAdded: false,
+    transcriptAuditSideEffectsAdded: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(inventory.approvalBoundary, {
+    fixture:
+      "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json",
+    status: "approved-for-future-controlled-implementation-boundary-only",
+    approvalRecordCreated: true,
+    approvedToImplementNextSkeletonSlice: true,
+    approvedNextSkeletonSliceRequiresSeparatePhase: true,
+    grantsRuntimeEnablement: false,
+    grantsRuntimeCommandExposure: false,
+    grantsAdapterRuntimeBehavior: false,
+    grantsContentFabricRuntimeBehavior: false,
+    allowedNextWork: "separate-controlled-runtime-implementation-phase",
+    requiredBeforeRuntimeEnablement: [
+      "runtime-command-surface-review",
+      "runtime-host-policy-enforcement",
+      "rollback-and-kill-switch-review",
+      "bounded-stdin-loop-design",
+      "redacted-stdout-stderr-writer-design",
+      "transcript-and-failure-audit-path-confinement",
+      "approved-and-denied-runtime-smokes"
+    ]
+  });
+  assert.deepEqual(inventory.commandSurfaceReview, {
+    artifact:
+      "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json",
+    status: "blocked",
+    runtimeCommandSurfaceApproved: false,
+    cliRuntimeCommandAdded: false,
+    runtimeEnabled: false,
+    candidateCommands: phase51RuntimeLikeCommandRejectionProbes
+  });
+  assert.deepEqual(inventory.sourceDisposition, {
+    document: "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+    reviewer: "Jules",
+    verdict: "APPROVE",
+    externalReviewComplete: true,
+    runtimeImplementationApprovedByDisposition: false,
+    runtimeCommandSurfaceApprovedByDisposition: false,
+    runtimeEnabledByDisposition: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase51DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase51CrossLinks);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]), [
+    [
+      "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json",
+      "present"
+    ],
+    [
+      "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json",
+      "present"
+    ]
+  ]);
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    ["tests/report-phase-status.test.mjs", "present"],
+    ["tests/phase5-1-controlled-runtime-implementation-approval-boundary.test.mjs", "present"],
+    ["tests/phase5-1-command-surface-review.test.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.cliSourceInventory.map(({ path, status }) => [path, status]), [
+    ["apps/cli/src/index.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.docsStatusFiles, [
+    "README.md",
+    "apps/cli/README.md",
+    "packages/core/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+    "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.machineReadableArtifactFiles, [
+    "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json",
+    "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.excludedRustSourceFiles, [
+    "crates/ardyn-host/src/lib.rs",
+    "crates/ardyn-host/src/stdio_runtime/mod.rs"
+  ]);
+  assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.rustSourceChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.machineReadableApprovalFixtureChangedByThisPhase, true);
+  assert.equal(inventory.ownershipBoundary.commandSurfaceReviewArtifactChangedByThisPhase, true);
+  assert.equal(inventory.ownershipBoundary.reportRunsChecks, false);
+  assert.equal(inventory.ownershipBoundary.separateImplementationPhaseRequired, true);
+  assert.equal(inventory.ownershipBoundary.separateRuntimeEnablementRequired, true);
+
+  assert.deepEqual(
+    inventory.runtimeLikeCommandRejectionProbes,
+    phase51RuntimeLikeCommandRejectionProbes
+  );
+  assertAllFalse(inventory.runtimeEffect);
+  assert.deepEqual(inventory.nonExecutionInvariants, [
+    "phase5-1-approval-is-for-a-separate-future-implementation-phase-only",
+    "phase5-1-is-not-runtime-enablement",
+    "runtime-command-surface-remains-blocked",
+    "apps-cli-index-unchanged",
+    "no-stdout-stderr-writers",
+    "no-process-control",
+    "no-transcript-or-audit-side-effects",
+    "no-adapter-or-fabric-runtime-behavior"
+  ]);
+  assert.deepEqual(inventory.safetyPosture, {
+    futureImplementationPhaseApproved: true,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandSurfaceEnabled: false,
+    runtimeImplementationInThisPhase: false,
+    noRuntimeCommand: true,
+    noRuntimeImplementationApprovalCommand: true,
+    noApprovalEvaluator: true,
+    noProcessControl: true,
+    noStdoutStderrWriters: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true
+  });
+  assert.equal(report.safetyPosture.phase51ControlledRuntimeImplementationApproval, true);
+  assert.equal(report.safetyPosture.flags.phase51FutureImplementationPhaseApproved, true);
+  assert.equal(report.safetyPosture.flags.phase51RuntimeImplementationInThisPhase, false);
+  assert.equal(report.safetyPosture.flags.phase51RuntimeEnablementApproved, false);
+  assert.equal(report.safetyPosture.flags.phase51RuntimeImplemented, false);
+  assert.equal(report.safetyPosture.flags.phase51RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase51RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase51RuntimeCommandSurfaceEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase51ApprovalCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase51AppsCliIndexChanged, false);
+  assert.equal(report.safetyPosture.flags.phase51ProcessControlEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase51StdoutStderrWritersEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase51TranscriptAuditSideEffectsEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase51AdapterRuntimeBehaviorEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase51ContentFabricRuntimeBehaviorEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -6189,6 +6414,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase42BLifecycleFailureAuditSkeleton, true);
   assert.equal(report.safetyPosture.phase42CRuntimeReadinessReviewGate, true);
   assert.equal(report.safetyPosture.phase42DExternalReviewDispositionPhase5Handoff, true);
+  assert.equal(report.safetyPosture.phase51ControlledRuntimeImplementationApproval, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -6260,10 +6486,20 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase42DProcessControlEnabled: false,
     phase42DFailureAuditRuntimeEnabled: false,
     phase42DTranscriptPersistenceRuntimeEnabled: false,
+    phase51FutureImplementationPhaseApproved: true,
+    phase51RuntimeImplementationInThisPhase: false,
+    phase51RuntimeEnablementApproved: false,
     phase51RuntimeImplemented: false,
     phase51RuntimeEnabled: false,
     phase51RuntimeCommandEnabled: false,
     phase51ApprovalCommandEnabled: false,
+    phase51RuntimeCommandSurfaceEnabled: false,
+    phase51AppsCliIndexChanged: false,
+    phase51ProcessControlEnabled: false,
+    phase51StdoutStderrWritersEnabled: false,
+    phase51TranscriptAuditSideEffectsEnabled: false,
+    phase51AdapterRuntimeBehaviorEnabled: false,
+    phase51ContentFabricRuntimeBehaviorEnabled: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,

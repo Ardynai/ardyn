@@ -1,13 +1,32 @@
 # Phase 5.1 Controlled Runtime Implementation Approval Handoff
 
-Phase 5.1 is the next recommended boundary after Jules's Phase 4.2C approval
-was recorded in Phase 4.2D. Phase 5.1 must be an approval and design gate. It
-must not automatically add or enable live runtime behavior.
+Phase 5.1 is the current docs/status boundary after Jules's Phase 4.2C
+approval was recorded in Phase 4.2D. Phase 5.1 records approval to proceed
+with a separate future controlled runtime implementation phase only. It is an
+approval and design gate; it does not add or enable live runtime behavior.
+
+Cross-links:
+
+- Root status: `../README.md`
+- CLI status: `../apps/cli/README.md`
+- TypeScript core status: `../packages/core/README.md`
+- Rust host status: `../crates/ardyn-host/README.md`
+- Source disposition: `phase-4-2d-external-review-disposition-phase5-handoff.md`
+
+Machine-readable Phase 5.1 artifacts:
+
+- Approval-boundary fixture:
+  `../tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json`
+- Command-surface review matrix:
+  `../tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json`
+- Focused guards:
+  `../tests/phase5-1-controlled-runtime-implementation-approval-boundary.test.mjs`
+  and `../tests/phase5-1-command-surface-review.test.mjs`
 
 ## Scope
 
-Phase 5.1 should create explicit approval-record artifacts for reviewing a
-future implementation boundary:
+Phase 5.1 records explicit approval/design status for reviewing a future
+implementation boundary:
 
 - runtime implementation approval boundary
 - runtime command surface review
@@ -17,7 +36,21 @@ future implementation boundary:
 
 Those records are prerequisites for future controlled implementation work. They
 are not themselves runtime implementation, runtime command enablement, or live
-runtime enablement.
+runtime enablement. All runtime enablement flags remain false.
+
+## Current Non-Runtime Effect
+
+Phase 5.1 permits only a later implementation phase to be planned and started
+under a separate scope. It has no runtime side effects:
+
+- no runtime command exposure
+- no live runtime implementation
+- no adapter or Content Fabric runtime behavior
+- no stdout or stderr writer
+- no process control
+- no transcript write side effect
+- no failure-audit write side effect
+- no change to `apps/cli/src/index.mjs`
 
 ## Blockers To Resolve Before Implementation
 

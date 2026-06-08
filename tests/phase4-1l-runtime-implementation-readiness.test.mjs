@@ -323,9 +323,9 @@ test("Phase 4.1L report inventories readiness without claiming runtime readiness
   const inventory = report.phase41LRuntimeImplementationReadinessInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.2D",
-    name: "External review disposition and Phase 5 handoff",
-    executionPosture: "external-review-disposition-phase5-handoff-only non-executing"
+    id: "5.1",
+    name: "Controlled runtime implementation approval",
+    executionPosture: "future-implementation-approval-only runtime-enablement-blocked non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

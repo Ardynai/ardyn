@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.2D still exposes static Rust host identity, handshake data, policy-only
+Phase 5.1 still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -46,6 +46,11 @@ external-review disposition only and creates a Phase 5.1 approval-record/design
 handoff. It keeps `stdio_runtime` private, grants no runtime implementation
 approval or command-surface approval, changes no CLI source, and enables no
 runtime behavior.
+Phase 5.1 records approval to proceed with a separate future controlled runtime
+implementation phase only. It does not enable runtime, expose runtime commands,
+add stdout/stderr writers, add process control, add transcript/audit write side
+effects, change `apps/cli/src/index.mjs`, or alter adapter/Fabric runtime
+behavior.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -204,6 +209,14 @@ approval-record/design gate only. Runtime implementation approval,
 command-surface approval, process control, stdout/stderr writers, transcript
 writes, failure-audit writes, and CLI runtime commands remain blocked. See
 `docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
+
+Phase 5.1 adds no Rust-host runtime implementation. It records approval to
+proceed with a separate future controlled implementation phase only; all
+runtime enablement flags remain false, and runtime command exposure,
+process-level stdio ownership, stdout/stderr writers, process control,
+transcript writes, failure-audit writes, adapter runtime behavior, and Content
+Fabric runtime behavior remain blocked. See
 `docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
 
 Future live stdio work must make the Rust host the owner of process-level

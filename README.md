@@ -8,10 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.2D Scope
+## Phase 3 through Phase 5.1 Scope
 
-This repository is currently in Phase 4.2D external review disposition and
-Phase 5 handoff mode.
+This repository is currently in Phase 5.1 controlled runtime implementation
+approval docs/status mode.
 The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
@@ -46,11 +46,13 @@ process control or write side effects plus a readiness gate and Jules/Devin
 review packet that consolidates 4.1I through 4.2B evidence, records open
 runtime enablement blockers, and allows external review preparation without
 runtime approval plus a Jules post-merge APPROVE disposition for Phase 4.2C
-and a Phase 5.1 controlled runtime implementation approval handoff that remain
-documentation, fixture, report, and test artifacts only. Runtime implementation
-approval, runtime command-surface approval, live runtime behavior, and CLI
-runtime commands remain blocked before any separately approved live runtime
-work.
+and a Phase 5.1 controlled runtime implementation approval record that approves
+proceeding to a separate future implementation phase only. Phase 5.1 remains
+documentation, report metadata, and test coverage only; it is not runtime
+enablement. Runtime command-surface enablement, live runtime behavior,
+adapter/Fabric runtime behavior, stdout/stderr writers, process control,
+transcript/audit side effects, and CLI runtime commands remain blocked before
+any separately approved live runtime work.
 
 Included now:
 
@@ -200,6 +202,17 @@ Included now:
   does not approve runtime implementation or command surfaces, does not change
   CLI source, and keeps runtime blocked. See
   `docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
+  `docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
+- Phase 5.1 controlled runtime implementation approval documentation and
+  report metadata plus the approval-boundary fixture
+  `tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json`
+  and command-surface review matrix
+  `tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json`.
+  These record approval to proceed with a separate future implementation phase
+  only. They do not enable runtime, approve runtime command exposure, add
+  stdout/stderr writers, add process control, add transcript/audit side
+  effects, change `apps/cli/src/index.mjs`, or alter adapter/Fabric runtime
+  behavior. See
   `docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
@@ -352,7 +365,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.1L readiness-inventory-only status report command is:
+The Phase 5.1 docs/status-only status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -375,11 +388,14 @@ contract metadata, Phase 4.1C framing/redaction contract metadata, Phase 4.1D
 transcript persistence/replay contract metadata, Phase 4.1E failure-audit
 kill-semantics contract metadata, Phase 4.1F runtime-readiness checkpoint
 metadata, Phase 4.1G external review packet metadata, and safety posture.
-Phase 4.1H external review disposition metadata and Phase 4.1I Rust-host stdio
+Phase 4.1H external review disposition metadata, Phase 4.1I Rust-host stdio
 test harness inventory, Phase 4.1J fixture-backed stdio boundary inventory,
-and Phase 4.1K approval-gated public Rust-host stdio runtime contract-gate
-inventory plus Phase 4.1L runtime implementation-readiness and 4.2A handoff
-inventory are included as the current static audit layers.
+Phase 4.1K approval-gated public Rust-host stdio runtime contract-gate
+inventory, Phase 4.1L runtime implementation-readiness and 4.2A handoff
+inventory, Phase 4.2A/4.2B blocked runtime skeleton inventories, Phase 4.2C
+readiness gate inventory, Phase 4.2D Jules disposition/Phase 5 handoff
+inventory, and Phase 5.1 future-implementation-approval docs/status inventory
+are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
 active Locus, Multiverse, MCP, OpenClaw, plugin, or Content Fabric runtime
@@ -460,6 +476,16 @@ Phase 5.1 approval-record/design handoff. It does not grant runtime
 implementation approval, does not approve the runtime command surface, does not
 change `apps/cli/src/index.mjs`, does not enable runtime commands, and keeps
 runtime blocked.
+
+Phase 5.1 is documented in
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`. It
+records approval to proceed with a separate future controlled runtime
+implementation phase only. It does not expose a runtime command, does not
+enable runtime, does not add stdout/stderr writers or process control, does
+not add transcript or audit write side effects, does not change
+`apps/cli/src/index.mjs`, and does not alter adapter or Content Fabric runtime
+behavior. The Phase 4.2D disposition remains the historical external-review
+source for this boundary.
 
 Example dry-run check:
 

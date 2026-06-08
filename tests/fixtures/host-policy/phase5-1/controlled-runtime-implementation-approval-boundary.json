@@ -1,0 +1,294 @@
+{
+  "schema": "ardyn.phase-5.1.controlled-runtime-implementation-approval-boundary",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.1-controlled-runtime-implementation-approval",
+  "artifactKind": "implementation-approval-boundary-runtime-still-disabled",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourceDisposition": {
+    "sourcePhase": "phase-4.2d-external-review-disposition-phase5-handoff",
+    "sourceFixture": "tests/fixtures/host-policy/phase4-2d/external-review-disposition-phase5-handoff.json",
+    "julesPhase42CApprovalDisposition": {
+      "reviewerSystem": "Jules",
+      "reviewedPhase": "4.2C",
+      "reviewedBranch": "codex/phase-4-2c-runtime-readiness-review-gate",
+      "reviewedCommit": "6f2097816cf1f93dbfffb468d8444ef7ec87e2ac",
+      "verdict": "APPROVE",
+      "status": "review-recorded-runtime-still-blocked",
+      "runtimeApprovalGranted": false,
+      "runtimeImplementationApproved": false,
+      "runtimeCommandSurfaceApproved": false,
+      "runtimeEnabled": false
+    }
+  },
+  "implementationApprovalScope": {
+    "status": "approved-for-future-controlled-implementation-boundary-only",
+    "implementationBoundaryApproved": true,
+    "approvalRecordCreated": true,
+    "approvedToImplementNextSkeletonSlice": true,
+    "approvedNextSkeletonSliceRequiresSeparatePhase": true,
+    "approvedFutureWork": [
+      "draft bounded stdio runtime implementation behind denied-by-default gates",
+      "draft host-policy runtime enforcement checks",
+      "draft in-memory approval evaluator tests",
+      "draft redacted transcript and failure-audit writer tests",
+      "draft rollback and kill-switch tests"
+    ],
+    "allowedFutureFilesRequireSeparateImplementationPhase": [
+      "crates/ardyn-host/src/stdio_runtime/mod.rs",
+      "crates/ardyn-host/src/lib.rs",
+      "apps/cli/src/index.mjs"
+    ],
+    "runtimeImplementationMayStartInThisPhase": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeEnabled": false,
+    "runtimeEnablementApproved": false,
+    "runtimeApprovalGranted": false,
+    "cliRuntimeCommandAdded": false,
+    "userCommandSurfaceApproved": false
+  },
+  "commandSurfaceReviewScope": {
+    "status": "review-scope-recorded-user-exposure-not-approved",
+    "reviewScopeRecorded": true,
+    "commandSurfaceApprovedForUsers": false,
+    "cliExposureApproved": false,
+    "runtimeCommandAvailable": false,
+    "commandsUnderFutureReview": [
+      "stdio-runtime",
+      "serve-runtime",
+      "replay-session-transcript"
+    ],
+    "requiredBeforeAnyUserCommandExposure": [
+      "exact command names and flags",
+      "denied-by-default behavior for missing, expired, revoked, or out-of-scope approval",
+      "operator consent prompt and non-interactive rejection behavior",
+      "zero-stdout safe-failure behavior for denied commands",
+      "path confinement for transcript and failure-audit writes",
+      "positive and negative CLI smoke tests"
+    ],
+    "currentCliBehavior": "runtime-like commands reject with usage, nonzero exit, zero stdout, and no file writes"
+  },
+  "remainingRuntimeBlockers": [
+    {
+      "id": "runtime-enablement-review",
+      "status": "open",
+      "requiredBeforeRuntimeEnablement": true,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "runtime-command-surface-user-exposure-review",
+      "status": "open",
+      "requiredBeforeRuntimeEnablement": true,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "host-policy-runtime-enforcement-implementation",
+      "status": "open",
+      "requiredBeforeRuntimeEnablement": true,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "rollback-kill-switch-implementation-and-smoke",
+      "status": "open",
+      "requiredBeforeRuntimeEnablement": true,
+      "grantsRuntimeApproval": false
+    },
+    {
+      "id": "operator-consent-scope-expiration-and-revocation",
+      "status": "open",
+      "requiredBeforeRuntimeEnablement": true,
+      "grantsRuntimeApproval": false
+    }
+  ],
+  "explicitlyForbiddenBehavior": [
+    "live-runtime-execution",
+    "runtime-command-exposure-to-users",
+    "stdin-read-loop",
+    "stdout-writer",
+    "stderr-writer",
+    "process-spawn",
+    "process-stop-kill-signal-or-wait",
+    "transcript-runtime-write",
+    "failure-audit-runtime-write",
+    "approval-grant-evaluator",
+    "adapter-runtime-call",
+    "websocket-http-control-surface",
+    "content-fabric-runtime-execution"
+  ],
+  "rollbackExpectations": {
+    "status": "design-required-before-enable",
+    "rollbackApproved": false,
+    "killSwitchApproved": false,
+    "requiredBeforeRuntimeEnablement": [
+      "single switch to disable runtime commands",
+      "safe abort for active process ownership",
+      "redacted failure-audit entry for rollback decision",
+      "path-confined transcript closeout",
+      "negative smoke proving denied runtime command does not start work"
+    ]
+  },
+  "validationCommands": [
+    {
+      "command": "node --test tests/phase5-1-controlled-runtime-implementation-approval-boundary.test.mjs",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "node --test tests/phase5-1-command-surface-review.test.mjs",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "npm test",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "npm run test:schemas",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "cargo test --workspace",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "cargo check --workspace",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "cargo fmt --check",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "git diff --check",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "git diff --cached --check",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "npm run report:phase-status",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "node apps/cli/src/index.mjs emit-session-events --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "runtime-like rejection probes for Phase 5.1 command candidates",
+      "required": true,
+      "ranByFixture": false
+    }
+  ],
+  "requiredFutureReviewBeforeRuntimeEnablement": {
+    "status": "required-not-complete",
+    "reviewRequired": true,
+    "runtimeEnablementReviewComplete": false,
+    "runtimeCommandSurfaceUserExposureReviewComplete": false,
+    "freshExternalReviewRequired": true,
+    "freshJulesOrDevinReviewRequired": true,
+    "requiredRecords": [
+      "runtime-enablement-review-record",
+      "runtime-command-surface-user-exposure-review-record",
+      "operator-consent-scope-expiration-revocation-record",
+      "rollback-kill-switch-implementation-smoke-record",
+      "positive-and-negative-runtime-smoke-record"
+    ]
+  },
+  "runtimeLikeCommandRejectionProbes": [
+    "serve-runtime",
+    "stdio-runtime",
+    "replay-session-transcript",
+    "external-review-packet",
+    "review-packet",
+    "runtime-readiness-review",
+    "runtime-implementation-approval",
+    "runtime-command-surface-review",
+    "controlled-runtime-implementation-approval",
+    "phase-5-1-controlled-runtime-implementation-approval",
+    "approve-runtime-implementation",
+    "approve-runtime-command",
+    "approve-runtime",
+    "grant-runtime",
+    "enable-runtime",
+    "phase-5-runtime",
+    "phase-5-1-runtime",
+    "runtime-start",
+    "runtime-stop",
+    "runtime-status",
+    "runtime-rollback",
+    "runtime-failure-audit"
+  ],
+  "runtimeEffect": {
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeImplemented": false,
+    "runtimeEnabled": false,
+    "runtimeImplementationApprovedForThisPhaseCode": false,
+    "runtimeEnablementApproved": false,
+    "runtimeApprovalGranted": false,
+    "runtimeReadinessClaimed": false,
+    "runtimeCommandAdded": false,
+    "cliRuntimeCommandAdded": false,
+    "userCommandSurfaceApproved": false,
+    "processStdioOwnershipAdded": false,
+    "stdinReaderAdded": false,
+    "stdinLoopAdded": false,
+    "stdoutWriterAdded": false,
+    "stderrWriterAdded": false,
+    "processControlAdded": false,
+    "processKillAdded": false,
+    "approvalEvaluatorAdded": false,
+    "hostPolicyRuntimeEnforcementAdded": false,
+    "transcriptPersistenceRuntimeAdded": false,
+    "failureAuditRuntimeAdded": false,
+    "rollbackRuntimeAdded": false,
+    "killSwitchRuntimeAdded": false,
+    "webSocketHttpControlSurfaceAdded": false,
+    "adapterRuntimeBehaviorAdded": false,
+    "contentFabricRuntimeBehaviorAdded": false
+  },
+  "nonExecutionInvariants": [
+    "implementation-approval-is-not-runtime-enablement",
+    "implementation-approval-is-not-cli-exposure",
+    "command-surface-review-scope-is-not-user-command-approval",
+    "jules-4-2c-approve-is-not-runtime-approval",
+    "no-live-runtime-behavior",
+    "no-cli-runtime-command",
+    "no-stdin-read-loop",
+    "no-stdout-stderr-writers",
+    "no-process-control",
+    "no-transcript-or-failure-audit-writes",
+    "no-adapter-runtime-calls",
+    "no-websocket-http-control-surface",
+    "no-content-fabric-runtime-execution"
+  ],
+  "safetyPosture": {
+    "julesPhase42CDispositionRecorded": true,
+    "implementationBoundaryApproved": true,
+    "runtimeBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeCommandSurfaceApprovedForUsers": false,
+    "cliRuntimeCommandAdded": false,
+    "noRuntimeCommand": true,
+    "noProcessControl": true,
+    "noTranscriptWrite": true,
+    "noFailureAuditWrite": true,
+    "noApprovalEvaluator": true,
+    "noWebSocketHttpControlSurface": true,
+    "noAdapterCalls": true,
+    "noContentFabricRuntimeBehavior": true,
+    "futureReviewRequiredBeforeRuntimeEnablement": true
+  }
+}

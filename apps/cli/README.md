@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.2D exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.1 exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -38,7 +38,12 @@ loop. Phase 4.2B is not runtime readiness, Phase 4.2C is not runtime approval
 or runtime enablement, and Phase 4.2D does not grant runtime implementation
 approval or command-surface approval. Phase 4.2C itself recorded no fresh
 external, Devin, or Jules review; Phase 4.2D records Jules's external review
-disposition while keeping CLI source and runtime behavior unchanged. See
+disposition while keeping CLI source and runtime behavior unchanged. Phase 5.1
+records approval to proceed with a separate future implementation phase only;
+it does not add runtime command exposure, live runtime implementation, approval
+commands, stdout/stderr writers, process control, transcript/audit side
+effects, adapter/Fabric runtime behavior, or changes to
+`apps/cli/src/index.mjs`. See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
 `docs/phase-4-2c-runtime-readiness-review-gate.md` and

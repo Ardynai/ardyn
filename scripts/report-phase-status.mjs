@@ -103,6 +103,12 @@ const phase42CRuntimeReadinessReviewGateMetadata = await readJson(
 const phase42DExternalReviewDispositionPhase5HandoffMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-2d/external-review-disposition-phase5-handoff.json"
 );
+const phase51ControlledRuntimeImplementationApprovalBoundaryMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json"
+);
+const phase51RuntimeCommandSurfaceReviewMatrixMetadata = await readJson(
+  "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -150,9 +156,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.2D",
-    name: "External review disposition and Phase 5 handoff",
-    executionPosture: "external-review-disposition-phase5-handoff-only non-executing"
+    id: "5.1",
+    name: "Controlled runtime implementation approval",
+    executionPosture: "future-implementation-approval-only runtime-enablement-blocked non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -200,12 +206,24 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.2D external review disposition and Phase 5 handoff status report.",
+        "Render this deterministic local Phase 5.1 controlled runtime implementation approval status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.2D status report.",
+      purpose: "Run focused tests for this local Phase 5.1 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-1-controlled-runtime-implementation-approval-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.1 implementation approval-boundary fixture and runtime rejection checks.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-1-command-surface-review.test.mjs",
+      purpose:
+        "Run focused Phase 5.1 command-surface review matrix and candidate command rejection checks.",
       ranByReport: false
     },
     {
@@ -6731,6 +6749,235 @@ const report = {
       phase42DExternalReviewDispositionPhase5HandoffMetadata.nonExecutionInvariants,
     safetyPosture: phase42DExternalReviewDispositionPhase5HandoffMetadata.safetyPosture
   },
+  phase51ControlledRuntimeImplementationApprovalInventory: {
+    approvalLayer: {
+      document: "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      sourceDispositionDocument:
+        "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+      approvalBoundaryFixture:
+        "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json",
+      commandSurfaceReviewArtifact:
+        "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json",
+      precedingPhase: "4.2D",
+      layerId: "controlled-runtime-implementation-approval",
+      scope: "approve-separate-future-implementation-phase-only-runtime-still-blocked",
+      approvalRecordedForFutureImplementationPhase: true,
+      runtimeImplementationInThisPhase: false,
+      runtimeEnablementApproved: false,
+      runtimeEnabled: false,
+      runtimeCommandSurfaceEnabled: false,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      stdoutStderrWritersAdded: false,
+      processControlAdded: false,
+      transcriptAuditSideEffectsAdded: false,
+      reportRunsChecks: false
+    },
+    approvalBoundary: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json",
+      status:
+        phase51ControlledRuntimeImplementationApprovalBoundaryMetadata
+          .implementationApprovalScope.status,
+      approvalRecordCreated:
+        phase51ControlledRuntimeImplementationApprovalBoundaryMetadata
+          .implementationApprovalScope.approvalRecordCreated,
+      approvedToImplementNextSkeletonSlice:
+        phase51ControlledRuntimeImplementationApprovalBoundaryMetadata
+          .implementationApprovalScope.approvedToImplementNextSkeletonSlice,
+      approvedNextSkeletonSliceRequiresSeparatePhase:
+        phase51ControlledRuntimeImplementationApprovalBoundaryMetadata
+          .implementationApprovalScope.approvedNextSkeletonSliceRequiresSeparatePhase,
+      grantsRuntimeEnablement: false,
+      grantsRuntimeCommandExposure: false,
+      grantsAdapterRuntimeBehavior: false,
+      grantsContentFabricRuntimeBehavior: false,
+      allowedNextWork: "separate-controlled-runtime-implementation-phase",
+      requiredBeforeRuntimeEnablement: [
+        "runtime-command-surface-review",
+        "runtime-host-policy-enforcement",
+        "rollback-and-kill-switch-review",
+        "bounded-stdin-loop-design",
+        "redacted-stdout-stderr-writer-design",
+        "transcript-and-failure-audit-path-confinement",
+        "approved-and-denied-runtime-smokes"
+      ]
+    },
+    commandSurfaceReview: {
+      artifact:
+        "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json",
+      status: phase51RuntimeCommandSurfaceReviewMatrixMetadata.scope.status,
+      runtimeCommandSurfaceApproved:
+        phase51RuntimeCommandSurfaceReviewMatrixMetadata.scope.runtimeCommandSurfaceApproved,
+      cliRuntimeCommandAdded:
+        phase51RuntimeCommandSurfaceReviewMatrixMetadata.scope.cliRuntimeCommandAdded,
+      runtimeEnabled: phase51RuntimeCommandSurfaceReviewMatrixMetadata.scope.runtimeEnabled,
+      candidateCommands:
+        phase51RuntimeCommandSurfaceReviewMatrixMetadata.candidateRuntimeCommands.map(
+          ({ commandName }) => commandName
+        )
+    },
+    sourceDisposition: {
+      document: "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+      reviewer:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition.reviewer,
+      verdict:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition.verdict,
+      externalReviewComplete:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition
+          .externalReviewComplete,
+      runtimeImplementationApprovedByDisposition:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition
+          .runtimeImplementationApproved,
+      runtimeCommandSurfaceApprovedByDisposition:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition
+          .runtimeCommandSurfaceApproved,
+      runtimeEnabledByDisposition:
+        phase42DExternalReviewDispositionPhase5HandoffMetadata.julesReviewDisposition
+          .runtimeEnabled
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "Records Phase 5.1 approval to proceed with a separate future implementation phase only; runtime enablement remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+        "Provides the Jules disposition and Phase 5.1 handoff source boundary."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.1 as current docs/status mode and keeps runtime enablement blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.1 adds no CLI runtime command or approval command exposure."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 5.1 adds no TypeScript core runtime API or runtime behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.1 adds no Rust-host runtime implementation or process stdio ownership."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "packages/core/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json",
+        "Records Phase 5.1 implementation approval boundary metadata while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json",
+        "Records future runtime command-surface review metadata while candidate commands remain blocked."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.1 report metadata, docs cross-links, runtime-blocked flags, and docs/status ownership."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-1-controlled-runtime-implementation-approval-boundary.test.mjs",
+        "Pins Phase 5.1 approval-boundary fixture semantics and runtime-like rejection probes."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-1-command-surface-review.test.mjs",
+        "Pins Phase 5.1 command-surface matrix semantics and candidate command rejection probes."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Expected unchanged CLI source; Phase 5.1 adds no runtime, approval, or command-surface command."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "packages/core/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json",
+        "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      excludedRustSourceFiles: [
+        "crates/ardyn-host/src/lib.rs",
+        "crates/ardyn-host/src/stdio_runtime/mod.rs"
+      ],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableApprovalFixtureChangedByThisPhase: true,
+      commandSurfaceReviewArtifactChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateImplementationPhaseRequired: true,
+      separateRuntimeEnablementRequired: true
+    },
+    runtimeLikeCommandRejectionProbes:
+      phase51RuntimeCommandSurfaceReviewMatrixMetadata.candidateRuntimeCommands.map(
+        ({ commandName }) => commandName
+      ),
+    runtimeEffect: {
+      runtimeEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeImplementationInThisPhase: false,
+      stdoutWriterEnabled: false,
+      stderrWriterEnabled: false,
+      processControlEnabled: false,
+      transcriptWriteEnabled: false,
+      failureAuditWriteEnabled: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false
+    },
+    nonExecutionInvariants: [
+      "phase5-1-approval-is-for-a-separate-future-implementation-phase-only",
+      "phase5-1-is-not-runtime-enablement",
+      "runtime-command-surface-remains-blocked",
+      "apps-cli-index-unchanged",
+      "no-stdout-stderr-writers",
+      "no-process-control",
+      "no-transcript-or-audit-side-effects",
+      "no-adapter-or-fabric-runtime-behavior"
+    ],
+    safetyPosture: {
+      futureImplementationPhaseApproved: true,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeImplementationInThisPhase: false,
+      noRuntimeCommand: true,
+      noRuntimeImplementationApprovalCommand: true,
+      noApprovalEvaluator: true,
+      noProcessControl: true,
+      noStdoutStderrWriters: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -6763,6 +7010,7 @@ const report = {
     phase42BLifecycleFailureAuditSkeleton: true,
     phase42CRuntimeReadinessReviewGate: true,
     phase42DExternalReviewDispositionPhase5Handoff: true,
+    phase51ControlledRuntimeImplementationApproval: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -6833,10 +7081,20 @@ const report = {
       phase42DProcessControlEnabled: false,
       phase42DFailureAuditRuntimeEnabled: false,
       phase42DTranscriptPersistenceRuntimeEnabled: false,
+      phase51FutureImplementationPhaseApproved: true,
+      phase51RuntimeImplementationInThisPhase: false,
+      phase51RuntimeEnablementApproved: false,
       phase51RuntimeImplemented: false,
       phase51RuntimeEnabled: false,
       phase51RuntimeCommandEnabled: false,
       phase51ApprovalCommandEnabled: false,
+      phase51RuntimeCommandSurfaceEnabled: false,
+      phase51AppsCliIndexChanged: false,
+      phase51ProcessControlEnabled: false,
+      phase51StdoutStderrWritersEnabled: false,
+      phase51TranscriptAuditSideEffectsEnabled: false,
+      phase51AdapterRuntimeBehaviorEnabled: false,
+      phase51ContentFabricRuntimeBehaviorEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

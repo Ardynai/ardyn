@@ -1,0 +1,467 @@
+{
+  "schema": "ardyn.phase-5.1.runtime-command-surface-review-matrix",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.1-controlled-runtime-implementation-approval",
+  "artifactKind": "future-runtime-command-surface-review-matrix",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "scope": {
+    "status": "blocked",
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "cliRuntimeCommandAdded": false,
+    "runtimeCommandSurfaceApproved": false,
+    "runtimeImplementationApproved": false,
+    "runtimeEnabled": false,
+    "stdinReadsAllowed": false,
+    "stdoutWritesAllowed": false,
+    "stderrWritesAllowed": false,
+    "processControlAllowed": false,
+    "auditSideEffectsAllowed": false,
+    "adapterRuntimeBehaviorAllowed": false,
+    "webSocketHttpControlSurfaceAllowed": false,
+    "contentFabricRuntimeExecutionAllowed": false
+  },
+  "candidateRuntimeCommands": [
+    {
+      "commandName": "serve-runtime",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "operator-consent-scope-and-expiration-record",
+        "host-policy-runtime-enforcement-design",
+        "rollback-and-kill-switch-design-record"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-implementation-approval",
+        "separate-runtime-command-surface-approval",
+        "revocable-operator-approval-required-before-runtime-start"
+      ],
+      "rollbackBehavior": "must_stop_runtime_and_leave_no_transcript_or_audit_side_effects_while_blocked"
+    },
+    {
+      "commandName": "stdio-runtime",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "bounded-stdin-loop-design",
+        "redacted-stdout-jsonl-writer-design",
+        "redacted-stderr-diagnostic-writer-design"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-implementation-approval",
+        "separate-runtime-command-surface-approval",
+        "operator-consent-required-before-stdio-loop"
+      ],
+      "rollbackBehavior": "must_disable_stdin_loop_and_redacted_writers_before_any_runtime_release"
+    },
+    {
+      "commandName": "replay-session-transcript",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "transcript-replay-readonly-design",
+        "path-confinement-design"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-command-surface-approval",
+        "readonly-replay-approval",
+        "no-live-runtime-approval-by-replay"
+      ],
+      "rollbackBehavior": "must_remove_replay_entrypoint_without_runtime_cleanup_side_effects"
+    },
+    {
+      "commandName": "external-review-packet",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "review-packet-schema-review",
+        "no-runtime-approval-grant-in-review-packet"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-review-packet-command-approval",
+        "external-review-completion-cannot-enable-runtime",
+        "runtime-command-surface-approval-still-required"
+      ],
+      "rollbackBehavior": "must_revoke_review_packet_command_without_affecting_runtime_state"
+    },
+    {
+      "commandName": "review-packet",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "review-packet-schema-review",
+        "no-runtime-approval-grant-in-review-packet"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-review-packet-command-approval",
+        "runtime-command-surface-approval-still-required"
+      ],
+      "rollbackBehavior": "must_revoke_review_packet_command_without_runtime_process_control"
+    },
+    {
+      "commandName": "runtime-readiness-review",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "readiness-review-schema-review",
+        "runtime-readiness-does-not-equal-runtime-enable"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-readiness-review-command-approval",
+        "separate-runtime-command-surface-approval",
+        "runtime-enable-approval-remains-required"
+      ],
+      "rollbackBehavior": "must_revoke_readiness_command_without_starting_or_stopping_runtime"
+    },
+    {
+      "commandName": "grant-runtime",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "operator-consent-scope-and-expiration-record",
+        "revocation-policy-record"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-grant-command-approval",
+        "revocable-scope-bound-operator-consent",
+        "runtime-grant-cannot-be-implied-by-external-review"
+      ],
+      "rollbackBehavior": "must_revoke_runtime_grants_and_fail_closed_before_enablement"
+    },
+    {
+      "commandName": "runtime-implementation-approval",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "approval-boundary-record-owned-by-gate-worker",
+        "runtime-command-surface-review-record",
+        "two-person-runtime-approval-policy",
+        "audit-log-design-without-live-side-effects"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-implementation-approval",
+        "separate-runtime-command-surface-approval",
+        "approval-command-must-not-self-grant-runtime"
+      ],
+      "rollbackBehavior": "must_revoke_implementation_approval_and_keep_runtime_disabled"
+    },
+    {
+      "commandName": "runtime-command-surface-review",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "command-surface-review-record",
+        "per-command-stdout-stderr-contract",
+        "per-command-rollback-contract"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-command-surface-review-approval",
+        "per-command-approval-required",
+        "review-command-must-not-enable-runtime"
+      ],
+      "rollbackBehavior": "must_remove_candidate_command_surface_without_runtime_cleanup"
+    },
+    {
+      "commandName": "controlled-runtime-implementation-approval",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "host-policy-enforcement-review",
+        "rollback-and-kill-switch-design-record"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-controlled-implementation-approval",
+        "runtime-command-surface-approval",
+        "operator-consent-required-before-any-live-loop"
+      ],
+      "rollbackBehavior": "must_revert_to_runtime_unavailable_without_process_control"
+    },
+    {
+      "commandName": "phase-5-1-controlled-runtime-implementation-approval",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "phase-5-1-approval-boundary-record",
+        "approval-command-must-not-self-grant-runtime"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-phase-5-1-approval-command-review",
+        "runtime-command-surface-approval",
+        "runtime-enable-approval-remains-required"
+      ],
+      "rollbackBehavior": "must_remove_phase_5_1_approval_alias_without_runtime_side_effects"
+    },
+    {
+      "commandName": "approve-runtime-implementation",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "approval-authority-policy",
+        "approval-expiration-policy"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-approval-command-review",
+        "cannot-self-authorize-runtime-implementation",
+        "runtime-enable-approval-remains-required"
+      ],
+      "rollbackBehavior": "must_revoke_approval_record_and_preserve_runtime_block"
+    },
+    {
+      "commandName": "approve-runtime-command",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "per-command-risk-review",
+        "per-command-operator-consent-policy"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-command-approval-command-review",
+        "cannot-self-authorize-command-surface",
+        "runtime-enable-approval-remains-required"
+      ],
+      "rollbackBehavior": "must_remove_or_deny_command_grant_and_keep_runtime_disabled"
+    },
+    {
+      "commandName": "approve-runtime",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "operator-consent-scope-and-expiration-record",
+        "approval-command-denied-by-default-policy"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-approval-command-review",
+        "cannot-self-authorize-runtime",
+        "runtime-enable-approval-remains-required"
+      ],
+      "rollbackBehavior": "must_revoke_runtime_approval_alias_and_keep_runtime_disabled"
+    },
+    {
+      "commandName": "enable-runtime",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "operator-consent-scope-and-expiration-record",
+        "rollback-and-kill-switch-design-record",
+        "host-policy-runtime-enforcement-design"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-enable-command-approval",
+        "revocable-scope-bound-operator-consent",
+        "host-policy-enforced-before-enable"
+      ],
+      "rollbackBehavior": "must_disable_runtime_and_revoke_grants_before_any_further_command_runs"
+    },
+    {
+      "commandName": "phase-5-runtime",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "phase-5-runtime-design-review",
+        "rollback-and-kill-switch-design-record"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-phase-5-runtime-command-approval",
+        "operator-consent-required",
+        "runtime-enable-approval-remains-required"
+      ],
+      "rollbackBehavior": "must_remove_phase_alias_and_leave_runtime_unavailable"
+    },
+    {
+      "commandName": "phase-5-1-runtime",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "phase-5-1-runtime-design-review",
+        "rollback-and-kill-switch-design-record"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-phase-5-1-runtime-command-approval",
+        "operator-consent-required",
+        "runtime-enable-approval-remains-required"
+      ],
+      "rollbackBehavior": "must_remove_phase_alias_and_leave_runtime_unavailable"
+    },
+    {
+      "commandName": "runtime-start",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "operator-consent-scope-and-expiration-record",
+        "process-lifecycle-timeout-cleanup-design",
+        "rollback-and-kill-switch-design-record"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-start-command-approval",
+        "runtime-enable-approval-required",
+        "revocable-operator-consent-required"
+      ],
+      "rollbackBehavior": "must_stop_started_runtime_and_revoke_start_grant_before_release"
+    },
+    {
+      "commandName": "runtime-stop",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "safe-stop-semantics-review",
+        "failure-audit-policy-without-secret-leakage"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-stop-command-approval",
+        "stop-command-cannot-imply-runtime-start",
+        "runtime-state-confined-to-approved-records"
+      ],
+      "rollbackBehavior": "must_preserve_fail_closed_stop_path_without_signal_or_kill_side_effects"
+    },
+    {
+      "commandName": "runtime-status",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "readonly-status-contract",
+        "no-process-polling-before-approval"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-status-command-approval",
+        "readonly-status-approval",
+        "runtime-state-redaction-review"
+      ],
+      "rollbackBehavior": "must_remove_status_entrypoint_without_polling_processes"
+    },
+    {
+      "commandName": "runtime-rollback",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "rollback-and-kill-switch-design-record",
+        "host-policy-runtime-enforcement-design"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-rollback-command-approval",
+        "rollback-path-reviewed-before-runtime-enable",
+        "rollback-command-cannot-start-runtime"
+      ],
+      "rollbackBehavior": "must_fail_closed_and_revoke_runtime_enablement_without_unapproved_kill_signal"
+    },
+    {
+      "commandName": "runtime-failure-audit",
+      "blockedStatus": "blocked_today",
+      "requiredPreconditions": [
+        "explicit-runtime-implementation-approval-record",
+        "runtime-command-surface-review-record",
+        "failure-audit-redaction-policy",
+        "audit-path-confinement-design"
+      ],
+      "expectedStdoutBehavior": "zero_stdout_while_blocked",
+      "expectedStderrBehavior": "usage_stderr_while_blocked",
+      "dryRunBehavior": "no_dry_run_surface_while_blocked",
+      "approvalRequirements": [
+        "separate-runtime-failure-audit-command-approval",
+        "audit-writes-confined-to-approved-paths",
+        "no-secret-or-stack-leakage"
+      ],
+      "rollbackBehavior": "must_disable_audit_writer_and_keep_existing_records_readonly"
+    }
+  ],
+  "rejectionProbeExpectation": {
+    "exitCode": "nonzero",
+    "stdout": "empty",
+    "stderrPrefix": "Usage: ardyn ",
+    "scratchDirectoryWrites": "none",
+    "stackOrSecretLeakage": "none"
+  },
+  "nonExecutionInvariants": [
+    "no-live-runtime-behavior",
+    "no-runtime-command-exposure",
+    "no-stdin-reads",
+    "no-stdout-writers",
+    "no-stderr-writers",
+    "no-process-control",
+    "no-transcript-or-audit-side-effects",
+    "no-adapter-runtime-behavior",
+    "no-websocket-or-http-control-surface",
+    "no-content-fabric-runtime-execution",
+    "apps-cli-src-index-mjs-unchanged"
+  ]
+}

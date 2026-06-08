@@ -84,10 +84,12 @@ Recommended next phase:
 Phase 5.1 Controlled Runtime Implementation Approval
 ```
 
-Phase 5.1 should resolve runtime implementation approval and runtime command
-surface review before any guarded live loop, redacted stdout/stderr writer, or
-runtime command exists. Phase 5.1 is approval/design-gate work, not automatic
-live runtime enablement.
+Phase 5.1 records approval to proceed with a separate future implementation
+phase only and keeps runtime command-surface review separate from runtime
+enablement. It is approval/design-gate work, not live runtime enablement; no
+guarded live loop, redacted stdout/stderr writer, runtime command, process
+control, transcript/audit write side effect, adapter runtime behavior, or
+Content Fabric runtime behavior exists because of this handoff.
 
 ## Still Blocked
 
