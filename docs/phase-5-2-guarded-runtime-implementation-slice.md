@@ -17,6 +17,7 @@ Cross-links:
 - Current command preflight: `phase-5-3-command-surface-approval-preflight.md`
 - Current disabled command exposure plan: `phase-5-4-disabled-command-exposure-plan.md`
 - Current Jules review disposition: `phase-5-4a-jules-review-disposition.md`
+- Current default-blocked CLI slice: `phase-5-5-default-blocked-runtime-cli.md`
 - External-review source: `phase-4-2d-external-review-disposition-phase5-handoff.md`
 - Readiness source: `phase-4-2c-runtime-readiness-review-gate.md`
 

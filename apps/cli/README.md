@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.4A exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.5 exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -61,6 +61,13 @@ command, approval command, runtime command exposure, stdout/stderr writer,
 process control, transcript/audit side effect, adapter or Content Fabric
 runtime behavior, Rust source change, chmod change, or content change to
 `apps/cli/src/index.mjs`.
+Phase 5.5 adds one recognized default-blocked runtime command:
+`serve-runtime`. It always exits nonzero, writes zero stdout, and writes
+deterministic runtime-unavailable stderr. `serve-runtime --dry-run` does not
+bypass the block. Phase 5.5 adds no runtime execution, approval command,
+approval grant/evaluator, live stdin loop, stdout/stderr runtime writer,
+process control, transcript/audit side effect, adapter or Content Fabric
+runtime behavior, WebSocket/HTTP surface, or Rust source change.
 See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
@@ -70,7 +77,8 @@ See
 `docs/phase-5-2-guarded-runtime-implementation-slice.md`, and
 `docs/phase-5-3-command-surface-approval-preflight.md`, and
 `docs/phase-5-4-disabled-command-exposure-plan.md`, and
-`docs/phase-5-4a-jules-review-disposition.md`.
+`docs/phase-5-4a-jules-review-disposition.md`, and
+`docs/phase-5-5-default-blocked-runtime-cli.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -397,3 +405,11 @@ side effect, and no runtime approval grant. Current `main` already tracks
 `apps/cli/src/index.mjs` as mode `100644`, so Phase 5.4A applies no chmod
 correction and no content change. See
 `docs/phase-5-4a-jules-review-disposition.md`.
+
+Phase 5.5 recognizes `serve-runtime` as a default-blocked runtime CLI command.
+It exits nonzero, keeps stdout empty, and prints deterministic
+runtime-unavailable stderr. `--dry-run` is also rejected and cannot bypass the
+block. Runtime enablement, approval commands, live stdin loops, stdout/stderr
+runtime writers, process control, transcript or audit writes, adapter/Fabric
+runtime behavior, WebSocket/HTTP surfaces, and Rust source changes remain
+blocked. See `docs/phase-5-5-default-blocked-runtime-cli.md`.

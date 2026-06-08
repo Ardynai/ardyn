@@ -16,6 +16,7 @@ Cross-links:
 - Guarded implementation slice: `phase-5-2-guarded-runtime-implementation-slice.md`
 - Command-surface preflight: `phase-5-3-command-surface-approval-preflight.md`
 - Disabled command exposure plan: `phase-5-4-disabled-command-exposure-plan.md`
+- Default-blocked CLI slice: `phase-5-5-default-blocked-runtime-cli.md`
 
 Machine-readable Phase 5.4A artifact path:
 
@@ -71,3 +72,8 @@ Phase 5.4A leaves these surfaces disabled:
 Any later CLI implementation phase must keep runtime commands default-blocked
 until a separate command exposure review and runtime enablement review approve
 otherwise.
+
+Phase 5.5 begins that next CLI implementation phase with `serve-runtime`
+recognized but still default-blocked. The command exits nonzero, writes zero
+stdout, and reports deterministic runtime-unavailable stderr. Runtime
+enablement remains separately blocked.

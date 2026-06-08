@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.4A Scope
+## Phase 3 through Phase 5.5 Scope
 
-This repository is currently in Phase 5.4A Jules review disposition mode. The
+This repository is currently in Phase 5.5 default-blocked runtime CLI mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -51,9 +51,9 @@ runtime checks, and report metadata plus Phase 5.3 command surface approval
 preflight documentation and status metadata plus Phase 5.4 disabled command
 exposure planning, future CLI checklist, Jules/Devin review packet, rollback
 plan, command-surface diff-risk notes, and report metadata plus Phase 5.4A
-Jules `APPROVE` review disposition metadata. Phase 5.4A is not runtime
-enablement or runtime command exposure.
-Runtime command-surface enablement, live runtime behavior,
+Jules `APPROVE` review disposition metadata plus Phase 5.5 default-blocked
+`serve-runtime` CLI recognition. Phase 5.5 is not runtime enablement.
+Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
 any separately approved live runtime work.
@@ -246,6 +246,14 @@ Included now:
   identical to the reviewed base, confirms current `main` already tracks that
   file as mode `100644`, and keeps runtime and command exposure blocked. See
   `docs/phase-5-4a-jules-review-disposition.md`.
+- Phase 5.5 default-blocked runtime CLI documentation, fixture, and report
+  metadata. This recognizes `serve-runtime` as a CLI command that always fails
+  closed with nonzero exit, empty stdout, and deterministic runtime-unavailable
+  stderr. `serve-runtime --dry-run` has the same blocked result. Runtime
+  enablement, runtime execution, approval commands, process control,
+  transcript/audit side effects, adapter/Fabric runtime behavior, and Rust
+  source changes remain blocked. See
+  `docs/phase-5-5-default-blocked-runtime-cli.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -397,7 +405,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.4A Jules review disposition status report command is:
+The Phase 5.5 default-blocked runtime CLI status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -429,8 +437,8 @@ readiness gate inventory, Phase 4.2D Jules disposition/Phase 5 handoff
 inventory, Phase 5.1 future-implementation-approval docs/status inventory,
 Phase 5.2 guarded runtime implementation-slice fixture/test/Rust-private
 helper inventory, Phase 5.3 command-surface approval preflight metadata, and
-Phase 5.4 disabled command exposure plan metadata and Phase 5.4A Jules review
-disposition metadata
+Phase 5.4 disabled command exposure plan metadata, Phase 5.4A Jules review
+disposition metadata, and Phase 5.5 default-blocked runtime CLI metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
@@ -553,6 +561,13 @@ Phase 5.4A is documented in
 disposition for Phase 5.4 and confirms runtime and command exposure remain
 blocked. It verified `apps/cli/src/index.mjs` was already mode `100644` on
 current `main`, so no chmod correction or content change was applied.
+
+Phase 5.5 is documented in
+`docs/phase-5-5-default-blocked-runtime-cli.md`. It recognizes `serve-runtime`
+as a default-blocked CLI command that exits nonzero, writes zero stdout, and
+reports deterministic runtime-unavailable stderr. It does not enable runtime,
+does not bypass the block with `--dry-run`, and does not add Rust-host runtime
+execution.
 
 Example dry-run check:
 

@@ -1,0 +1,126 @@
+{
+  "schema": "ardyn.phase-5.5.default-blocked-runtime-cli",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.5-default-blocked-runtime-cli",
+  "artifactKind": "default-blocked-runtime-cli-command-surface",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourceReviewDisposition": {
+    "sourcePhase": "phase-5.4a-jules-review-disposition",
+    "sourceFixture": "tests/fixtures/command-surface/phase5-4a/jules-review-disposition.json",
+    "julesVerdict": "APPROVE",
+    "mayProceedToNextStillDefaultBlockedCliCommandImplementationPhase": true,
+    "runtimeEnablementApproved": false
+  },
+  "implementedCommandSurface": {
+    "commandName": "serve-runtime",
+    "recognizedByCli": true,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "defaultResult": "recognized_unavailable_nonzero_zero_stdout",
+    "dryRunResult": "recognized_unavailable_nonzero_zero_stdout",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "exitCode": "nonzero"
+  },
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorEnabled": false,
+    "stdinLoopEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "blockedBehavior": {
+    "defaultInvocation": {
+      "args": [
+        "serve-runtime"
+      ],
+      "exitCode": "nonzero",
+      "stdout": "",
+      "stderrIncludes": "Runtime unavailable",
+      "writesFiles": false,
+      "readsRuntimeState": false
+    },
+    "dryRunInvocation": {
+      "args": [
+        "serve-runtime",
+        "--dry-run"
+      ],
+      "exitCode": "nonzero",
+      "stdout": "",
+      "stderrIncludes": "Runtime unavailable",
+      "dryRunBypassesBlock": false,
+      "writesFiles": false,
+      "readsRuntimeState": false
+    }
+  },
+  "remainingBlockers": [
+    "runtime-enablement-review",
+    "approved-runtime-command-exposure-review",
+    "approval-record-validation-and-revocation",
+    "host-policy-runtime-enforcement",
+    "bounded-stdin-loop-review",
+    "stdout-stderr-writer-redaction-review",
+    "transcript-and-failure-audit-confinement-review",
+    "process-control-and-terminal-state-review",
+    "rollback-kill-switch-review",
+    "approved-positive-runtime-smokes"
+  ],
+  "filesAllowedToChange": [
+    "apps/cli/src/index.mjs",
+    "docs/phase-5-5-default-blocked-runtime-cli.md",
+    "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json",
+    "tests/phase5-5-default-blocked-runtime-cli.test.mjs",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs",
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    "docs/phase-5-3-command-surface-approval-preflight.md",
+    "docs/phase-5-4-disabled-command-exposure-plan.md",
+    "docs/phase-5-4a-jules-review-disposition.md"
+  ],
+  "filesForbiddenToChange": [
+    "crates/ardyn-host/src/**",
+    "packages/fabric/src/runtime/**",
+    "apps/host/src/runtime/**"
+  ],
+  "nonExecutionInvariants": [
+    "phase5-5-default-blocked-cli-recognition-only",
+    "serve-runtime-recognized-but-runtime-unavailable",
+    "serve-runtime-dry-run-does-not-bypass-block",
+    "runtime-enabled-false",
+    "runtime-command-enabled-false",
+    "zero-stdout",
+    "safe-deterministic-stderr",
+    "no-live-stdin-stdout-stderr-runtime-writers",
+    "no-process-control",
+    "no-transcript-or-audit-runtime-side-effects",
+    "no-adapter-or-fabric-runtime-behavior"
+  ],
+  "validationCommands": [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status",
+    "node --test tests/phase5-5-default-blocked-runtime-cli.test.mjs",
+    "fallow health --score --hotspots --targets --format json",
+    "fallow audit --format json"
+  ]
+}

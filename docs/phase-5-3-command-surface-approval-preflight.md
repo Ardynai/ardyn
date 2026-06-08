@@ -15,6 +15,7 @@ Cross-links:
 - Guarded implementation slice: `phase-5-2-guarded-runtime-implementation-slice.md`
 - Current disabled command exposure plan: `phase-5-4-disabled-command-exposure-plan.md`
 - Current Jules review disposition: `phase-5-4a-jules-review-disposition.md`
+- Current default-blocked CLI slice: `phase-5-5-default-blocked-runtime-cli.md`
 
 Machine-readable Phase 5.3 artifact path:
 

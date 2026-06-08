@@ -9,6 +9,7 @@ import test from "node:test";
 
 const execFileAsync = promisify(execFile);
 const reviewedPhase54Commit = "60176ca83afe1fcd11dc303b557e8a468ed3b3c0";
+const phase54ACommit = "87b0c86f63957fd7d84467b7a71937474f22973d";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
 const cliSourceUrl = new URL("../apps/cli/src/index.mjs", import.meta.url);
@@ -188,7 +189,7 @@ test("Phase 5.4A approval does not imply runtime enablement or command exposure"
   }
 });
 
-test("Phase 5.4A confirms apps/cli/src/index.mjs mode is 100644 and content is unchanged", async () => {
+test("Phase 5.4A recorded apps/cli/src/index.mjs mode as 100644 and content unchanged", async () => {
   const fixture = await readJson(fixtureUrl);
   const { stdout: lsFilesStdout } = await execFileAsync("git", ["ls-files", "--stage", "apps/cli/src/index.mjs"], {
     cwd: repoRoot,
@@ -200,16 +201,20 @@ test("Phase 5.4A confirms apps/cli/src/index.mjs mode is 100644 and content is u
   assert.equal(fixture.modeReview.chmodCorrectionNeededOnCurrentMain, false);
   assert.equal(fixture.modeReview.chmodCorrectionAppliedByPhase54A, false);
 
-  const [{ stdout: reviewedContent }, currentContent] = await Promise.all([
+  const [{ stdout: reviewedContent }, { stdout: phase54AContent }] = await Promise.all([
     execFileAsync("git", ["show", `${reviewedPhase54Commit}:apps/cli/src/index.mjs`], {
       cwd: repoRoot,
       encoding: "utf8",
       maxBuffer: 1024 * 1024
     }),
-    readFile(cliSourceUrl, "utf8")
+    execFileAsync("git", ["show", `${phase54ACommit}:apps/cli/src/index.mjs`], {
+      cwd: repoRoot,
+      encoding: "utf8",
+      maxBuffer: 1024 * 1024
+    })
   ]);
 
-  assert.equal(currentContent, reviewedContent);
+  assert.equal(phase54AContent, reviewedContent);
 });
 
 test("Phase 5.4A blocked command probes still reject nonzero with zero stdout", async () => {

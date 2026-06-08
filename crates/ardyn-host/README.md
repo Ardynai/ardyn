@@ -77,6 +77,12 @@ Rust source, add stdout/stderr writers, add process control, write transcripts
 or audit files, or call adapters/Fabric runtime behavior. Current `main`
 already tracks `apps/cli/src/index.mjs` as mode `100644`. See
 `docs/phase-5-4a-jules-review-disposition.md`.
+Phase 5.5 adds default-blocked CLI recognition for `serve-runtime` only. It
+does not expose Rust-host runtime commands, publish `stdio_runtime`, grant
+approval, enable runtime behavior, change Rust source, add stdout/stderr
+writers, add process control, write transcripts or audit files, or call
+adapters/Fabric runtime behavior. See
+`docs/phase-5-5-default-blocked-runtime-cli.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -274,6 +280,14 @@ command exposure remains blocked, and stdout/stderr writers, process control,
 transcript writes, failure-audit writes, adapter runtime behavior, Content
 Fabric runtime behavior, Rust source changes, CLI content changes, and chmod
 changes remain disabled. See `docs/phase-5-4a-jules-review-disposition.md`.
+
+Phase 5.5 adds no Rust-host runtime implementation. It recognizes
+`serve-runtime` in the CLI only to return a default-blocked runtime-unavailable
+failure. `stdio_runtime` remains private, runtime execution remains blocked,
+and stdout/stderr writers, process control, transcript writes, failure-audit
+writes, adapter runtime behavior, Content Fabric runtime behavior, WebSocket or
+HTTP runtime surfaces, and Rust source changes remain disabled. See
+`docs/phase-5-5-default-blocked-runtime-cli.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

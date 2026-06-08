@@ -384,9 +384,9 @@ test("Phase 4.1E status report inventories failure-audit contracts without runni
   const inventory = report.phase41EFailureAuditInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.4A",
-    name: "Jules review disposition",
-    executionPosture: "jules-review-disposition runtime-enablement-blocked no-runtime-commands"
+    id: "5.5",
+    name: "Default-blocked runtime CLI",
+    executionPosture: "default-blocked-runtime-cli runtime-unavailable no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

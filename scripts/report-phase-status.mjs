@@ -121,6 +121,9 @@ const phase54DisabledCommandExposurePlanMetadata = await readJson(
 const phase54AJulesReviewDispositionMetadata = await readJson(
   "tests/fixtures/command-surface/phase5-4a/jules-review-disposition.json"
 );
+const phase55DefaultBlockedRuntimeCliMetadata = await readJson(
+  "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -168,9 +171,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.4A",
-    name: "Jules review disposition",
-    executionPosture: "jules-review-disposition runtime-enablement-blocked no-runtime-commands"
+    id: "5.5",
+    name: "Default-blocked runtime CLI",
+    executionPosture: "default-blocked-runtime-cli runtime-unavailable no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -218,12 +221,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.4A Jules review disposition status report.",
+        "Render this deterministic local Phase 5.5 default-blocked runtime CLI status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.4A status report.",
+      purpose: "Run focused tests for this local Phase 5.5 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-5-default-blocked-runtime-cli.test.mjs",
+      purpose:
+        "Run focused Phase 5.5 default-blocked runtime CLI fixture and command behavior checks.",
       ranByReport: false
     },
     {
@@ -7893,6 +7902,168 @@ const report = {
       chmodCorrectionApplied: false
     }
   },
+  phase55DefaultBlockedRuntimeCliInventory: {
+    statusLayer: {
+      document: "docs/phase-5-5-default-blocked-runtime-cli.md",
+      fixture:
+        "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json",
+      sourceReviewDispositionDocument: "docs/phase-5-4a-jules-review-disposition.md",
+      disabledCommandExposurePlanDocument:
+        "docs/phase-5-4-disabled-command-exposure-plan.md",
+      precedingPhase: "5.4A",
+      layerId: "default-blocked-runtime-cli",
+      scope: "cli-recognition-only-runtime-unavailable",
+      defaultBlockedRuntimeCliRecorded: true,
+      recognizedRuntimeCommand: phase55DefaultBlockedRuntimeCliMetadata.implementedCommandSurface
+        .commandName,
+      runtimeCommandRecognizedByCli:
+        phase55DefaultBlockedRuntimeCliMetadata.implementedCommandSurface.recognizedByCli,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureApproved: false,
+      runtimeCommandSurfaceApproved: false,
+      runtimeEnablementApproved: false,
+      approvalCommandEnabled: false,
+      approvalGrantCreated: false,
+      approvalEvaluatorEnabled: false,
+      dryRunBypassesBlock: false,
+      stdoutEmptyWhileBlocked: true,
+      deterministicUnavailableStderr: true,
+      processControlEnabled: false,
+      stdoutStderrWritersEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-5-default-blocked-runtime-cli.md",
+        "Records Phase 5.5 CLI recognition for serve-runtime while runtime remains unavailable and disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-4a-jules-review-disposition.md",
+        "Provides the Jules approval disposition that allowed the next still-default-blocked CLI slice."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-4-disabled-command-exposure-plan.md",
+        "Provides the disabled command exposure plan source for serve-runtime."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.5 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents serve-runtime as recognized but default-blocked with zero stdout and deterministic unavailable stderr."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.5 changes no Rust-host runtime source and keeps stdio_runtime private."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json",
+        "Records serve-runtime CLI recognition, exact blocked behavior, runtime-effect false fields, and remaining blockers."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.5 report metadata, docs cross-links, runtime-blocked flags, and docs/status ownership."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-5-default-blocked-runtime-cli.test.mjs",
+        "Pins Phase 5.5 serve-runtime recognition, blocked stderr/stdout behavior, dry-run rejection, and source guard checks."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Changed only to recognize serve-runtime and return a default-blocked runtime-unavailable failure."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+        "docs/phase-5-3-command-surface-approval-preflight.md",
+        "docs/phase-5-4-disabled-command-exposure-plan.md",
+        "docs/phase-5-4a-jules-review-disposition.md",
+        "docs/phase-5-5-default-blocked-runtime-cli.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-5-default-blocked-runtime-cli.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: true,
+      appsCliIndexChangedByThisPhase: true,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeEnablementRequired: true,
+      separateRuntimeCommandEnablementRequired: true
+    },
+    implementedCommandSurface: phase55DefaultBlockedRuntimeCliMetadata.implementedCommandSurface,
+    blockedBehavior: phase55DefaultBlockedRuntimeCliMetadata.blockedBehavior,
+    runtimeEffect: phase55DefaultBlockedRuntimeCliMetadata.runtimeEffect,
+    remainingBlockers: phase55DefaultBlockedRuntimeCliMetadata.remainingBlockers,
+    nonExecutionInvariants:
+      phase55DefaultBlockedRuntimeCliMetadata.nonExecutionInvariants,
+    safetyPosture: {
+      defaultBlockedRuntimeCliRecorded: true,
+      runtimeCommandRecognizedByCli: true,
+      runtimeBlocked: true,
+      runtimeUnavailable: true,
+      dryRunBypassesBlock: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandExposureApproved: false,
+      runtimeCommandSurfaceApproved: false,
+      runtimeEnablementApproved: false,
+      approvalCommandEnabled: false,
+      approvalGrantCreated: false,
+      approvalEvaluatorEnabled: false,
+      noProcessControl: true,
+      noStdoutStderrWriters: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noRustSourceChange: true,
+      zeroStdoutWhileBlocked: true,
+      deterministicUnavailableStderr: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -7930,6 +8101,7 @@ const report = {
     phase53CommandSurfaceApprovalPreflight: true,
     phase54DisabledCommandExposurePlan: true,
     phase54AJulesReviewDisposition: true,
+    phase55DefaultBlockedRuntimeCli: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -8083,6 +8255,27 @@ const report = {
       phase54ATranscriptAuditSideEffectsEnabled: false,
       phase54AAdapterRuntimeBehaviorEnabled: false,
       phase54AContentFabricRuntimeBehaviorEnabled: false,
+      phase55DefaultBlockedRuntimeCliRecorded: true,
+      phase55RuntimeCommandRecognizedByCli: true,
+      phase55RuntimeUnavailable: true,
+      phase55DryRunBypassesBlock: false,
+      phase55RuntimeEnablementApproved: false,
+      phase55RuntimeEnabled: false,
+      phase55RuntimeStarted: false,
+      phase55RuntimeReady: false,
+      phase55RuntimeCommandEnabled: false,
+      phase55RuntimeExecutionEnabled: false,
+      phase55RuntimeCommandExposureApproved: false,
+      phase55RuntimeCommandSurfaceApproved: false,
+      phase55ApprovalCommandEnabled: false,
+      phase55ApprovalGrantCreated: false,
+      phase55ApprovalEvaluatorEnabled: false,
+      phase55RustSourceChanged: false,
+      phase55ProcessControlEnabled: false,
+      phase55StdoutStderrWritersEnabled: false,
+      phase55TranscriptAuditSideEffectsEnabled: false,
+      phase55AdapterRuntimeBehaviorEnabled: false,
+      phase55ContentFabricRuntimeBehaviorEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

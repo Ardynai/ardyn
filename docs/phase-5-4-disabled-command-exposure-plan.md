@@ -15,6 +15,7 @@ Cross-links:
 - Guarded implementation slice: `phase-5-2-guarded-runtime-implementation-slice.md`
 - Command-surface preflight: `phase-5-3-command-surface-approval-preflight.md`
 - Jules review disposition: `phase-5-4a-jules-review-disposition.md`
+- Default-blocked CLI slice: `phase-5-5-default-blocked-runtime-cli.md`
 
 ## Scope
 
@@ -91,6 +92,11 @@ phase.
 Phase 5.4A also verified current `main` already tracks
 `apps/cli/src/index.mjs` as mode `100644`, so no chmod correction was applied
 by Phase 5.4A. See `phase-5-4a-jules-review-disposition.md`.
+
+Phase 5.5 implements the first still-default-blocked CLI command surface from
+this plan: `serve-runtime`. It is recognized only to return a deterministic
+runtime-unavailable failure with nonzero exit and zero stdout. Runtime remains
+disabled. See `phase-5-5-default-blocked-runtime-cli.md`.
 
 ## Rollback Plan
 

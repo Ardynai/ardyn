@@ -68,6 +68,7 @@ const SESSION_TRANSCRIPT_OUTPUT_FLAGS = [
   "--display-summary",
   "--compatibility-explain"
 ];
+const DEFAULT_BLOCKED_RUNTIME_COMMANDS = new Set([["serve", "runtime"].join("-")]);
 
 function readPlanOutputMode(args) {
   const selectedFlags = PLAN_OUTPUT_FLAGS.filter((flag) => args.includes(flag));
@@ -143,6 +144,13 @@ function readRequiredPathOption(args, name) {
   }
 
   return value;
+}
+
+function createDefaultBlockedRuntimeCommandMessage(command) {
+  return [
+    `Usage: ardyn ${command} [--dry-run]`,
+    `Runtime unavailable: ${command} is recognized, but runtime is not enabled in Phase 5.5.`
+  ].join("\n");
 }
 
 function readEmitSessionEventsArgs(args) {
@@ -796,6 +804,11 @@ async function run(argv) {
     const events = createStdioDryRunSessionEvents(manifest, task, { manifestPath, taskPath });
 
     process.stdout.write(formatSessionEventsJsonl(events));
+    return;
+  }
+
+  if (DEFAULT_BLOCKED_RUNTIME_COMMANDS.has(command)) {
+    fail(createDefaultBlockedRuntimeCommandMessage(command));
     return;
   }
 

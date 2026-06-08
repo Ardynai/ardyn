@@ -507,9 +507,9 @@ test("Phase 4.1F status report inventories checkpoint without running checks", a
   const inventory = report.phase41FRuntimeReadinessCheckpointInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.4A",
-    name: "Jules review disposition",
-    executionPosture: "jules-review-disposition runtime-enablement-blocked no-runtime-commands"
+    id: "5.5",
+    name: "Default-blocked runtime CLI",
+    executionPosture: "default-blocked-runtime-cli runtime-unavailable no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
