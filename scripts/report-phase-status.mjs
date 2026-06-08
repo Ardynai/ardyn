@@ -88,6 +88,9 @@ const phase41GExternalReviewPacketMetadata = await readJson(
 const phase41HExternalReviewDispositionMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-1h/external-review-disposition.json"
 );
+const phase41LRuntimeImplementationReadinessMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -135,9 +138,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1K",
-    name: "Approval-gated Rust-host stdio runtime contract gates",
-    executionPosture: "contract-gate-only non-executing"
+    id: "4.1L",
+    name: "Runtime implementation readiness inventory",
+    executionPosture: "readiness-inventory-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -180,12 +183,24 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.1K approval-gated Rust-host stdio runtime contract-gate status report.",
+        "Render this deterministic local Phase 4.1L runtime implementation-readiness status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1K status report.",
+      purpose: "Run focused tests for this local Phase 4.1L status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-1l-runtime-implementation-readiness.test.mjs",
+      purpose:
+        "Run focused Phase 4.1L runtime implementation-readiness and 4.2A handoff checks.",
+      ranByReport: false
+    },
+    {
+      command: "cargo test -p ardyn-host phase4_1l",
+      purpose:
+        "Run Rust-host design-facing static checks for the Phase 4.1L 4.2A handoff boundary.",
       ranByReport: false
     },
     {
@@ -5713,6 +5728,216 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase41LRuntimeImplementationReadinessInventory: {
+    readinessLayer: {
+      document: "docs/phase-4-1l-runtime-implementation-readiness.md",
+      precedingPhase: "4.1K",
+      layerId: "runtime-implementation-readiness-and-4.2a-handoff",
+      scope: "implementation-readiness-design-test-plan-blocker-burn-down",
+      readyToPlan42A: phase41LRuntimeImplementationReadinessMetadata.implementationReadiness.readyToPlan42A,
+      readyToImplementDeliberatelyBlockedSkeleton:
+        phase41LRuntimeImplementationReadinessMetadata.implementationReadiness
+          .readyToImplementDeliberatelyBlockedSkeleton,
+      runtimeEnablementReady:
+        phase41LRuntimeImplementationReadinessMetadata.implementationReadiness
+          .runtimeEnablementReady,
+      runtimeImplementationApproved:
+        phase41LRuntimeImplementationReadinessMetadata.implementationReadiness
+          .runtimeImplementationApproved,
+      runtimeEnablementApproved:
+        phase41LRuntimeImplementationReadinessMetadata.implementationReadiness
+          .runtimeEnablementApproved,
+      runtimeApprovalGranted:
+        phase41LRuntimeImplementationReadinessMetadata.implementationReadiness
+          .runtimeApprovalGranted,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      reportRunsChecks: false,
+      freshExternalReviewRan: false,
+      freshDevinReviewRan: false,
+      runtimeBlocked: true,
+      runtimeReadinessClaimed: false,
+      runtimeBehaviorIntroduced: false,
+      liveRuntimeBehaviorIntroduced: false,
+      grantsRuntimeApproval: false
+    },
+    readinessFixture: await localInventoryEntry(
+      "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json",
+      "Expected Phase 4.1L implementation-readiness matrix, blocker burn-down, and 4.2A handoff fixture."
+    ),
+    readinessMetadata: {
+      schema: phase41LRuntimeImplementationReadinessMetadata.schema,
+      schemaVersion: phase41LRuntimeImplementationReadinessMetadata.schemaVersion,
+      phase: phase41LRuntimeImplementationReadinessMetadata.phase,
+      artifactKind: phase41LRuntimeImplementationReadinessMetadata.artifactKind,
+      metadataGeneratedAt:
+        phase41LRuntimeImplementationReadinessMetadata.metadataGeneratedAt,
+      approvalWording:
+        phase41LRuntimeImplementationReadinessMetadata.implementationReadiness
+          .approvalWording,
+      auditApprovalWording:
+        phase41LRuntimeImplementationReadinessMetadata.audit.approvalWording
+    },
+    phase42AEntryCriteria:
+      phase41LRuntimeImplementationReadinessMetadata.implementationReadiness.entryCriteria,
+    blockedRuntimeEnablementCriteria:
+      phase41LRuntimeImplementationReadinessMetadata.implementationReadiness
+        .runtimeEnablementCriteria,
+    phase41EvidenceMap: phase41LRuntimeImplementationReadinessMetadata.phase41EvidenceMap,
+    blockerBurnDown: phase41LRuntimeImplementationReadinessMetadata.blockerBurnDown,
+    phase42AHandoff: phase41LRuntimeImplementationReadinessMetadata.phase42AHandoff,
+    validationPlan: phase41LRuntimeImplementationReadinessMetadata.validationPlan,
+    smokeProbePlan: phase41LRuntimeImplementationReadinessMetadata.smokeProbePlan,
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-1l-runtime-implementation-readiness.md",
+        "Records Phase 4.1L as runtime implementation-readiness design, blocker burn-down, and 4.2A handoff while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1k-stdio-runtime-contract-gates.md",
+        "Links Phase 4.1L as the follow-up implementation-readiness handoff after the contract-gate layer."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4.1 roadmap to include Phase 4.1L as readiness inventory before 4.2A skeleton work."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.1L leaves finite dry-run event emission unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.1L while preserving no live stdio runtime, no CLI command, and no process stdio ownership."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents Phase 4.1L readiness as a planning handoff rather than active runtime enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records Phase 4.1L as design/test-plan handoff metadata without new runtime architecture."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.1L scope and unchanged non-executing CLI/runtime posture."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.1L adds no CLI command, runtime command, stdout printer, file writer, or stdio ownership."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.1L adds no TypeScript core runtime helper API and cannot grant runtime approval."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 4.1L Rust-host design checks are review/static only and do not own process stdio."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.1L report metadata, readiness inventory, fixture path, runtime flags, and safety posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-1l-runtime-implementation-readiness.test.mjs",
+        "Expected focused Phase 4.1L readiness matrix, 4.2A handoff, source-guard, and runtime rejection test path."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs",
+        "Keeps Phase 4.1K approval-gated runtime contract-gate guard active after Phase 4.1L."
+      )
+    ],
+    rustSourceInventory: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Expected Rust-host contract helpers and Phase 4.1L design-facing static tests; no process stdio ownership or runtime implementation is enabled by this report."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Expected unchanged CLI source; Phase 4.1L adds no runtime command."
+      )
+    ],
+    ownershipBoundary: {
+      docsReportAndFocusedTestFiles: [
+        "docs/phase-4-1l-runtime-implementation-readiness.md",
+        "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json",
+        "tests/phase4-1l-runtime-implementation-readiness.test.mjs",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      rustStaticDesignCheckFile: "crates/ardyn-host/src/lib.rs",
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      productionRuntimeSourceChangedByThisPhase: false,
+      reportRunsChecks: false,
+      separateRuntimeImplementationApprovalRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    runtimeLikeCommandRejectionProbes:
+      phase41LRuntimeImplementationReadinessMetadata.smokeProbePlan
+        .runtimeLikeCommandsRejectedWithZeroStdout,
+    runtimeEffect: phase41LRuntimeImplementationReadinessMetadata.runtimeEffect,
+    safetyPosture: {
+      nonExecuting: true,
+      readinessInventoryOnly: true,
+      implementationReadinessOnly: true,
+      readyToPlan42A: true,
+      readyToImplementDeliberatelyBlockedSkeleton: true,
+      runtimeEnablementReady: false,
+      runtimeImplementationApproved: false,
+      runtimeEnablementApproved: false,
+      runtimeEnabled: false,
+      processStdioOwnershipAvailable: false,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      reportRunsChecks: false,
+      noFreshExternalReview: true,
+      noFreshDevinReview: true,
+      runtimeBlocked: true,
+      noRuntimeCommand: true,
+      noImplementationReadinessCommand: true,
+      noPhase42ASkeletonCommand: true,
+      noServeRuntime: true,
+      noStdioRuntime: true,
+      noReplaySessionTranscript: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noProcessStdioOwnership: true,
+      noProcessControl: true,
+      noProcessKill: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noFailureAuditRuntime: true,
+      noCleanupRuntime: true,
+      noApprovalEvaluator: true,
+      noHostPolicyEnforcement: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -5740,6 +5965,7 @@ const report = {
     rustHostStdioHarness: true,
     fixtureBackedStdioBoundaries: true,
     stdioRuntimeContractGates: true,
+    runtimeImplementationReadinessInventory: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -5766,6 +5992,9 @@ const report = {
       phase41KRuntimeImplemented: false,
       phase41KRuntimeReady: false,
       phase41KRuntimeContractGateEnabled: false,
+      phase41LRuntimeImplemented: false,
+      phase41LRuntimeReady: false,
+      phase41LRuntimeImplementationReadinessCommandEnabled: false,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       externalCiRan: false

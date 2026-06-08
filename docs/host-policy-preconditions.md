@@ -318,6 +318,18 @@ emitter. `stdio-runtime-contract-gates`, `runtime-contract-gates`,
 `stdio-runtime`, and `replay-session-transcript` remain proposal-only and
 rejected. See `docs/phase-4-1k-stdio-runtime-contract-gates.md`.
 
+Phase 4.1L adds runtime implementation-readiness design, blocker burn-down, a
+deterministic readiness/checklist fixture, 4.2A handoff, tests, and report
+inventory. It remains precondition metadata only: it does not grant runtime
+approval, approve or enable runtime implementation, enforce host policy at
+runtime, add a CLI command, change `apps/cli/src/index.mjs`, own process
+stdout/stderr, add a live stdin loop, persist or replay transcripts, perform
+cleanup, kill processes, or change the finite TypeScript dry-run emitter.
+`runtime-implementation-readiness`, `phase-4-2a-runtime-skeleton`,
+`serve-runtime`, `stdio-runtime`, and `replay-session-transcript` remain
+proposal-only and rejected. See
+`docs/phase-4-1l-runtime-implementation-readiness.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

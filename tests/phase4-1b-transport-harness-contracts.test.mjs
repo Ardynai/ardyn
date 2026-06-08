@@ -390,9 +390,9 @@ test("Phase 4.1B status report inventories transport harness contracts without r
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1K",
-    name: "Approval-gated Rust-host stdio runtime contract gates",
-    executionPosture: "contract-gate-only non-executing"
+    id: "4.1L",
+    name: "Runtime implementation readiness inventory",
+    executionPosture: "readiness-inventory-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

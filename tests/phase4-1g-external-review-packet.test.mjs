@@ -569,9 +569,9 @@ test("Phase 4.1G status report inventories packet without running checks", async
   const inventory = report.phase41GExternalReviewPacketInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1K",
-    name: "Approval-gated Rust-host stdio runtime contract gates",
-    executionPosture: "contract-gate-only non-executing"
+    id: "4.1L",
+    name: "Runtime implementation readiness inventory",
+    executionPosture: "readiness-inventory-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

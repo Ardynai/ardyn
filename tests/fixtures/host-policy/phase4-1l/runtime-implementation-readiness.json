@@ -1,0 +1,365 @@
+{
+  "schema": "ardyn.phase-4.1l.runtime-implementation-readiness",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-4.1l-runtime-implementation-readiness",
+  "artifactKind": "approval-reviewed-rust-host-stdio-runtime-implementation-readiness",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhase": {
+    "previousPhase": "phase-4.1k-stdio-runtime-contract-gates",
+    "previousFixture": "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+    "previousContractSource": "crates/ardyn-host/src/lib.rs",
+    "freshExternalReviewRecorded": false,
+    "freshDevinReviewRecorded": false,
+    "notFreshExternalReview": true,
+    "notRuntimeReadinessApproval": true
+  },
+  "implementationReadiness": {
+    "readyToPlan42A": true,
+    "readyToImplementDeliberatelyBlockedSkeleton": true,
+    "runtimeEnablementReady": false,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeApprovalGranted": false,
+    "approvalWording": "4.2a_skeleton_entry_ready_runtime_enablement_blocked",
+    "entryCriteria": [
+      {
+        "id": "phase-4.1i-private-harness",
+        "status": "satisfied",
+        "evidencePaths": [
+          "docs/phase-4-1i-rust-host-stdio-harness.md",
+          "crates/ardyn-host/src/lib.rs"
+        ],
+        "allows42ASkeletonPlanning": true,
+        "allowsRuntimeEnablement": false
+      },
+      {
+        "id": "phase-4.1j-fixture-boundaries",
+        "status": "satisfied",
+        "evidencePaths": [
+          "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+          "tests/fixtures/stdio-harness/phase4-1j/expected-outcomes.json"
+        ],
+        "allows42ASkeletonPlanning": true,
+        "allowsRuntimeEnablement": false
+      },
+      {
+        "id": "phase-4.1k-contract-gates",
+        "status": "satisfied",
+        "evidencePaths": [
+          "docs/phase-4-1k-stdio-runtime-contract-gates.md",
+          "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json"
+        ],
+        "allows42ASkeletonPlanning": true,
+        "allowsRuntimeEnablement": false
+      },
+      {
+        "id": "phase-4.1l-readiness-matrix",
+        "status": "satisfied",
+        "evidencePaths": [
+          "docs/phase-4-1l-runtime-implementation-readiness.md",
+          "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json",
+          "tests/phase4-1l-runtime-implementation-readiness.test.mjs"
+        ],
+        "allows42ASkeletonPlanning": true,
+        "allowsRuntimeEnablement": false
+      }
+    ],
+    "runtimeEnablementCriteria": [
+      {
+        "id": "fresh-external-review",
+        "status": "blocked",
+        "requiredBeforeRuntimeEnablement": true,
+        "grantsRuntimeApproval": false
+      },
+      {
+        "id": "fresh-devin-review",
+        "status": "blocked",
+        "requiredBeforeRuntimeEnablement": true,
+        "grantsRuntimeApproval": false
+      },
+      {
+        "id": "runtime-readiness-review",
+        "status": "blocked",
+        "requiredBeforeRuntimeEnablement": true,
+        "grantsRuntimeApproval": false
+      },
+      {
+        "id": "host-policy-runtime-enforcement-review",
+        "status": "blocked",
+        "requiredBeforeRuntimeEnablement": true,
+        "grantsRuntimeApproval": false
+      },
+      {
+        "id": "cli-runtime-command-review",
+        "status": "blocked",
+        "requiredBeforeRuntimeEnablement": true,
+        "grantsRuntimeApproval": false
+      }
+    ]
+  },
+  "phase41EvidenceMap": [
+    {
+      "phase": "4.1I",
+      "evidence": "private Rust-host stdio harness tests",
+      "status": "satisfied-for-42a-skeleton-planning",
+      "runtimeImplemented": false
+    },
+    {
+      "phase": "4.1J",
+      "evidence": "fixture-backed stdio boundary replay coverage",
+      "status": "satisfied-for-42a-skeleton-planning",
+      "runtimeImplemented": false
+    },
+    {
+      "phase": "4.1K",
+      "evidence": "approval-gated public Rust stdio runtime contract gates",
+      "status": "satisfied-for-42a-skeleton-planning",
+      "runtimeImplemented": false
+    }
+  ],
+  "blockerBurnDown": [
+    {
+      "id": "bounded-skeleton-module-layout",
+      "classification": "must-solve-before-skeleton",
+      "status": "ready",
+      "resolution": "4.2A may add private Rust modules and tests for a deliberately blocked skeleton without wiring a CLI command or live runtime loop."
+    },
+    {
+      "id": "stdin-loop-shape",
+      "classification": "can-solve-during-skeleton",
+      "status": "planned-only",
+      "resolution": "4.2A may define an inert loop boundary behind tests but must not read process stdin or block on live input."
+    },
+    {
+      "id": "stdout-stderr-writer-ownership",
+      "classification": "can-solve-during-skeleton",
+      "status": "planned-only",
+      "resolution": "4.2A may add pure writer ownership interfaces or test doubles, but no live stdout or stderr writer may be enabled."
+    },
+    {
+      "id": "process-lifecycle-hooks",
+      "classification": "can-solve-during-skeleton",
+      "status": "planned-only",
+      "resolution": "4.2A may model start, terminal, cleanup, and kill hooks as inert test contracts; process control remains unavailable."
+    },
+    {
+      "id": "failure-audit-and-transcript-hooks",
+      "classification": "can-solve-during-skeleton",
+      "status": "planned-only",
+      "resolution": "4.2A may thread failure-audit and transcript hook interfaces through the skeleton using in-memory tests only."
+    },
+    {
+      "id": "runtime-command-surface",
+      "classification": "must-remain-blocked-until-runtime-enablement-review",
+      "status": "blocked",
+      "resolution": "No serve-runtime, stdio-runtime, replay-session-transcript, runtime-readiness-review, review-packet, or external-review-packet command may be enabled by 4.1L or 4.2A skeleton work."
+    },
+    {
+      "id": "approval-evaluator-and-grant",
+      "classification": "must-remain-blocked-until-runtime-enablement-review",
+      "status": "blocked",
+      "resolution": "No approval evaluator, runtime approval grant, runtime implementation approval, or runtime enablement approval exists in 4.1L."
+    },
+    {
+      "id": "external-runtime-integrations",
+      "classification": "must-remain-blocked-until-runtime-enablement-review",
+      "status": "blocked",
+      "resolution": "Adapters, Locus, MCP, OpenClaw, plugin execution, WebSocket/HTTP control, and Content Fabric runtime behavior remain out of scope."
+    }
+  ],
+  "phase42AHandoff": {
+    "recommendedPhaseName": "Phase 4.2A deliberately blocked Rust-host stdio runtime skeleton",
+    "allowedScope": [
+      "private Rust module skeletons under crates/ardyn-host",
+      "pure frame parser reuse from existing Phase 4.1J and 4.1K helpers",
+      "in-memory test doubles for stdin, stdout, stderr, transcript, failure audit, and process lifecycle hooks",
+      "fail-closed classification for approval-missing and runtime-unavailable paths",
+      "focused Rust tests and Node rejection probes"
+    ],
+    "disallowedScope": [
+      "apps/cli/src/index.mjs command enablement",
+      "live stdin read loop",
+      "live stdout writer",
+      "live stderr writer",
+      "process spawning or process kill",
+      "runtime approval evaluator",
+      "runtime approval grant",
+      "WebSocket or HTTP control surface",
+      "adapter, Locus, MCP, OpenClaw, plugin, or Content Fabric runtime behavior"
+    ],
+    "suggestedRustBoundaries": [
+      {
+        "name": "stdio_runtime::frames",
+        "purpose": "reuse existing JSONL frame validation and Phase 4.1J fixture expectations",
+        "runtimeEnabledIn42A": false
+      },
+      {
+        "name": "stdio_runtime::diagnostics",
+        "purpose": "model deterministic redacted stderr diagnostics with in-memory sinks only",
+        "runtimeEnabledIn42A": false
+      },
+      {
+        "name": "stdio_runtime::session",
+        "purpose": "model terminal-state and sequence bookkeeping without process stdio ownership",
+        "runtimeEnabledIn42A": false
+      },
+      {
+        "name": "stdio_runtime::approval_gate",
+        "purpose": "return runtime-unavailable until a later explicit approval evaluator phase",
+        "runtimeEnabledIn42A": false
+      }
+    ],
+    "required42ATests": [
+      "valid fixture stream enters blocked skeleton and returns deterministic runtime-unavailable result",
+      "malformed JSON, CRLF, missing final LF, oversized input, early EOF, and runtime approval request remain rejected",
+      "stdout and stderr sinks stay in-memory test doubles",
+      "missing approval record fails closed",
+      "no CLI runtime-like command is introduced",
+      "source guard proves no live stdin/stdout/stderr/process APIs are used"
+    ]
+  },
+  "reviewEvidence": {
+    "reviewedByThisPhase": "Codex 5.5 orchestrator and subagents",
+    "freshExternalReviewRecorded": false,
+    "freshDevinReviewRecorded": false,
+    "reviewNote": "4.1L is an implementation-readiness handoff and blocker burn-down, not runtime approval."
+  },
+  "validationPlan": [
+    {
+      "command": "npm test",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "npm run test:schemas",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "cargo test --workspace",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "cargo check --workspace",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "cargo fmt --check",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "git diff --check",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "npm run report:phase-status",
+      "required": true,
+      "ranByFixture": false
+    }
+  ],
+  "smokeProbePlan": {
+    "dryRunEventSmokeRequired": true,
+    "dryRunExpectedEventLines": 6,
+    "dryRunStdoutJsonlOnly": true,
+    "dryRunLfOnly": true,
+    "dryRunFinalLf": true,
+    "dryRunZeroStderr": true,
+    "runtimeLikeCommandsRejectedWithZeroStdout": [
+      "serve-runtime",
+      "stdio-runtime",
+      "replay-session-transcript",
+      "external-review-packet",
+      "review-packet",
+      "runtime-readiness-review",
+      "runtime-implementation-readiness",
+      "phase-4-2a-runtime-skeleton",
+      "approve-runtime",
+      "grant-runtime",
+      "enable-runtime"
+    ]
+  },
+  "runtimeEffect": {
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeImplemented": false,
+    "runtimeEnabled": false,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeApprovalGranted": false,
+    "runtimeReadinessClaimed": false,
+    "runtimeCommandAdded": false,
+    "cliSourceChanged": false,
+    "appsCliIndexChanged": false,
+    "processStdioOwnershipAdded": false,
+    "stdinReaderAdded": false,
+    "stdinLoopAdded": false,
+    "stdoutWriterAdded": false,
+    "stderrWriterAdded": false,
+    "processControlAdded": false,
+    "processKillAdded": false,
+    "approvalEvaluatorAdded": false,
+    "hostPolicyRuntimeEnforcementAdded": false,
+    "transcriptPersistenceRuntimeAdded": false,
+    "transcriptReplayRuntimeAdded": false,
+    "failureAuditRuntimeAdded": false,
+    "cleanupRuntimeAdded": false,
+    "webSocketHttpControlSurfaceAdded": false,
+    "adapterRuntimeBehaviorAdded": false,
+    "locusRuntimeDependencyAdded": false,
+    "mcpOpenClawRuntimeCallsAdded": false,
+    "pluginRuntimeExecutionAdded": false,
+    "contentFabricRuntimeBehaviorAdded": false,
+    "secretsUsed": false,
+    "productionSigningKeysUsed": false,
+    "freshExternalReviewRan": false,
+    "freshDevinReviewRan": false,
+    "reportRunsChecks": false,
+    "grantsRuntimeApproval": false
+  },
+  "nonExecutionInvariants": [
+    "serve-runtime-command",
+    "stdio-runtime-command",
+    "replay-session-transcript-command",
+    "external-review-packet-command",
+    "review-packet-command",
+    "runtime-readiness-review-command",
+    "runtime-implementation-readiness-command",
+    "phase-4-2a-runtime-skeleton-command",
+    "approval-evaluator",
+    "host-policy-runtime-enforcement",
+    "process-stdio-ownership",
+    "stdin-reader",
+    "stdin-loop",
+    "stdout-writer",
+    "stderr-writer",
+    "process-control",
+    "process-kill-runtime",
+    "transcript-persistence-runtime",
+    "transcript-replay-runtime",
+    "failure-audit-runtime",
+    "cleanup-runtime",
+    "adapter-calls",
+    "locus-runtime-dependency",
+    "mcp-openclaw-calls",
+    "plugin-execution",
+    "content-fabric-runtime-behavior",
+    "websocket-http-control-surface",
+    "runtime-approval-grant"
+  ],
+  "audit": {
+    "evidencePaths": [
+      "docs/phase-4-1l-runtime-implementation-readiness.md",
+      "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json",
+      "tests/phase4-1l-runtime-implementation-readiness.test.mjs",
+      "crates/ardyn-host/src/lib.rs",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "recordedFor": "Phase 4.1L runtime implementation readiness and 4.2A handoff",
+    "approvalWording": "skeleton_entry_ready_runtime_enablement_blocked"
+  }
+}

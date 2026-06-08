@@ -174,6 +174,14 @@ grant, or live host loop. Runtime implementation approval and runtime
 enablement remain false. See
 `docs/phase-4-1k-stdio-runtime-contract-gates.md`.
 
+Phase 4.1L documents runtime implementation-readiness design, blocker
+burn-down, and a concrete 4.2A handoff after Phase 4.1K. It does not add a
+TypeScript core API, Rust runtime implementation, CLI command, stdout printer,
+file writer, live stdio reader, process stdio ownership, approval evaluator,
+active host-policy enforcement path, runtime approval grant, or live host loop.
+It does not change `apps/cli/src/index.mjs`, and runtime remains blocked. See
+`docs/phase-4-1l-runtime-implementation-readiness.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

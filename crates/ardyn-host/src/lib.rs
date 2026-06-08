@@ -5826,6 +5826,178 @@ mod tests {
             .join("tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json")
     }
 
+    fn phase4_1l_runtime_implementation_readiness_fixture_path() -> std::path::PathBuf {
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .join("tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json")
+    }
+
+    fn phase4_1l_runtime_implementation_readiness_fixture() -> serde_json::Value {
+        let fixture_path = phase4_1l_runtime_implementation_readiness_fixture_path();
+        let fixture = std::fs::read_to_string(&fixture_path)
+            .unwrap_or_else(|error| panic!("failed to read {}: {error}", fixture_path.display()));
+        assert!(fixture.ends_with('\n'));
+        assert!(!fixture.contains('\r'));
+
+        serde_json::from_str(&fixture).expect("Phase 4.1L readiness fixture json")
+    }
+
+    #[test]
+    fn phase4_1l_readiness_fixture_pins_42a_skeleton_entry_runtime_blocked() {
+        let fixture = phase4_1l_runtime_implementation_readiness_fixture();
+
+        assert_eq!(
+            fixture["schema"],
+            "ardyn.phase-4.1l.runtime-implementation-readiness"
+        );
+        assert_eq!(
+            fixture["phase"],
+            "phase-4.1l-runtime-implementation-readiness"
+        );
+        assert_eq!(
+            fixture["sourcePhase"]["previousPhase"],
+            "phase-4.1k-stdio-runtime-contract-gates"
+        );
+        assert_eq!(
+            fixture["implementationReadiness"]["readyToPlan42A"],
+            serde_json::Value::Bool(true)
+        );
+        assert_eq!(
+            fixture["implementationReadiness"]["readyToImplementDeliberatelyBlockedSkeleton"],
+            serde_json::Value::Bool(true)
+        );
+        assert_eq!(
+            fixture["implementationReadiness"]["runtimeEnablementReady"],
+            serde_json::Value::Bool(false)
+        );
+        assert_eq!(
+            fixture["implementationReadiness"]["runtimeApprovalGranted"],
+            serde_json::Value::Bool(false)
+        );
+        assert_eq!(
+            fixture["runtimeEffect"]["runtimeImplemented"],
+            serde_json::Value::Bool(false)
+        );
+        assert_eq!(
+            fixture["runtimeEffect"]["runtimeEnabled"],
+            serde_json::Value::Bool(false)
+        );
+        assert_eq!(
+            fixture["runtimeEffect"]["grantsRuntimeApproval"],
+            serde_json::Value::Bool(false)
+        );
+    }
+
+    #[test]
+    fn phase4_1l_handoff_names_only_inert_42a_boundaries() {
+        let fixture = phase4_1l_runtime_implementation_readiness_fixture();
+        let handoff = fixture["phase42AHandoff"]
+            .as_object()
+            .expect("Phase 4.2A handoff object");
+        let allowed_scope = handoff["allowedScope"]
+            .as_array()
+            .expect("allowed scope array");
+        let disallowed_scope = handoff["disallowedScope"]
+            .as_array()
+            .expect("disallowed scope array");
+        let suggested_boundaries = handoff["suggestedRustBoundaries"]
+            .as_array()
+            .expect("suggested Rust boundaries");
+
+        assert!(allowed_scope
+            .iter()
+            .any(|scope| { scope == "private Rust module skeletons under crates/ardyn-host" }));
+        assert!(allowed_scope.iter().any(|scope| {
+            scope == "in-memory test doubles for stdin, stdout, stderr, transcript, failure audit, and process lifecycle hooks"
+        }));
+        assert!(disallowed_scope
+            .iter()
+            .any(|scope| scope == "live stdin read loop"));
+        assert!(disallowed_scope
+            .iter()
+            .any(|scope| scope == "live stdout writer"));
+        assert!(disallowed_scope
+            .iter()
+            .any(|scope| scope == "runtime approval grant"));
+
+        for boundary in suggested_boundaries {
+            assert_eq!(
+                boundary["runtimeEnabledIn42A"],
+                serde_json::Value::Bool(false)
+            );
+        }
+    }
+
+    #[test]
+    fn phase4_1l_runtime_blockers_stay_separate_from_skeleton_planning() {
+        let fixture = phase4_1l_runtime_implementation_readiness_fixture();
+        let blockers = fixture["blockerBurnDown"]
+            .as_array()
+            .expect("blocker burn-down array");
+        let runtime_command_surface = blockers
+            .iter()
+            .find(|blocker| blocker["id"] == "runtime-command-surface")
+            .expect("runtime command blocker");
+        let skeleton_layout = blockers
+            .iter()
+            .find(|blocker| blocker["id"] == "bounded-skeleton-module-layout")
+            .expect("skeleton layout blocker");
+
+        assert_eq!(skeleton_layout["status"], "ready");
+        assert_eq!(
+            skeleton_layout["classification"],
+            "must-solve-before-skeleton"
+        );
+        assert_eq!(runtime_command_surface["status"], "blocked");
+        assert_eq!(
+            runtime_command_surface["classification"],
+            "must-remain-blocked-until-runtime-enablement-review"
+        );
+
+        let runtime_enablement_criteria = fixture["implementationReadiness"]
+            ["runtimeEnablementCriteria"]
+            .as_array()
+            .expect("runtime enablement criteria");
+        assert!(runtime_enablement_criteria.iter().all(|criterion| {
+            criterion["status"] == "blocked"
+                && criterion["requiredBeforeRuntimeEnablement"] == serde_json::Value::Bool(true)
+                && criterion["grantsRuntimeApproval"] == serde_json::Value::Bool(false)
+        }));
+    }
+
+    #[test]
+    fn phase4_1l_source_guard_has_no_runtime_apis_before_42a() {
+        let source_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/lib.rs");
+        let source = std::fs::read_to_string(&source_path).expect("lib.rs source");
+        let production_source = source
+            .split("#[cfg(test)]")
+            .next()
+            .expect("production source before tests");
+
+        for banned in [
+            "std::io::stdin",
+            "std::io::stdout",
+            "std::io::stderr",
+            "std::process",
+            "Command::new",
+            "TcpListener",
+            "UdpSocket",
+            "thread::spawn",
+            "tokio::",
+            "async_std::",
+            "println!",
+            "eprintln!",
+            "pub fn run_stdio_runtime",
+            "pub fn stdio_runtime_skeleton_boundary",
+            "pub struct BlockedStdioRuntimeSkeleton",
+        ] {
+            assert!(
+                !production_source.contains(banned),
+                "production lib.rs must not contain runtime API {banned}"
+            );
+        }
+    }
+
     #[test]
     fn stdio_runtime_contract_gates_json_is_deterministic_and_matches_optional_fixture() {
         let first = stdio_runtime_contract_gates_json().expect("first runtime gates json");

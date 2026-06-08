@@ -585,9 +585,22 @@ stdout writer, not a stderr writer, not a stdin reader, not process stdio
 ownership, not transcript persistence/replay runtime, not failure-audit
 runtime, and not consumed by a live host loop.
 
+## Phase 4.1L Runtime Implementation Readiness
+
+Phase 4.1L records runtime implementation-readiness design, blocker burn-down,
+a deterministic readiness/checklist fixture, 4.2A handoff, tests, and report
+inventory. See `docs/phase-4-1l-runtime-implementation-readiness.md`.
+
+The Phase 4.1L readiness layer does not change this dry-run emitter. It does
+not add `runtime-implementation-readiness`, `phase-4-2a-runtime-skeleton`,
+`serve-runtime`, `stdio-runtime`, or `replay-session-transcript`; it does not
+add live stdin reads, live stdout/stderr writers, process stdio ownership,
+approval evaluation, host-policy runtime enforcement, or runtime approval
+grants. Runtime remains blocked.
+
 ## Deferred Runtime Work
 
-Phase 4.1K intentionally does not implement repo-root confinement, transcript
+Through Phase 4.1L, ARDYN intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction

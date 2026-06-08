@@ -8,9 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.1K Scope
+## Phase 3 and Phase 4.1L Scope
 
-This repository is currently in Phase 4.1K stdio-runtime-contract-gate mode. The
+This repository is currently in Phase 4.1L runtime implementation-readiness
+inventory mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -33,7 +34,10 @@ the first Rust-host stdio test harness layer plus fixture-backed boundary
 fixtures and replay tests that keep the private harness out of the public
 runtime contract plus approval-gated public Rust-host stdio runtime contract
 gates that keep runtime implementation approval, runtime enablement, process
-stdio ownership, and CLI source changes blocked
+stdio ownership, and CLI source changes blocked plus a runtime
+implementation-readiness design, blocker burn-down, and Phase 4.2A handoff
+record that allows planning only a deliberately blocked Rust-host stdio
+skeleton while runtime enablement remains blocked
 before any separately approved live runtime work.
 
 Included now:
@@ -152,6 +156,12 @@ Included now:
   runtime enablement, process stdio ownership, CLI source changes, fresh
   external review, and fresh Devin review remain false. See
   `docs/phase-4-1k-stdio-runtime-contract-gates.md`.
+- Phase 4.1L runtime implementation-readiness documentation, deterministic
+  readiness/checklist fixture, blocker burn-down, 4.2A handoff, focused tests,
+  and report inventory. It records that 4.2A skeleton entry may be planned
+  while runtime enablement remains blocked; it adds no runtime command and
+  does not change `apps/cli/src/index.mjs`. See
+  `docs/phase-4-1l-runtime-implementation-readiness.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -196,9 +206,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.1K CLI Usage
+## Phase 3 and Phase 4.1L CLI Usage
 
-Run non-executing commands directly from source through Phase 4.1K:
+Run non-executing commands directly from source through Phase 4.1L:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -303,7 +313,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 4.1K contract-gate-only status report command is:
+The Phase 4.1L readiness-inventory-only status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -329,6 +339,7 @@ metadata, Phase 4.1G external review packet metadata, and safety posture.
 Phase 4.1H external review disposition metadata and Phase 4.1I Rust-host stdio
 test harness inventory, Phase 4.1J fixture-backed stdio boundary inventory,
 and Phase 4.1K approval-gated public Rust-host stdio runtime contract-gate
+inventory plus Phase 4.1L runtime implementation-readiness and 4.2A handoff
 inventory are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
@@ -371,6 +382,13 @@ Phase 4.1K is documented in
 public Rust-host stdio runtime contract gates only; runtime implementation
 approval, runtime enablement, process stdio ownership, CLI source changes, and
 runtime approval grants remain blocked.
+
+Phase 4.1L is documented in
+`docs/phase-4-1l-runtime-implementation-readiness.md`. It records runtime
+implementation-readiness design, blocker burn-down, a deterministic
+readiness/checklist fixture, and a concrete Phase 4.2A handoff. It is not a
+fresh Devin or external re-review, does not change `apps/cli/src/index.mjs`,
+does not enable runtime commands, and keeps runtime blocked.
 
 Example dry-run check:
 

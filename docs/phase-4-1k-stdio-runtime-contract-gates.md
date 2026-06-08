@@ -73,3 +73,9 @@ gate and its blocked approval/runtime states. It does not provide runtime
 readiness. A later implementation phase still needs explicit approval, owned
 Rust source changes, focused tests, and review evidence before process stdio
 ownership or runtime commands can exist.
+
+Phase 4.1L follows this contract-gate layer with runtime implementation
+readiness design, blocker burn-down, and a concrete 4.2A handoff while keeping
+runtime implementation approval, runtime enablement, CLI source changes, and
+process stdio ownership blocked. See
+`docs/phase-4-1l-runtime-implementation-readiness.md`.

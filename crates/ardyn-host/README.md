@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.1K still exposes static Rust host identity, handshake data, policy-only
+Phase 4.1L still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -20,6 +20,12 @@ gates as review-only contract metadata. It does not approve or enable runtime
 implementation, own process stdio, add stdout/stderr writers, evaluate runtime
 approval, enforce host policy at runtime, change CLI source, or record fresh
 external or Devin review.
+Phase 4.1L records runtime implementation-readiness design, blocker burn-down,
+a deterministic readiness/checklist fixture, 4.2A handoff, and test-only Rust
+design-facing checks. It does not add a live runtime module, own process stdio,
+add stdout/stderr writers, add a stdin loop, evaluate runtime approval, enforce
+host policy at runtime, change CLI source, or record fresh external or Devin
+review.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -145,6 +151,14 @@ approval evaluation, active host-policy enforcement, CLI source changes,
 runtime command enablement, contract-gate command enablement, fresh external
 review, fresh Devin review, and runtime approval grants all remain blocked.
 See `docs/phase-4-1k-stdio-runtime-contract-gates.md`.
+
+Phase 4.1L adds runtime implementation-readiness documentation, a
+deterministic readiness/checklist fixture, blocker burn-down, 4.2A handoff,
+and `#[cfg(test)]` design-facing checks only. It permits planning the next
+deliberately blocked Rust-host stdio runtime skeleton, but it does not add that
+skeleton, a live stdin loop, live stdout/stderr writers, process control,
+approval evaluation, CLI command enablement, fresh review, or runtime approval
+grant. See `docs/phase-4-1l-runtime-implementation-readiness.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

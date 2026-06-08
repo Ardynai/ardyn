@@ -373,6 +373,16 @@ process stdio ownership, and does not add live stdio runtime behavior.
 `stdio-runtime`, and `replay-session-transcript` remain proposal-only and
 rejected. See `docs/phase-4-1k-stdio-runtime-contract-gates.md`.
 
+Phase 4.1L adds runtime implementation-readiness documentation, a deterministic
+readiness/checklist fixture, blocker burn-down, 4.2A handoff, tests, and report
+inventory. It does not change session-event stdout framing, does not add a
+live stdin loop, does not add stdout or stderr runtime writers, does not own
+process stdio, does not add a CLI command, and does not grant runtime
+approval. `runtime-implementation-readiness`, `phase-4-2a-runtime-skeleton`,
+`serve-runtime`, `stdio-runtime`, and `replay-session-transcript` remain
+proposal-only and rejected. See
+`docs/phase-4-1l-runtime-implementation-readiness.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

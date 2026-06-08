@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 4.1K keeps the TypeScript core on deterministic contract and display
+Phase 4.1L keeps the TypeScript core on deterministic contract and display
 data while the Rust host keeps policy-only stdio transport contract metadata
 and static host-policy review-record fixtures. The TypeScript core still owns
 manifest and task validation, deterministic non-executing task planning,
@@ -40,7 +40,14 @@ review, is not runtime readiness, and leaves runtime blocked.
 Phase 4.1K adds only approval-gated public Rust-host stdio runtime contract
 gates, documentation, and report inventory; it adds no TypeScript core runtime
 helper API, records no fresh external or Devin review, does not approve or
-enable runtime implementation, and leaves process stdio ownership blocked. See
+enable runtime implementation, and leaves process stdio ownership blocked.
+
+Phase 4.1L adds only runtime implementation-readiness documentation, a
+deterministic readiness/checklist fixture, blocker burn-down, 4.2A handoff,
+tests, and report inventory; it adds no TypeScript core runtime helper API,
+records no fresh external or Devin review, does not change `apps/cli/src/index.mjs`,
+does not approve or enable runtime implementation, and leaves process stdio
+ownership blocked. See
 `docs/phase-4-1b-transport-harness-contracts.md` and
 `docs/phase-4-1c-framing-redaction-contracts.md` and
 `docs/phase-4-1d-transcript-replay-contracts.md` and
@@ -50,7 +57,8 @@ enable runtime implementation, and leaves process stdio ownership blocked. See
 `docs/phase-4-1h-external-review-disposition.md` and
 `docs/phase-4-1i-rust-host-stdio-harness.md` and
 `docs/phase-4-1j-fixture-backed-stdio-boundaries.md` and
-`docs/phase-4-1k-stdio-runtime-contract-gates.md`.
+`docs/phase-4-1k-stdio-runtime-contract-gates.md` and
+`docs/phase-4-1l-runtime-implementation-readiness.md`.
 Autonomous execution, tool execution, plugin installation, network serving,
 torrent download, code-pack enablement, live stdin loops, live replay, runtime
 approval grants, and agent loops are intentionally out of scope.
@@ -275,6 +283,15 @@ runtime approval, cannot approve or enable runtime implementation, cannot own
 process stdio, and cannot enable `serve-runtime`, `stdio-runtime`, or
 `replay-session-transcript`. See
 `docs/phase-4-1k-stdio-runtime-contract-gates.md`.
+
+Phase 4.1L adds no TypeScript core runtime APIs and no new TypeScript core
+runtime implementation helpers. It records implementation-readiness design,
+blocker burn-down, and a concrete 4.2A handoff only. It is not a fresh external
+or Devin review, cannot grant runtime approval, cannot approve or enable
+runtime implementation, cannot own process stdio, does not change
+`apps/cli/src/index.mjs`, and cannot enable `serve-runtime`, `stdio-runtime`,
+or `replay-session-transcript`. See
+`docs/phase-4-1l-runtime-implementation-readiness.md`.
 
 ## Phase 3.2 Policy Review
 
