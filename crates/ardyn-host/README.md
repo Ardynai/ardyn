@@ -51,6 +51,13 @@ implementation phase only. It does not enable runtime, expose runtime commands,
 add stdout/stderr writers, add process control, add transcript/audit write side
 effects, change `apps/cli/src/index.mjs`, or alter adapter/Fabric runtime
 behavior.
+Phase 5.2 adds private guarded-runtime implementation helpers inside the
+already-private Rust-host stdio runtime module: bounded in-memory loop
+planning, planned-only redacted writer data, and fixture-only approval-boundary
+planning. It still performs no live stdin reads, no live stdout/stderr writes,
+no process control, no transcript/audit file writes, no approval grant or
+evaluator, no CLI integration, and no adapter/Fabric runtime behavior. See
+`docs/phase-5-2-guarded-runtime-implementation-slice.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -218,6 +225,15 @@ process-level stdio ownership, stdout/stderr writers, process control,
 transcript writes, failure-audit writes, adapter runtime behavior, and Content
 Fabric runtime behavior remain blocked. See
 `docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
+
+Phase 5.2 starts the controlled implementation slice as private guarded
+planning code only. `stdio_runtime` remains private, and its bounded loop,
+redacted writer, and approval-boundary helpers consume only in-memory fixtures
+and return blocked/unavailable plans. They do not read process stdin, write
+process stdout/stderr, spawn or control child processes, persist transcripts or
+audit files, evaluate/grant approval, expose CLI commands, or call adapters or
+Content Fabric runtime behavior. See
+`docs/phase-5-2-guarded-runtime-implementation-slice.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

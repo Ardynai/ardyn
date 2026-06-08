@@ -387,9 +387,9 @@ test("Phase 4.1 status report still inventories Phase 4.0I readiness metadata wi
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.1",
-    name: "Controlled runtime implementation approval",
-    executionPosture: "future-implementation-approval-only runtime-enablement-blocked non-executing"
+    id: "5.2",
+    name: "Guarded runtime implementation slice",
+    executionPosture: "guarded-implementation-slice runtime-enablement-blocked no-runtime-commands"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

@@ -12,6 +12,7 @@ Cross-links:
 - TypeScript core status: `../packages/core/README.md`
 - Rust host status: `../crates/ardyn-host/README.md`
 - Source disposition: `phase-4-2d-external-review-disposition-phase5-handoff.md`
+- Next guarded slice: `phase-5-2-guarded-runtime-implementation-slice.md`
 
 Machine-readable Phase 5.1 artifacts:
 
@@ -82,6 +83,11 @@ The first implementation phase after Phase 5.1 must still design and test:
 - process lifecycle start/stop/timeout/cleanup behavior
 - nonzero exit and terminal-state mapping
 - positive and negative runtime smokes for approved and denied paths
+
+Phase 5.2 began that implementation work only as private Rust-host guarded
+planning helpers and fixture-backed blocked-runtime tests. It did not expose
+runtime commands, did not change `apps/cli/src/index.mjs`, and did not enable
+runtime. See `phase-5-2-guarded-runtime-implementation-slice.md`.
 
 ## Guarded After Implementation
 

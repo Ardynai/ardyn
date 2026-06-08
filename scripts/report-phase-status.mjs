@@ -109,6 +109,12 @@ const phase51ControlledRuntimeImplementationApprovalBoundaryMetadata = await rea
 const phase51RuntimeCommandSurfaceReviewMatrixMetadata = await readJson(
   "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json"
 );
+const phase52GuardedRuntimeDefaultBlockedBoundaryMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-2/guarded-runtime-default-blocked-boundary.json"
+);
+const phase52RuntimeCommandRejectionMatrixMetadata = await readJson(
+  "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -156,9 +162,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.1",
-    name: "Controlled runtime implementation approval",
-    executionPosture: "future-implementation-approval-only runtime-enablement-blocked non-executing"
+    id: "5.2",
+    name: "Guarded runtime implementation slice",
+    executionPosture: "guarded-implementation-slice runtime-enablement-blocked no-runtime-commands"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -206,12 +212,30 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.1 controlled runtime implementation approval status report.",
+        "Render this deterministic local Phase 5.2 guarded runtime implementation slice status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.1 status report.",
+      purpose: "Run focused tests for this local Phase 5.2 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-2-runtime-default-blocked.test.mjs",
+      purpose:
+        "Run focused Phase 5.2 blocked-runtime fixture and candidate command rejection checks.",
+      ranByReport: false
+    },
+    {
+      command: "fallow health --score --hotspots --targets --format json",
+      purpose:
+        "Run deterministic Fallow health and hotspot evidence for JS/TS/package/test/report surfaces.",
+      ranByReport: false
+    },
+    {
+      command: "fallow audit --format json",
+      purpose:
+        "Run deterministic Fallow changed-code audit evidence for JS/TS/package/test/report surfaces.",
       ranByReport: false
     },
     {
@@ -6978,6 +7002,233 @@ const report = {
       noContentFabricRuntimeBehavior: true
     }
   },
+  phase52GuardedRuntimeImplementationSliceInventory: {
+    statusLayer: {
+      document: "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      approvalSourceDocument:
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      externalReviewSourceDocument:
+        "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+      readinessSourceDocument: "docs/phase-4-2c-runtime-readiness-review-gate.md",
+      precedingPhase: "5.1",
+      layerId: "guarded-runtime-implementation-slice",
+      scope: "guarded-private-rust-implementation-slice-runtime-enablement-blocked",
+      implementationSliceStatusRecorded: true,
+      runtimeImplementationMayExistBehindGuards: true,
+      privateRustGuardedHelpersAdded: true,
+      runtimeImplementationExposed: false,
+      runtimeEnablementApproved: false,
+      runtimeEnabled: false,
+      runtimeCommandSurfaceEnabled: false,
+      approvalGrantCreated: false,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      stdoutStderrWritersEnabled: false,
+      processControlEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+        "Records Phase 5.2 as the current guarded runtime implementation slice status while runtime enablement remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "Provides the Phase 5.1 approval source for the Phase 5.2 guarded implementation slice."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+        "Provides the Jules external-review disposition source for Phase 5."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-2c-runtime-readiness-review-gate.md",
+        "Provides the reviewed readiness-gate source that remains historical evidence."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.2 as current docs/status mode while runtime commands remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.2 adds no CLI runtime command or approval command exposure."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 5.2 adds no TypeScript core runtime API or runtime behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.2 does not expose Rust-host runtime commands or enable runtime behavior."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "packages/core/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-4-2c-runtime-readiness-review-gate.md",
+      "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-2/guarded-runtime-default-blocked-boundary.json",
+        "Records Phase 5.2 runtime-blocked-by-default approval-boundary requirements and deterministic blocked errors."
+      ),
+      await localInventoryEntry(
+        "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json",
+        "Records Phase 5.2 candidate runtime command names and rejection expectations."
+      )
+    ],
+    guardedRustHelpers: {
+      source: "crates/ardyn-host/src/stdio_runtime/mod.rs",
+      modulePubliclyExported: false,
+      helpers: [
+        "guarded_stdio_runtime_loop_budget",
+        "plan_guarded_stdio_runtime_loop",
+        "plan_guarded_redacted_writer",
+        "plan_stdio_runtime_approval_boundary_from_fixture_json"
+      ],
+      liveStdinReads: false,
+      liveStdoutStderrWrites: false,
+      processControl: false,
+      transcriptAuditWrites: false,
+      approvalEvaluatorOrGrant: false
+    },
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.2 report metadata, docs cross-links, runtime-blocked flags, and docs/status ownership."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-2-runtime-default-blocked.test.mjs",
+        "Pins Phase 5.2 blocked-runtime fixture semantics and candidate command rejection probes."
+      )
+    ],
+    rustSourceInventory: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/stdio_runtime/mod.rs",
+        "Contains private guarded runtime planning helpers and Rust tests; no public runtime surface is exported."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Keeps stdio_runtime private through mod stdio_runtime and compile-fail public-boundary doctest."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Expected unchanged CLI source; Phase 5.2 adds no runtime, approval, or command-surface command."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "packages/core/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-4-2c-runtime-readiness-review-gate.md",
+        "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-2/guarded-runtime-default-blocked-boundary.json",
+        "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-2-runtime-default-blocked.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      rustSourceFiles: [
+        "crates/ardyn-host/src/stdio_runtime/mod.rs"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: true,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeCommandSurfaceApprovalRequired: true,
+      separateRuntimeEnablementRequired: true
+    },
+    approvalBoundaryFixture: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-2/guarded-runtime-default-blocked-boundary.json",
+      schema: phase52GuardedRuntimeDefaultBlockedBoundaryMetadata.schema,
+      status: phase52GuardedRuntimeDefaultBlockedBoundaryMetadata.runtimeDefaultState.status,
+      runtimeBlocked:
+        phase52GuardedRuntimeDefaultBlockedBoundaryMetadata.runtimeDefaultState.runtimeBlocked,
+      approvalBoundaryRequired:
+        phase52GuardedRuntimeDefaultBlockedBoundaryMetadata.approvalBoundaryChecks.required,
+      approvalGrantCreated:
+        phase52GuardedRuntimeDefaultBlockedBoundaryMetadata.approvalGrantState.grantCreated,
+      commandSurfaceExists:
+        phase52GuardedRuntimeDefaultBlockedBoundaryMetadata.commandSurfaceState.exists
+    },
+    commandSurfaceRejectionMatrix: {
+      fixture:
+        "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json",
+      schema: phase52RuntimeCommandRejectionMatrixMetadata.schema,
+      status: phase52RuntimeCommandRejectionMatrixMetadata.scope.status,
+      candidateCommands: phase52RuntimeCommandRejectionMatrixMetadata.candidateRuntimeCommands,
+      stdoutExpectation:
+        phase52RuntimeCommandRejectionMatrixMetadata.rejectionProbeExpectation.stdout,
+      stderrPrefix:
+        phase52RuntimeCommandRejectionMatrixMetadata.rejectionProbeExpectation.stderrPrefix,
+      scratchDirectoryWrites:
+        phase52RuntimeCommandRejectionMatrixMetadata.rejectionProbeExpectation
+          .scratchDirectoryWrites
+    },
+    runtimeLikeCommandRejectionProbes:
+      phase52RuntimeCommandRejectionMatrixMetadata.candidateRuntimeCommands,
+    runtimeEffect: {
+      runtimeEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeEnablementApproved: false,
+      approvalCommandEnabled: false,
+      cliSourceChanged: false,
+      stdoutStderrWritersEnabled: false,
+      processControlEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false
+    },
+    nonExecutionInvariants: [
+      "phase5-2-private-rust-guarded-planning-only",
+      "runtime-enablement-remains-blocked",
+      "runtime-command-surface-remains-blocked",
+      "apps-cli-index-unchanged",
+      "no-approval-command",
+      "no-live-stdin-stdout-stderr-or-process-control",
+      "no-adapter-or-fabric-runtime-behavior"
+    ],
+    safetyPosture: {
+      guardedImplementationSliceStatusRecorded: true,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeEnablementApproved: false,
+      noRuntimeCommand: true,
+      noApprovalCommand: true,
+      noProcessControl: true,
+      noStdoutStderrWriters: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -7011,6 +7262,7 @@ const report = {
     phase42CRuntimeReadinessReviewGate: true,
     phase42DExternalReviewDispositionPhase5Handoff: true,
     phase51ControlledRuntimeImplementationApproval: true,
+    phase52GuardedRuntimeImplementationSlice: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -7095,6 +7347,18 @@ const report = {
       phase51TranscriptAuditSideEffectsEnabled: false,
       phase51AdapterRuntimeBehaviorEnabled: false,
       phase51ContentFabricRuntimeBehaviorEnabled: false,
+      phase52GuardedImplementationSliceStatusRecorded: true,
+      phase52RuntimeEnablementApproved: false,
+      phase52RuntimeEnabled: false,
+      phase52RuntimeCommandEnabled: false,
+      phase52RuntimeCommandSurfaceEnabled: false,
+      phase52ApprovalCommandEnabled: false,
+      phase52AppsCliIndexChanged: false,
+      phase52ProcessControlEnabled: false,
+      phase52StdoutStderrWritersEnabled: false,
+      phase52TranscriptAuditSideEffectsEnabled: false,
+      phase52AdapterRuntimeBehaviorEnabled: false,
+      phase52ContentFabricRuntimeBehaviorEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

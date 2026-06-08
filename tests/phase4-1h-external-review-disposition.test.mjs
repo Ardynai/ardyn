@@ -410,9 +410,9 @@ test("Phase 4.1H status report inventories disposition without running checks", 
   const inventory = report.phase41HExternalReviewDispositionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.1",
-    name: "Controlled runtime implementation approval",
-    executionPosture: "future-implementation-approval-only runtime-enablement-blocked non-executing"
+    id: "5.2",
+    name: "Guarded runtime implementation slice",
+    executionPosture: "guarded-implementation-slice runtime-enablement-blocked no-runtime-commands"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

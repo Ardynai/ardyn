@@ -1,0 +1,135 @@
+{
+  "schema": "ardyn.phase-5.2.guarded-runtime-default-blocked-boundary",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.2-guarded-runtime-implementation-slice",
+  "artifactKind": "guarded-runtime-fixture-runtime-blocked-by-default",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourceApprovalBoundary": {
+    "sourcePhase": "phase-5.1-controlled-runtime-implementation-approval",
+    "sourceFixture": "tests/fixtures/host-policy/phase5-1/controlled-runtime-implementation-approval-boundary.json",
+    "implementationBoundaryRecorded": true,
+    "runtimeImplementationApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeApprovalGranted": false,
+    "runtimeCommandSurfaceApproved": false
+  },
+  "runtimeDefaultState": {
+    "status": "blocked_by_default",
+    "runtimeBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeGrantPresent": false,
+    "commandSurfacePresent": false
+  },
+  "approvalBoundaryChecks": {
+    "status": "required",
+    "required": true,
+    "checkedBeforeRuntimeStart": true,
+    "checkedBeforeCommandSurfaceExposure": true,
+    "checkedBeforeApprovalGrantCreation": true,
+    "missingBoundaryErrorCode": "PHASE5_2_APPROVAL_BOUNDARY_REQUIRED",
+    "staleBoundaryErrorCode": "PHASE5_2_APPROVAL_BOUNDARY_STALE",
+    "outOfScopeBoundaryErrorCode": "PHASE5_2_APPROVAL_BOUNDARY_OUT_OF_SCOPE"
+  },
+  "blockedPathExpectedErrors": {
+    "missingApprovalBoundary": {
+      "code": "PHASE5_2_APPROVAL_BOUNDARY_REQUIRED",
+      "message": "Phase 5.2 guarded runtime remains blocked until a fresh approval-boundary check passes.",
+      "stdout": "",
+      "sideEffects": []
+    },
+    "approvalGrantAttempt": {
+      "code": "PHASE5_2_RUNTIME_GRANT_FORBIDDEN",
+      "message": "Phase 5.2 fixtures must not create or persist runtime approval grants.",
+      "stdout": "",
+      "sideEffects": []
+    },
+    "commandSurfaceAttempt": {
+      "code": "PHASE5_2_COMMAND_SURFACE_FORBIDDEN",
+      "message": "Phase 5.2 fixtures must not expose runtime commands.",
+      "stdout": "",
+      "sideEffects": []
+    },
+    "sideEffectAttempt": {
+      "code": "PHASE5_2_SIDE_EFFECT_FORBIDDEN",
+      "message": "Phase 5.2 fixtures must not write transcripts, audits, grant records, or runtime state.",
+      "stdout": "",
+      "sideEffects": []
+    },
+    "candidateCommandRejected": {
+      "code": "ARDYN_CLI_USAGE",
+      "messagePrefix": "Usage: ardyn ",
+      "stdout": "",
+      "sideEffects": []
+    }
+  },
+  "approvalGrantState": {
+    "grantCreated": false,
+    "grantPersisted": false,
+    "grantLoaded": false,
+    "grantEvaluated": false,
+    "grantRevocationStateCreated": false
+  },
+  "commandSurfaceState": {
+    "exists": false,
+    "cliCommandsAdded": false,
+    "userVisibleCommandsAdded": false,
+    "dryRunRuntimeSurfaceAdded": false,
+    "reviewCommandsAdded": false,
+    "approvalCommandsAdded": false
+  },
+  "sideEffectState": {
+    "filesWritten": false,
+    "transcriptsWritten": false,
+    "failureAuditsWritten": false,
+    "approvalGrantsWritten": false,
+    "runtimeStateWritten": false,
+    "processesSpawned": false,
+    "networkOpened": false,
+    "adapterCallsMade": false,
+    "contentFabricRuntimeExecuted": false
+  },
+  "runtimeEffect": {
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeImplemented": false,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeStopped": false,
+    "runtimeStatusReadable": false,
+    "runtimeRollbackImplemented": false,
+    "runtimeFailureAuditImplemented": false,
+    "runtimeApprovalGranted": false,
+    "approvalEvaluatorAdded": false,
+    "hostPolicyRuntimeEnforcementAdded": false,
+    "processControlAdded": false,
+    "stdinLoopAdded": false,
+    "stdoutWriterAdded": false,
+    "stderrWriterAdded": false,
+    "commandSurfaceAdded": false
+  },
+  "candidateRuntimeCommandsFixture": "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json",
+  "nonExecutionInvariants": [
+    "runtime-blocked-by-default",
+    "approval-boundary-check-required-before-any-runtime-action",
+    "no-approval-grant-created",
+    "no-command-surface-exists",
+    "blocked-paths-have-deterministic-errors",
+    "candidate-runtime-commands-reject-with-usage",
+    "candidate-runtime-commands-write-no-files",
+    "apps-cli-src-index-mjs-unchanged"
+  ],
+  "validationCommands": [
+    {
+      "command": "node --test tests/phase5-2-runtime-default-blocked.test.mjs",
+      "required": true,
+      "ranByFixture": false
+    },
+    {
+      "command": "runtime command rejection probes for Phase 5.2 candidate commands",
+      "required": true,
+      "ranByFixture": false
+    }
+  ]
+}

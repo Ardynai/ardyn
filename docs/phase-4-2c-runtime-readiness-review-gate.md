@@ -37,7 +37,9 @@ blocker for Phase 4.2C only; it does not grant runtime implementation
 approval, approve the runtime command surface, change CLI source, or enable
 runtime. The Phase 5.1 handoff is documented in
 `docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`. The
-Phase 4.2C fixture remains historical evidence for the packet-ready state.
+Phase 5.2 guarded implementation-slice status is documented in
+`docs/phase-5-2-guarded-runtime-implementation-slice.md`. The Phase 4.2C
+fixture remains historical evidence for the packet-ready state.
 
 ## Evidence Consolidated
 

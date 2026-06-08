@@ -2,7 +2,7 @@
 
 TypeScript core scaffold for ARDYN orchestration contracts.
 
-Phase 5.1 keeps the TypeScript core on deterministic contract and display
+Phase 5.2 keeps the TypeScript core on deterministic contract and display
 data while the Rust host keeps policy-only stdio transport contract metadata
 and static host-policy review-record fixtures. The TypeScript core still owns
 manifest and task validation, deterministic non-executing task planning,
@@ -62,7 +62,8 @@ ownership blocked. See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
 `docs/phase-4-2d-external-review-disposition-phase5-handoff.md` and
-`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
+`docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md` and
+`docs/phase-5-2-guarded-runtime-implementation-slice.md`.
 Autonomous execution, tool execution, plugin installation, network serving,
 torrent download, code-pack enablement, live stdin loops, live replay, runtime
 approval grants, and agent loops are intentionally out of scope.
@@ -331,6 +332,14 @@ runtime command exposure in the current code, does not change
 process control, does not add transcript or audit write side effects, and does
 not alter adapter or Content Fabric runtime behavior. See
 `docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md`.
+
+Phase 5.2 also adds no TypeScript core runtime APIs and no TypeScript core
+runtime behavior. It adds private Rust-host guarded planning helpers and
+fixture-backed blocked-runtime tests only; the TypeScript core remains
+planning/display/contract code, `apps/cli/src/index.mjs` remains unchanged,
+runtime command exposure remains blocked, and adapter or Content Fabric
+runtime behavior remains disabled. See
+`docs/phase-5-2-guarded-runtime-implementation-slice.md`.
 
 ## Phase 3.2 Policy Review
 

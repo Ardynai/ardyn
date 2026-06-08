@@ -9,10 +9,11 @@
 #![allow(dead_code)]
 
 use crate::{
-    classify_stdio_runtime_contract_gates, classify_stdio_runtime_input_stream,
-    parse_stdio_runtime_input_frame_json, stdio_runtime_contract_gates,
-    stdio_runtime_error_category_for_frame_class, stdio_runtime_stderr_diagnostic_for_error,
-    stdio_runtime_stdout_frame_for_input, validate_stdio_runtime_contract_gates,
+    classify_host_policy_approval_record_json, classify_stdio_runtime_contract_gates,
+    classify_stdio_runtime_input_stream, parse_stdio_runtime_input_frame_json,
+    stdio_runtime_contract_gates, stdio_runtime_error_category_for_frame_class,
+    stdio_runtime_stderr_diagnostic_for_error, stdio_runtime_stdout_frame_for_input,
+    validate_stdio_runtime_contract_gates, HostPolicyApprovalRecordClassification,
     StdioRuntimeContractGateBundle, StdioRuntimeContractGateBundleClassification,
     StdioRuntimeFrameClass, StdioRuntimeInputFrame, StdioRuntimeStderrDiagnostic,
     StdioRuntimeStdoutFrame,
@@ -22,11 +23,14 @@ use serde::{Deserialize, Serialize};
 pub const BLOCKED_STDIO_RUNTIME_SKELETON_PHASE: &str = "phase-4.2a-blocked-stdio-runtime-skeleton";
 pub const BLOCKED_STDIO_RUNTIME_LIFECYCLE_FAILURE_AUDIT_PHASE: &str =
     "phase-4.2b-blocked-lifecycle-failure-audit-skeleton";
+pub const GUARDED_STDIO_RUNTIME_IMPLEMENTATION_SLICE_PHASE: &str =
+    "phase-5.2-guarded-runtime-implementation-slice";
 pub const BLOCKED_STDIO_RUNTIME_SKELETON_ERROR_CODE: &str = "runtime_unavailable";
 pub const BLOCKED_STDIO_RUNTIME_SKELETON_ERROR_MESSAGE: &str =
     "Phase 4.2A stdio runtime skeleton is deliberately blocked and cannot execute.";
 pub const BLOCKED_STDIO_RUNTIME_LIFECYCLE_ERROR_MESSAGE: &str =
     "Phase 4.2B lifecycle and failure-audit skeleton is deliberately blocked and cannot control processes.";
+pub const GUARDED_STDIO_RUNTIME_LOOP_MAX_FRAMES: u64 = 8;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -52,6 +56,13 @@ pub enum StdioRuntimeSkeletonBlockReason {
     StopUnavailable,
     KillUnavailable,
     ExecutionUnavailable,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioRuntimePlannedWriterStream {
+    Stdout,
+    Stderr,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -227,6 +238,59 @@ pub struct BlockedStdioRuntimeEntrypointResult {
     pub stdout_written: bool,
     pub stderr_written: bool,
     pub process_control_used: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GuardedStdioRuntimeLoopBudget {
+    pub max_input_bytes: u64,
+    pub max_frames: u64,
+    pub live_stdin_available: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GuardedStdioRuntimeLoopPlan {
+    pub phase: String,
+    pub budget: GuardedStdioRuntimeLoopBudget,
+    pub input_bytes: u64,
+    pub planned_iterations: u64,
+    pub frame_plans: Vec<StdioRuntimeFramePlan>,
+    pub budget_exceeded: bool,
+    pub stdin_read: bool,
+    pub runtime_available: bool,
+    pub execution_allowed: bool,
+    pub block_reason: StdioRuntimeSkeletonBlockReason,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GuardedStdioRuntimeRedactedWriterPlan {
+    pub phase: String,
+    pub stream: StdioRuntimePlannedWriterStream,
+    pub planned_only: bool,
+    pub live_writer_available: bool,
+    pub requested_frame_count: u64,
+    pub planned_frame_count: u64,
+    pub redaction_applied: bool,
+    pub raw_payload_retained: bool,
+    pub stream_written: bool,
+    pub planned_lines: Vec<String>,
+    pub block_reason: StdioRuntimeSkeletonBlockReason,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GuardedStdioRuntimeApprovalBoundaryPlan {
+    pub phase: String,
+    pub classification: HostPolicyApprovalRecordClassification,
+    pub fixture_evidence_satisfied: bool,
+    pub approval_boundary_satisfied: bool,
+    pub approval_evaluator_available: bool,
+    pub approval_granted: bool,
+    pub runtime_available: bool,
+    pub execution_allowed: bool,
+    pub block_reason: StdioRuntimeSkeletonBlockReason,
 }
 
 impl StdioRuntimeSkeletonState {
@@ -518,6 +582,102 @@ pub fn blocked_stdio_runtime_execution_request(
     blocked_stdio_runtime_execute_request(plan)
 }
 
+pub fn guarded_stdio_runtime_loop_budget() -> GuardedStdioRuntimeLoopBudget {
+    GuardedStdioRuntimeLoopBudget {
+        max_input_bytes: crate::ARDYN_STDIO_RUNTIME_MAX_INPUT_BYTES,
+        max_frames: GUARDED_STDIO_RUNTIME_LOOP_MAX_FRAMES,
+        live_stdin_available: false,
+    }
+}
+
+pub fn plan_guarded_stdio_runtime_loop(input: &[u8]) -> GuardedStdioRuntimeLoopPlan {
+    let budget = guarded_stdio_runtime_loop_budget();
+    let budget_exceeded = input.len() as u64 > budget.max_input_bytes;
+    let frame_plans = if budget_exceeded {
+        Vec::new()
+    } else {
+        let mut cumulative = Vec::new();
+        input
+            .split_inclusive(|byte| *byte == b'\n')
+            .take(budget.max_frames as usize)
+            .map(|frame| {
+                cumulative.extend_from_slice(frame);
+                plan_stdio_runtime_frame(&cumulative)
+            })
+            .collect::<Vec<_>>()
+    };
+
+    GuardedStdioRuntimeLoopPlan {
+        phase: GUARDED_STDIO_RUNTIME_IMPLEMENTATION_SLICE_PHASE.to_string(),
+        budget,
+        input_bytes: input.len() as u64,
+        planned_iterations: frame_plans.len() as u64,
+        frame_plans,
+        budget_exceeded,
+        stdin_read: false,
+        runtime_available: false,
+        execution_allowed: false,
+        block_reason: if budget_exceeded {
+            StdioRuntimeSkeletonBlockReason::FrameRejected
+        } else {
+            StdioRuntimeSkeletonBlockReason::RuntimeUnavailable
+        },
+    }
+}
+
+pub fn plan_guarded_redacted_writer(
+    stream: StdioRuntimePlannedWriterStream,
+    lines: &[String],
+) -> GuardedStdioRuntimeRedactedWriterPlan {
+    let planned_lines = lines
+        .iter()
+        .take(GUARDED_STDIO_RUNTIME_LOOP_MAX_FRAMES as usize)
+        .map(|line| redact_planned_line(line))
+        .collect::<Vec<_>>();
+    let redaction_applied = lines
+        .iter()
+        .zip(planned_lines.iter())
+        .any(|(original, redacted)| original != redacted);
+
+    GuardedStdioRuntimeRedactedWriterPlan {
+        phase: GUARDED_STDIO_RUNTIME_IMPLEMENTATION_SLICE_PHASE.to_string(),
+        stream,
+        planned_only: true,
+        live_writer_available: false,
+        requested_frame_count: lines.len() as u64,
+        planned_frame_count: planned_lines.len() as u64,
+        redaction_applied,
+        raw_payload_retained: false,
+        stream_written: false,
+        planned_lines,
+        block_reason: StdioRuntimeSkeletonBlockReason::RuntimeUnavailable,
+    }
+}
+
+pub fn plan_stdio_runtime_approval_boundary_from_fixture_json(
+    approval_record_json: &str,
+) -> GuardedStdioRuntimeApprovalBoundaryPlan {
+    let classification = classify_host_policy_approval_record_json(approval_record_json);
+    let fixture_evidence_satisfied =
+        classification == HostPolicyApprovalRecordClassification::ValidReviewRecord;
+
+    GuardedStdioRuntimeApprovalBoundaryPlan {
+        phase: GUARDED_STDIO_RUNTIME_IMPLEMENTATION_SLICE_PHASE.to_string(),
+        classification,
+        fixture_evidence_satisfied,
+        approval_boundary_satisfied: false,
+        approval_evaluator_available: false,
+        approval_granted: false,
+        runtime_available: false,
+        execution_allowed: false,
+        block_reason: if fixture_evidence_satisfied {
+            StdioRuntimeSkeletonBlockReason::ApprovalUnavailable
+        } else {
+            StdioRuntimeSkeletonBlockReason::GateMissingOrRejected
+        },
+    }
+}
+
 pub fn plan_stdio_runtime_lifecycle_transition(
     action: StdioRuntimeLifecycleAction,
     from_state: StdioRuntimeLifecycleStateKind,
@@ -637,6 +797,23 @@ fn lifecycle_action_id(action: &StdioRuntimeLifecycleAction) -> &'static str {
         StdioRuntimeLifecycleAction::Kill => "kill",
         StdioRuntimeLifecycleAction::Execute => "execute",
     }
+}
+
+fn redact_planned_line(line: &str) -> String {
+    line.split_whitespace()
+        .map(|token| {
+            if token.starts_with("secret=") {
+                "secret=[REDACTED]"
+            } else if token.starts_with("token=") {
+                "token=[REDACTED]"
+            } else if token.starts_with("password=") {
+                "password=[REDACTED]"
+            } else {
+                token
+            }
+        })
+        .collect::<Vec<_>>()
+        .join(" ")
 }
 
 fn collect_planned_frames(input: &[u8]) -> (u64, Vec<String>, Vec<StdioRuntimeStdoutFrame>) {
@@ -987,6 +1164,136 @@ mod tests {
     }
 
     #[test]
+    fn guarded_loop_plans_fixture_bytes_without_live_stdin() {
+        let input = format!(
+            "{}{}",
+            valid_probe_line("phase-5-2-loop-1", 1),
+            valid_probe_line("phase-5-2-loop-2", 2)
+        );
+        let plan = plan_guarded_stdio_runtime_loop(input.as_bytes());
+
+        assert_eq!(plan.phase, GUARDED_STDIO_RUNTIME_IMPLEMENTATION_SLICE_PHASE);
+        assert_eq!(
+            plan.budget.max_input_bytes,
+            crate::ARDYN_STDIO_RUNTIME_MAX_INPUT_BYTES
+        );
+        assert!(!plan.budget.live_stdin_available);
+        assert_eq!(plan.input_bytes, input.len() as u64);
+        assert_eq!(plan.planned_iterations, 2);
+        assert_eq!(plan.frame_plans.len(), 2);
+        assert!(plan
+            .frame_plans
+            .iter()
+            .all(|frame| frame.accepted_static_probe));
+        assert!(!plan.budget_exceeded);
+        assert!(!plan.stdin_read);
+        assert!(!plan.runtime_available);
+        assert!(!plan.execution_allowed);
+        assert_eq!(
+            plan.block_reason,
+            StdioRuntimeSkeletonBlockReason::RuntimeUnavailable
+        );
+    }
+
+    #[test]
+    fn guarded_loop_rejects_oversized_fixture_bytes_without_iteration() {
+        let input = vec![b'a'; crate::ARDYN_STDIO_RUNTIME_MAX_INPUT_BYTES as usize + 1];
+        let plan = plan_guarded_stdio_runtime_loop(&input);
+
+        assert!(plan.budget_exceeded);
+        assert_eq!(plan.planned_iterations, 0);
+        assert!(plan.frame_plans.is_empty());
+        assert!(!plan.stdin_read);
+        assert!(!plan.runtime_available);
+        assert!(!plan.execution_allowed);
+        assert_eq!(
+            plan.block_reason,
+            StdioRuntimeSkeletonBlockReason::FrameRejected
+        );
+    }
+
+    #[test]
+    fn redacted_writer_plan_sanitizes_in_memory_without_stream_writes() {
+        let lines = vec![
+            "diagnostic secret=abc token=def password=ghi".to_string(),
+            "diagnostic safe".to_string(),
+        ];
+        let plan = plan_guarded_redacted_writer(StdioRuntimePlannedWriterStream::Stderr, &lines);
+
+        assert_eq!(plan.phase, GUARDED_STDIO_RUNTIME_IMPLEMENTATION_SLICE_PHASE);
+        assert_eq!(plan.stream, StdioRuntimePlannedWriterStream::Stderr);
+        assert!(plan.planned_only);
+        assert!(!plan.live_writer_available);
+        assert_eq!(plan.requested_frame_count, 2);
+        assert_eq!(plan.planned_frame_count, 2);
+        assert!(plan.redaction_applied);
+        assert!(!plan.raw_payload_retained);
+        assert!(!plan.stream_written);
+        assert_eq!(
+            plan.planned_lines[0],
+            "diagnostic secret=[REDACTED] token=[REDACTED] password=[REDACTED]"
+        );
+        assert!(!plan.planned_lines[0].contains("abc"));
+        assert!(!plan.planned_lines[0].contains("def"));
+        assert!(!plan.planned_lines[0].contains("ghi"));
+        assert_eq!(plan.planned_lines[1], "diagnostic safe");
+    }
+
+    #[test]
+    fn approval_boundary_fixture_is_necessary_but_not_sufficient() {
+        let valid = include_str!(
+            "../../../../tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json"
+        );
+        let plan = plan_stdio_runtime_approval_boundary_from_fixture_json(valid);
+
+        assert_eq!(
+            plan.classification,
+            HostPolicyApprovalRecordClassification::ValidReviewRecord
+        );
+        assert!(plan.fixture_evidence_satisfied);
+        assert!(!plan.approval_boundary_satisfied);
+        assert!(!plan.approval_evaluator_available);
+        assert!(!plan.approval_granted);
+        assert!(!plan.runtime_available);
+        assert!(!plan.execution_allowed);
+        assert_eq!(
+            plan.block_reason,
+            StdioRuntimeSkeletonBlockReason::ApprovalUnavailable
+        );
+    }
+
+    #[test]
+    fn approval_boundary_rejects_non_fixture_grants_and_denials() {
+        for (json, classification) in [
+            (
+                include_str!(
+                    "../../../../tests/fixtures/host-policy/phase4-1a/denied-host-policy-approval-record.json"
+                ),
+                HostPolicyApprovalRecordClassification::Denied,
+            ),
+            (
+                include_str!(
+                    "../../../../tests/fixtures/host-policy/phase4-1a/runtime-grant-attempt-host-policy-approval-record.json"
+                ),
+                HostPolicyApprovalRecordClassification::RuntimeNotAvailable,
+            ),
+        ] {
+            let plan = plan_stdio_runtime_approval_boundary_from_fixture_json(json);
+
+            assert_eq!(plan.classification, classification);
+            assert!(!plan.fixture_evidence_satisfied);
+            assert!(!plan.approval_boundary_satisfied);
+            assert!(!plan.approval_granted);
+            assert!(!plan.runtime_available);
+            assert!(!plan.execution_allowed);
+            assert_eq!(
+                plan.block_reason,
+                StdioRuntimeSkeletonBlockReason::GateMissingOrRejected
+            );
+        }
+    }
+
+    #[test]
     fn unavailable_errors_are_deterministic_and_non_retryable() {
         let first =
             stdio_runtime_unavailable_error(StdioRuntimeSkeletonBlockReason::RuntimeUnavailable);
@@ -1074,6 +1381,10 @@ mod tests {
             "process_waited: true",
             "transcript_persistence_available: true",
             "runtime_effect_recorded: true",
+            "live_stdin_available: true",
+            "live_writer_available: true",
+            "approval_boundary_satisfied: true",
+            "approval_evaluator_available: true",
         ] {
             assert!(
                 !production_source.contains(banned),

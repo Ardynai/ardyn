@@ -91,6 +91,17 @@ guarded live loop, redacted stdout/stderr writer, runtime command, process
 control, transcript/audit write side effect, adapter runtime behavior, or
 Content Fabric runtime behavior exists because of this handoff.
 
+The current Phase 5.2 guarded implementation-slice status is documented in
+`docs/phase-5-2-guarded-runtime-implementation-slice.md`. Phase 5.2 keeps
+runtime enablement and runtime command-surface exposure blocked unless a later
+phase explicitly approves and exposes them.
+
+Phase 5.2 is documented in
+`docs/phase-5-2-guarded-runtime-implementation-slice.md`. It follows the Phase
+5.1 approval with private Rust-host guarded planning helpers and
+fixture-backed blocked-runtime tests only; it does not add CLI runtime commands
+or runtime enablement.
+
 ## Still Blocked
 
 The following command-like names must continue to reject with nonzero exit and
