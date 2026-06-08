@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.2A still exposes static Rust host identity, handshake data, policy-only
+Phase 4.2B still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -32,6 +32,11 @@ placeholders, and tests. It does not add a public runtime module, own process
 stdio, add live stdout/stderr writers, add a stdin loop, evaluate runtime
 approval, enforce host policy at runtime, change CLI source, or record fresh
 external or Devin review.
+Phase 4.2B extends that private module with blocked lifecycle, transcript-plan,
+failure-audit, and kill-semantics planning helpers and tests. It does not
+spawn, kill, signal, poll, wait on, or manage child processes; write
+transcripts or audit files; change CLI source; approve runtime; or record
+fresh external, Devin, or Jules review.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -172,6 +177,12 @@ frames and gates in memory, but blocked entrypoints, blocked approval requests,
 and blocked execution requests all return unavailable results with no stream,
 process, adapter, or approval effect. See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
+
+Phase 4.2B adds planned-only lifecycle, transcript-plan, failure-audit, and
+kill-semantics helpers inside the same private module. Start, stop, kill, and
+execute requests all return blocked/unavailable data with no process identity,
+process control, transcript writes, or failure-audit writes. See
+`docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

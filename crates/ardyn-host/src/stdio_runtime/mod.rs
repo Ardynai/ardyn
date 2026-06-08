@@ -1,9 +1,10 @@
 //! Deliberately blocked Rust-host stdio runtime skeleton.
 //!
-//! Phase 4.2A is library-only planning code. It classifies fixture-shaped
-//! frames and records unavailable lifecycle hooks, but every entrypoint returns
-//! a blocked result. It does not own process streams, control processes,
-//! evaluate approval, call adapters, or expose a command surface.
+//! Phase 4.2A and 4.2B are library-only planning code. They classify
+//! fixture-shaped frames, record unavailable lifecycle hooks, plan blocked
+//! lifecycle/failure-audit/transcript outcomes, and always return blocked
+//! results. They do not own process streams, control processes, evaluate
+//! approval, call adapters, or expose a command surface.
 
 #![allow(dead_code)]
 
@@ -19,9 +20,13 @@ use crate::{
 use serde::{Deserialize, Serialize};
 
 pub const BLOCKED_STDIO_RUNTIME_SKELETON_PHASE: &str = "phase-4.2a-blocked-stdio-runtime-skeleton";
+pub const BLOCKED_STDIO_RUNTIME_LIFECYCLE_FAILURE_AUDIT_PHASE: &str =
+    "phase-4.2b-blocked-lifecycle-failure-audit-skeleton";
 pub const BLOCKED_STDIO_RUNTIME_SKELETON_ERROR_CODE: &str = "runtime_unavailable";
 pub const BLOCKED_STDIO_RUNTIME_SKELETON_ERROR_MESSAGE: &str =
     "Phase 4.2A stdio runtime skeleton is deliberately blocked and cannot execute.";
+pub const BLOCKED_STDIO_RUNTIME_LIFECYCLE_ERROR_MESSAGE: &str =
+    "Phase 4.2B lifecycle and failure-audit skeleton is deliberately blocked and cannot control processes.";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -30,6 +35,9 @@ pub enum StdioRuntimeSkeletonStatus {
     FrameRejected,
     GateBlocked,
     ApprovalBlocked,
+    StartBlocked,
+    StopBlocked,
+    KillBlocked,
     ExecutionBlocked,
 }
 
@@ -40,7 +48,38 @@ pub enum StdioRuntimeSkeletonBlockReason {
     FrameRejected,
     GateMissingOrRejected,
     ApprovalUnavailable,
+    StartUnavailable,
+    StopUnavailable,
+    KillUnavailable,
     ExecutionUnavailable,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioRuntimeLifecycleAction {
+    Start,
+    Stop,
+    Kill,
+    Execute,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum StdioRuntimeLifecycleStateKind {
+    NotStarted,
+    StartBlocked,
+    StopBlocked,
+    KillBlocked,
+    ExecuteBlocked,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum StdioRuntimeFailureAuditCategory {
+    RuntimeUnavailable,
+    LifecycleUnavailable,
+    ProcessControlUnavailable,
+    TranscriptPersistenceUnavailable,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -118,12 +157,69 @@ pub struct StdioRuntimeGatePlan {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeTranscriptPlan {
+    pub planned_only: bool,
+    pub transcript_persistence_available: bool,
+    pub replay_available: bool,
+    pub planned_record_ids: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeFailureAuditPlan {
+    pub planned_only: bool,
+    pub category: StdioRuntimeFailureAuditCategory,
+    pub deterministic_code: String,
+    pub runtime_effect_recorded: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeKillSemanticsPlan {
+    pub planned_only: bool,
+    pub process_identifier_available: bool,
+    pub graceful_stop_available: bool,
+    pub forced_termination_available: bool,
+    pub signal_available: bool,
+    pub terminal_state_required: bool,
+    pub termination_effect_performed: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct StdioRuntimeLifecycleTransitionPlan {
+    pub phase: String,
+    pub action: StdioRuntimeLifecycleAction,
+    pub from_state: StdioRuntimeLifecycleStateKind,
+    pub to_state: StdioRuntimeLifecycleStateKind,
+    pub status: StdioRuntimeSkeletonStatus,
+    pub block_reason: StdioRuntimeSkeletonBlockReason,
+    pub transcript_plan: StdioRuntimeTranscriptPlan,
+    pub failure_audit_plan: StdioRuntimeFailureAuditPlan,
+    pub kill_semantics_plan: Option<StdioRuntimeKillSemanticsPlan>,
+    pub runtime_available: bool,
+    pub lifecycle_available: bool,
+    pub execution_allowed: bool,
+    pub process_started: bool,
+    pub process_stopped: bool,
+    pub process_killed: bool,
+    pub signal_sent: bool,
+    pub process_polled: bool,
+    pub process_waited: bool,
+    pub stdin_read: bool,
+    pub stdout_written: bool,
+    pub stderr_written: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct BlockedStdioRuntimeEntrypointResult {
     pub phase: String,
     pub status: StdioRuntimeSkeletonStatus,
     pub state: StdioRuntimeSkeletonState,
     pub frame_plan: Option<StdioRuntimeFramePlan>,
     pub gate_plan: StdioRuntimeGatePlan,
+    pub lifecycle_plan: Option<StdioRuntimeLifecycleTransitionPlan>,
     pub error: StdioRuntimeUnavailableError,
     pub executed: bool,
     pub runtime_enabled: bool,
@@ -159,7 +255,47 @@ impl BlockedStdioRuntimeEntrypointResult {
             && !self.gate_plan.runtime_available
             && !self.gate_plan.approval_granted
             && !self.gate_plan.execution_allowed
+            && self
+                .lifecycle_plan
+                .as_ref()
+                .map(|plan| plan.all_effects_blocked())
+                .unwrap_or(true)
             && self.error.runtime_available == false
+    }
+}
+
+impl StdioRuntimeLifecycleTransitionPlan {
+    pub fn all_effects_blocked(&self) -> bool {
+        !self.runtime_available
+            && !self.lifecycle_available
+            && !self.execution_allowed
+            && !self.process_started
+            && !self.process_stopped
+            && !self.process_killed
+            && !self.signal_sent
+            && !self.process_polled
+            && !self.process_waited
+            && !self.stdin_read
+            && !self.stdout_written
+            && !self.stderr_written
+            && self.transcript_plan.planned_only
+            && !self.transcript_plan.transcript_persistence_available
+            && !self.transcript_plan.replay_available
+            && self.failure_audit_plan.planned_only
+            && !self.failure_audit_plan.runtime_effect_recorded
+            && self
+                .kill_semantics_plan
+                .as_ref()
+                .map(|plan| {
+                    plan.planned_only
+                        && !plan.process_identifier_available
+                        && !plan.graceful_stop_available
+                        && !plan.forced_termination_available
+                        && !plan.signal_available
+                        && plan.terminal_state_required
+                        && !plan.termination_effect_performed
+                })
+                .unwrap_or(true)
     }
 }
 
@@ -218,6 +354,19 @@ pub fn stdio_runtime_unavailable_error(
         code: BLOCKED_STDIO_RUNTIME_SKELETON_ERROR_CODE.to_string(),
         phase: BLOCKED_STDIO_RUNTIME_SKELETON_PHASE.to_string(),
         message: BLOCKED_STDIO_RUNTIME_SKELETON_ERROR_MESSAGE.to_string(),
+        reason,
+        runtime_available: false,
+        retryable_in_this_phase: false,
+    }
+}
+
+pub fn stdio_runtime_lifecycle_unavailable_error(
+    reason: StdioRuntimeSkeletonBlockReason,
+) -> StdioRuntimeUnavailableError {
+    StdioRuntimeUnavailableError {
+        code: BLOCKED_STDIO_RUNTIME_SKELETON_ERROR_CODE.to_string(),
+        phase: BLOCKED_STDIO_RUNTIME_LIFECYCLE_FAILURE_AUDIT_PHASE.to_string(),
+        message: BLOCKED_STDIO_RUNTIME_LIFECYCLE_ERROR_MESSAGE.to_string(),
         reason,
         runtime_available: false,
         retryable_in_this_phase: false,
@@ -295,6 +444,7 @@ pub fn blocked_stdio_runtime_entrypoint(input: &[u8]) -> BlockedStdioRuntimeEntr
     blocked_stdio_runtime_result(
         StdioRuntimeSkeletonStatus::RuntimeUnavailable,
         Some(frame_plan),
+        None,
         StdioRuntimeSkeletonBlockReason::RuntimeUnavailable,
     )
 }
@@ -303,18 +453,190 @@ pub fn blocked_stdio_runtime_approval_request() -> BlockedStdioRuntimeEntrypoint
     blocked_stdio_runtime_result(
         StdioRuntimeSkeletonStatus::ApprovalBlocked,
         None,
+        None,
         StdioRuntimeSkeletonBlockReason::ApprovalUnavailable,
+    )
+}
+
+pub fn blocked_stdio_runtime_start_request() -> BlockedStdioRuntimeEntrypointResult {
+    let lifecycle_plan = plan_stdio_runtime_lifecycle_transition(
+        StdioRuntimeLifecycleAction::Start,
+        StdioRuntimeLifecycleStateKind::NotStarted,
+    );
+    blocked_stdio_runtime_result(
+        StdioRuntimeSkeletonStatus::StartBlocked,
+        None,
+        Some(lifecycle_plan),
+        StdioRuntimeSkeletonBlockReason::StartUnavailable,
+    )
+}
+
+pub fn blocked_stdio_runtime_stop_request() -> BlockedStdioRuntimeEntrypointResult {
+    let lifecycle_plan = plan_stdio_runtime_lifecycle_transition(
+        StdioRuntimeLifecycleAction::Stop,
+        StdioRuntimeLifecycleStateKind::StartBlocked,
+    );
+    blocked_stdio_runtime_result(
+        StdioRuntimeSkeletonStatus::StopBlocked,
+        None,
+        Some(lifecycle_plan),
+        StdioRuntimeSkeletonBlockReason::StopUnavailable,
+    )
+}
+
+pub fn blocked_stdio_runtime_kill_request() -> BlockedStdioRuntimeEntrypointResult {
+    let lifecycle_plan = plan_stdio_runtime_lifecycle_transition(
+        StdioRuntimeLifecycleAction::Kill,
+        StdioRuntimeLifecycleStateKind::StartBlocked,
+    );
+    blocked_stdio_runtime_result(
+        StdioRuntimeSkeletonStatus::KillBlocked,
+        None,
+        Some(lifecycle_plan),
+        StdioRuntimeSkeletonBlockReason::KillUnavailable,
+    )
+}
+
+pub fn blocked_stdio_runtime_execute_request(
+    plan: StdioRuntimeFramePlan,
+) -> BlockedStdioRuntimeEntrypointResult {
+    let lifecycle_plan = plan_stdio_runtime_lifecycle_transition(
+        StdioRuntimeLifecycleAction::Execute,
+        StdioRuntimeLifecycleStateKind::StartBlocked,
+    );
+    blocked_stdio_runtime_result(
+        StdioRuntimeSkeletonStatus::ExecutionBlocked,
+        Some(plan),
+        Some(lifecycle_plan),
+        StdioRuntimeSkeletonBlockReason::ExecutionUnavailable,
     )
 }
 
 pub fn blocked_stdio_runtime_execution_request(
     plan: StdioRuntimeFramePlan,
 ) -> BlockedStdioRuntimeEntrypointResult {
-    blocked_stdio_runtime_result(
-        StdioRuntimeSkeletonStatus::ExecutionBlocked,
-        Some(plan),
-        StdioRuntimeSkeletonBlockReason::ExecutionUnavailable,
-    )
+    blocked_stdio_runtime_execute_request(plan)
+}
+
+pub fn plan_stdio_runtime_lifecycle_transition(
+    action: StdioRuntimeLifecycleAction,
+    from_state: StdioRuntimeLifecycleStateKind,
+) -> StdioRuntimeLifecycleTransitionPlan {
+    let (to_state, status, block_reason) = blocked_lifecycle_outcome(&action);
+    let failure_category = match action {
+        StdioRuntimeLifecycleAction::Kill => {
+            StdioRuntimeFailureAuditCategory::ProcessControlUnavailable
+        }
+        StdioRuntimeLifecycleAction::Execute => {
+            StdioRuntimeFailureAuditCategory::RuntimeUnavailable
+        }
+        StdioRuntimeLifecycleAction::Start | StdioRuntimeLifecycleAction::Stop => {
+            StdioRuntimeFailureAuditCategory::LifecycleUnavailable
+        }
+    };
+
+    StdioRuntimeLifecycleTransitionPlan {
+        phase: BLOCKED_STDIO_RUNTIME_LIFECYCLE_FAILURE_AUDIT_PHASE.to_string(),
+        action: action.clone(),
+        from_state,
+        to_state,
+        status,
+        block_reason,
+        transcript_plan: blocked_transcript_plan(&action),
+        failure_audit_plan: blocked_failure_audit_plan(failure_category),
+        kill_semantics_plan: if action == StdioRuntimeLifecycleAction::Kill {
+            Some(blocked_kill_semantics_plan())
+        } else {
+            None
+        },
+        runtime_available: false,
+        lifecycle_available: false,
+        execution_allowed: false,
+        process_started: false,
+        process_stopped: false,
+        process_killed: false,
+        signal_sent: false,
+        process_polled: false,
+        process_waited: false,
+        stdin_read: false,
+        stdout_written: false,
+        stderr_written: false,
+    }
+}
+
+fn blocked_lifecycle_outcome(
+    action: &StdioRuntimeLifecycleAction,
+) -> (
+    StdioRuntimeLifecycleStateKind,
+    StdioRuntimeSkeletonStatus,
+    StdioRuntimeSkeletonBlockReason,
+) {
+    match action {
+        StdioRuntimeLifecycleAction::Start => (
+            StdioRuntimeLifecycleStateKind::StartBlocked,
+            StdioRuntimeSkeletonStatus::StartBlocked,
+            StdioRuntimeSkeletonBlockReason::StartUnavailable,
+        ),
+        StdioRuntimeLifecycleAction::Stop => (
+            StdioRuntimeLifecycleStateKind::StopBlocked,
+            StdioRuntimeSkeletonStatus::StopBlocked,
+            StdioRuntimeSkeletonBlockReason::StopUnavailable,
+        ),
+        StdioRuntimeLifecycleAction::Kill => (
+            StdioRuntimeLifecycleStateKind::KillBlocked,
+            StdioRuntimeSkeletonStatus::KillBlocked,
+            StdioRuntimeSkeletonBlockReason::KillUnavailable,
+        ),
+        StdioRuntimeLifecycleAction::Execute => (
+            StdioRuntimeLifecycleStateKind::ExecuteBlocked,
+            StdioRuntimeSkeletonStatus::ExecutionBlocked,
+            StdioRuntimeSkeletonBlockReason::ExecutionUnavailable,
+        ),
+    }
+}
+
+fn blocked_transcript_plan(action: &StdioRuntimeLifecycleAction) -> StdioRuntimeTranscriptPlan {
+    StdioRuntimeTranscriptPlan {
+        planned_only: true,
+        transcript_persistence_available: false,
+        replay_available: false,
+        planned_record_ids: vec![
+            "phase-4.2b.lifecycle.transition".to_string(),
+            format!("phase-4.2b.lifecycle.{}", lifecycle_action_id(action)),
+        ],
+    }
+}
+
+fn blocked_failure_audit_plan(
+    category: StdioRuntimeFailureAuditCategory,
+) -> StdioRuntimeFailureAuditPlan {
+    StdioRuntimeFailureAuditPlan {
+        planned_only: true,
+        category,
+        deterministic_code: BLOCKED_STDIO_RUNTIME_SKELETON_ERROR_CODE.to_string(),
+        runtime_effect_recorded: false,
+    }
+}
+
+fn blocked_kill_semantics_plan() -> StdioRuntimeKillSemanticsPlan {
+    StdioRuntimeKillSemanticsPlan {
+        planned_only: true,
+        process_identifier_available: false,
+        graceful_stop_available: false,
+        forced_termination_available: false,
+        signal_available: false,
+        terminal_state_required: true,
+        termination_effect_performed: false,
+    }
+}
+
+fn lifecycle_action_id(action: &StdioRuntimeLifecycleAction) -> &'static str {
+    match action {
+        StdioRuntimeLifecycleAction::Start => "start",
+        StdioRuntimeLifecycleAction::Stop => "stop",
+        StdioRuntimeLifecycleAction::Kill => "kill",
+        StdioRuntimeLifecycleAction::Execute => "execute",
+    }
 }
 
 fn collect_planned_frames(input: &[u8]) -> (u64, Vec<String>, Vec<StdioRuntimeStdoutFrame>) {
@@ -341,15 +663,23 @@ fn collect_planned_frames(input: &[u8]) -> (u64, Vec<String>, Vec<StdioRuntimeSt
 fn blocked_stdio_runtime_result(
     status: StdioRuntimeSkeletonStatus,
     frame_plan: Option<StdioRuntimeFramePlan>,
+    lifecycle_plan: Option<StdioRuntimeLifecycleTransitionPlan>,
     reason: StdioRuntimeSkeletonBlockReason,
 ) -> BlockedStdioRuntimeEntrypointResult {
+    let error = if lifecycle_plan.is_some() {
+        stdio_runtime_lifecycle_unavailable_error(reason.clone())
+    } else {
+        stdio_runtime_unavailable_error(reason.clone())
+    };
+
     BlockedStdioRuntimeEntrypointResult {
-        phase: BLOCKED_STDIO_RUNTIME_SKELETON_PHASE.to_string(),
+        phase: error.phase.clone(),
         status,
         state: stdio_runtime_skeleton_state(),
         frame_plan,
         gate_plan: plan_stdio_runtime_gates(),
-        error: stdio_runtime_unavailable_error(reason),
+        lifecycle_plan,
+        error,
         executed: false,
         runtime_enabled: false,
         approval_granted: false,
@@ -532,6 +862,128 @@ mod tests {
             StdioRuntimeSkeletonBlockReason::ExecutionUnavailable
         );
         assert!(execution.all_effects_blocked());
+    }
+
+    #[test]
+    fn lifecycle_transition_planning_is_deterministic_and_blocked() {
+        let first = plan_stdio_runtime_lifecycle_transition(
+            StdioRuntimeLifecycleAction::Start,
+            StdioRuntimeLifecycleStateKind::NotStarted,
+        );
+        let second = plan_stdio_runtime_lifecycle_transition(
+            StdioRuntimeLifecycleAction::Start,
+            StdioRuntimeLifecycleStateKind::NotStarted,
+        );
+
+        assert_eq!(first, second);
+        assert_eq!(first.action, StdioRuntimeLifecycleAction::Start);
+        assert_eq!(first.from_state, StdioRuntimeLifecycleStateKind::NotStarted);
+        assert_eq!(first.to_state, StdioRuntimeLifecycleStateKind::StartBlocked);
+        assert_eq!(first.status, StdioRuntimeSkeletonStatus::StartBlocked);
+        assert_eq!(
+            first.block_reason,
+            StdioRuntimeSkeletonBlockReason::StartUnavailable
+        );
+        assert_eq!(
+            first.failure_audit_plan.category,
+            StdioRuntimeFailureAuditCategory::LifecycleUnavailable
+        );
+        assert_eq!(
+            first.transcript_plan.planned_record_ids,
+            vec![
+                "phase-4.2b.lifecycle.transition".to_string(),
+                "phase-4.2b.lifecycle.start".to_string()
+            ]
+        );
+        assert!(first.kill_semantics_plan.is_none());
+        assert!(first.all_effects_blocked());
+    }
+
+    #[test]
+    fn start_stop_kill_and_execute_entrypoints_return_unavailable_results() {
+        let input = valid_probe_line("phase-4-2b-execute", 1);
+        let frame_plan = plan_stdio_runtime_frame(input.as_bytes());
+        let results = [
+            (
+                blocked_stdio_runtime_start_request(),
+                StdioRuntimeSkeletonStatus::StartBlocked,
+                StdioRuntimeSkeletonBlockReason::StartUnavailable,
+                StdioRuntimeLifecycleAction::Start,
+                StdioRuntimeLifecycleStateKind::StartBlocked,
+            ),
+            (
+                blocked_stdio_runtime_stop_request(),
+                StdioRuntimeSkeletonStatus::StopBlocked,
+                StdioRuntimeSkeletonBlockReason::StopUnavailable,
+                StdioRuntimeLifecycleAction::Stop,
+                StdioRuntimeLifecycleStateKind::StopBlocked,
+            ),
+            (
+                blocked_stdio_runtime_kill_request(),
+                StdioRuntimeSkeletonStatus::KillBlocked,
+                StdioRuntimeSkeletonBlockReason::KillUnavailable,
+                StdioRuntimeLifecycleAction::Kill,
+                StdioRuntimeLifecycleStateKind::KillBlocked,
+            ),
+            (
+                blocked_stdio_runtime_execute_request(frame_plan),
+                StdioRuntimeSkeletonStatus::ExecutionBlocked,
+                StdioRuntimeSkeletonBlockReason::ExecutionUnavailable,
+                StdioRuntimeLifecycleAction::Execute,
+                StdioRuntimeLifecycleStateKind::ExecuteBlocked,
+            ),
+        ];
+
+        for (result, status, reason, action, to_state) in results {
+            assert_eq!(result.status, status);
+            assert_eq!(result.error.reason, reason);
+            assert_eq!(result.error.code, BLOCKED_STDIO_RUNTIME_SKELETON_ERROR_CODE);
+            assert!(!result.error.runtime_available);
+            assert!(!result.error.retryable_in_this_phase);
+
+            let lifecycle_plan = result.lifecycle_plan.as_ref().expect("lifecycle plan");
+            assert_eq!(lifecycle_plan.action, action);
+            assert_eq!(lifecycle_plan.to_state, to_state);
+            assert_eq!(lifecycle_plan.status, status);
+            assert_eq!(lifecycle_plan.block_reason, reason);
+            assert!(lifecycle_plan.all_effects_blocked());
+            assert!(result.all_effects_blocked());
+        }
+    }
+
+    #[test]
+    fn kill_semantics_plan_is_audit_only_and_performs_no_process_control() {
+        let kill = blocked_stdio_runtime_kill_request();
+        let lifecycle_plan = kill.lifecycle_plan.as_ref().expect("kill lifecycle plan");
+        let kill_plan = lifecycle_plan
+            .kill_semantics_plan
+            .as_ref()
+            .expect("kill semantics plan");
+
+        assert_eq!(lifecycle_plan.action, StdioRuntimeLifecycleAction::Kill);
+        assert_eq!(
+            lifecycle_plan.failure_audit_plan.category,
+            StdioRuntimeFailureAuditCategory::ProcessControlUnavailable
+        );
+        assert_eq!(
+            lifecycle_plan.transcript_plan.planned_record_ids,
+            vec![
+                "phase-4.2b.lifecycle.transition".to_string(),
+                "phase-4.2b.lifecycle.kill".to_string()
+            ]
+        );
+        assert!(kill_plan.planned_only);
+        assert!(!kill_plan.process_identifier_available);
+        assert!(!kill_plan.graceful_stop_available);
+        assert!(!kill_plan.forced_termination_available);
+        assert!(!kill_plan.signal_available);
+        assert!(kill_plan.terminal_state_required);
+        assert!(!kill_plan.termination_effect_performed);
+        assert!(!lifecycle_plan.process_killed);
+        assert!(!lifecycle_plan.signal_sent);
+        assert!(!lifecycle_plan.process_polled);
+        assert!(!lifecycle_plan.process_waited);
+        assert!(kill.all_effects_blocked());
     }
 
     #[test]

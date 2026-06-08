@@ -605,9 +605,18 @@ not change this TypeScript dry-run emitter, does not add a CLI runtime command,
 does not read stdin, and does not write live stdout or stderr. See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
 
+## Phase 4.2B Blocked Lifecycle And Failure-Audit Skeleton
+
+Phase 4.2B extends the private Rust skeleton with planned-only lifecycle,
+transcript-plan, failure-audit, and kill-semantics helpers. It does not change
+this TypeScript dry-run emitter, does not add a CLI runtime command, does not
+read stdin, does not control processes, and does not write transcripts or
+failure-audit files. See
+`docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
+
 ## Deferred Runtime Work
 
-Through Phase 4.2A, ARDYN intentionally does not implement repo-root confinement, transcript
+Through Phase 4.2B, ARDYN intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction

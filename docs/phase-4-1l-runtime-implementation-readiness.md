@@ -136,3 +136,12 @@ Phase 4.2A is documented in
 It implements the deliberately blocked skeleton described above while keeping
 runtime enablement, CLI runtime commands, process stdio ownership, approval
 grants, external integrations, and live execution unavailable.
+
+## Phase 4.2B Follow-Up
+
+Phase 4.2B is documented in
+`docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`. It extends the
+private blocked skeleton with planned-only lifecycle, transcript-plan,
+failure-audit, and kill-semantics helpers while keeping runtime enablement,
+process control, transcript writes, failure-audit writes, CLI runtime commands,
+approval grants, external integrations, and live execution unavailable.

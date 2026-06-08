@@ -323,9 +323,9 @@ test("Phase 4.1L report inventories readiness without claiming runtime readiness
   const inventory = report.phase41LRuntimeImplementationReadinessInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.2A",
-    name: "Deliberately blocked Rust-host stdio runtime skeleton",
-    executionPosture: "blocked-skeleton-only non-executing"
+    id: "4.2B",
+    name: "Blocked lifecycle and failure-audit skeleton",
+    executionPosture: "blocked-lifecycle-failure-audit-skeleton-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

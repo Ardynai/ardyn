@@ -410,9 +410,9 @@ test("Phase 4.1H status report inventories disposition without running checks", 
   const inventory = report.phase41HExternalReviewDispositionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.2A",
-    name: "Deliberately blocked Rust-host stdio runtime skeleton",
-    executionPosture: "blocked-skeleton-only non-executing"
+    id: "4.2B",
+    name: "Blocked lifecycle and failure-audit skeleton",
+    executionPosture: "blocked-lifecycle-failure-audit-skeleton-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

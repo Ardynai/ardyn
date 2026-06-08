@@ -259,6 +259,7 @@ Proposed future phases:
 | 4.1K | Approval-gated public Rust-host stdio runtime contract gates plus documentation/report inventory, limited to contract metadata with runtime implementation approval, runtime enablement, process stdio ownership, and CLI source changes still blocked. See `docs/phase-4-1k-stdio-runtime-contract-gates.md`. | false |
 | 4.1L | Runtime implementation-readiness design, blocker burn-down, deterministic readiness/checklist fixture, and 4.2A handoff, limited to readiness inventory with runtime enablement, process stdio ownership, and CLI source changes still blocked. See `docs/phase-4-1l-runtime-implementation-readiness.md`. | false |
 | 4.2A | Deliberately blocked internal Rust-host stdio runtime skeleton, limited to in-memory frame/gate planning and unavailable entrypoint results with runtime commands, process stdio ownership, approval grants, and CLI source changes still blocked. See `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`. | false |
+| 4.2B | Deliberately blocked internal Rust-host lifecycle/failure-audit skeleton, limited to in-memory start/stop/kill/execute, transcript-plan, failure-audit, and kill-semantics planning with runtime commands, process control, write side effects, approval grants, and CLI source changes still blocked. See `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`. | false |
 
 Each future phase requires separate approval, implementation, tests, and review
 before enabling its runtime surface. Phase 4.1A implements the first roadmap
@@ -288,10 +289,12 @@ runtime still blocked. Phase 4.1L implements the twelfth roadmap item as
 runtime implementation-readiness design, blocker burn-down, and a 4.2A handoff,
 with runtime implementation approval false, runtime enabled false, process
 stdio ownership false, CLI source changed false, no fresh external review, no
-fresh Devin review, and runtime still blocked. This Phase 4.1 proposal, Phase 4.1A, Phase 4.1B,
-Phase 4.1C, Phase 4.1D, Phase 4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
-Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, and Phase 4.2A implement none of the live
-runtime surfaces.
+fresh Devin review, and runtime still blocked. Phase 4.2B implements the next
+blocked private skeleton layer for lifecycle/failure-audit planning with no
+process control or write side effects. This Phase 4.1 proposal, Phase 4.1A,
+Phase 4.1B, Phase 4.1C, Phase 4.1D, Phase 4.1E, Phase 4.1F, Phase 4.1G,
+Phase 4.1H, Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, and
+Phase 4.2B implement none of the live runtime surfaces.
 
 ## Still Forbidden
 

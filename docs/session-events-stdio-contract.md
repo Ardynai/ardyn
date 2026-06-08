@@ -389,6 +389,12 @@ transport, no stdout/stderr writer, no process stdio ownership, and no CLI
 runtime command. See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
 
+Phase 4.2B adds planned-only lifecycle, transcript-plan, failure-audit, and
+kill-semantics helpers inside that private Rust skeleton. It adds no process
+control, transcript persistence runtime, failure-audit runtime, live stdio
+transport, or CLI runtime command. See
+`docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

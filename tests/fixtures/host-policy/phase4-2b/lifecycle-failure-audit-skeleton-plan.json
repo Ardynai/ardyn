@@ -1,0 +1,124 @@
+{
+  "schema": "ardyn.phase-4.2b.blocked-lifecycle-failure-audit-skeleton-plan",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-4.2b-blocked-lifecycle-failure-audit-skeleton",
+  "fixtureKind": "blocked-rust-host-lifecycle-failure-audit-expectations",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "reusedFixtures": {
+    "blockedRuntimeSkeleton": "tests/fixtures/host-policy/phase4-2a/blocked-stdio-runtime-skeleton-plan.json",
+    "validFailureAuditRecord": "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json",
+    "runtimeCleanupKillAttempt": "tests/fixtures/host-policy/phase4-1e/runtime-cleanup-kill-attempt-record.json",
+    "transcriptPersistenceContract": "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json",
+    "contractGates": "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+    "readinessHandoff": "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json"
+  },
+  "rustLifecycleSkeleton": {
+    "moduleRoot": "crates/ardyn-host/src/stdio_runtime/mod.rs",
+    "crateModuleVisibility": "private",
+    "helperFunctions": [
+      "plan_stdio_runtime_lifecycle_transition",
+      "blocked_stdio_runtime_start_request",
+      "blocked_stdio_runtime_stop_request",
+      "blocked_stdio_runtime_kill_request",
+      "blocked_stdio_runtime_execute_request",
+      "stdio_runtime_lifecycle_unavailable_error"
+    ]
+  },
+  "blockedLifecycleRequests": [
+    {
+      "name": "blocked-start-request",
+      "action": "start",
+      "expectedStatus": "start_blocked",
+      "expectedBlockReason": "start_unavailable"
+    },
+    {
+      "name": "blocked-stop-request",
+      "action": "stop",
+      "expectedStatus": "stop_blocked",
+      "expectedBlockReason": "stop_unavailable"
+    },
+    {
+      "name": "blocked-kill-request",
+      "action": "kill",
+      "expectedStatus": "kill_blocked",
+      "expectedBlockReason": "kill_unavailable"
+    },
+    {
+      "name": "blocked-execute-request",
+      "action": "execute",
+      "expectedStatus": "execution_blocked",
+      "expectedBlockReason": "execution_unavailable"
+    }
+  ],
+  "blockedWriteSideEffects": {
+    "transcriptWritten": false,
+    "failureAuditWritten": false,
+    "stdoutWritten": false,
+    "stderrWritten": false,
+    "filePathAllocated": false,
+    "externalIoUsed": false
+  },
+  "deterministicFailureAudit": {
+    "plannedOnly": true,
+    "emitted": false,
+    "runtimeEffectRecorded": false,
+    "containsProcessId": false,
+    "auditIdPattern": "phase-4.2b.lifecycle.<action>",
+    "categories": [
+      "lifecycle-unavailable",
+      "process-control-unavailable",
+      "runtime-unavailable",
+      "transcript-persistence-unavailable"
+    ]
+  },
+  "runtimeEffect": {
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeEnabled": false,
+    "runtimeApprovalGranted": false,
+    "cliRuntimeCommandAdded": false,
+    "approvalEvaluatorAdded": false,
+    "processControlAvailable": false,
+    "processStarted": false,
+    "processStopped": false,
+    "processKilled": false,
+    "signalSent": false,
+    "processPolled": false,
+    "processWaited": false,
+    "stdinRead": false,
+    "stdoutWritten": false,
+    "stderrWritten": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptWritten": false,
+    "failureAuditRuntimeAvailable": false,
+    "failureAuditWritten": false,
+    "cleanupRuntimeAvailable": false,
+    "processKillAvailable": false,
+    "signalHandlerAvailable": false,
+    "exitHandlerAvailable": false,
+    "timeoutRuntimeAvailable": false,
+    "adapterRuntimeBehaviorAdded": false,
+    "contentFabricRuntimeBehaviorAdded": false
+  },
+  "nonExecutionInvariants": [
+    "apps-cli-index-unchanged",
+    "no-cli-runtime-command",
+    "no-live-stdin-loop",
+    "no-live-stdout-writer",
+    "no-live-stderr-writer",
+    "no-child-process-spawn",
+    "no-process-kill",
+    "no-process-signal",
+    "no-process-poll-or-wait",
+    "no-transcript-write-side-effect",
+    "no-failure-audit-write-side-effect",
+    "no-approval-evaluator",
+    "no-runtime-approval-grant",
+    "runtime-unavailable-by-construction"
+  ],
+  "review": {
+    "externalReviewPerformed": false,
+    "externalReviewReason": "No Devin or Jules external reviewer was available during local implementation; internal no-runtime review is required before merge.",
+    "targetedReviewQuestion": "Does the Phase 4.2B diff accidentally add live process control, child process management, kill/signal behavior, runtime execution, or runtime command exposure?"
+  }
+}

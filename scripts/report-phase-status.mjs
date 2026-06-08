@@ -94,6 +94,9 @@ const phase41LRuntimeImplementationReadinessMetadata = await readJson(
 const phase42ABlockedRuntimeSkeletonMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-2a/blocked-stdio-runtime-skeleton-plan.json"
 );
+const phase42BLifecycleFailureAuditMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-2b/lifecycle-failure-audit-skeleton-plan.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -141,9 +144,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.2A",
-    name: "Deliberately blocked Rust-host stdio runtime skeleton",
-    executionPosture: "blocked-skeleton-only non-executing"
+    id: "4.2B",
+    name: "Blocked lifecycle and failure-audit skeleton",
+    executionPosture: "blocked-lifecycle-failure-audit-skeleton-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -186,12 +189,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.2A blocked runtime-skeleton status report.",
+        "Render this deterministic local Phase 4.2B blocked lifecycle/failure-audit skeleton status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.2A status report.",
+      purpose: "Run focused tests for this local Phase 4.2B status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-2b-blocked-lifecycle-failure-audit-skeleton.test.mjs",
+      purpose:
+        "Run focused Phase 4.2B blocked lifecycle/failure-audit skeleton fixture, source-guard, and rejection checks.",
       ranByReport: false
     },
     {
@@ -203,7 +212,7 @@ const report = {
     {
       command: "cargo test -p ardyn-host stdio_runtime",
       purpose:
-        "Run Rust-host Phase 4.2A blocked stdio runtime skeleton planning and unavailable-entrypoint tests.",
+        "Run Rust-host Phase 4.2B blocked stdio lifecycle/failure-audit skeleton planning and unavailable-entrypoint tests.",
       ranByReport: false
     },
     {
@@ -6149,6 +6158,231 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase42BLifecycleFailureAuditSkeletonInventory: {
+    skeletonLayer: {
+      document: "docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md",
+      precedingPhase: "4.2A",
+      layerId: "blocked-lifecycle-failure-audit-skeleton",
+      scope: "internal-rust-library-lifecycle-failure-audit-planning-runtime-unavailable",
+      moduleRoot: phase42BLifecycleFailureAuditMetadata.rustLifecycleSkeleton.moduleRoot,
+      crateModuleVisibility:
+        phase42BLifecycleFailureAuditMetadata.rustLifecycleSkeleton.crateModuleVisibility,
+      runtimeEnabled: false,
+      runtimeImplemented: false,
+      runtimeReadinessClaimed: false,
+      runtimeApprovalGranted: false,
+      executionAvailable: false,
+      lifecycleAvailable: false,
+      processControlAvailable: false,
+      failureAuditRuntimeAvailable: false,
+      transcriptPersistenceRuntimeAvailable: false,
+      approvalEvaluatorAvailable: false,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      reportRunsChecks: false,
+      freshExternalReviewRan: false,
+      freshDevinReviewRan: false,
+      freshJulesReviewRan: false,
+      runtimeBlocked: true
+    },
+    skeletonFixture: await localInventoryEntry(
+      "tests/fixtures/host-policy/phase4-2b/lifecycle-failure-audit-skeleton-plan.json",
+      "Expected Phase 4.2B blocked lifecycle/failure-audit expectation fixture over reused 4.1E, 4.1K, 4.1L, and 4.2A evidence."
+    ),
+    skeletonMetadata: {
+      schema: phase42BLifecycleFailureAuditMetadata.schema,
+      schemaVersion: phase42BLifecycleFailureAuditMetadata.schemaVersion,
+      phase: phase42BLifecycleFailureAuditMetadata.phase,
+      fixtureKind: phase42BLifecycleFailureAuditMetadata.fixtureKind,
+      metadataGeneratedAt: phase42BLifecycleFailureAuditMetadata.metadataGeneratedAt
+    },
+    reusedFixtures: phase42BLifecycleFailureAuditMetadata.reusedFixtures,
+    rustLifecycleSkeleton: phase42BLifecycleFailureAuditMetadata.rustLifecycleSkeleton,
+    blockedLifecycleRequests: phase42BLifecycleFailureAuditMetadata.blockedLifecycleRequests,
+    blockedWriteSideEffects: phase42BLifecycleFailureAuditMetadata.blockedWriteSideEffects,
+    deterministicFailureAudit:
+      phase42BLifecycleFailureAuditMetadata.deterministicFailureAudit,
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md",
+        "Records Phase 4.2B as internal Rust-host blocked lifecycle, transcript-plan, failure-audit, and kill-semantics skeleton code."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+        "Provides the Phase 4.2A internal blocked runtime skeleton extended by Phase 4.2B."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1l-runtime-implementation-readiness.md",
+        "Keeps runtime implementation and enablement blocked while allowing planned-only 4.2 skeleton work."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4 roadmap with 4.2B as blocked lifecycle/failure-audit code rather than runtime enablement."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.2B leaves finite TypeScript dry-run event emission unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.2B while preserving no live stdio transport or process stdio ownership."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents Phase 4.2B as blocked lifecycle/failure-audit planning, not active runtime enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records the private Rust lifecycle/failure-audit skeleton boundary without adding live runtime architecture."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.2B scope and unchanged non-executing CLI/runtime posture."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.2B adds no CLI command, runtime command, stdout printer, file writer, or stdio ownership."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.2B adds no TypeScript core runtime helper API and cannot grant runtime approval."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents the internal blocked Rust-host lifecycle/failure-audit skeleton and unavailable process-control boundary."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.2B report metadata, lifecycle/failure-audit inventory, runtime flags, and safety posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-2b-blocked-lifecycle-failure-audit-skeleton.test.mjs",
+        "Expected focused Phase 4.2B fixture, source-guard, CLI rejection, and blocked lifecycle/failure-audit metadata tests."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs",
+        "Keeps Phase 4.2A blocked runtime skeleton guard active after lifecycle/failure-audit planning lands."
+      )
+    ],
+    rustSourceInventory: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Expected private module registration only; no public runtime module or command surface."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/src/stdio_runtime/mod.rs",
+        "Expected internal blocked lifecycle/failure-audit helpers and tests; every start/stop/kill/execute path returns unavailable or blocked status."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Expected unchanged CLI source; Phase 4.2B adds no runtime, lifecycle, or failure-audit command."
+      )
+    ],
+    ownershipBoundary: {
+      docsReportAndFocusedTestFiles: [
+        "docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md",
+        "tests/fixtures/host-policy/phase4-2b/lifecycle-failure-audit-skeleton-plan.json",
+        "tests/phase4-2b-blocked-lifecycle-failure-audit-skeleton.test.mjs",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      rustSkeletonSourceFiles: [
+        "crates/ardyn-host/src/lib.rs",
+        "crates/ardyn-host/src/stdio_runtime/mod.rs"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      reportRunsChecks: false,
+      separateRuntimeImplementationApprovalRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    runtimeLikeCommandRejectionProbes: [
+      ...new Set([
+        ...phase41LRuntimeImplementationReadinessMetadata.smokeProbePlan
+          .runtimeLikeCommandsRejectedWithZeroStdout,
+        "runtime-skeleton",
+        "runtime-lifecycle",
+        "phase-4-2b-lifecycle-runtime",
+        "phase-4-2b-failure-audit",
+        "failure-audit-runtime",
+        "cleanup-runtime",
+        "kill-runtime"
+      ])
+    ],
+    runtimeEffect: phase42BLifecycleFailureAuditMetadata.runtimeEffect,
+    nonExecutionInvariants: phase42BLifecycleFailureAuditMetadata.nonExecutionInvariants,
+    externalReview: phase42BLifecycleFailureAuditMetadata.review,
+    safetyPosture: {
+      nonExecuting: true,
+      blockedSkeletonOnly: true,
+      internalRustLifecycleCodePresent: true,
+      runtimeEnabled: false,
+      runtimeImplemented: false,
+      runtimeReadinessClaimed: false,
+      runtimeApprovalGranted: false,
+      executionAvailable: false,
+      lifecycleAvailable: false,
+      approvalEvaluatorAvailable: false,
+      processStdioOwnershipAvailable: false,
+      processControlAvailable: false,
+      failureAuditRuntimeAvailable: false,
+      transcriptPersistenceRuntimeAvailable: false,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      reportRunsChecks: false,
+      noFreshExternalReview: true,
+      noFreshDevinReview: true,
+      noFreshJulesReview: true,
+      runtimeBlocked: true,
+      noRuntimeCommand: true,
+      noPhase42BLifecycleCommand: true,
+      noServeRuntime: true,
+      noStdioRuntime: true,
+      noReplaySessionTranscript: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noProcessStdioOwnership: true,
+      noProcessControl: true,
+      noProcessSpawn: true,
+      noProcessKill: true,
+      noProcessSignal: true,
+      noProcessPollOrWait: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noFailureAuditRuntime: true,
+      noCleanupRuntime: true,
+      noApprovalEvaluator: true,
+      noHostPolicyEnforcement: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -6178,6 +6412,7 @@ const report = {
     stdioRuntimeContractGates: true,
     runtimeImplementationReadinessInventory: true,
     phase42ADeliberatelyBlockedRuntimeSkeleton: true,
+    phase42BLifecycleFailureAuditSkeleton: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -6212,8 +6447,17 @@ const report = {
       phase42ARuntimeEnabled: false,
       phase42ARuntimeCommandEnabled: false,
       phase42AAppsCliIndexChanged: false,
+      phase42BRuntimeImplemented: false,
+      phase42BRuntimeReady: false,
+      phase42BRuntimeEnabled: false,
+      phase42BRuntimeCommandEnabled: false,
+      phase42BAppsCliIndexChanged: false,
+      phase42BProcessControlEnabled: false,
+      phase42BFailureAuditRuntimeEnabled: false,
+      phase42BTranscriptPersistenceRuntimeEnabled: false,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
+      freshJulesReviewRan: false,
       externalCiRan: false
     },
     note:

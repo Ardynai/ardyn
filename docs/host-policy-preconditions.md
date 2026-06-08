@@ -335,6 +335,12 @@ policy remains pre-runtime metadata only: the skeleton does not enforce host
 policy at runtime, evaluate approval, or grant runtime approval. See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
 
+Phase 4.2B adds blocked lifecycle, transcript-plan, failure-audit, and
+kill-semantics planning inside the same private Rust module. Host policy
+remains pre-runtime metadata only: there is no process control, transcript
+write, failure-audit write, approval evaluation, or runtime approval grant.
+See `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting

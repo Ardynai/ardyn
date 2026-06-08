@@ -189,6 +189,12 @@ approval evaluation, adapters, network control surfaces, or Content Fabric
 runtime behavior. See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
 
+Phase 4.2B extends that private module with planned-only lifecycle,
+transcript-plan, failure-audit, and kill-semantics helpers. Start, stop, kill,
+and execute requests still return blocked/unavailable data and do not spawn,
+signal, kill, poll, wait on, or manage child processes. See
+`docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

@@ -111,3 +111,11 @@ behavior, or leaves the blocked tests insufficient.
 
 No fresh Devin or Jules review is claimed for Phase 4.2A unless that review is
 actually performed against this diff.
+
+## Phase 4.2B Follow-Up
+
+Phase 4.2B is documented in
+`docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md`. It extends this
+private blocked skeleton with planned-only lifecycle, transcript-plan,
+failure-audit, and kill-semantics helpers while preserving the same no-runtime,
+no-CLI-command, no-process-control, no-write-side-effect boundary.
