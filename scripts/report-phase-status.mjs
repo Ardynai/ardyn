@@ -118,6 +118,9 @@ const phase52RuntimeCommandRejectionMatrixMetadata = await readJson(
 const phase54DisabledCommandExposurePlanMetadata = await readJson(
   "tests/fixtures/command-surface/phase5-4/disabled-command-exposure-plan.json"
 );
+const phase54AJulesReviewDispositionMetadata = await readJson(
+  "tests/fixtures/command-surface/phase5-4a/jules-review-disposition.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -165,9 +168,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.4",
-    name: "Disabled command exposure plan",
-    executionPosture: "disabled-command-exposure-plan runtime-enablement-blocked no-runtime-commands"
+    id: "5.4A",
+    name: "Jules review disposition",
+    executionPosture: "jules-review-disposition runtime-enablement-blocked no-runtime-commands"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -215,12 +218,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.4 disabled command exposure plan status report.",
+        "Render this deterministic local Phase 5.4A Jules review disposition status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.4 status report.",
+      purpose: "Run focused tests for this local Phase 5.4A status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-4a-jules-review-disposition.test.mjs",
+      purpose:
+        "Run focused Phase 5.4A Jules review disposition fixture and runtime rejection checks.",
       ranByReport: false
     },
     {
@@ -7488,7 +7497,7 @@ const report = {
       ),
       await localInventoryEntry(
         "README.md",
-        "Marks Phase 5.4 as current docs/status mode while runtime commands remain blocked."
+        "Records Phase 5.4 docs/status mode while runtime commands remain blocked."
       ),
       await localInventoryEntry(
         "apps/cli/README.md",
@@ -7669,6 +7678,221 @@ const report = {
       noContentFabricRuntimeBehavior: true
     }
   },
+  phase54AJulesReviewDispositionInventory: {
+    statusLayer: {
+      document: "docs/phase-5-4a-jules-review-disposition.md",
+      reviewedPhaseDocument: "docs/phase-5-4-disabled-command-exposure-plan.md",
+      commandSurfacePreflightSourceDocument:
+        "docs/phase-5-3-command-surface-approval-preflight.md",
+      guardedImplementationSourceDocument:
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      approvalSourceDocument:
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      precedingPhase: "5.4",
+      layerId: "jules-review-disposition",
+      scope: "docs-status-jules-review-disposition-runtime-enablement-blocked",
+      julesReviewDispositionRecorded: true,
+      julesVerdictApproved: phase54AJulesReviewDispositionMetadata.disposition.approved,
+      requestChanges: phase54AJulesReviewDispositionMetadata.disposition.requestChanges,
+      accidentalCommandRuntimeExposureFound:
+        phase54AJulesReviewDispositionMetadata.disposition.accidentalCommandRuntimeExposureFound,
+      testsSufficientBeforeNextDefaultBlockedCliImplementation:
+        phase54AJulesReviewDispositionMetadata.disposition
+          .testsSufficientBeforeNextDefaultBlockedCliImplementation,
+      mayProceedToNextStillDefaultBlockedCliCommandImplementationPhase:
+        phase54AJulesReviewDispositionMetadata.disposition
+          .mayProceedToNextStillDefaultBlockedCliCommandImplementationPhase,
+      runtimeCommandExposureApproved: false,
+      runtimeCommandSurfaceApproved: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeEnablementApproved: false,
+      runtimeEnabled: false,
+      approvalCommandEnabled: false,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      chmodCorrectionNeeded: phase54AJulesReviewDispositionMetadata.modeReview
+        .chmodCorrectionNeededOnCurrentMain,
+      chmodCorrectionApplied: phase54AJulesReviewDispositionMetadata.modeReview
+        .chmodCorrectionAppliedByPhase54A,
+      appsCliIndexExpectedMode: phase54AJulesReviewDispositionMetadata.modeReview.expectedMode,
+      appsCliIndexModeOnCurrentMain: phase54AJulesReviewDispositionMetadata.modeReview
+        .modeOnCurrentMain,
+      rustSourceChanged: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      stdoutStderrWritersEnabled: false,
+      processControlEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-4a-jules-review-disposition.md",
+        "Records Jules's Phase 5.4 APPROVE review disposition while runtime and command exposure remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-4-disabled-command-exposure-plan.md",
+        "Provides the reviewed disabled command exposure plan and links to the Phase 5.4A disposition."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-3-command-surface-approval-preflight.md",
+        "Provides the preceding command-surface preflight source for the reviewed Phase 5.4 plan."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+        "Provides the guarded implementation-slice source that remains unexposed by Phase 5.4A."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "Provides the approval boundary source that still does not grant runtime enablement."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.4A as current docs/status mode while runtime commands remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.4A adds no CLI command, chmod change, content change, or runtime behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.4A exposes no Rust-host runtime commands and enables no runtime behavior."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/command-surface/phase5-4a/jules-review-disposition.json",
+        "Records the Phase 5.4A Jules review disposition, chmod review result, and blocked runtime effect."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.4A report metadata, docs cross-links, runtime-blocked flags, and docs/status ownership."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-4a-jules-review-disposition.test.mjs",
+        "Pins Phase 5.4A review-disposition fixture semantics, mode review, CLI content boundary, and command rejection checks."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-4-disabled-command-exposure-plan.test.mjs",
+        "Retains the reviewed Phase 5.4 disabled command exposure fixture and command rejection checks."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Expected unchanged CLI source and mode 100644; Phase 5.4A adds no runtime, approval, or command-exposure command."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+        "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+        "docs/phase-5-3-command-surface-approval-preflight.md",
+        "docs/phase-5-4-disabled-command-exposure-plan.md",
+        "docs/phase-5-4a-jules-review-disposition.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/command-surface/phase5-4a/jules-review-disposition.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-4a-jules-review-disposition.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      chmodCorrectionNeededByThisPhase: false,
+      chmodCorrectionAppliedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeCommandSurfaceApprovalRequired: true,
+      separateRuntimeEnablementRequired: true
+    },
+    julesReviewDisposition: {
+      document: "docs/phase-5-4a-jules-review-disposition.md",
+      fixture: "tests/fixtures/command-surface/phase5-4a/jules-review-disposition.json",
+      schema: phase54AJulesReviewDispositionMetadata.schema,
+      phase: phase54AJulesReviewDispositionMetadata.phase,
+      fixtureStatus: await localStatus(
+        "tests/fixtures/command-surface/phase5-4a/jules-review-disposition.json"
+      ),
+      reviewer: phase54AJulesReviewDispositionMetadata.reviewer,
+      verdict: phase54AJulesReviewDispositionMetadata.disposition.verdict,
+      approved: phase54AJulesReviewDispositionMetadata.disposition.approved,
+      requestChanges: phase54AJulesReviewDispositionMetadata.disposition.requestChanges,
+      reviewedPhase: phase54AJulesReviewDispositionMetadata.reviewedPhase,
+      reviewedBranch: phase54AJulesReviewDispositionMetadata.reviewedBranch,
+      reviewedCommit: phase54AJulesReviewDispositionMetadata.reviewedCommit,
+      accidentalCommandRuntimeExposureFound:
+        phase54AJulesReviewDispositionMetadata.disposition.accidentalCommandRuntimeExposureFound,
+      appsCliIndexContentIdenticalToBase:
+        phase54AJulesReviewDispositionMetadata.disposition.appsCliIndexContentIdenticalToBase,
+      runtimeRemainsBlocked:
+        phase54AJulesReviewDispositionMetadata.disposition.runtimeRemainsBlocked,
+      commandExposureRemainsBlocked:
+        phase54AJulesReviewDispositionMetadata.disposition.commandExposureRemainsBlocked,
+      testsSufficientBeforeNextDefaultBlockedCliImplementation:
+        phase54AJulesReviewDispositionMetadata.disposition
+          .testsSufficientBeforeNextDefaultBlockedCliImplementation,
+      mayProceedToNextStillDefaultBlockedCliCommandImplementationPhase:
+        phase54AJulesReviewDispositionMetadata.disposition
+          .mayProceedToNextStillDefaultBlockedCliCommandImplementationPhase
+    },
+    modeReview: phase54AJulesReviewDispositionMetadata.modeReview,
+    blockedCommandProbeNames:
+      phase54AJulesReviewDispositionMetadata.blockedCommandProbeNames,
+    runtimeEffect: phase54AJulesReviewDispositionMetadata.runtimeEffect,
+    nonExecutionInvariants:
+      phase54AJulesReviewDispositionMetadata.nonExecutionInvariants,
+    safetyPosture: {
+      julesReviewDispositionRecorded: true,
+      julesVerdictApproved: true,
+      requestChanges: false,
+      accidentalCommandRuntimeExposureFound: false,
+      testsSufficientBeforeNextDefaultBlockedCliImplementation: true,
+      mayProceedToNextStillDefaultBlockedCliCommandImplementationPhase: true,
+      runtimeBlocked: true,
+      commandExposureBlocked: true,
+      runtimeEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureApproved: false,
+      runtimeCommandSurfaceEnabled: false,
+      runtimeCommandSurfaceApproved: false,
+      runtimeEnablementApproved: false,
+      noRuntimeCommand: true,
+      noApprovalCommand: true,
+      noProcessControl: true,
+      noStdoutStderrWriters: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noCliSourceContentChange: true,
+      appsCliIndexMode100644: true,
+      chmodCorrectionNeeded: false,
+      chmodCorrectionApplied: false
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -7705,6 +7929,7 @@ const report = {
     phase52GuardedRuntimeImplementationSlice: true,
     phase53CommandSurfaceApprovalPreflight: true,
     phase54DisabledCommandExposurePlan: true,
+    phase54AJulesReviewDisposition: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -7835,6 +8060,29 @@ const report = {
       phase54TranscriptAuditSideEffectsEnabled: false,
       phase54AdapterRuntimeBehaviorEnabled: false,
       phase54ContentFabricRuntimeBehaviorEnabled: false,
+      phase54AJulesReviewDispositionRecorded: true,
+      phase54AJulesReviewApproved: true,
+      phase54ARequestChanges: false,
+      phase54AAccidentalCommandRuntimeExposureFound: false,
+      phase54ATestsSufficientBeforeNextDefaultBlockedCliImplementation: true,
+      phase54AMayProceedToNextStillDefaultBlockedCliCommandImplementationPhase: true,
+      phase54ARuntimeEnablementApproved: false,
+      phase54ARuntimeEnabled: false,
+      phase54ARuntimeCommandEnabled: false,
+      phase54ARuntimeCommandExposureApproved: false,
+      phase54ARuntimeCommandSurfaceApproved: false,
+      phase54ARuntimeCommandSurfaceEnabled: false,
+      phase54AApprovalCommandEnabled: false,
+      phase54AAppsCliIndexChanged: false,
+      phase54AAppsCliIndexContentChanged: false,
+      phase54AAppsCliIndexModeCorrectionNeeded: false,
+      phase54AAppsCliIndexModeCorrectionApplied: false,
+      phase54ARustSourceChanged: false,
+      phase54AProcessControlEnabled: false,
+      phase54AStdoutStderrWritersEnabled: false,
+      phase54ATranscriptAuditSideEffectsEnabled: false,
+      phase54AAdapterRuntimeBehaviorEnabled: false,
+      phase54AContentFabricRuntimeBehaviorEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

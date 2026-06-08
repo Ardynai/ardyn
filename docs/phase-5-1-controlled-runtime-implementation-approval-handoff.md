@@ -15,6 +15,7 @@ Cross-links:
 - Next guarded slice: `phase-5-2-guarded-runtime-implementation-slice.md`
 - Current command preflight: `phase-5-3-command-surface-approval-preflight.md`
 - Current disabled command exposure plan: `phase-5-4-disabled-command-exposure-plan.md`
+- Current Jules review disposition: `phase-5-4a-jules-review-disposition.md`
 
 Machine-readable Phase 5.1 artifacts:
 

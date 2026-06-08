@@ -1,0 +1,106 @@
+{
+  "schema": "ardyn.phase-5.4a.jules-review-disposition",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.4a-jules-review-disposition",
+  "artifactKind": "external-review-disposition",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "reviewer": "Jules",
+  "reviewedPhase": "phase-5.4-disabled-command-exposure-plan",
+  "reviewedBranch": "codex/phase-5-4-disabled-command-exposure-plan",
+  "reviewedCommit": "60176ca83afe1fcd11dc303b557e8a468ed3b3c0",
+  "reviewedBaseCommit": "e996996624edadbeb356d2834ff9fa605f6eed36",
+  "disposition": {
+    "verdict": "APPROVE",
+    "approved": true,
+    "requestChanges": false,
+    "accidentalCommandRuntimeExposureFound": false,
+    "appsCliIndexContentIdenticalToBase": true,
+    "runtimeRemainsBlocked": true,
+    "commandExposureRemainsBlocked": true,
+    "testsSufficientBeforeNextDefaultBlockedCliImplementation": true,
+    "mayProceedToNextStillDefaultBlockedCliCommandImplementationPhase": true
+  },
+  "modeReview": {
+    "path": "apps/cli/src/index.mjs",
+    "expectedMode": "100644",
+    "modeOnCurrentMain": "100644",
+    "chmodCorrectionNeededOnCurrentMain": false,
+    "chmodCorrectionAppliedByPhase54A": false,
+    "contentChangedByPhase54A": false
+  },
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "commandExposedToday": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureApproved": false,
+    "runtimeCommandSurfaceApproved": false,
+    "runtimeCommandSurfaceEnabled": false,
+    "runtimeEnablementApproved": false,
+    "approvalCommandEnabled": false,
+    "cliSourceChanged": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false
+  },
+  "reviewBoundary": {
+    "approvalMeaning": "approve-phase-5.4-disabled-command-exposure-plan-as-safe-planning-artifact",
+    "approvalDoesNotMean": [
+      "runtime-enabled",
+      "runtime-command-exposure-approved",
+      "runtime-command-surface-enabled",
+      "approval-command-enabled",
+      "apps-cli-index-content-change-approved",
+      "rust-host-public-runtime-surface-approved"
+    ],
+    "requiredBeforeAnyRuntimeEnablement": [
+      "separate-runtime-enablement-review",
+      "separate-command-exposure-review",
+      "approved-apps-cli-index-diff",
+      "approved-denied-and-approved-path-smokes",
+      "approved-rollback-plan"
+    ]
+  },
+  "blockedCommandProbeNames": [
+    "serve-runtime",
+    "stdio-runtime",
+    "replay-session-transcript",
+    "external-review-packet",
+    "review-packet",
+    "runtime-readiness-review",
+    "grant-runtime",
+    "runtime-implementation-approval",
+    "disabled-command-exposure-plan",
+    "phase-5-4-disabled-command-exposure-plan",
+    "runtime-command-exposure-plan",
+    "expose-runtime-commands",
+    "runtime-command-exposure-review",
+    "jules-review-disposition",
+    "phase-5-4a-jules-review-disposition",
+    "runtime-review-disposition"
+  ],
+  "nonExecutionInvariants": [
+    "phase5-4a-review-disposition-only",
+    "runtime-enablement-remains-blocked",
+    "runtime-command-exposure-remains-blocked",
+    "runtime-command-surface-remains-blocked",
+    "apps-cli-index-content-unchanged",
+    "apps-cli-index-mode-is-100644",
+    "no-approval-command",
+    "no-live-stdin-stdout-stderr-or-process-control",
+    "no-transcript-or-audit-runtime-side-effects",
+    "no-adapter-or-fabric-runtime-behavior"
+  ],
+  "validationCommands": [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status",
+    "node --test tests/phase5-4a-jules-review-disposition.test.mjs"
+  ]
+}

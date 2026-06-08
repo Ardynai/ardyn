@@ -284,9 +284,9 @@ test("Phase 4.1D status report inventories transcript replay contracts without r
   const inventory = report.phase41DTranscriptReplayInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.4",
-    name: "Disabled command exposure plan",
-    executionPosture: "disabled-command-exposure-plan runtime-enablement-blocked no-runtime-commands"
+    id: "5.4A",
+    name: "Jules review disposition",
+    executionPosture: "jules-review-disposition runtime-enablement-blocked no-runtime-commands"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

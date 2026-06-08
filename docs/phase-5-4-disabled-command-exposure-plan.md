@@ -1,7 +1,7 @@
 # Phase 5.4 Disabled Command Exposure Plan
 
-Phase 5.4 is the current docs/status boundary after the Phase 5.3 command
-surface approval preflight. It records a disabled command exposure plan for a
+Phase 5.4 is the disabled command exposure plan boundary after the Phase 5.3
+command surface approval preflight. It records a disabled command exposure plan for a
 possible later CLI implementation phase. It does not add a CLI command, expose
 a runtime command surface, approve runtime command exposure, grant approval, or
 enable runtime behavior.
@@ -14,6 +14,7 @@ Cross-links:
 - Approval source: `phase-5-1-controlled-runtime-implementation-approval-handoff.md`
 - Guarded implementation slice: `phase-5-2-guarded-runtime-implementation-slice.md`
 - Command-surface preflight: `phase-5-3-command-surface-approval-preflight.md`
+- Jules review disposition: `phase-5-4a-jules-review-disposition.md`
 
 ## Scope
 
@@ -23,7 +24,7 @@ surface unchanged.
 
 Allowed work in this lane:
 
-- record Phase 5.4 as the current local status-report phase
+- record Phase 5.4 as the disabled command exposure plan status-report phase
 - document the future CLI implementation checklist required before any command
   exposure
 - document the Jules/Devin review packet required if command exposure is
@@ -77,6 +78,19 @@ human reviewer must include:
 
 Until this packet is produced and approved in a later phase, runtime command
 exposure remains blocked.
+
+## Phase 5.4A Review Disposition
+
+Phase 5.4A records Jules's `APPROVE` disposition for this disabled command
+exposure plan. The disposition found no accidental command or runtime exposure,
+confirmed `apps/cli/src/index.mjs` content stayed identical to the reviewed
+base, confirmed runtime remains blocked, and confirmed the Phase 5.4 tests are
+sufficient before the next still-default-blocked CLI command implementation
+phase.
+
+Phase 5.4A also verified current `main` already tracks
+`apps/cli/src/index.mjs` as mode `100644`, so no chmod correction was applied
+by Phase 5.4A. See `phase-5-4a-jules-review-disposition.md`.
 
 ## Rollback Plan
 

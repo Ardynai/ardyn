@@ -70,6 +70,13 @@ approval, enable runtime behavior, change CLI source, change Rust source, add
 stdout/stderr writers, add process control, write transcripts or audit files,
 or call adapters/Fabric runtime behavior. See
 `docs/phase-5-4-disabled-command-exposure-plan.md`.
+Phase 5.4A records Jules's Phase 5.4 `APPROVE` review disposition only. It
+does not expose Rust-host runtime commands, publish `stdio_runtime`, grant
+approval, enable runtime behavior, change CLI source, change file modes, change
+Rust source, add stdout/stderr writers, add process control, write transcripts
+or audit files, or call adapters/Fabric runtime behavior. Current `main`
+already tracks `apps/cli/src/index.mjs` as mode `100644`. See
+`docs/phase-5-4a-jules-review-disposition.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -260,6 +267,13 @@ private, runtime command exposure remains blocked, and stdout/stderr writers,
 process control, transcript writes, failure-audit writes, adapter runtime
 behavior, Content Fabric runtime behavior, and Rust source changes remain
 disabled. See `docs/phase-5-4-disabled-command-exposure-plan.md`.
+
+Phase 5.4A adds no Rust-host runtime implementation. It records Jules's Phase
+5.4 `APPROVE` review disposition only; `stdio_runtime` remains private, runtime
+command exposure remains blocked, and stdout/stderr writers, process control,
+transcript writes, failure-audit writes, adapter runtime behavior, Content
+Fabric runtime behavior, Rust source changes, CLI content changes, and chmod
+changes remain disabled. See `docs/phase-5-4a-jules-review-disposition.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write
