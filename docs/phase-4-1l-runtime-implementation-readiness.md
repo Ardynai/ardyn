@@ -128,3 +128,11 @@ unchanged. Do not add live stdin reads, live stdout/stderr writers, process
 control, runtime commands, approval grants/evaluators, WebSocket/HTTP surfaces,
 adapters, Locus/MCP/OpenClaw/plugin runtime behavior, or Content Fabric runtime
 behavior.
+
+## Phase 4.2A Follow-Up
+
+Phase 4.2A is documented in
+`docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
+It implements the deliberately blocked skeleton described above while keeping
+runtime enablement, CLI runtime commands, process stdio ownership, approval
+grants, external integrations, and live execution unavailable.

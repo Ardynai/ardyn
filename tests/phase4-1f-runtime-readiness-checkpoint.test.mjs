@@ -507,9 +507,9 @@ test("Phase 4.1F status report inventories checkpoint without running checks", a
   const inventory = report.phase41FRuntimeReadinessCheckpointInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1L",
-    name: "Runtime implementation readiness inventory",
-    executionPosture: "readiness-inventory-only non-executing"
+    id: "4.2A",
+    name: "Deliberately blocked Rust-host stdio runtime skeleton",
+    executionPosture: "blocked-skeleton-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

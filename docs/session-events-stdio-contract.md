@@ -383,6 +383,12 @@ approval. `runtime-implementation-readiness`, `phase-4-2a-runtime-skeleton`,
 proposal-only and rejected. See
 `docs/phase-4-1l-runtime-implementation-readiness.md`.
 
+Phase 4.2A adds an internal blocked Rust-host stdio runtime skeleton that
+classifies and plans frame input in memory only. It adds no live stdio
+transport, no stdout/stderr writer, no process stdio ownership, and no CLI
+runtime command. See
+`docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
+
 Before any real stdio runtime exists, the Rust host policy must define all of
 the following:
 

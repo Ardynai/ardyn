@@ -258,6 +258,7 @@ Proposed future phases:
 | 4.1J | Fixture-backed Rust-host stdio boundary fixtures and private Rust replay tests, limited to test infrastructure with no runtime readiness claim, no fresh external review, and no public runtime contract. See `docs/phase-4-1j-fixture-backed-stdio-boundaries.md`. | false |
 | 4.1K | Approval-gated public Rust-host stdio runtime contract gates plus documentation/report inventory, limited to contract metadata with runtime implementation approval, runtime enablement, process stdio ownership, and CLI source changes still blocked. See `docs/phase-4-1k-stdio-runtime-contract-gates.md`. | false |
 | 4.1L | Runtime implementation-readiness design, blocker burn-down, deterministic readiness/checklist fixture, and 4.2A handoff, limited to readiness inventory with runtime enablement, process stdio ownership, and CLI source changes still blocked. See `docs/phase-4-1l-runtime-implementation-readiness.md`. | false |
+| 4.2A | Deliberately blocked internal Rust-host stdio runtime skeleton, limited to in-memory frame/gate planning and unavailable entrypoint results with runtime commands, process stdio ownership, approval grants, and CLI source changes still blocked. See `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`. | false |
 
 Each future phase requires separate approval, implementation, tests, and review
 before enabling its runtime surface. Phase 4.1A implements the first roadmap
@@ -289,7 +290,7 @@ with runtime implementation approval false, runtime enabled false, process
 stdio ownership false, CLI source changed false, no fresh external review, no
 fresh Devin review, and runtime still blocked. This Phase 4.1 proposal, Phase 4.1A, Phase 4.1B,
 Phase 4.1C, Phase 4.1D, Phase 4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
-Phase 4.1I, Phase 4.1J, Phase 4.1K, and Phase 4.1L implement none of the live
+Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, and Phase 4.2A implement none of the live
 runtime surfaces.
 
 ## Still Forbidden

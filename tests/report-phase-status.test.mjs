@@ -561,6 +561,23 @@ const phase41LRuntimeLikeCommandRejectionProbes = [
   "grant-runtime",
   "enable-runtime"
 ];
+const phase42ADocFiles = [
+  "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+  "docs/phase-4-1l-runtime-implementation-readiness.md",
+  "docs/phase-4-1-runtime-proposal.md",
+  "docs/phase-4-stdio-dry-run-event-emission.md",
+  "docs/session-events-stdio-contract.md",
+  "docs/host-policy-preconditions.md",
+  "docs/architecture.md",
+  "README.md",
+  "apps/cli/README.md",
+  "packages/core/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase42ARuntimeLikeCommandRejectionProbes = [
+  ...phase41LRuntimeLikeCommandRejectionProbes,
+  "runtime-skeleton"
+];
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
@@ -598,14 +615,14 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 4.1L readiness-inventory local metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 4.2A blocked-skeleton local metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "4.1L",
-    name: "Runtime implementation readiness inventory",
-    executionPosture: "readiness-inventory-only non-executing"
+    id: "4.2A",
+    name: "Deliberately blocked Rust-host stdio runtime skeleton",
+    executionPosture: "blocked-skeleton-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -673,12 +690,24 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.1L runtime implementation-readiness status report.",
+        "Render this deterministic local Phase 4.2A blocked runtime-skeleton status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1L status report.",
+      purpose: "Run focused tests for this local Phase 4.2A status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs",
+      purpose:
+        "Run focused Phase 4.2A blocked Rust-host stdio runtime skeleton fixture, source-guard, and rejection checks.",
+      ranByReport: false
+    },
+    {
+      command: "cargo test -p ardyn-host stdio_runtime",
+      purpose:
+        "Run Rust-host Phase 4.2A blocked stdio runtime skeleton planning and unavailable-entrypoint tests.",
       ranByReport: false
     },
     {
@@ -5091,6 +5120,146 @@ test("report inventories Phase 4.1L runtime implementation readiness while runti
   assert.equal(report.safetyPosture.flags.freshDevinReviewRan, false);
 });
 
+test("report inventories Phase 4.2A deliberately blocked runtime skeleton while runtime stays blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase42ADeliberatelyBlockedRuntimeSkeletonInventory;
+
+  assert.deepEqual(inventory.skeletonLayer, {
+    document: "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+    precedingPhase: "4.1L",
+    layerId: "deliberately-blocked-rust-host-stdio-runtime-skeleton",
+    scope: "internal-rust-library-skeleton-runtime-unavailable",
+    moduleRoot: "crates/ardyn-host/src/stdio_runtime/mod.rs",
+    crateModuleVisibility: "private",
+    runtimeEnabled: false,
+    runtimeImplemented: false,
+    runtimeReadinessClaimed: false,
+    runtimeApprovalGranted: false,
+    executionAvailable: false,
+    approvalEvaluatorAvailable: false,
+    cliSourceChanged: false,
+    appsCliIndexChanged: false,
+    reportRunsChecks: false,
+    freshExternalReviewRan: false,
+    freshDevinReviewRan: false,
+    runtimeBlocked: true
+  });
+
+  assert.deepEqual(
+    [inventory.skeletonFixture.path, inventory.skeletonFixture.status],
+    [
+      "tests/fixtures/host-policy/phase4-2a/blocked-stdio-runtime-skeleton-plan.json",
+      "present"
+    ]
+  );
+  assert.deepEqual(inventory.skeletonMetadata, {
+    schema: "ardyn.phase-4.2a.blocked-stdio-runtime-skeleton-plan",
+    schemaVersion: "0.1.0",
+    phase: "phase-4.2a-blocked-stdio-runtime-skeleton",
+    fixtureKind: "deliberately-blocked-rust-host-stdio-runtime-skeleton-expectations",
+    metadataGeneratedAt: "1970-01-01T00:00:00.000Z"
+  });
+  assert.equal(
+    inventory.reusedFixtures.validSingleEvent,
+    "tests/fixtures/stdio-harness/phase4-1j/valid-single-event.jsonl"
+  );
+  assert.deepEqual(inventory.rustSkeleton.helperFunctions, [
+    "stdio_runtime_skeleton_state",
+    "plan_stdio_runtime_frame",
+    "plan_stdio_runtime_gates",
+    "plan_stdio_runtime_gates_from_bundle",
+    "blocked_stdio_runtime_entrypoint",
+    "blocked_stdio_runtime_approval_request",
+    "blocked_stdio_runtime_execution_request"
+  ]);
+  assert.deepEqual(
+    inventory.cases.map(({ name, expected }) => [
+      name,
+      expected.inputClassification,
+      expected.entrypointStatus,
+      expected.executed,
+      expected.runtimeEnabled,
+      expected.approvalGranted
+    ]),
+    [
+      [
+        "valid-single-event-maps-to-blocked-plan",
+        "accepted_static_probe",
+        "runtime_unavailable",
+        false,
+        false,
+        false
+      ],
+      [
+        "well-formed-runtime-approval-request-stays-blocked",
+        "rejected_runtime_approval_request",
+        "runtime_unavailable",
+        false,
+        false,
+        false
+      ]
+    ]
+  );
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase42ADocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    ["tests/report-phase-status.test.mjs", "present"],
+    ["tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs", "present"],
+    ["tests/phase4-1l-runtime-implementation-readiness.test.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.rustSourceInventory.map(({ path, status }) => [path, status]), [
+    ["crates/ardyn-host/src/lib.rs", "present"],
+    ["crates/ardyn-host/src/stdio_runtime/mod.rs", "present"]
+  ]);
+  assert.deepEqual(inventory.cliSourceInventory.map(({ path, status }) => [path, status]), [
+    ["apps/cli/src/index.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
+  ]);
+  assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.reportRunsChecks, false);
+  assert.equal(inventory.ownershipBoundary.separateRuntimeImplementationApprovalRequired, true);
+  assert.equal(inventory.ownershipBoundary.separateRuntimeEnablementApprovalRequired, true);
+
+  assert.deepEqual(
+    inventory.runtimeLikeCommandRejectionProbes,
+    phase42ARuntimeLikeCommandRejectionProbes
+  );
+  assertAllFalse(inventory.runtimeEffect);
+  assert.equal(inventory.externalReview.externalReviewPerformed, false);
+  assert.match(inventory.externalReview.externalReviewReason, /No Devin or Jules/);
+  assert.equal(inventory.safetyPosture.nonExecuting, true);
+  assert.equal(inventory.safetyPosture.blockedSkeletonOnly, true);
+  assert.equal(inventory.safetyPosture.internalRustSkeletonCodePresent, true);
+  assert.equal(inventory.safetyPosture.runtimeEnabled, false);
+  assert.equal(inventory.safetyPosture.runtimeImplemented, false);
+  assert.equal(inventory.safetyPosture.runtimeReadinessClaimed, false);
+  assert.equal(inventory.safetyPosture.runtimeApprovalGranted, false);
+  assert.equal(inventory.safetyPosture.executionAvailable, false);
+  assert.equal(inventory.safetyPosture.approvalEvaluatorAvailable, false);
+  assert.equal(inventory.safetyPosture.cliSourceChanged, false);
+  assert.equal(inventory.safetyPosture.appsCliIndexChanged, false);
+  assert.equal(inventory.safetyPosture.reportRunsChecks, false);
+  assert.equal(inventory.safetyPosture.runtimeBlocked, true);
+  assert.equal(inventory.safetyPosture.noRuntimeCommand, true);
+  assert.equal(inventory.safetyPosture.noPhase42ASkeletonCommand, true);
+  assert.equal(inventory.safetyPosture.noProcessStdioOwnership, true);
+  assert.equal(inventory.safetyPosture.noApprovalEvaluator, true);
+  assert.equal(inventory.safetyPosture.noRuntimeApprovalGrant, true);
+  assert.equal(inventory.safetyPosture.noRuntimeBehaviorIntroduced, true);
+  assert.equal(report.safetyPosture.phase42ADeliberatelyBlockedRuntimeSkeleton, true);
+  assert.equal(report.safetyPosture.flags.phase42ARuntimeImplemented, false);
+  assert.equal(report.safetyPosture.flags.phase42ARuntimeReady, false);
+  assert.equal(report.safetyPosture.flags.phase42ARuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase42ARuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase42AAppsCliIndexChanged, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -5293,6 +5462,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.fixtureBackedStdioBoundaries, true);
   assert.equal(report.safetyPosture.stdioRuntimeContractGates, true);
   assert.equal(report.safetyPosture.runtimeImplementationReadinessInventory, true);
+  assert.equal(report.safetyPosture.phase42ADeliberatelyBlockedRuntimeSkeleton, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const falseFlags = {
@@ -5323,6 +5493,11 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase41LRuntimeImplemented: false,
     phase41LRuntimeReady: false,
     phase41LRuntimeImplementationReadinessCommandEnabled: false,
+    phase42ARuntimeImplemented: false,
+    phase42ARuntimeReady: false,
+    phase42ARuntimeEnabled: false,
+    phase42ARuntimeCommandEnabled: false,
+    phase42AAppsCliIndexChanged: false,
     freshExternalReviewRan: false,
     freshDevinReviewRan: false,
     externalCiRan: false

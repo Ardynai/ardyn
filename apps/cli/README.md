@@ -2,16 +2,16 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 4.1L exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 4.2A exposes the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
-Phase 4.1I, Phase 4.1J, Phase 4.1K, and Phase 4.1L:
+Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, and Phase 4.2A:
 `doctor`, `identity`, `capabilities`, `plan`, `review-artifact`,
 `review-trace`, `validate-session-transcript`, dry-run `serve`, and dry-run
-`emit-session-events`. Phase 4.1L adds runtime implementation-readiness
-documentation, a deterministic readiness/checklist fixture, 4.2A handoff
-evidence, tests, and report inventory only; it does not add a
-runtime-implementation-readiness CLI command, 4.2A runtime-skeleton CLI command,
+`emit-session-events`. Phase 4.2A adds an internal blocked Rust-host stdio
+runtime skeleton, fixture expectation metadata, tests, docs, and report
+inventory only; it does not add a runtime-implementation-readiness CLI
+command, 4.2A runtime-skeleton CLI command,
 rust-host-stdio-harness CLI command, stdio-harness CLI command, runtime-harness
 CLI command, fixture-backed-stdio-boundary CLI command, stdio-boundary CLI
 command, public-runtime-contract CLI command, runtime-contract-gates CLI
@@ -26,11 +26,10 @@ CLI command, operator-consent CLI command, `approve-runtime`, `grant-runtime`,
 reader, stdout writer, stderr writer, failure-audit command, listener, server,
 subprocess supervisor, adapter call, Locus dependency, MCP/OpenClaw call,
 plugin execution path, Content Fabric runtime path, runtime approval grant,
-live runtime implementation, or agent loop. Phase 4.1L is not runtime
-readiness, records no fresh external or Devin review, records 4.2A handoff
-readiness without approving or enabling runtime behavior, does not change CLI
+live runtime implementation, or agent loop. Phase 4.2A is not runtime
+readiness, records no fresh external or Devin review, does not change CLI
 source, and keeps runtime blocked. See
-`docs/phase-4-1l-runtime-implementation-readiness.md`.
+`docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -291,3 +290,10 @@ runtime-implementation-readiness CLI command, no 4.2A skeleton CLI command, no
 stdio reader or writer, no process stdio ownership, no approval evaluator, and
 no runtime approval grant. It does not change `apps/cli/src/index.mjs`. See
 `docs/phase-4-1l-runtime-implementation-readiness.md`.
+
+Phase 4.2A adds an internal blocked Rust-host stdio runtime skeleton, fixture
+expectations, focused tests, and report inventory while leaving CLI behavior
+unchanged. It adds no CLI command, no runtime command, no live stdin loop, no
+live stdout/stderr writer, no process control, no approval evaluator, and no
+runtime approval grant. See
+`docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.

@@ -1,8 +1,10 @@
 //! ARDYN host scaffold.
 //!
 //! Phase 3 models the native host side of the static identity and handshake.
-//! It intentionally does not implement Rust task planning, autonomous execution,
+//! It intentionally does not implement live Rust task planning, autonomous execution,
 //! tool execution, network listeners, API calls, or long-running services.
+
+mod stdio_runtime;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};

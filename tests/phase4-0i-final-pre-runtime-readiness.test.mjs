@@ -387,9 +387,9 @@ test("Phase 4.1 status report still inventories Phase 4.0I readiness metadata wi
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "4.1L",
-    name: "Runtime implementation readiness inventory",
-    executionPosture: "readiness-inventory-only non-executing"
+    id: "4.2A",
+    name: "Deliberately blocked Rust-host stdio runtime skeleton",
+    executionPosture: "blocked-skeleton-only non-executing"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

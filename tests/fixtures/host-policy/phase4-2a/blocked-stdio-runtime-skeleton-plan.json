@@ -1,0 +1,93 @@
+{
+  "schema": "ardyn.phase-4.2a.blocked-stdio-runtime-skeleton-plan",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-4.2a-blocked-stdio-runtime-skeleton",
+  "fixtureKind": "deliberately-blocked-rust-host-stdio-runtime-skeleton-expectations",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "reusedFixtures": {
+    "stdioCases": "tests/fixtures/stdio-harness/phase4-1j/expected-outcomes.json",
+    "validSingleEvent": "tests/fixtures/stdio-harness/phase4-1j/valid-single-event.jsonl",
+    "validMultipleEvents": "tests/fixtures/stdio-harness/phase4-1j/valid-multiple-events.jsonl",
+    "runtimeApprovalRequest": "tests/fixtures/stdio-harness/phase4-1j/runtime-approval-request-rejected.jsonl",
+    "contractGates": "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+    "readinessHandoff": "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json"
+  },
+  "rustSkeleton": {
+    "moduleRoot": "crates/ardyn-host/src/stdio_runtime/mod.rs",
+    "crateModuleVisibility": "private",
+    "helperFunctions": [
+      "stdio_runtime_skeleton_state",
+      "plan_stdio_runtime_frame",
+      "plan_stdio_runtime_gates",
+      "plan_stdio_runtime_gates_from_bundle",
+      "blocked_stdio_runtime_entrypoint",
+      "blocked_stdio_runtime_approval_request",
+      "blocked_stdio_runtime_execution_request"
+    ],
+    "testOnlyHelpers": [
+      "simulate_blocked_stdio_runtime_for_test"
+    ]
+  },
+  "cases": [
+    {
+      "name": "valid-single-event-maps-to-blocked-plan",
+      "inputFile": "tests/fixtures/stdio-harness/phase4-1j/valid-single-event.jsonl",
+      "expected": {
+        "inputClassification": "accepted_static_probe",
+        "entrypointStatus": "runtime_unavailable",
+        "blockingClassification": "runtime_unavailable",
+        "executed": false,
+        "runtimeEnabled": false,
+        "approvalGranted": false,
+        "runtimeApprovalGranted": false,
+        "processStdioOwned": false,
+        "stdoutWritten": false,
+        "stderrWritten": false,
+        "processControlUsed": false
+      }
+    },
+    {
+      "name": "well-formed-runtime-approval-request-stays-blocked",
+      "inputFile": "tests/fixtures/stdio-harness/phase4-1j/runtime-approval-request-rejected.jsonl",
+      "expected": {
+        "inputClassification": "rejected_runtime_approval_request",
+        "diagnosticCode": "runtime_request_rejected",
+        "entrypointStatus": "runtime_unavailable",
+        "executed": false,
+        "runtimeEnabled": false,
+        "approvalGranted": false,
+        "runtimeApprovalGranted": false,
+        "stdoutWritten": false,
+        "stderrWritten": false
+      }
+    }
+  ],
+  "runtimeEffect": {
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeEnabled": false,
+    "runtimeApprovalGranted": false,
+    "cliRuntimeCommandAdded": false,
+    "approvalEvaluatorAdded": false,
+    "adapterRuntimeBehaviorAdded": false,
+    "contentFabricRuntimeBehaviorAdded": false
+  },
+  "nonExecutionInvariants": [
+    "apps-cli-index-unchanged",
+    "no-cli-runtime-command",
+    "no-live-stdin-loop",
+    "no-live-stdout-writer",
+    "no-live-stderr-writer",
+    "no-process-control",
+    "no-approval-evaluator",
+    "no-runtime-approval-grant",
+    "no-adapter-locus-mcp-openclaw-plugin-runtime",
+    "no-websocket-http-control-surface",
+    "runtime-unavailable-by-construction"
+  ],
+  "review": {
+    "externalReviewPerformed": false,
+    "externalReviewReason": "No Devin or Jules external reviewer was available during local implementation; internal no-runtime review is required before merge.",
+    "targetedReviewQuestion": "Does the Phase 4.2A diff accidentally enable runtime behavior?"
+  }
+}

@@ -182,6 +182,13 @@ active host-policy enforcement path, runtime approval grant, or live host loop.
 It does not change `apps/cli/src/index.mjs`, and runtime remains blocked. See
 `docs/phase-4-1l-runtime-implementation-readiness.md`.
 
+Phase 4.2A adds the first internal Rust-host stdio runtime skeleton. The
+module records blocked frame/gate plans and unavailable entrypoint results,
+but it is not wired to a CLI command, process stdio ownership, live streams,
+approval evaluation, adapters, network control surfaces, or Content Fabric
+runtime behavior. See
+`docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
+
 ## Contract First
 
 Phase 3 keeps ARDYN contract-first before runtime behavior:

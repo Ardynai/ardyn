@@ -91,6 +91,9 @@ const phase41HExternalReviewDispositionMetadata = await readJson(
 const phase41LRuntimeImplementationReadinessMetadata = await readJson(
   "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json"
 );
+const phase42ABlockedRuntimeSkeletonMetadata = await readJson(
+  "tests/fixtures/host-policy/phase4-2a/blocked-stdio-runtime-skeleton-plan.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -138,9 +141,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "4.1L",
-    name: "Runtime implementation readiness inventory",
-    executionPosture: "readiness-inventory-only non-executing"
+    id: "4.2A",
+    name: "Deliberately blocked Rust-host stdio runtime skeleton",
+    executionPosture: "blocked-skeleton-only non-executing"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -183,12 +186,24 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 4.1L runtime implementation-readiness status report.",
+        "Render this deterministic local Phase 4.2A blocked runtime-skeleton status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 4.1L status report.",
+      purpose: "Run focused tests for this local Phase 4.2A status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs",
+      purpose:
+        "Run focused Phase 4.2A blocked Rust-host stdio runtime skeleton fixture, source-guard, and rejection checks.",
+      ranByReport: false
+    },
+    {
+      command: "cargo test -p ardyn-host stdio_runtime",
+      purpose:
+        "Run Rust-host Phase 4.2A blocked stdio runtime skeleton planning and unavailable-entrypoint tests.",
       ranByReport: false
     },
     {
@@ -5938,6 +5953,202 @@ const report = {
       noRuntimeBehaviorIntroduced: true
     }
   },
+  phase42ADeliberatelyBlockedRuntimeSkeletonInventory: {
+    skeletonLayer: {
+      document: "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+      precedingPhase: "4.1L",
+      layerId: "deliberately-blocked-rust-host-stdio-runtime-skeleton",
+      scope: "internal-rust-library-skeleton-runtime-unavailable",
+      moduleRoot: phase42ABlockedRuntimeSkeletonMetadata.rustSkeleton.moduleRoot,
+      crateModuleVisibility: phase42ABlockedRuntimeSkeletonMetadata.rustSkeleton.crateModuleVisibility,
+      runtimeEnabled: false,
+      runtimeImplemented: false,
+      runtimeReadinessClaimed: false,
+      runtimeApprovalGranted: false,
+      executionAvailable: false,
+      approvalEvaluatorAvailable: false,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      reportRunsChecks: false,
+      freshExternalReviewRan: false,
+      freshDevinReviewRan: false,
+      runtimeBlocked: true
+    },
+    skeletonFixture: await localInventoryEntry(
+      "tests/fixtures/host-policy/phase4-2a/blocked-stdio-runtime-skeleton-plan.json",
+      "Expected Phase 4.2A blocked skeleton expectation fixture over reused 4.1J, 4.1K, and 4.1L evidence."
+    ),
+    skeletonMetadata: {
+      schema: phase42ABlockedRuntimeSkeletonMetadata.schema,
+      schemaVersion: phase42ABlockedRuntimeSkeletonMetadata.schemaVersion,
+      phase: phase42ABlockedRuntimeSkeletonMetadata.phase,
+      fixtureKind: phase42ABlockedRuntimeSkeletonMetadata.fixtureKind,
+      metadataGeneratedAt: phase42ABlockedRuntimeSkeletonMetadata.metadataGeneratedAt
+    },
+    reusedFixtures: phase42ABlockedRuntimeSkeletonMetadata.reusedFixtures,
+    rustSkeleton: phase42ABlockedRuntimeSkeletonMetadata.rustSkeleton,
+    cases: phase42ABlockedRuntimeSkeletonMetadata.cases,
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+        "Records Phase 4.2A as an internal Rust-host blocked stdio runtime skeleton with every runtime path unavailable."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1l-runtime-implementation-readiness.md",
+        "Provides the Phase 4.1L readiness and 4.2A handoff evidence consumed by this phase."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-1-runtime-proposal.md",
+        "Updates the Phase 4 roadmap with 4.2A as blocked skeleton code rather than runtime enablement."
+      ),
+      await localInventoryEntry(
+        "docs/phase-4-stdio-dry-run-event-emission.md",
+        "Documents that Phase 4.2A leaves finite TypeScript dry-run event emission unchanged."
+      ),
+      await localInventoryEntry(
+        "docs/session-events-stdio-contract.md",
+        "Links Phase 4.2A while preserving no live stdio transport or process stdio ownership."
+      ),
+      await localInventoryEntry(
+        "docs/host-policy-preconditions.md",
+        "Documents Phase 4.2A as blocked skeleton planning, not active runtime enforcement."
+      ),
+      await localInventoryEntry(
+        "docs/architecture.md",
+        "Records the private Rust skeleton module boundary without adding a live runtime architecture."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Documents Phase 4.2A scope and unchanged non-executing CLI/runtime posture."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 4.2A adds no CLI command, runtime command, stdout printer, file writer, or stdio ownership."
+      ),
+      await localInventoryEntry(
+        "packages/core/README.md",
+        "Documents that Phase 4.2A adds no TypeScript core runtime helper API and cannot grant runtime approval."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents the internal blocked Rust-host stdio skeleton and unavailable runtime boundary."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 4.2A report metadata, skeleton inventory, runtime flags, and safety posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs",
+        "Expected focused Phase 4.2A fixture, source-guard, CLI rejection, and blocked skeleton metadata tests."
+      ),
+      await localInventoryEntry(
+        "tests/phase4-1l-runtime-implementation-readiness.test.mjs",
+        "Keeps Phase 4.1L readiness handoff guard active after the blocked skeleton lands."
+      )
+    ],
+    rustSourceInventory: [
+      await localInventoryEntry(
+        "crates/ardyn-host/src/lib.rs",
+        "Expected private module registration only; no public runtime module or command surface."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/src/stdio_runtime/mod.rs",
+        "Expected internal blocked skeleton helpers and tests; every entrypoint returns runtime-unavailable or blocked status."
+      )
+    ],
+    cliSourceInventory: [
+      await localInventoryEntry(
+        "apps/cli/src/index.mjs",
+        "Expected unchanged CLI source; Phase 4.2A adds no runtime command."
+      )
+    ],
+    ownershipBoundary: {
+      docsReportAndFocusedTestFiles: [
+        "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+        "tests/fixtures/host-policy/phase4-2a/blocked-stdio-runtime-skeleton-plan.json",
+        "tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      rustSkeletonSourceFiles: [
+        "crates/ardyn-host/src/lib.rs",
+        "crates/ardyn-host/src/stdio_runtime/mod.rs"
+      ],
+      excludedCliRuntimeSourceFiles: [
+        "apps/cli/src/index.mjs"
+      ],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      reportRunsChecks: false,
+      separateRuntimeImplementationApprovalRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    runtimeLikeCommandRejectionProbes: [
+      ...new Set([
+        ...phase41LRuntimeImplementationReadinessMetadata.smokeProbePlan
+          .runtimeLikeCommandsRejectedWithZeroStdout,
+        "runtime-skeleton"
+      ])
+    ],
+    runtimeEffect: phase42ABlockedRuntimeSkeletonMetadata.runtimeEffect,
+    nonExecutionInvariants: phase42ABlockedRuntimeSkeletonMetadata.nonExecutionInvariants,
+    externalReview: phase42ABlockedRuntimeSkeletonMetadata.review,
+    safetyPosture: {
+      nonExecuting: true,
+      blockedSkeletonOnly: true,
+      internalRustSkeletonCodePresent: true,
+      runtimeEnabled: false,
+      runtimeImplemented: false,
+      runtimeReadinessClaimed: false,
+      runtimeApprovalGranted: false,
+      executionAvailable: false,
+      approvalEvaluatorAvailable: false,
+      processStdioOwnershipAvailable: false,
+      cliSourceChanged: false,
+      appsCliIndexChanged: false,
+      reportRunsChecks: false,
+      noFreshExternalReview: true,
+      noFreshDevinReview: true,
+      runtimeBlocked: true,
+      noRuntimeCommand: true,
+      noPhase42ASkeletonCommand: true,
+      noServeRuntime: true,
+      noStdioRuntime: true,
+      noReplaySessionTranscript: true,
+      noLiveStdioRuntime: true,
+      noStdinCommandLoop: true,
+      noLiveStdioReader: true,
+      noStdoutWriter: true,
+      noStderrWriter: true,
+      noProcessStdioOwnership: true,
+      noProcessControl: true,
+      noProcessKill: true,
+      noListener: true,
+      noServer: true,
+      noSubprocessSpawning: true,
+      noAdapterCalls: true,
+      noLocusRuntimeDependency: true,
+      noMcpCalls: true,
+      noOpenClawCalls: true,
+      noPluginExecution: true,
+      noContentFabricRuntimeBehavior: true,
+      noTranscriptPersistenceReplayRuntime: true,
+      noFailureAuditRuntime: true,
+      noCleanupRuntime: true,
+      noApprovalEvaluator: true,
+      noHostPolicyEnforcement: true,
+      noWebSocketHttpControlSurface: true,
+      noSecrets: true,
+      noProductionSigningKeys: true,
+      noRuntimeApprovalGrant: true,
+      noCliCommandAdded: true,
+      noFileWriterAdded: true,
+      noStdoutPrinterAdded: true,
+      noRuntimeBehaviorIntroduced: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -5966,6 +6177,7 @@ const report = {
     fixtureBackedStdioBoundaries: true,
     stdioRuntimeContractGates: true,
     runtimeImplementationReadinessInventory: true,
+    phase42ADeliberatelyBlockedRuntimeSkeleton: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -5995,6 +6207,11 @@ const report = {
       phase41LRuntimeImplemented: false,
       phase41LRuntimeReady: false,
       phase41LRuntimeImplementationReadinessCommandEnabled: false,
+      phase42ARuntimeImplemented: false,
+      phase42ARuntimeReady: false,
+      phase42ARuntimeEnabled: false,
+      phase42ARuntimeCommandEnabled: false,
+      phase42AAppsCliIndexChanged: false,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       externalCiRan: false

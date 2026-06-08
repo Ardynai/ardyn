@@ -598,9 +598,16 @@ add live stdin reads, live stdout/stderr writers, process stdio ownership,
 approval evaluation, host-policy runtime enforcement, or runtime approval
 grants. Runtime remains blocked.
 
+## Phase 4.2A Blocked Runtime Skeleton
+
+Phase 4.2A adds an internal blocked Rust-host stdio runtime skeleton. It does
+not change this TypeScript dry-run emitter, does not add a CLI runtime command,
+does not read stdin, and does not write live stdout or stderr. See
+`docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
+
 ## Deferred Runtime Work
 
-Through Phase 4.1L, ARDYN intentionally does not implement repo-root confinement, transcript
+Through Phase 4.2A, ARDYN intentionally does not implement repo-root confinement, transcript
 persistence runtime, replay runtime, failure-audit runtime, cleanup runtime,
 process killing, signal handling runtime, timeout runtime, dropped-line
 replay, duplicate detection across a live stream, stderr redaction

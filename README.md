@@ -8,10 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 and Phase 4.1L Scope
+## Phase 3 and Phase 4.2A Scope
 
-This repository is currently in Phase 4.1L runtime implementation-readiness
-inventory mode. The
+This repository is currently in Phase 4.2A deliberately blocked Rust-host
+stdio runtime skeleton mode. The
 goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -37,7 +37,9 @@ gates that keep runtime implementation approval, runtime enablement, process
 stdio ownership, and CLI source changes blocked plus a runtime
 implementation-readiness design, blocker burn-down, and Phase 4.2A handoff
 record that allows planning only a deliberately blocked Rust-host stdio
-skeleton while runtime enablement remains blocked
+skeleton while runtime enablement remains blocked plus an internal Rust
+library skeleton that plans frames and gate state but always returns blocked
+or `runtime_unavailable`
 before any separately approved live runtime work.
 
 Included now:
@@ -162,6 +164,12 @@ Included now:
   while runtime enablement remains blocked; it adds no runtime command and
   does not change `apps/cli/src/index.mjs`. See
   `docs/phase-4-1l-runtime-implementation-readiness.md`.
+- Phase 4.2A deliberately blocked Rust-host stdio runtime skeleton code,
+  fixture expectations, documentation, focused Rust tests, focused Node
+  source guards, and report inventory. The skeleton is internal library code
+  only; valid frames map to blocked plans, runtime/approval requests remain
+  rejected, and no CLI command or live runtime path is added. See
+  `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -206,9 +214,9 @@ The current test suite validates schema behavior, TypeScript manifest/handshake 
 
 A `typecheck` script is deferred for now. The repository currently has JavaScript modules plus `.d.ts` contract files and a shared `tsconfig.base.json`, but no TypeScript compiler dependency or TypeScript source compilation path to check.
 
-## Phase 3 and Phase 4.1L CLI Usage
+## Phase 3 and Phase 4.2A CLI Usage
 
-Run non-executing commands directly from source through Phase 4.1L:
+Run non-executing commands directly from source through Phase 4.2A:
 
 ```powershell
 node apps/cli/src/index.mjs doctor
@@ -389,6 +397,13 @@ implementation-readiness design, blocker burn-down, a deterministic
 readiness/checklist fixture, and a concrete Phase 4.2A handoff. It is not a
 fresh Devin or external re-review, does not change `apps/cli/src/index.mjs`,
 does not enable runtime commands, and keeps runtime blocked.
+
+Phase 4.2A is documented in
+`docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
+It adds an internal Rust-host stdio skeleton that classifies and plans frames
+in memory but returns blocked/unavailable results for every entrypoint. It is
+not runtime readiness, does not change `apps/cli/src/index.mjs`, does not
+enable runtime commands, and keeps runtime blocked.
 
 Example dry-run check:
 

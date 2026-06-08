@@ -169,9 +169,9 @@ test("Phase 4.1J report inventories fixture-backed Rust harness coverage without
   const inventory = report.phase41JFixtureBackedStdioBoundaryInventory;
 
   assert.deepEqual(report.phase, {
-    id: "4.1L",
-    name: "Runtime implementation readiness inventory",
-    executionPosture: "readiness-inventory-only non-executing"
+    id: "4.2A",
+    name: "Deliberately blocked Rust-host stdio runtime skeleton",
+    executionPosture: "blocked-skeleton-only non-executing"
   });
   assert.equal(inventory.boundaryLayer.fixtureBackedRustHostCoverage, true);
   assert.equal(inventory.boundaryLayer.privateRustCfgTestHarness, true);

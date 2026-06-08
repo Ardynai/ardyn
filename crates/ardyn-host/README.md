@@ -2,7 +2,7 @@
 
 Rust host scaffold for ARDYN.
 
-Phase 4.1L still exposes static Rust host identity, handshake data, policy-only
+Phase 4.2A still exposes static Rust host identity, handshake data, policy-only
 stdio transport contract metadata, deterministic review-only JSON export
 helpers, static host-policy review-record helpers, and static host-policy
 approval-record/operator-consent helpers plus static transport harness
@@ -26,6 +26,12 @@ design-facing checks. It does not add a live runtime module, own process stdio,
 add stdout/stderr writers, add a stdin loop, evaluate runtime approval, enforce
 host policy at runtime, change CLI source, or record fresh external or Devin
 review.
+Phase 4.2A adds an internal blocked Rust-host stdio runtime skeleton module,
+blocked frame/gate planning helpers, unavailable entrypoint results, lifecycle
+placeholders, and tests. It does not add a public runtime module, own process
+stdio, add live stdout/stderr writers, add a stdin loop, evaluate runtime
+approval, enforce host policy at runtime, change CLI source, or record fresh
+external or Devin review.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -159,6 +165,13 @@ deliberately blocked Rust-host stdio runtime skeleton, but it does not add that
 skeleton, a live stdin loop, live stdout/stderr writers, process control,
 approval evaluation, CLI command enablement, fresh review, or runtime approval
 grant. See `docs/phase-4-1l-runtime-implementation-readiness.md`.
+
+Phase 4.2A adds the first internal Rust-host stdio runtime skeleton while
+keeping runtime unavailable. The skeleton can classify and plan fixture-shaped
+frames and gates in memory, but blocked entrypoints, blocked approval requests,
+and blocked execution requests all return unavailable results with no stream,
+process, adapter, or approval effect. See
+`docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

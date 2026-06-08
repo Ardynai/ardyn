@@ -330,6 +330,11 @@ cleanup, kill processes, or change the finite TypeScript dry-run emitter.
 proposal-only and rejected. See
 `docs/phase-4-1l-runtime-implementation-readiness.md`.
 
+Phase 4.2A adds an internal blocked Rust-host stdio runtime skeleton. Host
+policy remains pre-runtime metadata only: the skeleton does not enforce host
+policy at runtime, evaluate approval, or grant runtime approval. See
+`docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md`.
+
 ## Documentation Model
 
 Phase 3.4 tracks host-policy preconditions as documentation and reporting
