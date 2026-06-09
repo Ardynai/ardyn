@@ -139,6 +139,9 @@ const phase59ApprovalEvaluatorGrantBoundaryContractMetadata = await readJson(
 const phase510RuntimeHostPolicyBoundaryContractMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json"
 );
+const phase511RuntimeStdioSafetyBoundaryContractMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -186,10 +189,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.10",
-    name: "Runtime host-policy boundary",
+    id: "5.11",
+    name: "Runtime stdio safety boundary",
     executionPosture:
-      "runtime-host-policy-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-stdio-safety-boundary-contract runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -237,12 +240,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.10 runtime host-policy boundary status report.",
+        "Render this deterministic local Phase 5.11 runtime stdio safety boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.10 status report.",
+      purpose: "Run focused tests for this local Phase 5.11 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-11-runtime-stdio-safety-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.11 runtime stdio safety boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -9032,6 +9041,212 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase511RuntimeStdioSafetyBoundaryInventory: {
+    statusLayer: {
+      document: "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json",
+      sourceRuntimeHostPolicyBoundaryDocument:
+        "docs/phase-5-10-runtime-host-policy-boundary.md",
+      sourceRuntimeHostPolicyBoundaryFixture:
+        "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json",
+      precedingPhase: "5.10",
+      layerId: "runtime-stdio-safety-boundary-contract",
+      scope: "runtime-stdio-safety-boundary-only-runtime-disabled",
+      runtimeStdioSafetyBoundaryRecorded:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .runtimeStdioSafetyBoundaryRecorded,
+      stdioSafetyRequiredBeforeRuntimeEnablement:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .stdioSafetyRequiredBeforeRuntimeEnablement,
+      stdioSafetyImplemented:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .stdioSafetyImplemented,
+      stdioSafetyActive:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .stdioSafetyActive,
+      missingStdioSafetyRejected:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .missingStdioSafetyRejected,
+      invalidStdioSafetyRejected:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .invalidStdioSafetyRejected,
+      unboundedStdinStdoutStderrBehaviorRejected:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .unboundedStdinStdoutStderrBehaviorRejected,
+      validRestrictiveStdioSafetyPrerequisiteOnly:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .validRestrictiveStdioSafetyPrerequisiteOnly,
+      validRestrictiveStdioSafetyEnablesRuntime:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .validRestrictiveStdioSafetyEnablesRuntime,
+      validRestrictiveStdioSafetyStartsRuntime:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .validRestrictiveStdioSafetyStartsRuntime,
+      validRestrictiveStdioSafetyExposesRuntimeExecution:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .validRestrictiveStdioSafetyExposesRuntimeExecution,
+      canEnableRuntime:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      stdioSafetyCommandEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      approvalCommandEnabled: false,
+      approvalEvaluatorImplemented: false,
+      approvalGrantProduced: false,
+      processControlEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+        "Records the Phase 5.11 runtime stdio safety boundary while runtime remains disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-10-runtime-host-policy-boundary.md",
+        "Provides the prerequisite-only host-policy boundary that Phase 5.11 keeps blocked."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.11 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.11 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.11 changes no Rust-host runtime source and records stdio safety boundaries only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      "docs/phase-5-10-runtime-host-policy-boundary.md",
+      "docs/phase-5-11-runtime-stdio-safety-boundary.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json",
+        "Records missing, invalid, unbounded, and valid-restrictive stdio safety cases."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.11 report metadata, docs cross-links, stdio safety boundary cases, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-11-runtime-stdio-safety-boundary.test.mjs",
+        "Pins Phase 5.11 stdio safety fixture shape, prerequisite-only restrictive safety, serve-runtime rejection, stdio safety command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-10-runtime-host-policy-boundary.md",
+        "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-11-runtime-stdio-safety-boundary.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    contractSummary:
+      phase511RuntimeStdioSafetyBoundaryContractMetadata.contractSummary,
+    stdioSafetyBoundaryShape:
+      phase511RuntimeStdioSafetyBoundaryContractMetadata.stdioSafetyBoundaryShape,
+    stdioSafetyCases:
+      phase511RuntimeStdioSafetyBoundaryContractMetadata.stdioSafetyCases,
+    validationRules:
+      phase511RuntimeStdioSafetyBoundaryContractMetadata.validationRules,
+    blockedRuntimeEffect:
+      phase511RuntimeStdioSafetyBoundaryContractMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase511RuntimeStdioSafetyBoundaryContractMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase511RuntimeStdioSafetyBoundaryContractMetadata.forbiddenBehavior,
+    safetyPosture: {
+      runtimeStdioSafetyBoundaryRecorded: true,
+      stdioSafetyRequiredBeforeRuntimeEnablement: true,
+      stdioSafetyImplemented: false,
+      stdioSafetyActive: false,
+      missingStdioSafetyRejected: true,
+      invalidStdioSafetyRejected: true,
+      unboundedStdinStdoutStderrBehaviorRejected: true,
+      validRestrictiveStdioSafetyPrerequisiteOnly: true,
+      validRestrictiveStdioSafetyEnablesRuntime: false,
+      validRestrictiveStdioSafetyStartsRuntime: false,
+      validRestrictiveStdioSafetyExposesRuntimeExecution: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      stdioSafetyCommandEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      approvalCommandEnabled: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -9075,6 +9290,7 @@ const report = {
     phase58RuntimeCommandExposureApprovalContract: true,
     phase59ApprovalEvaluatorGrantBoundaryContract: true,
     phase510RuntimeHostPolicyBoundaryContract: true,
+    phase511RuntimeStdioSafetyBoundaryContract: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -9383,6 +9599,37 @@ const report = {
       phase510AdapterRuntimeBehaviorEnabled: false,
       phase510ContentFabricRuntimeBehaviorEnabled: false,
       phase510WebSocketHttpSurfaceEnabled: false,
+      phase511RuntimeStdioSafetyBoundaryRecorded: true,
+      phase511StdioSafetyRequiredBeforeRuntimeEnablement: true,
+      phase511StdioSafetyImplemented: false,
+      phase511StdioSafetyActive: false,
+      phase511MissingStdioSafetyRejected: true,
+      phase511InvalidStdioSafetyRejected: true,
+      phase511UnboundedStdinStdoutStderrBehaviorRejected: true,
+      phase511ValidRestrictiveStdioSafetyPrerequisiteOnly: true,
+      phase511ValidRestrictiveStdioSafetyEnablesRuntime: false,
+      phase511ValidRestrictiveStdioSafetyStartsRuntime: false,
+      phase511ValidRestrictiveStdioSafetyExposesRuntimeExecution: false,
+      phase511CanEnableRuntime: false,
+      phase511RuntimeEnabled: false,
+      phase511RuntimeStarted: false,
+      phase511RuntimeReady: false,
+      phase511RuntimeCommandEnabled: false,
+      phase511RuntimeExecutionEnabled: false,
+      phase511ServeRuntimeStillDefaultBlocked: true,
+      phase511DryRunBypassesBlock: false,
+      phase511StdioSafetyCommandEnabled: false,
+      phase511LiveStdinLoopEnabled: false,
+      phase511RuntimeStdoutWriterEnabled: false,
+      phase511RuntimeStderrWriterEnabled: false,
+      phase511ApprovalCommandEnabled: false,
+      phase511CliSourceChanged: false,
+      phase511RustSourceChanged: false,
+      phase511ProcessControlEnabled: false,
+      phase511TranscriptAuditSideEffectsEnabled: false,
+      phase511AdapterRuntimeBehaviorEnabled: false,
+      phase511ContentFabricRuntimeBehaviorEnabled: false,
+      phase511WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

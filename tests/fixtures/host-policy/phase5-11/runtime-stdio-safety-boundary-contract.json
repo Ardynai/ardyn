@@ -1,0 +1,319 @@
+{
+  "schema": "ardyn.phase-5.11.runtime-stdio-safety-boundary-contract",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.11-runtime-stdio-safety-boundary",
+  "artifactKind": "runtime-stdio-safety-boundary-contract",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhase": {
+    "phase": "phase-5.10-runtime-host-policy-boundary",
+    "document": "docs/phase-5-10-runtime-host-policy-boundary.md",
+    "fixture": "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json",
+    "runtimeEnabled": false,
+    "hostPolicyRuntimeEnforcementImplemented": false,
+    "hostPolicyRuntimeEnforcementActive": false,
+    "stdioSafetyImplemented": false
+  },
+  "contractSummary": {
+    "runtimeStdioSafetyBoundaryRecorded": true,
+    "stdioSafetyRequiredBeforeRuntimeEnablement": true,
+    "stdioSafetyImplemented": false,
+    "stdioSafetyActive": false,
+    "missingStdioSafetyRejected": true,
+    "invalidStdioSafetyRejected": true,
+    "unboundedStdinStdoutStderrBehaviorRejected": true,
+    "validRestrictiveStdioSafetyPrerequisiteOnly": true,
+    "validRestrictiveStdioSafetyEnablesRuntime": false,
+    "validRestrictiveStdioSafetyStartsRuntime": false,
+    "validRestrictiveStdioSafetyExposesRuntimeExecution": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "requiresSeparateStdioRuntimeImplementationReview": true,
+    "requiresRemainingPhase56Preconditions": true,
+    "canEnableRuntime": false
+  },
+  "stdioSafetyBoundaryShape": {
+    "futureSafetyKind": "runtime-stdio-safety",
+    "validRestrictivePrerequisiteRule": true,
+    "requiredBeforeRuntimeEnablement": [
+      "bounded-stdin-read-policy",
+      "stdout-stderr-writer-policy",
+      "deterministic-jsonl-framing-and-flushing",
+      "stderr-diagnostic-redaction-policy",
+      "backpressure-and-partial-write-policy",
+      "stdio-failure-before-runtime-start",
+      "stdio-safety-tests",
+      "separate-stdio-runtime-implementation-review"
+    ],
+    "rejectedSafetyShapes": [
+      "missing-stdio-safety",
+      "invalid-stdio-safety",
+      "unbounded-stdin-stdout-stderr-behavior",
+      "unbounded-stdin-loop",
+      "unbounded-stdout-writer",
+      "unbounded-stderr-writer",
+      "stdio-safety-without-redaction",
+      "stdio-safety-without-backpressure"
+    ],
+    "requiredRestrictiveControls": [
+      "no-live-stdin-loop-before-explicit-runtime-approval",
+      "bounded-stdin-read-size-and-line-policy",
+      "bounded-stdout-stderr-framing-redaction-and-backpressure",
+      "separate-stdout-and-stderr-policy",
+      "fail-before-runtime-start-on-stdio-safety-mismatch",
+      "no-stdio-runtime-side-effects-through-dry-run",
+      "no-transcript-or-audit-runtime-writes-from-stdio-safety"
+    ],
+    "falseFieldsUntilImplemented": [
+      "stdioSafetyImplemented",
+      "stdioSafetyActive",
+      "liveStdinLoopEnabled",
+      "runtimeStdoutWriterEnabled",
+      "runtimeStderrWriterEnabled",
+      "runtimeEnablementAuthorized",
+      "runtimeExecutionAuthorized"
+    ],
+    "validPrerequisiteRule": "valid_restrictive_stdio_safety_is_necessary_but_not_sufficient_and_must_not_enable_start_or_expose_runtime"
+  },
+  "stdioSafetyCases": [
+    {
+      "caseId": "missing-stdio-safety",
+      "classification": "missing_stdio_safety_rejected",
+      "stdioSafetyPresent": false,
+      "stdioSafetyValid": false,
+      "stdioSafetyRestrictive": false,
+      "prerequisiteSignalRecognized": false,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "stdio_safety_missing",
+        "stdio_safety_not_implemented",
+        "runtime_enable_preconditions_unsatisfied"
+      ],
+      "stdioEffect": {
+        "stdioSafetyImplemented": false,
+        "stdioSafetyActive": false,
+        "liveStdinLoopEnabled": false,
+        "runtimeStdoutWriterEnabled": false,
+        "runtimeStderrWriterEnabled": false,
+        "stdioSafetyEvaluated": false,
+        "runtimeEnablementAuthorized": false,
+        "runtimeExecutionAuthorized": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    },
+    {
+      "caseId": "invalid-stdio-safety",
+      "classification": "invalid_stdio_safety_rejected",
+      "stdioSafetyPresent": true,
+      "stdioSafetyValid": false,
+      "stdioSafetyRestrictive": false,
+      "prerequisiteSignalRecognized": false,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "stdio_safety_invalid",
+        "stdio_safety_not_implemented",
+        "runtime_enable_preconditions_unsatisfied"
+      ],
+      "stdioEffect": {
+        "stdioSafetyImplemented": false,
+        "stdioSafetyActive": false,
+        "liveStdinLoopEnabled": false,
+        "runtimeStdoutWriterEnabled": false,
+        "runtimeStderrWriterEnabled": false,
+        "stdioSafetyEvaluated": false,
+        "runtimeEnablementAuthorized": false,
+        "runtimeExecutionAuthorized": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    },
+    {
+      "caseId": "unbounded-stdin-stdout-stderr-behavior",
+      "classification": "unbounded_stdin_stdout_stderr_behavior_rejected",
+      "stdioSafetyPresent": true,
+      "stdioSafetyValid": false,
+      "stdioSafetyRestrictive": false,
+      "prerequisiteSignalRecognized": false,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "stdin_behavior_unbounded",
+        "stdout_behavior_unbounded",
+        "stderr_behavior_unbounded",
+        "stdio_redaction_or_backpressure_missing"
+      ],
+      "stdioEffect": {
+        "stdioSafetyImplemented": false,
+        "stdioSafetyActive": false,
+        "liveStdinLoopEnabled": false,
+        "runtimeStdoutWriterEnabled": false,
+        "runtimeStderrWriterEnabled": false,
+        "stdioSafetyEvaluated": false,
+        "runtimeEnablementAuthorized": false,
+        "runtimeExecutionAuthorized": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    },
+    {
+      "caseId": "valid-restrictive-stdio-safety-prerequisite-only",
+      "classification": "valid_restrictive_stdio_safety_prerequisite_only",
+      "stdioSafetyPresent": true,
+      "stdioSafetyValid": true,
+      "stdioSafetyRestrictive": true,
+      "prerequisiteSignalRecognized": true,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "stdio_safety_runtime_implementation_not_implemented",
+        "host_policy_runtime_enforcement_not_implemented",
+        "approval_evaluator_not_implemented",
+        "approval_grant_not_produced",
+        "runtime_enable_preconditions_unsatisfied"
+      ],
+      "stdioEffect": {
+        "stdioSafetyImplemented": false,
+        "stdioSafetyActive": false,
+        "liveStdinLoopEnabled": false,
+        "runtimeStdoutWriterEnabled": false,
+        "runtimeStderrWriterEnabled": false,
+        "stdioSafetyEvaluated": false,
+        "runtimeEnablementAuthorized": false,
+        "runtimeExecutionAuthorized": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    }
+  ],
+  "validationRules": {
+    "missingStdioSafety": "must_reject_before_runtime_enablement",
+    "invalidStdioSafety": "must_reject_before_runtime_enablement",
+    "unboundedStdinStdoutStderrBehavior": "must_reject_before_runtime_enablement",
+    "validRestrictiveStdioSafety": "may_count_only_as_prerequisite_signal",
+    "validRestrictiveStdioSafetyCannotEnableRuntime": true,
+    "validRestrictiveStdioSafetyCannotStartRuntime": true,
+    "validRestrictiveStdioSafetyCannotExposeRuntimeExecution": true,
+    "validRestrictiveStdioSafetyCannotBypassApprovalEvaluatorOrGrant": true,
+    "validRestrictiveStdioSafetyCannotBypassHostPolicyBoundary": true,
+    "validRestrictiveStdioSafetyCannotBypassRemainingPhase56Preconditions": true,
+    "dryRunCannotBypassStdioSafetyBoundary": true,
+    "separateFutureRuntimeEnablementReviewRequired": true
+  },
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecutionExposed": false,
+    "stdioSafetyCommandEnabled": false,
+    "stdioSafetyImplemented": false,
+    "stdioSafetyActive": false,
+    "stdioSafetyEvaluated": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "hostPolicyCommandEnabled": false,
+    "hostPolicyRuntimeEnforcementImplemented": false,
+    "hostPolicyRuntimeEnforcementActive": false,
+    "approvalCommandEnabled": false,
+    "approvalEvaluatorImplemented": false,
+    "approvalGrantProduced": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "recognizedByCli": true,
+    "exitCode": "nonzero",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "runtime-enabled-true",
+    "runtime-command-enabled-true",
+    "runtime-execution-exposed",
+    "stdio-safety-implemented",
+    "stdio-safety-active",
+    "stdio-safety-evaluated",
+    "stdio-safety-command-enabled",
+    "live-stdin-loop",
+    "runtime-stdout-writer",
+    "runtime-stderr-writer",
+    "runtime-stdout-stderr-writer",
+    "host-policy-runtime-enforcement-implemented",
+    "host-policy-runtime-enforcement-active",
+    "approval-evaluator-implemented",
+    "approval-grant-produced",
+    "runtime-start",
+    "process-control",
+    "transcript-audit-runtime-write",
+    "adapter-runtime-behavior",
+    "content-fabric-runtime-behavior",
+    "websocket-http-runtime-surface"
+  ],
+  "filesAllowedToChange": [
+    "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+    "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json",
+    "tests/phase5-11-runtime-stdio-safety-boundary.test.mjs",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs",
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-10-runtime-host-policy-boundary.md"
+  ],
+  "filesForbiddenToChange": [
+    "apps/cli/src/index.mjs",
+    "crates/ardyn-host/src/**",
+    "packages/fabric/src/runtime/**",
+    "apps/host/src/runtime/**"
+  ],
+  "validationCommands": [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status",
+    "node --test tests/phase5-11-runtime-stdio-safety-boundary.test.mjs",
+    "fallow health --hotspots --targets --report-only --summary --changed-since main",
+    "fallow audit --changed-since main --summary",
+    "fallow dead-code --changed-since main --summary"
+  ]
+}

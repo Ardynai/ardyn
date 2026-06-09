@@ -357,10 +357,10 @@ test("Phase 4.1 status report inventories proposal metadata without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.10",
-    name: "Runtime host-policy boundary",
+    id: "5.11",
+    name: "Runtime stdio safety boundary",
     executionPosture:
-      "runtime-host-policy-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-stdio-safety-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

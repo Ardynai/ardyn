@@ -384,10 +384,10 @@ test("Phase 4.1E status report inventories failure-audit contracts without runni
   const inventory = report.phase41EFailureAuditInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.10",
-    name: "Runtime host-policy boundary",
+    id: "5.11",
+    name: "Runtime stdio safety boundary",
     executionPosture:
-      "runtime-host-policy-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-stdio-safety-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

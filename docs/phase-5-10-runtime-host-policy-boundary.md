@@ -20,6 +20,7 @@ Cross-links:
 - Runtime approval validation: `phase-5-7-runtime-approval-validation.md`
 - Runtime enablement preconditions: `phase-5-6-runtime-enable-preconditions.md`
 - Default-blocked runtime CLI: `phase-5-5-default-blocked-runtime-cli.md`
+- Runtime stdio safety boundary: `phase-5-11-runtime-stdio-safety-boundary.md`
 
 Machine-readable Phase 5.10 artifact path:
 
@@ -81,3 +82,5 @@ mismatch tests before the stdio loop, approval evaluator/grant implementation,
 remaining Phase 5.6 preconditions, rollback/kill-switch binding, and positive
 runtime smokes. Phase 5.10 only records the host-policy boundary contract and
 fail-closed cases.
+Phase 5.11 follows by recording runtime stdio safety as a separate
+prerequisite-only boundary.

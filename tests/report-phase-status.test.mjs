@@ -872,6 +872,30 @@ const phase510CrossLinks = [
   "docs/phase-5-9-approval-evaluator-grant-boundary.md",
   "docs/phase-5-10-runtime-host-policy-boundary.md"
 ];
+const phase511DocFiles = [
+  "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+  "docs/phase-5-10-runtime-host-policy-boundary.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase511CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md",
+  "docs/phase-5-4-disabled-command-exposure-plan.md",
+  "docs/phase-5-4a-jules-review-disposition.md",
+  "docs/phase-5-5-default-blocked-runtime-cli.md",
+  "docs/phase-5-6-runtime-enable-preconditions.md",
+  "docs/phase-5-7-runtime-approval-validation.md",
+  "docs/phase-5-8-runtime-command-exposure-approval.md",
+  "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+  "docs/phase-5-10-runtime-host-policy-boundary.md",
+  "docs/phase-5-11-runtime-stdio-safety-boundary.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -993,15 +1017,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.10 runtime host-policy boundary docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.11 runtime stdio safety boundary docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.10",
-    name: "Runtime host-policy boundary",
+    id: "5.11",
+    name: "Runtime stdio safety boundary",
     executionPosture:
-      "runtime-host-policy-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-stdio-safety-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1074,12 +1098,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.10 runtime host-policy boundary status report.",
+        "Render this deterministic local Phase 5.11 runtime stdio safety boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.10 status report.",
+      purpose: "Run focused tests for this local Phase 5.11 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-11-runtime-stdio-safety-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.11 runtime stdio safety boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -8586,6 +8616,210 @@ test("report inventories Phase 5.10 as runtime host-policy boundary with runtime
   assert.equal(report.safetyPosture.flags.phase510WebSocketHttpSurfaceEnabled, false);
 });
 
+test("report inventories Phase 5.11 as runtime stdio safety boundary with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase511RuntimeStdioSafetyBoundaryInventory;
+  const expectedCaseIds = [
+    "missing-stdio-safety",
+    "invalid-stdio-safety",
+    "unbounded-stdin-stdout-stderr-behavior",
+    "valid-restrictive-stdio-safety-prerequisite-only"
+  ];
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json",
+    sourceRuntimeHostPolicyBoundaryDocument:
+      "docs/phase-5-10-runtime-host-policy-boundary.md",
+    sourceRuntimeHostPolicyBoundaryFixture:
+      "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json",
+    precedingPhase: "5.10",
+    layerId: "runtime-stdio-safety-boundary-contract",
+    scope: "runtime-stdio-safety-boundary-only-runtime-disabled",
+    runtimeStdioSafetyBoundaryRecorded: true,
+    stdioSafetyRequiredBeforeRuntimeEnablement: true,
+    stdioSafetyImplemented: false,
+    stdioSafetyActive: false,
+    missingStdioSafetyRejected: true,
+    invalidStdioSafetyRejected: true,
+    unboundedStdinStdoutStderrBehaviorRejected: true,
+    validRestrictiveStdioSafetyPrerequisiteOnly: true,
+    validRestrictiveStdioSafetyEnablesRuntime: false,
+    validRestrictiveStdioSafetyStartsRuntime: false,
+    validRestrictiveStdioSafetyExposesRuntimeExecution: false,
+    canEnableRuntime: false,
+    runtimeEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeCommandEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    stdioSafetyCommandEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    approvalCommandEnabled: false,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    processControlEnabled: false,
+    transcriptAuditSideEffectsEnabled: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase511DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase511CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-11-runtime-stdio-safety-boundary.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary, {
+    docsStatusFiles: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-10-runtime-host-policy-boundary.md",
+      "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    machineReadableArtifactFiles: [
+      "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json"
+    ],
+    focusedTestFiles: [
+      "tests/phase5-11-runtime-stdio-safety-boundary.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    cliRuntimeSourceFilesChanged: [],
+    rustRuntimeSourceFilesChanged: [],
+    cliSourceChangedByThisPhase: false,
+    appsCliIndexChangedByThisPhase: false,
+    rustSourceChangedByThisPhase: false,
+    machineReadableArtifactsChangedByThisPhase: true,
+    reportRunsChecks: false,
+    separateRuntimeImplementationPhaseRequired: true,
+    separateRuntimeEnablementApprovalRequired: true
+  });
+  assert.deepEqual(inventory.contractSummary, {
+    runtimeStdioSafetyBoundaryRecorded: true,
+    stdioSafetyRequiredBeforeRuntimeEnablement: true,
+    stdioSafetyImplemented: false,
+    stdioSafetyActive: false,
+    missingStdioSafetyRejected: true,
+    invalidStdioSafetyRejected: true,
+    unboundedStdinStdoutStderrBehaviorRejected: true,
+    validRestrictiveStdioSafetyPrerequisiteOnly: true,
+    validRestrictiveStdioSafetyEnablesRuntime: false,
+    validRestrictiveStdioSafetyStartsRuntime: false,
+    validRestrictiveStdioSafetyExposesRuntimeExecution: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    requiresSeparateStdioRuntimeImplementationReview: true,
+    requiresRemainingPhase56Preconditions: true,
+    canEnableRuntime: false
+  });
+  assert.equal(inventory.stdioSafetyBoundaryShape.futureSafetyKind, "runtime-stdio-safety");
+  assert.ok(
+    inventory.stdioSafetyBoundaryShape.requiredBeforeRuntimeEnablement.includes(
+      "bounded-stdin-read-policy"
+    )
+  );
+  assert.ok(
+    inventory.stdioSafetyBoundaryShape.rejectedSafetyShapes.includes(
+      "unbounded-stdin-stdout-stderr-behavior"
+    )
+  );
+  assert.ok(
+    inventory.stdioSafetyBoundaryShape.requiredRestrictiveControls.includes(
+      "bounded-stdout-stderr-framing-redaction-and-backpressure"
+    )
+  );
+  assert.deepEqual(
+    inventory.stdioSafetyCases.map((boundaryCase) => boundaryCase.caseId),
+    expectedCaseIds
+  );
+  for (const boundaryCase of inventory.stdioSafetyCases) {
+    assert.equal(boundaryCase.rejectedForRuntimeEnablement, true);
+    assertAllFalse(boundaryCase.stdioEffect);
+    assertAllFalse(boundaryCase.runtimeEffect);
+  }
+  assert.equal(inventory.validationRules.validRestrictiveStdioSafetyCannotEnableRuntime, true);
+  assert.equal(inventory.validationRules.validRestrictiveStdioSafetyCannotStartRuntime, true);
+  assert.equal(
+    inventory.validationRules.validRestrictiveStdioSafetyCannotExposeRuntimeExecution,
+    true
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.ok(inventory.forbiddenBehavior.includes("live-stdin-loop"));
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-stdout-writer"));
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-stderr-writer"));
+  assert.deepEqual(inventory.safetyPosture, {
+    runtimeStdioSafetyBoundaryRecorded: true,
+    stdioSafetyRequiredBeforeRuntimeEnablement: true,
+    stdioSafetyImplemented: false,
+    stdioSafetyActive: false,
+    missingStdioSafetyRejected: true,
+    invalidStdioSafetyRejected: true,
+    unboundedStdinStdoutStderrBehaviorRejected: true,
+    validRestrictiveStdioSafetyPrerequisiteOnly: true,
+    validRestrictiveStdioSafetyEnablesRuntime: false,
+    validRestrictiveStdioSafetyStartsRuntime: false,
+    validRestrictiveStdioSafetyExposesRuntimeExecution: false,
+    canEnableRuntime: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    stdioSafetyCommandEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    approvalCommandEnabled: false,
+    noLiveStdinLoop: true,
+    noStdoutStderrWriters: true,
+    noProcessControl: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true,
+    noWebSocketHttpSurface: true,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase511RuntimeStdioSafetyBoundaryContract, true);
+  assert.equal(report.safetyPosture.flags.phase511RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase511RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase511RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase511LiveStdinLoopEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase511RuntimeStdoutWriterEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase511RuntimeStderrWriterEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase511ProcessControlEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase511TranscriptAuditSideEffectsEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase511WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -8803,6 +9037,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase58RuntimeCommandExposureApprovalContract, true);
   assert.equal(report.safetyPosture.phase59ApprovalEvaluatorGrantBoundaryContract, true);
   assert.equal(report.safetyPosture.phase510RuntimeHostPolicyBoundaryContract, true);
+  assert.equal(report.safetyPosture.phase511RuntimeStdioSafetyBoundaryContract, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -9112,6 +9347,37 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase510AdapterRuntimeBehaviorEnabled: false,
     phase510ContentFabricRuntimeBehaviorEnabled: false,
     phase510WebSocketHttpSurfaceEnabled: false,
+    phase511RuntimeStdioSafetyBoundaryRecorded: true,
+    phase511StdioSafetyRequiredBeforeRuntimeEnablement: true,
+    phase511StdioSafetyImplemented: false,
+    phase511StdioSafetyActive: false,
+    phase511MissingStdioSafetyRejected: true,
+    phase511InvalidStdioSafetyRejected: true,
+    phase511UnboundedStdinStdoutStderrBehaviorRejected: true,
+    phase511ValidRestrictiveStdioSafetyPrerequisiteOnly: true,
+    phase511ValidRestrictiveStdioSafetyEnablesRuntime: false,
+    phase511ValidRestrictiveStdioSafetyStartsRuntime: false,
+    phase511ValidRestrictiveStdioSafetyExposesRuntimeExecution: false,
+    phase511CanEnableRuntime: false,
+    phase511RuntimeEnabled: false,
+    phase511RuntimeStarted: false,
+    phase511RuntimeReady: false,
+    phase511RuntimeCommandEnabled: false,
+    phase511RuntimeExecutionEnabled: false,
+    phase511ServeRuntimeStillDefaultBlocked: true,
+    phase511DryRunBypassesBlock: false,
+    phase511StdioSafetyCommandEnabled: false,
+    phase511LiveStdinLoopEnabled: false,
+    phase511RuntimeStdoutWriterEnabled: false,
+    phase511RuntimeStderrWriterEnabled: false,
+    phase511ApprovalCommandEnabled: false,
+    phase511CliSourceChanged: false,
+    phase511RustSourceChanged: false,
+    phase511ProcessControlEnabled: false,
+    phase511TranscriptAuditSideEffectsEnabled: false,
+    phase511AdapterRuntimeBehaviorEnabled: false,
+    phase511ContentFabricRuntimeBehaviorEnabled: false,
+    phase511WebSocketHttpSurfaceEnabled: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,
