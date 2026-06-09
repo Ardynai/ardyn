@@ -8,10 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.7 Scope
+## Phase 3 through Phase 5.8 Scope
 
-This repository is currently in Phase 5.7 runtime approval validation mode. The
-goal is to load and validate ARDYN manifests and tasks, resolve
+This repository is currently in Phase 5.8 runtime command exposure approval
+mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
 dry-run session-event JSONL, define the stdout/stderr, redaction, transcript
@@ -55,7 +55,10 @@ Jules `APPROVE` review disposition metadata plus Phase 5.5 default-blocked
 `serve-runtime` CLI recognition plus Phase 5.6 runtime enablement precondition
 gate metadata plus Phase 5.7 runtime approval validation/rejection contract
 metadata for missing, invalid, revoked, and valid-prerequisite-only approval
-records. Phase 5.7 is not runtime enablement. Runtime command enablement, live runtime behavior,
+records plus Phase 5.8 runtime command-exposure approval/rejection contract
+metadata for missing, invalid, revoked, and valid-prerequisite-only
+command-exposure approval records. Phase 5.8 is not runtime enablement.
+Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
 any separately approved live runtime work.
@@ -268,6 +271,13 @@ Included now:
   prerequisite-only approval cases. Valid approval remains necessary but not
   sufficient, cannot enable or start runtime, and `serve-runtime` remains
   default-blocked. See `docs/phase-5-7-runtime-approval-validation.md`.
+- Phase 5.8 runtime command exposure approval contract documentation,
+  fixture, and report metadata. This records missing, invalid, revoked, and
+  valid prerequisite-only command-exposure approval cases. Valid
+  command-exposure approval remains necessary but not sufficient, cannot enable
+  or start runtime, cannot expose runtime execution, cannot add command
+  aliases, and `serve-runtime` remains default-blocked. See
+  `docs/phase-5-8-runtime-command-exposure-approval.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -419,7 +429,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.7 runtime approval validation status report command is:
+The Phase 5.8 runtime command exposure approval status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -453,8 +463,9 @@ Phase 5.2 guarded runtime implementation-slice fixture/test/Rust-private
 helper inventory, Phase 5.3 command-surface approval preflight metadata, and
 Phase 5.4 disabled command exposure plan metadata, Phase 5.4A Jules review
 disposition metadata, Phase 5.5 default-blocked runtime CLI metadata, and
-Phase 5.6 runtime enablement precondition gate metadata, and Phase 5.7 runtime
-approval validation contract metadata
+Phase 5.6 runtime enablement precondition gate metadata, Phase 5.7 runtime
+approval validation contract metadata, and Phase 5.8 runtime command exposure
+approval contract metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
@@ -599,6 +610,14 @@ runtime approval validation contract covering missing, invalid, revoked, and
 valid-prerequisite-only approval cases. Valid approval is only a prerequisite
 signal; it cannot enable or start runtime, create an approval grant, expose a
 command, or bypass the remaining Phase 5.6 blockers.
+
+Phase 5.8 is documented in
+`docs/phase-5-8-runtime-command-exposure-approval.md`. It records a
+machine-readable runtime command-exposure approval contract covering missing,
+invalid, revoked, and valid-prerequisite-only command-exposure approval cases.
+Valid command-exposure approval is only a prerequisite signal; it cannot enable
+or start runtime, expose runtime execution, add command aliases, create an
+approval grant, or bypass the remaining Phase 5.6 blockers.
 
 Example dry-run check:
 

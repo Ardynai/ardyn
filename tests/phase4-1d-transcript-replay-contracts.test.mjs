@@ -284,9 +284,10 @@ test("Phase 4.1D status report inventories transcript replay contracts without r
   const inventory = report.phase41DTranscriptReplayInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.7",
-    name: "Runtime approval validation",
-    executionPosture: "runtime-approval-validation-contract runtime-disabled no-runtime-execution"
+    id: "5.8",
+    name: "Runtime command exposure approval",
+    executionPosture:
+      "runtime-command-exposure-approval-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

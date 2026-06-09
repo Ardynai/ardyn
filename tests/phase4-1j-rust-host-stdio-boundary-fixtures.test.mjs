@@ -169,9 +169,10 @@ test("Phase 4.1J report inventories fixture-backed Rust harness coverage without
   const inventory = report.phase41JFixtureBackedStdioBoundaryInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.7",
-    name: "Runtime approval validation",
-    executionPosture: "runtime-approval-validation-contract runtime-disabled no-runtime-execution"
+    id: "5.8",
+    name: "Runtime command exposure approval",
+    executionPosture:
+      "runtime-command-exposure-approval-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(inventory.boundaryLayer.fixtureBackedRustHostCoverage, true);
   assert.equal(inventory.boundaryLayer.privateRustCfgTestHarness, true);

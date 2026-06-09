@@ -1,0 +1,322 @@
+{
+  "schema": "ardyn.phase-5.8.runtime-command-exposure-approval-contract",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.8-runtime-command-exposure-approval",
+  "artifactKind": "runtime-command-exposure-approval-contract",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhase": {
+    "phase": "phase-5.7-runtime-approval-validation",
+    "document": "docs/phase-5-7-runtime-approval-validation.md",
+    "fixture": "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json",
+    "runtimeEnabled": false,
+    "runtimeApprovalValidationContractRecorded": true,
+    "runtimeApprovalEnablesRuntime": false
+  },
+  "contractSummary": {
+    "commandExposureApprovalContractRecorded": true,
+    "commandExposureApprovalRecordSchema": "ardyn.runtime-command-exposure-approval-record",
+    "commandExposureApprovalRecordSchemaVersion": "0.1.0",
+    "missingCommandExposureApprovalRejected": true,
+    "invalidCommandExposureApprovalRejected": true,
+    "revokedCommandExposureApprovalRejected": true,
+    "validCommandExposureApprovalRecognizedAsPrerequisiteOnly": true,
+    "validCommandExposureApprovalEnablesRuntime": false,
+    "validCommandExposureApprovalStartsRuntime": false,
+    "validCommandExposureApprovalExposesRuntimeExecution": false,
+    "validCommandExposureApprovalExposesUserRuntimeCommand": false,
+    "recognizedCommandIsRuntimeExecutionExposure": false,
+    "recognizedRuntimeCommandDefaultBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorImplemented": false,
+    "requiresRemainingPhase56Preconditions": true,
+    "requiresSeparateRuntimeEnablementReview": true,
+    "canEnableRuntime": false
+  },
+  "commandExposureApprovalRecordShape": {
+    "recordKind": "runtime-command-exposure-approval-record",
+    "requiredTopLevelFields": [
+      "schema",
+      "schemaVersion",
+      "recordKind",
+      "recordId",
+      "recordPhase",
+      "approvalStatus",
+      "scope",
+      "operatorConsent",
+      "validity",
+      "revocation",
+      "commandExposureEffect",
+      "runtimeEffect",
+      "audit"
+    ],
+    "requiredScopeFields": [
+      "runtimeCommand",
+      "targetPhase",
+      "defaultBlockedCliContractDigest",
+      "runtimeApprovalValidationContractDigest",
+      "hostPolicyDigest",
+      "rollbackKillSwitchDigest",
+      "externalReviewDispositionDigest"
+    ],
+    "requiredValidityFields": [
+      "notBefore",
+      "expiresAt",
+      "evaluatedAt",
+      "validAtEvaluation"
+    ],
+    "requiredRevocationFields": [
+      "revoked",
+      "revokedAt",
+      "revocationReason"
+    ],
+    "requiredCommandExposureEffectFalseFields": [
+      "currentRecordExposesUserRuntimeCommand",
+      "currentRecordEnablesRuntimeCommand",
+      "currentRecordExposesRuntimeExecution",
+      "additionalRuntimeCommandsRecognized",
+      "commandAliasCreated"
+    ],
+    "requiredRuntimeEffectFalseFields": [
+      "currentRecordEnablesRuntime",
+      "runtimeStarts",
+      "runtimeEnabled",
+      "runtimeCommandEnabled",
+      "runtimeExecutionEnabled",
+      "approvalGrantCreated"
+    ],
+    "validPrerequisiteRule": "valid_command_exposure_approval_record_is_necessary_but_not_sufficient_and_must_not_enable_or_expose_runtime_execution"
+  },
+  "commandExposureApprovalCases": [
+    {
+      "caseId": "missing-command-exposure-approval",
+      "classification": "missing_command_exposure_approval_rejected",
+      "approvalRecordPresent": false,
+      "approvalRecordValid": false,
+      "approvalRecordRevoked": false,
+      "rejected": true,
+      "prerequisiteSignalRecognized": false,
+      "rejectionReasons": [
+        "command_exposure_approval_record_missing"
+      ],
+      "commandExposureEffect": {
+        "currentRecordExposesUserRuntimeCommand": false,
+        "currentRecordEnablesRuntimeCommand": false,
+        "currentRecordExposesRuntimeExecution": false,
+        "additionalRuntimeCommandsRecognized": false,
+        "commandAliasCreated": false
+      },
+      "runtimeEffect": {
+        "currentRecordEnablesRuntime": false,
+        "runtimeStarts": false,
+        "runtimeEnabled": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "approvalGrantCreated": false
+      }
+    },
+    {
+      "caseId": "invalid-command-exposure-approval",
+      "classification": "invalid_command_exposure_approval_rejected",
+      "approvalRecordPresent": true,
+      "approvalRecordValid": false,
+      "approvalRecordRevoked": false,
+      "rejected": true,
+      "prerequisiteSignalRecognized": false,
+      "invalidFields": [
+        "schema",
+        "scope.defaultBlockedCliContractDigest",
+        "commandExposureEffect.currentRecordExposesRuntimeExecution"
+      ],
+      "rejectionReasons": [
+        "unsupported_or_malformed_schema",
+        "scope_digest_missing_or_mismatch",
+        "runtime_execution_exposure_claim_detected"
+      ],
+      "commandExposureEffect": {
+        "currentRecordExposesUserRuntimeCommand": false,
+        "currentRecordEnablesRuntimeCommand": false,
+        "currentRecordExposesRuntimeExecution": false,
+        "additionalRuntimeCommandsRecognized": false,
+        "commandAliasCreated": false
+      },
+      "runtimeEffect": {
+        "currentRecordEnablesRuntime": false,
+        "runtimeStarts": false,
+        "runtimeEnabled": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "approvalGrantCreated": false
+      }
+    },
+    {
+      "caseId": "revoked-command-exposure-approval",
+      "classification": "revoked_command_exposure_approval_rejected",
+      "approvalRecordPresent": true,
+      "approvalRecordValid": false,
+      "approvalRecordRevoked": true,
+      "rejected": true,
+      "prerequisiteSignalRecognized": false,
+      "rejectionReasons": [
+        "command_exposure_approval_record_revoked"
+      ],
+      "commandExposureEffect": {
+        "currentRecordExposesUserRuntimeCommand": false,
+        "currentRecordEnablesRuntimeCommand": false,
+        "currentRecordExposesRuntimeExecution": false,
+        "additionalRuntimeCommandsRecognized": false,
+        "commandAliasCreated": false
+      },
+      "runtimeEffect": {
+        "currentRecordEnablesRuntime": false,
+        "runtimeStarts": false,
+        "runtimeEnabled": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "approvalGrantCreated": false
+      }
+    },
+    {
+      "caseId": "valid-command-exposure-approval-prerequisite-only",
+      "classification": "valid_command_exposure_prerequisite_signal_runtime_still_blocked",
+      "approvalRecordPresent": true,
+      "approvalRecordValid": true,
+      "approvalRecordRevoked": false,
+      "rejected": false,
+      "prerequisiteSignalRecognized": true,
+      "rejectionReasons": [],
+      "remainingBlockers": [
+        "runtime-enable-precondition-gate-unsatisfied",
+        "runtime-approval-evaluator-not-implemented",
+        "host-policy-runtime-enforcement",
+        "stdio-safety-boundary",
+        "transcript-audit-confinement",
+        "process-control-boundary",
+        "rollback-kill-switch",
+        "positive-runtime-smokes"
+      ],
+      "commandExposureEffect": {
+        "currentRecordExposesUserRuntimeCommand": false,
+        "currentRecordEnablesRuntimeCommand": false,
+        "currentRecordExposesRuntimeExecution": false,
+        "additionalRuntimeCommandsRecognized": false,
+        "commandAliasCreated": false
+      },
+      "runtimeEffect": {
+        "currentRecordEnablesRuntime": false,
+        "runtimeStarts": false,
+        "runtimeEnabled": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "approvalGrantCreated": false
+      }
+    }
+  ],
+  "validationRules": {
+    "missingCommandExposureApproval": "must_reject_before_runtime_command_exposure",
+    "invalidCommandExposureApproval": "must_reject_before_runtime_command_exposure",
+    "revokedCommandExposureApproval": "must_reject_before_runtime_command_exposure",
+    "validCommandExposureApproval": "may_count_only_as_prerequisite_signal",
+    "validCommandExposureApprovalCannotEnableRuntime": true,
+    "validCommandExposureApprovalCannotStartRuntime": true,
+    "validCommandExposureApprovalCannotExposeRuntimeExecution": true,
+    "validCommandExposureApprovalCannotExposeAdditionalCliCommands": true,
+    "recognizedCommandDoesNotImplyRuntimeExecutionExposure": true,
+    "dryRunCannotBypassApproval": true,
+    "separateFutureRuntimeEnablementReviewRequired": true
+  },
+  "recognizedCommandBoundary": {
+    "recognizedRuntimeCommandsToday": [
+      "serve-runtime"
+    ],
+    "recognizedRuntimeCommandCountToday": 1,
+    "recognizedRuntimeCommandDefaultBlocked": true,
+    "additionalRuntimeCommandsRecognizedByThisPhase": false,
+    "additionalRuntimeCommandsExposedByThisPhase": false,
+    "userRuntimeExecutionExposedToday": false,
+    "futureCommandExposureApprovalRequiredBeforeExposure": true
+  },
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorEnabled": false,
+    "stdinLoopEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "recognizedByCli": true,
+    "exitCode": "nonzero",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "runtime-enabled-true",
+    "runtime-command-enabled-true",
+    "runtime-execution-exposed",
+    "new-runtime-command-recognized",
+    "runtime-command-alias-created",
+    "runtime-start",
+    "live-stdin-loop",
+    "runtime-stdout-stderr-writer",
+    "process-control",
+    "transcript-audit-runtime-write",
+    "adapter-runtime-behavior",
+    "content-fabric-runtime-behavior",
+    "websocket-http-runtime-surface",
+    "approval-grant-or-evaluator"
+  ],
+  "filesAllowedToChange": [
+    "docs/phase-5-8-runtime-command-exposure-approval.md",
+    "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json",
+    "tests/phase5-8-runtime-command-exposure-approval.test.mjs",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs",
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-7-runtime-approval-validation.md"
+  ],
+  "filesForbiddenToChange": [
+    "apps/cli/src/index.mjs",
+    "crates/ardyn-host/src/**",
+    "packages/fabric/src/runtime/**",
+    "apps/host/src/runtime/**"
+  ],
+  "validationCommands": [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status",
+    "node --test tests/phase5-8-runtime-command-exposure-approval.test.mjs",
+    "fallow health --hotspots --targets --report-only --summary",
+    "fallow audit --changed-since main --summary",
+    "fallow dead-code --changed-since main --summary"
+  ]
+}

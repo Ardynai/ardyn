@@ -806,6 +806,27 @@ const phase57CrossLinks = [
   "docs/phase-5-6-runtime-enable-preconditions.md",
   "docs/phase-5-7-runtime-approval-validation.md"
 ];
+const phase58DocFiles = [
+  "docs/phase-5-8-runtime-command-exposure-approval.md",
+  "docs/phase-5-7-runtime-approval-validation.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase58CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md",
+  "docs/phase-5-4-disabled-command-exposure-plan.md",
+  "docs/phase-5-4a-jules-review-disposition.md",
+  "docs/phase-5-5-default-blocked-runtime-cli.md",
+  "docs/phase-5-6-runtime-enable-preconditions.md",
+  "docs/phase-5-7-runtime-approval-validation.md",
+  "docs/phase-5-8-runtime-command-exposure-approval.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -927,14 +948,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.7 runtime approval validation docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.8 runtime command exposure approval docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.7",
-    name: "Runtime approval validation",
-    executionPosture: "runtime-approval-validation-contract runtime-disabled no-runtime-execution"
+    id: "5.8",
+    name: "Runtime command exposure approval",
+    executionPosture:
+      "runtime-command-exposure-approval-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1007,12 +1029,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.7 runtime approval validation status report.",
+        "Render this deterministic local Phase 5.8 runtime command exposure approval status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.7 status report.",
+      purpose: "Run focused tests for this local Phase 5.8 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-8-runtime-command-exposure-approval.test.mjs",
+      purpose:
+        "Run focused Phase 5.8 command-exposure approval contract and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -7753,6 +7781,269 @@ test("report inventories Phase 5.7 as runtime approval validation with runtime b
   assert.equal(report.safetyPosture.flags.phase57WebSocketHttpSurfaceEnabled, false);
 });
 
+test("report inventories Phase 5.8 as command-exposure approval with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase58RuntimeCommandExposureApprovalInventory;
+  const expectedCaseIds = [
+    "missing-command-exposure-approval",
+    "invalid-command-exposure-approval",
+    "revoked-command-exposure-approval",
+    "valid-command-exposure-approval-prerequisite-only"
+  ];
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-8-runtime-command-exposure-approval.md",
+    fixture:
+      "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json",
+    sourceRuntimeApprovalValidationDocument:
+      "docs/phase-5-7-runtime-approval-validation.md",
+    sourceRuntimeApprovalValidationFixture:
+      "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json",
+    precedingPhase: "5.7",
+    layerId: "runtime-command-exposure-approval-contract",
+    scope: "command-exposure-approval-contract-only-runtime-disabled",
+    commandExposureApprovalContractRecorded: true,
+    missingCommandExposureApprovalRejected: true,
+    invalidCommandExposureApprovalRejected: true,
+    revokedCommandExposureApprovalRejected: true,
+    validCommandExposureApprovalRecognizedAsPrerequisiteOnly: true,
+    validCommandExposureApprovalEnablesRuntime: false,
+    validCommandExposureApprovalStartsRuntime: false,
+    validCommandExposureApprovalExposesRuntimeExecution: false,
+    validCommandExposureApprovalExposesUserRuntimeCommand: false,
+    recognizedCommandIsRuntimeExecutionExposure: false,
+    canEnableRuntime: false,
+    runtimeEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeCommandEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    approvalCommandEnabled: false,
+    approvalGrantCreated: false,
+    approvalEvaluatorImplemented: false,
+    processControlEnabled: false,
+    stdoutStderrWritersEnabled: false,
+    transcriptAuditSideEffectsEnabled: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase58DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase58CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-8-runtime-command-exposure-approval.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary, {
+    docsStatusFiles: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    machineReadableArtifactFiles: [
+      "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json"
+    ],
+    focusedTestFiles: [
+      "tests/phase5-8-runtime-command-exposure-approval.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    cliRuntimeSourceFilesChanged: [],
+    rustRuntimeSourceFilesChanged: [],
+    cliSourceChangedByThisPhase: false,
+    appsCliIndexChangedByThisPhase: false,
+    rustSourceChangedByThisPhase: false,
+    machineReadableArtifactsChangedByThisPhase: true,
+    reportRunsChecks: false,
+    separateRuntimeImplementationPhaseRequired: true,
+    separateRuntimeEnablementApprovalRequired: true
+  });
+  assert.deepEqual(inventory.contractSummary, {
+    commandExposureApprovalContractRecorded: true,
+    commandExposureApprovalRecordSchema: "ardyn.runtime-command-exposure-approval-record",
+    commandExposureApprovalRecordSchemaVersion: "0.1.0",
+    missingCommandExposureApprovalRejected: true,
+    invalidCommandExposureApprovalRejected: true,
+    revokedCommandExposureApprovalRejected: true,
+    validCommandExposureApprovalRecognizedAsPrerequisiteOnly: true,
+    validCommandExposureApprovalEnablesRuntime: false,
+    validCommandExposureApprovalStartsRuntime: false,
+    validCommandExposureApprovalExposesRuntimeExecution: false,
+    validCommandExposureApprovalExposesUserRuntimeCommand: false,
+    recognizedCommandIsRuntimeExecutionExposure: false,
+    recognizedRuntimeCommandDefaultBlocked: true,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    approvalGrantCreated: false,
+    approvalEvaluatorImplemented: false,
+    requiresRemainingPhase56Preconditions: true,
+    requiresSeparateRuntimeEnablementReview: true,
+    canEnableRuntime: false
+  });
+  assert.equal(
+    inventory.commandExposureApprovalRecordShape.recordKind,
+    "runtime-command-exposure-approval-record"
+  );
+  assert.ok(
+    inventory.commandExposureApprovalRecordShape.requiredTopLevelFields.includes(
+      "commandExposureEffect"
+    )
+  );
+  assert.ok(
+    inventory.commandExposureApprovalRecordShape.requiredScopeFields.includes(
+      "defaultBlockedCliContractDigest"
+    )
+  );
+  assert.deepEqual(
+    inventory.commandExposureApprovalCases.map((approvalCase) => approvalCase.caseId),
+    expectedCaseIds
+  );
+  for (const approvalCase of inventory.commandExposureApprovalCases) {
+    assertAllFalse(approvalCase.commandExposureEffect);
+    assertAllFalse(approvalCase.runtimeEffect);
+    if (approvalCase.caseId === "valid-command-exposure-approval-prerequisite-only") {
+      assert.equal(approvalCase.rejected, false);
+      assert.equal(approvalCase.approvalRecordValid, true);
+      assert.equal(approvalCase.prerequisiteSignalRecognized, true);
+      assert.ok(approvalCase.remainingBlockers.length >= 5);
+    } else {
+      assert.equal(approvalCase.rejected, true, approvalCase.caseId);
+      assert.equal(approvalCase.prerequisiteSignalRecognized, false, approvalCase.caseId);
+      assert.ok(approvalCase.rejectionReasons.length >= 1, approvalCase.caseId);
+    }
+  }
+  assert.deepEqual(inventory.validationRules, {
+    missingCommandExposureApproval: "must_reject_before_runtime_command_exposure",
+    invalidCommandExposureApproval: "must_reject_before_runtime_command_exposure",
+    revokedCommandExposureApproval: "must_reject_before_runtime_command_exposure",
+    validCommandExposureApproval: "may_count_only_as_prerequisite_signal",
+    validCommandExposureApprovalCannotEnableRuntime: true,
+    validCommandExposureApprovalCannotStartRuntime: true,
+    validCommandExposureApprovalCannotExposeRuntimeExecution: true,
+    validCommandExposureApprovalCannotExposeAdditionalCliCommands: true,
+    recognizedCommandDoesNotImplyRuntimeExecutionExposure: true,
+    dryRunCannotBypassApproval: true,
+    separateFutureRuntimeEnablementReviewRequired: true
+  });
+  assert.deepEqual(inventory.recognizedCommandBoundary, {
+    recognizedRuntimeCommandsToday: ["serve-runtime"],
+    recognizedRuntimeCommandCountToday: 1,
+    recognizedRuntimeCommandDefaultBlocked: true,
+    additionalRuntimeCommandsRecognizedByThisPhase: false,
+    additionalRuntimeCommandsExposedByThisPhase: false,
+    userRuntimeExecutionExposedToday: false,
+    futureCommandExposureApprovalRequiredBeforeExposure: true
+  });
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior, {
+    args: ["serve-runtime"],
+    dryRunArgs: ["serve-runtime", "--dry-run"],
+    recognizedByCli: true,
+    exitCode: "nonzero",
+    stdout: "",
+    stderr:
+      "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    runtimeExecution: false,
+    writesFiles: false
+  });
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-execution-exposed"));
+  assert.ok(inventory.forbiddenBehavior.includes("new-runtime-command-recognized"));
+  assert.deepEqual(inventory.safetyPosture, {
+    commandExposureApprovalContractRecorded: true,
+    missingCommandExposureApprovalRejected: true,
+    invalidCommandExposureApprovalRejected: true,
+    revokedCommandExposureApprovalRejected: true,
+    validCommandExposureApprovalPrerequisiteOnly: true,
+    validCommandExposureApprovalEnablesRuntime: false,
+    validCommandExposureApprovalStartsRuntime: false,
+    validCommandExposureApprovalExposesRuntimeExecution: false,
+    validCommandExposureApprovalExposesUserRuntimeCommand: false,
+    recognizedCommandIsRuntimeExecutionExposure: false,
+    canEnableRuntime: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    approvalCommandEnabled: false,
+    approvalGrantCreated: false,
+    approvalEvaluatorImplemented: false,
+    noLiveStdinLoop: true,
+    noStdoutStderrWriters: true,
+    noProcessControl: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true,
+    noWebSocketHttpSurface: true,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase58RuntimeCommandExposureApprovalContract, true);
+  assert.equal(
+    report.safetyPosture.flags.phase58CommandExposureApprovalContractRecorded,
+    true
+  );
+  assert.equal(report.safetyPosture.flags.phase58MissingCommandExposureApprovalRejected, true);
+  assert.equal(report.safetyPosture.flags.phase58InvalidCommandExposureApprovalRejected, true);
+  assert.equal(report.safetyPosture.flags.phase58RevokedCommandExposureApprovalRejected, true);
+  assert.equal(
+    report.safetyPosture.flags.phase58ValidCommandExposureApprovalPrerequisiteOnly,
+    true
+  );
+  assert.equal(report.safetyPosture.flags.phase58ValidCommandExposureApprovalEnablesRuntime, false);
+  assert.equal(report.safetyPosture.flags.phase58ValidCommandExposureApprovalStartsRuntime, false);
+  assert.equal(
+    report.safetyPosture.flags.phase58ValidCommandExposureApprovalExposesRuntimeExecution,
+    false
+  );
+  assert.equal(
+    report.safetyPosture.flags.phase58ValidCommandExposureApprovalExposesUserRuntimeCommand,
+    false
+  );
+  assert.equal(report.safetyPosture.flags.phase58RecognizedCommandIsRuntimeExecutionExposure, false);
+  assert.equal(report.safetyPosture.flags.phase58CanEnableRuntime, false);
+  assert.equal(report.safetyPosture.flags.phase58RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase58RuntimeStarted, false);
+  assert.equal(report.safetyPosture.flags.phase58RuntimeReady, false);
+  assert.equal(report.safetyPosture.flags.phase58RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase58RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase58ServeRuntimeStillDefaultBlocked, true);
+  assert.equal(report.safetyPosture.flags.phase58DryRunBypassesBlock, false);
+  assert.equal(report.safetyPosture.flags.phase58ApprovalCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase58ApprovalGrantCreated, false);
+  assert.equal(report.safetyPosture.flags.phase58ApprovalEvaluatorImplemented, false);
+  assert.equal(report.safetyPosture.flags.phase58CliSourceChanged, false);
+  assert.equal(report.safetyPosture.flags.phase58RustSourceChanged, false);
+  assert.equal(report.safetyPosture.flags.phase58ProcessControlEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase58StdoutStderrWritersEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase58TranscriptAuditSideEffectsEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase58AdapterRuntimeBehaviorEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase58ContentFabricRuntimeBehaviorEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase58WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -7967,6 +8258,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase55DefaultBlockedRuntimeCli, true);
   assert.equal(report.safetyPosture.phase56RuntimeEnablePreconditionGate, true);
   assert.equal(report.safetyPosture.phase57RuntimeApprovalValidationContract, true);
+  assert.equal(report.safetyPosture.phase58RuntimeCommandExposureApprovalContract, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -8191,6 +8483,35 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase57AdapterRuntimeBehaviorEnabled: false,
     phase57ContentFabricRuntimeBehaviorEnabled: false,
     phase57WebSocketHttpSurfaceEnabled: false,
+    phase58CommandExposureApprovalContractRecorded: true,
+    phase58MissingCommandExposureApprovalRejected: true,
+    phase58InvalidCommandExposureApprovalRejected: true,
+    phase58RevokedCommandExposureApprovalRejected: true,
+    phase58ValidCommandExposureApprovalPrerequisiteOnly: true,
+    phase58ValidCommandExposureApprovalEnablesRuntime: false,
+    phase58ValidCommandExposureApprovalStartsRuntime: false,
+    phase58ValidCommandExposureApprovalExposesRuntimeExecution: false,
+    phase58ValidCommandExposureApprovalExposesUserRuntimeCommand: false,
+    phase58RecognizedCommandIsRuntimeExecutionExposure: false,
+    phase58CanEnableRuntime: false,
+    phase58RuntimeEnabled: false,
+    phase58RuntimeStarted: false,
+    phase58RuntimeReady: false,
+    phase58RuntimeCommandEnabled: false,
+    phase58RuntimeExecutionEnabled: false,
+    phase58ServeRuntimeStillDefaultBlocked: true,
+    phase58DryRunBypassesBlock: false,
+    phase58ApprovalCommandEnabled: false,
+    phase58ApprovalGrantCreated: false,
+    phase58ApprovalEvaluatorImplemented: false,
+    phase58CliSourceChanged: false,
+    phase58RustSourceChanged: false,
+    phase58ProcessControlEnabled: false,
+    phase58StdoutStderrWritersEnabled: false,
+    phase58TranscriptAuditSideEffectsEnabled: false,
+    phase58AdapterRuntimeBehaviorEnabled: false,
+    phase58ContentFabricRuntimeBehaviorEnabled: false,
+    phase58WebSocketHttpSurfaceEnabled: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,

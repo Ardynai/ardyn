@@ -94,6 +94,12 @@ Phase 5.7 records runtime approval validation cases only. It keeps
 enables no runtime behavior, changes no Rust or CLI source, and records missing,
 invalid, revoked, and valid-prerequisite-only approval cases. See
 `docs/phase-5-7-runtime-approval-validation.md`.
+Phase 5.8 records runtime command-exposure approval cases only. It keeps
+`stdio_runtime` private, grants no approval, implements no approval evaluator,
+enables no runtime behavior, changes no Rust or CLI source, and records
+missing, invalid, revoked, and valid-prerequisite-only command-exposure
+approval cases. See
+`docs/phase-5-8-runtime-command-exposure-approval.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -314,6 +320,14 @@ revoked, and valid-prerequisite-only approval cases. Runtime remains disabled,
 valid approval cannot start runtime, `stdio_runtime` remains private, and no
 Rust source changes are made. See
 `docs/phase-5-7-runtime-approval-validation.md`.
+
+Phase 5.8 adds no Rust-host runtime implementation. It records a
+machine-readable runtime command-exposure approval contract for missing,
+invalid, revoked, and valid-prerequisite-only command-exposure approval cases.
+Runtime remains disabled, valid command-exposure approval cannot start runtime
+or expose runtime execution, `stdio_runtime` remains private, and no Rust source
+changes are made. See
+`docs/phase-5-8-runtime-command-exposure-approval.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

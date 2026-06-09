@@ -130,6 +130,9 @@ const phase56RuntimeEnablePreconditionGateMetadata = await readJson(
 const phase57RuntimeApprovalValidationContractMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json"
 );
+const phase58RuntimeCommandExposureApprovalContractMetadata = await readJson(
+  "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -177,9 +180,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.7",
-    name: "Runtime approval validation",
-    executionPosture: "runtime-approval-validation-contract runtime-disabled no-runtime-execution"
+    id: "5.8",
+    name: "Runtime command exposure approval",
+    executionPosture:
+      "runtime-command-exposure-approval-contract runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -227,12 +231,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.7 runtime approval validation status report.",
+        "Render this deterministic local Phase 5.8 runtime command exposure approval status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.7 status report.",
+      purpose: "Run focused tests for this local Phase 5.8 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-8-runtime-command-exposure-approval.test.mjs",
+      purpose:
+        "Run focused Phase 5.8 command-exposure approval contract and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -8412,6 +8422,204 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase58RuntimeCommandExposureApprovalInventory: {
+    statusLayer: {
+      document: "docs/phase-5-8-runtime-command-exposure-approval.md",
+      fixture:
+        "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json",
+      sourceRuntimeApprovalValidationDocument:
+        "docs/phase-5-7-runtime-approval-validation.md",
+      sourceRuntimeApprovalValidationFixture:
+        "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json",
+      precedingPhase: "5.7",
+      layerId: "runtime-command-exposure-approval-contract",
+      scope: "command-exposure-approval-contract-only-runtime-disabled",
+      commandExposureApprovalContractRecorded:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .commandExposureApprovalContractRecorded,
+      missingCommandExposureApprovalRejected:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .missingCommandExposureApprovalRejected,
+      invalidCommandExposureApprovalRejected:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .invalidCommandExposureApprovalRejected,
+      revokedCommandExposureApprovalRejected:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .revokedCommandExposureApprovalRejected,
+      validCommandExposureApprovalRecognizedAsPrerequisiteOnly:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .validCommandExposureApprovalRecognizedAsPrerequisiteOnly,
+      validCommandExposureApprovalEnablesRuntime:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .validCommandExposureApprovalEnablesRuntime,
+      validCommandExposureApprovalStartsRuntime:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .validCommandExposureApprovalStartsRuntime,
+      validCommandExposureApprovalExposesRuntimeExecution:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .validCommandExposureApprovalExposesRuntimeExecution,
+      validCommandExposureApprovalExposesUserRuntimeCommand:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .validCommandExposureApprovalExposesUserRuntimeCommand,
+      recognizedCommandIsRuntimeExecutionExposure:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .recognizedCommandIsRuntimeExecutionExposure,
+      canEnableRuntime:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary.canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      approvalCommandEnabled: false,
+      approvalGrantCreated: false,
+      approvalEvaluatorImplemented: false,
+      processControlEnabled: false,
+      stdoutStderrWritersEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-8-runtime-command-exposure-approval.md",
+        "Records the Phase 5.8 runtime command-exposure approval/rejection contract while runtime remains disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-7-runtime-approval-validation.md",
+        "Provides the runtime approval validation contract that Phase 5.8 narrows for command exposure approval."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.8 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.8 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.8 changes no Rust-host runtime source and records command-exposure approval only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json",
+        "Records missing, invalid, revoked, and valid-prerequisite-only runtime command-exposure approval cases."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.8 report metadata, docs cross-links, command-exposure approval cases, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-8-runtime-command-exposure-approval.test.mjs",
+        "Pins Phase 5.8 command-exposure approval fixture shape, fail-closed cases, serve-runtime rejection, approval-command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-7-runtime-approval-validation.md",
+        "docs/phase-5-8-runtime-command-exposure-approval.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-8-runtime-command-exposure-approval.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    contractSummary:
+      phase58RuntimeCommandExposureApprovalContractMetadata.contractSummary,
+    commandExposureApprovalRecordShape:
+      phase58RuntimeCommandExposureApprovalContractMetadata
+        .commandExposureApprovalRecordShape,
+    commandExposureApprovalCases:
+      phase58RuntimeCommandExposureApprovalContractMetadata
+        .commandExposureApprovalCases,
+    validationRules:
+      phase58RuntimeCommandExposureApprovalContractMetadata.validationRules,
+    recognizedCommandBoundary:
+      phase58RuntimeCommandExposureApprovalContractMetadata
+        .recognizedCommandBoundary,
+    blockedRuntimeEffect:
+      phase58RuntimeCommandExposureApprovalContractMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase58RuntimeCommandExposureApprovalContractMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase58RuntimeCommandExposureApprovalContractMetadata.forbiddenBehavior,
+    safetyPosture: {
+      commandExposureApprovalContractRecorded: true,
+      missingCommandExposureApprovalRejected: true,
+      invalidCommandExposureApprovalRejected: true,
+      revokedCommandExposureApprovalRejected: true,
+      validCommandExposureApprovalPrerequisiteOnly: true,
+      validCommandExposureApprovalEnablesRuntime: false,
+      validCommandExposureApprovalStartsRuntime: false,
+      validCommandExposureApprovalExposesRuntimeExecution: false,
+      validCommandExposureApprovalExposesUserRuntimeCommand: false,
+      recognizedCommandIsRuntimeExecutionExposure: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      approvalCommandEnabled: false,
+      approvalGrantCreated: false,
+      approvalEvaluatorImplemented: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -8452,6 +8660,7 @@ const report = {
     phase55DefaultBlockedRuntimeCli: true,
     phase56RuntimeEnablePreconditionGate: true,
     phase57RuntimeApprovalValidationContract: true,
+    phase58RuntimeCommandExposureApprovalContract: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -8675,6 +8884,35 @@ const report = {
       phase57AdapterRuntimeBehaviorEnabled: false,
       phase57ContentFabricRuntimeBehaviorEnabled: false,
       phase57WebSocketHttpSurfaceEnabled: false,
+      phase58CommandExposureApprovalContractRecorded: true,
+      phase58MissingCommandExposureApprovalRejected: true,
+      phase58InvalidCommandExposureApprovalRejected: true,
+      phase58RevokedCommandExposureApprovalRejected: true,
+      phase58ValidCommandExposureApprovalPrerequisiteOnly: true,
+      phase58ValidCommandExposureApprovalEnablesRuntime: false,
+      phase58ValidCommandExposureApprovalStartsRuntime: false,
+      phase58ValidCommandExposureApprovalExposesRuntimeExecution: false,
+      phase58ValidCommandExposureApprovalExposesUserRuntimeCommand: false,
+      phase58RecognizedCommandIsRuntimeExecutionExposure: false,
+      phase58CanEnableRuntime: false,
+      phase58RuntimeEnabled: false,
+      phase58RuntimeStarted: false,
+      phase58RuntimeReady: false,
+      phase58RuntimeCommandEnabled: false,
+      phase58RuntimeExecutionEnabled: false,
+      phase58ServeRuntimeStillDefaultBlocked: true,
+      phase58DryRunBypassesBlock: false,
+      phase58ApprovalCommandEnabled: false,
+      phase58ApprovalGrantCreated: false,
+      phase58ApprovalEvaluatorImplemented: false,
+      phase58CliSourceChanged: false,
+      phase58RustSourceChanged: false,
+      phase58ProcessControlEnabled: false,
+      phase58StdoutStderrWritersEnabled: false,
+      phase58TranscriptAuditSideEffectsEnabled: false,
+      phase58AdapterRuntimeBehaviorEnabled: false,
+      phase58ContentFabricRuntimeBehaviorEnabled: false,
+      phase58WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,
