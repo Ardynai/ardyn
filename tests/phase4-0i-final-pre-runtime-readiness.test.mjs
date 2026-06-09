@@ -387,10 +387,10 @@ test("Phase 4.1 status report still inventories Phase 4.0I readiness metadata wi
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.11",
-    name: "Runtime stdio safety boundary",
+    id: "5.12",
+    name: "Runtime transcript/audit boundary",
     executionPosture:
-      "runtime-stdio-safety-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-transcript-audit-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

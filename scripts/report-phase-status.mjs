@@ -142,6 +142,9 @@ const phase510RuntimeHostPolicyBoundaryContractMetadata = await readJson(
 const phase511RuntimeStdioSafetyBoundaryContractMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json"
 );
+const phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-12/runtime-transcript-audit-confinement-boundary-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -189,10 +192,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.11",
-    name: "Runtime stdio safety boundary",
+    id: "5.12",
+    name: "Runtime transcript/audit boundary",
     executionPosture:
-      "runtime-stdio-safety-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-transcript-audit-boundary-contract runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -240,12 +243,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.11 runtime stdio safety boundary status report.",
+        "Render this deterministic local Phase 5.12 runtime transcript/audit boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.11 status report.",
+      purpose: "Run focused tests for this local Phase 5.12 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-12-runtime-transcript-audit-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.12 runtime transcript/audit boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -9247,6 +9256,240 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase512RuntimeTranscriptAuditBoundaryInventory: {
+    statusLayer: {
+      document: "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-12/runtime-transcript-audit-confinement-boundary-contract.json",
+      sourceRuntimeStdioSafetyBoundaryDocument:
+        "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+      sourceRuntimeStdioSafetyBoundaryFixture:
+        "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json",
+      precedingPhase: "5.11",
+      layerId: "runtime-transcript-audit-confinement-boundary-contract",
+      scope: "runtime-transcript-audit-boundary-only-runtime-disabled",
+      runtimeTranscriptAuditBoundaryRecorded:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary.runtimeTranscriptAuditBoundaryRecorded,
+      transcriptAuditConfinementRequiredBeforeRuntimeEnablement:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary
+          .transcriptAuditConfinementRequiredBeforeRuntimeEnablement,
+      transcriptAuditConfinementImplemented:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary.transcriptAuditConfinementImplemented,
+      transcriptAuditConfinementActive:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary.transcriptAuditConfinementActive,
+      missingTranscriptAuditConfinementRejected:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary.missingTranscriptAuditConfinementRejected,
+      invalidTranscriptAuditConfinementRejected:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary.invalidTranscriptAuditConfinementRejected,
+      unboundedRuntimeTranscriptAuditWritesRejected:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary.unboundedRuntimeTranscriptAuditWritesRejected,
+      validRestrictiveTranscriptAuditConfinementPrerequisiteOnly:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary
+          .validRestrictiveTranscriptAuditConfinementPrerequisiteOnly,
+      validRestrictiveTranscriptAuditConfinementEnablesRuntime:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary.validRestrictiveTranscriptAuditConfinementEnablesRuntime,
+      validRestrictiveTranscriptAuditConfinementStartsRuntime:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary.validRestrictiveTranscriptAuditConfinementStartsRuntime,
+      validRestrictiveTranscriptAuditConfinementExposesRuntimeExecution:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary
+          .validRestrictiveTranscriptAuditConfinementExposesRuntimeExecution,
+      canEnableRuntime:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary.canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+          .contractSummary.serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      transcriptAuditConfinementCommandEnabled: false,
+      transcriptAuditConfinementImplemented: false,
+      transcriptAuditConfinementActive: false,
+      transcriptAuditConfinementEvaluated: false,
+      runtimeTranscriptWriterEnabled: false,
+      runtimeAuditWriterEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      stdioSafetyCommandEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      approvalCommandEnabled: false,
+      approvalEvaluatorImplemented: false,
+      approvalGrantProduced: false,
+      processControlEnabled: false,
+      hostPolicyRuntimeEnforcementImplemented: false,
+      hostPolicyRuntimeEnforcementActive: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+        "Records the Phase 5.12 runtime transcript/audit confinement boundary while runtime remains disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+        "Provides the prerequisite-only stdio safety boundary that Phase 5.12 keeps blocked."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.12 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.12 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.12 changes no Rust-host runtime source and records transcript/audit boundaries only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      "docs/phase-5-10-runtime-host-policy-boundary.md",
+      "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+      "docs/phase-5-12-runtime-transcript-audit-boundary.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-12/runtime-transcript-audit-confinement-boundary-contract.json",
+        "Records missing, invalid, unbounded, and valid-restrictive transcript/audit confinement cases."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.12 report metadata, docs cross-links, transcript/audit confinement boundary cases, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-12-runtime-transcript-audit-boundary.test.mjs",
+        "Pins Phase 5.12 transcript/audit fixture shape, prerequisite-only restrictive confinement, serve-runtime rejection, transcript/audit command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+        "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-12/runtime-transcript-audit-confinement-boundary-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-12-runtime-transcript-audit-boundary.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    contractSummary:
+      phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+        .contractSummary,
+    transcriptAuditConfinementBoundaryShape:
+      phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+        .transcriptAuditConfinementBoundaryShape,
+    transcriptAuditConfinementCases:
+      phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+        .transcriptAuditConfinementCases,
+    validationRules:
+      phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+        .validationRules,
+    blockedRuntimeEffect:
+      phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+        .blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata
+        .forbiddenBehavior,
+    safetyPosture: {
+      runtimeTranscriptAuditBoundaryRecorded: true,
+      transcriptAuditConfinementRequiredBeforeRuntimeEnablement: true,
+      transcriptAuditConfinementImplemented: false,
+      transcriptAuditConfinementActive: false,
+      missingTranscriptAuditConfinementRejected: true,
+      invalidTranscriptAuditConfinementRejected: true,
+      unboundedRuntimeTranscriptAuditWritesRejected: true,
+      validRestrictiveTranscriptAuditConfinementPrerequisiteOnly: true,
+      validRestrictiveTranscriptAuditConfinementEnablesRuntime: false,
+      validRestrictiveTranscriptAuditConfinementStartsRuntime: false,
+      validRestrictiveTranscriptAuditConfinementExposesRuntimeExecution: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      transcriptAuditConfinementCommandEnabled: false,
+      transcriptAuditConfinementImplemented: false,
+      transcriptAuditConfinementActive: false,
+      transcriptAuditConfinementEvaluated: false,
+      runtimeTranscriptWriterEnabled: false,
+      runtimeAuditWriterEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      stdioSafetyCommandEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      approvalCommandEnabled: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noTranscriptAuditRuntimeWrites: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -9291,6 +9534,7 @@ const report = {
     phase59ApprovalEvaluatorGrantBoundaryContract: true,
     phase510RuntimeHostPolicyBoundaryContract: true,
     phase511RuntimeStdioSafetyBoundaryContract: true,
+    phase512RuntimeTranscriptAuditBoundaryContract: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -9630,6 +9874,42 @@ const report = {
       phase511AdapterRuntimeBehaviorEnabled: false,
       phase511ContentFabricRuntimeBehaviorEnabled: false,
       phase511WebSocketHttpSurfaceEnabled: false,
+      phase512RuntimeTranscriptAuditBoundaryRecorded: true,
+      phase512TranscriptAuditConfinementRequiredBeforeRuntimeEnablement: true,
+      phase512TranscriptAuditConfinementImplemented: false,
+      phase512TranscriptAuditConfinementActive: false,
+      phase512MissingTranscriptAuditConfinementRejected: true,
+      phase512InvalidTranscriptAuditConfinementRejected: true,
+      phase512UnboundedRuntimeTranscriptAuditWritesRejected: true,
+      phase512ValidRestrictiveTranscriptAuditConfinementPrerequisiteOnly: true,
+      phase512ValidRestrictiveTranscriptAuditConfinementEnablesRuntime: false,
+      phase512ValidRestrictiveTranscriptAuditConfinementStartsRuntime: false,
+      phase512ValidRestrictiveTranscriptAuditConfinementExposesRuntimeExecution: false,
+      phase512CanEnableRuntime: false,
+      phase512RuntimeEnabled: false,
+      phase512RuntimeStarted: false,
+      phase512RuntimeReady: false,
+      phase512RuntimeCommandEnabled: false,
+      phase512RuntimeExecutionEnabled: false,
+      phase512ServeRuntimeStillDefaultBlocked: true,
+      phase512DryRunBypassesBlock: false,
+      phase512TranscriptAuditConfinementCommandEnabled: false,
+      phase512TranscriptAuditConfinementImplemented: false,
+      phase512TranscriptAuditConfinementActive: false,
+      phase512RuntimeTranscriptWriterEnabled: false,
+      phase512RuntimeAuditWriterEnabled: false,
+      phase512RuntimeTranscriptWritePerformed: false,
+      phase512RuntimeAuditWritePerformed: false,
+      phase512LiveStdinLoopEnabled: false,
+      phase512RuntimeStdoutWriterEnabled: false,
+      phase512RuntimeStderrWriterEnabled: false,
+      phase512ApprovalCommandEnabled: false,
+      phase512CliSourceChanged: false,
+      phase512RustSourceChanged: false,
+      phase512ProcessControlEnabled: false,
+      phase512AdapterRuntimeBehaviorEnabled: false,
+      phase512ContentFabricRuntimeBehaviorEnabled: false,
+      phase512WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

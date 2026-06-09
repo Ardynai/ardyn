@@ -20,6 +20,8 @@ Cross-links:
 - Runtime approval validation: `phase-5-7-runtime-approval-validation.md`
 - Runtime enablement preconditions: `phase-5-6-runtime-enable-preconditions.md`
 - Default-blocked runtime CLI: `phase-5-5-default-blocked-runtime-cli.md`
+- Runtime transcript/audit boundary:
+  `phase-5-12-runtime-transcript-audit-boundary.md`
 
 Machine-readable Phase 5.11 artifact path:
 
@@ -85,3 +87,5 @@ redaction policy, backpressure and partial-write handling, host-policy runtime
 enforcement, approval evaluator/grant implementation, remaining Phase 5.6
 preconditions, rollback/kill-switch binding, and positive runtime smokes. Phase
 5.11 only records the stdio safety boundary contract and fail-closed cases.
+Phase 5.12 follows by recording runtime transcript/audit confinement as a
+separate prerequisite-only boundary.

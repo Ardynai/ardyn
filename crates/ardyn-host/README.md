@@ -119,6 +119,12 @@ live stdin loop, enables no runtime stdout/stderr writers, enables no runtime
 behavior, changes no Rust or CLI source, and records missing, invalid,
 unbounded, and valid-restrictive-prerequisite-only stdio safety cases. See
 `docs/phase-5-11-runtime-stdio-safety-boundary.md`.
+Phase 5.12 records runtime transcript/audit confinement boundary cases only. It
+keeps `stdio_runtime` private, grants no approval, implements no runtime
+transcript or audit writes, enables no runtime behavior, changes no Rust or CLI
+source, and records missing, invalid, unbounded, and
+valid-restrictive-prerequisite-only transcript/audit confinement cases. See
+`docs/phase-5-12-runtime-transcript-audit-boundary.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -370,6 +376,14 @@ unbounded stdin/stdout/stderr behavior are rejected while valid restrictive
 stdio safety remains prerequisite-only. No runtime I/O is implemented, runtime
 remains disabled, `stdio_runtime` remains private, and no Rust source changes
 are made. See `docs/phase-5-11-runtime-stdio-safety-boundary.md`.
+
+Phase 5.12 adds no Rust-host runtime implementation. It records a
+machine-readable transcript/audit confinement boundary contract proving missing,
+invalid, and unbounded runtime transcript/audit writes are rejected while valid
+restrictive transcript/audit confinement remains prerequisite-only. No runtime
+transcript or audit writes are implemented, runtime remains disabled,
+`stdio_runtime` remains private, and no Rust source changes are made. See
+`docs/phase-5-12-runtime-transcript-audit-boundary.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write
