@@ -145,6 +145,9 @@ const phase511RuntimeStdioSafetyBoundaryContractMetadata = await readJson(
 const phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-12/runtime-transcript-audit-confinement-boundary-contract.json"
 );
+const phase513RuntimeProcessControlBoundaryContractMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -192,10 +195,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.12",
-    name: "Runtime transcript/audit boundary",
+    id: "5.13",
+    name: "Runtime process-control boundary",
     executionPosture:
-      "runtime-transcript-audit-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-process-control-boundary-contract runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -243,12 +246,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.12 runtime transcript/audit boundary status report.",
+        "Render this deterministic local Phase 5.13 runtime process-control boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.12 status report.",
+      purpose: "Run focused tests for this local Phase 5.13 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-13-runtime-process-control-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.13 runtime process-control boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -9490,6 +9499,257 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase513RuntimeProcessControlBoundaryInventory: {
+    statusLayer: {
+      document: "docs/phase-5-13-runtime-process-control-boundary.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json",
+      sourceRuntimeTranscriptAuditBoundaryDocument:
+        "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+      sourceRuntimeTranscriptAuditBoundaryFixture:
+        "tests/fixtures/host-policy/phase5-12/runtime-transcript-audit-confinement-boundary-contract.json",
+      precedingPhase: "5.12",
+      layerId: "runtime-process-control-boundary-contract",
+      scope: "runtime-process-control-boundary-only-runtime-disabled",
+      runtimeProcessControlBoundaryRecorded:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .runtimeProcessControlBoundaryRecorded,
+      processControlRequiredBeforeRuntimeEnablement:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .processControlRequiredBeforeRuntimeEnablement,
+      processControlBoundaryImplemented:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .processControlBoundaryImplemented,
+      processControlBoundaryActive:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .processControlBoundaryActive,
+      missingProcessControlBoundaryRejected:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .missingProcessControlBoundaryRejected,
+      invalidProcessControlBoundaryRejected:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .invalidProcessControlBoundaryRejected,
+      unboundedProcessSpawningTerminationSupervisionRejected:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .unboundedProcessSpawningTerminationSupervisionRejected,
+      validRestrictiveProcessControlBoundaryPrerequisiteOnly:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .validRestrictiveProcessControlBoundaryPrerequisiteOnly,
+      validRestrictiveProcessControlBoundaryEnablesRuntime:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .validRestrictiveProcessControlBoundaryEnablesRuntime,
+      validRestrictiveProcessControlBoundaryStartsRuntime:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .validRestrictiveProcessControlBoundaryStartsRuntime,
+      validRestrictiveProcessControlBoundaryExposesRuntimeExecution:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .validRestrictiveProcessControlBoundaryExposesRuntimeExecution,
+      canEnableRuntime:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      processControlCommandEnabled: false,
+      processControlBoundaryImplemented: false,
+      processControlBoundaryActive: false,
+      processControlBoundaryEvaluated: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      childProcessManaged: false,
+      processSignalSent: false,
+      processWaitPerformed: false,
+      transcriptAuditConfinementCommandEnabled: false,
+      transcriptAuditConfinementImplemented: false,
+      transcriptAuditConfinementActive: false,
+      runtimeTranscriptWriterEnabled: false,
+      runtimeAuditWriterEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      stdioSafetyCommandEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      approvalCommandEnabled: false,
+      approvalEvaluatorImplemented: false,
+      approvalGrantProduced: false,
+      hostPolicyRuntimeEnforcementImplemented: false,
+      hostPolicyRuntimeEnforcementActive: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-13-runtime-process-control-boundary.md",
+        "Records the Phase 5.13 runtime process-control boundary while runtime remains disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+        "Provides the prerequisite-only transcript/audit boundary that Phase 5.13 keeps blocked."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.13 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.13 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.13 changes no Rust-host runtime source and records process-control boundaries only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      "docs/phase-5-10-runtime-host-policy-boundary.md",
+      "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+      "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+      "docs/phase-5-13-runtime-process-control-boundary.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json",
+        "Records missing, invalid, unbounded, and valid-restrictive process-control cases."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.13 report metadata, docs cross-links, process-control boundary cases, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-13-runtime-process-control-boundary.test.mjs",
+        "Pins Phase 5.13 process-control fixture shape, prerequisite-only restrictive process control, serve-runtime rejection, process-control command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+        "docs/phase-5-13-runtime-process-control-boundary.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-13-runtime-process-control-boundary.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    contractSummary:
+      phase513RuntimeProcessControlBoundaryContractMetadata.contractSummary,
+    processControlBoundaryShape:
+      phase513RuntimeProcessControlBoundaryContractMetadata
+        .processControlBoundaryShape,
+    processControlBoundaryCases:
+      phase513RuntimeProcessControlBoundaryContractMetadata
+        .processControlBoundaryCases,
+    validationRules:
+      phase513RuntimeProcessControlBoundaryContractMetadata.validationRules,
+    blockedRuntimeEffect:
+      phase513RuntimeProcessControlBoundaryContractMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase513RuntimeProcessControlBoundaryContractMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase513RuntimeProcessControlBoundaryContractMetadata.forbiddenBehavior,
+    safetyPosture: {
+      runtimeProcessControlBoundaryRecorded: true,
+      processControlRequiredBeforeRuntimeEnablement: true,
+      processControlBoundaryImplemented: false,
+      processControlBoundaryActive: false,
+      missingProcessControlBoundaryRejected: true,
+      invalidProcessControlBoundaryRejected: true,
+      unboundedProcessSpawningTerminationSupervisionRejected: true,
+      validRestrictiveProcessControlBoundaryPrerequisiteOnly: true,
+      validRestrictiveProcessControlBoundaryEnablesRuntime: false,
+      validRestrictiveProcessControlBoundaryStartsRuntime: false,
+      validRestrictiveProcessControlBoundaryExposesRuntimeExecution: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      processControlCommandEnabled: false,
+      processControlBoundaryImplemented: false,
+      processControlBoundaryActive: false,
+      processControlBoundaryEvaluated: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      childProcessManaged: false,
+      processSignalSent: false,
+      processWaitPerformed: false,
+      transcriptAuditConfinementCommandEnabled: false,
+      transcriptAuditConfinementImplemented: false,
+      transcriptAuditConfinementActive: false,
+      runtimeTranscriptWriterEnabled: false,
+      runtimeAuditWriterEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      stdioSafetyCommandEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      approvalCommandEnabled: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noProcessSpawn: true,
+      noProcessTermination: true,
+      noRuntimeSupervision: true,
+      noChildProcessManagement: true,
+      noProcessSignal: true,
+      noProcessWait: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noTranscriptAuditRuntimeWrites: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -9535,6 +9795,7 @@ const report = {
     phase510RuntimeHostPolicyBoundaryContract: true,
     phase511RuntimeStdioSafetyBoundaryContract: true,
     phase512RuntimeTranscriptAuditBoundaryContract: true,
+    phase513RuntimeProcessControlBoundaryContract: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -9910,6 +10171,46 @@ const report = {
       phase512AdapterRuntimeBehaviorEnabled: false,
       phase512ContentFabricRuntimeBehaviorEnabled: false,
       phase512WebSocketHttpSurfaceEnabled: false,
+      phase513RuntimeProcessControlBoundaryRecorded: true,
+      phase513ProcessControlRequiredBeforeRuntimeEnablement: true,
+      phase513ProcessControlBoundaryImplemented: false,
+      phase513ProcessControlBoundaryActive: false,
+      phase513MissingProcessControlBoundaryRejected: true,
+      phase513InvalidProcessControlBoundaryRejected: true,
+      phase513UnboundedProcessSpawningTerminationSupervisionRejected: true,
+      phase513ValidRestrictiveProcessControlBoundaryPrerequisiteOnly: true,
+      phase513ValidRestrictiveProcessControlBoundaryEnablesRuntime: false,
+      phase513ValidRestrictiveProcessControlBoundaryStartsRuntime: false,
+      phase513ValidRestrictiveProcessControlBoundaryExposesRuntimeExecution: false,
+      phase513CanEnableRuntime: false,
+      phase513RuntimeEnabled: false,
+      phase513RuntimeStarted: false,
+      phase513RuntimeReady: false,
+      phase513RuntimeCommandEnabled: false,
+      phase513RuntimeExecutionEnabled: false,
+      phase513ServeRuntimeStillDefaultBlocked: true,
+      phase513DryRunBypassesBlock: false,
+      phase513ProcessControlCommandEnabled: false,
+      phase513ProcessControlBoundaryImplemented: false,
+      phase513ProcessControlBoundaryActive: false,
+      phase513ProcessControlBoundaryEvaluated: false,
+      phase513ProcessSpawnEnabled: false,
+      phase513ProcessTerminationEnabled: false,
+      phase513RuntimeSupervisionEnabled: false,
+      phase513ChildProcessManaged: false,
+      phase513ProcessSignalSent: false,
+      phase513ProcessWaitPerformed: false,
+      phase513LiveStdinLoopEnabled: false,
+      phase513RuntimeStdoutWriterEnabled: false,
+      phase513RuntimeStderrWriterEnabled: false,
+      phase513RuntimeTranscriptWritePerformed: false,
+      phase513RuntimeAuditWritePerformed: false,
+      phase513ApprovalCommandEnabled: false,
+      phase513CliSourceChanged: false,
+      phase513RustSourceChanged: false,
+      phase513AdapterRuntimeBehaviorEnabled: false,
+      phase513ContentFabricRuntimeBehaviorEnabled: false,
+      phase513WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

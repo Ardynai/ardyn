@@ -21,6 +21,8 @@ Cross-links:
 - Runtime approval validation: `phase-5-7-runtime-approval-validation.md`
 - Runtime enablement preconditions: `phase-5-6-runtime-enable-preconditions.md`
 - Default-blocked runtime CLI: `phase-5-5-default-blocked-runtime-cli.md`
+- Runtime process-control boundary:
+  `phase-5-13-runtime-process-control-boundary.md`
 
 Machine-readable Phase 5.12 artifact path:
 
@@ -91,3 +93,5 @@ host-policy runtime enforcement, approval evaluator/grant implementation,
 remaining Phase 5.6 preconditions, rollback/kill-switch binding, and positive
 runtime smokes. Phase 5.12 only records the transcript/audit confinement
 boundary contract and fail-closed cases.
+Phase 5.13 follows by recording runtime process-control boundaries as a
+separate prerequisite-only contract.

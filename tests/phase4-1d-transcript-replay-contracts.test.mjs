@@ -284,10 +284,10 @@ test("Phase 4.1D status report inventories transcript replay contracts without r
   const inventory = report.phase41DTranscriptReplayInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.12",
-    name: "Runtime transcript/audit boundary",
+    id: "5.13",
+    name: "Runtime process-control boundary",
     executionPosture:
-      "runtime-transcript-audit-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-process-control-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

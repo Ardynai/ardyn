@@ -410,10 +410,10 @@ test("Phase 4.1H status report inventories disposition without running checks", 
   const inventory = report.phase41HExternalReviewDispositionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.12",
-    name: "Runtime transcript/audit boundary",
+    id: "5.13",
+    name: "Runtime process-control boundary",
     executionPosture:
-      "runtime-transcript-audit-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-process-control-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

@@ -125,6 +125,12 @@ transcript or audit writes, enables no runtime behavior, changes no Rust or CLI
 source, and records missing, invalid, unbounded, and
 valid-restrictive-prerequisite-only transcript/audit confinement cases. See
 `docs/phase-5-12-runtime-transcript-audit-boundary.md`.
+Phase 5.13 records runtime process-control boundary cases only. It keeps
+`stdio_runtime` private, grants no approval, implements no process spawning,
+termination, or runtime supervision, enables no runtime behavior, changes no
+Rust or CLI source, and records missing, invalid, unbounded, and
+valid-restrictive-prerequisite-only process-control cases. See
+`docs/phase-5-13-runtime-process-control-boundary.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -384,6 +390,14 @@ restrictive transcript/audit confinement remains prerequisite-only. No runtime
 transcript or audit writes are implemented, runtime remains disabled,
 `stdio_runtime` remains private, and no Rust source changes are made. See
 `docs/phase-5-12-runtime-transcript-audit-boundary.md`.
+
+Phase 5.13 adds no Rust-host runtime implementation. It records a
+machine-readable process-control boundary contract proving missing, invalid,
+and unbounded process spawning, termination, or supervision are rejected while
+valid restrictive process control remains prerequisite-only. No process
+spawning, process termination, or runtime supervision is implemented, runtime
+remains disabled, `stdio_runtime` remains private, and no Rust source changes
+are made. See `docs/phase-5-13-runtime-process-control-boundary.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.12 Scope
+## Phase 3 through Phase 5.13 Scope
 
-This repository is currently in Phase 5.12 runtime transcript/audit boundary
+This repository is currently in Phase 5.13 runtime process-control boundary
 mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -72,7 +72,11 @@ runtime, or expose runtime execution plus Phase 5.12 runtime transcript/audit
 confinement boundary metadata proving missing, invalid, and unbounded runtime
 transcript/audit writes are rejected while valid restrictive confinement
 remains prerequisite-only and cannot enable runtime, start runtime, or expose
-runtime execution. Phase 5.12 is not runtime enablement.
+runtime execution plus Phase 5.13 runtime process-control boundary metadata
+proving missing, invalid, and unbounded process spawning, termination, and
+supervision are rejected while valid restrictive process control remains
+prerequisite-only and cannot enable runtime, start runtime, or expose runtime
+execution. Phase 5.13 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -320,6 +324,13 @@ Included now:
   implement runtime transcript/audit writes, cannot enable or start runtime,
   cannot expose runtime execution, and `serve-runtime` remains default-blocked.
   See `docs/phase-5-12-runtime-transcript-audit-boundary.md`.
+- Phase 5.13 runtime process-control boundary documentation, fixture, and
+  report metadata. This records missing, invalid, and unbounded process
+  spawning/termination/supervision as rejected, and records valid restrictive
+  process control as a prerequisite-only signal. It does not implement process
+  spawning, termination, supervision, or runtime execution, cannot enable or
+  start runtime, cannot expose runtime execution, and `serve-runtime` remains
+  default-blocked. See `docs/phase-5-13-runtime-process-control-boundary.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -471,7 +482,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.12 runtime transcript/audit boundary status report command is:
+The Phase 5.13 runtime process-control boundary status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -511,7 +522,8 @@ approval contract metadata, and Phase 5.9 approval evaluator/grant boundary
 contract metadata, and Phase 5.10 runtime host-policy enforcement boundary
 contract metadata, and Phase 5.11 runtime stdio safety boundary contract
 metadata, and Phase 5.12 runtime transcript/audit confinement boundary
-contract metadata
+contract metadata, and Phase 5.13 runtime process-control boundary contract
+metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
@@ -696,6 +708,15 @@ transcript/audit writes are rejected. Valid restrictive transcript/audit
 confinement is recognized only as a prerequisite signal and still does not
 implement runtime transcript/audit writes, enable runtime, start runtime,
 expose runtime execution, or bypass the remaining Phase 5.6 blockers.
+
+Phase 5.13 is documented in
+`docs/phase-5-13-runtime-process-control-boundary.md`. It records a
+machine-readable boundary proving missing, invalid, and unbounded process
+spawning, termination, and supervision are rejected. Valid restrictive process
+control is recognized only as a prerequisite signal and still does not
+implement process spawning, process termination, runtime supervision, enable
+runtime, start runtime, expose runtime execution, or bypass the remaining Phase
+5.6 blockers.
 
 Example dry-run check:
 

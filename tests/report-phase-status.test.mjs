@@ -921,6 +921,32 @@ const phase512CrossLinks = [
   "docs/phase-5-11-runtime-stdio-safety-boundary.md",
   "docs/phase-5-12-runtime-transcript-audit-boundary.md"
 ];
+const phase513DocFiles = [
+  "docs/phase-5-13-runtime-process-control-boundary.md",
+  "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase513CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md",
+  "docs/phase-5-4-disabled-command-exposure-plan.md",
+  "docs/phase-5-4a-jules-review-disposition.md",
+  "docs/phase-5-5-default-blocked-runtime-cli.md",
+  "docs/phase-5-6-runtime-enable-preconditions.md",
+  "docs/phase-5-7-runtime-approval-validation.md",
+  "docs/phase-5-8-runtime-command-exposure-approval.md",
+  "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+  "docs/phase-5-10-runtime-host-policy-boundary.md",
+  "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+  "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+  "docs/phase-5-13-runtime-process-control-boundary.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1042,15 +1068,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.12 runtime transcript/audit boundary docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.13 runtime process-control boundary docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.12",
-    name: "Runtime transcript/audit boundary",
+    id: "5.13",
+    name: "Runtime process-control boundary",
     executionPosture:
-      "runtime-transcript-audit-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-process-control-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1123,12 +1149,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.12 runtime transcript/audit boundary status report.",
+        "Render this deterministic local Phase 5.13 runtime process-control boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.12 status report.",
+      purpose: "Run focused tests for this local Phase 5.13 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-13-runtime-process-control-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.13 runtime process-control boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -9092,6 +9124,270 @@ test("report inventories Phase 5.12 as runtime transcript/audit boundary with ru
   assert.equal(report.safetyPosture.flags.phase512WebSocketHttpSurfaceEnabled, false);
 });
 
+test("report inventories Phase 5.13 as runtime process-control boundary with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase513RuntimeProcessControlBoundaryInventory;
+  const expectedCaseIds = [
+    "missing-process-control-boundary",
+    "invalid-process-control-boundary",
+    "unbounded-process-spawning-termination-supervision",
+    "valid-restrictive-process-control-boundary-prerequisite-only"
+  ];
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-13-runtime-process-control-boundary.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json",
+    sourceRuntimeTranscriptAuditBoundaryDocument:
+      "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+    sourceRuntimeTranscriptAuditBoundaryFixture:
+      "tests/fixtures/host-policy/phase5-12/runtime-transcript-audit-confinement-boundary-contract.json",
+    precedingPhase: "5.12",
+    layerId: "runtime-process-control-boundary-contract",
+    scope: "runtime-process-control-boundary-only-runtime-disabled",
+    runtimeProcessControlBoundaryRecorded: true,
+    processControlRequiredBeforeRuntimeEnablement: true,
+    processControlBoundaryImplemented: false,
+    processControlBoundaryActive: false,
+    missingProcessControlBoundaryRejected: true,
+    invalidProcessControlBoundaryRejected: true,
+    unboundedProcessSpawningTerminationSupervisionRejected: true,
+    validRestrictiveProcessControlBoundaryPrerequisiteOnly: true,
+    validRestrictiveProcessControlBoundaryEnablesRuntime: false,
+    validRestrictiveProcessControlBoundaryStartsRuntime: false,
+    validRestrictiveProcessControlBoundaryExposesRuntimeExecution: false,
+    canEnableRuntime: false,
+    runtimeEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeCommandEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    processControlCommandEnabled: false,
+    processControlBoundaryImplemented: false,
+    processControlBoundaryActive: false,
+    processControlBoundaryEvaluated: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    childProcessManaged: false,
+    processSignalSent: false,
+    processWaitPerformed: false,
+    transcriptAuditConfinementCommandEnabled: false,
+    transcriptAuditConfinementImplemented: false,
+    transcriptAuditConfinementActive: false,
+    runtimeTranscriptWriterEnabled: false,
+    runtimeAuditWriterEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    stdioSafetyCommandEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    approvalCommandEnabled: false,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    hostPolicyRuntimeEnforcementActive: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase513DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase513CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-13-runtime-process-control-boundary.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary, {
+    docsStatusFiles: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+      "docs/phase-5-13-runtime-process-control-boundary.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    machineReadableArtifactFiles: [
+      "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json"
+    ],
+    focusedTestFiles: [
+      "tests/phase5-13-runtime-process-control-boundary.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    cliRuntimeSourceFilesChanged: [],
+    rustRuntimeSourceFilesChanged: [],
+    cliSourceChangedByThisPhase: false,
+    appsCliIndexChangedByThisPhase: false,
+    rustSourceChangedByThisPhase: false,
+    machineReadableArtifactsChangedByThisPhase: true,
+    reportRunsChecks: false,
+    separateRuntimeImplementationPhaseRequired: true,
+    separateRuntimeEnablementApprovalRequired: true
+  });
+  assert.deepEqual(inventory.contractSummary, {
+    runtimeProcessControlBoundaryRecorded: true,
+    processControlRequiredBeforeRuntimeEnablement: true,
+    processControlBoundaryImplemented: false,
+    processControlBoundaryActive: false,
+    missingProcessControlBoundaryRejected: true,
+    invalidProcessControlBoundaryRejected: true,
+    unboundedProcessSpawningTerminationSupervisionRejected: true,
+    validRestrictiveProcessControlBoundaryPrerequisiteOnly: true,
+    validRestrictiveProcessControlBoundaryEnablesRuntime: false,
+    validRestrictiveProcessControlBoundaryStartsRuntime: false,
+    validRestrictiveProcessControlBoundaryExposesRuntimeExecution: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    requiresSeparateProcessControlRuntimeImplementationReview: true,
+    requiresRemainingPhase56Preconditions: true,
+    canEnableRuntime: false
+  });
+  assert.equal(
+    inventory.processControlBoundaryShape.futureBoundaryKind,
+    "runtime-process-control-boundary"
+  );
+  assert.ok(
+    inventory.processControlBoundaryShape.requiredBeforeRuntimeEnablement.includes(
+      "bounded-process-spawn-policy"
+    )
+  );
+  assert.ok(
+    inventory.processControlBoundaryShape.requiredBeforeRuntimeEnablement.includes(
+      "bounded-runtime-supervision-policy"
+    )
+  );
+  assert.ok(
+    inventory.processControlBoundaryShape.rejectedBoundaryShapes.includes(
+      "unbounded-process-spawning-termination-supervision"
+    )
+  );
+  assert.ok(
+    inventory.processControlBoundaryShape.requiredRestrictiveControls.includes(
+      "deny-shell-string-process-control"
+    )
+  );
+  assert.deepEqual(
+    inventory.processControlBoundaryCases.map((boundaryCase) => boundaryCase.caseId),
+    expectedCaseIds
+  );
+  for (const boundaryCase of inventory.processControlBoundaryCases) {
+    assert.equal(boundaryCase.rejectedForRuntimeEnablement, true);
+    assertAllFalse(boundaryCase.processControlEffect);
+    assertAllFalse(boundaryCase.runtimeEffect);
+  }
+  assert.equal(
+    inventory.validationRules.validRestrictiveProcessControlBoundaryCannotEnableRuntime,
+    true
+  );
+  assert.equal(
+    inventory.validationRules.validRestrictiveProcessControlBoundaryCannotStartRuntime,
+    true
+  );
+  assert.equal(
+    inventory.validationRules.validRestrictiveProcessControlBoundaryCannotExposeRuntimeExecution,
+    true
+  );
+  assert.equal(
+    inventory.validationRules.validRestrictiveProcessControlBoundaryCannotBypassTranscriptAuditBoundary,
+    true
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.ok(inventory.forbiddenBehavior.includes("process-spawn"));
+  assert.ok(inventory.forbiddenBehavior.includes("process-termination"));
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-supervision"));
+  assert.deepEqual(inventory.safetyPosture, {
+    runtimeProcessControlBoundaryRecorded: true,
+    processControlRequiredBeforeRuntimeEnablement: true,
+    processControlBoundaryImplemented: false,
+    processControlBoundaryActive: false,
+    missingProcessControlBoundaryRejected: true,
+    invalidProcessControlBoundaryRejected: true,
+    unboundedProcessSpawningTerminationSupervisionRejected: true,
+    validRestrictiveProcessControlBoundaryPrerequisiteOnly: true,
+    validRestrictiveProcessControlBoundaryEnablesRuntime: false,
+    validRestrictiveProcessControlBoundaryStartsRuntime: false,
+    validRestrictiveProcessControlBoundaryExposesRuntimeExecution: false,
+    canEnableRuntime: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    processControlCommandEnabled: false,
+    processControlBoundaryImplemented: false,
+    processControlBoundaryActive: false,
+    processControlBoundaryEvaluated: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    childProcessManaged: false,
+    processSignalSent: false,
+    processWaitPerformed: false,
+    transcriptAuditConfinementCommandEnabled: false,
+    transcriptAuditConfinementImplemented: false,
+    transcriptAuditConfinementActive: false,
+    runtimeTranscriptWriterEnabled: false,
+    runtimeAuditWriterEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    stdioSafetyCommandEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    approvalCommandEnabled: false,
+    noLiveStdinLoop: true,
+    noStdoutStderrWriters: true,
+    noProcessControl: true,
+    noProcessSpawn: true,
+    noProcessTermination: true,
+    noRuntimeSupervision: true,
+    noChildProcessManagement: true,
+    noProcessSignal: true,
+    noProcessWait: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noTranscriptAuditRuntimeWrites: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true,
+    noWebSocketHttpSurface: true,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase513RuntimeProcessControlBoundaryContract, true);
+  assert.equal(report.safetyPosture.flags.phase513RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase513RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase513RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase513ProcessSpawnEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase513ProcessTerminationEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase513RuntimeSupervisionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase513ChildProcessManaged, false);
+  assert.equal(report.safetyPosture.flags.phase513ProcessSignalSent, false);
+  assert.equal(report.safetyPosture.flags.phase513ProcessWaitPerformed, false);
+  assert.equal(report.safetyPosture.flags.phase513WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -9311,6 +9607,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase510RuntimeHostPolicyBoundaryContract, true);
   assert.equal(report.safetyPosture.phase511RuntimeStdioSafetyBoundaryContract, true);
   assert.equal(report.safetyPosture.phase512RuntimeTranscriptAuditBoundaryContract, true);
+  assert.equal(report.safetyPosture.phase513RuntimeProcessControlBoundaryContract, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -9687,6 +9984,46 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase512AdapterRuntimeBehaviorEnabled: false,
     phase512ContentFabricRuntimeBehaviorEnabled: false,
     phase512WebSocketHttpSurfaceEnabled: false,
+    phase513RuntimeProcessControlBoundaryRecorded: true,
+    phase513ProcessControlRequiredBeforeRuntimeEnablement: true,
+    phase513ProcessControlBoundaryImplemented: false,
+    phase513ProcessControlBoundaryActive: false,
+    phase513MissingProcessControlBoundaryRejected: true,
+    phase513InvalidProcessControlBoundaryRejected: true,
+    phase513UnboundedProcessSpawningTerminationSupervisionRejected: true,
+    phase513ValidRestrictiveProcessControlBoundaryPrerequisiteOnly: true,
+    phase513ValidRestrictiveProcessControlBoundaryEnablesRuntime: false,
+    phase513ValidRestrictiveProcessControlBoundaryStartsRuntime: false,
+    phase513ValidRestrictiveProcessControlBoundaryExposesRuntimeExecution: false,
+    phase513CanEnableRuntime: false,
+    phase513RuntimeEnabled: false,
+    phase513RuntimeStarted: false,
+    phase513RuntimeReady: false,
+    phase513RuntimeCommandEnabled: false,
+    phase513RuntimeExecutionEnabled: false,
+    phase513ServeRuntimeStillDefaultBlocked: true,
+    phase513DryRunBypassesBlock: false,
+    phase513ProcessControlCommandEnabled: false,
+    phase513ProcessControlBoundaryImplemented: false,
+    phase513ProcessControlBoundaryActive: false,
+    phase513ProcessControlBoundaryEvaluated: false,
+    phase513ProcessSpawnEnabled: false,
+    phase513ProcessTerminationEnabled: false,
+    phase513RuntimeSupervisionEnabled: false,
+    phase513ChildProcessManaged: false,
+    phase513ProcessSignalSent: false,
+    phase513ProcessWaitPerformed: false,
+    phase513LiveStdinLoopEnabled: false,
+    phase513RuntimeStdoutWriterEnabled: false,
+    phase513RuntimeStderrWriterEnabled: false,
+    phase513RuntimeTranscriptWritePerformed: false,
+    phase513RuntimeAuditWritePerformed: false,
+    phase513ApprovalCommandEnabled: false,
+    phase513CliSourceChanged: false,
+    phase513RustSourceChanged: false,
+    phase513AdapterRuntimeBehaviorEnabled: false,
+    phase513ContentFabricRuntimeBehaviorEnabled: false,
+    phase513WebSocketHttpSurfaceEnabled: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,
