@@ -348,10 +348,10 @@ test("Phase 4.1C status report inventories framing/redaction contracts without r
   const inventory = report.phase41CFramingRedactionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.8",
-    name: "Runtime command exposure approval",
+    id: "5.9",
+    name: "Approval evaluator/grant boundary",
     executionPosture:
-      "runtime-command-exposure-approval-contract runtime-disabled no-runtime-execution"
+      "approval-evaluator-grant-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

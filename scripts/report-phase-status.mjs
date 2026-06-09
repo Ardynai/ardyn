@@ -133,6 +133,9 @@ const phase57RuntimeApprovalValidationContractMetadata = await readJson(
 const phase58RuntimeCommandExposureApprovalContractMetadata = await readJson(
   "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json"
 );
+const phase59ApprovalEvaluatorGrantBoundaryContractMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-9/approval-evaluator-grant-boundary-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -180,10 +183,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.8",
-    name: "Runtime command exposure approval",
+    id: "5.9",
+    name: "Approval evaluator/grant boundary",
     executionPosture:
-      "runtime-command-exposure-approval-contract runtime-disabled no-runtime-execution"
+      "approval-evaluator-grant-boundary-contract runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -231,12 +234,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.8 runtime command exposure approval status report.",
+        "Render this deterministic local Phase 5.9 approval evaluator/grant boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.8 status report.",
+      purpose: "Run focused tests for this local Phase 5.9 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-9-approval-evaluator-grant-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.9 approval evaluator/grant boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -8620,6 +8629,200 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase59ApprovalEvaluatorGrantBoundaryInventory: {
+    statusLayer: {
+      document: "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-9/approval-evaluator-grant-boundary-contract.json",
+      sourceRuntimeCommandExposureApprovalDocument:
+        "docs/phase-5-8-runtime-command-exposure-approval.md",
+      sourceRuntimeCommandExposureApprovalFixture:
+        "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json",
+      precedingPhase: "5.8",
+      layerId: "approval-evaluator-grant-boundary-contract",
+      scope: "approval-evaluator-grant-boundary-only-runtime-disabled",
+      approvalEvaluatorGrantBoundaryRecorded:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .approvalEvaluatorGrantBoundaryRecorded,
+      runtimeApprovalPrerequisiteOnly:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .runtimeApprovalPrerequisiteOnly,
+      commandExposureApprovalPrerequisiteOnly:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .commandExposureApprovalPrerequisiteOnly,
+      combinedApprovalSignalsPrerequisiteOnly:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .combinedApprovalSignalsPrerequisiteOnly,
+      approvalEvaluatorImplemented:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .approvalEvaluatorImplemented,
+      approvalGrantProduced:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .approvalGrantProduced,
+      validApprovalSignalsCreateGrant:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .validApprovalSignalsCreateGrant,
+      validApprovalSignalsEnableRuntime:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .validApprovalSignalsEnableRuntime,
+      validApprovalSignalsStartRuntime:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .validApprovalSignalsStartRuntime,
+      validApprovalSignalsExposeRuntimeExecution:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .validApprovalSignalsExposeRuntimeExecution,
+      canEnableRuntime:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      approvalCommandEnabled: false,
+      processControlEnabled: false,
+      stdoutStderrWritersEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+        "Records the Phase 5.9 approval evaluator/grant boundary while runtime remains disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-8-runtime-command-exposure-approval.md",
+        "Provides the command-exposure approval contract that Phase 5.9 narrows for evaluator/grant boundaries."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.9 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.9 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.9 changes no Rust-host runtime source and records evaluator/grant boundaries only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-9/approval-evaluator-grant-boundary-contract.json",
+        "Records prerequisite-only approval signals, absent evaluator/grant, and fake-grant rejection cases."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.9 report metadata, docs cross-links, evaluator/grant boundary cases, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-9-approval-evaluator-grant-boundary.test.mjs",
+        "Pins Phase 5.9 evaluator/grant boundary fixture shape, prerequisite-only signals, fake-grant rejection, serve-runtime rejection, evaluator/grant command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-8-runtime-command-exposure-approval.md",
+        "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-9/approval-evaluator-grant-boundary-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-9-approval-evaluator-grant-boundary.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    contractSummary:
+      phase59ApprovalEvaluatorGrantBoundaryContractMetadata.contractSummary,
+    boundarySignals:
+      phase59ApprovalEvaluatorGrantBoundaryContractMetadata.boundarySignals,
+    evaluatorGrantBoundaryShape:
+      phase59ApprovalEvaluatorGrantBoundaryContractMetadata
+        .evaluatorGrantBoundaryShape,
+    boundaryCases:
+      phase59ApprovalEvaluatorGrantBoundaryContractMetadata.boundaryCases,
+    validationRules:
+      phase59ApprovalEvaluatorGrantBoundaryContractMetadata.validationRules,
+    blockedRuntimeEffect:
+      phase59ApprovalEvaluatorGrantBoundaryContractMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase59ApprovalEvaluatorGrantBoundaryContractMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase59ApprovalEvaluatorGrantBoundaryContractMetadata.forbiddenBehavior,
+    safetyPosture: {
+      approvalEvaluatorGrantBoundaryRecorded: true,
+      runtimeApprovalPrerequisiteOnly: true,
+      commandExposureApprovalPrerequisiteOnly: true,
+      combinedApprovalSignalsPrerequisiteOnly: true,
+      approvalEvaluatorImplemented: false,
+      approvalGrantProduced: false,
+      validApprovalSignalsCreateGrant: false,
+      validApprovalSignalsEnableRuntime: false,
+      validApprovalSignalsStartRuntime: false,
+      validApprovalSignalsExposeRuntimeExecution: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      approvalCommandEnabled: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -8661,6 +8864,7 @@ const report = {
     phase56RuntimeEnablePreconditionGate: true,
     phase57RuntimeApprovalValidationContract: true,
     phase58RuntimeCommandExposureApprovalContract: true,
+    phase59ApprovalEvaluatorGrantBoundaryContract: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -8913,6 +9117,33 @@ const report = {
       phase58AdapterRuntimeBehaviorEnabled: false,
       phase58ContentFabricRuntimeBehaviorEnabled: false,
       phase58WebSocketHttpSurfaceEnabled: false,
+      phase59ApprovalEvaluatorGrantBoundaryRecorded: true,
+      phase59RuntimeApprovalPrerequisiteOnly: true,
+      phase59CommandExposureApprovalPrerequisiteOnly: true,
+      phase59CombinedApprovalSignalsPrerequisiteOnly: true,
+      phase59ApprovalEvaluatorImplemented: false,
+      phase59ApprovalGrantProduced: false,
+      phase59ValidApprovalSignalsCreateGrant: false,
+      phase59ValidApprovalSignalsEnableRuntime: false,
+      phase59ValidApprovalSignalsStartRuntime: false,
+      phase59ValidApprovalSignalsExposeRuntimeExecution: false,
+      phase59CanEnableRuntime: false,
+      phase59RuntimeEnabled: false,
+      phase59RuntimeStarted: false,
+      phase59RuntimeReady: false,
+      phase59RuntimeCommandEnabled: false,
+      phase59RuntimeExecutionEnabled: false,
+      phase59ServeRuntimeStillDefaultBlocked: true,
+      phase59DryRunBypassesBlock: false,
+      phase59ApprovalCommandEnabled: false,
+      phase59CliSourceChanged: false,
+      phase59RustSourceChanged: false,
+      phase59ProcessControlEnabled: false,
+      phase59StdoutStderrWritersEnabled: false,
+      phase59TranscriptAuditSideEffectsEnabled: false,
+      phase59AdapterRuntimeBehaviorEnabled: false,
+      phase59ContentFabricRuntimeBehaviorEnabled: false,
+      phase59WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

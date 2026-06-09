@@ -100,6 +100,12 @@ enables no runtime behavior, changes no Rust or CLI source, and records
 missing, invalid, revoked, and valid-prerequisite-only command-exposure
 approval cases. See
 `docs/phase-5-8-runtime-command-exposure-approval.md`.
+Phase 5.9 records approval evaluator/grant boundary cases only. It keeps
+`stdio_runtime` private, grants no approval, implements or invokes no approval
+evaluator, produces or persists no approval grant, enables no runtime behavior,
+changes no Rust or CLI source, and records valid runtime approval plus valid
+command-exposure approval as prerequisite-only signals. See
+`docs/phase-5-9-approval-evaluator-grant-boundary.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -328,6 +334,14 @@ Runtime remains disabled, valid command-exposure approval cannot start runtime
 or expose runtime execution, `stdio_runtime` remains private, and no Rust source
 changes are made. See
 `docs/phase-5-8-runtime-command-exposure-approval.md`.
+
+Phase 5.9 adds no Rust-host runtime implementation. It records a
+machine-readable approval evaluator/grant boundary contract proving valid
+runtime approval and valid command-exposure approval remain prerequisite-only.
+No approval evaluator is implemented or invoked, no approval grant is produced
+or persisted, runtime remains disabled, `stdio_runtime` remains private, and no
+Rust source changes are made. See
+`docs/phase-5-9-approval-evaluator-grant-boundary.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

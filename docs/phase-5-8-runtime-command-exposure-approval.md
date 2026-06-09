@@ -13,6 +13,8 @@ Cross-links:
 - CLI status: `../apps/cli/README.md`
 - Rust host status: `../crates/ardyn-host/README.md`
 - Runtime approval validation: `phase-5-7-runtime-approval-validation.md`
+- Approval evaluator/grant boundary:
+  `phase-5-9-approval-evaluator-grant-boundary.md`
 - Runtime enablement preconditions: `phase-5-6-runtime-enable-preconditions.md`
 - Default-blocked runtime CLI: `phase-5-5-default-blocked-runtime-cli.md`
 - Disabled command exposure plan: `phase-5-4-disabled-command-exposure-plan.md`
@@ -78,5 +80,7 @@ Phase 5.8 adds no:
 A later runtime enablement phase still needs an explicit approval evaluator,
 host-policy runtime enforcement, stdio safety review, transcript/audit
 confinement, process-control boundaries, rollback/kill-switch behavior, and
-positive runtime smokes. Phase 5.8 only records the command-exposure approval
-contract shape and fail-closed cases.
+positive runtime smokes. Phase 5.9 follows by recording the separate boundary
+between prerequisite approval signals and any future evaluator or grant. Phase
+5.8 only records the command-exposure approval contract shape and fail-closed
+cases.

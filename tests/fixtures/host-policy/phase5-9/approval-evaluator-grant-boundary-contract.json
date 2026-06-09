@@ -1,0 +1,309 @@
+{
+  "schema": "ardyn.phase-5.9.approval-evaluator-grant-boundary-contract",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.9-approval-evaluator-grant-boundary",
+  "artifactKind": "approval-evaluator-grant-boundary-contract",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhase": {
+    "phase": "phase-5.8-runtime-command-exposure-approval",
+    "document": "docs/phase-5-8-runtime-command-exposure-approval.md",
+    "fixture": "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json",
+    "runtimeEnabled": false,
+    "runtimeApprovalPrerequisiteOnly": true,
+    "commandExposureApprovalPrerequisiteOnly": true,
+    "approvalEvaluatorImplemented": false,
+    "approvalGrantCreated": false
+  },
+  "contractSummary": {
+    "approvalEvaluatorGrantBoundaryRecorded": true,
+    "runtimeApprovalPrerequisiteOnly": true,
+    "commandExposureApprovalPrerequisiteOnly": true,
+    "combinedApprovalSignalsPrerequisiteOnly": true,
+    "approvalEvaluatorImplemented": false,
+    "approvalGrantProduced": false,
+    "approvalGrantSchema": "ardyn.runtime-approval-grant",
+    "approvalGrantSchemaVersion": "not-implemented",
+    "validRuntimeApprovalCreatesEvaluator": false,
+    "validCommandExposureApprovalCreatesEvaluator": false,
+    "validApprovalSignalsCreateGrant": false,
+    "validApprovalSignalsEnableRuntime": false,
+    "validApprovalSignalsStartRuntime": false,
+    "validApprovalSignalsExposeRuntimeExecution": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "requiresSeparateEvaluatorImplementationReview": true,
+    "requiresRemainingPhase56Preconditions": true,
+    "canEnableRuntime": false
+  },
+  "boundarySignals": {
+    "runtimeApprovalRecord": {
+      "sourcePhase": "phase-5.7-runtime-approval-validation",
+      "validCaseId": "valid-approval-prerequisite-only",
+      "recognizedAsPrerequisite": true,
+      "createsEvaluator": false,
+      "createsGrant": false,
+      "enablesRuntime": false,
+      "startsRuntime": false
+    },
+    "commandExposureApprovalRecord": {
+      "sourcePhase": "phase-5.8-runtime-command-exposure-approval",
+      "validCaseId": "valid-command-exposure-approval-prerequisite-only",
+      "recognizedAsPrerequisite": true,
+      "createsEvaluator": false,
+      "createsGrant": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    "combinedPrerequisiteState": {
+      "runtimeApprovalValid": true,
+      "commandExposureApprovalValid": true,
+      "allPrerequisiteSignalsRecognized": true,
+      "evaluatorAvailable": false,
+      "grantAvailable": false,
+      "runtimeEnablementAllowed": false
+    }
+  },
+  "evaluatorGrantBoundaryShape": {
+    "futureEvaluatorKind": "runtime-approval-evaluator",
+    "futureGrantKind": "runtime-approval-grant",
+    "requiredBeforeImplementation": [
+      "separate-evaluator-design-review",
+      "host-policy-runtime-enforcement",
+      "grant-revocation-semantics",
+      "rollback-kill-switch-binding",
+      "positive-runtime-smoke-requirements"
+    ],
+    "requiredEvaluatorInputSignals": [
+      "valid-runtime-approval-record",
+      "valid-command-exposure-approval-record",
+      "satisfied-runtime-enable-precondition-gate",
+      "host-policy-runtime-enforcement-review",
+      "stdio-safety-review",
+      "transcript-audit-confinement-review",
+      "process-control-boundary-review",
+      "rollback-kill-switch-review",
+      "positive-runtime-smoke-results"
+    ],
+    "requiredGrantFalseFieldsUntilImplemented": [
+      "grantProduced",
+      "grantPersisted",
+      "grantEvaluated",
+      "grantRevocationChecked",
+      "runtimeEnablementAuthorized",
+      "runtimeCommandAuthorized",
+      "runtimeExecutionAuthorized"
+    ],
+    "validPrerequisiteRule": "valid_approval_records_are_necessary_but_not_sufficient_and_must_not_create_evaluator_grant_or_runtime_enablement"
+  },
+  "boundaryCases": [
+    {
+      "caseId": "valid-runtime-approval-only",
+      "classification": "runtime_approval_prerequisite_only_evaluator_absent",
+      "runtimeApprovalValid": true,
+      "commandExposureApprovalValid": false,
+      "prerequisiteSignalRecognized": true,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "command_exposure_approval_missing",
+        "approval_evaluator_not_implemented",
+        "approval_grant_not_produced"
+      ],
+      "evaluatorEffect": {
+        "evaluatorImplemented": false,
+        "evaluatorInvoked": false,
+        "grantProduced": false,
+        "grantPersisted": false,
+        "grantRevocationChecked": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    },
+    {
+      "caseId": "valid-command-exposure-approval-only",
+      "classification": "command_exposure_prerequisite_only_evaluator_absent",
+      "runtimeApprovalValid": false,
+      "commandExposureApprovalValid": true,
+      "prerequisiteSignalRecognized": true,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "runtime_approval_missing",
+        "approval_evaluator_not_implemented",
+        "approval_grant_not_produced"
+      ],
+      "evaluatorEffect": {
+        "evaluatorImplemented": false,
+        "evaluatorInvoked": false,
+        "grantProduced": false,
+        "grantPersisted": false,
+        "grantRevocationChecked": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    },
+    {
+      "caseId": "valid-approval-signals-no-evaluator",
+      "classification": "combined_prerequisites_no_evaluator_no_grant",
+      "runtimeApprovalValid": true,
+      "commandExposureApprovalValid": true,
+      "prerequisiteSignalRecognized": true,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "approval_evaluator_not_implemented",
+        "approval_grant_not_produced",
+        "runtime_enable_preconditions_unsatisfied"
+      ],
+      "evaluatorEffect": {
+        "evaluatorImplemented": false,
+        "evaluatorInvoked": false,
+        "grantProduced": false,
+        "grantPersisted": false,
+        "grantRevocationChecked": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    },
+    {
+      "caseId": "fake-grant-attempt",
+      "classification": "fake_grant_attempt_rejected",
+      "runtimeApprovalValid": true,
+      "commandExposureApprovalValid": true,
+      "prerequisiteSignalRecognized": true,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "grant_schema_not_implemented",
+        "grant_attempt_out_of_scope",
+        "approval_evaluator_not_implemented"
+      ],
+      "evaluatorEffect": {
+        "evaluatorImplemented": false,
+        "evaluatorInvoked": false,
+        "grantProduced": false,
+        "grantPersisted": false,
+        "grantRevocationChecked": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    }
+  ],
+  "validationRules": {
+    "validRuntimeApproval": "may_count_only_as_prerequisite_signal",
+    "validCommandExposureApproval": "may_count_only_as_prerequisite_signal",
+    "combinedApprovalSignals": "must_not_create_evaluator_or_grant",
+    "fakeGrantAttempt": "must_reject_before_runtime_enablement",
+    "validApprovalSignalsCannotCreateEvaluator": true,
+    "validApprovalSignalsCannotProduceGrant": true,
+    "validApprovalSignalsCannotEnableRuntime": true,
+    "validApprovalSignalsCannotStartRuntime": true,
+    "validApprovalSignalsCannotExposeRuntimeExecution": true,
+    "dryRunCannotBypassApprovalBoundary": true,
+    "separateFutureRuntimeEnablementReviewRequired": true
+  },
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecutionExposed": false,
+    "approvalCommandEnabled": false,
+    "approvalEvaluatorImplemented": false,
+    "approvalEvaluatorInvoked": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalGrantRevocationChecked": false,
+    "stdinLoopEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "recognizedByCli": true,
+    "exitCode": "nonzero",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "runtime-enabled-true",
+    "runtime-command-enabled-true",
+    "runtime-execution-exposed",
+    "approval-evaluator-implemented",
+    "approval-evaluator-invoked",
+    "approval-grant-produced",
+    "approval-grant-persisted",
+    "runtime-start",
+    "live-stdin-loop",
+    "runtime-stdout-stderr-writer",
+    "process-control",
+    "transcript-audit-runtime-write",
+    "adapter-runtime-behavior",
+    "content-fabric-runtime-behavior",
+    "websocket-http-runtime-surface"
+  ],
+  "filesAllowedToChange": [
+    "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+    "tests/fixtures/host-policy/phase5-9/approval-evaluator-grant-boundary-contract.json",
+    "tests/phase5-9-approval-evaluator-grant-boundary.test.mjs",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs",
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-8-runtime-command-exposure-approval.md"
+  ],
+  "filesForbiddenToChange": [
+    "apps/cli/src/index.mjs",
+    "crates/ardyn-host/src/**",
+    "packages/fabric/src/runtime/**",
+    "apps/host/src/runtime/**"
+  ],
+  "validationCommands": [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status",
+    "node --test tests/phase5-9-approval-evaluator-grant-boundary.test.mjs",
+    "fallow health --hotspots --targets --report-only --summary --changed-since main",
+    "fallow audit --changed-since main --summary",
+    "fallow dead-code --changed-since main --summary"
+  ]
+}
