@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.6 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.7 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -75,6 +75,15 @@ control, transcript/audit side effect, adapter or Content Fabric runtime
 behavior, WebSocket/HTTP surface, Rust source change, or change to
 `apps/cli/src/index.mjs`. `serve-runtime` and `serve-runtime --dry-run` remain
 default-blocked.
+Phase 5.7 adds runtime approval validation docs/status metadata only. It
+records missing, invalid, revoked, and valid-prerequisite-only approval cases,
+but adds no Phase 5.7 CLI command, approval command, approval grant/evaluator,
+runtime start path, live stdin loop, stdout/stderr runtime writer, process
+control, transcript/audit side effect, adapter or Content Fabric runtime
+behavior, WebSocket/HTTP surface, Rust source change, or change to
+`apps/cli/src/index.mjs`. A valid approval record is only a prerequisite
+signal and cannot enable or start runtime. `serve-runtime` and
+`serve-runtime --dry-run` remain default-blocked.
 See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
@@ -86,7 +95,8 @@ See
 `docs/phase-5-4-disabled-command-exposure-plan.md`, and
 `docs/phase-5-4a-jules-review-disposition.md`, and
 `docs/phase-5-5-default-blocked-runtime-cli.md`, and
-`docs/phase-5-6-runtime-enable-preconditions.md`.
+`docs/phase-5-6-runtime-enable-preconditions.md`, and
+`docs/phase-5-7-runtime-approval-validation.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -427,3 +437,9 @@ stdio safety, transcript/audit confinement, process-control, rollback and
 kill-switch, and positive runtime smoke requirements are blocked and
 unsatisfied. It changes no CLI source and keeps `serve-runtime`
 default-blocked. See `docs/phase-5-6-runtime-enable-preconditions.md`.
+
+Phase 5.7 records runtime approval validation cases only. Missing, invalid, and
+revoked approval cases are rejected; valid approval is recognized only as a
+prerequisite signal and cannot enable runtime. It changes no CLI source and
+keeps `serve-runtime` default-blocked. See
+`docs/phase-5-7-runtime-approval-validation.md`.

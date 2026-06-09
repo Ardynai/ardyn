@@ -89,6 +89,11 @@ changes no Rust or CLI source, and records approval, host-policy, stdio safety,
 transcript/audit confinement, process-control, rollback/kill-switch, and
 positive runtime smoke requirements as blocked and unsatisfied. See
 `docs/phase-5-6-runtime-enable-preconditions.md`.
+Phase 5.7 records runtime approval validation cases only. It keeps
+`stdio_runtime` private, grants no approval, implements no approval evaluator,
+enables no runtime behavior, changes no Rust or CLI source, and records missing,
+invalid, revoked, and valid-prerequisite-only approval cases. See
+`docs/phase-5-7-runtime-approval-validation.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -302,6 +307,13 @@ transcript/audit confinement, process-control boundaries, rollback/kill-switch,
 and positive runtime smokes. Runtime remains disabled, `stdio_runtime` remains
 private, and no Rust source changes are made. See
 `docs/phase-5-6-runtime-enable-preconditions.md`.
+
+Phase 5.7 adds no Rust-host runtime implementation. It records a
+machine-readable runtime approval validation contract for missing, invalid,
+revoked, and valid-prerequisite-only approval cases. Runtime remains disabled,
+valid approval cannot start runtime, `stdio_runtime` remains private, and no
+Rust source changes are made. See
+`docs/phase-5-7-runtime-approval-validation.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

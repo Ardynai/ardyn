@@ -410,9 +410,9 @@ test("Phase 4.1H status report inventories disposition without running checks", 
   const inventory = report.phase41HExternalReviewDispositionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.6",
-    name: "Runtime enablement preconditions",
-    executionPosture: "runtime-enablement-precondition-gate runtime-disabled no-runtime-execution"
+    id: "5.7",
+    name: "Runtime approval validation",
+    executionPosture: "runtime-approval-validation-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

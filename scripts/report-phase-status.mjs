@@ -127,6 +127,9 @@ const phase55DefaultBlockedRuntimeCliMetadata = await readJson(
 const phase56RuntimeEnablePreconditionGateMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json"
 );
+const phase57RuntimeApprovalValidationContractMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -174,9 +177,9 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.6",
-    name: "Runtime enablement preconditions",
-    executionPosture: "runtime-enablement-precondition-gate runtime-disabled no-runtime-execution"
+    id: "5.7",
+    name: "Runtime approval validation",
+    executionPosture: "runtime-approval-validation-contract runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -224,12 +227,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.6 runtime enablement precondition status report.",
+        "Render this deterministic local Phase 5.7 runtime approval validation status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.6 status report.",
+      purpose: "Run focused tests for this local Phase 5.7 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-7-runtime-approval-validation.test.mjs",
+      purpose:
+        "Run focused Phase 5.7 runtime approval validation contract and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -8225,6 +8234,184 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase57RuntimeApprovalValidationInventory: {
+    statusLayer: {
+      document: "docs/phase-5-7-runtime-approval-validation.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json",
+      sourceRuntimeEnablePreconditionDocument:
+        "docs/phase-5-6-runtime-enable-preconditions.md",
+      sourceRuntimeEnablePreconditionFixture:
+        "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json",
+      precedingPhase: "5.6",
+      layerId: "runtime-approval-validation-contract",
+      scope: "approval-validation-contract-only-runtime-disabled",
+      approvalValidationContractRecorded:
+        phase57RuntimeApprovalValidationContractMetadata.contractSummary
+          .approvalValidationContractRecorded,
+      missingApprovalRejected:
+        phase57RuntimeApprovalValidationContractMetadata.contractSummary
+          .missingApprovalRejected,
+      invalidApprovalRejected:
+        phase57RuntimeApprovalValidationContractMetadata.contractSummary
+          .invalidApprovalRejected,
+      revokedApprovalRejected:
+        phase57RuntimeApprovalValidationContractMetadata.contractSummary
+          .revokedApprovalRejected,
+      validApprovalRecognizedAsPrerequisiteOnly:
+        phase57RuntimeApprovalValidationContractMetadata.contractSummary
+          .validApprovalRecognizedAsPrerequisiteOnly,
+      validApprovalEnablesRuntime:
+        phase57RuntimeApprovalValidationContractMetadata.contractSummary
+          .validApprovalEnablesRuntime,
+      validApprovalStartsRuntime:
+        phase57RuntimeApprovalValidationContractMetadata.contractSummary
+          .validApprovalStartsRuntime,
+      canEnableRuntime:
+        phase57RuntimeApprovalValidationContractMetadata.contractSummary.canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase57RuntimeApprovalValidationContractMetadata.contractSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      approvalCommandEnabled: false,
+      approvalGrantCreated: false,
+      approvalEvaluatorImplemented: false,
+      processControlEnabled: false,
+      stdoutStderrWritersEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-7-runtime-approval-validation.md",
+        "Records the Phase 5.7 runtime approval validation/rejection contract while runtime remains disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-6-runtime-enable-preconditions.md",
+        "Provides the precondition gate that Phase 5.7 narrows for approval validation."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.7 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.7 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.7 changes no Rust-host runtime source and records approval validation only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json",
+        "Records missing, invalid, revoked, and valid-prerequisite-only runtime approval cases."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.7 report metadata, docs cross-links, approval cases, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-7-runtime-approval-validation.test.mjs",
+        "Pins Phase 5.7 approval validation fixture shape, fail-closed cases, serve-runtime rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-6-runtime-enable-preconditions.md",
+        "docs/phase-5-7-runtime-approval-validation.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-7-runtime-approval-validation.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    contractSummary:
+      phase57RuntimeApprovalValidationContractMetadata.contractSummary,
+    approvalRecordShape:
+      phase57RuntimeApprovalValidationContractMetadata.approvalRecordShape,
+    approvalCases: phase57RuntimeApprovalValidationContractMetadata.approvalCases,
+    validationRules:
+      phase57RuntimeApprovalValidationContractMetadata.validationRules,
+    blockedRuntimeEffect:
+      phase57RuntimeApprovalValidationContractMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase57RuntimeApprovalValidationContractMetadata.serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase57RuntimeApprovalValidationContractMetadata.forbiddenBehavior,
+    safetyPosture: {
+      approvalValidationContractRecorded: true,
+      missingApprovalRejected: true,
+      invalidApprovalRejected: true,
+      revokedApprovalRejected: true,
+      validApprovalPrerequisiteOnly: true,
+      validApprovalEnablesRuntime: false,
+      validApprovalStartsRuntime: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      approvalCommandEnabled: false,
+      approvalGrantCreated: false,
+      approvalEvaluatorImplemented: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -8264,6 +8451,7 @@ const report = {
     phase54AJulesReviewDisposition: true,
     phase55DefaultBlockedRuntimeCli: true,
     phase56RuntimeEnablePreconditionGate: true,
+    phase57RuntimeApprovalValidationContract: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -8461,6 +8649,32 @@ const report = {
       phase56AdapterRuntimeBehaviorEnabled: false,
       phase56ContentFabricRuntimeBehaviorEnabled: false,
       phase56WebSocketHttpSurfaceEnabled: false,
+      phase57ApprovalValidationContractRecorded: true,
+      phase57MissingApprovalRejected: true,
+      phase57InvalidApprovalRejected: true,
+      phase57RevokedApprovalRejected: true,
+      phase57ValidApprovalPrerequisiteOnly: true,
+      phase57ValidApprovalEnablesRuntime: false,
+      phase57ValidApprovalStartsRuntime: false,
+      phase57CanEnableRuntime: false,
+      phase57RuntimeEnabled: false,
+      phase57RuntimeStarted: false,
+      phase57RuntimeReady: false,
+      phase57RuntimeCommandEnabled: false,
+      phase57RuntimeExecutionEnabled: false,
+      phase57ServeRuntimeStillDefaultBlocked: true,
+      phase57DryRunBypassesBlock: false,
+      phase57ApprovalCommandEnabled: false,
+      phase57ApprovalGrantCreated: false,
+      phase57ApprovalEvaluatorImplemented: false,
+      phase57CliSourceChanged: false,
+      phase57RustSourceChanged: false,
+      phase57ProcessControlEnabled: false,
+      phase57StdoutStderrWritersEnabled: false,
+      phase57TranscriptAuditSideEffectsEnabled: false,
+      phase57AdapterRuntimeBehaviorEnabled: false,
+      phase57ContentFabricRuntimeBehaviorEnabled: false,
+      phase57WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

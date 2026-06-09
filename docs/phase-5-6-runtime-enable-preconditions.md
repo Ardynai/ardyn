@@ -11,6 +11,7 @@ Cross-links:
 - CLI status: `../apps/cli/README.md`
 - Rust host status: `../crates/ardyn-host/README.md`
 - Default-blocked runtime CLI: `phase-5-5-default-blocked-runtime-cli.md`
+- Runtime approval validation contract: `phase-5-7-runtime-approval-validation.md`
 - Jules review disposition: `phase-5-4a-jules-review-disposition.md`
 
 Machine-readable Phase 5.6 artifact path:
@@ -57,6 +58,10 @@ Phase 5.6 adds no:
 - approval grant or approval evaluator
 - Rust-host runtime source change
 
-The next phase may only proceed toward runtime enablement after it explicitly
-changes one or more preconditions from blocked to satisfied with corresponding
-review evidence and tests.
+Phase 5.7 follows this gate by recording runtime approval validation and
+rejection cases only. It does not satisfy the full Phase 5.6 gate, enable
+runtime, or change `serve-runtime` behavior.
+
+A later runtime enablement phase may only proceed toward runtime enablement
+after it explicitly changes one or more preconditions from blocked to satisfied
+with corresponding review evidence and tests.
