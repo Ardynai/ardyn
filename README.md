@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.9 Scope
+## Phase 3 through Phase 5.10 Scope
 
-This repository is currently in Phase 5.9 approval evaluator/grant boundary
+This repository is currently in Phase 5.10 runtime host-policy boundary
 mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -60,7 +60,11 @@ metadata for missing, invalid, revoked, and valid-prerequisite-only
 command-exposure approval records plus Phase 5.9 approval evaluator/grant
 boundary metadata proving valid runtime approval and command-exposure approval
 signals remain prerequisite-only and do not create an evaluator, produce a
-grant, enable runtime, start runtime, or expose runtime execution. Phase 5.9
+grant, enable runtime, start runtime, or expose runtime execution plus Phase
+5.10 runtime host-policy enforcement boundary metadata proving missing,
+invalid, and permissive/unbounded host-policy enforcement is rejected while a
+valid restrictive host-policy enforcement record remains prerequisite-only and
+cannot enable runtime, start runtime, or expose runtime execution. Phase 5.10
 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
@@ -289,6 +293,13 @@ Included now:
   enable or start runtime, cannot expose runtime execution, and `serve-runtime`
   remains default-blocked. See
   `docs/phase-5-9-approval-evaluator-grant-boundary.md`.
+- Phase 5.10 runtime host-policy boundary documentation, fixture, and report
+  metadata. This records missing, invalid, and permissive/unbounded
+  host-policy enforcement as rejected, and records valid restrictive
+  host-policy enforcement as a prerequisite-only signal. It does not implement
+  or activate host-policy runtime enforcement, cannot enable or start runtime,
+  cannot expose runtime execution, and `serve-runtime` remains
+  default-blocked. See `docs/phase-5-10-runtime-host-policy-boundary.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -440,7 +451,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.9 approval evaluator/grant boundary status report command is:
+The Phase 5.10 runtime host-policy boundary status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -477,6 +488,7 @@ disposition metadata, Phase 5.5 default-blocked runtime CLI metadata, and
 Phase 5.6 runtime enablement precondition gate metadata, Phase 5.7 runtime
 approval validation contract metadata, and Phase 5.8 runtime command exposure
 approval contract metadata, and Phase 5.9 approval evaluator/grant boundary
+contract metadata, and Phase 5.10 runtime host-policy enforcement boundary
 contract metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
@@ -638,6 +650,14 @@ command-exposure approval remain prerequisite-only. Their combination still
 does not implement or invoke an approval evaluator, produce or persist an
 approval grant, enable runtime, start runtime, expose runtime execution, or
 bypass the remaining Phase 5.6 blockers.
+
+Phase 5.10 is documented in
+`docs/phase-5-10-runtime-host-policy-boundary.md`. It records a
+machine-readable boundary proving missing, invalid, and permissive/unbounded
+host-policy enforcement is rejected. Valid restrictive host-policy enforcement
+is recognized only as a prerequisite signal and still does not implement or
+activate host-policy runtime enforcement, enable runtime, start runtime, expose
+runtime execution, or bypass the remaining Phase 5.6 blockers.
 
 Example dry-run check:
 

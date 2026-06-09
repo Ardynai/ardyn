@@ -106,6 +106,13 @@ evaluator, produces or persists no approval grant, enables no runtime behavior,
 changes no Rust or CLI source, and records valid runtime approval plus valid
 command-exposure approval as prerequisite-only signals. See
 `docs/phase-5-9-approval-evaluator-grant-boundary.md`.
+Phase 5.10 records runtime host-policy boundary cases only. It keeps
+`stdio_runtime` private, grants no approval, implements or activates no
+host-policy runtime enforcement, evaluates no runtime policy at execution time,
+enables no runtime behavior, changes no Rust or CLI source, and records missing,
+invalid, permissive/unbounded, and valid-restrictive-prerequisite-only
+host-policy enforcement cases. See
+`docs/phase-5-10-runtime-host-policy-boundary.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -342,6 +349,14 @@ No approval evaluator is implemented or invoked, no approval grant is produced
 or persisted, runtime remains disabled, `stdio_runtime` remains private, and no
 Rust source changes are made. See
 `docs/phase-5-9-approval-evaluator-grant-boundary.md`.
+
+Phase 5.10 adds no Rust-host runtime implementation. It records a
+machine-readable host-policy enforcement boundary contract proving missing,
+invalid, and permissive/unbounded enforcement are rejected while valid
+restrictive host-policy enforcement remains prerequisite-only. No host-policy
+runtime enforcement is implemented or activated, runtime remains disabled,
+`stdio_runtime` remains private, and no Rust source changes are made. See
+`docs/phase-5-10-runtime-host-policy-boundary.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

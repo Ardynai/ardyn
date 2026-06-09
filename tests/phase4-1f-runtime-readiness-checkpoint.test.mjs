@@ -507,10 +507,10 @@ test("Phase 4.1F status report inventories checkpoint without running checks", a
   const inventory = report.phase41FRuntimeReadinessCheckpointInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.9",
-    name: "Approval evaluator/grant boundary",
+    id: "5.10",
+    name: "Runtime host-policy boundary",
     executionPosture:
-      "approval-evaluator-grant-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-host-policy-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

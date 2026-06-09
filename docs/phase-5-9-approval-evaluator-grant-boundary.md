@@ -17,6 +17,7 @@ Cross-links:
 - Runtime approval validation: `phase-5-7-runtime-approval-validation.md`
 - Runtime enablement preconditions: `phase-5-6-runtime-enable-preconditions.md`
 - Default-blocked runtime CLI: `phase-5-5-default-blocked-runtime-cli.md`
+- Runtime host-policy boundary: `phase-5-10-runtime-host-policy-boundary.md`
 
 Machine-readable Phase 5.9 artifact path:
 
@@ -80,3 +81,5 @@ grant/revocation semantics, host-policy runtime enforcement, stdio safety
 review, transcript/audit confinement, process-control boundaries,
 rollback/kill-switch binding, and positive runtime smokes. Phase 5.9 only
 records the evaluator/grant boundary contract and fail-closed cases.
+Phase 5.10 follows by recording host-policy runtime enforcement as a separate
+prerequisite-only boundary.

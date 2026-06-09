@@ -136,6 +136,9 @@ const phase58RuntimeCommandExposureApprovalContractMetadata = await readJson(
 const phase59ApprovalEvaluatorGrantBoundaryContractMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-9/approval-evaluator-grant-boundary-contract.json"
 );
+const phase510RuntimeHostPolicyBoundaryContractMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -183,10 +186,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.9",
-    name: "Approval evaluator/grant boundary",
+    id: "5.10",
+    name: "Runtime host-policy boundary",
     executionPosture:
-      "approval-evaluator-grant-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-host-policy-boundary-contract runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -234,12 +237,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.9 approval evaluator/grant boundary status report.",
+        "Render this deterministic local Phase 5.10 runtime host-policy boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.9 status report.",
+      purpose: "Run focused tests for this local Phase 5.10 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-10-runtime-host-policy-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.10 runtime host-policy boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -8823,6 +8832,206 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase510RuntimeHostPolicyBoundaryInventory: {
+    statusLayer: {
+      document: "docs/phase-5-10-runtime-host-policy-boundary.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json",
+      sourceApprovalEvaluatorGrantBoundaryDocument:
+        "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      sourceApprovalEvaluatorGrantBoundaryFixture:
+        "tests/fixtures/host-policy/phase5-9/approval-evaluator-grant-boundary-contract.json",
+      precedingPhase: "5.9",
+      layerId: "runtime-host-policy-enforcement-boundary-contract",
+      scope: "runtime-host-policy-boundary-only-runtime-disabled",
+      runtimeHostPolicyBoundaryRecorded:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .runtimeHostPolicyBoundaryRecorded,
+      hostPolicyRuntimeEnforcementRequired:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .hostPolicyRuntimeEnforcementRequired,
+      hostPolicyRuntimeEnforcementImplemented:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .hostPolicyRuntimeEnforcementImplemented,
+      hostPolicyRuntimeEnforcementActive:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .hostPolicyRuntimeEnforcementActive,
+      missingHostPolicyEnforcementRejected:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .missingHostPolicyEnforcementRejected,
+      invalidHostPolicyEnforcementRejected:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .invalidHostPolicyEnforcementRejected,
+      permissiveUnboundedHostPolicyEnforcementRejected:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .permissiveUnboundedHostPolicyEnforcementRejected,
+      validRestrictiveHostPolicyPrerequisiteOnly:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .validRestrictiveHostPolicyPrerequisiteOnly,
+      validRestrictiveHostPolicyEnablesRuntime:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .validRestrictiveHostPolicyEnablesRuntime,
+      validRestrictiveHostPolicyStartsRuntime:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .validRestrictiveHostPolicyStartsRuntime,
+      validRestrictiveHostPolicyExposesRuntimeExecution:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .validRestrictiveHostPolicyExposesRuntimeExecution,
+      canEnableRuntime:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      hostPolicyCommandEnabled: false,
+      approvalCommandEnabled: false,
+      approvalEvaluatorImplemented: false,
+      approvalGrantProduced: false,
+      processControlEnabled: false,
+      stdoutStderrWritersEnabled: false,
+      transcriptAuditSideEffectsEnabled: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-10-runtime-host-policy-boundary.md",
+        "Records the Phase 5.10 runtime host-policy enforcement boundary while runtime remains disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+        "Provides the prerequisite-only evaluator/grant boundary that Phase 5.10 keeps blocked."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.10 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.10 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.10 changes no Rust-host runtime source and records host-policy boundaries only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      "docs/phase-5-10-runtime-host-policy-boundary.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json",
+        "Records missing, invalid, permissive, and valid-restrictive host-policy enforcement cases."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.10 report metadata, docs cross-links, host-policy boundary cases, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-10-runtime-host-policy-boundary.test.mjs",
+        "Pins Phase 5.10 host-policy fixture shape, prerequisite-only restrictive enforcement, serve-runtime rejection, host-policy command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+        "docs/phase-5-10-runtime-host-policy-boundary.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-10-runtime-host-policy-boundary.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    contractSummary:
+      phase510RuntimeHostPolicyBoundaryContractMetadata.contractSummary,
+    hostPolicyBoundaryShape:
+      phase510RuntimeHostPolicyBoundaryContractMetadata.hostPolicyBoundaryShape,
+    hostPolicyEnforcementCases:
+      phase510RuntimeHostPolicyBoundaryContractMetadata.hostPolicyEnforcementCases,
+    validationRules:
+      phase510RuntimeHostPolicyBoundaryContractMetadata.validationRules,
+    blockedRuntimeEffect:
+      phase510RuntimeHostPolicyBoundaryContractMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase510RuntimeHostPolicyBoundaryContractMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase510RuntimeHostPolicyBoundaryContractMetadata.forbiddenBehavior,
+    safetyPosture: {
+      runtimeHostPolicyBoundaryRecorded: true,
+      hostPolicyRuntimeEnforcementRequired: true,
+      hostPolicyRuntimeEnforcementImplemented: false,
+      hostPolicyRuntimeEnforcementActive: false,
+      missingHostPolicyEnforcementRejected: true,
+      invalidHostPolicyEnforcementRejected: true,
+      permissiveUnboundedHostPolicyEnforcementRejected: true,
+      validRestrictiveHostPolicyPrerequisiteOnly: true,
+      validRestrictiveHostPolicyEnablesRuntime: false,
+      validRestrictiveHostPolicyStartsRuntime: false,
+      validRestrictiveHostPolicyExposesRuntimeExecution: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      hostPolicyCommandEnabled: false,
+      approvalCommandEnabled: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -8865,6 +9074,7 @@ const report = {
     phase57RuntimeApprovalValidationContract: true,
     phase58RuntimeCommandExposureApprovalContract: true,
     phase59ApprovalEvaluatorGrantBoundaryContract: true,
+    phase510RuntimeHostPolicyBoundaryContract: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -9144,6 +9354,35 @@ const report = {
       phase59AdapterRuntimeBehaviorEnabled: false,
       phase59ContentFabricRuntimeBehaviorEnabled: false,
       phase59WebSocketHttpSurfaceEnabled: false,
+      phase510RuntimeHostPolicyBoundaryRecorded: true,
+      phase510HostPolicyRuntimeEnforcementRequired: true,
+      phase510HostPolicyRuntimeEnforcementImplemented: false,
+      phase510HostPolicyRuntimeEnforcementActive: false,
+      phase510MissingHostPolicyEnforcementRejected: true,
+      phase510InvalidHostPolicyEnforcementRejected: true,
+      phase510PermissiveUnboundedHostPolicyEnforcementRejected: true,
+      phase510ValidRestrictiveHostPolicyPrerequisiteOnly: true,
+      phase510ValidRestrictiveHostPolicyEnablesRuntime: false,
+      phase510ValidRestrictiveHostPolicyStartsRuntime: false,
+      phase510ValidRestrictiveHostPolicyExposesRuntimeExecution: false,
+      phase510CanEnableRuntime: false,
+      phase510RuntimeEnabled: false,
+      phase510RuntimeStarted: false,
+      phase510RuntimeReady: false,
+      phase510RuntimeCommandEnabled: false,
+      phase510RuntimeExecutionEnabled: false,
+      phase510ServeRuntimeStillDefaultBlocked: true,
+      phase510DryRunBypassesBlock: false,
+      phase510HostPolicyCommandEnabled: false,
+      phase510ApprovalCommandEnabled: false,
+      phase510CliSourceChanged: false,
+      phase510RustSourceChanged: false,
+      phase510ProcessControlEnabled: false,
+      phase510StdoutStderrWritersEnabled: false,
+      phase510TranscriptAuditSideEffectsEnabled: false,
+      phase510AdapterRuntimeBehaviorEnabled: false,
+      phase510ContentFabricRuntimeBehaviorEnabled: false,
+      phase510WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

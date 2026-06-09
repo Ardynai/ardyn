@@ -849,6 +849,29 @@ const phase59CrossLinks = [
   "docs/phase-5-8-runtime-command-exposure-approval.md",
   "docs/phase-5-9-approval-evaluator-grant-boundary.md"
 ];
+const phase510DocFiles = [
+  "docs/phase-5-10-runtime-host-policy-boundary.md",
+  "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase510CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md",
+  "docs/phase-5-4-disabled-command-exposure-plan.md",
+  "docs/phase-5-4a-jules-review-disposition.md",
+  "docs/phase-5-5-default-blocked-runtime-cli.md",
+  "docs/phase-5-6-runtime-enable-preconditions.md",
+  "docs/phase-5-7-runtime-approval-validation.md",
+  "docs/phase-5-8-runtime-command-exposure-approval.md",
+  "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+  "docs/phase-5-10-runtime-host-policy-boundary.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -970,15 +993,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.9 approval evaluator/grant boundary docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.10 runtime host-policy boundary docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.9",
-    name: "Approval evaluator/grant boundary",
+    id: "5.10",
+    name: "Runtime host-policy boundary",
     executionPosture:
-      "approval-evaluator-grant-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-host-policy-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1051,12 +1074,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.9 approval evaluator/grant boundary status report.",
+        "Render this deterministic local Phase 5.10 runtime host-policy boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.9 status report.",
+      purpose: "Run focused tests for this local Phase 5.10 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-10-runtime-host-policy-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.10 runtime host-policy boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -8315,6 +8344,248 @@ test("report inventories Phase 5.9 as evaluator/grant boundary with runtime bloc
   assert.equal(report.safetyPosture.flags.phase59WebSocketHttpSurfaceEnabled, false);
 });
 
+test("report inventories Phase 5.10 as runtime host-policy boundary with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase510RuntimeHostPolicyBoundaryInventory;
+  const expectedCaseIds = [
+    "missing-host-policy-enforcement",
+    "invalid-host-policy-enforcement",
+    "permissive-unbounded-host-policy-enforcement",
+    "valid-restrictive-host-policy-prerequisite-only"
+  ];
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-10-runtime-host-policy-boundary.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json",
+    sourceApprovalEvaluatorGrantBoundaryDocument:
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+    sourceApprovalEvaluatorGrantBoundaryFixture:
+      "tests/fixtures/host-policy/phase5-9/approval-evaluator-grant-boundary-contract.json",
+    precedingPhase: "5.9",
+    layerId: "runtime-host-policy-enforcement-boundary-contract",
+    scope: "runtime-host-policy-boundary-only-runtime-disabled",
+    runtimeHostPolicyBoundaryRecorded: true,
+    hostPolicyRuntimeEnforcementRequired: true,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    hostPolicyRuntimeEnforcementActive: false,
+    missingHostPolicyEnforcementRejected: true,
+    invalidHostPolicyEnforcementRejected: true,
+    permissiveUnboundedHostPolicyEnforcementRejected: true,
+    validRestrictiveHostPolicyPrerequisiteOnly: true,
+    validRestrictiveHostPolicyEnablesRuntime: false,
+    validRestrictiveHostPolicyStartsRuntime: false,
+    validRestrictiveHostPolicyExposesRuntimeExecution: false,
+    canEnableRuntime: false,
+    runtimeEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeCommandEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    hostPolicyCommandEnabled: false,
+    approvalCommandEnabled: false,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    processControlEnabled: false,
+    stdoutStderrWritersEnabled: false,
+    transcriptAuditSideEffectsEnabled: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase510DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase510CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-10-runtime-host-policy-boundary.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary, {
+    docsStatusFiles: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      "docs/phase-5-10-runtime-host-policy-boundary.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    machineReadableArtifactFiles: [
+      "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json"
+    ],
+    focusedTestFiles: [
+      "tests/phase5-10-runtime-host-policy-boundary.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    cliRuntimeSourceFilesChanged: [],
+    rustRuntimeSourceFilesChanged: [],
+    cliSourceChangedByThisPhase: false,
+    appsCliIndexChangedByThisPhase: false,
+    rustSourceChangedByThisPhase: false,
+    machineReadableArtifactsChangedByThisPhase: true,
+    reportRunsChecks: false,
+    separateRuntimeImplementationPhaseRequired: true,
+    separateRuntimeEnablementApprovalRequired: true
+  });
+  assert.deepEqual(inventory.contractSummary, {
+    runtimeHostPolicyBoundaryRecorded: true,
+    hostPolicyRuntimeEnforcementRequired: true,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    hostPolicyRuntimeEnforcementActive: false,
+    missingHostPolicyEnforcementRejected: true,
+    invalidHostPolicyEnforcementRejected: true,
+    permissiveUnboundedHostPolicyEnforcementRejected: true,
+    validRestrictiveHostPolicyPrerequisiteOnly: true,
+    validRestrictiveHostPolicyEnablesRuntime: false,
+    validRestrictiveHostPolicyStartsRuntime: false,
+    validRestrictiveHostPolicyExposesRuntimeExecution: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    requiresSeparateHostPolicyRuntimeImplementationReview: true,
+    requiresRemainingPhase56Preconditions: true,
+    canEnableRuntime: false
+  });
+  assert.equal(
+    inventory.hostPolicyBoundaryShape.futureEnforcementKind,
+    "runtime-host-policy-enforcement"
+  );
+  assert.ok(
+    inventory.hostPolicyBoundaryShape.requiredBeforeRuntimeEnablement.includes(
+      "restrictive-host-policy-runtime-enforcement"
+    )
+  );
+  assert.ok(
+    inventory.hostPolicyBoundaryShape.rejectedEnforcementShapes.includes(
+      "permissive-host-policy-enforcement"
+    )
+  );
+  assert.ok(
+    inventory.hostPolicyBoundaryShape.requiredRestrictiveControls.includes(
+      "deny-by-default-runtime-actions"
+    )
+  );
+  assert.deepEqual(
+    inventory.hostPolicyEnforcementCases.map((boundaryCase) => boundaryCase.caseId),
+    expectedCaseIds
+  );
+  for (const boundaryCase of inventory.hostPolicyEnforcementCases) {
+    assert.equal(boundaryCase.rejectedForRuntimeEnablement, true, boundaryCase.caseId);
+    assertAllFalse(boundaryCase.enforcementEffect);
+    assertAllFalse(boundaryCase.runtimeEffect);
+  }
+  assert.deepEqual(inventory.validationRules, {
+    missingHostPolicyEnforcement: "must_reject_before_runtime_enablement",
+    invalidHostPolicyEnforcement: "must_reject_before_runtime_enablement",
+    permissiveUnboundedHostPolicyEnforcement: "must_reject_before_runtime_enablement",
+    validRestrictiveHostPolicy: "may_count_only_as_prerequisite_signal",
+    validRestrictiveHostPolicyCannotEnableRuntime: true,
+    validRestrictiveHostPolicyCannotStartRuntime: true,
+    validRestrictiveHostPolicyCannotExposeRuntimeExecution: true,
+    validRestrictiveHostPolicyCannotBypassApprovalEvaluatorOrGrant: true,
+    validRestrictiveHostPolicyCannotBypassRemainingPhase56Preconditions: true,
+    dryRunCannotBypassHostPolicyBoundary: true,
+    separateFutureRuntimeEnablementReviewRequired: true
+  });
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior, {
+    args: ["serve-runtime"],
+    dryRunArgs: ["serve-runtime", "--dry-run"],
+    recognizedByCli: true,
+    exitCode: "nonzero",
+    stdout: "",
+    stderr:
+      "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    runtimeExecution: false,
+    writesFiles: false
+  });
+  assert.ok(inventory.forbiddenBehavior.includes("host-policy-runtime-enforcement-implemented"));
+  assert.ok(inventory.forbiddenBehavior.includes("host-policy-command-enabled"));
+  assert.deepEqual(inventory.safetyPosture, {
+    runtimeHostPolicyBoundaryRecorded: true,
+    hostPolicyRuntimeEnforcementRequired: true,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    hostPolicyRuntimeEnforcementActive: false,
+    missingHostPolicyEnforcementRejected: true,
+    invalidHostPolicyEnforcementRejected: true,
+    permissiveUnboundedHostPolicyEnforcementRejected: true,
+    validRestrictiveHostPolicyPrerequisiteOnly: true,
+    validRestrictiveHostPolicyEnablesRuntime: false,
+    validRestrictiveHostPolicyStartsRuntime: false,
+    validRestrictiveHostPolicyExposesRuntimeExecution: false,
+    canEnableRuntime: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    hostPolicyCommandEnabled: false,
+    approvalCommandEnabled: false,
+    noLiveStdinLoop: true,
+    noStdoutStderrWriters: true,
+    noProcessControl: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true,
+    noWebSocketHttpSurface: true,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase510RuntimeHostPolicyBoundaryContract, true);
+  assert.equal(report.safetyPosture.flags.phase510RuntimeHostPolicyBoundaryRecorded, true);
+  assert.equal(report.safetyPosture.flags.phase510HostPolicyRuntimeEnforcementRequired, true);
+  assert.equal(report.safetyPosture.flags.phase510HostPolicyRuntimeEnforcementImplemented, false);
+  assert.equal(report.safetyPosture.flags.phase510HostPolicyRuntimeEnforcementActive, false);
+  assert.equal(report.safetyPosture.flags.phase510MissingHostPolicyEnforcementRejected, true);
+  assert.equal(report.safetyPosture.flags.phase510InvalidHostPolicyEnforcementRejected, true);
+  assert.equal(
+    report.safetyPosture.flags.phase510PermissiveUnboundedHostPolicyEnforcementRejected,
+    true
+  );
+  assert.equal(report.safetyPosture.flags.phase510ValidRestrictiveHostPolicyPrerequisiteOnly, true);
+  assert.equal(report.safetyPosture.flags.phase510ValidRestrictiveHostPolicyEnablesRuntime, false);
+  assert.equal(report.safetyPosture.flags.phase510ValidRestrictiveHostPolicyStartsRuntime, false);
+  assert.equal(
+    report.safetyPosture.flags.phase510ValidRestrictiveHostPolicyExposesRuntimeExecution,
+    false
+  );
+  assert.equal(report.safetyPosture.flags.phase510CanEnableRuntime, false);
+  assert.equal(report.safetyPosture.flags.phase510RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase510RuntimeStarted, false);
+  assert.equal(report.safetyPosture.flags.phase510RuntimeReady, false);
+  assert.equal(report.safetyPosture.flags.phase510RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase510RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase510ServeRuntimeStillDefaultBlocked, true);
+  assert.equal(report.safetyPosture.flags.phase510DryRunBypassesBlock, false);
+  assert.equal(report.safetyPosture.flags.phase510HostPolicyCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase510ApprovalCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase510CliSourceChanged, false);
+  assert.equal(report.safetyPosture.flags.phase510RustSourceChanged, false);
+  assert.equal(report.safetyPosture.flags.phase510ProcessControlEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase510StdoutStderrWritersEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase510TranscriptAuditSideEffectsEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase510AdapterRuntimeBehaviorEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase510ContentFabricRuntimeBehaviorEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase510WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -8531,6 +8802,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase57RuntimeApprovalValidationContract, true);
   assert.equal(report.safetyPosture.phase58RuntimeCommandExposureApprovalContract, true);
   assert.equal(report.safetyPosture.phase59ApprovalEvaluatorGrantBoundaryContract, true);
+  assert.equal(report.safetyPosture.phase510RuntimeHostPolicyBoundaryContract, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -8811,6 +9083,35 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase59AdapterRuntimeBehaviorEnabled: false,
     phase59ContentFabricRuntimeBehaviorEnabled: false,
     phase59WebSocketHttpSurfaceEnabled: false,
+    phase510RuntimeHostPolicyBoundaryRecorded: true,
+    phase510HostPolicyRuntimeEnforcementRequired: true,
+    phase510HostPolicyRuntimeEnforcementImplemented: false,
+    phase510HostPolicyRuntimeEnforcementActive: false,
+    phase510MissingHostPolicyEnforcementRejected: true,
+    phase510InvalidHostPolicyEnforcementRejected: true,
+    phase510PermissiveUnboundedHostPolicyEnforcementRejected: true,
+    phase510ValidRestrictiveHostPolicyPrerequisiteOnly: true,
+    phase510ValidRestrictiveHostPolicyEnablesRuntime: false,
+    phase510ValidRestrictiveHostPolicyStartsRuntime: false,
+    phase510ValidRestrictiveHostPolicyExposesRuntimeExecution: false,
+    phase510CanEnableRuntime: false,
+    phase510RuntimeEnabled: false,
+    phase510RuntimeStarted: false,
+    phase510RuntimeReady: false,
+    phase510RuntimeCommandEnabled: false,
+    phase510RuntimeExecutionEnabled: false,
+    phase510ServeRuntimeStillDefaultBlocked: true,
+    phase510DryRunBypassesBlock: false,
+    phase510HostPolicyCommandEnabled: false,
+    phase510ApprovalCommandEnabled: false,
+    phase510CliSourceChanged: false,
+    phase510RustSourceChanged: false,
+    phase510ProcessControlEnabled: false,
+    phase510StdoutStderrWritersEnabled: false,
+    phase510TranscriptAuditSideEffectsEnabled: false,
+    phase510AdapterRuntimeBehaviorEnabled: false,
+    phase510ContentFabricRuntimeBehaviorEnabled: false,
+    phase510WebSocketHttpSurfaceEnabled: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,

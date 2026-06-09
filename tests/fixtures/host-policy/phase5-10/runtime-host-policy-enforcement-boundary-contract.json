@@ -1,0 +1,295 @@
+{
+  "schema": "ardyn.phase-5.10.runtime-host-policy-enforcement-boundary-contract",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.10-runtime-host-policy-boundary",
+  "artifactKind": "runtime-host-policy-enforcement-boundary-contract",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhase": {
+    "phase": "phase-5.9-approval-evaluator-grant-boundary",
+    "document": "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+    "fixture": "tests/fixtures/host-policy/phase5-9/approval-evaluator-grant-boundary-contract.json",
+    "runtimeEnabled": false,
+    "approvalEvaluatorImplemented": false,
+    "approvalGrantProduced": false,
+    "hostPolicyRuntimeEnforcementImplemented": false
+  },
+  "contractSummary": {
+    "runtimeHostPolicyBoundaryRecorded": true,
+    "hostPolicyRuntimeEnforcementRequired": true,
+    "hostPolicyRuntimeEnforcementImplemented": false,
+    "hostPolicyRuntimeEnforcementActive": false,
+    "missingHostPolicyEnforcementRejected": true,
+    "invalidHostPolicyEnforcementRejected": true,
+    "permissiveUnboundedHostPolicyEnforcementRejected": true,
+    "validRestrictiveHostPolicyPrerequisiteOnly": true,
+    "validRestrictiveHostPolicyEnablesRuntime": false,
+    "validRestrictiveHostPolicyStartsRuntime": false,
+    "validRestrictiveHostPolicyExposesRuntimeExecution": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "requiresSeparateHostPolicyRuntimeImplementationReview": true,
+    "requiresRemainingPhase56Preconditions": true,
+    "canEnableRuntime": false
+  },
+  "hostPolicyBoundaryShape": {
+    "futureEnforcementKind": "runtime-host-policy-enforcement",
+    "validRestrictivePrerequisiteRule": true,
+    "requiredBeforeRuntimeEnablement": [
+      "restrictive-host-policy-runtime-enforcement",
+      "deny-by-default-runtime-action-policy",
+      "bounded-capability-scope",
+      "policy-denial-before-runtime-start",
+      "policy-mismatch-before-stdio-loop",
+      "host-policy-runtime-enforcement-tests",
+      "separate-host-policy-runtime-implementation-review"
+    ],
+    "rejectedEnforcementShapes": [
+      "missing-host-policy-enforcement",
+      "invalid-host-policy-enforcement",
+      "permissive-host-policy-enforcement",
+      "unbounded-host-policy-enforcement",
+      "host-policy-enforcement-without-deny-default",
+      "host-policy-enforcement-without-runtime-start-denial"
+    ],
+    "requiredRestrictiveControls": [
+      "bounded-capability-scope",
+      "deny-by-default-runtime-actions",
+      "deny-unlisted-adapter-runtime-behavior",
+      "deny-unlisted-content-fabric-runtime-behavior",
+      "deny-network-control-surfaces-by-default",
+      "deny-process-control-before-explicit-policy",
+      "fail-before-stdio-loop-on-policy-mismatch",
+      "no-policy-bypass-through-dry-run"
+    ],
+    "falseFieldsUntilImplemented": [
+      "hostPolicyRuntimeEnforcementImplemented",
+      "hostPolicyRuntimeEnforcementActive",
+      "runtimeEnablementAuthorized",
+      "runtimeCommandAuthorized",
+      "runtimeExecutionAuthorized"
+    ],
+    "validPrerequisiteRule": "valid_restrictive_host_policy_enforcement_is_necessary_but_not_sufficient_and_must_not_enable_start_or_expose_runtime"
+  },
+  "hostPolicyEnforcementCases": [
+    {
+      "caseId": "missing-host-policy-enforcement",
+      "classification": "missing_host_policy_enforcement_rejected",
+      "hostPolicyEnforcementPresent": false,
+      "hostPolicyEnforcementValid": false,
+      "hostPolicyEnforcementRestrictive": false,
+      "prerequisiteSignalRecognized": false,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "host_policy_enforcement_missing",
+        "host_policy_runtime_enforcement_not_implemented",
+        "runtime_enable_preconditions_unsatisfied"
+      ],
+      "enforcementEffect": {
+        "hostPolicyRuntimeEnforcementImplemented": false,
+        "hostPolicyRuntimeEnforcementActive": false,
+        "hostPolicyEvaluated": false,
+        "runtimeEnablementAuthorized": false,
+        "runtimeCommandAuthorized": false,
+        "runtimeExecutionAuthorized": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    },
+    {
+      "caseId": "invalid-host-policy-enforcement",
+      "classification": "invalid_host_policy_enforcement_rejected",
+      "hostPolicyEnforcementPresent": true,
+      "hostPolicyEnforcementValid": false,
+      "hostPolicyEnforcementRestrictive": false,
+      "prerequisiteSignalRecognized": false,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "host_policy_enforcement_invalid",
+        "host_policy_runtime_enforcement_not_implemented",
+        "runtime_enable_preconditions_unsatisfied"
+      ],
+      "enforcementEffect": {
+        "hostPolicyRuntimeEnforcementImplemented": false,
+        "hostPolicyRuntimeEnforcementActive": false,
+        "hostPolicyEvaluated": false,
+        "runtimeEnablementAuthorized": false,
+        "runtimeCommandAuthorized": false,
+        "runtimeExecutionAuthorized": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    },
+    {
+      "caseId": "permissive-unbounded-host-policy-enforcement",
+      "classification": "permissive_unbounded_host_policy_enforcement_rejected",
+      "hostPolicyEnforcementPresent": true,
+      "hostPolicyEnforcementValid": false,
+      "hostPolicyEnforcementRestrictive": false,
+      "prerequisiteSignalRecognized": false,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "host_policy_enforcement_permissive",
+        "host_policy_enforcement_unbounded",
+        "deny_by_default_runtime_actions_missing"
+      ],
+      "enforcementEffect": {
+        "hostPolicyRuntimeEnforcementImplemented": false,
+        "hostPolicyRuntimeEnforcementActive": false,
+        "hostPolicyEvaluated": false,
+        "runtimeEnablementAuthorized": false,
+        "runtimeCommandAuthorized": false,
+        "runtimeExecutionAuthorized": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    },
+    {
+      "caseId": "valid-restrictive-host-policy-prerequisite-only",
+      "classification": "valid_restrictive_host_policy_prerequisite_only",
+      "hostPolicyEnforcementPresent": true,
+      "hostPolicyEnforcementValid": true,
+      "hostPolicyEnforcementRestrictive": true,
+      "prerequisiteSignalRecognized": true,
+      "rejectedForRuntimeEnablement": true,
+      "rejectionReasons": [
+        "host_policy_runtime_enforcement_not_implemented",
+        "approval_evaluator_not_implemented",
+        "approval_grant_not_produced",
+        "runtime_enable_preconditions_unsatisfied"
+      ],
+      "enforcementEffect": {
+        "hostPolicyRuntimeEnforcementImplemented": false,
+        "hostPolicyRuntimeEnforcementActive": false,
+        "hostPolicyEvaluated": false,
+        "runtimeEnablementAuthorized": false,
+        "runtimeCommandAuthorized": false,
+        "runtimeExecutionAuthorized": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarts": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecutionExposed": false
+      }
+    }
+  ],
+  "validationRules": {
+    "missingHostPolicyEnforcement": "must_reject_before_runtime_enablement",
+    "invalidHostPolicyEnforcement": "must_reject_before_runtime_enablement",
+    "permissiveUnboundedHostPolicyEnforcement": "must_reject_before_runtime_enablement",
+    "validRestrictiveHostPolicy": "may_count_only_as_prerequisite_signal",
+    "validRestrictiveHostPolicyCannotEnableRuntime": true,
+    "validRestrictiveHostPolicyCannotStartRuntime": true,
+    "validRestrictiveHostPolicyCannotExposeRuntimeExecution": true,
+    "validRestrictiveHostPolicyCannotBypassApprovalEvaluatorOrGrant": true,
+    "validRestrictiveHostPolicyCannotBypassRemainingPhase56Preconditions": true,
+    "dryRunCannotBypassHostPolicyBoundary": true,
+    "separateFutureRuntimeEnablementReviewRequired": true
+  },
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecutionExposed": false,
+    "hostPolicyCommandEnabled": false,
+    "hostPolicyRuntimeEnforcementImplemented": false,
+    "hostPolicyRuntimeEnforcementActive": false,
+    "hostPolicyEvaluated": false,
+    "approvalCommandEnabled": false,
+    "approvalEvaluatorImplemented": false,
+    "approvalGrantProduced": false,
+    "stdinLoopEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "recognizedByCli": true,
+    "exitCode": "nonzero",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "runtime-enabled-true",
+    "runtime-command-enabled-true",
+    "runtime-execution-exposed",
+    "host-policy-runtime-enforcement-implemented",
+    "host-policy-runtime-enforcement-active",
+    "host-policy-enforcement-evaluated",
+    "host-policy-command-enabled",
+    "approval-evaluator-implemented",
+    "approval-grant-produced",
+    "runtime-start",
+    "live-stdin-loop",
+    "runtime-stdout-stderr-writer",
+    "process-control",
+    "transcript-audit-runtime-write",
+    "adapter-runtime-behavior",
+    "content-fabric-runtime-behavior",
+    "websocket-http-runtime-surface"
+  ],
+  "filesAllowedToChange": [
+    "docs/phase-5-10-runtime-host-policy-boundary.md",
+    "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json",
+    "tests/phase5-10-runtime-host-policy-boundary.test.mjs",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs",
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-9-approval-evaluator-grant-boundary.md"
+  ],
+  "filesForbiddenToChange": [
+    "apps/cli/src/index.mjs",
+    "crates/ardyn-host/src/**",
+    "packages/fabric/src/runtime/**",
+    "apps/host/src/runtime/**"
+  ],
+  "validationCommands": [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status",
+    "node --test tests/phase5-10-runtime-host-policy-boundary.test.mjs",
+    "fallow health --hotspots --targets --report-only --summary --changed-since main",
+    "fallow audit --changed-since main --summary",
+    "fallow dead-code --changed-since main --summary"
+  ]
+}

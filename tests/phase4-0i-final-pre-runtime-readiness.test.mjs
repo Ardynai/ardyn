@@ -387,10 +387,10 @@ test("Phase 4.1 status report still inventories Phase 4.0I readiness metadata wi
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.9",
-    name: "Approval evaluator/grant boundary",
+    id: "5.10",
+    name: "Runtime host-policy boundary",
     executionPosture:
-      "approval-evaluator-grant-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-host-policy-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
