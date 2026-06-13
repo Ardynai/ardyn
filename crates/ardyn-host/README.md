@@ -131,6 +131,13 @@ termination, or runtime supervision, enables no runtime behavior, changes no
 Rust or CLI source, and records missing, invalid, unbounded, and
 valid-restrictive-prerequisite-only process-control cases. See
 `docs/phase-5-13-runtime-process-control-boundary.md`.
+Phase 5.14 records runtime rollback/kill-switch boundary cases only. It keeps
+`stdio_runtime` private, grants no approval, implements no runtime shutdown,
+runtime rollback, kill-switch activation, process termination, or runtime
+supervision, enables no runtime behavior, changes no Rust or CLI source, and
+records missing, invalid, non-deterministic/manual-only, and
+valid-restrictive-prerequisite-only rollback/kill-switch cases. See
+`docs/phase-5-14-runtime-rollback-kill-switch-boundary.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -398,6 +405,15 @@ valid restrictive process control remains prerequisite-only. No process
 spawning, process termination, or runtime supervision is implemented, runtime
 remains disabled, `stdio_runtime` remains private, and no Rust source changes
 are made. See `docs/phase-5-13-runtime-process-control-boundary.md`.
+
+Phase 5.14 adds no Rust-host runtime implementation. It records a
+machine-readable rollback/kill-switch boundary contract proving missing,
+invalid, and non-deterministic or manual-only rollback is rejected while valid
+restrictive rollback/kill-switch policy remains prerequisite-only. No runtime
+shutdown, runtime rollback, kill-switch activation, process termination, or
+runtime supervision is implemented, runtime remains disabled, `stdio_runtime`
+remains private, and no Rust source changes are made. See
+`docs/phase-5-14-runtime-rollback-kill-switch-boundary.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

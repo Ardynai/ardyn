@@ -947,6 +947,33 @@ const phase513CrossLinks = [
   "docs/phase-5-12-runtime-transcript-audit-boundary.md",
   "docs/phase-5-13-runtime-process-control-boundary.md"
 ];
+const phase514DocFiles = [
+  "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+  "docs/phase-5-13-runtime-process-control-boundary.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase514CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md",
+  "docs/phase-5-4-disabled-command-exposure-plan.md",
+  "docs/phase-5-4a-jules-review-disposition.md",
+  "docs/phase-5-5-default-blocked-runtime-cli.md",
+  "docs/phase-5-6-runtime-enable-preconditions.md",
+  "docs/phase-5-7-runtime-approval-validation.md",
+  "docs/phase-5-8-runtime-command-exposure-approval.md",
+  "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+  "docs/phase-5-10-runtime-host-policy-boundary.md",
+  "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+  "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+  "docs/phase-5-13-runtime-process-control-boundary.md",
+  "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1068,15 +1095,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.13 runtime process-control boundary docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.14 runtime rollback/kill-switch boundary docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.13",
-    name: "Runtime process-control boundary",
+    id: "5.14",
+    name: "Runtime rollback/kill-switch boundary",
     executionPosture:
-      "runtime-process-control-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-rollback-kill-switch-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1149,12 +1176,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.13 runtime process-control boundary status report.",
+        "Render this deterministic local Phase 5.14 runtime rollback/kill-switch boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.13 status report.",
+      purpose: "Run focused tests for this local Phase 5.14 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-14-runtime-rollback-kill-switch-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.14 runtime rollback/kill-switch boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -9388,6 +9421,288 @@ test("report inventories Phase 5.13 as runtime process-control boundary with run
   assert.equal(report.safetyPosture.flags.phase513WebSocketHttpSurfaceEnabled, false);
 });
 
+test("report inventories Phase 5.14 as runtime rollback/kill-switch boundary with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase514RuntimeRollbackKillSwitchBoundaryInventory;
+  const expectedCaseIds = [
+    "missing-rollback-kill-switch-boundary",
+    "invalid-rollback-kill-switch-boundary",
+    "non-deterministic-or-manual-only-rollback",
+    "valid-restrictive-rollback-kill-switch-boundary-prerequisite-only"
+  ];
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json",
+    sourceRuntimeProcessControlBoundaryDocument:
+      "docs/phase-5-13-runtime-process-control-boundary.md",
+    sourceRuntimeProcessControlBoundaryFixture:
+      "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json",
+    precedingPhase: "5.13",
+    layerId: "runtime-rollback-kill-switch-boundary-contract",
+    scope: "runtime-rollback-kill-switch-boundary-only-runtime-disabled",
+    runtimeRollbackKillSwitchBoundaryRecorded: true,
+    rollbackKillSwitchRequiredBeforeRuntimeEnablement: true,
+    rollbackKillSwitchBoundaryImplemented: false,
+    rollbackKillSwitchBoundaryActive: false,
+    missingRollbackKillSwitchBoundaryRejected: true,
+    invalidRollbackKillSwitchBoundaryRejected: true,
+    nonDeterministicOrManualOnlyRollbackRejected: true,
+    validRestrictiveRollbackKillSwitchBoundaryPrerequisiteOnly: true,
+    validRestrictiveRollbackKillSwitchBoundaryEnablesRuntime: false,
+    validRestrictiveRollbackKillSwitchBoundaryStartsRuntime: false,
+    validRestrictiveRollbackKillSwitchBoundaryExposesRuntimeExecution: false,
+    canEnableRuntime: false,
+    runtimeEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeCommandEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    rollbackKillSwitchCommandEnabled: false,
+    rollbackKillSwitchBoundaryEvaluated: false,
+    rollbackCommandEnabled: false,
+    killSwitchCommandEnabled: false,
+    runtimeShutdownEnabled: false,
+    runtimeRollbackPerformed: false,
+    killSwitchActivated: false,
+    rollbackVerificationPerformed: false,
+    processControlCommandEnabled: false,
+    processControlBoundaryImplemented: false,
+    processControlBoundaryActive: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    childProcessManaged: false,
+    processSignalSent: false,
+    processWaitPerformed: false,
+    transcriptAuditConfinementCommandEnabled: false,
+    transcriptAuditConfinementImplemented: false,
+    transcriptAuditConfinementActive: false,
+    runtimeTranscriptWriterEnabled: false,
+    runtimeAuditWriterEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    stdioSafetyCommandEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    approvalCommandEnabled: false,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    hostPolicyRuntimeEnforcementActive: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase514DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase514CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-14-runtime-rollback-kill-switch-boundary.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary, {
+    docsStatusFiles: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-13-runtime-process-control-boundary.md",
+      "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    machineReadableArtifactFiles: [
+      "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json"
+    ],
+    focusedTestFiles: [
+      "tests/phase5-14-runtime-rollback-kill-switch-boundary.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    cliRuntimeSourceFilesChanged: [],
+    rustRuntimeSourceFilesChanged: [],
+    cliSourceChangedByThisPhase: false,
+    appsCliIndexChangedByThisPhase: false,
+    rustSourceChangedByThisPhase: false,
+    machineReadableArtifactsChangedByThisPhase: true,
+    reportRunsChecks: false,
+    separateRuntimeImplementationPhaseRequired: true,
+    separateRuntimeEnablementApprovalRequired: true
+  });
+  assert.deepEqual(inventory.contractSummary, {
+    runtimeRollbackKillSwitchBoundaryRecorded: true,
+    rollbackKillSwitchRequiredBeforeRuntimeEnablement: true,
+    rollbackKillSwitchBoundaryImplemented: false,
+    rollbackKillSwitchBoundaryActive: false,
+    missingRollbackKillSwitchBoundaryRejected: true,
+    invalidRollbackKillSwitchBoundaryRejected: true,
+    nonDeterministicOrManualOnlyRollbackRejected: true,
+    validRestrictiveRollbackKillSwitchBoundaryPrerequisiteOnly: true,
+    validRestrictiveRollbackKillSwitchBoundaryEnablesRuntime: false,
+    validRestrictiveRollbackKillSwitchBoundaryStartsRuntime: false,
+    validRestrictiveRollbackKillSwitchBoundaryExposesRuntimeExecution: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    requiresSeparateRollbackKillSwitchRuntimeImplementationReview: true,
+    requiresRemainingPhase56Preconditions: true,
+    canEnableRuntime: false
+  });
+  assert.equal(
+    inventory.rollbackKillSwitchBoundaryShape.futureBoundaryKind,
+    "runtime-rollback-kill-switch-boundary"
+  );
+  assert.ok(
+    inventory.rollbackKillSwitchBoundaryShape.requiredBeforeRuntimeEnablement.includes(
+      "deterministic-runtime-disable-path"
+    )
+  );
+  assert.ok(
+    inventory.rollbackKillSwitchBoundaryShape.requiredBeforeRuntimeEnablement.includes(
+      "bounded-kill-switch-activation-policy"
+    )
+  );
+  assert.ok(
+    inventory.rollbackKillSwitchBoundaryShape.rejectedBoundaryShapes.includes(
+      "non-deterministic-or-manual-only-rollback"
+    )
+  );
+  assert.ok(
+    inventory.rollbackKillSwitchBoundaryShape.requiredRestrictiveControls.includes(
+      "rollback-path-must-fail-before-runtime-start-on-mismatch"
+    )
+  );
+  assert.deepEqual(
+    inventory.rollbackKillSwitchBoundaryCases.map((boundaryCase) => boundaryCase.caseId),
+    expectedCaseIds
+  );
+  for (const boundaryCase of inventory.rollbackKillSwitchBoundaryCases) {
+    assert.equal(boundaryCase.rejectedForRuntimeEnablement, true);
+    assertAllFalse(boundaryCase.rollbackKillSwitchEffect);
+    assertAllFalse(boundaryCase.runtimeEffect);
+  }
+  assert.equal(
+    inventory.validationRules.validRestrictiveRollbackKillSwitchBoundaryCannotEnableRuntime,
+    true
+  );
+  assert.equal(
+    inventory.validationRules.validRestrictiveRollbackKillSwitchBoundaryCannotStartRuntime,
+    true
+  );
+  assert.equal(
+    inventory.validationRules.validRestrictiveRollbackKillSwitchBoundaryCannotExposeRuntimeExecution,
+    true
+  );
+  assert.equal(
+    inventory.validationRules.validRestrictiveRollbackKillSwitchBoundaryCannotBypassProcessControlBoundary,
+    true
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-shutdown"));
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-rollback"));
+  assert.ok(inventory.forbiddenBehavior.includes("kill-switch-activation"));
+  assert.deepEqual(inventory.safetyPosture, {
+    runtimeRollbackKillSwitchBoundaryRecorded: true,
+    rollbackKillSwitchRequiredBeforeRuntimeEnablement: true,
+    rollbackKillSwitchBoundaryImplemented: false,
+    rollbackKillSwitchBoundaryActive: false,
+    missingRollbackKillSwitchBoundaryRejected: true,
+    invalidRollbackKillSwitchBoundaryRejected: true,
+    nonDeterministicOrManualOnlyRollbackRejected: true,
+    validRestrictiveRollbackKillSwitchBoundaryPrerequisiteOnly: true,
+    validRestrictiveRollbackKillSwitchBoundaryEnablesRuntime: false,
+    validRestrictiveRollbackKillSwitchBoundaryStartsRuntime: false,
+    validRestrictiveRollbackKillSwitchBoundaryExposesRuntimeExecution: false,
+    canEnableRuntime: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    rollbackKillSwitchCommandEnabled: false,
+    rollbackKillSwitchBoundaryEvaluated: false,
+    rollbackCommandEnabled: false,
+    killSwitchCommandEnabled: false,
+    runtimeShutdownEnabled: false,
+    runtimeRollbackPerformed: false,
+    killSwitchActivated: false,
+    rollbackVerificationPerformed: false,
+    processControlCommandEnabled: false,
+    processControlBoundaryImplemented: false,
+    processControlBoundaryActive: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    childProcessManaged: false,
+    processSignalSent: false,
+    processWaitPerformed: false,
+    transcriptAuditConfinementCommandEnabled: false,
+    transcriptAuditConfinementImplemented: false,
+    transcriptAuditConfinementActive: false,
+    runtimeTranscriptWriterEnabled: false,
+    runtimeAuditWriterEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    stdioSafetyCommandEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    approvalCommandEnabled: false,
+    noLiveStdinLoop: true,
+    noStdoutStderrWriters: true,
+    noProcessControl: true,
+    noProcessSpawn: true,
+    noProcessTermination: true,
+    noRuntimeSupervision: true,
+    noChildProcessManagement: true,
+    noProcessSignal: true,
+    noProcessWait: true,
+    noRuntimeShutdown: true,
+    noRuntimeRollback: true,
+    noKillSwitchActivation: true,
+    noRollbackVerificationSideEffect: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noTranscriptAuditRuntimeWrites: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true,
+    noWebSocketHttpSurface: true,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase514RuntimeRollbackKillSwitchBoundaryContract, true);
+  assert.equal(report.safetyPosture.flags.phase514RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase514RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase514RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase514RollbackKillSwitchCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase514RuntimeShutdownEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase514RuntimeRollbackPerformed, false);
+  assert.equal(report.safetyPosture.flags.phase514KillSwitchActivated, false);
+  assert.equal(report.safetyPosture.flags.phase514RollbackVerificationPerformed, false);
+  assert.equal(report.safetyPosture.flags.phase514ProcessTerminationEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase514WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -9608,6 +9923,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase511RuntimeStdioSafetyBoundaryContract, true);
   assert.equal(report.safetyPosture.phase512RuntimeTranscriptAuditBoundaryContract, true);
   assert.equal(report.safetyPosture.phase513RuntimeProcessControlBoundaryContract, true);
+  assert.equal(report.safetyPosture.phase514RuntimeRollbackKillSwitchBoundaryContract, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -10024,6 +10340,47 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase513AdapterRuntimeBehaviorEnabled: false,
     phase513ContentFabricRuntimeBehaviorEnabled: false,
     phase513WebSocketHttpSurfaceEnabled: false,
+    phase514RuntimeRollbackKillSwitchBoundaryRecorded: true,
+    phase514RollbackKillSwitchRequiredBeforeRuntimeEnablement: true,
+    phase514RollbackKillSwitchBoundaryImplemented: false,
+    phase514RollbackKillSwitchBoundaryActive: false,
+    phase514MissingRollbackKillSwitchBoundaryRejected: true,
+    phase514InvalidRollbackKillSwitchBoundaryRejected: true,
+    phase514NonDeterministicOrManualOnlyRollbackRejected: true,
+    phase514ValidRestrictiveRollbackKillSwitchBoundaryPrerequisiteOnly: true,
+    phase514ValidRestrictiveRollbackKillSwitchBoundaryEnablesRuntime: false,
+    phase514ValidRestrictiveRollbackKillSwitchBoundaryStartsRuntime: false,
+    phase514ValidRestrictiveRollbackKillSwitchBoundaryExposesRuntimeExecution: false,
+    phase514CanEnableRuntime: false,
+    phase514RuntimeEnabled: false,
+    phase514RuntimeStarted: false,
+    phase514RuntimeReady: false,
+    phase514RuntimeCommandEnabled: false,
+    phase514RuntimeExecutionEnabled: false,
+    phase514ServeRuntimeStillDefaultBlocked: true,
+    phase514DryRunBypassesBlock: false,
+    phase514RollbackKillSwitchCommandEnabled: false,
+    phase514RollbackKillSwitchBoundaryImplemented: false,
+    phase514RollbackKillSwitchBoundaryActive: false,
+    phase514RollbackKillSwitchBoundaryEvaluated: false,
+    phase514RollbackCommandEnabled: false,
+    phase514KillSwitchCommandEnabled: false,
+    phase514RuntimeShutdownEnabled: false,
+    phase514RuntimeRollbackPerformed: false,
+    phase514KillSwitchActivated: false,
+    phase514RollbackVerificationPerformed: false,
+    phase514ProcessTerminationEnabled: false,
+    phase514LiveStdinLoopEnabled: false,
+    phase514RuntimeStdoutWriterEnabled: false,
+    phase514RuntimeStderrWriterEnabled: false,
+    phase514RuntimeTranscriptWritePerformed: false,
+    phase514RuntimeAuditWritePerformed: false,
+    phase514ApprovalCommandEnabled: false,
+    phase514CliSourceChanged: false,
+    phase514RustSourceChanged: false,
+    phase514AdapterRuntimeBehaviorEnabled: false,
+    phase514ContentFabricRuntimeBehaviorEnabled: false,
+    phase514WebSocketHttpSurfaceEnabled: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,

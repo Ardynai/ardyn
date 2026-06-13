@@ -148,6 +148,9 @@ const phase512RuntimeTranscriptAuditConfinementBoundaryContractMetadata = await 
 const phase513RuntimeProcessControlBoundaryContractMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json"
 );
+const phase514RuntimeRollbackKillSwitchBoundaryContractMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -195,10 +198,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.13",
-    name: "Runtime process-control boundary",
+    id: "5.14",
+    name: "Runtime rollback/kill-switch boundary",
     executionPosture:
-      "runtime-process-control-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-rollback-kill-switch-boundary-contract runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -246,12 +249,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.13 runtime process-control boundary status report.",
+        "Render this deterministic local Phase 5.14 runtime rollback/kill-switch boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.13 status report.",
+      purpose: "Run focused tests for this local Phase 5.14 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-14-runtime-rollback-kill-switch-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.14 runtime rollback/kill-switch boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -9750,6 +9759,276 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase514RuntimeRollbackKillSwitchBoundaryInventory: {
+    statusLayer: {
+      document: "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json",
+      sourceRuntimeProcessControlBoundaryDocument:
+        "docs/phase-5-13-runtime-process-control-boundary.md",
+      sourceRuntimeProcessControlBoundaryFixture:
+        "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json",
+      precedingPhase: "5.13",
+      layerId: "runtime-rollback-kill-switch-boundary-contract",
+      scope: "runtime-rollback-kill-switch-boundary-only-runtime-disabled",
+      runtimeRollbackKillSwitchBoundaryRecorded:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .runtimeRollbackKillSwitchBoundaryRecorded,
+      rollbackKillSwitchRequiredBeforeRuntimeEnablement:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .rollbackKillSwitchRequiredBeforeRuntimeEnablement,
+      rollbackKillSwitchBoundaryImplemented:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .rollbackKillSwitchBoundaryImplemented,
+      rollbackKillSwitchBoundaryActive:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .rollbackKillSwitchBoundaryActive,
+      missingRollbackKillSwitchBoundaryRejected:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .missingRollbackKillSwitchBoundaryRejected,
+      invalidRollbackKillSwitchBoundaryRejected:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .invalidRollbackKillSwitchBoundaryRejected,
+      nonDeterministicOrManualOnlyRollbackRejected:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .nonDeterministicOrManualOnlyRollbackRejected,
+      validRestrictiveRollbackKillSwitchBoundaryPrerequisiteOnly:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .validRestrictiveRollbackKillSwitchBoundaryPrerequisiteOnly,
+      validRestrictiveRollbackKillSwitchBoundaryEnablesRuntime:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .validRestrictiveRollbackKillSwitchBoundaryEnablesRuntime,
+      validRestrictiveRollbackKillSwitchBoundaryStartsRuntime:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .validRestrictiveRollbackKillSwitchBoundaryStartsRuntime,
+      validRestrictiveRollbackKillSwitchBoundaryExposesRuntimeExecution:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .validRestrictiveRollbackKillSwitchBoundaryExposesRuntimeExecution,
+      canEnableRuntime:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      rollbackKillSwitchCommandEnabled: false,
+      rollbackKillSwitchBoundaryEvaluated: false,
+      rollbackCommandEnabled: false,
+      killSwitchCommandEnabled: false,
+      runtimeShutdownEnabled: false,
+      runtimeRollbackPerformed: false,
+      killSwitchActivated: false,
+      rollbackVerificationPerformed: false,
+      processControlCommandEnabled: false,
+      processControlBoundaryImplemented: false,
+      processControlBoundaryActive: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      childProcessManaged: false,
+      processSignalSent: false,
+      processWaitPerformed: false,
+      transcriptAuditConfinementCommandEnabled: false,
+      transcriptAuditConfinementImplemented: false,
+      transcriptAuditConfinementActive: false,
+      runtimeTranscriptWriterEnabled: false,
+      runtimeAuditWriterEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      stdioSafetyCommandEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      approvalCommandEnabled: false,
+      approvalEvaluatorImplemented: false,
+      approvalGrantProduced: false,
+      hostPolicyRuntimeEnforcementImplemented: false,
+      hostPolicyRuntimeEnforcementActive: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+        "Records the Phase 5.14 runtime rollback/kill-switch boundary while runtime remains disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-13-runtime-process-control-boundary.md",
+        "Provides the prerequisite-only process-control boundary that Phase 5.14 keeps blocked."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.14 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.14 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.14 changes no Rust-host runtime source and records rollback/kill-switch boundaries only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      "docs/phase-5-10-runtime-host-policy-boundary.md",
+      "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+      "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+      "docs/phase-5-13-runtime-process-control-boundary.md",
+      "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json",
+        "Records missing, invalid, non-deterministic/manual-only, and valid-restrictive rollback/kill-switch cases."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.14 report metadata, docs cross-links, rollback/kill-switch boundary cases, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-14-runtime-rollback-kill-switch-boundary.test.mjs",
+        "Pins Phase 5.14 rollback/kill-switch fixture shape, prerequisite-only restrictive rollback, serve-runtime rejection, rollback command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-13-runtime-process-control-boundary.md",
+        "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-14-runtime-rollback-kill-switch-boundary.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    contractSummary:
+      phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.contractSummary,
+    rollbackKillSwitchBoundaryShape:
+      phase514RuntimeRollbackKillSwitchBoundaryContractMetadata
+        .rollbackKillSwitchBoundaryShape,
+    rollbackKillSwitchBoundaryCases:
+      phase514RuntimeRollbackKillSwitchBoundaryContractMetadata
+        .rollbackKillSwitchBoundaryCases,
+    validationRules:
+      phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.validationRules,
+    blockedRuntimeEffect:
+      phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase514RuntimeRollbackKillSwitchBoundaryContractMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase514RuntimeRollbackKillSwitchBoundaryContractMetadata.forbiddenBehavior,
+    safetyPosture: {
+      runtimeRollbackKillSwitchBoundaryRecorded: true,
+      rollbackKillSwitchRequiredBeforeRuntimeEnablement: true,
+      rollbackKillSwitchBoundaryImplemented: false,
+      rollbackKillSwitchBoundaryActive: false,
+      missingRollbackKillSwitchBoundaryRejected: true,
+      invalidRollbackKillSwitchBoundaryRejected: true,
+      nonDeterministicOrManualOnlyRollbackRejected: true,
+      validRestrictiveRollbackKillSwitchBoundaryPrerequisiteOnly: true,
+      validRestrictiveRollbackKillSwitchBoundaryEnablesRuntime: false,
+      validRestrictiveRollbackKillSwitchBoundaryStartsRuntime: false,
+      validRestrictiveRollbackKillSwitchBoundaryExposesRuntimeExecution: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      rollbackKillSwitchCommandEnabled: false,
+      rollbackKillSwitchBoundaryEvaluated: false,
+      rollbackCommandEnabled: false,
+      killSwitchCommandEnabled: false,
+      runtimeShutdownEnabled: false,
+      runtimeRollbackPerformed: false,
+      killSwitchActivated: false,
+      rollbackVerificationPerformed: false,
+      processControlCommandEnabled: false,
+      processControlBoundaryImplemented: false,
+      processControlBoundaryActive: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      childProcessManaged: false,
+      processSignalSent: false,
+      processWaitPerformed: false,
+      transcriptAuditConfinementCommandEnabled: false,
+      transcriptAuditConfinementImplemented: false,
+      transcriptAuditConfinementActive: false,
+      runtimeTranscriptWriterEnabled: false,
+      runtimeAuditWriterEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      stdioSafetyCommandEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      approvalCommandEnabled: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noProcessSpawn: true,
+      noProcessTermination: true,
+      noRuntimeSupervision: true,
+      noChildProcessManagement: true,
+      noProcessSignal: true,
+      noProcessWait: true,
+      noRuntimeShutdown: true,
+      noRuntimeRollback: true,
+      noKillSwitchActivation: true,
+      noRollbackVerificationSideEffect: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noTranscriptAuditRuntimeWrites: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -9796,6 +10075,7 @@ const report = {
     phase511RuntimeStdioSafetyBoundaryContract: true,
     phase512RuntimeTranscriptAuditBoundaryContract: true,
     phase513RuntimeProcessControlBoundaryContract: true,
+    phase514RuntimeRollbackKillSwitchBoundaryContract: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -10211,6 +10491,47 @@ const report = {
       phase513AdapterRuntimeBehaviorEnabled: false,
       phase513ContentFabricRuntimeBehaviorEnabled: false,
       phase513WebSocketHttpSurfaceEnabled: false,
+      phase514RuntimeRollbackKillSwitchBoundaryRecorded: true,
+      phase514RollbackKillSwitchRequiredBeforeRuntimeEnablement: true,
+      phase514RollbackKillSwitchBoundaryImplemented: false,
+      phase514RollbackKillSwitchBoundaryActive: false,
+      phase514MissingRollbackKillSwitchBoundaryRejected: true,
+      phase514InvalidRollbackKillSwitchBoundaryRejected: true,
+      phase514NonDeterministicOrManualOnlyRollbackRejected: true,
+      phase514ValidRestrictiveRollbackKillSwitchBoundaryPrerequisiteOnly: true,
+      phase514ValidRestrictiveRollbackKillSwitchBoundaryEnablesRuntime: false,
+      phase514ValidRestrictiveRollbackKillSwitchBoundaryStartsRuntime: false,
+      phase514ValidRestrictiveRollbackKillSwitchBoundaryExposesRuntimeExecution: false,
+      phase514CanEnableRuntime: false,
+      phase514RuntimeEnabled: false,
+      phase514RuntimeStarted: false,
+      phase514RuntimeReady: false,
+      phase514RuntimeCommandEnabled: false,
+      phase514RuntimeExecutionEnabled: false,
+      phase514ServeRuntimeStillDefaultBlocked: true,
+      phase514DryRunBypassesBlock: false,
+      phase514RollbackKillSwitchCommandEnabled: false,
+      phase514RollbackKillSwitchBoundaryImplemented: false,
+      phase514RollbackKillSwitchBoundaryActive: false,
+      phase514RollbackKillSwitchBoundaryEvaluated: false,
+      phase514RollbackCommandEnabled: false,
+      phase514KillSwitchCommandEnabled: false,
+      phase514RuntimeShutdownEnabled: false,
+      phase514RuntimeRollbackPerformed: false,
+      phase514KillSwitchActivated: false,
+      phase514RollbackVerificationPerformed: false,
+      phase514ProcessTerminationEnabled: false,
+      phase514LiveStdinLoopEnabled: false,
+      phase514RuntimeStdoutWriterEnabled: false,
+      phase514RuntimeStderrWriterEnabled: false,
+      phase514RuntimeTranscriptWritePerformed: false,
+      phase514RuntimeAuditWritePerformed: false,
+      phase514ApprovalCommandEnabled: false,
+      phase514CliSourceChanged: false,
+      phase514RustSourceChanged: false,
+      phase514AdapterRuntimeBehaviorEnabled: false,
+      phase514ContentFabricRuntimeBehaviorEnabled: false,
+      phase514WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

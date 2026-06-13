@@ -13,6 +13,8 @@ Cross-links:
 - Root status: `../README.md`
 - CLI status: `../apps/cli/README.md`
 - Rust host status: `../crates/ardyn-host/README.md`
+- Runtime rollback/kill-switch boundary:
+  `phase-5-14-runtime-rollback-kill-switch-boundary.md`
 - Runtime transcript/audit boundary:
   `phase-5-12-runtime-transcript-audit-boundary.md`
 - Runtime stdio safety boundary: `phase-5-11-runtime-stdio-safety-boundary.md`
@@ -98,5 +100,6 @@ ownership, timeout/resource limits, signal and cleanup semantics, deterministic
 process-failure classification, transcript/audit runtime implementation, stdio
 safety implementation, host-policy runtime enforcement, approval
 evaluator/grant implementation, remaining Phase 5.6 preconditions,
-rollback/kill-switch binding, and positive runtime smokes. Phase 5.13 only
-records the process-control boundary contract and fail-closed cases.
+rollback/kill-switch binding, and positive runtime smokes. Phase 5.14 follows by
+recording the rollback/kill-switch boundary while keeping runtime blocked. Phase
+5.13 only records the process-control boundary contract and fail-closed cases.

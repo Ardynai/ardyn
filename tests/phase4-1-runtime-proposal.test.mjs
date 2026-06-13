@@ -357,10 +357,10 @@ test("Phase 4.1 status report inventories proposal metadata without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.13",
-    name: "Runtime process-control boundary",
+    id: "5.14",
+    name: "Runtime rollback/kill-switch boundary",
     executionPosture:
-      "runtime-process-control-boundary-contract runtime-disabled no-runtime-execution"
+      "runtime-rollback-kill-switch-boundary-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
