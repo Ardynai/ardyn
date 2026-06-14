@@ -138,6 +138,13 @@ supervision, enables no runtime behavior, changes no Rust or CLI source, and
 records missing, invalid, non-deterministic/manual-only, and
 valid-restrictive-prerequisite-only rollback/kill-switch cases. See
 `docs/phase-5-14-runtime-rollback-kill-switch-boundary.md`.
+Phase 5.15 records positive runtime smoke requirement cases only. It keeps
+`stdio_runtime` private, grants no approval, implements no runtime smoke
+execution, live stdin loop, runtime stdout/stderr writer, process spawning,
+process supervision, or runtime transcript/audit write, enables no runtime
+behavior, changes no Rust or CLI source, and records missing, invalid,
+non-guarded/non-deterministic, and valid-prerequisite-only positive runtime
+smoke cases. See `docs/phase-5-15-positive-runtime-smoke-requirement.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -414,6 +421,16 @@ shutdown, runtime rollback, kill-switch activation, process termination, or
 runtime supervision is implemented, runtime remains disabled, `stdio_runtime`
 remains private, and no Rust source changes are made. See
 `docs/phase-5-14-runtime-rollback-kill-switch-boundary.md`.
+
+Phase 5.15 adds no Rust-host runtime implementation. It records a
+machine-readable positive runtime smoke requirement contract proving missing,
+invalid, and non-guarded or non-deterministic runtime smoke coverage is rejected
+while valid positive runtime smoke coverage remains prerequisite-only. No
+runtime smoke execution, live stdin loop, runtime stdout/stderr writer, process
+spawning, process supervision, or runtime transcript/audit write is
+implemented, runtime remains disabled, `stdio_runtime` remains private, and no
+Rust source changes are made. See
+`docs/phase-5-15-positive-runtime-smoke-requirement.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

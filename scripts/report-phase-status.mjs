@@ -151,6 +151,9 @@ const phase513RuntimeProcessControlBoundaryContractMetadata = await readJson(
 const phase514RuntimeRollbackKillSwitchBoundaryContractMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json"
 );
+const phase515PositiveRuntimeSmokeRequirementContractMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -198,10 +201,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.14",
-    name: "Runtime rollback/kill-switch boundary",
+    id: "5.15",
+    name: "Positive runtime smoke requirement",
     executionPosture:
-      "runtime-rollback-kill-switch-boundary-contract runtime-disabled no-runtime-execution"
+      "positive-runtime-smoke-requirement-contract runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -249,12 +252,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.14 runtime rollback/kill-switch boundary status report.",
+        "Render this deterministic local Phase 5.15 positive runtime smoke requirement status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.14 status report.",
+      purpose: "Run focused tests for this local Phase 5.15 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-15-positive-runtime-smoke-requirement.test.mjs",
+      purpose:
+        "Run focused Phase 5.15 positive runtime smoke requirement and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -10029,6 +10038,286 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase515PositiveRuntimeSmokeRequirementInventory: {
+    statusLayer: {
+      document: "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json",
+      sourceRuntimeRollbackKillSwitchBoundaryDocument:
+        "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+      sourceRuntimeRollbackKillSwitchBoundaryFixture:
+        "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json",
+      precedingPhase: "5.14",
+      layerId: "positive-runtime-smoke-requirement-contract",
+      scope: "positive-runtime-smoke-requirement-only-runtime-disabled",
+      positiveRuntimeSmokeRequirementRecorded:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .positiveRuntimeSmokeRequirementRecorded,
+      positiveRuntimeSmokeCoverageRequiredBeforeRuntimeEnablement:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .positiveRuntimeSmokeCoverageRequiredBeforeRuntimeEnablement,
+      positiveRuntimeSmokeCoverageImplemented:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .positiveRuntimeSmokeCoverageImplemented,
+      positiveRuntimeSmokeCoverageActive:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .positiveRuntimeSmokeCoverageActive,
+      missingPositiveRuntimeSmokeCoverageRejected:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .missingPositiveRuntimeSmokeCoverageRejected,
+      invalidPositiveRuntimeSmokeCoverageRejected:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .invalidPositiveRuntimeSmokeCoverageRejected,
+      nonGuardedOrNonDeterministicRuntimeSmokeCoverageRejected:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .nonGuardedOrNonDeterministicRuntimeSmokeCoverageRejected,
+      validPositiveRuntimeSmokeCoveragePrerequisiteOnly:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .validPositiveRuntimeSmokeCoveragePrerequisiteOnly,
+      validPositiveRuntimeSmokeCoverageEnablesRuntime:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .validPositiveRuntimeSmokeCoverageEnablesRuntime,
+      validPositiveRuntimeSmokeCoverageStartsRuntime:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .validPositiveRuntimeSmokeCoverageStartsRuntime,
+      validPositiveRuntimeSmokeCoverageExposesRuntimeExecution:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .validPositiveRuntimeSmokeCoverageExposesRuntimeExecution,
+      validPositiveRuntimeSmokeCoverageRunsRuntime:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .validPositiveRuntimeSmokeCoverageRunsRuntime,
+      canEnableRuntime:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeCommandEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      positiveRuntimeSmokeCommandEnabled: false,
+      positiveRuntimeSmokeCoverageEvaluated: false,
+      positiveRuntimeSmokeExecuted: false,
+      positiveRuntimeSmokePassed: false,
+      runtimeSmokeCommandEnabled: false,
+      rollbackKillSwitchCommandEnabled: false,
+      rollbackKillSwitchBoundaryImplemented: false,
+      rollbackKillSwitchBoundaryActive: false,
+      runtimeShutdownEnabled: false,
+      runtimeRollbackPerformed: false,
+      killSwitchActivated: false,
+      processControlCommandEnabled: false,
+      processControlBoundaryImplemented: false,
+      processControlBoundaryActive: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      childProcessManaged: false,
+      processSignalSent: false,
+      processWaitPerformed: false,
+      transcriptAuditConfinementCommandEnabled: false,
+      transcriptAuditConfinementImplemented: false,
+      transcriptAuditConfinementActive: false,
+      runtimeTranscriptWriterEnabled: false,
+      runtimeAuditWriterEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      stdioSafetyCommandEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      approvalCommandEnabled: false,
+      approvalEvaluatorImplemented: false,
+      approvalGrantProduced: false,
+      hostPolicyRuntimeEnforcementImplemented: false,
+      hostPolicyRuntimeEnforcementActive: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+        "Records the Phase 5.15 positive runtime smoke requirement while runtime remains disabled."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+        "Provides the prerequisite-only rollback/kill-switch boundary that Phase 5.15 keeps blocked."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.15 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.15 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.15 changes no Rust-host runtime source and records positive runtime smoke requirements only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      "docs/phase-5-10-runtime-host-policy-boundary.md",
+      "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+      "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+      "docs/phase-5-13-runtime-process-control-boundary.md",
+      "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+      "docs/phase-5-15-positive-runtime-smoke-requirement.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json",
+        "Records missing, invalid, non-guarded/non-deterministic, and valid guarded positive runtime smoke cases."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.15 report metadata, docs cross-links, positive runtime smoke cases, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-15-positive-runtime-smoke-requirement.test.mjs",
+        "Pins Phase 5.15 positive runtime smoke fixture shape, prerequisite-only guarded smoke coverage, serve-runtime rejection, smoke command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+        "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-15-positive-runtime-smoke-requirement.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    contractSummary:
+      phase515PositiveRuntimeSmokeRequirementContractMetadata.contractSummary,
+    positiveRuntimeSmokeRequirementShape:
+      phase515PositiveRuntimeSmokeRequirementContractMetadata
+        .positiveRuntimeSmokeRequirementShape,
+    positiveRuntimeSmokeRequirementCases:
+      phase515PositiveRuntimeSmokeRequirementContractMetadata
+        .positiveRuntimeSmokeRequirementCases,
+    validationRules:
+      phase515PositiveRuntimeSmokeRequirementContractMetadata.validationRules,
+    blockedRuntimeEffect:
+      phase515PositiveRuntimeSmokeRequirementContractMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase515PositiveRuntimeSmokeRequirementContractMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase515PositiveRuntimeSmokeRequirementContractMetadata.forbiddenBehavior,
+    safetyPosture: {
+      positiveRuntimeSmokeRequirementRecorded: true,
+      positiveRuntimeSmokeCoverageRequiredBeforeRuntimeEnablement: true,
+      positiveRuntimeSmokeCoverageImplemented: false,
+      positiveRuntimeSmokeCoverageActive: false,
+      missingPositiveRuntimeSmokeCoverageRejected: true,
+      invalidPositiveRuntimeSmokeCoverageRejected: true,
+      nonGuardedOrNonDeterministicRuntimeSmokeCoverageRejected: true,
+      validPositiveRuntimeSmokeCoveragePrerequisiteOnly: true,
+      validPositiveRuntimeSmokeCoverageEnablesRuntime: false,
+      validPositiveRuntimeSmokeCoverageStartsRuntime: false,
+      validPositiveRuntimeSmokeCoverageExposesRuntimeExecution: false,
+      validPositiveRuntimeSmokeCoverageRunsRuntime: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      positiveRuntimeSmokeCommandEnabled: false,
+      positiveRuntimeSmokeCoverageEvaluated: false,
+      positiveRuntimeSmokeExecuted: false,
+      positiveRuntimeSmokePassed: false,
+      runtimeSmokeCommandEnabled: false,
+      rollbackKillSwitchCommandEnabled: false,
+      rollbackKillSwitchBoundaryImplemented: false,
+      rollbackKillSwitchBoundaryActive: false,
+      runtimeShutdownEnabled: false,
+      runtimeRollbackPerformed: false,
+      killSwitchActivated: false,
+      processControlCommandEnabled: false,
+      processControlBoundaryImplemented: false,
+      processControlBoundaryActive: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      childProcessManaged: false,
+      processSignalSent: false,
+      processWaitPerformed: false,
+      transcriptAuditConfinementCommandEnabled: false,
+      transcriptAuditConfinementImplemented: false,
+      transcriptAuditConfinementActive: false,
+      runtimeTranscriptWriterEnabled: false,
+      runtimeAuditWriterEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      stdioSafetyCommandEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      approvalCommandEnabled: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noProcessSpawn: true,
+      noProcessTermination: true,
+      noRuntimeSupervision: true,
+      noChildProcessManagement: true,
+      noProcessSignal: true,
+      noProcessWait: true,
+      noRuntimeSmokeExecution: true,
+      noRuntimeExecution: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noTranscriptAuditRuntimeWrites: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -10076,6 +10365,7 @@ const report = {
     phase512RuntimeTranscriptAuditBoundaryContract: true,
     phase513RuntimeProcessControlBoundaryContract: true,
     phase514RuntimeRollbackKillSwitchBoundaryContract: true,
+    phase515PositiveRuntimeSmokeRequirementContract: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -10532,6 +10822,48 @@ const report = {
       phase514AdapterRuntimeBehaviorEnabled: false,
       phase514ContentFabricRuntimeBehaviorEnabled: false,
       phase514WebSocketHttpSurfaceEnabled: false,
+      phase515PositiveRuntimeSmokeRequirementRecorded: true,
+      phase515PositiveRuntimeSmokeCoverageRequiredBeforeRuntimeEnablement: true,
+      phase515PositiveRuntimeSmokeCoverageImplemented: false,
+      phase515PositiveRuntimeSmokeCoverageActive: false,
+      phase515MissingPositiveRuntimeSmokeCoverageRejected: true,
+      phase515InvalidPositiveRuntimeSmokeCoverageRejected: true,
+      phase515NonGuardedOrNonDeterministicRuntimeSmokeCoverageRejected: true,
+      phase515ValidPositiveRuntimeSmokeCoveragePrerequisiteOnly: true,
+      phase515ValidPositiveRuntimeSmokeCoverageEnablesRuntime: false,
+      phase515ValidPositiveRuntimeSmokeCoverageStartsRuntime: false,
+      phase515ValidPositiveRuntimeSmokeCoverageExposesRuntimeExecution: false,
+      phase515ValidPositiveRuntimeSmokeCoverageRunsRuntime: false,
+      phase515CanEnableRuntime: false,
+      phase515RuntimeEnabled: false,
+      phase515RuntimeStarted: false,
+      phase515RuntimeReady: false,
+      phase515RuntimeCommandEnabled: false,
+      phase515RuntimeExecutionEnabled: false,
+      phase515RuntimeExecuted: false,
+      phase515ServeRuntimeStillDefaultBlocked: true,
+      phase515DryRunBypassesBlock: false,
+      phase515PositiveRuntimeSmokeCommandEnabled: false,
+      phase515PositiveRuntimeSmokeCoverageImplemented: false,
+      phase515PositiveRuntimeSmokeCoverageActive: false,
+      phase515PositiveRuntimeSmokeCoverageEvaluated: false,
+      phase515PositiveRuntimeSmokeExecuted: false,
+      phase515PositiveRuntimeSmokePassed: false,
+      phase515RuntimeSmokeCommandEnabled: false,
+      phase515LiveStdinLoopEnabled: false,
+      phase515RuntimeStdoutWriterEnabled: false,
+      phase515RuntimeStderrWriterEnabled: false,
+      phase515ProcessSpawnEnabled: false,
+      phase515ProcessTerminationEnabled: false,
+      phase515RuntimeSupervisionEnabled: false,
+      phase515RuntimeTranscriptWritePerformed: false,
+      phase515RuntimeAuditWritePerformed: false,
+      phase515ApprovalCommandEnabled: false,
+      phase515CliSourceChanged: false,
+      phase515RustSourceChanged: false,
+      phase515AdapterRuntimeBehaviorEnabled: false,
+      phase515ContentFabricRuntimeBehaviorEnabled: false,
+      phase515WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

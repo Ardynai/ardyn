@@ -390,10 +390,10 @@ test("Phase 4.1B status report inventories transport harness contracts without r
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.14",
-    name: "Runtime rollback/kill-switch boundary",
+    id: "5.15",
+    name: "Positive runtime smoke requirement",
     executionPosture:
-      "runtime-rollback-kill-switch-boundary-contract runtime-disabled no-runtime-execution"
+      "positive-runtime-smoke-requirement-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

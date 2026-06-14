@@ -169,10 +169,10 @@ test("Phase 4.1J report inventories fixture-backed Rust harness coverage without
   const inventory = report.phase41JFixtureBackedStdioBoundaryInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.14",
-    name: "Runtime rollback/kill-switch boundary",
+    id: "5.15",
+    name: "Positive runtime smoke requirement",
     executionPosture:
-      "runtime-rollback-kill-switch-boundary-contract runtime-disabled no-runtime-execution"
+      "positive-runtime-smoke-requirement-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(inventory.boundaryLayer.fixtureBackedRustHostCoverage, true);
   assert.equal(inventory.boundaryLayer.privateRustCfgTestHarness, true);

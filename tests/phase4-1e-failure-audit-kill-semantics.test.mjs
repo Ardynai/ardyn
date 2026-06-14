@@ -384,10 +384,10 @@ test("Phase 4.1E status report inventories failure-audit contracts without runni
   const inventory = report.phase41EFailureAuditInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.14",
-    name: "Runtime rollback/kill-switch boundary",
+    id: "5.15",
+    name: "Positive runtime smoke requirement",
     executionPosture:
-      "runtime-rollback-kill-switch-boundary-contract runtime-disabled no-runtime-execution"
+      "positive-runtime-smoke-requirement-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

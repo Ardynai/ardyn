@@ -13,6 +13,8 @@ Cross-links:
 - Root status: `../README.md`
 - CLI status: `../apps/cli/README.md`
 - Rust host status: `../crates/ardyn-host/README.md`
+- Positive runtime smoke requirement:
+  `phase-5-15-positive-runtime-smoke-requirement.md`
 - Runtime process-control boundary:
   `phase-5-13-runtime-process-control-boundary.md`
 - Runtime transcript/audit boundary:
@@ -107,5 +109,7 @@ policy, rollback-state restoration policy, operator-visible status policy,
 rollback verification smoke, process-control runtime implementation,
 transcript/audit runtime implementation, stdio safety implementation,
 host-policy runtime enforcement, approval evaluator/grant implementation,
-remaining Phase 5.6 preconditions, and positive runtime smokes. Phase 5.14 only
-records the rollback/kill-switch boundary contract and fail-closed cases.
+remaining Phase 5.6 preconditions, and positive runtime smokes. Phase 5.15
+follows by recording the positive runtime smoke requirement while keeping
+runtime blocked. Phase 5.14 only records the rollback/kill-switch boundary
+contract and fail-closed cases.

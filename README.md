@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.14 Scope
+## Phase 3 through Phase 5.15 Scope
 
-This repository is currently in Phase 5.14 runtime rollback/kill-switch boundary
+This repository is currently in Phase 5.15 positive runtime smoke requirement
 mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -80,8 +80,12 @@ execution plus Phase 5.14 runtime rollback/kill-switch boundary metadata
 proving missing, invalid, and non-deterministic or manual-only rollback is
 rejected while valid restrictive rollback/kill-switch policy remains
 prerequisite-only and cannot enable runtime, start runtime, expose runtime
-execution, shut down runtime, roll back runtime, or activate a kill switch.
-Phase 5.14 is not runtime enablement.
+execution, shut down runtime, roll back runtime, or activate a kill switch plus
+Phase 5.15 positive runtime smoke requirement metadata proving missing,
+invalid, and non-guarded or non-deterministic runtime smoke coverage is
+rejected while valid positive runtime smoke coverage remains prerequisite-only
+and cannot enable runtime, start runtime, run runtime, or expose runtime
+execution. Phase 5.15 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -344,6 +348,14 @@ Included now:
   supervision, or runtime execution, cannot enable or start runtime, cannot
   expose runtime execution, and `serve-runtime` remains default-blocked. See
   `docs/phase-5-14-runtime-rollback-kill-switch-boundary.md`.
+- Phase 5.15 positive runtime smoke requirement documentation, fixture, and
+  report metadata. This records missing, invalid, and non-guarded or
+  non-deterministic runtime smoke coverage as rejected, and records valid
+  positive runtime smoke coverage as a prerequisite-only signal. It does not
+  run runtime smoke coverage, cannot enable or start runtime, cannot run
+  runtime, cannot expose runtime execution, and `serve-runtime` remains
+  default-blocked. See
+  `docs/phase-5-15-positive-runtime-smoke-requirement.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -495,7 +507,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.14 runtime rollback/kill-switch boundary status report command is:
+The Phase 5.15 positive runtime smoke requirement status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -537,7 +549,7 @@ contract metadata, and Phase 5.11 runtime stdio safety boundary contract
 metadata, and Phase 5.12 runtime transcript/audit confinement boundary
 contract metadata, and Phase 5.13 runtime process-control boundary contract
 metadata, and Phase 5.14 runtime rollback/kill-switch boundary contract
-metadata
+metadata, and Phase 5.15 positive runtime smoke requirement contract metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
@@ -740,6 +752,14 @@ is recognized only as a prerequisite signal and still does not implement
 runtime shutdown, runtime rollback, kill-switch activation, process
 termination, runtime supervision, enable runtime, start runtime, expose runtime
 execution, or bypass the remaining Phase 5.6 blockers.
+
+Phase 5.15 is documented in
+`docs/phase-5-15-positive-runtime-smoke-requirement.md`. It records a
+machine-readable requirement proving missing, invalid, and non-guarded or
+non-deterministic positive runtime smoke coverage is rejected. Valid guarded
+deterministic smoke coverage is recognized only as a prerequisite signal and
+still does not run runtime smoke coverage, enable runtime, start runtime, run
+runtime, expose runtime execution, or bypass the remaining Phase 5.6 blockers.
 
 Example dry-run check:
 

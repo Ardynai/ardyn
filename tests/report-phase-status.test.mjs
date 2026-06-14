@@ -974,6 +974,34 @@ const phase514CrossLinks = [
   "docs/phase-5-13-runtime-process-control-boundary.md",
   "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md"
 ];
+const phase515DocFiles = [
+  "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+  "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase515CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md",
+  "docs/phase-5-4-disabled-command-exposure-plan.md",
+  "docs/phase-5-4a-jules-review-disposition.md",
+  "docs/phase-5-5-default-blocked-runtime-cli.md",
+  "docs/phase-5-6-runtime-enable-preconditions.md",
+  "docs/phase-5-7-runtime-approval-validation.md",
+  "docs/phase-5-8-runtime-command-exposure-approval.md",
+  "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+  "docs/phase-5-10-runtime-host-policy-boundary.md",
+  "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+  "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+  "docs/phase-5-13-runtime-process-control-boundary.md",
+  "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+  "docs/phase-5-15-positive-runtime-smoke-requirement.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1095,15 +1123,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.14 runtime rollback/kill-switch boundary docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.15 positive runtime smoke requirement docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.14",
-    name: "Runtime rollback/kill-switch boundary",
+    id: "5.15",
+    name: "Positive runtime smoke requirement",
     executionPosture:
-      "runtime-rollback-kill-switch-boundary-contract runtime-disabled no-runtime-execution"
+      "positive-runtime-smoke-requirement-contract runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1176,12 +1204,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.14 runtime rollback/kill-switch boundary status report.",
+        "Render this deterministic local Phase 5.15 positive runtime smoke requirement status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.14 status report.",
+      purpose: "Run focused tests for this local Phase 5.15 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-15-positive-runtime-smoke-requirement.test.mjs",
+      purpose:
+        "Run focused Phase 5.15 positive runtime smoke requirement and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -9703,6 +9737,299 @@ test("report inventories Phase 5.14 as runtime rollback/kill-switch boundary wit
   assert.equal(report.safetyPosture.flags.phase514WebSocketHttpSurfaceEnabled, false);
 });
 
+test("report inventories Phase 5.15 as positive runtime smoke requirement with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase515PositiveRuntimeSmokeRequirementInventory;
+  const expectedCaseIds = [
+    "missing-positive-runtime-smoke-coverage",
+    "invalid-positive-runtime-smoke-coverage",
+    "non-guarded-or-non-deterministic-runtime-smoke-coverage",
+    "valid-positive-runtime-smoke-coverage-prerequisite-only"
+  ];
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json",
+    sourceRuntimeRollbackKillSwitchBoundaryDocument:
+      "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+    sourceRuntimeRollbackKillSwitchBoundaryFixture:
+      "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json",
+    precedingPhase: "5.14",
+    layerId: "positive-runtime-smoke-requirement-contract",
+    scope: "positive-runtime-smoke-requirement-only-runtime-disabled",
+    positiveRuntimeSmokeRequirementRecorded: true,
+    positiveRuntimeSmokeCoverageRequiredBeforeRuntimeEnablement: true,
+    positiveRuntimeSmokeCoverageImplemented: false,
+    positiveRuntimeSmokeCoverageActive: false,
+    missingPositiveRuntimeSmokeCoverageRejected: true,
+    invalidPositiveRuntimeSmokeCoverageRejected: true,
+    nonGuardedOrNonDeterministicRuntimeSmokeCoverageRejected: true,
+    validPositiveRuntimeSmokeCoveragePrerequisiteOnly: true,
+    validPositiveRuntimeSmokeCoverageEnablesRuntime: false,
+    validPositiveRuntimeSmokeCoverageStartsRuntime: false,
+    validPositiveRuntimeSmokeCoverageExposesRuntimeExecution: false,
+    validPositiveRuntimeSmokeCoverageRunsRuntime: false,
+    canEnableRuntime: false,
+    runtimeEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeCommandEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    positiveRuntimeSmokeCommandEnabled: false,
+    positiveRuntimeSmokeCoverageEvaluated: false,
+    positiveRuntimeSmokeExecuted: false,
+    positiveRuntimeSmokePassed: false,
+    runtimeSmokeCommandEnabled: false,
+    rollbackKillSwitchCommandEnabled: false,
+    rollbackKillSwitchBoundaryImplemented: false,
+    rollbackKillSwitchBoundaryActive: false,
+    runtimeShutdownEnabled: false,
+    runtimeRollbackPerformed: false,
+    killSwitchActivated: false,
+    processControlCommandEnabled: false,
+    processControlBoundaryImplemented: false,
+    processControlBoundaryActive: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    childProcessManaged: false,
+    processSignalSent: false,
+    processWaitPerformed: false,
+    transcriptAuditConfinementCommandEnabled: false,
+    transcriptAuditConfinementImplemented: false,
+    transcriptAuditConfinementActive: false,
+    runtimeTranscriptWriterEnabled: false,
+    runtimeAuditWriterEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    stdioSafetyCommandEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    approvalCommandEnabled: false,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    hostPolicyRuntimeEnforcementActive: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase515DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase515CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-15-positive-runtime-smoke-requirement.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary, {
+    docsStatusFiles: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+      "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    machineReadableArtifactFiles: [
+      "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json"
+    ],
+    focusedTestFiles: [
+      "tests/phase5-15-positive-runtime-smoke-requirement.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    cliRuntimeSourceFilesChanged: [],
+    rustRuntimeSourceFilesChanged: [],
+    cliSourceChangedByThisPhase: false,
+    appsCliIndexChangedByThisPhase: false,
+    rustSourceChangedByThisPhase: false,
+    machineReadableArtifactsChangedByThisPhase: true,
+    reportRunsChecks: false,
+    separateRuntimeImplementationPhaseRequired: true,
+    separateRuntimeEnablementApprovalRequired: true
+  });
+  assert.deepEqual(inventory.contractSummary, {
+    positiveRuntimeSmokeRequirementRecorded: true,
+    positiveRuntimeSmokeCoverageRequiredBeforeRuntimeEnablement: true,
+    positiveRuntimeSmokeCoverageImplemented: false,
+    positiveRuntimeSmokeCoverageActive: false,
+    missingPositiveRuntimeSmokeCoverageRejected: true,
+    invalidPositiveRuntimeSmokeCoverageRejected: true,
+    nonGuardedOrNonDeterministicRuntimeSmokeCoverageRejected: true,
+    validPositiveRuntimeSmokeCoveragePrerequisiteOnly: true,
+    validPositiveRuntimeSmokeCoverageEnablesRuntime: false,
+    validPositiveRuntimeSmokeCoverageStartsRuntime: false,
+    validPositiveRuntimeSmokeCoverageExposesRuntimeExecution: false,
+    validPositiveRuntimeSmokeCoverageRunsRuntime: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    requiresSeparatePositiveRuntimeSmokeImplementationReview: true,
+    requiresRemainingPhase56Preconditions: true,
+    canEnableRuntime: false
+  });
+  assert.equal(
+    inventory.positiveRuntimeSmokeRequirementShape.futureRequirementKind,
+    "positive-runtime-smoke-requirement"
+  );
+  assert.ok(
+    inventory.positiveRuntimeSmokeRequirementShape.requiredBeforeRuntimeEnablement.includes(
+      "guarded-runtime-smoke-plan"
+    )
+  );
+  assert.ok(
+    inventory.positiveRuntimeSmokeRequirementShape.requiredBeforeRuntimeEnablement.includes(
+      "deterministic-smoke-input-fixture"
+    )
+  );
+  assert.ok(
+    inventory.positiveRuntimeSmokeRequirementShape.rejectedRequirementShapes.includes(
+      "non-guarded-or-non-deterministic-runtime-smoke-coverage"
+    )
+  );
+  assert.ok(
+    inventory.positiveRuntimeSmokeRequirementShape.requiredRestrictiveControls.includes(
+      "smoke-coverage-cannot-run-runtime-in-this-phase"
+    )
+  );
+  assert.deepEqual(
+    inventory.positiveRuntimeSmokeRequirementCases.map(
+      (requirementCase) => requirementCase.caseId
+    ),
+    expectedCaseIds
+  );
+  for (const requirementCase of inventory.positiveRuntimeSmokeRequirementCases) {
+    assert.equal(requirementCase.rejectedForRuntimeEnablement, true);
+    assertAllFalse(requirementCase.positiveRuntimeSmokeEffect);
+    assertAllFalse(requirementCase.runtimeEffect);
+  }
+  assert.equal(
+    inventory.validationRules.validPositiveRuntimeSmokeCoverageCannotEnableRuntime,
+    true
+  );
+  assert.equal(
+    inventory.validationRules.validPositiveRuntimeSmokeCoverageCannotStartRuntime,
+    true
+  );
+  assert.equal(
+    inventory.validationRules.validPositiveRuntimeSmokeCoverageCannotRunRuntime,
+    true
+  );
+  assert.equal(
+    inventory.validationRules.validPositiveRuntimeSmokeCoverageCannotBypassRollbackKillSwitchBoundary,
+    true
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.ok(inventory.forbiddenBehavior.includes("positive-runtime-smoke-executed"));
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-executed"));
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-smoke-command-enabled"));
+  assert.deepEqual(inventory.safetyPosture, {
+    positiveRuntimeSmokeRequirementRecorded: true,
+    positiveRuntimeSmokeCoverageRequiredBeforeRuntimeEnablement: true,
+    positiveRuntimeSmokeCoverageImplemented: false,
+    positiveRuntimeSmokeCoverageActive: false,
+    missingPositiveRuntimeSmokeCoverageRejected: true,
+    invalidPositiveRuntimeSmokeCoverageRejected: true,
+    nonGuardedOrNonDeterministicRuntimeSmokeCoverageRejected: true,
+    validPositiveRuntimeSmokeCoveragePrerequisiteOnly: true,
+    validPositiveRuntimeSmokeCoverageEnablesRuntime: false,
+    validPositiveRuntimeSmokeCoverageStartsRuntime: false,
+    validPositiveRuntimeSmokeCoverageExposesRuntimeExecution: false,
+    validPositiveRuntimeSmokeCoverageRunsRuntime: false,
+    canEnableRuntime: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    positiveRuntimeSmokeCommandEnabled: false,
+    positiveRuntimeSmokeCoverageEvaluated: false,
+    positiveRuntimeSmokeExecuted: false,
+    positiveRuntimeSmokePassed: false,
+    runtimeSmokeCommandEnabled: false,
+    rollbackKillSwitchCommandEnabled: false,
+    rollbackKillSwitchBoundaryImplemented: false,
+    rollbackKillSwitchBoundaryActive: false,
+    runtimeShutdownEnabled: false,
+    runtimeRollbackPerformed: false,
+    killSwitchActivated: false,
+    processControlCommandEnabled: false,
+    processControlBoundaryImplemented: false,
+    processControlBoundaryActive: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    childProcessManaged: false,
+    processSignalSent: false,
+    processWaitPerformed: false,
+    transcriptAuditConfinementCommandEnabled: false,
+    transcriptAuditConfinementImplemented: false,
+    transcriptAuditConfinementActive: false,
+    runtimeTranscriptWriterEnabled: false,
+    runtimeAuditWriterEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    stdioSafetyCommandEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    approvalCommandEnabled: false,
+    noLiveStdinLoop: true,
+    noStdoutStderrWriters: true,
+    noProcessControl: true,
+    noProcessSpawn: true,
+    noProcessTermination: true,
+    noRuntimeSupervision: true,
+    noChildProcessManagement: true,
+    noProcessSignal: true,
+    noProcessWait: true,
+    noRuntimeSmokeExecution: true,
+    noRuntimeExecution: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noTranscriptAuditRuntimeWrites: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true,
+    noWebSocketHttpSurface: true,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase515PositiveRuntimeSmokeRequirementContract, true);
+  assert.equal(report.safetyPosture.flags.phase515RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase515RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase515RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase515RuntimeExecuted, false);
+  assert.equal(report.safetyPosture.flags.phase515PositiveRuntimeSmokeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase515PositiveRuntimeSmokeExecuted, false);
+  assert.equal(report.safetyPosture.flags.phase515PositiveRuntimeSmokePassed, false);
+  assert.equal(report.safetyPosture.flags.phase515RuntimeSmokeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase515ProcessSpawnEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase515RuntimeSupervisionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase515WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -9924,6 +10251,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase512RuntimeTranscriptAuditBoundaryContract, true);
   assert.equal(report.safetyPosture.phase513RuntimeProcessControlBoundaryContract, true);
   assert.equal(report.safetyPosture.phase514RuntimeRollbackKillSwitchBoundaryContract, true);
+  assert.equal(report.safetyPosture.phase515PositiveRuntimeSmokeRequirementContract, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -10381,6 +10709,48 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase514AdapterRuntimeBehaviorEnabled: false,
     phase514ContentFabricRuntimeBehaviorEnabled: false,
     phase514WebSocketHttpSurfaceEnabled: false,
+    phase515PositiveRuntimeSmokeRequirementRecorded: true,
+    phase515PositiveRuntimeSmokeCoverageRequiredBeforeRuntimeEnablement: true,
+    phase515PositiveRuntimeSmokeCoverageImplemented: false,
+    phase515PositiveRuntimeSmokeCoverageActive: false,
+    phase515MissingPositiveRuntimeSmokeCoverageRejected: true,
+    phase515InvalidPositiveRuntimeSmokeCoverageRejected: true,
+    phase515NonGuardedOrNonDeterministicRuntimeSmokeCoverageRejected: true,
+    phase515ValidPositiveRuntimeSmokeCoveragePrerequisiteOnly: true,
+    phase515ValidPositiveRuntimeSmokeCoverageEnablesRuntime: false,
+    phase515ValidPositiveRuntimeSmokeCoverageStartsRuntime: false,
+    phase515ValidPositiveRuntimeSmokeCoverageExposesRuntimeExecution: false,
+    phase515ValidPositiveRuntimeSmokeCoverageRunsRuntime: false,
+    phase515CanEnableRuntime: false,
+    phase515RuntimeEnabled: false,
+    phase515RuntimeStarted: false,
+    phase515RuntimeReady: false,
+    phase515RuntimeCommandEnabled: false,
+    phase515RuntimeExecutionEnabled: false,
+    phase515RuntimeExecuted: false,
+    phase515ServeRuntimeStillDefaultBlocked: true,
+    phase515DryRunBypassesBlock: false,
+    phase515PositiveRuntimeSmokeCommandEnabled: false,
+    phase515PositiveRuntimeSmokeCoverageImplemented: false,
+    phase515PositiveRuntimeSmokeCoverageActive: false,
+    phase515PositiveRuntimeSmokeCoverageEvaluated: false,
+    phase515PositiveRuntimeSmokeExecuted: false,
+    phase515PositiveRuntimeSmokePassed: false,
+    phase515RuntimeSmokeCommandEnabled: false,
+    phase515LiveStdinLoopEnabled: false,
+    phase515RuntimeStdoutWriterEnabled: false,
+    phase515RuntimeStderrWriterEnabled: false,
+    phase515ProcessSpawnEnabled: false,
+    phase515ProcessTerminationEnabled: false,
+    phase515RuntimeSupervisionEnabled: false,
+    phase515RuntimeTranscriptWritePerformed: false,
+    phase515RuntimeAuditWritePerformed: false,
+    phase515ApprovalCommandEnabled: false,
+    phase515CliSourceChanged: false,
+    phase515RustSourceChanged: false,
+    phase515AdapterRuntimeBehaviorEnabled: false,
+    phase515ContentFabricRuntimeBehaviorEnabled: false,
+    phase515WebSocketHttpSurfaceEnabled: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,
