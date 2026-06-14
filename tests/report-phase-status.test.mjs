@@ -1061,6 +1061,20 @@ const phase517CrossLinks = [
   "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
   "docs/phase-5-17-guarded-runtime-implementation-plan.md"
 ];
+const phase518DocFiles = [
+  "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+  "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase518CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+  "docs/phase-5-18-review-only-approval-evaluator-skeleton.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1182,15 +1196,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.17 guarded runtime implementation plan docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.18 review-only approval evaluator skeleton docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.17",
-    name: "Guarded runtime implementation plan",
+    id: "5.18",
+    name: "Review-only approval evaluator skeleton",
     executionPosture:
-      "guarded-runtime-implementation-plan runtime-disabled no-runtime-execution"
+      "review-only-approval-evaluator-skeleton runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1263,12 +1277,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.17 guarded runtime implementation plan status report.",
+        "Render this deterministic local Phase 5.18 review-only approval evaluator skeleton status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.17 status report.",
+      purpose: "Run focused tests for this local Phase 5.18 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-18-review-only-approval-evaluator-skeleton.test.mjs",
+      purpose:
+        "Run focused Phase 5.18 review-only approval evaluator skeleton and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -10641,6 +10661,209 @@ test("report inventories Phase 5.17 as guarded runtime implementation plan with 
   assert.equal(report.safetyPosture.flags.phase517WebSocketHttpSurfaceEnabled, false);
 });
 
+test("report inventories Phase 5.18 as review-only approval evaluator skeleton with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase518ReviewOnlyApprovalEvaluatorSkeletonInventory;
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json",
+    sourceGuardedRuntimeImplementationPlanDocument:
+      "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+    sourceGuardedRuntimeImplementationPlanFixture:
+      "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json",
+    precedingPhase: "5.17",
+    layerId: "review-only-approval-evaluator-skeleton",
+    scope: "phase-5-review-only-approval-evaluator-runtime-disabled",
+    reviewOnlyApprovalEvaluatorSkeletonRecorded: true,
+    evaluatorKind: "review-only-runtime-approval-evaluator",
+    evaluatorReviewOnly: true,
+    evaluatorAuthoritative: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase518DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase518CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-18-review-only-approval-evaluator-skeleton.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary, {
+    docsStatusFiles: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+      "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    coreReviewOnlyFilesChanged: [
+      "packages/core/src/index.mjs",
+      "packages/core/src/index.d.ts"
+    ],
+    machineReadableArtifactFiles: [
+      "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json"
+    ],
+    focusedTestFiles: [
+      "tests/phase5-18-review-only-approval-evaluator-skeleton.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    cliRuntimeSourceFilesChanged: [],
+    rustRuntimeSourceFilesChanged: [],
+    cliSourceChangedByThisPhase: false,
+    appsCliIndexChangedByThisPhase: false,
+    rustSourceChangedByThisPhase: false,
+    approvalGrantProducedByThisPhase: false,
+    runtimeEnabledByThisPhase: false,
+    reportRunsChecks: false,
+    separateApprovalGrantPhaseRequired: true,
+    separateRuntimeEnablementApprovalRequired: true
+  });
+  assert.deepEqual(inventory.sourcePhase, {
+    phase: "phase-5.17-guarded-runtime-implementation-plan",
+    document: "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+    fixture: "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json",
+    runtimeEnabled: false,
+    implementationPlanRecorded: true,
+    recommendedNextSlice: "phase-5.18-review-only-approval-evaluator-skeleton"
+  });
+  assert.deepEqual(inventory.evaluatorSummary, {
+    reviewOnlyApprovalEvaluatorSkeletonRecorded: true,
+    evaluatorKind: "review-only-runtime-approval-evaluator",
+    evaluatorReviewOnly: true,
+    evaluatorAuthoritative: false,
+    missingPrerequisiteRecordsRejected: true,
+    invalidPrerequisiteRecordsRejected: true,
+    revokedPrerequisiteRecordsRejected: true,
+    validPrerequisiteRecordsRecognizedForReviewOnly: true,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false
+  });
+  assert.equal(inventory.evaluatorInputShape.runtimeApprovalRecordSchema, "ardyn.runtime-approval-record");
+  assert.equal(
+    inventory.evaluatorInputShape.commandExposureApprovalRecordSchema,
+    "ardyn.runtime-command-exposure-approval-record"
+  );
+  assert.equal(inventory.evaluatorResultShape.resultCannotAuthorizeRuntime, true);
+  assert.deepEqual(inventory.evaluatorCases.map(({ caseId }) => caseId), [
+    "missing-prerequisite-records",
+    "invalid-runtime-approval-record",
+    "revoked-runtime-approval-record",
+    "valid-prerequisite-records-review-only"
+  ]);
+  for (const evaluatorCase of inventory.evaluatorCases) {
+    assert.equal(evaluatorCase.reviewOnly, true);
+    assert.equal(evaluatorCase.authoritative, false);
+    assert.equal(evaluatorCase.approvalGrant.produced, false);
+    assert.equal(evaluatorCase.approvalGrant.persisted, false);
+    assert.equal(evaluatorCase.approvalGrant.grantId, null);
+    assertAllFalse(evaluatorCase.runtimeEffect);
+  }
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.stdout, "");
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.ok(inventory.forbiddenBehavior.includes("approval-grant-produced"));
+  assert.ok(inventory.forbiddenBehavior.includes("approval-evaluator-cli-command"));
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-executed"));
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-18-review-only-approval-evaluator-skeleton.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.safetyPosture, {
+    reviewOnlyApprovalEvaluatorSkeletonRecorded: true,
+    evaluatorReviewOnly: true,
+    evaluatorAuthoritative: false,
+    missingPrerequisiteRecordsRejected: true,
+    invalidPrerequisiteRecordsRejected: true,
+    revokedPrerequisiteRecordsRejected: true,
+    validPrerequisiteRecordsRecognizedForReviewOnly: true,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase518ReviewOnlyApprovalEvaluatorSkeleton, true);
+  assert.equal(report.safetyPosture.flags.phase518EvaluatorReviewOnly, true);
+  assert.equal(report.safetyPosture.flags.phase518EvaluatorAuthoritative, false);
+  assert.equal(report.safetyPosture.flags.phase518ApprovalGrantProduced, false);
+  assert.equal(report.safetyPosture.flags.phase518ApprovalGrantPersisted, false);
+  assert.equal(report.safetyPosture.flags.phase518RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase518RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase518RuntimeCommandExposureEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase518RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase518RuntimeExecuted, false);
+  assert.equal(report.safetyPosture.flags.phase518ProcessSpawnEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase518RuntimeSupervisionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase518WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -10865,6 +11088,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase515PositiveRuntimeSmokeRequirementContract, true);
   assert.equal(report.safetyPosture.phase516RuntimeEnableReadinessCheckpoint, true);
   assert.equal(report.safetyPosture.phase517GuardedRuntimeImplementationPlan, true);
+  assert.equal(report.safetyPosture.phase518ReviewOnlyApprovalEvaluatorSkeleton, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -11450,6 +11674,38 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase517CanEnableRuntime: false,
     phase517CliSourceChanged: false,
     phase517RustSourceChanged: false,
+    phase518ReviewOnlyApprovalEvaluatorSkeletonRecorded: true,
+    phase518EvaluatorReviewOnly: true,
+    phase518EvaluatorAuthoritative: false,
+    phase518MissingPrerequisiteRecordsRejected: true,
+    phase518InvalidPrerequisiteRecordsRejected: true,
+    phase518RevokedPrerequisiteRecordsRejected: true,
+    phase518ValidPrerequisiteRecordsRecognizedForReviewOnly: true,
+    phase518ApprovalGrantProduced: false,
+    phase518ApprovalGrantPersisted: false,
+    phase518RuntimeEnabled: false,
+    phase518RuntimeStarted: false,
+    phase518RuntimeReady: false,
+    phase518RuntimeCommandEnabled: false,
+    phase518RuntimeCommandExposureEnabled: false,
+    phase518RuntimeExecutionEnabled: false,
+    phase518RuntimeExecuted: false,
+    phase518ServeRuntimeStillDefaultBlocked: true,
+    phase518DryRunBypassesBlock: false,
+    phase518CanEnableRuntime: false,
+    phase518CliSourceChanged: false,
+    phase518RustSourceChanged: false,
+    phase518LiveStdinLoopEnabled: false,
+    phase518RuntimeStdoutWriterEnabled: false,
+    phase518RuntimeStderrWriterEnabled: false,
+    phase518ProcessSpawnEnabled: false,
+    phase518ProcessTerminationEnabled: false,
+    phase518RuntimeSupervisionEnabled: false,
+    phase518RuntimeTranscriptWritePerformed: false,
+    phase518RuntimeAuditWritePerformed: false,
+    phase518AdapterRuntimeBehaviorEnabled: false,
+    phase518ContentFabricRuntimeBehaviorEnabled: false,
+    phase518WebSocketHttpSurfaceEnabled: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,

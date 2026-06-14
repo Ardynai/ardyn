@@ -85,6 +85,11 @@ export const APPROVAL_DECISION_STATUSES = Object.freeze([
   APPROVAL_DECISION_GRANTED,
   APPROVAL_DECISION_NOT_REQUIRED
 ]);
+export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_SCHEMA =
+  "ardyn.phase-5.18.review-only-approval-evaluator-result";
+export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_VERSION = "0.1.0";
+export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_KIND =
+  "review-only-runtime-approval-evaluator";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -5071,6 +5076,166 @@ export function classifyFailureAuditRecordForReview(record) {
 
 export function formatFailureAuditRecordJsonForReview(options = {}) {
   return `${JSON.stringify(createFailureAuditRecordForReview(options), null, 2)}\n`;
+}
+
+const REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE = Object.freeze({
+  runtimeEnabled: false,
+  runtimeStarted: false,
+  runtimeReady: false,
+  runtimeCommandEnabled: false,
+  runtimeCommandExposureEnabled: false,
+  runtimeExecutionEnabled: false,
+  runtimeExecuted: false,
+  approvalGrantProduced: false,
+  approvalGrantPersisted: false,
+  approvalEvaluatorAuthoritative: false
+});
+
+function recordRuntimeEffectClaims(record) {
+  if (!isPlainObjectRecord(record?.runtimeEffect)) {
+    return true;
+  }
+
+  return Object.values(record.runtimeEffect).some((value) => value !== false);
+}
+
+function approvalPrerequisiteRecordInvalid(record, expected) {
+  const expectedFields = [
+    ["schema", expected.schema],
+    ["schemaVersion", "0.1.0"],
+    ["recordKind", expected.recordKind],
+    ["approvalStatus", "approved"]
+  ];
+
+  return (
+    !isPlainObjectRecord(record) ||
+    expectedFields.some(([field, value]) => record[field] !== value) ||
+    recordRuntimeEffectClaims(record)
+  );
+}
+
+function approvalPrerequisiteRecordRevoked(record) {
+  return !isPlainObjectRecord(record?.revocation) || record.revocation.revoked === true;
+}
+
+const APPROVAL_PREREQUISITE_RECORD_STATUS = Object.freeze({
+  missing: Object.freeze({
+    present: false,
+    valid: false,
+    revoked: false,
+    reason: "missing"
+  }),
+  invalid: Object.freeze({
+    present: true,
+    valid: false,
+    revoked: false,
+    reason: "invalid"
+  }),
+  revoked: Object.freeze({
+    present: true,
+    valid: false,
+    revoked: true,
+    reason: "revoked"
+  }),
+  valid: Object.freeze({
+    present: true,
+    valid: true,
+    revoked: false,
+    reason: null
+  })
+});
+
+function approvalPrerequisiteRecordStatus(record, expected) {
+  const statusChecks = [
+    ["missing", record == null],
+    ["invalid", approvalPrerequisiteRecordInvalid(record, expected)],
+    ["revoked", approvalPrerequisiteRecordRevoked(record)]
+  ];
+
+  return statusChecks.find(([, matches]) => matches)?.[0] ?? "valid";
+}
+
+function classifyApprovalPrerequisiteRecord(record, expected) {
+  const status = approvalPrerequisiteRecordStatus(record, expected);
+  const details = APPROVAL_PREREQUISITE_RECORD_STATUS[status];
+  const rejectionReasons =
+    details.reason == null ? [] : [`${expected.label}_${details.reason}`];
+  return {
+    status,
+    present: details.present,
+    valid: details.valid,
+    revoked: details.revoked,
+    rejectionReasons
+  };
+}
+
+function evaluatorClassification(runtimeRecord, commandRecord) {
+  const statuses = [runtimeRecord.status, commandRecord.status];
+  const blockingStatus = ["missing", "invalid", "revoked"].find((status) =>
+    statuses.includes(status)
+  );
+  const classifications = {
+    missing: "missing_prerequisite_record_rejected",
+    invalid: "invalid_prerequisite_record_rejected",
+    revoked: "revoked_prerequisite_record_rejected"
+  };
+
+  return (
+    classifications[blockingStatus] ??
+    "valid_prerequisites_review_only_runtime_still_blocked"
+  );
+}
+
+export function evaluateRuntimeApprovalPrerequisitesForReview(input = {}) {
+  const runtimeApprovalRecord = classifyApprovalPrerequisiteRecord(input.runtimeApprovalRecord, {
+    label: "runtime_approval_record",
+    schema: "ardyn.runtime-approval-record",
+    recordKind: "runtime-approval-record"
+  });
+  const commandExposureApprovalRecord = classifyApprovalPrerequisiteRecord(
+    input.commandExposureApprovalRecord,
+    {
+      label: "command_exposure_approval_record",
+      schema: "ardyn.runtime-command-exposure-approval-record",
+      recordKind: "runtime-command-exposure-approval-record"
+    }
+  );
+  const classification = evaluatorClassification(
+    runtimeApprovalRecord,
+    commandExposureApprovalRecord
+  );
+  const prerequisiteSignalRecognized =
+    runtimeApprovalRecord.status === "valid" &&
+    commandExposureApprovalRecord.status === "valid";
+
+  return {
+    schema: REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_SCHEMA,
+    schemaVersion: REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_VERSION,
+    evaluatorKind: REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_KIND,
+    evaluationMode: "review-only",
+    classification,
+    prerequisiteSignalRecognized,
+    reviewOnly: true,
+    authoritative: false,
+    prerequisiteRecords: {
+      runtimeApprovalRecord,
+      commandExposureApprovalRecord
+    },
+    rejectionReasons: [
+      ...runtimeApprovalRecord.rejectionReasons,
+      ...commandExposureApprovalRecord.rejectionReasons,
+      "approval_grant_not_implemented",
+      "runtime_enablement_still_blocked"
+    ],
+    approvalGrant: {
+      produced: false,
+      persisted: false,
+      grantId: null,
+      schema: "ardyn.runtime-approval-grant",
+      schemaVersion: "not-implemented"
+    },
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
 }
 
 export function createHostInfo() {

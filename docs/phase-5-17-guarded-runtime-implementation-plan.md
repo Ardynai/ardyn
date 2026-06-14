@@ -32,6 +32,8 @@ Cross-links:
 - Runtime approval validation: `phase-5-7-runtime-approval-validation.md`
 - Runtime enablement preconditions: `phase-5-6-runtime-enable-preconditions.md`
 - Default-blocked runtime CLI: `phase-5-5-default-blocked-runtime-cli.md`
+- Review-only approval evaluator skeleton:
+  `phase-5-18-review-only-approval-evaluator-skeleton.md`
 
 Machine-readable Phase 5.17 artifact path:
 
@@ -108,5 +110,6 @@ The recommended next implementation slice is
 `phase-5.18-review-only-approval-evaluator-skeleton`: a still default-blocked
 slice that can introduce review-only approval evaluator structure without
 producing grants, enabling runtime, exposing runtime commands, or starting
-runtime. Phase 5.17 itself is only an implementation plan and keeps runtime
-blocked.
+runtime. Phase 5.18 follows this handoff with a review-only skeleton; it still
+produces no grant, enables no runtime, exposes no runtime command, and starts
+no runtime.

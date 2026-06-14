@@ -106,6 +106,11 @@ export const APPROVAL_DECISION_STATUSES: readonly [
   "granted",
   "not_required"
 ];
+export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_SCHEMA:
+  "ardyn.phase-5.18.review-only-approval-evaluator-result";
+export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_VERSION: "0.1.0";
+export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_KIND:
+  "review-only-runtime-approval-evaluator";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1343,6 +1348,60 @@ export interface HostPolicyReviewRecordComparison {
   safety: NoExecutionSafetyFlags;
 }
 
+export type ReviewOnlyApprovalPrerequisiteStatus =
+  | "missing"
+  | "invalid"
+  | "revoked"
+  | "valid";
+export type ReviewOnlyApprovalEvaluatorClassification =
+  | "missing_prerequisite_record_rejected"
+  | "invalid_prerequisite_record_rejected"
+  | "revoked_prerequisite_record_rejected"
+  | "valid_prerequisites_review_only_runtime_still_blocked";
+
+export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
+  status: ReviewOnlyApprovalPrerequisiteStatus;
+  present: boolean;
+  valid: boolean;
+  revoked: boolean;
+  rejectionReasons: string[];
+}
+
+export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
+  schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
+  schemaVersion: "0.1.0";
+  evaluatorKind: "review-only-runtime-approval-evaluator";
+  evaluationMode: "review-only";
+  classification: ReviewOnlyApprovalEvaluatorClassification;
+  prerequisiteSignalRecognized: boolean;
+  reviewOnly: true;
+  authoritative: false;
+  prerequisiteRecords: {
+    runtimeApprovalRecord: ReviewOnlyApprovalPrerequisiteRecordStatus;
+    commandExposureApprovalRecord: ReviewOnlyApprovalPrerequisiteRecordStatus;
+  };
+  rejectionReasons: string[];
+  approvalGrant: {
+    produced: false;
+    persisted: false;
+    grantId: null;
+    schema: "ardyn.runtime-approval-grant";
+    schemaVersion: "not-implemented";
+  };
+  runtimeEffect: {
+    runtimeEnabled: false;
+    runtimeStarted: false;
+    runtimeReady: false;
+    runtimeCommandEnabled: false;
+    runtimeCommandExposureEnabled: false;
+    runtimeExecutionEnabled: false;
+    runtimeExecuted: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    approvalEvaluatorAuthoritative: false;
+  };
+}
+
 export type ApprovalReviewArtifactComparisonSource =
   | TaskPlan
   | PlannerTrace
@@ -1535,6 +1594,10 @@ export function formatFailureAuditRecordJsonForReview(options?: {
   killInterruptTimeoutSemantics?: Record<string, unknown>;
   failureReasons?: string[];
 }): string;
+export function evaluateRuntimeApprovalPrerequisitesForReview(input?: {
+  runtimeApprovalRecord?: unknown;
+  commandExposureApprovalRecord?: unknown;
+}): ReviewOnlyRuntimeApprovalEvaluatorResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

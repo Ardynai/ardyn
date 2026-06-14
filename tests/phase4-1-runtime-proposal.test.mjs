@@ -357,10 +357,10 @@ test("Phase 4.1 status report inventories proposal metadata without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.17",
-    name: "Guarded runtime implementation plan",
+    id: "5.18",
+    name: "Review-only approval evaluator skeleton",
     executionPosture:
-      "guarded-runtime-implementation-plan runtime-disabled no-runtime-execution"
+      "review-only-approval-evaluator-skeleton runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -419,9 +419,9 @@ test("Phase 4.1 source guards do not add runtime or proposal command surfaces", 
     assert.doesNotMatch(usage, new RegExp(`(^|\\||<)${escapedCommand}(\\||>|\\s|$)`));
   }
 
-  for (const [label, source] of [
-    ["CLI", cliSource],
-    ["core", coreSource]
+  for (const [label, source, extraForbiddenPatterns] of [
+    ["CLI", cliSource, [/runtime-approval/i]],
+    ["core", coreSource, []]
   ]) {
     for (const forbiddenPattern of [
       /process\.stdin/,
@@ -440,10 +440,10 @@ test("Phase 4.1 source guards do not add runtime or proposal command surfaces", 
       /@ardyn\/adapters/,
       /@ardyn\/fabric/,
       /@ardyn\/mcp/,
-      /runtime-approval/i,
       /phase-4-1/i,
       /phase4-1/i,
-      /phase-41/i
+      /phase-41/i,
+      ...extraForbiddenPatterns
     ]) {
       assert.doesNotMatch(source, forbiddenPattern, `${label} source should avoid ${forbiddenPattern}`);
     }

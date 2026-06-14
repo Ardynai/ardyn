@@ -159,6 +159,12 @@ confinement, process-control boundary, rollback/kill-switch boundary, positive
 runtime smoke coverage, runtime entrypoint, or live runtime behavior, enables no
 runtime behavior, and changes no Rust or CLI source. See
 `docs/phase-5-17-guarded-runtime-implementation-plan.md`.
+Phase 5.18 records a review-only approval evaluator skeleton in TypeScript core
+only. It keeps `stdio_runtime` private, grants no approval, produces no
+approval grant, implements no authoritative evaluator, enables no runtime
+behavior, changes no Rust or CLI source, and records prerequisite approval
+classification as review metadata only. See
+`docs/phase-5-18-review-only-approval-evaluator-skeleton.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -468,6 +474,18 @@ process supervision, runtime transcript/audit write, adapter/Fabric behavior,
 or WebSocket/HTTP surface is implemented. Runtime remains disabled,
 `stdio_runtime` remains private, and no Rust source changes are made. See
 `docs/phase-5-17-guarded-runtime-implementation-plan.md`.
+
+Phase 5.18 adds no Rust-host runtime implementation. It records a
+machine-readable review-only approval evaluator skeleton in TypeScript core and
+keeps the Rust host private and fail-closed. No authoritative approval
+evaluator, approval grant, host-policy runtime enforcement, runtime I/O,
+process control, rollback/kill-switch behavior, positive runtime smoke
+execution, runtime entrypoint, live stdin loop, runtime stdout/stderr writer,
+process spawning, process supervision, runtime transcript/audit write,
+adapter/Fabric behavior, or WebSocket/HTTP surface is implemented. Runtime
+remains disabled, `stdio_runtime` remains private, and no Rust source changes
+are made. See
+`docs/phase-5-18-review-only-approval-evaluator-skeleton.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

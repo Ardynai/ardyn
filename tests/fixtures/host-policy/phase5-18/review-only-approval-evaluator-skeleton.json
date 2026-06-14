@@ -1,0 +1,308 @@
+{
+  "schema": "ardyn.phase-5.18.review-only-approval-evaluator-skeleton",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.18-review-only-approval-evaluator-skeleton",
+  "artifactKind": "review-only-approval-evaluator-skeleton",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhase": {
+    "phase": "phase-5.17-guarded-runtime-implementation-plan",
+    "document": "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+    "fixture": "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json",
+    "runtimeEnabled": false,
+    "implementationPlanRecorded": true,
+    "recommendedNextSlice": "phase-5.18-review-only-approval-evaluator-skeleton"
+  },
+  "evaluatorSummary": {
+    "reviewOnlyApprovalEvaluatorSkeletonRecorded": true,
+    "evaluatorKind": "review-only-runtime-approval-evaluator",
+    "evaluatorReviewOnly": true,
+    "evaluatorAuthoritative": false,
+    "missingPrerequisiteRecordsRejected": true,
+    "invalidPrerequisiteRecordsRejected": true,
+    "revokedPrerequisiteRecordsRejected": true,
+    "validPrerequisiteRecordsRecognizedForReviewOnly": true,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false
+  },
+  "evaluatorInputShape": {
+    "requiredInputRecords": [
+      "runtimeApprovalRecord",
+      "commandExposureApprovalRecord"
+    ],
+    "runtimeApprovalRecordSchema": "ardyn.runtime-approval-record",
+    "commandExposureApprovalRecordSchema": "ardyn.runtime-command-exposure-approval-record",
+    "validPrerequisiteRule": "valid_prerequisite_records_may_be_recognized_for_review_only_but_must_not_authorize_runtime",
+    "missingInvalidOrRevokedRule": "missing_invalid_or_revoked_prerequisite_records_must_reject_before_runtime_enablement"
+  },
+  "evaluatorResultShape": {
+    "schema": "ardyn.phase-5.18.review-only-approval-evaluator-result",
+    "schemaVersion": "0.1.0",
+    "evaluatorKind": "review-only-runtime-approval-evaluator",
+    "evaluationMode": "review-only",
+    "requiredTopLevelFields": [
+      "schema",
+      "schemaVersion",
+      "evaluatorKind",
+      "evaluationMode",
+      "classification",
+      "prerequisiteSignalRecognized",
+      "reviewOnly",
+      "authoritative",
+      "prerequisiteRecords",
+      "rejectionReasons",
+      "approvalGrant",
+      "runtimeEffect"
+    ],
+    "requiredRuntimeEffectFalseFields": [
+      "runtimeEnabled",
+      "runtimeStarted",
+      "runtimeReady",
+      "runtimeCommandEnabled",
+      "runtimeCommandExposureEnabled",
+      "runtimeExecutionEnabled",
+      "runtimeExecuted",
+      "approvalGrantProduced",
+      "approvalGrantPersisted",
+      "approvalEvaluatorAuthoritative"
+    ],
+    "approvalGrantFalseFields": [
+      "produced",
+      "persisted"
+    ],
+    "resultCannotAuthorizeRuntime": true
+  },
+  "evaluatorCases": [
+    {
+      "caseId": "missing-prerequisite-records",
+      "classification": "missing_prerequisite_record_rejected",
+      "runtimeApprovalRecordStatus": "missing",
+      "commandExposureApprovalRecordStatus": "missing",
+      "prerequisiteSignalRecognized": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "rejectionReasons": [
+        "runtime_approval_record_missing",
+        "command_exposure_approval_record_missing",
+        "approval_grant_not_implemented",
+        "runtime_enablement_still_blocked"
+      ],
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null,
+        "schema": "ardyn.runtime-approval-grant",
+        "schemaVersion": "not-implemented"
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "invalid-runtime-approval-record",
+      "classification": "invalid_prerequisite_record_rejected",
+      "runtimeApprovalRecordStatus": "invalid",
+      "commandExposureApprovalRecordStatus": "valid",
+      "prerequisiteSignalRecognized": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "rejectionReasons": [
+        "runtime_approval_record_invalid",
+        "approval_grant_not_implemented",
+        "runtime_enablement_still_blocked"
+      ],
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null,
+        "schema": "ardyn.runtime-approval-grant",
+        "schemaVersion": "not-implemented"
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "revoked-runtime-approval-record",
+      "classification": "revoked_prerequisite_record_rejected",
+      "runtimeApprovalRecordStatus": "revoked",
+      "commandExposureApprovalRecordStatus": "valid",
+      "prerequisiteSignalRecognized": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "rejectionReasons": [
+        "runtime_approval_record_revoked",
+        "approval_grant_not_implemented",
+        "runtime_enablement_still_blocked"
+      ],
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null,
+        "schema": "ardyn.runtime-approval-grant",
+        "schemaVersion": "not-implemented"
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "valid-prerequisite-records-review-only",
+      "classification": "valid_prerequisites_review_only_runtime_still_blocked",
+      "runtimeApprovalRecordStatus": "valid",
+      "commandExposureApprovalRecordStatus": "valid",
+      "prerequisiteSignalRecognized": true,
+      "reviewOnly": true,
+      "authoritative": false,
+      "rejectionReasons": [
+        "approval_grant_not_implemented",
+        "runtime_enablement_still_blocked"
+      ],
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null,
+        "schema": "ardyn.runtime-approval-grant",
+        "schemaVersion": "not-implemented"
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    }
+  ],
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalEvaluatorAuthoritative": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "processSpawnEnabled": false,
+    "processTerminationEnabled": false,
+    "runtimeSupervisionEnabled": false,
+    "runtimeTranscriptWritePerformed": false,
+    "runtimeAuditWritePerformed": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "recognizedByCli": true,
+    "exitCode": "nonzero",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "approval-grant-produced",
+    "approval-grant-persisted",
+    "approval-evaluator-authoritative",
+    "runtime-enabled-true",
+    "runtime-command-enabled-true",
+    "runtime-command-exposure-enabled",
+    "runtime-execution-enabled",
+    "runtime-start",
+    "runtime-executed",
+    "live-stdin-loop",
+    "runtime-stdout-stderr-writer",
+    "process-spawn",
+    "process-termination",
+    "runtime-supervision",
+    "runtime-transcript-write",
+    "runtime-audit-write",
+    "adapter-runtime-behavior",
+    "content-fabric-runtime-behavior",
+    "websocket-http-runtime-surface",
+    "approval-evaluator-cli-command"
+  ],
+  "filesAllowedToChange": [
+    "packages/core/src/index.mjs",
+    "packages/core/src/index.d.ts",
+    "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+    "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json",
+    "tests/phase5-18-review-only-approval-evaluator-skeleton.test.mjs",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs",
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-17-guarded-runtime-implementation-plan.md"
+  ],
+  "filesForbiddenToChange": [
+    "apps/cli/src/index.mjs",
+    "crates/ardyn-host/src/**",
+    "packages/fabric/src/runtime/**",
+    "apps/host/src/runtime/**"
+  ],
+  "validationCommands": [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status",
+    "node --test tests/phase5-18-review-only-approval-evaluator-skeleton.test.mjs",
+    "fallow health --hotspots --targets --report-only --summary --changed-since main",
+    "fallow audit --changed-since main --summary",
+    "fallow dead-code --changed-since main --summary"
+  ]
+}

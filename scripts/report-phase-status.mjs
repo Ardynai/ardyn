@@ -160,6 +160,9 @@ const phase516RuntimeEnableReadinessCheckpointMetadata = await readJson(
 const phase517GuardedRuntimeImplementationPlanMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json"
 );
+const phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -207,10 +210,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.17",
-    name: "Guarded runtime implementation plan",
+    id: "5.18",
+    name: "Review-only approval evaluator skeleton",
     executionPosture:
-      "guarded-runtime-implementation-plan runtime-disabled no-runtime-execution"
+      "review-only-approval-evaluator-skeleton runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -258,12 +261,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.17 guarded runtime implementation plan status report.",
+        "Render this deterministic local Phase 5.18 review-only approval evaluator skeleton status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.17 status report.",
+      purpose: "Run focused tests for this local Phase 5.18 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-18-review-only-approval-evaluator-skeleton.test.mjs",
+      purpose:
+        "Run focused Phase 5.18 review-only approval evaluator skeleton and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -10826,6 +10835,184 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase518ReviewOnlyApprovalEvaluatorSkeletonInventory: {
+    statusLayer: {
+      document: "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json",
+      sourceGuardedRuntimeImplementationPlanDocument:
+        "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+      sourceGuardedRuntimeImplementationPlanFixture:
+        "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json",
+      precedingPhase: "5.17",
+      layerId: "review-only-approval-evaluator-skeleton",
+      scope: "phase-5-review-only-approval-evaluator-runtime-disabled",
+      reviewOnlyApprovalEvaluatorSkeletonRecorded:
+        phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.evaluatorSummary
+          .reviewOnlyApprovalEvaluatorSkeletonRecorded,
+      evaluatorKind:
+        phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.evaluatorSummary.evaluatorKind,
+      evaluatorReviewOnly: true,
+      evaluatorAuthoritative: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.evaluatorSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+        "Records the Phase 5.18 review-only approval evaluator skeleton while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+        "Provides the planned Phase 5.18 handoff while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.18 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.18 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.18 changes no Rust-host runtime source and records a TypeScript core review helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+      "docs/phase-5-18-review-only-approval-evaluator-skeleton.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json",
+        "Records review-only evaluator cases while approval grants and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.18 report metadata, docs cross-links, evaluator skeleton, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-18-review-only-approval-evaluator-skeleton.test.mjs",
+        "Pins the Phase 5.18 evaluator helper, fixture shape, serve-runtime rejection, evaluator command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+        "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-18-review-only-approval-evaluator-skeleton.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase: phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.sourcePhase,
+    evaluatorSummary:
+      phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.evaluatorSummary,
+    evaluatorInputShape:
+      phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.evaluatorInputShape,
+    evaluatorResultShape:
+      phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.evaluatorResultShape,
+    evaluatorCases:
+      phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.evaluatorCases,
+    blockedRuntimeEffect:
+      phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.forbiddenBehavior,
+    validationCommands:
+      phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata.validationCommands,
+    safetyPosture: {
+      reviewOnlyApprovalEvaluatorSkeletonRecorded: true,
+      evaluatorReviewOnly: true,
+      evaluatorAuthoritative: false,
+      missingPrerequisiteRecordsRejected: true,
+      invalidPrerequisiteRecordsRejected: true,
+      revokedPrerequisiteRecordsRejected: true,
+      validPrerequisiteRecordsRecognizedForReviewOnly: true,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -10876,6 +11063,7 @@ const report = {
     phase515PositiveRuntimeSmokeRequirementContract: true,
     phase516RuntimeEnableReadinessCheckpoint: true,
     phase517GuardedRuntimeImplementationPlan: true,
+    phase518ReviewOnlyApprovalEvaluatorSkeleton: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -11460,6 +11648,38 @@ const report = {
       phase517CanEnableRuntime: false,
       phase517CliSourceChanged: false,
       phase517RustSourceChanged: false,
+      phase518ReviewOnlyApprovalEvaluatorSkeletonRecorded: true,
+      phase518EvaluatorReviewOnly: true,
+      phase518EvaluatorAuthoritative: false,
+      phase518MissingPrerequisiteRecordsRejected: true,
+      phase518InvalidPrerequisiteRecordsRejected: true,
+      phase518RevokedPrerequisiteRecordsRejected: true,
+      phase518ValidPrerequisiteRecordsRecognizedForReviewOnly: true,
+      phase518ApprovalGrantProduced: false,
+      phase518ApprovalGrantPersisted: false,
+      phase518RuntimeEnabled: false,
+      phase518RuntimeStarted: false,
+      phase518RuntimeReady: false,
+      phase518RuntimeCommandEnabled: false,
+      phase518RuntimeCommandExposureEnabled: false,
+      phase518RuntimeExecutionEnabled: false,
+      phase518RuntimeExecuted: false,
+      phase518ServeRuntimeStillDefaultBlocked: true,
+      phase518DryRunBypassesBlock: false,
+      phase518CanEnableRuntime: false,
+      phase518CliSourceChanged: false,
+      phase518RustSourceChanged: false,
+      phase518LiveStdinLoopEnabled: false,
+      phase518RuntimeStdoutWriterEnabled: false,
+      phase518RuntimeStderrWriterEnabled: false,
+      phase518ProcessSpawnEnabled: false,
+      phase518ProcessTerminationEnabled: false,
+      phase518RuntimeSupervisionEnabled: false,
+      phase518RuntimeTranscriptWritePerformed: false,
+      phase518RuntimeAuditWritePerformed: false,
+      phase518AdapterRuntimeBehaviorEnabled: false,
+      phase518ContentFabricRuntimeBehaviorEnabled: false,
+      phase518WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,
