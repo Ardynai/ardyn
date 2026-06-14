@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.15 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.16 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -169,6 +169,16 @@ source change, or change to `apps/cli/src/index.mjs`. Valid positive runtime
 smoke coverage cannot enable runtime, start runtime, run runtime, or expose
 runtime execution. `serve-runtime` and `serve-runtime --dry-run` remain
 default-blocked.
+Phase 5.16 adds runtime enablement readiness checkpoint docs/status metadata
+only. It summarizes Phase 5.6 through Phase 5.15 contracts, keeps approval
+records and command-exposure approvals prerequisite-only, records no approval
+evaluator or grant, and adds no Phase 5.16 CLI command, readiness command,
+approval command, evaluator, grant, runtime start path, live stdin loop,
+stdout/stderr runtime writer, process spawning or supervision, runtime
+transcript/audit write, adapter or Content Fabric runtime behavior,
+WebSocket/HTTP surface, Rust source change, or change to
+`apps/cli/src/index.mjs`. `serve-runtime` and `serve-runtime --dry-run` remain
+default-blocked.
 See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
@@ -189,7 +199,8 @@ See
 `docs/phase-5-12-runtime-transcript-audit-boundary.md`, and
 `docs/phase-5-13-runtime-process-control-boundary.md`, and
 `docs/phase-5-14-runtime-rollback-kill-switch-boundary.md`, and
-`docs/phase-5-15-positive-runtime-smoke-requirement.md`.
+`docs/phase-5-15-positive-runtime-smoke-requirement.md`, and
+`docs/phase-5-16-runtime-enable-readiness-checkpoint.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -595,3 +606,11 @@ prerequisite signal and cannot enable runtime, start runtime, run runtime, or
 expose runtime execution. It changes no CLI source and keeps `serve-runtime`
 default-blocked. See
 `docs/phase-5-15-positive-runtime-smoke-requirement.md`.
+
+Phase 5.16 records a runtime enablement readiness checkpoint only. Phase 5.6
+through Phase 5.15 preconditions are represented as contracts, but approval
+records, command-exposure approvals, host-policy, stdio, transcript/audit,
+process-control, rollback/kill-switch, and positive runtime smoke requirements
+remain prerequisite-only or contract-only. It changes no CLI source, adds no
+readiness or approval command, and keeps `serve-runtime` default-blocked. See
+`docs/phase-5-16-runtime-enable-readiness-checkpoint.md`.

@@ -154,6 +154,9 @@ const phase514RuntimeRollbackKillSwitchBoundaryContractMetadata = await readJson
 const phase515PositiveRuntimeSmokeRequirementContractMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json"
 );
+const phase516RuntimeEnableReadinessCheckpointMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -201,10 +204,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.15",
-    name: "Positive runtime smoke requirement",
+    id: "5.16",
+    name: "Runtime enablement readiness checkpoint",
     executionPosture:
-      "positive-runtime-smoke-requirement-contract runtime-disabled no-runtime-execution"
+      "runtime-enable-readiness-checkpoint runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -252,12 +255,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.15 positive runtime smoke requirement status report.",
+        "Render this deterministic local Phase 5.16 runtime enablement readiness checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.15 status report.",
+      purpose: "Run focused tests for this local Phase 5.16 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-16-runtime-enable-readiness-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.16 runtime enablement readiness checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -10318,6 +10327,260 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase516RuntimeEnableReadinessCheckpointInventory: {
+    statusLayer: {
+      document: "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json",
+      sourcePositiveRuntimeSmokeDocument:
+        "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+      sourcePositiveRuntimeSmokeFixture:
+        "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json",
+      precedingPhase: "5.15",
+      layerId: "runtime-enable-readiness-checkpoint",
+      scope: "phase-5-runtime-enable-readiness-checkpoint-runtime-disabled",
+      runtimeEnableReadinessCheckpointRecorded:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .runtimeEnableReadinessCheckpointRecorded,
+      phase56Through515ContractsRepresented:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .phase56Through515ContractsRepresented,
+      representedPreconditionCount:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .representedPreconditionCount,
+      implementedLivePreconditionCount:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .implementedLivePreconditionCount,
+      approvalRecordsPrerequisiteOnly:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .approvalRecordsPrerequisiteOnly,
+      commandExposureApprovalPrerequisiteOnly:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .commandExposureApprovalPrerequisiteOnly,
+      approvalEvaluatorImplemented:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .approvalEvaluatorImplemented,
+      approvalGrantProduced:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .approvalGrantProduced,
+      hostPolicyRuntimeEnforcementImplemented:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .hostPolicyRuntimeEnforcementImplemented,
+      stdioSafetyImplemented:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .stdioSafetyImplemented,
+      transcriptAuditConfinementImplemented:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .transcriptAuditConfinementImplemented,
+      processControlBoundaryImplemented:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .processControlBoundaryImplemented,
+      rollbackKillSwitchBoundaryImplemented:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .rollbackKillSwitchBoundaryImplemented,
+      positiveRuntimeSmokeCoverageImplemented:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .positiveRuntimeSmokeCoverageImplemented,
+      readyForRuntimeEnablement:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .readyForRuntimeEnablement,
+      readyForLiveRuntimeImplementation:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .readyForLiveRuntimeImplementation,
+      canEnableRuntime:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary.canEnableRuntime,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      serveRuntimeStillDefaultBlocked:
+        phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      approvalEvaluatorImplementedInThisPhase: false,
+      approvalGrantProducedInThisPhase: false,
+      hostPolicyRuntimeEnforcementImplementedInThisPhase: false,
+      stdioSafetyImplementedInThisPhase: false,
+      transcriptAuditConfinementImplementedInThisPhase: false,
+      processControlBoundaryImplementedInThisPhase: false,
+      rollbackKillSwitchBoundaryImplementedInThisPhase: false,
+      positiveRuntimeSmokeCoverageImplementedInThisPhase: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+        "Records the Phase 5.16 readiness checkpoint across Phase 5.6 through Phase 5.15 while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+        "Provides the final prerequisite-only contract summarized by the Phase 5.16 checkpoint."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.16 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.16 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.16 changes no Rust-host runtime source and records a readiness checkpoint only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      "docs/phase-5-10-runtime-host-policy-boundary.md",
+      "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+      "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+      "docs/phase-5-13-runtime-process-control-boundary.md",
+      "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+      "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+      "docs/phase-5-16-runtime-enable-readiness-checkpoint.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json",
+        "Summarizes Phase 5.6 through Phase 5.15 runtime enablement precondition contracts while runtime remains disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.16 report metadata, docs cross-links, checkpoint fields, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-16-runtime-enable-readiness-checkpoint.test.mjs",
+        "Pins the Phase 5.16 checkpoint fixture shape, prerequisite-only contract summary, serve-runtime rejection, readiness command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+        "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-16-runtime-enable-readiness-checkpoint.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhases: phase516RuntimeEnableReadinessCheckpointMetadata.sourcePhases,
+    checkpointSummary:
+      phase516RuntimeEnableReadinessCheckpointMetadata.checkpointSummary,
+    preconditionContracts:
+      phase516RuntimeEnableReadinessCheckpointMetadata.preconditionContracts,
+    prerequisiteSignalStatus:
+      phase516RuntimeEnableReadinessCheckpointMetadata.prerequisiteSignalStatus,
+    liveRuntimeStatus: phase516RuntimeEnableReadinessCheckpointMetadata.liveRuntimeStatus,
+    serveRuntimeBlockedBehavior:
+      phase516RuntimeEnableReadinessCheckpointMetadata.serveRuntimeBlockedBehavior,
+    readinessDecision:
+      phase516RuntimeEnableReadinessCheckpointMetadata.readinessDecision,
+    forbiddenBehavior: phase516RuntimeEnableReadinessCheckpointMetadata.forbiddenBehavior,
+    validationCommands:
+      phase516RuntimeEnableReadinessCheckpointMetadata.validationCommands,
+    safetyPosture: {
+      runtimeEnableReadinessCheckpointRecorded: true,
+      phase56Through515ContractsRepresented: true,
+      representedPreconditionCount: 10,
+      implementedLivePreconditionCount: 0,
+      approvalRecordsPrerequisiteOnly: true,
+      commandExposureApprovalPrerequisiteOnly: true,
+      approvalEvaluatorImplemented: false,
+      approvalGrantProduced: false,
+      hostPolicyRuntimeEnforcementImplemented: false,
+      stdioSafetyImplemented: false,
+      transcriptAuditConfinementImplemented: false,
+      processControlBoundaryImplemented: false,
+      rollbackKillSwitchBoundaryImplemented: false,
+      positiveRuntimeSmokeCoverageImplemented: false,
+      readyForRuntimeEnablement: false,
+      readyForLiveRuntimeImplementation: false,
+      canEnableRuntime: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      childProcessManaged: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noProcessSpawn: true,
+      noProcessTermination: true,
+      noRuntimeSupervision: true,
+      noChildProcessManagement: true,
+      noRuntimeExecution: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noTranscriptAuditRuntimeWrites: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -10366,6 +10629,7 @@ const report = {
     phase513RuntimeProcessControlBoundaryContract: true,
     phase514RuntimeRollbackKillSwitchBoundaryContract: true,
     phase515PositiveRuntimeSmokeRequirementContract: true,
+    phase516RuntimeEnableReadinessCheckpoint: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -10864,6 +11128,44 @@ const report = {
       phase515AdapterRuntimeBehaviorEnabled: false,
       phase515ContentFabricRuntimeBehaviorEnabled: false,
       phase515WebSocketHttpSurfaceEnabled: false,
+      phase516RuntimeEnableReadinessCheckpointRecorded: true,
+      phase516Phase56Through515ContractsRepresented: true,
+      phase516RepresentedPreconditionCount: 10,
+      phase516ImplementedLivePreconditionCount: 0,
+      phase516ApprovalRecordsPrerequisiteOnly: true,
+      phase516CommandExposureApprovalPrerequisiteOnly: true,
+      phase516ApprovalEvaluatorImplemented: false,
+      phase516ApprovalGrantProduced: false,
+      phase516HostPolicyRuntimeEnforcementImplemented: false,
+      phase516StdioSafetyImplemented: false,
+      phase516TranscriptAuditConfinementImplemented: false,
+      phase516ProcessControlBoundaryImplemented: false,
+      phase516RollbackKillSwitchBoundaryImplemented: false,
+      phase516PositiveRuntimeSmokeCoverageImplemented: false,
+      phase516ReadyForRuntimeEnablement: false,
+      phase516ReadyForLiveRuntimeImplementation: false,
+      phase516CanEnableRuntime: false,
+      phase516RuntimeEnabled: false,
+      phase516RuntimeStarted: false,
+      phase516RuntimeReady: false,
+      phase516RuntimeCommandEnabled: false,
+      phase516RuntimeExecutionEnabled: false,
+      phase516RuntimeExecuted: false,
+      phase516ServeRuntimeStillDefaultBlocked: true,
+      phase516DryRunBypassesBlock: false,
+      phase516LiveStdinLoopEnabled: false,
+      phase516RuntimeStdoutWriterEnabled: false,
+      phase516RuntimeStderrWriterEnabled: false,
+      phase516ProcessSpawnEnabled: false,
+      phase516ProcessTerminationEnabled: false,
+      phase516RuntimeSupervisionEnabled: false,
+      phase516RuntimeTranscriptWritePerformed: false,
+      phase516RuntimeAuditWritePerformed: false,
+      phase516AdapterRuntimeBehaviorEnabled: false,
+      phase516ContentFabricRuntimeBehaviorEnabled: false,
+      phase516WebSocketHttpSurfaceEnabled: false,
+      phase516CliSourceChanged: false,
+      phase516RustSourceChanged: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

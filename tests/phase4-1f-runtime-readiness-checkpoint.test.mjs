@@ -507,10 +507,10 @@ test("Phase 4.1F status report inventories checkpoint without running checks", a
   const inventory = report.phase41FRuntimeReadinessCheckpointInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.15",
-    name: "Positive runtime smoke requirement",
+    id: "5.16",
+    name: "Runtime enablement readiness checkpoint",
     executionPosture:
-      "positive-runtime-smoke-requirement-contract runtime-disabled no-runtime-execution"
+      "runtime-enable-readiness-checkpoint runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

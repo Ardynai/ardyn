@@ -29,6 +29,8 @@ Cross-links:
 - Runtime approval validation: `phase-5-7-runtime-approval-validation.md`
 - Runtime enablement preconditions: `phase-5-6-runtime-enable-preconditions.md`
 - Default-blocked runtime CLI: `phase-5-5-default-blocked-runtime-cli.md`
+- Runtime enablement readiness checkpoint:
+  `phase-5-16-runtime-enable-readiness-checkpoint.md`
 
 Machine-readable Phase 5.15 artifact path:
 
@@ -104,5 +106,7 @@ rollback/kill-switch runtime implementation, process-control runtime
 implementation, transcript/audit runtime implementation, stdio safety
 implementation, host-policy runtime enforcement, approval evaluator/grant
 implementation, remaining Phase 5.6 preconditions, and positive runtime smokes
-that are actually run in a guarded environment. Phase 5.15 only records the
-positive runtime smoke requirement contract and fail-closed cases.
+that are actually run in a guarded environment. Phase 5.16 follows by
+recording a readiness checkpoint across Phase 5.6 through Phase 5.15 while
+keeping runtime blocked. Phase 5.15 only records the positive runtime smoke
+requirement contract and fail-closed cases.

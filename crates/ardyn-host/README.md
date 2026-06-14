@@ -145,6 +145,13 @@ process supervision, or runtime transcript/audit write, enables no runtime
 behavior, changes no Rust or CLI source, and records missing, invalid,
 non-guarded/non-deterministic, and valid-prerequisite-only positive runtime
 smoke cases. See `docs/phase-5-15-positive-runtime-smoke-requirement.md`.
+Phase 5.16 records a runtime enablement readiness checkpoint only. It keeps
+`stdio_runtime` private, grants no approval, implements no approval evaluator
+or grant, host-policy runtime enforcement, stdio safety, transcript/audit
+confinement, process-control boundary, rollback/kill-switch boundary, positive
+runtime smoke coverage, or live runtime behavior, enables no runtime behavior,
+and changes no Rust or CLI source. See
+`docs/phase-5-16-runtime-enable-readiness-checkpoint.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -431,6 +438,18 @@ spawning, process supervision, or runtime transcript/audit write is
 implemented, runtime remains disabled, `stdio_runtime` remains private, and no
 Rust source changes are made. See
 `docs/phase-5-15-positive-runtime-smoke-requirement.md`.
+
+Phase 5.16 adds no Rust-host runtime implementation. It records a
+machine-readable runtime enablement readiness checkpoint proving the Phase 5.6
+through Phase 5.15 preconditions are represented as contracts, but none are
+implemented as live runtime behavior. No approval evaluator or grant,
+host-policy runtime enforcement, stdio safety, transcript/audit confinement,
+process control, rollback/kill-switch behavior, positive runtime smoke
+execution, live stdin loop, runtime stdout/stderr writer, process spawning,
+process supervision, runtime transcript/audit write, adapter/Fabric behavior,
+or WebSocket/HTTP surface is implemented. Runtime remains disabled,
+`stdio_runtime` remains private, and no Rust source changes are made. See
+`docs/phase-5-16-runtime-enable-readiness-checkpoint.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

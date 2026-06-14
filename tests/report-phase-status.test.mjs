@@ -1002,6 +1002,35 @@ const phase515CrossLinks = [
   "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
   "docs/phase-5-15-positive-runtime-smoke-requirement.md"
 ];
+const phase516DocFiles = [
+  "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+  "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase516CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md",
+  "docs/phase-5-4-disabled-command-exposure-plan.md",
+  "docs/phase-5-4a-jules-review-disposition.md",
+  "docs/phase-5-5-default-blocked-runtime-cli.md",
+  "docs/phase-5-6-runtime-enable-preconditions.md",
+  "docs/phase-5-7-runtime-approval-validation.md",
+  "docs/phase-5-8-runtime-command-exposure-approval.md",
+  "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+  "docs/phase-5-10-runtime-host-policy-boundary.md",
+  "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+  "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+  "docs/phase-5-13-runtime-process-control-boundary.md",
+  "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+  "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+  "docs/phase-5-16-runtime-enable-readiness-checkpoint.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1123,15 +1152,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.15 positive runtime smoke requirement docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.16 runtime enablement readiness checkpoint docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.15",
-    name: "Positive runtime smoke requirement",
+    id: "5.16",
+    name: "Runtime enablement readiness checkpoint",
     executionPosture:
-      "positive-runtime-smoke-requirement-contract runtime-disabled no-runtime-execution"
+      "runtime-enable-readiness-checkpoint runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1204,12 +1233,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.15 positive runtime smoke requirement status report.",
+        "Render this deterministic local Phase 5.16 runtime enablement readiness checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.15 status report.",
+      purpose: "Run focused tests for this local Phase 5.16 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-16-runtime-enable-readiness-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.16 runtime enablement readiness checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -10030,6 +10065,270 @@ test("report inventories Phase 5.15 as positive runtime smoke requirement with r
   assert.equal(report.safetyPosture.flags.phase515WebSocketHttpSurfaceEnabled, false);
 });
 
+test("report inventories Phase 5.16 as runtime enablement readiness checkpoint with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase516RuntimeEnableReadinessCheckpointInventory;
+  const expectedContractIds = [
+    "runtime-enable-precondition-gate",
+    "runtime-approval-validation",
+    "runtime-command-exposure-approval",
+    "approval-evaluator-grant-boundary",
+    "runtime-host-policy-boundary",
+    "runtime-stdio-safety-boundary",
+    "runtime-transcript-audit-boundary",
+    "runtime-process-control-boundary",
+    "runtime-rollback-kill-switch-boundary",
+    "positive-runtime-smoke-requirement"
+  ];
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json",
+    sourcePositiveRuntimeSmokeDocument:
+      "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+    sourcePositiveRuntimeSmokeFixture:
+      "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json",
+    precedingPhase: "5.15",
+    layerId: "runtime-enable-readiness-checkpoint",
+    scope: "phase-5-runtime-enable-readiness-checkpoint-runtime-disabled",
+    runtimeEnableReadinessCheckpointRecorded: true,
+    phase56Through515ContractsRepresented: true,
+    representedPreconditionCount: 10,
+    implementedLivePreconditionCount: 0,
+    approvalRecordsPrerequisiteOnly: true,
+    commandExposureApprovalPrerequisiteOnly: true,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    stdioSafetyImplemented: false,
+    transcriptAuditConfinementImplemented: false,
+    processControlBoundaryImplemented: false,
+    rollbackKillSwitchBoundaryImplemented: false,
+    positiveRuntimeSmokeCoverageImplemented: false,
+    readyForRuntimeEnablement: false,
+    readyForLiveRuntimeImplementation: false,
+    canEnableRuntime: false,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    approvalEvaluatorImplementedInThisPhase: false,
+    approvalGrantProducedInThisPhase: false,
+    hostPolicyRuntimeEnforcementImplementedInThisPhase: false,
+    stdioSafetyImplementedInThisPhase: false,
+    transcriptAuditConfinementImplementedInThisPhase: false,
+    processControlBoundaryImplementedInThisPhase: false,
+    rollbackKillSwitchBoundaryImplementedInThisPhase: false,
+    positiveRuntimeSmokeCoverageImplementedInThisPhase: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase516DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase516CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-16-runtime-enable-readiness-checkpoint.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary, {
+    docsStatusFiles: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+      "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    machineReadableArtifactFiles: [
+      "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json"
+    ],
+    focusedTestFiles: [
+      "tests/phase5-16-runtime-enable-readiness-checkpoint.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    cliRuntimeSourceFilesChanged: [],
+    rustRuntimeSourceFilesChanged: [],
+    cliSourceChangedByThisPhase: false,
+    appsCliIndexChangedByThisPhase: false,
+    rustSourceChangedByThisPhase: false,
+    machineReadableArtifactsChangedByThisPhase: true,
+    reportRunsChecks: false,
+    separateRuntimeImplementationPhaseRequired: true,
+    separateRuntimeEnablementApprovalRequired: true
+  });
+  assert.deepEqual(
+    inventory.sourcePhases.map(({ contractId }) => contractId),
+    expectedContractIds
+  );
+  assert.deepEqual(inventory.checkpointSummary, {
+    runtimeEnableReadinessCheckpointRecorded: true,
+    phase56Through515ContractsRepresented: true,
+    representedPreconditionCount: 10,
+    implementedLivePreconditionCount: 0,
+    approvalRecordsPrerequisiteOnly: true,
+    commandExposureApprovalPrerequisiteOnly: true,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    stdioSafetyImplemented: false,
+    transcriptAuditConfinementImplemented: false,
+    processControlBoundaryImplemented: false,
+    rollbackKillSwitchBoundaryImplemented: false,
+    positiveRuntimeSmokeCoverageImplemented: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    readyForRuntimeEnablement: false,
+    readyForLiveRuntimeImplementation: false,
+    canEnableRuntime: false
+  });
+  assert.deepEqual(
+    inventory.preconditionContracts.map(({ contractId }) => contractId),
+    expectedContractIds
+  );
+  for (const contract of inventory.preconditionContracts) {
+    assert.equal(contract.representedAsContract, true);
+    assert.equal(contract.prerequisiteOnly, true);
+    assert.equal(contract.implementedAsLiveRuntime, false);
+    assert.equal(contract.activeRuntimeBehavior, false);
+    assert.equal(contract.enablesRuntime, false);
+    assert.equal(contract.startsRuntime, false);
+    assert.equal(contract.exposesRuntimeExecution, false);
+  }
+  assert.deepEqual(inventory.prerequisiteSignalStatus, {
+    validRuntimeApprovalPrerequisiteOnly: true,
+    validCommandExposureApprovalPrerequisiteOnly: true,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    hostPolicyContractOnly: true,
+    stdioSafetyContractOnly: true,
+    transcriptAuditContractOnly: true,
+    processControlContractOnly: true,
+    rollbackKillSwitchContractOnly: true,
+    positiveRuntimeSmokeContractOnly: true,
+    anyPrerequisiteSignalEnablesRuntime: false,
+    anyPrerequisiteSignalStartsRuntime: false,
+    anyPrerequisiteSignalExposesRuntimeExecution: false
+  });
+  assertAllFalse(inventory.liveRuntimeStatus);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.stdout, "");
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.equal(inventory.readinessDecision.decision, "blocked");
+  assert.equal(inventory.readinessDecision.readyForRuntimeEnablement, false);
+  assert.equal(inventory.readinessDecision.readyForLiveRuntimeImplementation, false);
+  assert.equal(
+    inventory.readinessDecision.recommendedNextPhase,
+    "phase-5.17-guarded-runtime-implementation-plan"
+  );
+  assert.ok(inventory.readinessDecision.blockers.includes("approval_evaluator_not_implemented"));
+  assert.ok(inventory.readinessDecision.blockers.includes("positive_runtime_smoke_not_implemented"));
+  assertAllFalse(inventory.readinessDecision.runtimeEffect);
+  assert.ok(inventory.forbiddenBehavior.includes("approval-evaluator-implemented"));
+  assert.ok(inventory.forbiddenBehavior.includes("positive-runtime-smoke-implemented"));
+  assert.ok(inventory.validationCommands.includes("npm test"));
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-16-runtime-enable-readiness-checkpoint.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.safetyPosture, {
+    runtimeEnableReadinessCheckpointRecorded: true,
+    phase56Through515ContractsRepresented: true,
+    representedPreconditionCount: 10,
+    implementedLivePreconditionCount: 0,
+    approvalRecordsPrerequisiteOnly: true,
+    commandExposureApprovalPrerequisiteOnly: true,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    stdioSafetyImplemented: false,
+    transcriptAuditConfinementImplemented: false,
+    processControlBoundaryImplemented: false,
+    rollbackKillSwitchBoundaryImplemented: false,
+    positiveRuntimeSmokeCoverageImplemented: false,
+    readyForRuntimeEnablement: false,
+    readyForLiveRuntimeImplementation: false,
+    canEnableRuntime: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    childProcessManaged: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    noLiveStdinLoop: true,
+    noStdoutStderrWriters: true,
+    noProcessControl: true,
+    noProcessSpawn: true,
+    noProcessTermination: true,
+    noRuntimeSupervision: true,
+    noChildProcessManagement: true,
+    noRuntimeExecution: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noTranscriptAuditRuntimeWrites: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true,
+    noWebSocketHttpSurface: true,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase516RuntimeEnableReadinessCheckpoint, true);
+  assert.equal(report.safetyPosture.flags.phase516RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase516RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase516RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase516RuntimeExecuted, false);
+  assert.equal(report.safetyPosture.flags.phase516ProcessSpawnEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase516RuntimeSupervisionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase516RuntimeTranscriptWritePerformed, false);
+  assert.equal(report.safetyPosture.flags.phase516RuntimeAuditWritePerformed, false);
+  assert.equal(report.safetyPosture.flags.phase516WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -10252,6 +10551,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase513RuntimeProcessControlBoundaryContract, true);
   assert.equal(report.safetyPosture.phase514RuntimeRollbackKillSwitchBoundaryContract, true);
   assert.equal(report.safetyPosture.phase515PositiveRuntimeSmokeRequirementContract, true);
+  assert.equal(report.safetyPosture.phase516RuntimeEnableReadinessCheckpoint, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -10751,6 +11051,44 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase515AdapterRuntimeBehaviorEnabled: false,
     phase515ContentFabricRuntimeBehaviorEnabled: false,
     phase515WebSocketHttpSurfaceEnabled: false,
+    phase516RuntimeEnableReadinessCheckpointRecorded: true,
+    phase516Phase56Through515ContractsRepresented: true,
+    phase516RepresentedPreconditionCount: 10,
+    phase516ImplementedLivePreconditionCount: 0,
+    phase516ApprovalRecordsPrerequisiteOnly: true,
+    phase516CommandExposureApprovalPrerequisiteOnly: true,
+    phase516ApprovalEvaluatorImplemented: false,
+    phase516ApprovalGrantProduced: false,
+    phase516HostPolicyRuntimeEnforcementImplemented: false,
+    phase516StdioSafetyImplemented: false,
+    phase516TranscriptAuditConfinementImplemented: false,
+    phase516ProcessControlBoundaryImplemented: false,
+    phase516RollbackKillSwitchBoundaryImplemented: false,
+    phase516PositiveRuntimeSmokeCoverageImplemented: false,
+    phase516ReadyForRuntimeEnablement: false,
+    phase516ReadyForLiveRuntimeImplementation: false,
+    phase516CanEnableRuntime: false,
+    phase516RuntimeEnabled: false,
+    phase516RuntimeStarted: false,
+    phase516RuntimeReady: false,
+    phase516RuntimeCommandEnabled: false,
+    phase516RuntimeExecutionEnabled: false,
+    phase516RuntimeExecuted: false,
+    phase516ServeRuntimeStillDefaultBlocked: true,
+    phase516DryRunBypassesBlock: false,
+    phase516LiveStdinLoopEnabled: false,
+    phase516RuntimeStdoutWriterEnabled: false,
+    phase516RuntimeStderrWriterEnabled: false,
+    phase516ProcessSpawnEnabled: false,
+    phase516ProcessTerminationEnabled: false,
+    phase516RuntimeSupervisionEnabled: false,
+    phase516RuntimeTranscriptWritePerformed: false,
+    phase516RuntimeAuditWritePerformed: false,
+    phase516AdapterRuntimeBehaviorEnabled: false,
+    phase516ContentFabricRuntimeBehaviorEnabled: false,
+    phase516WebSocketHttpSurfaceEnabled: false,
+    phase516CliSourceChanged: false,
+    phase516RustSourceChanged: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,

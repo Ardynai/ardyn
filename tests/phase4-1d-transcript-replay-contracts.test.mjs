@@ -284,10 +284,10 @@ test("Phase 4.1D status report inventories transcript replay contracts without r
   const inventory = report.phase41DTranscriptReplayInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.15",
-    name: "Positive runtime smoke requirement",
+    id: "5.16",
+    name: "Runtime enablement readiness checkpoint",
     executionPosture:
-      "positive-runtime-smoke-requirement-contract runtime-disabled no-runtime-execution"
+      "runtime-enable-readiness-checkpoint runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

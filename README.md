@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.15 Scope
+## Phase 3 through Phase 5.16 Scope
 
-This repository is currently in Phase 5.15 positive runtime smoke requirement
+This repository is currently in Phase 5.16 runtime enablement readiness checkpoint
 mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -85,7 +85,10 @@ Phase 5.15 positive runtime smoke requirement metadata proving missing,
 invalid, and non-guarded or non-deterministic runtime smoke coverage is
 rejected while valid positive runtime smoke coverage remains prerequisite-only
 and cannot enable runtime, start runtime, run runtime, or expose runtime
-execution. Phase 5.15 is not runtime enablement.
+execution plus Phase 5.16 runtime enablement readiness checkpoint metadata
+proving the Phase 5.6 through Phase 5.15 preconditions are represented as
+contracts while none are implemented as live runtime behavior. Phase 5.16 is
+not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -356,6 +359,14 @@ Included now:
   runtime, cannot expose runtime execution, and `serve-runtime` remains
   default-blocked. See
   `docs/phase-5-15-positive-runtime-smoke-requirement.md`.
+- Phase 5.16 runtime enablement readiness checkpoint documentation, fixture,
+  and report metadata. This summarizes the Phase 5.6 through Phase 5.15
+  contracts as prerequisite-only records, keeps approval signals prerequisite
+  only, records no approval evaluator or grant, and proves no host-policy,
+  stdio, transcript/audit, process-control, rollback/kill-switch, positive
+  runtime smoke, or live runtime behavior is implemented. Runtime remains
+  disabled and `serve-runtime` remains default-blocked. See
+  `docs/phase-5-16-runtime-enable-readiness-checkpoint.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -507,7 +518,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.15 positive runtime smoke requirement status report command is:
+The Phase 5.16 runtime enablement readiness checkpoint status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -549,7 +560,8 @@ contract metadata, and Phase 5.11 runtime stdio safety boundary contract
 metadata, and Phase 5.12 runtime transcript/audit confinement boundary
 contract metadata, and Phase 5.13 runtime process-control boundary contract
 metadata, and Phase 5.14 runtime rollback/kill-switch boundary contract
-metadata, and Phase 5.15 positive runtime smoke requirement contract metadata
+metadata, and Phase 5.15 positive runtime smoke requirement contract metadata,
+and Phase 5.16 runtime enablement readiness checkpoint metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
@@ -760,6 +772,15 @@ non-deterministic positive runtime smoke coverage is rejected. Valid guarded
 deterministic smoke coverage is recognized only as a prerequisite signal and
 still does not run runtime smoke coverage, enable runtime, start runtime, run
 runtime, expose runtime execution, or bypass the remaining Phase 5.6 blockers.
+
+Phase 5.16 is documented in
+`docs/phase-5-16-runtime-enable-readiness-checkpoint.md`. It records a
+machine-readable readiness checkpoint proving Phase 5.6 through Phase 5.15
+runtime enablement preconditions are represented as contracts, while approval
+records and command-exposure approvals remain prerequisite-only. It does not
+implement an approval evaluator or grant, host-policy enforcement, stdio
+safety, transcript/audit confinement, process control, rollback/kill-switch
+behavior, positive runtime smoke execution, or any live runtime behavior.
 
 Example dry-run check:
 
