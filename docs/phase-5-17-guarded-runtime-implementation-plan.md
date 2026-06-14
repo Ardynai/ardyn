@@ -1,24 +1,22 @@
-# Phase 5.16 Runtime Enablement Readiness Checkpoint
+# Phase 5.17 Guarded Runtime Implementation Plan
 
-Phase 5.16 records a readiness checkpoint after Phase 5.6 through Phase 5.15.
-Those phases now represent the runtime enablement preconditions as
-machine-readable contracts, but none of those contracts are live runtime
-implementations. This phase does not implement runtime enablement, runtime
-execution, approval evaluation, approval grants, host-policy runtime
-enforcement, stdio runtime I/O, transcript/audit runtime writes, process
-control, rollback/kill-switch behavior, positive runtime smoke execution, a CLI
-command, adapter behavior, Content Fabric runtime behavior, WebSocket behavior,
-or HTTP runtime behavior.
+Phase 5.17 records a narrow implementation plan for future guarded runtime
+work after the Phase 5.6 through Phase 5.16 contracts. It does not implement
+runtime behavior, runtime enablement, runtime execution, approval evaluation,
+approval grants, host-policy runtime enforcement, stdio runtime I/O,
+transcript/audit runtime writes, process control, rollback/kill-switch
+behavior, positive runtime smoke execution, a CLI command, adapter behavior,
+Content Fabric runtime behavior, WebSocket behavior, or HTTP runtime behavior.
 
 Cross-links:
 
 - Root status: `../README.md`
 - CLI status: `../apps/cli/README.md`
 - Rust host status: `../crates/ardyn-host/README.md`
+- Runtime enablement readiness checkpoint:
+  `phase-5-16-runtime-enable-readiness-checkpoint.md`
 - Positive runtime smoke requirement:
   `phase-5-15-positive-runtime-smoke-requirement.md`
-- Guarded runtime implementation plan:
-  `phase-5-17-guarded-runtime-implementation-plan.md`
 - Runtime rollback/kill-switch boundary:
   `phase-5-14-runtime-rollback-kill-switch-boundary.md`
 - Runtime process-control boundary:
@@ -35,32 +33,31 @@ Cross-links:
 - Runtime enablement preconditions: `phase-5-6-runtime-enable-preconditions.md`
 - Default-blocked runtime CLI: `phase-5-5-default-blocked-runtime-cli.md`
 
-Machine-readable Phase 5.16 artifact path:
+Machine-readable Phase 5.17 artifact path:
 
-`../tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json`
+`../tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json`
 
 Focused guard path:
 
-`../tests/phase5-16-runtime-enable-readiness-checkpoint.test.mjs`
+`../tests/phase5-17-guarded-runtime-implementation-plan.test.mjs`
 
-## Preconditions Summarized
+## Planned Sequence
 
-The checkpoint summarizes these represented but unimplemented preconditions:
+The plan records this still-default-blocked implementation sequence:
 
-- Phase 5.6 runtime enablement precondition gate
-- Phase 5.7 runtime approval validation
-- Phase 5.8 runtime command exposure approval
-- Phase 5.9 approval evaluator/grant boundary
-- Phase 5.10 runtime host-policy boundary
-- Phase 5.11 runtime stdio safety boundary
-- Phase 5.12 runtime transcript/audit confinement boundary
-- Phase 5.13 runtime process-control boundary
-- Phase 5.14 runtime rollback/kill-switch boundary
-- Phase 5.15 positive runtime smoke requirement
+- Confirm approval and command-exposure record readers.
+- Add a review-only approval evaluator design.
+- Add a restrictive host-policy runtime gate.
+- Add a bounded stdio runtime gate.
+- Add transcript/audit confinement gates.
+- Add process-control boundary gates.
+- Add rollback/kill-switch gates.
+- Add positive runtime smoke fixtures.
+- Prepare a still-default-blocked runtime entrypoint slice.
 
-Approval records and command-exposure approval remain prerequisite-only. They do
-not create an approval evaluator, produce a grant, enable runtime, start
-runtime, or expose runtime execution.
+Every planned step is metadata-only in this phase. Each step has
+`implementedInThisPhase` set to `false`, cannot enable runtime, cannot start
+runtime, and cannot expose runtime execution.
 
 ## Runtime Posture
 
@@ -68,11 +65,15 @@ Runtime remains disabled:
 
 - `runtimeEnabled` is `false`.
 - `runtimeCommandEnabled` is `false`.
+- `runtimeCommandExposureEnabled` is `false`.
 - `runtimeExecutionEnabled` is `false`.
 - `approvalEvaluatorImplemented` is `false`.
 - `approvalGrantProduced` is `false`.
 - `hostPolicyRuntimeEnforcementImplemented` is `false`.
 - `stdioSafetyImplemented` is `false`.
+- `liveStdinLoopEnabled` is `false`.
+- `runtimeStdoutWriterEnabled` is `false`.
+- `runtimeStderrWriterEnabled` is `false`.
 - `transcriptAuditConfinementImplemented` is `false`.
 - `processControlBoundaryImplemented` is `false`.
 - `rollbackKillSwitchBoundaryImplemented` is `false`.
@@ -85,10 +86,11 @@ and emit the deterministic Phase 5.5 runtime-unavailable stderr.
 
 ## Forbidden Behavior
 
-Phase 5.16 adds no:
+Phase 5.17 adds no:
 
-- runtime enablement or runtime execution
+- runtime implementation, enablement, or execution
 - approval evaluator or approval grant
+- runtime command exposure
 - host-policy runtime enforcement
 - stdio runtime I/O
 - live stdin loop
@@ -97,16 +99,14 @@ Phase 5.16 adds no:
 - rollback/kill-switch runtime behavior
 - positive runtime smoke execution
 - runtime transcript or audit write side effect
-- runtime command exposure
 - adapter or Content Fabric runtime execution
 - WebSocket or HTTP runtime surface
 
 ## Handoff
 
-The recommended next implementation phase is
-`phase-5.17-guarded-runtime-implementation-plan`: a still default-blocked,
-reviewed implementation plan that can begin translating contract-only
-preconditions into guarded implementation slices without enabling runtime by
-default. Phase 5.17 follows by recording that implementation sequence as a
-plan only while runtime remains blocked. Phase 5.16 itself is only a readiness
-checkpoint and keeps runtime blocked.
+The recommended next implementation slice is
+`phase-5.18-review-only-approval-evaluator-skeleton`: a still default-blocked
+slice that can introduce review-only approval evaluator structure without
+producing grants, enabling runtime, exposing runtime commands, or starting
+runtime. Phase 5.17 itself is only an implementation plan and keeps runtime
+blocked.

@@ -152,6 +152,13 @@ confinement, process-control boundary, rollback/kill-switch boundary, positive
 runtime smoke coverage, or live runtime behavior, enables no runtime behavior,
 and changes no Rust or CLI source. See
 `docs/phase-5-16-runtime-enable-readiness-checkpoint.md`.
+Phase 5.17 records a guarded runtime implementation plan only. It keeps
+`stdio_runtime` private, grants no approval, implements no approval evaluator
+or grant, host-policy runtime enforcement, stdio safety, transcript/audit
+confinement, process-control boundary, rollback/kill-switch boundary, positive
+runtime smoke coverage, runtime entrypoint, or live runtime behavior, enables no
+runtime behavior, and changes no Rust or CLI source. See
+`docs/phase-5-17-guarded-runtime-implementation-plan.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -450,6 +457,17 @@ process supervision, runtime transcript/audit write, adapter/Fabric behavior,
 or WebSocket/HTTP surface is implemented. Runtime remains disabled,
 `stdio_runtime` remains private, and no Rust source changes are made. See
 `docs/phase-5-16-runtime-enable-readiness-checkpoint.md`.
+
+Phase 5.17 adds no Rust-host runtime implementation. It records a
+machine-readable guarded runtime implementation plan for future slices, but all
+steps are planned-only. No approval evaluator or grant, host-policy runtime
+enforcement, stdio safety, transcript/audit confinement, process control,
+rollback/kill-switch behavior, positive runtime smoke execution, runtime
+entrypoint, live stdin loop, runtime stdout/stderr writer, process spawning,
+process supervision, runtime transcript/audit write, adapter/Fabric behavior,
+or WebSocket/HTTP surface is implemented. Runtime remains disabled,
+`stdio_runtime` remains private, and no Rust source changes are made. See
+`docs/phase-5-17-guarded-runtime-implementation-plan.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

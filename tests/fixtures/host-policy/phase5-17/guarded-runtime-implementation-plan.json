@@ -1,0 +1,411 @@
+{
+  "schema": "ardyn.phase-5.17.guarded-runtime-implementation-plan",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.17-guarded-runtime-implementation-plan",
+  "artifactKind": "guarded-runtime-implementation-plan",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourceCheckpoint": {
+    "phase": "phase-5.16-runtime-enable-readiness-checkpoint",
+    "document": "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+    "fixture": "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json"
+  },
+  "prerequisiteContracts": [
+    {
+      "contractId": "runtime-enable-precondition-gate",
+      "phase": "phase-5.6-runtime-enable-preconditions",
+      "document": "docs/phase-5-6-runtime-enable-preconditions.md",
+      "fixture": "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "contractId": "runtime-approval-validation",
+      "phase": "phase-5.7-runtime-approval-validation",
+      "document": "docs/phase-5-7-runtime-approval-validation.md",
+      "fixture": "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "contractId": "runtime-command-exposure-approval",
+      "phase": "phase-5.8-runtime-command-exposure-approval",
+      "document": "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "fixture": "tests/fixtures/command-surface/phase5-8/runtime-command-exposure-approval-contract.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "contractId": "approval-evaluator-grant-boundary",
+      "phase": "phase-5.9-approval-evaluator-grant-boundary",
+      "document": "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      "fixture": "tests/fixtures/host-policy/phase5-9/approval-evaluator-grant-boundary-contract.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "contractId": "runtime-host-policy-boundary",
+      "phase": "phase-5.10-runtime-host-policy-boundary",
+      "document": "docs/phase-5-10-runtime-host-policy-boundary.md",
+      "fixture": "tests/fixtures/host-policy/phase5-10/runtime-host-policy-enforcement-boundary-contract.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "contractId": "runtime-stdio-safety-boundary",
+      "phase": "phase-5.11-runtime-stdio-safety-boundary",
+      "document": "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+      "fixture": "tests/fixtures/host-policy/phase5-11/runtime-stdio-safety-boundary-contract.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "contractId": "runtime-transcript-audit-boundary",
+      "phase": "phase-5.12-runtime-transcript-audit-boundary",
+      "document": "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+      "fixture": "tests/fixtures/host-policy/phase5-12/runtime-transcript-audit-confinement-boundary-contract.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "contractId": "runtime-process-control-boundary",
+      "phase": "phase-5.13-runtime-process-control-boundary",
+      "document": "docs/phase-5-13-runtime-process-control-boundary.md",
+      "fixture": "tests/fixtures/host-policy/phase5-13/runtime-process-control-boundary-contract.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "contractId": "runtime-rollback-kill-switch-boundary",
+      "phase": "phase-5.14-runtime-rollback-kill-switch-boundary",
+      "document": "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+      "fixture": "tests/fixtures/host-policy/phase5-14/runtime-rollback-kill-switch-boundary-contract.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "contractId": "positive-runtime-smoke-requirement",
+      "phase": "phase-5.15-positive-runtime-smoke-requirement",
+      "document": "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+      "fixture": "tests/fixtures/host-policy/phase5-15/positive-runtime-smoke-requirement-contract.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "contractId": "runtime-enable-readiness-checkpoint",
+      "phase": "phase-5.16-runtime-enable-readiness-checkpoint",
+      "document": "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+      "fixture": "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json",
+      "prerequisiteOnly": true,
+      "implementedByThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    }
+  ],
+  "implementationPlanSummary": {
+    "guardedRuntimeImplementationPlanRecorded": true,
+    "prerequisiteContractCount": 11,
+    "plannedImplementationStepCount": 9,
+    "implementationInThisPhase": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "approvalEvaluatorImplemented": false,
+    "approvalGrantProduced": false,
+    "runtimeCommandExposureEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "readyForRuntimeEnablement": false,
+    "canEnableRuntime": false
+  },
+  "plannedImplementationSequence": [
+    {
+      "stepId": "confirm-approval-and-command-exposure-record-readers",
+      "description": "Plan read-only parsers for future runtime approval and command-exposure approval records before any evaluator or grant exists.",
+      "requiredBefore": [
+        "approval-evaluator-skeleton",
+        "runtime-command-exposure-check"
+      ],
+      "plannedOnly": true,
+      "implementedInThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "stepId": "add-review-only-approval-evaluator-design",
+      "description": "Plan a review-only approval evaluator skeleton that can classify records without producing grants.",
+      "requiredBefore": [
+        "approval-grant-design"
+      ],
+      "plannedOnly": true,
+      "implementedInThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "stepId": "add-restrictive-host-policy-runtime-gate",
+      "description": "Plan a restrictive host-policy gate that must fail closed until enforcement tests and review are present.",
+      "requiredBefore": [
+        "runtime-entrypoint-slice"
+      ],
+      "plannedOnly": true,
+      "implementedInThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "stepId": "add-bounded-stdio-runtime-gate",
+      "description": "Plan bounded stdin/stdout/stderr controls without adding a live stdin loop or runtime writers.",
+      "requiredBefore": [
+        "runtime-entrypoint-slice"
+      ],
+      "plannedOnly": true,
+      "implementedInThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "stepId": "add-transcript-audit-confinement-gate",
+      "description": "Plan transcript and audit confinement checks before any runtime side-effect writes can be proposed.",
+      "requiredBefore": [
+        "runtime-entrypoint-slice"
+      ],
+      "plannedOnly": true,
+      "implementedInThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "stepId": "add-process-control-boundary-gate",
+      "description": "Plan process-control boundaries before any future child-process handling can be reviewed.",
+      "requiredBefore": [
+        "runtime-entrypoint-slice"
+      ],
+      "plannedOnly": true,
+      "implementedInThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "stepId": "add-rollback-kill-switch-gate",
+      "description": "Plan deterministic rollback and kill-switch checks before any runtime enablement path can be considered.",
+      "requiredBefore": [
+        "runtime-enable-review"
+      ],
+      "plannedOnly": true,
+      "implementedInThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "stepId": "add-positive-runtime-smoke-fixtures",
+      "description": "Plan deterministic positive runtime smoke fixtures and negative controls without running runtime smoke in this phase.",
+      "requiredBefore": [
+        "runtime-enable-review"
+      ],
+      "plannedOnly": true,
+      "implementedInThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    },
+    {
+      "stepId": "prepare-still-default-blocked-runtime-entrypoint-slice",
+      "description": "Plan a future runtime entrypoint slice that must remain default-blocked until all reviewed gates are implemented and approved.",
+      "requiredBefore": [
+        "runtime-enable-review"
+      ],
+      "plannedOnly": true,
+      "implementedInThisPhase": false,
+      "enablesRuntime": false,
+      "startsRuntime": false,
+      "exposesRuntimeExecution": false
+    }
+  ],
+  "prerequisiteContractStatus": {
+    "allPriorContractsPrerequisiteOnly": true,
+    "approvalRecordsPrerequisiteOnly": true,
+    "commandExposureApprovalPrerequisiteOnly": true,
+    "readinessCheckpointPrerequisiteOnly": true,
+    "anyPrerequisiteEnablesRuntime": false,
+    "anyPrerequisiteStartsRuntime": false,
+    "anyPrerequisiteExposesRuntimeExecution": false,
+    "anyPrerequisiteCreatesApprovalGrant": false
+  },
+  "runtimeBlockedStatus": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecutionExposed": false,
+    "runtimeExecuted": false,
+    "approvalEvaluatorImplemented": false,
+    "approvalGrantProduced": false,
+    "runtimeImplementationAdded": false,
+    "hostPolicyRuntimeEnforcementImplemented": false,
+    "stdioSafetyImplemented": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "transcriptAuditConfinementImplemented": false,
+    "runtimeTranscriptWritePerformed": false,
+    "runtimeAuditWritePerformed": false,
+    "processControlBoundaryImplemented": false,
+    "processSpawnEnabled": false,
+    "processTerminationEnabled": false,
+    "runtimeSupervisionEnabled": false,
+    "rollbackKillSwitchBoundaryImplemented": false,
+    "runtimeRollbackPerformed": false,
+    "killSwitchActivated": false,
+    "positiveRuntimeSmokeCoverageImplemented": false,
+    "positiveRuntimeSmokeExecuted": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "recognizedByCli": true,
+    "exitCode": "nonzero",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "planningDecision": {
+    "decision": "blocked",
+    "planRecorded": true,
+    "readyForRuntimeEnablement": false,
+    "recommendedNextSlice": "phase-5.18-review-only-approval-evaluator-skeleton",
+    "blockers": [
+      "approval_evaluator_not_implemented",
+      "approval_grant_not_produced",
+      "host_policy_runtime_enforcement_not_implemented",
+      "stdio_safety_not_implemented",
+      "transcript_audit_confinement_not_implemented",
+      "process_control_boundary_not_implemented",
+      "rollback_kill_switch_boundary_not_implemented",
+      "positive_runtime_smoke_not_implemented",
+      "runtime_command_exposure_not_enabled",
+      "runtime_enablement_review_not_granted"
+    ],
+    "runtimeEffect": {
+      "runtimeEnabled": false,
+      "runtimeStarted": false,
+      "runtimeReady": false,
+      "runtimeCommandEnabled": false,
+      "runtimeCommandExposureEnabled": false,
+      "runtimeExecutionEnabled": false,
+      "runtimeExecuted": false,
+      "runtimeExecutionExposed": false,
+      "approvalGrantProduced": false,
+      "runtimeEnablementAuthorized": false
+    }
+  },
+  "forbiddenBehavior": [
+    "runtime-enabled-true",
+    "runtime-command-enabled-true",
+    "runtime-command-exposure-enabled",
+    "runtime-execution-enabled",
+    "runtime-execution-exposed",
+    "runtime-executed",
+    "approval-evaluator-implemented",
+    "approval-grant-produced",
+    "runtime-implementation-added",
+    "host-policy-runtime-enforcement-implemented",
+    "stdio-safety-implemented",
+    "live-stdin-loop",
+    "runtime-stdout-stderr-writer",
+    "transcript-audit-confinement-implemented",
+    "runtime-transcript-write",
+    "runtime-audit-write",
+    "process-control-boundary-implemented",
+    "process-spawn",
+    "process-termination",
+    "runtime-supervision",
+    "rollback-kill-switch-boundary-implemented",
+    "runtime-rollback-performed",
+    "kill-switch-activated",
+    "positive-runtime-smoke-implemented",
+    "positive-runtime-smoke-executed",
+    "adapter-runtime-behavior",
+    "content-fabric-runtime-behavior",
+    "websocket-http-runtime-surface"
+  ],
+  "filesAllowedToChange": [
+    "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+    "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json",
+    "tests/phase5-17-guarded-runtime-implementation-plan.test.mjs",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs",
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-16-runtime-enable-readiness-checkpoint.md"
+  ],
+  "filesForbiddenToChange": [
+    "apps/cli/src/index.mjs",
+    "crates/ardyn-host/src/**",
+    "packages/fabric/src/runtime/**",
+    "apps/host/src/runtime/**"
+  ],
+  "validationCommands": [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status",
+    "node --test tests/phase5-17-guarded-runtime-implementation-plan.test.mjs",
+    "fallow health --hotspots --targets --report-only --summary --changed-since main",
+    "fallow audit --changed-since main --summary",
+    "fallow dead-code --changed-since main --summary"
+  ]
+}

@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.16 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.17 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -179,6 +179,17 @@ transcript/audit write, adapter or Content Fabric runtime behavior,
 WebSocket/HTTP surface, Rust source change, or change to
 `apps/cli/src/index.mjs`. `serve-runtime` and `serve-runtime --dry-run` remain
 default-blocked.
+Phase 5.17 adds guarded runtime implementation plan docs/status metadata only.
+It records a future sequence for approval record readers, a review-only
+evaluator design, restrictive host-policy, bounded stdio, transcript/audit
+confinement, process-control, rollback/kill-switch, positive runtime smoke
+fixtures, and a still default-blocked entrypoint slice, but adds no Phase 5.17
+CLI command, plan command, approval command, evaluator, grant, runtime start
+path, live stdin loop, stdout/stderr runtime writer, process spawning or
+supervision, runtime transcript/audit write, adapter or Content Fabric runtime
+behavior, WebSocket/HTTP surface, Rust source change, or change to
+`apps/cli/src/index.mjs`. `serve-runtime` and `serve-runtime --dry-run` remain
+default-blocked.
 See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
@@ -200,7 +211,8 @@ See
 `docs/phase-5-13-runtime-process-control-boundary.md`, and
 `docs/phase-5-14-runtime-rollback-kill-switch-boundary.md`, and
 `docs/phase-5-15-positive-runtime-smoke-requirement.md`, and
-`docs/phase-5-16-runtime-enable-readiness-checkpoint.md`.
+`docs/phase-5-16-runtime-enable-readiness-checkpoint.md`, and
+`docs/phase-5-17-guarded-runtime-implementation-plan.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -614,3 +626,9 @@ process-control, rollback/kill-switch, and positive runtime smoke requirements
 remain prerequisite-only or contract-only. It changes no CLI source, adds no
 readiness or approval command, and keeps `serve-runtime` default-blocked. See
 `docs/phase-5-16-runtime-enable-readiness-checkpoint.md`.
+
+Phase 5.17 records a guarded runtime implementation plan only. The planned
+sequence remains metadata-only and cannot expose commands, implement an
+evaluator or grant, enable runtime, start runtime, or execute runtime. It
+changes no CLI source and keeps `serve-runtime` default-blocked. See
+`docs/phase-5-17-guarded-runtime-implementation-plan.md`.

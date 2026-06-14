@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.16 Scope
+## Phase 3 through Phase 5.17 Scope
 
-This repository is currently in Phase 5.16 runtime enablement readiness checkpoint
+This repository is currently in Phase 5.17 guarded runtime implementation plan
 mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -87,8 +87,10 @@ rejected while valid positive runtime smoke coverage remains prerequisite-only
 and cannot enable runtime, start runtime, run runtime, or expose runtime
 execution plus Phase 5.16 runtime enablement readiness checkpoint metadata
 proving the Phase 5.6 through Phase 5.15 preconditions are represented as
-contracts while none are implemented as live runtime behavior. Phase 5.16 is
-not runtime enablement.
+contracts while none are implemented as live runtime behavior plus Phase 5.17
+guarded runtime implementation plan metadata defining a future still-blocked
+implementation sequence after the Phase 5.6 through Phase 5.16 contracts.
+Phase 5.17 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -367,6 +369,14 @@ Included now:
   runtime smoke, or live runtime behavior is implemented. Runtime remains
   disabled and `serve-runtime` remains default-blocked. See
   `docs/phase-5-16-runtime-enable-readiness-checkpoint.md`.
+- Phase 5.17 guarded runtime implementation plan documentation, fixture, and
+  report metadata. This records a future implementation sequence over approval
+  record readers, a review-only evaluator design, restrictive host-policy,
+  bounded stdio, transcript/audit confinement, process-control,
+  rollback/kill-switch, positive runtime smoke fixtures, and a still
+  default-blocked entrypoint slice. It implements none of those runtime
+  behaviors, exposes no command, and keeps `serve-runtime` default-blocked. See
+  `docs/phase-5-17-guarded-runtime-implementation-plan.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -518,7 +528,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.16 runtime enablement readiness checkpoint status report command is:
+The Phase 5.17 guarded runtime implementation plan status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -561,7 +571,8 @@ metadata, and Phase 5.12 runtime transcript/audit confinement boundary
 contract metadata, and Phase 5.13 runtime process-control boundary contract
 metadata, and Phase 5.14 runtime rollback/kill-switch boundary contract
 metadata, and Phase 5.15 positive runtime smoke requirement contract metadata,
-and Phase 5.16 runtime enablement readiness checkpoint metadata
+and Phase 5.16 runtime enablement readiness checkpoint metadata, and Phase
+5.17 guarded runtime implementation plan metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply

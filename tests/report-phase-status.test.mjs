@@ -1031,6 +1031,36 @@ const phase516CrossLinks = [
   "docs/phase-5-15-positive-runtime-smoke-requirement.md",
   "docs/phase-5-16-runtime-enable-readiness-checkpoint.md"
 ];
+const phase517DocFiles = [
+  "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+  "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase517CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+  "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+  "docs/phase-5-3-command-surface-approval-preflight.md",
+  "docs/phase-5-4-disabled-command-exposure-plan.md",
+  "docs/phase-5-4a-jules-review-disposition.md",
+  "docs/phase-5-5-default-blocked-runtime-cli.md",
+  "docs/phase-5-6-runtime-enable-preconditions.md",
+  "docs/phase-5-7-runtime-approval-validation.md",
+  "docs/phase-5-8-runtime-command-exposure-approval.md",
+  "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+  "docs/phase-5-10-runtime-host-policy-boundary.md",
+  "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+  "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+  "docs/phase-5-13-runtime-process-control-boundary.md",
+  "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+  "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+  "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+  "docs/phase-5-17-guarded-runtime-implementation-plan.md"
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1152,15 +1182,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.16 runtime enablement readiness checkpoint docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.17 guarded runtime implementation plan docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.16",
-    name: "Runtime enablement readiness checkpoint",
+    id: "5.17",
+    name: "Guarded runtime implementation plan",
     executionPosture:
-      "runtime-enable-readiness-checkpoint runtime-disabled no-runtime-execution"
+      "guarded-runtime-implementation-plan runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1233,12 +1263,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.16 runtime enablement readiness checkpoint status report.",
+        "Render this deterministic local Phase 5.17 guarded runtime implementation plan status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.16 status report.",
+      purpose: "Run focused tests for this local Phase 5.17 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-17-guarded-runtime-implementation-plan.test.mjs",
+      purpose:
+        "Run focused Phase 5.17 guarded runtime implementation plan and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -10329,6 +10365,282 @@ test("report inventories Phase 5.16 as runtime enablement readiness checkpoint w
   assert.equal(report.safetyPosture.flags.phase516WebSocketHttpSurfaceEnabled, false);
 });
 
+test("report inventories Phase 5.17 as guarded runtime implementation plan with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase517GuardedRuntimeImplementationPlanInventory;
+  const expectedContractIds = [
+    "runtime-enable-precondition-gate",
+    "runtime-approval-validation",
+    "runtime-command-exposure-approval",
+    "approval-evaluator-grant-boundary",
+    "runtime-host-policy-boundary",
+    "runtime-stdio-safety-boundary",
+    "runtime-transcript-audit-boundary",
+    "runtime-process-control-boundary",
+    "runtime-rollback-kill-switch-boundary",
+    "positive-runtime-smoke-requirement",
+    "runtime-enable-readiness-checkpoint"
+  ];
+  const expectedStepIds = [
+    "confirm-approval-and-command-exposure-record-readers",
+    "add-review-only-approval-evaluator-design",
+    "add-restrictive-host-policy-runtime-gate",
+    "add-bounded-stdio-runtime-gate",
+    "add-transcript-audit-confinement-gate",
+    "add-process-control-boundary-gate",
+    "add-rollback-kill-switch-gate",
+    "add-positive-runtime-smoke-fixtures",
+    "prepare-still-default-blocked-runtime-entrypoint-slice"
+  ];
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json",
+    sourceRuntimeEnableReadinessCheckpointDocument:
+      "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+    sourceRuntimeEnableReadinessCheckpointFixture:
+      "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json",
+    precedingPhase: "5.16",
+    layerId: "guarded-runtime-implementation-plan",
+    scope: "phase-5-guarded-runtime-implementation-plan-runtime-disabled",
+    guardedRuntimeImplementationPlanRecorded: true,
+    prerequisiteContractCount: 11,
+    plannedImplementationStepCount: 9,
+    implementationInThisPhase: false,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    runtimeImplementationAdded: false,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    stdioSafetyImplemented: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    transcriptAuditConfinementImplemented: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    processControlBoundaryImplemented: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    rollbackKillSwitchBoundaryImplemented: false,
+    runtimeRollbackPerformed: false,
+    killSwitchActivated: false,
+    positiveRuntimeSmokeCoverageImplemented: false,
+    positiveRuntimeSmokeExecuted: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    readyForRuntimeEnablement: false,
+    canEnableRuntime: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase517DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase517CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-17-guarded-runtime-implementation-plan.test.mjs"
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary, {
+    docsStatusFiles: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+      "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    machineReadableArtifactFiles: [
+      "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json"
+    ],
+    focusedTestFiles: [
+      "tests/phase5-17-guarded-runtime-implementation-plan.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    cliRuntimeSourceFilesChanged: [],
+    rustRuntimeSourceFilesChanged: [],
+    cliSourceChangedByThisPhase: false,
+    appsCliIndexChangedByThisPhase: false,
+    rustSourceChangedByThisPhase: false,
+    machineReadableArtifactsChangedByThisPhase: true,
+    reportRunsChecks: false,
+    separateRuntimeImplementationPhaseRequired: true,
+    separateRuntimeEnablementApprovalRequired: true
+  });
+  assert.deepEqual(inventory.sourceCheckpoint, {
+    phase: "phase-5.16-runtime-enable-readiness-checkpoint",
+    document: "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+    fixture: "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json"
+  });
+  assert.deepEqual(
+    inventory.prerequisiteContracts.map(({ contractId }) => contractId),
+    expectedContractIds
+  );
+  for (const contract of inventory.prerequisiteContracts) {
+    assert.equal(contract.prerequisiteOnly, true);
+    assert.equal(contract.implementedByThisPhase, false);
+    assert.equal(contract.enablesRuntime, false);
+    assert.equal(contract.startsRuntime, false);
+    assert.equal(contract.exposesRuntimeExecution, false);
+  }
+  assert.deepEqual(inventory.implementationPlanSummary, {
+    guardedRuntimeImplementationPlanRecorded: true,
+    prerequisiteContractCount: 11,
+    plannedImplementationStepCount: 9,
+    implementationInThisPhase: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeExecutionEnabled: false,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    runtimeCommandExposureEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    readyForRuntimeEnablement: false,
+    canEnableRuntime: false
+  });
+  assert.deepEqual(
+    inventory.plannedImplementationSequence.map(({ stepId }) => stepId),
+    expectedStepIds
+  );
+  for (const step of inventory.plannedImplementationSequence) {
+    assert.equal(step.plannedOnly, true);
+    assert.equal(step.implementedInThisPhase, false);
+    assert.equal(step.enablesRuntime, false);
+    assert.equal(step.startsRuntime, false);
+    assert.equal(step.exposesRuntimeExecution, false);
+  }
+  assert.deepEqual(inventory.prerequisiteContractStatus, {
+    allPriorContractsPrerequisiteOnly: true,
+    approvalRecordsPrerequisiteOnly: true,
+    commandExposureApprovalPrerequisiteOnly: true,
+    readinessCheckpointPrerequisiteOnly: true,
+    anyPrerequisiteEnablesRuntime: false,
+    anyPrerequisiteStartsRuntime: false,
+    anyPrerequisiteExposesRuntimeExecution: false,
+    anyPrerequisiteCreatesApprovalGrant: false
+  });
+  assertAllFalse(inventory.runtimeBlockedStatus);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.stdout, "");
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.equal(inventory.planningDecision.decision, "blocked");
+  assert.equal(inventory.planningDecision.planRecorded, true);
+  assert.equal(inventory.planningDecision.readyForRuntimeEnablement, false);
+  assert.equal(
+    inventory.planningDecision.recommendedNextSlice,
+    "phase-5.18-review-only-approval-evaluator-skeleton"
+  );
+  assert.ok(inventory.planningDecision.blockers.includes("approval_evaluator_not_implemented"));
+  assert.ok(inventory.planningDecision.blockers.includes("runtime_enablement_review_not_granted"));
+  assertAllFalse(inventory.planningDecision.runtimeEffect);
+  assert.ok(inventory.forbiddenBehavior.includes("approval-evaluator-implemented"));
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-implementation-added"));
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-executed"));
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-17-guarded-runtime-implementation-plan.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.safetyPosture, {
+    guardedRuntimeImplementationPlanRecorded: true,
+    prerequisiteContractCount: 11,
+    plannedImplementationStepCount: 9,
+    implementationInThisPhase: false,
+    allPriorContractsPrerequisiteOnly: true,
+    approvalRecordsPrerequisiteOnly: true,
+    commandExposureApprovalPrerequisiteOnly: true,
+    readinessCheckpointPrerequisiteOnly: true,
+    anyPrerequisiteEnablesRuntime: false,
+    anyPrerequisiteStartsRuntime: false,
+    anyPrerequisiteExposesRuntimeExecution: false,
+    anyPrerequisiteCreatesApprovalGrant: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    approvalEvaluatorImplemented: false,
+    approvalGrantProduced: false,
+    runtimeImplementationAdded: false,
+    hostPolicyRuntimeEnforcementImplemented: false,
+    stdioSafetyImplemented: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    transcriptAuditConfinementImplemented: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    processControlBoundaryImplemented: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    rollbackKillSwitchBoundaryImplemented: false,
+    runtimeRollbackPerformed: false,
+    killSwitchActivated: false,
+    positiveRuntimeSmokeCoverageImplemented: false,
+    positiveRuntimeSmokeExecuted: false,
+    adapterRuntimeBehaviorEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    readyForRuntimeEnablement: false,
+    canEnableRuntime: false,
+    noLiveStdinLoop: true,
+    noStdoutStderrWriters: true,
+    noProcessControl: true,
+    noProcessSpawn: true,
+    noProcessTermination: true,
+    noRuntimeSupervision: true,
+    noRuntimeExecution: true,
+    noTranscriptWrite: true,
+    noFailureAuditWrite: true,
+    noTranscriptAuditRuntimeWrites: true,
+    noAdapterRuntimeBehavior: true,
+    noContentFabricRuntimeBehavior: true,
+    noWebSocketHttpSurface: true,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase517GuardedRuntimeImplementationPlan, true);
+  assert.equal(report.safetyPosture.flags.phase517RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase517RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase517RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase517RuntimeExecuted, false);
+  assert.equal(report.safetyPosture.flags.phase517ApprovalEvaluatorImplemented, false);
+  assert.equal(report.safetyPosture.flags.phase517ApprovalGrantProduced, false);
+  assert.equal(report.safetyPosture.flags.phase517RuntimeImplementationAdded, false);
+  assert.equal(report.safetyPosture.flags.phase517ProcessSpawnEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase517RuntimeSupervisionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase517WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -10552,6 +10864,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase514RuntimeRollbackKillSwitchBoundaryContract, true);
   assert.equal(report.safetyPosture.phase515PositiveRuntimeSmokeRequirementContract, true);
   assert.equal(report.safetyPosture.phase516RuntimeEnableReadinessCheckpoint, true);
+  assert.equal(report.safetyPosture.phase517GuardedRuntimeImplementationPlan, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -11089,6 +11402,54 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase516WebSocketHttpSurfaceEnabled: false,
     phase516CliSourceChanged: false,
     phase516RustSourceChanged: false,
+    phase517GuardedRuntimeImplementationPlanRecorded: true,
+    phase517PrerequisiteContractCount: 11,
+    phase517PlannedImplementationStepCount: 9,
+    phase517ImplementationInThisPhase: false,
+    phase517AllPriorContractsPrerequisiteOnly: true,
+    phase517ApprovalRecordsPrerequisiteOnly: true,
+    phase517CommandExposureApprovalPrerequisiteOnly: true,
+    phase517ReadinessCheckpointPrerequisiteOnly: true,
+    phase517AnyPrerequisiteEnablesRuntime: false,
+    phase517AnyPrerequisiteStartsRuntime: false,
+    phase517AnyPrerequisiteExposesRuntimeExecution: false,
+    phase517AnyPrerequisiteCreatesApprovalGrant: false,
+    phase517RuntimeEnabled: false,
+    phase517RuntimeStarted: false,
+    phase517RuntimeReady: false,
+    phase517RuntimeCommandEnabled: false,
+    phase517RuntimeCommandExposureEnabled: false,
+    phase517RuntimeExecutionEnabled: false,
+    phase517RuntimeExecuted: false,
+    phase517ApprovalEvaluatorImplemented: false,
+    phase517ApprovalGrantProduced: false,
+    phase517RuntimeImplementationAdded: false,
+    phase517HostPolicyRuntimeEnforcementImplemented: false,
+    phase517StdioSafetyImplemented: false,
+    phase517LiveStdinLoopEnabled: false,
+    phase517RuntimeStdoutWriterEnabled: false,
+    phase517RuntimeStderrWriterEnabled: false,
+    phase517TranscriptAuditConfinementImplemented: false,
+    phase517RuntimeTranscriptWritePerformed: false,
+    phase517RuntimeAuditWritePerformed: false,
+    phase517ProcessControlBoundaryImplemented: false,
+    phase517ProcessSpawnEnabled: false,
+    phase517ProcessTerminationEnabled: false,
+    phase517RuntimeSupervisionEnabled: false,
+    phase517RollbackKillSwitchBoundaryImplemented: false,
+    phase517RuntimeRollbackPerformed: false,
+    phase517KillSwitchActivated: false,
+    phase517PositiveRuntimeSmokeCoverageImplemented: false,
+    phase517PositiveRuntimeSmokeExecuted: false,
+    phase517AdapterRuntimeBehaviorEnabled: false,
+    phase517ContentFabricRuntimeBehaviorEnabled: false,
+    phase517WebSocketHttpSurfaceEnabled: false,
+    phase517ServeRuntimeStillDefaultBlocked: true,
+    phase517DryRunBypassesBlock: false,
+    phase517ReadyForRuntimeEnablement: false,
+    phase517CanEnableRuntime: false,
+    phase517CliSourceChanged: false,
+    phase517RustSourceChanged: false,
     freshExternalReviewRan: true,
     freshDevinReviewRan: false,
     freshJulesReviewRan: true,

@@ -384,10 +384,10 @@ test("Phase 4.1E status report inventories failure-audit contracts without runni
   const inventory = report.phase41EFailureAuditInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.16",
-    name: "Runtime enablement readiness checkpoint",
+    id: "5.17",
+    name: "Guarded runtime implementation plan",
     executionPosture:
-      "runtime-enable-readiness-checkpoint runtime-disabled no-runtime-execution"
+      "guarded-runtime-implementation-plan runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

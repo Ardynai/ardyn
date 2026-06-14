@@ -157,6 +157,9 @@ const phase515PositiveRuntimeSmokeRequirementContractMetadata = await readJson(
 const phase516RuntimeEnableReadinessCheckpointMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json"
 );
+const phase517GuardedRuntimeImplementationPlanMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -204,10 +207,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.16",
-    name: "Runtime enablement readiness checkpoint",
+    id: "5.17",
+    name: "Guarded runtime implementation plan",
     executionPosture:
-      "runtime-enable-readiness-checkpoint runtime-disabled no-runtime-execution"
+      "guarded-runtime-implementation-plan runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -255,12 +258,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.16 runtime enablement readiness checkpoint status report.",
+        "Render this deterministic local Phase 5.17 guarded runtime implementation plan status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.16 status report.",
+      purpose: "Run focused tests for this local Phase 5.17 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-17-guarded-runtime-implementation-plan.test.mjs",
+      purpose:
+        "Run focused Phase 5.17 guarded runtime implementation plan and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -10581,6 +10590,242 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase517GuardedRuntimeImplementationPlanInventory: {
+    statusLayer: {
+      document: "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json",
+      sourceRuntimeEnableReadinessCheckpointDocument:
+        "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+      sourceRuntimeEnableReadinessCheckpointFixture:
+        "tests/fixtures/host-policy/phase5-16/runtime-enable-readiness-checkpoint.json",
+      precedingPhase: "5.16",
+      layerId: "guarded-runtime-implementation-plan",
+      scope: "phase-5-guarded-runtime-implementation-plan-runtime-disabled",
+      guardedRuntimeImplementationPlanRecorded:
+        phase517GuardedRuntimeImplementationPlanMetadata.implementationPlanSummary
+          .guardedRuntimeImplementationPlanRecorded,
+      prerequisiteContractCount:
+        phase517GuardedRuntimeImplementationPlanMetadata.implementationPlanSummary
+          .prerequisiteContractCount,
+      plannedImplementationStepCount:
+        phase517GuardedRuntimeImplementationPlanMetadata.implementationPlanSummary
+          .plannedImplementationStepCount,
+      implementationInThisPhase:
+        phase517GuardedRuntimeImplementationPlanMetadata.implementationPlanSummary
+          .implementationInThisPhase,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      approvalEvaluatorImplemented: false,
+      approvalGrantProduced: false,
+      runtimeImplementationAdded: false,
+      hostPolicyRuntimeEnforcementImplemented: false,
+      stdioSafetyImplemented: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      transcriptAuditConfinementImplemented: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      processControlBoundaryImplemented: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      rollbackKillSwitchBoundaryImplemented: false,
+      runtimeRollbackPerformed: false,
+      killSwitchActivated: false,
+      positiveRuntimeSmokeCoverageImplemented: false,
+      positiveRuntimeSmokeExecuted: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase517GuardedRuntimeImplementationPlanMetadata.implementationPlanSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      readyForRuntimeEnablement: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+        "Records the Phase 5.17 guarded runtime implementation plan while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+        "Provides the prerequisite-only readiness checkpoint summarized by the Phase 5.17 implementation plan."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.17 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.17 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.17 changes no Rust-host runtime source and records an implementation plan only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "docs/phase-5-8-runtime-command-exposure-approval.md",
+      "docs/phase-5-9-approval-evaluator-grant-boundary.md",
+      "docs/phase-5-10-runtime-host-policy-boundary.md",
+      "docs/phase-5-11-runtime-stdio-safety-boundary.md",
+      "docs/phase-5-12-runtime-transcript-audit-boundary.md",
+      "docs/phase-5-13-runtime-process-control-boundary.md",
+      "docs/phase-5-14-runtime-rollback-kill-switch-boundary.md",
+      "docs/phase-5-15-positive-runtime-smoke-requirement.md",
+      "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+      "docs/phase-5-17-guarded-runtime-implementation-plan.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json",
+        "Records a planned guarded runtime implementation sequence while all runtime behavior remains disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.17 report metadata, docs cross-links, planned implementation sequence, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-17-guarded-runtime-implementation-plan.test.mjs",
+        "Pins the Phase 5.17 plan fixture shape, prerequisite-only contract status, serve-runtime rejection, plan command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-16-runtime-enable-readiness-checkpoint.md",
+        "docs/phase-5-17-guarded-runtime-implementation-plan.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-17/guarded-runtime-implementation-plan.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-17-guarded-runtime-implementation-plan.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      machineReadableArtifactsChangedByThisPhase: true,
+      reportRunsChecks: false,
+      separateRuntimeImplementationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourceCheckpoint:
+      phase517GuardedRuntimeImplementationPlanMetadata.sourceCheckpoint,
+    prerequisiteContracts:
+      phase517GuardedRuntimeImplementationPlanMetadata.prerequisiteContracts,
+    implementationPlanSummary:
+      phase517GuardedRuntimeImplementationPlanMetadata.implementationPlanSummary,
+    plannedImplementationSequence:
+      phase517GuardedRuntimeImplementationPlanMetadata.plannedImplementationSequence,
+    prerequisiteContractStatus:
+      phase517GuardedRuntimeImplementationPlanMetadata.prerequisiteContractStatus,
+    runtimeBlockedStatus:
+      phase517GuardedRuntimeImplementationPlanMetadata.runtimeBlockedStatus,
+    serveRuntimeBlockedBehavior:
+      phase517GuardedRuntimeImplementationPlanMetadata.serveRuntimeBlockedBehavior,
+    planningDecision:
+      phase517GuardedRuntimeImplementationPlanMetadata.planningDecision,
+    forbiddenBehavior: phase517GuardedRuntimeImplementationPlanMetadata.forbiddenBehavior,
+    validationCommands:
+      phase517GuardedRuntimeImplementationPlanMetadata.validationCommands,
+    safetyPosture: {
+      guardedRuntimeImplementationPlanRecorded: true,
+      prerequisiteContractCount: 11,
+      plannedImplementationStepCount: 9,
+      implementationInThisPhase: false,
+      allPriorContractsPrerequisiteOnly: true,
+      approvalRecordsPrerequisiteOnly: true,
+      commandExposureApprovalPrerequisiteOnly: true,
+      readinessCheckpointPrerequisiteOnly: true,
+      anyPrerequisiteEnablesRuntime: false,
+      anyPrerequisiteStartsRuntime: false,
+      anyPrerequisiteExposesRuntimeExecution: false,
+      anyPrerequisiteCreatesApprovalGrant: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      approvalEvaluatorImplemented: false,
+      approvalGrantProduced: false,
+      runtimeImplementationAdded: false,
+      hostPolicyRuntimeEnforcementImplemented: false,
+      stdioSafetyImplemented: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      transcriptAuditConfinementImplemented: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      processControlBoundaryImplemented: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      rollbackKillSwitchBoundaryImplemented: false,
+      runtimeRollbackPerformed: false,
+      killSwitchActivated: false,
+      positiveRuntimeSmokeCoverageImplemented: false,
+      positiveRuntimeSmokeExecuted: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      readyForRuntimeEnablement: false,
+      canEnableRuntime: false,
+      noLiveStdinLoop: true,
+      noStdoutStderrWriters: true,
+      noProcessControl: true,
+      noProcessSpawn: true,
+      noProcessTermination: true,
+      noRuntimeSupervision: true,
+      noRuntimeExecution: true,
+      noTranscriptWrite: true,
+      noFailureAuditWrite: true,
+      noTranscriptAuditRuntimeWrites: true,
+      noAdapterRuntimeBehavior: true,
+      noContentFabricRuntimeBehavior: true,
+      noWebSocketHttpSurface: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -10630,6 +10875,7 @@ const report = {
     phase514RuntimeRollbackKillSwitchBoundaryContract: true,
     phase515PositiveRuntimeSmokeRequirementContract: true,
     phase516RuntimeEnableReadinessCheckpoint: true,
+    phase517GuardedRuntimeImplementationPlan: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -11166,6 +11412,54 @@ const report = {
       phase516WebSocketHttpSurfaceEnabled: false,
       phase516CliSourceChanged: false,
       phase516RustSourceChanged: false,
+      phase517GuardedRuntimeImplementationPlanRecorded: true,
+      phase517PrerequisiteContractCount: 11,
+      phase517PlannedImplementationStepCount: 9,
+      phase517ImplementationInThisPhase: false,
+      phase517AllPriorContractsPrerequisiteOnly: true,
+      phase517ApprovalRecordsPrerequisiteOnly: true,
+      phase517CommandExposureApprovalPrerequisiteOnly: true,
+      phase517ReadinessCheckpointPrerequisiteOnly: true,
+      phase517AnyPrerequisiteEnablesRuntime: false,
+      phase517AnyPrerequisiteStartsRuntime: false,
+      phase517AnyPrerequisiteExposesRuntimeExecution: false,
+      phase517AnyPrerequisiteCreatesApprovalGrant: false,
+      phase517RuntimeEnabled: false,
+      phase517RuntimeStarted: false,
+      phase517RuntimeReady: false,
+      phase517RuntimeCommandEnabled: false,
+      phase517RuntimeCommandExposureEnabled: false,
+      phase517RuntimeExecutionEnabled: false,
+      phase517RuntimeExecuted: false,
+      phase517ApprovalEvaluatorImplemented: false,
+      phase517ApprovalGrantProduced: false,
+      phase517RuntimeImplementationAdded: false,
+      phase517HostPolicyRuntimeEnforcementImplemented: false,
+      phase517StdioSafetyImplemented: false,
+      phase517LiveStdinLoopEnabled: false,
+      phase517RuntimeStdoutWriterEnabled: false,
+      phase517RuntimeStderrWriterEnabled: false,
+      phase517TranscriptAuditConfinementImplemented: false,
+      phase517RuntimeTranscriptWritePerformed: false,
+      phase517RuntimeAuditWritePerformed: false,
+      phase517ProcessControlBoundaryImplemented: false,
+      phase517ProcessSpawnEnabled: false,
+      phase517ProcessTerminationEnabled: false,
+      phase517RuntimeSupervisionEnabled: false,
+      phase517RollbackKillSwitchBoundaryImplemented: false,
+      phase517RuntimeRollbackPerformed: false,
+      phase517KillSwitchActivated: false,
+      phase517PositiveRuntimeSmokeCoverageImplemented: false,
+      phase517PositiveRuntimeSmokeExecuted: false,
+      phase517AdapterRuntimeBehaviorEnabled: false,
+      phase517ContentFabricRuntimeBehaviorEnabled: false,
+      phase517WebSocketHttpSurfaceEnabled: false,
+      phase517ServeRuntimeStillDefaultBlocked: true,
+      phase517DryRunBypassesBlock: false,
+      phase517ReadyForRuntimeEnablement: false,
+      phase517CanEnableRuntime: false,
+      phase517CliSourceChanged: false,
+      phase517RustSourceChanged: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,
