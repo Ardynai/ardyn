@@ -323,10 +323,10 @@ test("Phase 4.1L report inventories readiness without claiming runtime readiness
   const inventory = report.phase41LRuntimeImplementationReadinessInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.20",
-    name: "Approval prerequisite source ingestion preflight",
+    id: "5.21",
+    name: "Approval prerequisite source selection",
     executionPosture:
-      "approval-prerequisite-source-ingestion-preflight runtime-disabled no-runtime-execution"
+      "approval-prerequisite-source-selection runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

@@ -84,11 +84,12 @@ command-exposure, or runtime block.
 
 ## Handoff
 
-Phase 5.20 creates a deterministic source-ingestion preflight only. A future
-phase may define a still-review-only prerequisite source selection or source
-bundle contract, but any such phase must still keep runtime unavailable until a
-separate reviewed grant and runtime enablement boundary exists.
+Phase 5.20 creates a deterministic source-ingestion preflight only. Phase 5.21
+adds deterministic source selection for caller-provided in-memory prerequisite
+sources while still keeping runtime unavailable. Any later source-bundle or
+runtime-enablement phase must still keep runtime unavailable until a separate
+reviewed grant and runtime enablement boundary exists.
 
-Recommended next slice:
+Next source-selection doc:
 
-`phase-5.21-approval-prerequisite-source-selection-contract`
+`phase-5.21-approval-prerequisite-source-selection`

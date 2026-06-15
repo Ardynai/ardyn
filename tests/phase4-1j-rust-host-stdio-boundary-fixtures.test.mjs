@@ -169,10 +169,10 @@ test("Phase 4.1J report inventories fixture-backed Rust harness coverage without
   const inventory = report.phase41JFixtureBackedStdioBoundaryInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.20",
-    name: "Approval prerequisite source ingestion preflight",
+    id: "5.21",
+    name: "Approval prerequisite source selection",
     executionPosture:
-      "approval-prerequisite-source-ingestion-preflight runtime-disabled no-runtime-execution"
+      "approval-prerequisite-source-selection runtime-disabled no-runtime-execution"
   });
   assert.equal(inventory.boundaryLayer.fixtureBackedRustHostCoverage, true);
   assert.equal(inventory.boundaryLayer.privateRustCfgTestHarness, true);

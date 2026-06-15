@@ -99,6 +99,11 @@ export const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_SCHEMA =
 export const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_VERSION = "0.1.0";
 export const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_KIND =
   "approval-prerequisite-source-ingestion-preflight";
+export const APPROVAL_PREREQUISITE_SOURCE_SELECTION_SCHEMA =
+  "ardyn.phase-5.21.approval-prerequisite-source-selection-result";
+export const APPROVAL_PREREQUISITE_SOURCE_SELECTION_VERSION = "0.1.0";
+export const APPROVAL_PREREQUISITE_SOURCE_SELECTION_KIND =
+  "approval-prerequisite-source-selection";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -5896,6 +5901,357 @@ export function preflightApprovalPrerequisiteSourcesForReview(input = {}) {
     sourceReports,
     acceptedReaderInput,
     approvalPrerequisiteReader
+  });
+}
+
+const APPROVAL_PREREQUISITE_SOURCE_SELECTION_CLASSIFICATION_BY_PREFLIGHT =
+  Object.freeze({
+    missing_prerequisite_source_input_rejected:
+      "missing_prerequisite_source_selection_rejected",
+    malformed_prerequisite_source_input_rejected:
+      "malformed_prerequisite_source_selection_rejected",
+    empty_prerequisite_source_input_rejected:
+      "empty_prerequisite_source_selection_rejected",
+    duplicate_prerequisite_source_input_rejected:
+      "duplicate_prerequisite_source_selection_rejected",
+    stale_prerequisite_source_input_rejected:
+      "stale_prerequisite_source_selection_rejected",
+    unknown_prerequisite_source_input_rejected:
+      "unknown_prerequisite_source_selection_rejected",
+    revoked_prerequisite_source_input_rejected:
+      "revoked_prerequisite_source_selection_rejected"
+  });
+
+const APPROVAL_PREREQUISITE_SOURCE_SELECTION_ACCEPTED_CLASSIFICATIONS =
+  Object.freeze([
+    "valid_prerequisite_source_selected_review_only_runtime_still_blocked",
+    "equivalent_prerequisite_sources_selected_review_only_runtime_still_blocked"
+  ]);
+
+function approvalPrerequisiteStableValue(value) {
+  if (Array.isArray(value)) {
+    return value.map((entry) => approvalPrerequisiteStableValue(entry));
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return value;
+  }
+
+  return Object.fromEntries(
+    Object.keys(value)
+      .sort()
+      .map((key) => [key, approvalPrerequisiteStableValue(value[key])])
+  );
+}
+
+function approvalPrerequisiteSourceSelectionSignature(readerInput) {
+  return JSON.stringify(
+    approvalPrerequisiteStableValue(readerInput?.prerequisiteRecords ?? [])
+  );
+}
+
+function approvalPrerequisiteSourceSelectionReport(source, index, reviewedAt) {
+  const sourceId =
+    isPlainObjectRecord(source) && typeof source.sourceId === "string"
+      ? source.sourceId
+      : null;
+  const preflightResult = preflightApprovalPrerequisiteSourcesForReview({
+    reviewedAt,
+    sourceInputs: [source]
+  });
+  const signature = preflightResult.sourceInputsAccepted
+    ? approvalPrerequisiteSourceSelectionSignature(preflightResult.acceptedReaderInput)
+    : null;
+
+  return {
+    index,
+    sourceId,
+    preflightClassification: preflightResult.classification,
+    preflightAccepted: preflightResult.sourceInputsAccepted,
+    acceptedReaderInput: preflightResult.acceptedReaderInput,
+    approvalPrerequisiteReader: preflightResult.approvalPrerequisiteReader,
+    rejectionReasons: preflightResult.rejectionReasons,
+    signature
+  };
+}
+
+function approvalPrerequisiteSourceSelectionReports(sourceInputs, reviewedAt) {
+  return sourceInputs.map((source, index) =>
+    approvalPrerequisiteSourceSelectionReport(source, index, reviewedAt)
+  );
+}
+
+function approvalPrerequisiteDuplicateSourceIds(sourceReports) {
+  const sourceIdCounts = sourceReports.reduce((counts, report) => {
+    if (report.sourceId != null) {
+      counts.set(report.sourceId, (counts.get(report.sourceId) ?? 0) + 1);
+    }
+
+    return counts;
+  }, new Map());
+
+  return [...sourceIdCounts]
+    .filter(([, count]) => count > 1)
+    .map(([sourceId]) => sourceId)
+    .sort();
+}
+
+function approvalPrerequisiteSourceReportOrder(left, right) {
+  return (
+    String(left.sourceId).localeCompare(String(right.sourceId)) ||
+    left.index - right.index
+  );
+}
+
+function approvalPrerequisiteSortedSourceReports(sourceReports) {
+  return [...sourceReports].sort(approvalPrerequisiteSourceReportOrder);
+}
+
+function approvalPrerequisiteSelectionAccepted(classification) {
+  return APPROVAL_PREREQUISITE_SOURCE_SELECTION_ACCEPTED_CLASSIFICATIONS.includes(
+    classification
+  );
+}
+
+function approvalPrerequisiteSourceIds(sourceReports) {
+  return approvalPrerequisiteSortedSourceReports(sourceReports).map(
+    (report) => report.sourceId
+  );
+}
+
+function approvalPrerequisiteInvalidSourceReport(sourceReports) {
+  return sourceReports.find((report) => !report.preflightAccepted) ?? null;
+}
+
+function approvalPrerequisiteSelectionClassificationForInvalid(report) {
+  return (
+    APPROVAL_PREREQUISITE_SOURCE_SELECTION_CLASSIFICATION_BY_PREFLIGHT[
+      report.preflightClassification
+    ] ?? "malformed_prerequisite_source_selection_rejected"
+  );
+}
+
+function approvalPrerequisiteUniqueSignatures(sourceReports) {
+  return new Set(sourceReports.map((report) => report.signature));
+}
+
+function approvalPrerequisiteSourceSelectionClassification(sourceReports) {
+  return sourceReports.length > 1
+    ? "equivalent_prerequisite_sources_selected_review_only_runtime_still_blocked"
+    : "valid_prerequisite_source_selected_review_only_runtime_still_blocked";
+}
+
+function approvalPrerequisitePublicSelectionReports(
+  sourceReports,
+  selectedSourceId,
+  accepted
+) {
+  return approvalPrerequisiteSortedSourceReports(sourceReports).map((report) => ({
+    index: report.index,
+    sourceId: report.sourceId,
+    preflightClassification: report.preflightClassification,
+    preflightAccepted: report.preflightAccepted,
+    selected: accepted && report.sourceId === selectedSourceId,
+    rejected: !accepted,
+    equivalentToSelected: accepted && report.preflightAccepted,
+    rejectionReasons: accepted ? [] : report.rejectionReasons
+  }));
+}
+
+function approvalPrerequisiteSourceSelectionCounts(
+  sourceReports,
+  accepted,
+  conflictingSourceIds,
+  duplicateSourceIds
+) {
+  return {
+    total: sourceReports.length,
+    acceptedCandidates: sourceReports.filter((report) => report.preflightAccepted).length,
+    rejectedCandidates: sourceReports.filter((report) => !report.preflightAccepted).length,
+    equivalentCandidates: accepted ? sourceReports.length : 0,
+    conflictingCandidates: conflictingSourceIds.length,
+    duplicateSourceIds: duplicateSourceIds.length
+  };
+}
+
+function approvalPrerequisiteSourceSelectionRejectionReasons({
+  classification,
+  sourceReports,
+  conflictingSourceIds,
+  duplicateSourceIds
+}) {
+  const classificationReasons =
+    {
+      missing_prerequisite_source_selection_rejected: [
+        "missing_prerequisite_source_selection"
+      ],
+      duplicate_prerequisite_source_selection_rejected: [
+        "duplicate_prerequisite_source_selection"
+      ],
+      conflicting_valid_prerequisite_sources_rejected: [
+        "conflicting_valid_prerequisite_sources"
+      ]
+    }[classification] ?? [];
+  const duplicateReasons = duplicateSourceIds.map(
+    (sourceId) => `duplicate_source_id_${sourceId}`
+  );
+  const conflictReasons = conflictingSourceIds.map(
+    (sourceId) => `conflicting_source_${sourceId}`
+  );
+
+  return [
+    ...classificationReasons,
+    ...duplicateReasons,
+    ...conflictReasons,
+    ...sourceReports.flatMap((report) => report.rejectionReasons),
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function approvalPrerequisiteSourceSelectionSelectedState({
+  sourceReports,
+  selectedReport,
+  accepted
+}) {
+  if (!accepted) {
+    return {
+      selectedSourceId: null,
+      selectedSourceIds: [],
+      equivalentSourceIds: [],
+      rejectedSourceIds: approvalPrerequisiteSourceIds(sourceReports),
+      selectedReaderInput: null,
+      approvalPrerequisiteReader: null
+    };
+  }
+
+  return {
+    selectedSourceId: selectedReport.sourceId,
+    selectedSourceIds: [selectedReport.sourceId],
+    equivalentSourceIds: approvalPrerequisiteSourceIds(sourceReports),
+    rejectedSourceIds: [],
+    selectedReaderInput: selectedReport.acceptedReaderInput,
+    approvalPrerequisiteReader: selectedReport.approvalPrerequisiteReader
+  };
+}
+
+function approvalPrerequisiteSourceSelectionResult({
+  reviewedAt,
+  classification,
+  sourceReports,
+  selectedReport,
+  conflictingSourceIds = [],
+  duplicateSourceIds = []
+}) {
+  const accepted = approvalPrerequisiteSelectionAccepted(classification);
+  const selectedState = approvalPrerequisiteSourceSelectionSelectedState({
+    sourceReports,
+    selectedReport,
+    accepted
+  });
+
+  return {
+    schema: APPROVAL_PREREQUISITE_SOURCE_SELECTION_SCHEMA,
+    schemaVersion: APPROVAL_PREREQUISITE_SOURCE_SELECTION_VERSION,
+    selectionKind: APPROVAL_PREREQUISITE_SOURCE_SELECTION_KIND,
+    selectionMode: "review-only",
+    reviewedAt,
+    classification,
+    sourceSelectionAccepted: accepted,
+    readerInputForwarded: accepted,
+    selectedSourceId: selectedState.selectedSourceId,
+    selectedSourceIds: selectedState.selectedSourceIds,
+    equivalentSourceIds: selectedState.equivalentSourceIds,
+    rejectedSourceIds: selectedState.rejectedSourceIds,
+    conflictingSourceIds,
+    duplicateSourceIds,
+    reviewOnly: true,
+    authoritative: false,
+    sourceInputCounts: approvalPrerequisiteSourceSelectionCounts(
+      sourceReports,
+      accepted,
+      conflictingSourceIds,
+      duplicateSourceIds
+    ),
+    sourceSelectionReports: approvalPrerequisitePublicSelectionReports(
+      sourceReports,
+      selectedState.selectedSourceId,
+      accepted
+    ),
+    selectedReaderInput: selectedState.selectedReaderInput,
+    approvalPrerequisiteReader: selectedState.approvalPrerequisiteReader,
+    rejectionReasons: approvalPrerequisiteSourceSelectionRejectionReasons({
+      classification,
+      sourceReports,
+      conflictingSourceIds,
+      duplicateSourceIds
+    }),
+    approvalGrant: sourcePreflightGrantBlocked(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function approvalPrerequisiteSourceSelectionDecision(sourceReports) {
+  const duplicateSourceIds = approvalPrerequisiteDuplicateSourceIds(sourceReports);
+
+  if (duplicateSourceIds.length > 0) {
+    return {
+      classification: "duplicate_prerequisite_source_selection_rejected",
+      selectedReport: null,
+      duplicateSourceIds
+    };
+  }
+
+  const invalidReport = approvalPrerequisiteInvalidSourceReport(sourceReports);
+  if (invalidReport != null) {
+    return {
+      classification: approvalPrerequisiteSelectionClassificationForInvalid(
+        invalidReport
+      ),
+      selectedReport: null
+    };
+  }
+
+  if (approvalPrerequisiteUniqueSignatures(sourceReports).size > 1) {
+    return {
+      classification: "conflicting_valid_prerequisite_sources_rejected",
+      selectedReport: null,
+      conflictingSourceIds: approvalPrerequisiteSourceIds(sourceReports)
+    };
+  }
+
+  const sortedReports = approvalPrerequisiteSortedSourceReports(sourceReports);
+  const [selectedReport] = sortedReports;
+
+  return {
+    classification: approvalPrerequisiteSourceSelectionClassification(sourceReports),
+    selectedReport
+  };
+}
+
+export function selectApprovalPrerequisiteSourcesForReview(input = {}) {
+  const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const sourceInputs = approvalPrerequisiteSourceInputArray(input);
+
+  if (sourceInputs.length === 0) {
+    return approvalPrerequisiteSourceSelectionResult({
+      reviewedAt,
+      classification: "missing_prerequisite_source_selection_rejected",
+      sourceReports: [],
+      selectedReport: null
+    });
+  }
+
+  const sourceReports = approvalPrerequisiteSourceSelectionReports(
+    sourceInputs,
+    reviewedAt
+  );
+  const decision = approvalPrerequisiteSourceSelectionDecision(sourceReports);
+
+  return approvalPrerequisiteSourceSelectionResult({
+    reviewedAt,
+    sourceReports,
+    ...decision
   });
 }
 

@@ -169,6 +169,9 @@ const phase519ApprovalPrerequisiteReaderHardeningMetadata = await readJson(
 const phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-20/approval-prerequisite-source-ingestion-preflight.json"
 );
+const phase521ApprovalPrerequisiteSourceSelectionMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-21/approval-prerequisite-source-selection-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -216,10 +219,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.20",
-    name: "Approval prerequisite source ingestion preflight",
+    id: "5.21",
+    name: "Approval prerequisite source selection",
     executionPosture:
-      "approval-prerequisite-source-ingestion-preflight runtime-disabled no-runtime-execution"
+      "approval-prerequisite-source-selection runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -267,12 +270,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.20 approval prerequisite source ingestion preflight status report.",
+        "Render this deterministic local Phase 5.21 approval prerequisite source selection status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.20 status report.",
+      purpose: "Run focused tests for this local Phase 5.21 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-21-approval-prerequisite-source-selection.test.mjs",
+      purpose:
+        "Run focused Phase 5.21 approval prerequisite source selection and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -11416,6 +11426,216 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase521ApprovalPrerequisiteSourceSelectionInventory: {
+    statusLayer: {
+      document:
+        "docs/phase-5-21-approval-prerequisite-source-selection.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-21/approval-prerequisite-source-selection-contract.json",
+      sourceApprovalPrerequisitePreflightDocument:
+        "docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md",
+      sourceApprovalPrerequisitePreflightFixture:
+        "tests/fixtures/host-policy/phase5-20/approval-prerequisite-source-ingestion-preflight.json",
+      precedingPhase: "5.20",
+      layerId: "approval-prerequisite-source-selection",
+      scope:
+        "phase-5-approval-prerequisite-source-selection-review-only-runtime-disabled",
+      approvalPrerequisiteSourceSelectionRecorded:
+        phase521ApprovalPrerequisiteSourceSelectionMetadata.selectionSummary
+          .approvalPrerequisiteSourceSelectionRecorded,
+      selectionKind:
+        phase521ApprovalPrerequisiteSourceSelectionMetadata.selectionSummary
+          .selectionKind,
+      selectionReviewOnly: true,
+      selectionAuthoritative: false,
+      missingSourcesRejected: true,
+      multipleValidSourcesHandledDeterministically: true,
+      conflictingValidSourcesRejected: true,
+      duplicateEquivalentSourcesHandledDeterministically: true,
+      staleSourcesRejected: true,
+      revokedSourcesRejected: true,
+      unknownSourcesRejected: true,
+      malformedSourcesRejected: true,
+      emptySourcesRejected: true,
+      selectedSourceFeedsReviewReaderOnly: true,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase521ApprovalPrerequisiteSourceSelectionMetadata.selectionSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-21-approval-prerequisite-source-selection.md",
+        "Records the Phase 5.21 approval prerequisite source selection contract while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md",
+        "Provides the Phase 5.21 source-selection handoff from source ingestion preflight."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.21 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.21 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.21 changes no Rust-host runtime source and records a TypeScript source-selection helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md",
+      "docs/phase-5-21-approval-prerequisite-source-selection.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-21/approval-prerequisite-source-selection-contract.json",
+        "Records approval prerequisite source-selection cases while grants and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.21 report metadata, docs cross-links, source selection, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-21-approval-prerequisite-source-selection.test.mjs",
+        "Pins the Phase 5.21 source-selection helper, fixture shape, reader/evaluator integration, serve-runtime rejection, source-selection command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md",
+        "docs/phase-5-21-approval-prerequisite-source-selection.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-21/approval-prerequisite-source-selection-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-21-approval-prerequisite-source-selection.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase521ApprovalPrerequisiteSourceSelectionMetadata.sourcePhase,
+    selectionSummary:
+      phase521ApprovalPrerequisiteSourceSelectionMetadata.selectionSummary,
+    sourceSelectionShape:
+      phase521ApprovalPrerequisiteSourceSelectionMetadata.sourceSelectionShape,
+    selectionResultShape:
+      phase521ApprovalPrerequisiteSourceSelectionMetadata.selectionResultShape,
+    sourceSelectionCases:
+      phase521ApprovalPrerequisiteSourceSelectionMetadata.sourceSelectionCases,
+    readerIntegration:
+      phase521ApprovalPrerequisiteSourceSelectionMetadata.readerIntegration,
+    blockedRuntimeEffect:
+      phase521ApprovalPrerequisiteSourceSelectionMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase521ApprovalPrerequisiteSourceSelectionMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase521ApprovalPrerequisiteSourceSelectionMetadata.forbiddenBehavior,
+    validationCommands:
+      phase521ApprovalPrerequisiteSourceSelectionMetadata.validationCommands,
+    safetyPosture: {
+      approvalPrerequisiteSourceSelectionRecorded: true,
+      selectionReviewOnly: true,
+      selectionAuthoritative: false,
+      missingSourcesRejected: true,
+      multipleValidSourcesHandledDeterministically: true,
+      conflictingValidSourcesRejected: true,
+      duplicateEquivalentSourcesHandledDeterministically: true,
+      staleSourcesRejected: true,
+      revokedSourcesRejected: true,
+      unknownSourcesRejected: true,
+      malformedSourcesRejected: true,
+      emptySourcesRejected: true,
+      selectedSourceFeedsReviewReaderOnly: true,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -11469,6 +11689,7 @@ const report = {
     phase518ReviewOnlyApprovalEvaluatorSkeleton: true,
     phase519ApprovalPrerequisiteReaderHardening: true,
     phase520ApprovalPrerequisiteSourceIngestionPreflight: true,
+    phase521ApprovalPrerequisiteSourceSelection: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -12161,6 +12382,47 @@ const report = {
       phase520AdapterRuntimeBehaviorEnabled: false,
       phase520ContentFabricRuntimeBehaviorEnabled: false,
       phase520WebSocketHttpSurfaceEnabled: false,
+      phase521ApprovalPrerequisiteSourceSelectionRecorded: true,
+      phase521SelectionReviewOnly: true,
+      phase521SelectionAuthoritative: false,
+      phase521MissingSourcesRejected: true,
+      phase521MultipleValidSourcesHandledDeterministically: true,
+      phase521ConflictingValidSourcesRejected: true,
+      phase521DuplicateEquivalentSourcesHandledDeterministically: true,
+      phase521StaleSourcesRejected: true,
+      phase521RevokedSourcesRejected: true,
+      phase521UnknownSourcesRejected: true,
+      phase521MalformedSourcesRejected: true,
+      phase521EmptySourcesRejected: true,
+      phase521SelectedSourceFeedsReviewReaderOnly: true,
+      phase521ApprovalGrantProduced: false,
+      phase521ApprovalGrantPersisted: false,
+      phase521RuntimeEnabled: false,
+      phase521RuntimeStarted: false,
+      phase521RuntimeReady: false,
+      phase521RuntimeCommandEnabled: false,
+      phase521RuntimeCommandExposureEnabled: false,
+      phase521RuntimeExecutionEnabled: false,
+      phase521RuntimeExecuted: false,
+      phase521ServeRuntimeStillDefaultBlocked: true,
+      phase521DryRunBypassesBlock: false,
+      phase521CanEnableRuntime: false,
+      phase521CliSourceChanged: false,
+      phase521RustSourceChanged: false,
+      phase521FilesystemWatcherEnabled: false,
+      phase521ExternalSourceLookupEnabled: false,
+      phase521SecretsEnvIngestionEnabled: false,
+      phase521LiveStdinLoopEnabled: false,
+      phase521RuntimeStdoutWriterEnabled: false,
+      phase521RuntimeStderrWriterEnabled: false,
+      phase521ProcessSpawnEnabled: false,
+      phase521ProcessTerminationEnabled: false,
+      phase521RuntimeSupervisionEnabled: false,
+      phase521RuntimeTranscriptWritePerformed: false,
+      phase521RuntimeAuditWritePerformed: false,
+      phase521AdapterRuntimeBehaviorEnabled: false,
+      phase521ContentFabricRuntimeBehaviorEnabled: false,
+      phase521WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,
