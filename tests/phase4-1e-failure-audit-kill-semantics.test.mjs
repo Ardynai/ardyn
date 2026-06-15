@@ -384,10 +384,10 @@ test("Phase 4.1E status report inventories failure-audit contracts without runni
   const inventory = report.phase41EFailureAuditInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.18",
-    name: "Review-only approval evaluator skeleton",
+    id: "5.19",
+    name: "Approval prerequisite reader hardening",
     executionPosture:
-      "review-only-approval-evaluator-skeleton runtime-disabled no-runtime-execution"
+      "approval-prerequisite-reader-hardening runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

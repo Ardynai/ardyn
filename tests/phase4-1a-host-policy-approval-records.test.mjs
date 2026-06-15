@@ -318,10 +318,10 @@ test("Phase 4.1A status report inventories approval records without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.18",
-    name: "Review-only approval evaluator skeleton",
+    id: "5.19",
+    name: "Approval prerequisite reader hardening",
     executionPosture:
-      "review-only-approval-evaluator-skeleton runtime-disabled no-runtime-execution"
+      "approval-prerequisite-reader-hardening runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

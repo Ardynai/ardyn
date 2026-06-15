@@ -163,6 +163,9 @@ const phase517GuardedRuntimeImplementationPlanMetadata = await readJson(
 const phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json"
 );
+const phase519ApprovalPrerequisiteReaderHardeningMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-19/approval-prerequisite-reader-hardening.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -210,10 +213,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.18",
-    name: "Review-only approval evaluator skeleton",
+    id: "5.19",
+    name: "Approval prerequisite reader hardening",
     executionPosture:
-      "review-only-approval-evaluator-skeleton runtime-disabled no-runtime-execution"
+      "approval-prerequisite-reader-hardening runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -261,12 +264,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.18 review-only approval evaluator skeleton status report.",
+        "Render this deterministic local Phase 5.19 approval prerequisite reader hardening status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.18 status report.",
+      purpose: "Run focused tests for this local Phase 5.19 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-19-approval-prerequisite-reader-hardening.test.mjs",
+      purpose:
+        "Run focused Phase 5.19 approval prerequisite reader hardening and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -11013,6 +11022,190 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase519ApprovalPrerequisiteReaderHardeningInventory: {
+    statusLayer: {
+      document: "docs/phase-5-19-approval-prerequisite-reader-hardening.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-19/approval-prerequisite-reader-hardening.json",
+      sourceReviewOnlyApprovalEvaluatorDocument:
+        "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+      sourceReviewOnlyApprovalEvaluatorFixture:
+        "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json",
+      precedingPhase: "5.18",
+      layerId: "approval-prerequisite-reader-hardening",
+      scope: "phase-5-approval-prerequisite-reader-review-only-runtime-disabled",
+      approvalPrerequisiteReaderHardeningRecorded:
+        phase519ApprovalPrerequisiteReaderHardeningMetadata.readerSummary
+          .approvalPrerequisiteReaderHardeningRecorded,
+      readerKind:
+        phase519ApprovalPrerequisiteReaderHardeningMetadata.readerSummary.readerKind,
+      readerReviewOnly: true,
+      readerAuthoritative: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase519ApprovalPrerequisiteReaderHardeningMetadata.readerSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-19-approval-prerequisite-reader-hardening.md",
+        "Records the Phase 5.19 approval prerequisite reader hardening while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+        "Provides the Phase 5.19 handoff from the review-only evaluator skeleton."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.19 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.19 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.19 changes no Rust-host runtime source and records a TypeScript core reader only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+      "docs/phase-5-19-approval-prerequisite-reader-hardening.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-19/approval-prerequisite-reader-hardening.json",
+        "Records hardened approval prerequisite reader cases while grants and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.19 report metadata, docs cross-links, reader hardening, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-19-approval-prerequisite-reader-hardening.test.mjs",
+        "Pins the Phase 5.19 reader helper, fixture shape, evaluator integration, serve-runtime rejection, reader command rejection, and source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+        "docs/phase-5-19-approval-prerequisite-reader-hardening.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-19/approval-prerequisite-reader-hardening.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-19-approval-prerequisite-reader-hardening.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase519ApprovalPrerequisiteReaderHardeningMetadata.sourcePhase,
+    readerSummary:
+      phase519ApprovalPrerequisiteReaderHardeningMetadata.readerSummary,
+    readerInputShape:
+      phase519ApprovalPrerequisiteReaderHardeningMetadata.readerInputShape,
+    readerResultShape:
+      phase519ApprovalPrerequisiteReaderHardeningMetadata.readerResultShape,
+    readerCases:
+      phase519ApprovalPrerequisiteReaderHardeningMetadata.readerCases,
+    evaluatorIntegration:
+      phase519ApprovalPrerequisiteReaderHardeningMetadata.evaluatorIntegration,
+    blockedRuntimeEffect:
+      phase519ApprovalPrerequisiteReaderHardeningMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase519ApprovalPrerequisiteReaderHardeningMetadata.serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase519ApprovalPrerequisiteReaderHardeningMetadata.forbiddenBehavior,
+    validationCommands:
+      phase519ApprovalPrerequisiteReaderHardeningMetadata.validationCommands,
+    safetyPosture: {
+      approvalPrerequisiteReaderHardeningRecorded: true,
+      readerReviewOnly: true,
+      readerAuthoritative: false,
+      missingPrerequisiteRecordsRejected: true,
+      malformedPrerequisiteRecordsRejected: true,
+      revokedPrerequisiteRecordsRejected: true,
+      validPrerequisiteRecordsRecognizedForReviewOnly: true,
+      duplicatePrerequisiteRecordsRejected: true,
+      stalePrerequisiteRecordsRejected: true,
+      unknownPrerequisiteRecordsRejected: true,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -11064,6 +11257,7 @@ const report = {
     phase516RuntimeEnableReadinessCheckpoint: true,
     phase517GuardedRuntimeImplementationPlan: true,
     phase518ReviewOnlyApprovalEvaluatorSkeleton: true,
+    phase519ApprovalPrerequisiteReaderHardening: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -11680,6 +11874,41 @@ const report = {
       phase518AdapterRuntimeBehaviorEnabled: false,
       phase518ContentFabricRuntimeBehaviorEnabled: false,
       phase518WebSocketHttpSurfaceEnabled: false,
+      phase519ApprovalPrerequisiteReaderHardeningRecorded: true,
+      phase519ReaderReviewOnly: true,
+      phase519ReaderAuthoritative: false,
+      phase519MissingPrerequisiteRecordsRejected: true,
+      phase519MalformedPrerequisiteRecordsRejected: true,
+      phase519RevokedPrerequisiteRecordsRejected: true,
+      phase519ValidPrerequisiteRecordsRecognizedForReviewOnly: true,
+      phase519DuplicatePrerequisiteRecordsRejected: true,
+      phase519StalePrerequisiteRecordsRejected: true,
+      phase519UnknownPrerequisiteRecordsRejected: true,
+      phase519ApprovalGrantProduced: false,
+      phase519ApprovalGrantPersisted: false,
+      phase519RuntimeEnabled: false,
+      phase519RuntimeStarted: false,
+      phase519RuntimeReady: false,
+      phase519RuntimeCommandEnabled: false,
+      phase519RuntimeCommandExposureEnabled: false,
+      phase519RuntimeExecutionEnabled: false,
+      phase519RuntimeExecuted: false,
+      phase519ServeRuntimeStillDefaultBlocked: true,
+      phase519DryRunBypassesBlock: false,
+      phase519CanEnableRuntime: false,
+      phase519CliSourceChanged: false,
+      phase519RustSourceChanged: false,
+      phase519LiveStdinLoopEnabled: false,
+      phase519RuntimeStdoutWriterEnabled: false,
+      phase519RuntimeStderrWriterEnabled: false,
+      phase519ProcessSpawnEnabled: false,
+      phase519ProcessTerminationEnabled: false,
+      phase519RuntimeSupervisionEnabled: false,
+      phase519RuntimeTranscriptWritePerformed: false,
+      phase519RuntimeAuditWritePerformed: false,
+      phase519AdapterRuntimeBehaviorEnabled: false,
+      phase519ContentFabricRuntimeBehaviorEnabled: false,
+      phase519WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

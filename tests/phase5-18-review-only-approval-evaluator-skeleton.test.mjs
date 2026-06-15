@@ -116,12 +116,19 @@ function commandExposureApprovalRecord(overrides = {}) {
       revokedAt: null,
       revocationReason: null
     },
+    commandExposureEffect: {
+      currentRecordExposesUserRuntimeCommand: false,
+      currentRecordEnablesRuntimeCommand: false,
+      currentRecordExposesRuntimeExecution: false,
+      additionalRuntimeCommandsRecognized: false,
+      commandAliasCreated: false
+    },
     runtimeEffect: {
-      currentRecordExposesRuntimeCommand: false,
-      runtimeCommandEnabled: false,
-      runtimeCommandExposureEnabled: false,
-      runtimeExecutionEnabled: false,
+      currentRecordEnablesRuntime: false,
       runtimeStarts: false,
+      runtimeEnabled: false,
+      runtimeCommandEnabled: false,
+      runtimeExecutionEnabled: false,
       approvalGrantCreated: false
     },
     ...overrides

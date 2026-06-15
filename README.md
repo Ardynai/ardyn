@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.18 Scope
+## Phase 3 through Phase 5.19 Scope
 
-This repository is currently in Phase 5.18 review-only approval evaluator skeleton
+This repository is currently in Phase 5.19 approval prerequisite reader hardening
 mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -91,8 +91,10 @@ contracts while none are implemented as live runtime behavior plus Phase 5.17
 guarded runtime implementation plan metadata defining a future still-blocked
 implementation sequence after the Phase 5.6 through Phase 5.16 contracts plus
 Phase 5.18 review-only approval evaluator skeleton metadata and a core review
-helper for prerequisite-record classification.
-Phase 5.18 is not runtime enablement.
+helper for prerequisite-record classification plus Phase 5.19 approval
+prerequisite reader hardening for missing, malformed, revoked, valid,
+duplicate, stale, and unknown prerequisite records.
+Phase 5.19 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -385,6 +387,13 @@ Included now:
   approval grant, is not authoritative, enables no runtime, exposes no runtime
   command, and keeps `serve-runtime` default-blocked. See
   `docs/phase-5-18-review-only-approval-evaluator-skeleton.md`.
+- Phase 5.19 approval prerequisite reader hardening documentation, fixture,
+  core reader, evaluator integration, and report metadata. This normalizes
+  missing, malformed, revoked, valid, duplicate, stale, and unknown prerequisite
+  records for review only. It produces no approval grant, is not authoritative,
+  enables no runtime, exposes no runtime command, and keeps `serve-runtime`
+  default-blocked. See
+  `docs/phase-5-19-approval-prerequisite-reader-hardening.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -536,7 +545,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.18 review-only approval evaluator skeleton status report command is:
+The Phase 5.19 approval prerequisite reader hardening status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -580,8 +589,9 @@ contract metadata, and Phase 5.13 runtime process-control boundary contract
 metadata, and Phase 5.14 runtime rollback/kill-switch boundary contract
 metadata, and Phase 5.15 positive runtime smoke requirement contract metadata,
 and Phase 5.16 runtime enablement readiness checkpoint metadata, and Phase
-5.17 guarded runtime implementation plan metadata, and Phase 5.18 review-only
-approval evaluator skeleton metadata
+5.17 guarded runtime implementation plan metadata, Phase 5.18 review-only
+approval evaluator skeleton metadata, and Phase 5.19 approval prerequisite
+reader hardening metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply

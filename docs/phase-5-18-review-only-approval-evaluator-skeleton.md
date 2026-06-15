@@ -74,3 +74,8 @@ exists.
 Recommended next slice:
 
 `phase-5.19-approval-prerequisite-reader-hardening`
+
+Phase 5.19 is recorded in
+`docs/phase-5-19-approval-prerequisite-reader-hardening.md`. It hardens the
+reader used by this review-only evaluator while keeping approval grants,
+runtime command exposure, and runtime execution blocked.

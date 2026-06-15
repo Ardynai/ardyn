@@ -1075,6 +1075,63 @@ const phase518CrossLinks = [
   "docs/phase-5-17-guarded-runtime-implementation-plan.md",
   "docs/phase-5-18-review-only-approval-evaluator-skeleton.md"
 ];
+const phase519DocFiles = [
+  "docs/phase-5-19-approval-prerequisite-reader-hardening.md",
+  "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase519CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+  "docs/phase-5-19-approval-prerequisite-reader-hardening.md"
+];
+const phase519ExpectedTrueSafetyFlagNames = [
+  "phase519ApprovalPrerequisiteReaderHardeningRecorded",
+  "phase519ReaderReviewOnly",
+  "phase519MissingPrerequisiteRecordsRejected",
+  "phase519MalformedPrerequisiteRecordsRejected",
+  "phase519RevokedPrerequisiteRecordsRejected",
+  "phase519ValidPrerequisiteRecordsRecognizedForReviewOnly",
+  "phase519DuplicatePrerequisiteRecordsRejected",
+  "phase519StalePrerequisiteRecordsRejected",
+  "phase519UnknownPrerequisiteRecordsRejected",
+  "phase519ServeRuntimeStillDefaultBlocked"
+];
+const phase519ExpectedFalseSafetyFlagNames = [
+  "phase519ReaderAuthoritative",
+  "phase519ApprovalGrantProduced",
+  "phase519ApprovalGrantPersisted",
+  "phase519RuntimeEnabled",
+  "phase519RuntimeStarted",
+  "phase519RuntimeReady",
+  "phase519RuntimeCommandEnabled",
+  "phase519RuntimeCommandExposureEnabled",
+  "phase519RuntimeExecutionEnabled",
+  "phase519RuntimeExecuted",
+  "phase519DryRunBypassesBlock",
+  "phase519CanEnableRuntime",
+  "phase519CliSourceChanged",
+  "phase519RustSourceChanged",
+  "phase519LiveStdinLoopEnabled",
+  "phase519RuntimeStdoutWriterEnabled",
+  "phase519RuntimeStderrWriterEnabled",
+  "phase519ProcessSpawnEnabled",
+  "phase519ProcessTerminationEnabled",
+  "phase519RuntimeSupervisionEnabled",
+  "phase519RuntimeTranscriptWritePerformed",
+  "phase519RuntimeAuditWritePerformed",
+  "phase519AdapterRuntimeBehaviorEnabled",
+  "phase519ContentFabricRuntimeBehaviorEnabled",
+  "phase519WebSocketHttpSurfaceEnabled"
+];
+const phase519SafetyFlagNames = [
+  ...phase519ExpectedTrueSafetyFlagNames,
+  ...phase519ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1196,15 +1253,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.18 review-only approval evaluator skeleton docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.19 approval prerequisite reader hardening docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.18",
-    name: "Review-only approval evaluator skeleton",
+    id: "5.19",
+    name: "Approval prerequisite reader hardening",
     executionPosture:
-      "review-only-approval-evaluator-skeleton runtime-disabled no-runtime-execution"
+      "approval-prerequisite-reader-hardening runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1277,12 +1334,18 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.18 review-only approval evaluator skeleton status report.",
+        "Render this deterministic local Phase 5.19 approval prerequisite reader hardening status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.18 status report.",
+      purpose: "Run focused tests for this local Phase 5.19 status report.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-19-approval-prerequisite-reader-hardening.test.mjs",
+      purpose:
+        "Run focused Phase 5.19 approval prerequisite reader hardening and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -10864,6 +10927,191 @@ test("report inventories Phase 5.18 as review-only approval evaluator skeleton w
   assert.equal(report.safetyPosture.flags.phase518WebSocketHttpSurfaceEnabled, false);
 });
 
+test("report inventories Phase 5.19 as approval prerequisite reader hardening with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase519ApprovalPrerequisiteReaderHardeningInventory;
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-19-approval-prerequisite-reader-hardening.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-19/approval-prerequisite-reader-hardening.json",
+    sourceReviewOnlyApprovalEvaluatorDocument:
+      "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+    sourceReviewOnlyApprovalEvaluatorFixture:
+      "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json",
+    precedingPhase: "5.18",
+    layerId: "approval-prerequisite-reader-hardening",
+    scope: "phase-5-approval-prerequisite-reader-review-only-runtime-disabled",
+    approvalPrerequisiteReaderHardeningRecorded: true,
+    readerKind: "approval-prerequisite-reader",
+    readerReviewOnly: true,
+    readerAuthoritative: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase519DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase519CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-19/approval-prerequisite-reader-hardening.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-19-approval-prerequisite-reader-hardening.test.mjs"
+  ]);
+  assert.deepEqual(inventory.sourcePhase, {
+    phase: "phase-5.18-review-only-approval-evaluator-skeleton",
+    document: "docs/phase-5-18-review-only-approval-evaluator-skeleton.md",
+    fixture: "tests/fixtures/host-policy/phase5-18/review-only-approval-evaluator-skeleton.json",
+    runtimeEnabled: false,
+    reviewOnlyApprovalEvaluatorSkeletonRecorded: true,
+    approvalGrantProduced: false,
+    recommendedNextSlice: "phase-5.19-approval-prerequisite-reader-hardening"
+  });
+  assert.deepEqual(inventory.readerSummary, {
+    approvalPrerequisiteReaderHardeningRecorded: true,
+    readerKind: "approval-prerequisite-reader",
+    readerReviewOnly: true,
+    readerAuthoritative: false,
+    missingPrerequisiteRecordsRejected: true,
+    malformedPrerequisiteRecordsRejected: true,
+    revokedPrerequisiteRecordsRejected: true,
+    validPrerequisiteRecordsRecognizedForReviewOnly: true,
+    duplicatePrerequisiteRecordsRejected: true,
+    stalePrerequisiteRecordsRejected: true,
+    unknownPrerequisiteRecordsRejected: true,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false
+  });
+  assert.equal(inventory.readerInputShape.runtimeApprovalRecordSchema, "ardyn.runtime-approval-record");
+  assert.equal(
+    inventory.readerInputShape.commandExposureApprovalRecordSchema,
+    "ardyn.runtime-command-exposure-approval-record"
+  );
+  assert.equal(inventory.readerResultShape.resultCannotAuthorizeRuntime, true);
+  assert.deepEqual(inventory.readerCases.map(({ caseId }) => caseId), [
+    "missing-prerequisite-records",
+    "malformed-prerequisite-record",
+    "malformed-sparse-effect-record",
+    "revoked-prerequisite-record",
+    "valid-prerequisite-records-review-only",
+    "duplicate-prerequisite-record",
+    "stale-prerequisite-record",
+    "unknown-prerequisite-record"
+  ]);
+  for (const readerCase of inventory.readerCases) {
+    assert.equal(readerCase.reviewOnly, true);
+    assert.equal(readerCase.authoritative, false);
+    assert.equal(readerCase.approvalGrant.produced, false);
+    assert.equal(readerCase.approvalGrant.persisted, false);
+    assert.equal(readerCase.approvalGrant.grantId, null);
+    assertAllFalse(readerCase.runtimeEffect);
+  }
+  assert.equal(inventory.evaluatorIntegration.readerUsedByReviewOnlyEvaluator, true);
+  assert.equal(inventory.evaluatorIntegration.evaluatorStillReviewOnly, true);
+  assert.equal(inventory.evaluatorIntegration.evaluatorCanProduceGrant, false);
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.stdout, "");
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.ok(inventory.forbiddenBehavior.includes("approval-grant-produced"));
+  assert.ok(inventory.forbiddenBehavior.includes("approval-prerequisite-reader-cli-command"));
+  assert.ok(inventory.forbiddenBehavior.includes("runtime-executed"));
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-19-approval-prerequisite-reader-hardening.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.safetyPosture, {
+    approvalPrerequisiteReaderHardeningRecorded: true,
+    readerReviewOnly: true,
+    readerAuthoritative: false,
+    missingPrerequisiteRecordsRejected: true,
+    malformedPrerequisiteRecordsRejected: true,
+    revokedPrerequisiteRecordsRejected: true,
+    validPrerequisiteRecordsRecognizedForReviewOnly: true,
+    duplicatePrerequisiteRecordsRejected: true,
+    stalePrerequisiteRecordsRejected: true,
+    unknownPrerequisiteRecordsRejected: true,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase519ApprovalPrerequisiteReaderHardening, true);
+  assert.equal(report.safetyPosture.flags.phase519ReaderReviewOnly, true);
+  assert.equal(report.safetyPosture.flags.phase519ReaderAuthoritative, false);
+  assert.equal(report.safetyPosture.flags.phase519ApprovalGrantProduced, false);
+  assert.equal(report.safetyPosture.flags.phase519ApprovalGrantPersisted, false);
+  assert.equal(report.safetyPosture.flags.phase519RuntimeEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase519RuntimeCommandEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase519RuntimeCommandExposureEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase519RuntimeExecutionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase519RuntimeExecuted, false);
+  assert.equal(report.safetyPosture.flags.phase519ProcessSpawnEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase519RuntimeSupervisionEnabled, false);
+  assert.equal(report.safetyPosture.flags.phase519WebSocketHttpSurfaceEnabled, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -11089,6 +11337,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase516RuntimeEnableReadinessCheckpoint, true);
   assert.equal(report.safetyPosture.phase517GuardedRuntimeImplementationPlan, true);
   assert.equal(report.safetyPosture.phase518ReviewOnlyApprovalEvaluatorSkeleton, true);
+  assert.equal(report.safetyPosture.phase519ApprovalPrerequisiteReaderHardening, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -11712,7 +11961,17 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     externalCiRan: false
   };
 
-  assert.deepEqual(report.safetyPosture.flags, expectedFlags);
+  const comparableFlags = { ...report.safetyPosture.flags };
+  for (const flagName of phase519SafetyFlagNames) {
+    delete comparableFlags[flagName];
+  }
+  assert.deepEqual(comparableFlags, expectedFlags);
+  for (const flagName of phase519ExpectedTrueSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], true);
+  }
+  for (const flagName of phase519ExpectedFalseSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], false);
+  }
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

@@ -111,6 +111,10 @@ export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_SCHEMA:
 export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_VERSION: "0.1.0";
 export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_KIND:
   "review-only-runtime-approval-evaluator";
+export const APPROVAL_PREREQUISITE_READER_SCHEMA:
+  "ardyn.phase-5.19.approval-prerequisite-reader-result";
+export const APPROVAL_PREREQUISITE_READER_VERSION: "0.1.0";
+export const APPROVAL_PREREQUISITE_READER_KIND: "approval-prerequisite-reader";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1351,8 +1355,19 @@ export interface HostPolicyReviewRecordComparison {
 export type ReviewOnlyApprovalPrerequisiteStatus =
   | "missing"
   | "invalid"
+  | "malformed"
   | "revoked"
+  | "duplicate"
+  | "stale"
   | "valid";
+export type ApprovalPrerequisiteReaderClassification =
+  | "missing_prerequisite_record_rejected"
+  | "malformed_prerequisite_record_rejected"
+  | "revoked_prerequisite_record_rejected"
+  | "valid_prerequisite_records_review_only_runtime_still_blocked"
+  | "duplicate_prerequisite_record_rejected"
+  | "stale_prerequisite_record_rejected"
+  | "unknown_prerequisite_record_rejected";
 export type ReviewOnlyApprovalEvaluatorClassification =
   | "missing_prerequisite_record_rejected"
   | "invalid_prerequisite_record_rejected"
@@ -1364,7 +1379,94 @@ export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   present: boolean;
   valid: boolean;
   revoked: boolean;
+  stale?: boolean;
+  duplicate?: boolean;
+  malformed?: boolean;
+  sourceIndexes?: number[];
+  recordIds?: string[];
   rejectionReasons: string[];
+}
+
+export interface ApprovalPrerequisiteReaderRecordStatus
+  extends ReviewOnlyApprovalPrerequisiteRecordStatus {
+  expectedRecord: "runtimeApprovalRecord" | "commandExposureApprovalRecord";
+  status:
+    | "missing"
+    | "malformed"
+    | "revoked"
+    | "duplicate"
+    | "stale"
+    | "valid";
+  stale: boolean;
+  duplicate: boolean;
+  malformed: boolean;
+  sourceIndexes: number[];
+  recordIds: string[];
+}
+
+export interface ApprovalPrerequisiteReaderFinding {
+  expectedRecord?: "runtimeApprovalRecord" | "commandExposureApprovalRecord";
+  recordId?: string | null;
+  recordIds?: string[];
+}
+
+export interface ApprovalPrerequisiteReaderUnknownRecord {
+  index: number;
+  schema: string | null;
+  recordKind: string | null;
+  reason: "unknown_prerequisite_record";
+}
+
+export interface ApprovalPrerequisiteReaderResult {
+  schema: "ardyn.phase-5.19.approval-prerequisite-reader-result";
+  schemaVersion: "0.1.0";
+  readerKind: "approval-prerequisite-reader";
+  readerMode: "review-only";
+  reviewedAt: string;
+  classification: ApprovalPrerequisiteReaderClassification;
+  prerequisiteSignalRecognized: boolean;
+  reviewOnly: true;
+  authoritative: false;
+  recordCounts: {
+    total: number;
+    known: number;
+    unknown: number;
+    malformed: number;
+    duplicate: number;
+    stale: number;
+    revoked: number;
+    valid: number;
+    missing: number;
+  };
+  prerequisiteRecords: {
+    runtimeApprovalRecord: ApprovalPrerequisiteReaderRecordStatus;
+    commandExposureApprovalRecord: ApprovalPrerequisiteReaderRecordStatus;
+  };
+  unknownRecords: ApprovalPrerequisiteReaderUnknownRecord[];
+  malformedRecords: ApprovalPrerequisiteReaderFinding[];
+  duplicateRecords: ApprovalPrerequisiteReaderFinding[];
+  staleRecords: ApprovalPrerequisiteReaderFinding[];
+  revokedRecords: ApprovalPrerequisiteReaderFinding[];
+  rejectionReasons: string[];
+  approvalGrant: {
+    produced: false;
+    persisted: false;
+    grantId: null;
+    schema: "ardyn.runtime-approval-grant";
+    schemaVersion: "not-implemented";
+  };
+  runtimeEffect: {
+    runtimeEnabled: false;
+    runtimeStarted: false;
+    runtimeReady: false;
+    runtimeCommandEnabled: false;
+    runtimeCommandExposureEnabled: false;
+    runtimeExecutionEnabled: false;
+    runtimeExecuted: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    approvalEvaluatorAuthoritative: false;
+  };
 }
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
@@ -1376,6 +1478,7 @@ export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   prerequisiteSignalRecognized: boolean;
   reviewOnly: true;
   authoritative: false;
+  approvalPrerequisiteReader: ApprovalPrerequisiteReaderResult;
   prerequisiteRecords: {
     runtimeApprovalRecord: ReviewOnlyApprovalPrerequisiteRecordStatus;
     commandExposureApprovalRecord: ReviewOnlyApprovalPrerequisiteRecordStatus;
@@ -1594,7 +1697,15 @@ export function formatFailureAuditRecordJsonForReview(options?: {
   killInterruptTimeoutSemantics?: Record<string, unknown>;
   failureReasons?: string[];
 }): string;
+export function readApprovalPrerequisiteRecordsForReview(input?: {
+  reviewedAt?: string;
+  prerequisiteRecords?: unknown[];
+  runtimeApprovalRecord?: unknown;
+  commandExposureApprovalRecord?: unknown;
+}): ApprovalPrerequisiteReaderResult;
 export function evaluateRuntimeApprovalPrerequisitesForReview(input?: {
+  reviewedAt?: string;
+  prerequisiteRecords?: unknown[];
   runtimeApprovalRecord?: unknown;
   commandExposureApprovalRecord?: unknown;
 }): ReviewOnlyRuntimeApprovalEvaluatorResult;

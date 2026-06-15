@@ -507,10 +507,10 @@ test("Phase 4.1F status report inventories checkpoint without running checks", a
   const inventory = report.phase41FRuntimeReadinessCheckpointInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.18",
-    name: "Review-only approval evaluator skeleton",
+    id: "5.19",
+    name: "Approval prerequisite reader hardening",
     executionPosture:
-      "review-only-approval-evaluator-skeleton runtime-disabled no-runtime-execution"
+      "approval-prerequisite-reader-hardening runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

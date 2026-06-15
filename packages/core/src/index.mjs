@@ -90,6 +90,10 @@ export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_SCHEMA =
 export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_VERSION = "0.1.0";
 export const REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_KIND =
   "review-only-runtime-approval-evaluator";
+export const APPROVAL_PREREQUISITE_READER_SCHEMA =
+  "ardyn.phase-5.19.approval-prerequisite-reader-result";
+export const APPROVAL_PREREQUISITE_READER_VERSION = "0.1.0";
+export const APPROVAL_PREREQUISITE_READER_KIND = "approval-prerequisite-reader";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -5091,12 +5095,97 @@ const REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE = Object.freeze({
   approvalEvaluatorAuthoritative: false
 });
 
-function recordRuntimeEffectClaims(record) {
-  if (!isPlainObjectRecord(record?.runtimeEffect)) {
+const APPROVAL_PREREQUISITE_READER_DEFAULT_REVIEWED_AT =
+  "1970-01-01T00:00:00.000Z";
+
+const APPROVAL_PREREQUISITE_RECORD_EXPECTATIONS = Object.freeze([
+  Object.freeze({
+    key: "runtimeApprovalRecord",
+    label: "runtime_approval_record",
+    schema: "ardyn.runtime-approval-record",
+    recordKind: "runtime-approval-record",
+    runtimeEffectFalseFields: Object.freeze([
+      "currentRecordEnablesRuntime",
+      "runtimeStarts",
+      "runtimeEnabled",
+      "runtimeCommandEnabled",
+      "runtimeExecutionEnabled",
+      "approvalGrantCreated"
+    ]),
+    commandExposureEffectFalseFields: Object.freeze([])
+  }),
+  Object.freeze({
+    key: "commandExposureApprovalRecord",
+    label: "command_exposure_approval_record",
+    schema: "ardyn.runtime-command-exposure-approval-record",
+    recordKind: "runtime-command-exposure-approval-record",
+    runtimeEffectFalseFields: Object.freeze([
+      "currentRecordEnablesRuntime",
+      "runtimeStarts",
+      "runtimeEnabled",
+      "runtimeCommandEnabled",
+      "runtimeExecutionEnabled",
+      "approvalGrantCreated"
+    ]),
+    commandExposureEffectFalseFields: Object.freeze([
+      "currentRecordExposesUserRuntimeCommand",
+      "currentRecordEnablesRuntimeCommand",
+      "currentRecordExposesRuntimeExecution",
+      "additionalRuntimeCommandsRecognized",
+      "commandAliasCreated"
+    ])
+  })
+]);
+
+const APPROVAL_READER_CLASSIFICATION_BY_STATUS = Object.freeze({
+  missing: "missing_prerequisite_record_rejected",
+  malformed: "malformed_prerequisite_record_rejected",
+  revoked: "revoked_prerequisite_record_rejected",
+  duplicate: "duplicate_prerequisite_record_rejected",
+  stale: "stale_prerequisite_record_rejected"
+});
+
+const EVALUATOR_CLASSIFICATION_BY_READER_CLASSIFICATION = Object.freeze({
+  missing_prerequisite_record_rejected: "missing_prerequisite_record_rejected",
+  malformed_prerequisite_record_rejected: "invalid_prerequisite_record_rejected",
+  duplicate_prerequisite_record_rejected: "invalid_prerequisite_record_rejected",
+  stale_prerequisite_record_rejected: "invalid_prerequisite_record_rejected",
+  unknown_prerequisite_record_rejected: "invalid_prerequisite_record_rejected",
+  revoked_prerequisite_record_rejected: "revoked_prerequisite_record_rejected",
+  valid_prerequisite_records_review_only_runtime_still_blocked:
+    "valid_prerequisites_review_only_runtime_still_blocked"
+});
+
+function approvalPrerequisiteEffectMalformed(record, effectKey, requiredFalseFields) {
+  const effect = record?.[effectKey];
+  if (effect == null) {
+    return requiredFalseFields.length > 0;
+  }
+
+  if (!isPlainObjectRecord(effect)) {
     return true;
   }
 
-  return Object.values(record.runtimeEffect).some((value) => value !== false);
+  return [
+    requiredFalseFields.some((field) => effect[field] !== false),
+    Object.values(effect).some((value) => value !== false)
+  ].some(Boolean);
+}
+
+function recordRuntimeEffectClaims(record, expected) {
+  return approvalPrerequisiteEffectMalformed(
+    record,
+    "runtimeEffect",
+    expected.runtimeEffectFalseFields
+  );
+}
+
+function recordCommandExposureEffectClaims(record, expected) {
+  return approvalPrerequisiteEffectMalformed(
+    record,
+    "commandExposureEffect",
+    expected.commandExposureEffectFalseFields
+  );
 }
 
 function approvalPrerequisiteRecordInvalid(record, expected) {
@@ -5110,7 +5199,14 @@ function approvalPrerequisiteRecordInvalid(record, expected) {
   return (
     !isPlainObjectRecord(record) ||
     expectedFields.some(([field, value]) => record[field] !== value) ||
-    recordRuntimeEffectClaims(record)
+    recordRuntimeEffectClaims(record, expected)
+  );
+}
+
+function approvalPrerequisiteRecordMalformed(record, expected) {
+  return (
+    approvalPrerequisiteRecordInvalid(record, expected) ||
+    recordCommandExposureEffectClaims(record, expected)
   );
 }
 
@@ -5118,45 +5214,126 @@ function approvalPrerequisiteRecordRevoked(record) {
   return !isPlainObjectRecord(record?.revocation) || record.revocation.revoked === true;
 }
 
+function approvalPrerequisiteTimestampAtOrBefore(value, boundary) {
+  return typeof value === "string" && value <= boundary;
+}
+
+function approvalPrerequisiteTimestampAfter(value, boundary) {
+  return typeof value === "string" && value > boundary;
+}
+
+function approvalPrerequisiteRecordStale(record, reviewedAt) {
+  const validity = record?.validity;
+  if (!isPlainObjectRecord(validity)) {
+    return false;
+  }
+
+  return [
+    validity.validAtEvaluation === false,
+    approvalPrerequisiteTimestampAtOrBefore(validity.expiresAt, reviewedAt),
+    approvalPrerequisiteTimestampAfter(validity.notBefore, reviewedAt)
+  ].some(Boolean);
+}
+
 const APPROVAL_PREREQUISITE_RECORD_STATUS = Object.freeze({
   missing: Object.freeze({
     present: false,
     valid: false,
     revoked: false,
+    stale: false,
+    duplicate: false,
+    malformed: false,
     reason: "missing"
   }),
-  invalid: Object.freeze({
+  malformed: Object.freeze({
     present: true,
     valid: false,
     revoked: false,
-    reason: "invalid"
+    stale: false,
+    duplicate: false,
+    malformed: true,
+    reason: "malformed"
   }),
   revoked: Object.freeze({
     present: true,
     valid: false,
     revoked: true,
+    stale: false,
+    duplicate: false,
+    malformed: false,
     reason: "revoked"
+  }),
+  duplicate: Object.freeze({
+    present: true,
+    valid: false,
+    revoked: false,
+    stale: false,
+    duplicate: true,
+    malformed: false,
+    reason: "duplicate"
+  }),
+  stale: Object.freeze({
+    present: true,
+    valid: false,
+    revoked: false,
+    stale: true,
+    duplicate: false,
+    malformed: false,
+    reason: "stale"
   }),
   valid: Object.freeze({
     present: true,
     valid: true,
     revoked: false,
+    stale: false,
+    duplicate: false,
+    malformed: false,
     reason: null
   })
 });
 
-function approvalPrerequisiteRecordStatus(record, expected) {
+function approvalPrerequisiteRecordStatus(record, expected, reviewedAt) {
   const statusChecks = [
     ["missing", record == null],
-    ["invalid", approvalPrerequisiteRecordInvalid(record, expected)],
-    ["revoked", approvalPrerequisiteRecordRevoked(record)]
+    ["malformed", approvalPrerequisiteRecordMalformed(record, expected)],
+    ["revoked", approvalPrerequisiteRecordRevoked(record)],
+    ["stale", approvalPrerequisiteRecordStale(record, reviewedAt)]
   ];
 
   return statusChecks.find(([, matches]) => matches)?.[0] ?? "valid";
 }
 
-function classifyApprovalPrerequisiteRecord(record, expected) {
-  const status = approvalPrerequisiteRecordStatus(record, expected);
+function approvalPrerequisiteRecordId(record, fallback) {
+  return isPlainObjectRecord(record) && typeof record.recordId === "string"
+    ? record.recordId
+    : fallback;
+}
+
+function approvalPrerequisiteRecordSourceIndex(source, fallback) {
+  return Number.isInteger(source.index) ? source.index : fallback;
+}
+
+function approvalPrerequisiteRecordStringField(record, field) {
+  if (!isPlainObjectRecord(record)) {
+    return null;
+  }
+
+  const value = record[field];
+  return typeof value === "string" ? value : null;
+}
+
+function approvalPrerequisiteUnknownRecord(source, fallback) {
+  const record = source.record;
+  return {
+    index: approvalPrerequisiteRecordSourceIndex(source, fallback),
+    schema: approvalPrerequisiteRecordStringField(record, "schema"),
+    recordKind: approvalPrerequisiteRecordStringField(record, "recordKind"),
+    reason: "unknown_prerequisite_record"
+  };
+}
+
+function classifyApprovalPrerequisiteRecord(record, expected, reviewedAt) {
+  const status = approvalPrerequisiteRecordStatus(record, expected, reviewedAt);
   const details = APPROVAL_PREREQUISITE_RECORD_STATUS[status];
   const rejectionReasons =
     details.reason == null ? [] : [`${expected.label}_${details.reason}`];
@@ -5165,48 +5342,242 @@ function classifyApprovalPrerequisiteRecord(record, expected) {
     present: details.present,
     valid: details.valid,
     revoked: details.revoked,
+    stale: details.stale,
+    duplicate: details.duplicate,
+    malformed: details.malformed,
+    sourceIndexes: [],
+    recordIds: record == null ? [] : [approvalPrerequisiteRecordId(record, null)].filter(Boolean),
     rejectionReasons
   };
 }
 
-function evaluatorClassification(runtimeRecord, commandRecord) {
-  const statuses = [runtimeRecord.status, commandRecord.status];
-  const blockingStatus = ["missing", "invalid", "revoked"].find((status) =>
-    statuses.includes(status)
-  );
-  const classifications = {
-    missing: "missing_prerequisite_record_rejected",
-    invalid: "invalid_prerequisite_record_rejected",
-    revoked: "revoked_prerequisite_record_rejected"
-  };
+function approvalPrerequisiteListRecords(input) {
+  const records = isPlainObjectRecord(input) ? input.prerequisiteRecords : null;
+  return Array.isArray(records) ? records : [];
+}
+
+function approvalPrerequisiteSourceForExpected(input, expected) {
+  if (!isPlainObjectRecord(input) || !Object.hasOwn(input, expected.key)) {
+    return null;
+  }
+
+  return { record: input[expected.key], index: null, expected };
+}
+
+function approvalPrerequisiteSources(input) {
+  const listSources = approvalPrerequisiteListRecords(input).map((record, index) => ({
+    record,
+    index,
+    expected: null
+  }));
+  const keyedSources = APPROVAL_PREREQUISITE_RECORD_EXPECTATIONS.map((expected) =>
+    approvalPrerequisiteSourceForExpected(input, expected)
+  ).filter(Boolean);
+  return [...listSources, ...keyedSources];
+}
+
+function expectedApprovalPrerequisiteRecord(record) {
+  if (!isPlainObjectRecord(record)) {
+    return null;
+  }
 
   return (
-    classifications[blockingStatus] ??
-    "valid_prerequisites_review_only_runtime_still_blocked"
+    APPROVAL_PREREQUISITE_RECORD_EXPECTATIONS.find(
+      (expected) =>
+        record.schema === expected.schema || record.recordKind === expected.recordKind
+    ) ?? null
   );
 }
 
-export function evaluateRuntimeApprovalPrerequisitesForReview(input = {}) {
-  const runtimeApprovalRecord = classifyApprovalPrerequisiteRecord(input.runtimeApprovalRecord, {
-    label: "runtime_approval_record",
-    schema: "ardyn.runtime-approval-record",
-    recordKind: "runtime-approval-record"
-  });
-  const commandExposureApprovalRecord = classifyApprovalPrerequisiteRecord(
-    input.commandExposureApprovalRecord,
-    {
-      label: "command_exposure_approval_record",
-      schema: "ardyn.runtime-command-exposure-approval-record",
-      recordKind: "runtime-command-exposure-approval-record"
+function emptyApprovalPrerequisiteBuckets() {
+  return Object.fromEntries(
+    APPROVAL_PREREQUISITE_RECORD_EXPECTATIONS.map((expected) => [expected.key, []])
+  );
+}
+
+function approvalPrerequisiteBuckets(input) {
+  const buckets = emptyApprovalPrerequisiteBuckets();
+  const unknownRecords = [];
+
+  approvalPrerequisiteSources(input).forEach((source, fallbackIndex) => {
+    const expected = source.expected ?? expectedApprovalPrerequisiteRecord(source.record);
+    if (expected == null) {
+      unknownRecords.push(approvalPrerequisiteUnknownRecord(source, fallbackIndex));
+      return;
     }
+
+    buckets[expected.key].push({ ...source, expected, fallbackIndex });
+  });
+
+  return { buckets, unknownRecords };
+}
+
+function duplicateApprovalPrerequisiteRecordStatus(records, expected) {
+  return {
+    status: "duplicate",
+    present: true,
+    valid: false,
+    revoked: false,
+    stale: false,
+    duplicate: true,
+    malformed: false,
+    sourceIndexes: records.map((record, index) =>
+      approvalPrerequisiteRecordSourceIndex(record, index)
+    ),
+    recordIds: records.map((record, index) =>
+      approvalPrerequisiteRecordId(record.record, `${expected.key}-${index}`)
+    ),
+    rejectionReasons: [`${expected.label}_duplicate`]
+  };
+}
+
+function readExpectedApprovalPrerequisiteRecord(records, expected, reviewedAt) {
+  if (records.length === 0) {
+    return classifyApprovalPrerequisiteRecord(null, expected, reviewedAt);
+  }
+
+  if (records.length > 1) {
+    return duplicateApprovalPrerequisiteRecordStatus(records, expected);
+  }
+
+  const [source] = records;
+  return {
+    ...classifyApprovalPrerequisiteRecord(source.record, expected, reviewedAt),
+    sourceIndexes: [approvalPrerequisiteRecordSourceIndex(source, source.fallbackIndex)],
+    recordIds: [approvalPrerequisiteRecordId(source.record, expected.key)]
+  };
+}
+
+function approvalPrerequisiteReaderClassification(recordStatuses, unknownRecords) {
+  if (unknownRecords.length > 0) {
+    return "unknown_prerequisite_record_rejected";
+  }
+
+  const statuses = recordStatuses.map((record) => record.status);
+  const blockingStatus = ["duplicate", "malformed", "stale", "revoked", "missing"].find(
+    (status) => statuses.includes(status)
   );
-  const classification = evaluatorClassification(
-    runtimeApprovalRecord,
-    commandExposureApprovalRecord
+
+  return (
+    APPROVAL_READER_CLASSIFICATION_BY_STATUS[blockingStatus] ??
+    "valid_prerequisite_records_review_only_runtime_still_blocked"
   );
+}
+
+function approvalPrerequisiteReaderCounts(records, unknownRecords) {
+  const statuses = records.map((record) => record.status);
+  const countStatus = (status) => statuses.filter((entry) => entry === status).length;
+  return {
+    total:
+      records.reduce((count, record) => count + record.recordIds.length, 0) +
+      unknownRecords.length,
+    known: records.reduce((count, record) => count + record.recordIds.length, 0),
+    unknown: unknownRecords.length,
+    malformed: countStatus("malformed"),
+    duplicate: countStatus("duplicate"),
+    stale: countStatus("stale"),
+    revoked: countStatus("revoked"),
+    valid: countStatus("valid"),
+    missing: countStatus("missing")
+  };
+}
+
+function approvalPrerequisiteEvidence(records, status) {
+  return records
+    .filter((record) => record.status === status)
+    .map((record) => ({
+      expectedRecord: record.expectedRecord,
+      recordId: record.recordIds[0] ?? null,
+      recordIds: record.recordIds
+    }));
+}
+
+function approvalPrerequisiteRejectionReasons(records, unknownRecords) {
+  return [
+    ...records.flatMap((record) => record.rejectionReasons),
+    ...unknownRecords.map((record) => record.reason),
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+export function readApprovalPrerequisiteRecordsForReview(input = {}) {
+  const reviewedAt =
+    typeof input.reviewedAt === "string"
+      ? input.reviewedAt
+      : APPROVAL_PREREQUISITE_READER_DEFAULT_REVIEWED_AT;
+  const { buckets, unknownRecords } = approvalPrerequisiteBuckets(input);
+  const recordEntries = APPROVAL_PREREQUISITE_RECORD_EXPECTATIONS.map((expected) => [
+    expected.key,
+    {
+      expectedRecord: expected.key,
+      ...readExpectedApprovalPrerequisiteRecord(buckets[expected.key], expected, reviewedAt)
+    }
+  ]);
+  const prerequisiteRecords = Object.fromEntries(recordEntries);
+  const records = Object.values(prerequisiteRecords);
+  const classification = approvalPrerequisiteReaderClassification(records, unknownRecords);
   const prerequisiteSignalRecognized =
-    runtimeApprovalRecord.status === "valid" &&
-    commandExposureApprovalRecord.status === "valid";
+    classification === "valid_prerequisite_records_review_only_runtime_still_blocked";
+
+  return {
+    schema: APPROVAL_PREREQUISITE_READER_SCHEMA,
+    schemaVersion: APPROVAL_PREREQUISITE_READER_VERSION,
+    readerKind: APPROVAL_PREREQUISITE_READER_KIND,
+    readerMode: "review-only",
+    reviewedAt,
+    classification,
+    prerequisiteSignalRecognized,
+    reviewOnly: true,
+    authoritative: false,
+    recordCounts: approvalPrerequisiteReaderCounts(records, unknownRecords),
+    prerequisiteRecords,
+    unknownRecords,
+    malformedRecords: approvalPrerequisiteEvidence(records, "malformed"),
+    duplicateRecords: approvalPrerequisiteEvidence(records, "duplicate"),
+    staleRecords: approvalPrerequisiteEvidence(records, "stale"),
+    revokedRecords: approvalPrerequisiteEvidence(records, "revoked"),
+    rejectionReasons: approvalPrerequisiteRejectionReasons(records, unknownRecords),
+    approvalGrant: {
+      produced: false,
+      persisted: false,
+      grantId: null,
+      schema: "ardyn.runtime-approval-grant",
+      schemaVersion: "not-implemented"
+    },
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function evaluatorPrerequisiteRecordStatus(readerRecord) {
+  const status =
+    {
+      malformed: "invalid",
+      duplicate: "invalid",
+      stale: "invalid"
+    }[readerRecord.status] ?? readerRecord.status;
+
+  return {
+    status,
+    present: readerRecord.present,
+    valid: readerRecord.valid,
+    revoked: readerRecord.revoked,
+    rejectionReasons: readerRecord.rejectionReasons
+  };
+}
+
+export function evaluateRuntimeApprovalPrerequisitesForReview(input = {}) {
+  const approvalPrerequisiteReader = readApprovalPrerequisiteRecordsForReview(input);
+  const runtimeApprovalRecord = evaluatorPrerequisiteRecordStatus(
+    approvalPrerequisiteReader.prerequisiteRecords.runtimeApprovalRecord
+  );
+  const commandExposureApprovalRecord = evaluatorPrerequisiteRecordStatus(
+    approvalPrerequisiteReader.prerequisiteRecords.commandExposureApprovalRecord
+  );
+  const classification =
+    EVALUATOR_CLASSIFICATION_BY_READER_CLASSIFICATION[
+      approvalPrerequisiteReader.classification
+    ];
 
   return {
     schema: REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_SCHEMA,
@@ -5214,19 +5585,16 @@ export function evaluateRuntimeApprovalPrerequisitesForReview(input = {}) {
     evaluatorKind: REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_KIND,
     evaluationMode: "review-only",
     classification,
-    prerequisiteSignalRecognized,
+    prerequisiteSignalRecognized:
+      approvalPrerequisiteReader.prerequisiteSignalRecognized,
     reviewOnly: true,
     authoritative: false,
+    approvalPrerequisiteReader,
     prerequisiteRecords: {
       runtimeApprovalRecord,
       commandExposureApprovalRecord
     },
-    rejectionReasons: [
-      ...runtimeApprovalRecord.rejectionReasons,
-      ...commandExposureApprovalRecord.rejectionReasons,
-      "approval_grant_not_implemented",
-      "runtime_enablement_still_blocked"
-    ],
+    rejectionReasons: approvalPrerequisiteReader.rejectionReasons,
     approvalGrant: {
       produced: false,
       persisted: false,
