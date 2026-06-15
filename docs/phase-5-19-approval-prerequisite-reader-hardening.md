@@ -78,11 +78,12 @@ runtime block.
 
 ## Handoff
 
-Phase 5.19 creates a deterministic prerequisite reader only. A future phase may
-harden approval-reader source inputs or add preflight record ingestion, but any
-such phase must still keep runtime unavailable until a separate reviewed grant
-and runtime enablement boundary exists.
+Phase 5.19 creates a deterministic prerequisite reader only. Phase 5.20 adds
+source-ingestion preflight for caller-provided in-memory prerequisite sources
+while still keeping runtime unavailable. Any later source-selection or
+runtime-enablement phase must still keep runtime unavailable until a separate
+reviewed grant and runtime enablement boundary exists.
 
-Recommended next slice:
+Next source-ingestion preflight doc:
 
 `phase-5.20-approval-prerequisite-source-ingestion-preflight`

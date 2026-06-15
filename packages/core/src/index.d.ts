@@ -115,6 +115,11 @@ export const APPROVAL_PREREQUISITE_READER_SCHEMA:
   "ardyn.phase-5.19.approval-prerequisite-reader-result";
 export const APPROVAL_PREREQUISITE_READER_VERSION: "0.1.0";
 export const APPROVAL_PREREQUISITE_READER_KIND: "approval-prerequisite-reader";
+export const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_SCHEMA:
+  "ardyn.phase-5.20.approval-prerequisite-source-preflight-result";
+export const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_VERSION: "0.1.0";
+export const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_KIND:
+  "approval-prerequisite-source-ingestion-preflight";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1373,6 +1378,15 @@ export type ReviewOnlyApprovalEvaluatorClassification =
   | "invalid_prerequisite_record_rejected"
   | "revoked_prerequisite_record_rejected"
   | "valid_prerequisites_review_only_runtime_still_blocked";
+export type ApprovalPrerequisiteSourcePreflightClassification =
+  | "missing_prerequisite_source_input_rejected"
+  | "malformed_prerequisite_source_input_rejected"
+  | "empty_prerequisite_source_input_rejected"
+  | "duplicate_prerequisite_source_input_rejected"
+  | "stale_prerequisite_source_input_rejected"
+  | "unknown_prerequisite_source_input_rejected"
+  | "revoked_prerequisite_source_input_rejected"
+  | "valid_prerequisite_source_input_review_only_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -1447,6 +1461,64 @@ export interface ApprovalPrerequisiteReaderResult {
   duplicateRecords: ApprovalPrerequisiteReaderFinding[];
   staleRecords: ApprovalPrerequisiteReaderFinding[];
   revokedRecords: ApprovalPrerequisiteReaderFinding[];
+  rejectionReasons: string[];
+  approvalGrant: {
+    produced: false;
+    persisted: false;
+    grantId: null;
+    schema: "ardyn.runtime-approval-grant";
+    schemaVersion: "not-implemented";
+  };
+  runtimeEffect: {
+    runtimeEnabled: false;
+    runtimeStarted: false;
+    runtimeReady: false;
+    runtimeCommandEnabled: false;
+    runtimeCommandExposureEnabled: false;
+    runtimeExecutionEnabled: false;
+    runtimeExecuted: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    approvalEvaluatorAuthoritative: false;
+  };
+}
+
+export interface ApprovalPrerequisiteSourcePreflightSourceReport {
+  index: number;
+  sourceId: string | null;
+  sourceKind: unknown;
+  sourceMode: unknown;
+  malformed: boolean;
+  empty: boolean;
+  duplicate: boolean;
+  recordCount: number;
+}
+
+export interface ApprovalPrerequisiteSourcePreflightResult {
+  schema: "ardyn.phase-5.20.approval-prerequisite-source-preflight-result";
+  schemaVersion: "0.1.0";
+  preflightKind: "approval-prerequisite-source-ingestion-preflight";
+  preflightMode: "review-only";
+  reviewedAt: string;
+  classification: ApprovalPrerequisiteSourcePreflightClassification;
+  sourceInputsAccepted: boolean;
+  readerInputForwarded: boolean;
+  reviewOnly: true;
+  authoritative: false;
+  sourceInputCounts: {
+    total: number;
+    malformed: number;
+    empty: number;
+    duplicate: number;
+    accepted: number;
+    rejected: number;
+  };
+  sourceInputs: ApprovalPrerequisiteSourcePreflightSourceReport[];
+  acceptedReaderInput: {
+    reviewedAt: string;
+    prerequisiteRecords: unknown[];
+  } | null;
+  approvalPrerequisiteReader: ApprovalPrerequisiteReaderResult | null;
   rejectionReasons: string[];
   approvalGrant: {
     produced: false;
@@ -1709,6 +1781,10 @@ export function evaluateRuntimeApprovalPrerequisitesForReview(input?: {
   runtimeApprovalRecord?: unknown;
   commandExposureApprovalRecord?: unknown;
 }): ReviewOnlyRuntimeApprovalEvaluatorResult;
+export function preflightApprovalPrerequisiteSourcesForReview(input?: {
+  reviewedAt?: string;
+  sourceInputs?: unknown[];
+}): ApprovalPrerequisiteSourcePreflightResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

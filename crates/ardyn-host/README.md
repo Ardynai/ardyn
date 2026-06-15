@@ -172,6 +172,14 @@ behavior, changes no Rust or CLI source, and records missing, malformed,
 revoked, valid, duplicate, stale, and unknown prerequisite records as review
 metadata only. See
 `docs/phase-5-19-approval-prerequisite-reader-hardening.md`.
+Phase 5.20 records approval prerequisite source ingestion preflight in
+TypeScript core only. It keeps `stdio_runtime` private, grants no approval,
+produces no approval grant, implements no source watcher, external lookup,
+secrets/env ingestion, authoritative evaluator, or runtime behavior, changes no
+Rust or CLI source, and records missing, malformed, empty, duplicate, stale,
+unknown, revoked, and valid in-memory source inputs as review metadata only.
+See
+`docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -505,6 +513,19 @@ adapter/Fabric behavior, or WebSocket/HTTP surface is implemented. Runtime
 remains disabled, `stdio_runtime` remains private, and no Rust source changes
 are made. See
 `docs/phase-5-19-approval-prerequisite-reader-hardening.md`.
+
+Phase 5.20 adds no Rust-host runtime implementation. It records a
+machine-readable approval prerequisite source ingestion preflight layer in
+TypeScript core and keeps the Rust host private and fail-closed. No filesystem
+watcher, external source lookup, secrets/env ingestion, authoritative approval
+evaluator, approval grant, host-policy runtime enforcement, runtime I/O,
+process control, rollback/kill-switch behavior, positive runtime smoke
+execution, runtime entrypoint, live stdin loop, runtime stdout/stderr writer,
+process spawning, process supervision, runtime transcript/audit write,
+adapter/Fabric behavior, or WebSocket/HTTP surface is implemented. Runtime
+remains disabled, `stdio_runtime` remains private, and no Rust source changes
+are made. See
+`docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

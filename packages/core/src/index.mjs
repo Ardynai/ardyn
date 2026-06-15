@@ -94,6 +94,11 @@ export const APPROVAL_PREREQUISITE_READER_SCHEMA =
   "ardyn.phase-5.19.approval-prerequisite-reader-result";
 export const APPROVAL_PREREQUISITE_READER_VERSION = "0.1.0";
 export const APPROVAL_PREREQUISITE_READER_KIND = "approval-prerequisite-reader";
+export const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_SCHEMA =
+  "ardyn.phase-5.20.approval-prerequisite-source-preflight-result";
+export const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_VERSION = "0.1.0";
+export const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_KIND =
+  "approval-prerequisite-source-ingestion-preflight";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -5604,6 +5609,294 @@ export function evaluateRuntimeApprovalPrerequisitesForReview(input = {}) {
     },
     runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
   };
+}
+
+const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT =
+  APPROVAL_PREREQUISITE_READER_DEFAULT_REVIEWED_AT;
+
+const APPROVAL_PREREQUISITE_SOURCE_KIND = "inline-prerequisite-records";
+const APPROVAL_PREREQUISITE_SOURCE_MODE = "in-memory";
+
+const APPROVAL_PREREQUISITE_SOURCE_FORBIDDEN_FIELDS = Object.freeze([
+  "path",
+  "file",
+  "filePath",
+  "url",
+  "href",
+  "endpoint",
+  "env",
+  "envVar",
+  "secret",
+  "secrets",
+  "watch",
+  "watcher"
+]);
+
+const APPROVAL_PREREQUISITE_SOURCE_CLASSIFICATION_BY_READER = Object.freeze({
+  missing_prerequisite_record_rejected: "malformed_prerequisite_source_input_rejected",
+  malformed_prerequisite_record_rejected: "malformed_prerequisite_source_input_rejected",
+  duplicate_prerequisite_record_rejected: "duplicate_prerequisite_source_input_rejected",
+  stale_prerequisite_record_rejected: "stale_prerequisite_source_input_rejected",
+  unknown_prerequisite_record_rejected: "unknown_prerequisite_source_input_rejected",
+  revoked_prerequisite_record_rejected: "revoked_prerequisite_source_input_rejected",
+  valid_prerequisite_records_review_only_runtime_still_blocked:
+    "valid_prerequisite_source_input_review_only_runtime_still_blocked"
+});
+
+function approvalPrerequisiteSourceHasForbiddenDescriptor(source) {
+  return APPROVAL_PREREQUISITE_SOURCE_FORBIDDEN_FIELDS.some((field) =>
+    Object.hasOwn(source, field)
+  );
+}
+
+function approvalPrerequisiteSourceHasStringId(source) {
+  return typeof source.sourceId === "string" && source.sourceId.length > 0;
+}
+
+function approvalPrerequisiteSourceMalformed(source) {
+  if (!isPlainObjectRecord(source)) {
+    return true;
+  }
+
+  return [
+    !approvalPrerequisiteSourceHasStringId(source),
+    source.sourceKind !== APPROVAL_PREREQUISITE_SOURCE_KIND,
+    source.sourceMode !== APPROVAL_PREREQUISITE_SOURCE_MODE,
+    !Array.isArray(source.records),
+    approvalPrerequisiteSourceHasForbiddenDescriptor(source)
+  ].some(Boolean);
+}
+
+function approvalPrerequisiteSourceReports(sourceInputs) {
+  return sourceInputs.map((source, index) => {
+    const malformed = approvalPrerequisiteSourceMalformed(source);
+    const sourceId =
+      isPlainObjectRecord(source) && typeof source.sourceId === "string"
+        ? source.sourceId
+        : null;
+    const recordCount =
+      isPlainObjectRecord(source) && Array.isArray(source.records)
+        ? source.records.length
+        : 0;
+
+    return {
+      index,
+      sourceId,
+      sourceKind: isPlainObjectRecord(source) ? source.sourceKind ?? null : null,
+      sourceMode: isPlainObjectRecord(source) ? source.sourceMode ?? null : null,
+      malformed,
+      empty: !malformed && recordCount === 0,
+      duplicate: false,
+      recordCount
+    };
+  });
+}
+
+function markDuplicateApprovalPrerequisiteSources(sourceReports) {
+  const sourceIdCounts = sourceReports.reduce((counts, report) => {
+    if (report.sourceId != null) {
+      counts.set(report.sourceId, (counts.get(report.sourceId) ?? 0) + 1);
+    }
+
+    return counts;
+  }, new Map());
+
+  for (const report of sourceReports) {
+    report.duplicate = (sourceIdCounts.get(report.sourceId) ?? 0) > 1;
+  }
+}
+
+function sourcePreflightGrantBlocked() {
+  return {
+    produced: false,
+    persisted: false,
+    grantId: null,
+    schema: "ardyn.runtime-approval-grant",
+    schemaVersion: "not-implemented"
+  };
+}
+
+function sourcePreflightRejectionReasons(classification, sourceReports, readerResult) {
+  const sourceReasons =
+    {
+      missing_prerequisite_source_input_rejected: [
+        "missing_prerequisite_source_input"
+      ],
+      malformed_prerequisite_source_input_rejected: [
+        "malformed_prerequisite_source_input"
+      ],
+      empty_prerequisite_source_input_rejected: ["empty_prerequisite_source_input"],
+      duplicate_prerequisite_source_input_rejected: [
+        "duplicate_prerequisite_source_input"
+      ],
+      stale_prerequisite_source_input_rejected: ["stale_prerequisite_source_input"],
+      unknown_prerequisite_source_input_rejected: [
+        "unknown_prerequisite_source_input"
+      ],
+      revoked_prerequisite_source_input_rejected: [
+        "revoked_prerequisite_source_input"
+      ]
+    }[classification] ?? [];
+
+  const detailReasons = sourceReports.flatMap((report) => [
+    ...(report.malformed ? [`source_${report.index}_malformed`] : []),
+    ...(report.empty ? [`source_${report.index}_empty`] : []),
+    ...(report.duplicate ? [`source_${report.index}_duplicate`] : [])
+  ]);
+  const readerReasons = readerResult?.rejectionReasons ?? [];
+
+  return [
+    ...sourceReasons,
+    ...detailReasons,
+    ...readerReasons,
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function approvalPrerequisiteSourcePreflightResult({
+  reviewedAt,
+  classification,
+  sourceInputs,
+  sourceReports,
+  acceptedReaderInput,
+  approvalPrerequisiteReader
+}) {
+  const sourceInputsAccepted =
+    classification === "valid_prerequisite_source_input_review_only_runtime_still_blocked";
+  const forwardedReaderInput = sourceInputsAccepted ? acceptedReaderInput : null;
+  const forwardedReader = sourceInputsAccepted ? approvalPrerequisiteReader : null;
+  const sourceInputCounts = approvalPrerequisiteSourceInputCounts(
+    sourceInputs,
+    sourceReports,
+    sourceInputsAccepted
+  );
+
+  return {
+    schema: APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_SCHEMA,
+    schemaVersion: APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_VERSION,
+    preflightKind: APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_KIND,
+    preflightMode: "review-only",
+    reviewedAt,
+    classification,
+    sourceInputsAccepted,
+    readerInputForwarded: sourceInputsAccepted,
+    reviewOnly: true,
+    authoritative: false,
+    sourceInputCounts,
+    sourceInputs: sourceReports,
+    acceptedReaderInput: forwardedReaderInput,
+    approvalPrerequisiteReader: forwardedReader,
+    rejectionReasons: sourcePreflightRejectionReasons(
+      classification,
+      sourceReports,
+      approvalPrerequisiteReader
+    ),
+    approvalGrant: sourcePreflightGrantBlocked(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function approvalPrerequisiteSourceInputCounts(
+  sourceInputs,
+  sourceReports,
+  sourceInputsAccepted
+) {
+  return {
+    total: sourceInputs.length,
+    malformed: sourceReports.filter((report) => report.malformed).length,
+    empty: sourceReports.filter((report) => report.empty).length,
+    duplicate: sourceReports.filter((report) => report.duplicate).length,
+    accepted: sourceInputsAccepted ? sourceInputs.length : 0,
+    rejected: sourceInputsAccepted ? 0 : sourceInputs.length
+  };
+}
+
+function approvalPrerequisiteAcceptedReaderInput(sourceInputs, reviewedAt) {
+  return {
+    reviewedAt,
+    prerequisiteRecords: sourceInputs.flatMap((source) => source.records)
+  };
+}
+
+function approvalPrerequisiteSourceReviewedAt(input) {
+  return typeof input.reviewedAt === "string"
+    ? input.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function approvalPrerequisiteSourceInputArray(input) {
+  return Array.isArray(input.sourceInputs) ? input.sourceInputs : [];
+}
+
+function approvalPrerequisiteSourceBlockingClassification(sourceReports) {
+  return (
+    [
+      ["malformed_prerequisite_source_input_rejected", "malformed"],
+      ["empty_prerequisite_source_input_rejected", "empty"],
+      ["duplicate_prerequisite_source_input_rejected", "duplicate"]
+    ].find(([, field]) => sourceReports.some((report) => report[field]))?.[0] ??
+    null
+  );
+}
+
+function approvalPrerequisiteSourceReaderClassification(readerResult) {
+  return (
+    APPROVAL_PREREQUISITE_SOURCE_CLASSIFICATION_BY_READER[
+      readerResult.classification
+    ] ?? "malformed_prerequisite_source_input_rejected"
+  );
+}
+
+export function preflightApprovalPrerequisiteSourcesForReview(input = {}) {
+  const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const sourceInputs = approvalPrerequisiteSourceInputArray(input);
+
+  if (sourceInputs.length === 0) {
+    return approvalPrerequisiteSourcePreflightResult({
+      reviewedAt,
+      classification: "missing_prerequisite_source_input_rejected",
+      sourceInputs,
+      sourceReports: [],
+      acceptedReaderInput: null,
+      approvalPrerequisiteReader: null
+    });
+  }
+
+  const sourceReports = approvalPrerequisiteSourceReports(sourceInputs);
+  markDuplicateApprovalPrerequisiteSources(sourceReports);
+
+  const sourceBlockingClassification =
+    approvalPrerequisiteSourceBlockingClassification(sourceReports);
+
+  if (sourceBlockingClassification != null) {
+    return approvalPrerequisiteSourcePreflightResult({
+      reviewedAt,
+      classification: sourceBlockingClassification,
+      sourceInputs,
+      sourceReports,
+      acceptedReaderInput: null,
+      approvalPrerequisiteReader: null
+    });
+  }
+
+  const acceptedReaderInput = approvalPrerequisiteAcceptedReaderInput(
+    sourceInputs,
+    reviewedAt
+  );
+  const approvalPrerequisiteReader =
+    readApprovalPrerequisiteRecordsForReview(acceptedReaderInput);
+  const classification =
+    approvalPrerequisiteSourceReaderClassification(approvalPrerequisiteReader);
+
+  return approvalPrerequisiteSourcePreflightResult({
+    reviewedAt,
+    classification,
+    sourceInputs,
+    sourceReports,
+    acceptedReaderInput,
+    approvalPrerequisiteReader
+  });
 }
 
 export function createHostInfo() {

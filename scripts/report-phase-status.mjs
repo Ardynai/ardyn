@@ -166,6 +166,9 @@ const phase518ReviewOnlyApprovalEvaluatorSkeletonMetadata = await readJson(
 const phase519ApprovalPrerequisiteReaderHardeningMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-19/approval-prerequisite-reader-hardening.json"
 );
+const phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-20/approval-prerequisite-source-ingestion-preflight.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -213,10 +216,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.19",
-    name: "Approval prerequisite reader hardening",
+    id: "5.20",
+    name: "Approval prerequisite source ingestion preflight",
     executionPosture:
-      "approval-prerequisite-reader-hardening runtime-disabled no-runtime-execution"
+      "approval-prerequisite-source-ingestion-preflight runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -264,12 +267,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.19 approval prerequisite reader hardening status report.",
+        "Render this deterministic local Phase 5.20 approval prerequisite source ingestion preflight status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.19 status report.",
+      purpose: "Run focused tests for this local Phase 5.20 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-20-approval-prerequisite-source-ingestion-preflight.test.mjs",
+      purpose:
+        "Run focused Phase 5.20 approval prerequisite source ingestion preflight and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -11081,7 +11091,7 @@ const report = {
       ),
       await localInventoryEntry(
         "README.md",
-        "Marks Phase 5.19 as current docs/status mode while runtime execution remains blocked."
+        "Retains Phase 5.19 reader-hardening history while Phase 5.20 is current."
       ),
       await localInventoryEntry(
         "apps/cli/README.md",
@@ -11206,6 +11216,206 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase520ApprovalPrerequisiteSourceIngestionPreflightInventory: {
+    statusLayer: {
+      document:
+        "docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-20/approval-prerequisite-source-ingestion-preflight.json",
+      sourceApprovalPrerequisiteReaderDocument:
+        "docs/phase-5-19-approval-prerequisite-reader-hardening.md",
+      sourceApprovalPrerequisiteReaderFixture:
+        "tests/fixtures/host-policy/phase5-19/approval-prerequisite-reader-hardening.json",
+      precedingPhase: "5.19",
+      layerId: "approval-prerequisite-source-ingestion-preflight",
+      scope:
+        "phase-5-approval-prerequisite-source-ingestion-preflight-review-only-runtime-disabled",
+      approvalPrerequisiteSourcePreflightRecorded:
+        phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.preflightSummary
+          .approvalPrerequisiteSourcePreflightRecorded,
+      preflightKind:
+        phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.preflightSummary
+          .preflightKind,
+      preflightReviewOnly: true,
+      preflightAuthoritative: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.preflightSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md",
+        "Records the Phase 5.20 approval prerequisite source ingestion preflight while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-19-approval-prerequisite-reader-hardening.md",
+        "Provides the Phase 5.20 source-reader handoff from the approval prerequisite reader hardening phase."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.20 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.20 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.20 changes no Rust-host runtime source and records a TypeScript source preflight only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-19-approval-prerequisite-reader-hardening.md",
+      "docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-20/approval-prerequisite-source-ingestion-preflight.json",
+        "Records approval prerequisite source ingestion preflight cases while grants and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.20 report metadata, docs cross-links, source preflight, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-20-approval-prerequisite-source-ingestion-preflight.test.mjs",
+        "Pins the Phase 5.20 source preflight helper, fixture shape, reader/evaluator integration, serve-runtime rejection, source command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-19-approval-prerequisite-reader-hardening.md",
+        "docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-20/approval-prerequisite-source-ingestion-preflight.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-20-approval-prerequisite-source-ingestion-preflight.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.sourcePhase,
+    preflightSummary:
+      phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.preflightSummary,
+    sourceInputShape:
+      phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.sourceInputShape,
+    preflightResultShape:
+      phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.preflightResultShape,
+    sourcePreflightCases:
+      phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.sourcePreflightCases,
+    readerIntegration:
+      phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.readerIntegration,
+    blockedRuntimeEffect:
+      phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.forbiddenBehavior,
+    validationCommands:
+      phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata.validationCommands,
+    safetyPosture: {
+      approvalPrerequisiteSourcePreflightRecorded: true,
+      preflightReviewOnly: true,
+      preflightAuthoritative: false,
+      missingSourceInputsRejected: true,
+      malformedSourceInputsRejected: true,
+      emptySourceInputsRejected: true,
+      duplicateSourceInputsRejected: true,
+      stalePrerequisiteSourceInputsRejected: true,
+      unknownPrerequisiteSourceInputsRejected: true,
+      revokedPrerequisiteSourceInputsRejected: true,
+      validSourceInputsRecognizedForReaderOnly: true,
+      acceptedSourcesMayFeedReviewReader: true,
+      rejectedSourcesDoNotFeedReader: true,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -11258,6 +11468,7 @@ const report = {
     phase517GuardedRuntimeImplementationPlan: true,
     phase518ReviewOnlyApprovalEvaluatorSkeleton: true,
     phase519ApprovalPrerequisiteReaderHardening: true,
+    phase520ApprovalPrerequisiteSourceIngestionPreflight: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -11909,6 +12120,47 @@ const report = {
       phase519AdapterRuntimeBehaviorEnabled: false,
       phase519ContentFabricRuntimeBehaviorEnabled: false,
       phase519WebSocketHttpSurfaceEnabled: false,
+      phase520ApprovalPrerequisiteSourcePreflightRecorded: true,
+      phase520PreflightReviewOnly: true,
+      phase520PreflightAuthoritative: false,
+      phase520MissingSourceInputsRejected: true,
+      phase520MalformedSourceInputsRejected: true,
+      phase520EmptySourceInputsRejected: true,
+      phase520DuplicateSourceInputsRejected: true,
+      phase520StalePrerequisiteSourceInputsRejected: true,
+      phase520UnknownPrerequisiteSourceInputsRejected: true,
+      phase520RevokedPrerequisiteSourceInputsRejected: true,
+      phase520ValidSourceInputsRecognizedForReaderOnly: true,
+      phase520RejectedSourcesFailClosed: true,
+      phase520AcceptedSourcesMayFeedReviewReader: true,
+      phase520ApprovalGrantProduced: false,
+      phase520ApprovalGrantPersisted: false,
+      phase520RuntimeEnabled: false,
+      phase520RuntimeStarted: false,
+      phase520RuntimeReady: false,
+      phase520RuntimeCommandEnabled: false,
+      phase520RuntimeCommandExposureEnabled: false,
+      phase520RuntimeExecutionEnabled: false,
+      phase520RuntimeExecuted: false,
+      phase520ServeRuntimeStillDefaultBlocked: true,
+      phase520DryRunBypassesBlock: false,
+      phase520CanEnableRuntime: false,
+      phase520CliSourceChanged: false,
+      phase520RustSourceChanged: false,
+      phase520FilesystemWatcherEnabled: false,
+      phase520ExternalSourceLookupEnabled: false,
+      phase520SecretsEnvIngestionEnabled: false,
+      phase520LiveStdinLoopEnabled: false,
+      phase520RuntimeStdoutWriterEnabled: false,
+      phase520RuntimeStderrWriterEnabled: false,
+      phase520ProcessSpawnEnabled: false,
+      phase520ProcessTerminationEnabled: false,
+      phase520RuntimeSupervisionEnabled: false,
+      phase520RuntimeTranscriptWritePerformed: false,
+      phase520RuntimeAuditWritePerformed: false,
+      phase520AdapterRuntimeBehaviorEnabled: false,
+      phase520ContentFabricRuntimeBehaviorEnabled: false,
+      phase520WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

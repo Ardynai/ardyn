@@ -348,10 +348,10 @@ test("Phase 4.1C status report inventories framing/redaction contracts without r
   const inventory = report.phase41CFramingRedactionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.19",
-    name: "Approval prerequisite reader hardening",
+    id: "5.20",
+    name: "Approval prerequisite source ingestion preflight",
     executionPosture:
-      "approval-prerequisite-reader-hardening runtime-disabled no-runtime-execution"
+      "approval-prerequisite-source-ingestion-preflight runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
