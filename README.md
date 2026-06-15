@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.21 Scope
+## Phase 3 through Phase 5.22 Scope
 
-This repository is currently in Phase 5.21 approval prerequisite source selection
+This repository is currently in Phase 5.22 approval prerequisite source bundle
 mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -99,8 +99,11 @@ duplicate, stale, unknown, revoked, and valid in-memory source inputs plus
 Phase 5.21 approval prerequisite source selection for missing sources,
 deterministic multiple-valid-source selection, duplicate equivalent sources,
 conflicting valid sources, and stale, revoked, unknown, malformed, and empty
-source rejection.
-Phase 5.21 is not runtime enablement.
+source rejection plus Phase 5.22 approval prerequisite source bundling for
+missing required bundle parts, malformed bundle parts, duplicate equivalent
+bundle parts, conflicting bundle parts, and stale, revoked, unknown, malformed,
+and empty source input rejection.
+Phase 5.22 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -417,6 +420,16 @@ Included now:
   production, runtime command exposure, runtime execution, Rust-host change, or
   CLI source change, and keeps `serve-runtime` default-blocked. See
   `docs/phase-5-21-approval-prerequisite-source-selection.md`.
+- Phase 5.22 approval prerequisite source bundle documentation, fixture, core
+  helper, reader/evaluator integration, and report metadata. This bundles
+  selected in-memory prerequisite sources deterministically before feeding only
+  the review-only reader path. It rejects missing required bundle parts,
+  malformed bundle parts, conflicting bundle parts, stale sources, revoked
+  sources, unknown sources, malformed sources, and empty sources, performs no
+  filesystem watching, external lookup, secrets/env ingestion, grant production,
+  runtime command exposure, runtime execution, Rust-host change, or CLI source
+  change, and keeps `serve-runtime` default-blocked. See
+  `docs/phase-5-22-approval-prerequisite-source-bundle.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -568,7 +581,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.21 approval prerequisite source selection status report command is:
+The Phase 5.22 approval prerequisite source bundle status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -616,7 +629,7 @@ and Phase 5.16 runtime enablement readiness checkpoint metadata, and Phase
 approval evaluator skeleton metadata, Phase 5.19 approval prerequisite reader
 hardening metadata, and Phase 5.20 approval prerequisite source ingestion
 preflight metadata, and Phase 5.21 approval prerequisite source selection
-metadata
+metadata, and Phase 5.22 approval prerequisite source bundle metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply

@@ -104,6 +104,11 @@ export const APPROVAL_PREREQUISITE_SOURCE_SELECTION_SCHEMA =
 export const APPROVAL_PREREQUISITE_SOURCE_SELECTION_VERSION = "0.1.0";
 export const APPROVAL_PREREQUISITE_SOURCE_SELECTION_KIND =
   "approval-prerequisite-source-selection";
+export const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_SCHEMA =
+  "ardyn.phase-5.22.approval-prerequisite-source-bundle-result";
+export const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_VERSION = "0.1.0";
+export const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_KIND =
+  "approval-prerequisite-source-bundle";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -6251,6 +6256,411 @@ export function selectApprovalPrerequisiteSourcesForReview(input = {}) {
   return approvalPrerequisiteSourceSelectionResult({
     reviewedAt,
     sourceReports,
+    ...decision
+  });
+}
+
+const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_PART_KIND =
+  "selected-prerequisite-source";
+const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_PART_MODE = "in-memory";
+
+const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_CLASSIFICATION_BY_SELECTION =
+  Object.freeze({
+    missing_prerequisite_source_selection_rejected:
+      "missing_required_prerequisite_source_bundle_part_rejected",
+    malformed_prerequisite_source_selection_rejected:
+      "malformed_prerequisite_source_bundle_rejected",
+    empty_prerequisite_source_selection_rejected:
+      "empty_prerequisite_source_bundle_rejected",
+    duplicate_prerequisite_source_selection_rejected:
+      "malformed_prerequisite_source_bundle_rejected",
+    stale_prerequisite_source_selection_rejected:
+      "stale_prerequisite_source_bundle_rejected",
+    unknown_prerequisite_source_selection_rejected:
+      "unknown_prerequisite_source_bundle_rejected",
+    revoked_prerequisite_source_selection_rejected:
+      "revoked_prerequisite_source_bundle_rejected",
+    conflicting_valid_prerequisite_sources_rejected:
+      "conflicting_prerequisite_source_bundle_parts_rejected"
+  });
+
+const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_ACCEPTED_CLASSIFICATIONS =
+  Object.freeze([
+    "valid_prerequisite_source_bundle_review_only_runtime_still_blocked",
+    "duplicate_equivalent_prerequisite_source_bundle_parts_review_only_runtime_still_blocked"
+  ]);
+
+function approvalPrerequisiteSourceBundleParts(input) {
+  return Array.isArray(input.bundleParts) ? input.bundleParts : [];
+}
+
+function approvalPrerequisiteBundlePartId(part) {
+  return isPlainObjectRecord(part) && typeof part.partId === "string"
+    ? part.partId
+    : null;
+}
+
+function approvalPrerequisiteBundlePartMalformed(part) {
+  if (!isPlainObjectRecord(part)) {
+    return true;
+  }
+
+  return [
+    typeof part.partId !== "string" || part.partId.length === 0,
+    part.partKind !== APPROVAL_PREREQUISITE_SOURCE_BUNDLE_PART_KIND,
+    part.partMode !== APPROVAL_PREREQUISITE_SOURCE_BUNDLE_PART_MODE,
+    !Array.isArray(part.sourceInputs)
+  ].some(Boolean);
+}
+
+function approvalPrerequisiteBundlePartField(part, fieldName) {
+  return isPlainObjectRecord(part) ? part[fieldName] ?? null : null;
+}
+
+function approvalPrerequisiteBundlePartSourceInputs(part) {
+  return isPlainObjectRecord(part) && Array.isArray(part.sourceInputs)
+    ? part.sourceInputs
+    : [];
+}
+
+function approvalPrerequisiteBundlePartSourceSelection({
+  part,
+  malformed,
+  reviewedAt
+}) {
+  return malformed
+    ? null
+    : selectApprovalPrerequisiteSourcesForReview({
+        reviewedAt,
+        sourceInputs: approvalPrerequisiteBundlePartSourceInputs(part)
+      });
+}
+
+function approvalPrerequisiteBundlePartSignature(sourceSelection) {
+  return sourceSelection?.sourceSelectionAccepted === true
+    ? approvalPrerequisiteSourceSelectionSignature(
+        sourceSelection.selectedReaderInput
+      )
+    : null;
+}
+
+function approvalPrerequisiteBundlePartSelectionState(sourceSelection) {
+  if (sourceSelection == null) {
+    return {
+      sourceSelectionAccepted: false,
+      selectedReaderInput: null,
+      approvalPrerequisiteReader: null,
+      rejectionReasons: []
+    };
+  }
+
+  return {
+    sourceSelectionAccepted: sourceSelection.sourceSelectionAccepted === true,
+    selectedReaderInput: sourceSelection.selectedReaderInput ?? null,
+    approvalPrerequisiteReader: sourceSelection.approvalPrerequisiteReader ?? null,
+    rejectionReasons: sourceSelection.rejectionReasons ?? []
+  };
+}
+
+function approvalPrerequisiteSourceBundlePartReport(part, index, reviewedAt) {
+  const malformed = approvalPrerequisiteBundlePartMalformed(part);
+  const partId = approvalPrerequisiteBundlePartId(part);
+  const sourceSelection = approvalPrerequisiteBundlePartSourceSelection({
+    part,
+    malformed,
+    reviewedAt
+  });
+  const signature = approvalPrerequisiteBundlePartSignature(sourceSelection);
+  const selectionState =
+    approvalPrerequisiteBundlePartSelectionState(sourceSelection);
+
+  return {
+    index,
+    partId,
+    partKind: approvalPrerequisiteBundlePartField(part, "partKind"),
+    partMode: approvalPrerequisiteBundlePartField(part, "partMode"),
+    malformed,
+    sourceSelection,
+    sourceSelectionAccepted: selectionState.sourceSelectionAccepted,
+    selectedReaderInput: selectionState.selectedReaderInput,
+    approvalPrerequisiteReader: selectionState.approvalPrerequisiteReader,
+    rejectionReasons: selectionState.rejectionReasons,
+    signature
+  };
+}
+
+function approvalPrerequisiteSourceBundlePartReports(bundleParts, reviewedAt) {
+  return bundleParts.map((part, index) =>
+    approvalPrerequisiteSourceBundlePartReport(part, index, reviewedAt)
+  );
+}
+
+function approvalPrerequisiteBundlePartOrder(left, right) {
+  return (
+    String(left.partId).localeCompare(String(right.partId)) ||
+    left.index - right.index
+  );
+}
+
+function approvalPrerequisiteSortedBundlePartReports(partReports) {
+  return [...partReports].sort(approvalPrerequisiteBundlePartOrder);
+}
+
+function approvalPrerequisiteBundlePartIds(partReports) {
+  return approvalPrerequisiteSortedBundlePartReports(partReports).map(
+    (report) => report.partId
+  );
+}
+
+function approvalPrerequisiteBundlePartSelectionAccepted(classification) {
+  return APPROVAL_PREREQUISITE_SOURCE_BUNDLE_ACCEPTED_CLASSIFICATIONS.includes(
+    classification
+  );
+}
+
+function approvalPrerequisiteMalformedBundlePart(partReports) {
+  return partReports.find((report) => report.malformed) ?? null;
+}
+
+function approvalPrerequisiteInvalidBundleSourceSelection(partReports) {
+  return partReports.find((report) => !report.sourceSelectionAccepted) ?? null;
+}
+
+function approvalPrerequisiteBundleClassificationForInvalid(report) {
+  return (
+    APPROVAL_PREREQUISITE_SOURCE_BUNDLE_CLASSIFICATION_BY_SELECTION[
+      report.sourceSelection?.classification
+    ] ?? "malformed_prerequisite_source_bundle_rejected"
+  );
+}
+
+function approvalPrerequisiteBundleUniqueSignatures(partReports) {
+  return new Set(partReports.map((report) => report.signature));
+}
+
+function approvalPrerequisiteBundleSelectionClassification(partReports) {
+  return partReports.length > 1
+    ? "duplicate_equivalent_prerequisite_source_bundle_parts_review_only_runtime_still_blocked"
+    : "valid_prerequisite_source_bundle_review_only_runtime_still_blocked";
+}
+
+function approvalPrerequisiteSourceBundleDecision(partReports) {
+  const malformedPart = approvalPrerequisiteMalformedBundlePart(partReports);
+  if (malformedPart != null) {
+    const missingRequired = malformedPart.partKind !==
+      APPROVAL_PREREQUISITE_SOURCE_BUNDLE_PART_KIND;
+
+    return {
+      classification: missingRequired
+        ? "missing_required_prerequisite_source_bundle_part_rejected"
+        : "malformed_prerequisite_source_bundle_part_rejected",
+      selectedReport: null
+    };
+  }
+
+  const invalidSelection =
+    approvalPrerequisiteInvalidBundleSourceSelection(partReports);
+  if (invalidSelection != null) {
+    return {
+      classification:
+        approvalPrerequisiteBundleClassificationForInvalid(invalidSelection),
+      selectedReport: null
+    };
+  }
+
+  if (approvalPrerequisiteBundleUniqueSignatures(partReports).size > 1) {
+    return {
+      classification: "conflicting_prerequisite_source_bundle_parts_rejected",
+      selectedReport: null,
+      conflictingBundlePartIds: approvalPrerequisiteBundlePartIds(partReports)
+    };
+  }
+
+  const sortedReports = approvalPrerequisiteSortedBundlePartReports(partReports);
+  const [selectedReport] = sortedReports;
+
+  return {
+    classification: approvalPrerequisiteBundleSelectionClassification(partReports),
+    selectedReport
+  };
+}
+
+function approvalPrerequisiteBundleSelectedState({
+  partReports,
+  selectedReport,
+  accepted
+}) {
+  if (!accepted) {
+    return {
+      selectedBundlePartId: null,
+      selectedBundlePartIds: [],
+      equivalentBundlePartIds: [],
+      rejectedBundlePartIds: approvalPrerequisiteBundlePartIds(partReports),
+      bundledReaderInput: null,
+      approvalPrerequisiteReader: null
+    };
+  }
+
+  return {
+    selectedBundlePartId: selectedReport.partId,
+    selectedBundlePartIds: [selectedReport.partId],
+    equivalentBundlePartIds: approvalPrerequisiteBundlePartIds(partReports),
+    rejectedBundlePartIds: [],
+    bundledReaderInput: selectedReport.selectedReaderInput,
+    approvalPrerequisiteReader: selectedReport.approvalPrerequisiteReader
+  };
+}
+
+function approvalPrerequisitePublicBundlePartReports(
+  partReports,
+  selectedBundlePartId,
+  accepted
+) {
+  return approvalPrerequisiteSortedBundlePartReports(partReports).map((report) => ({
+    index: report.index,
+    partId: report.partId,
+    partKind: report.partKind,
+    partMode: report.partMode,
+    malformed: report.malformed,
+    sourceSelectionClassification: report.sourceSelection?.classification ?? null,
+    sourceSelectionAccepted: report.sourceSelectionAccepted,
+    selected: accepted && report.partId === selectedBundlePartId,
+    rejected: !accepted,
+    equivalentToSelected: accepted && report.sourceSelectionAccepted,
+    rejectionReasons: accepted ? [] : report.rejectionReasons
+  }));
+}
+
+function approvalPrerequisiteSourceBundleCounts({
+  partReports,
+  accepted,
+  conflictingBundlePartIds
+}) {
+  return {
+    total: partReports.length,
+    malformed: partReports.filter((report) => report.malformed).length,
+    acceptedCandidates: partReports.filter(
+      (report) => report.sourceSelectionAccepted
+    ).length,
+    rejectedCandidates: partReports.filter(
+      (report) => !report.sourceSelectionAccepted
+    ).length,
+    equivalentCandidates: accepted ? partReports.length : 0,
+    conflictingCandidates: conflictingBundlePartIds.length
+  };
+}
+
+function approvalPrerequisiteSourceBundleRejectionReasons({
+  classification,
+  partReports,
+  conflictingBundlePartIds
+}) {
+  const classificationReasons =
+    {
+      missing_prerequisite_source_bundle_parts_rejected: [
+        "missing_prerequisite_source_bundle_parts"
+      ],
+      missing_required_prerequisite_source_bundle_part_rejected: [
+        "missing_required_prerequisite_source_bundle_part"
+      ],
+      malformed_prerequisite_source_bundle_part_rejected: [
+        "malformed_prerequisite_source_bundle_part"
+      ],
+      conflicting_prerequisite_source_bundle_parts_rejected: [
+        "conflicting_prerequisite_source_bundle_parts"
+      ]
+    }[classification] ?? [];
+  const conflictReasons = conflictingBundlePartIds.map(
+    (partId) => `conflicting_bundle_part_${partId}`
+  );
+  const malformedReasons = partReports.flatMap((report) =>
+    report.malformed ? [`bundle_part_${report.index}_malformed`] : []
+  );
+
+  return [
+    ...classificationReasons,
+    ...conflictReasons,
+    ...malformedReasons,
+    ...partReports.flatMap((report) => report.rejectionReasons),
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function approvalPrerequisiteSourceBundleResult({
+  reviewedAt,
+  classification,
+  partReports,
+  selectedReport,
+  conflictingBundlePartIds = []
+}) {
+  const accepted = approvalPrerequisiteBundlePartSelectionAccepted(classification);
+  const selectedState = approvalPrerequisiteBundleSelectedState({
+    partReports,
+    selectedReport,
+    accepted
+  });
+
+  return {
+    schema: APPROVAL_PREREQUISITE_SOURCE_BUNDLE_SCHEMA,
+    schemaVersion: APPROVAL_PREREQUISITE_SOURCE_BUNDLE_VERSION,
+    bundleKind: APPROVAL_PREREQUISITE_SOURCE_BUNDLE_KIND,
+    bundleMode: "review-only",
+    reviewedAt,
+    classification,
+    sourceBundleAccepted: accepted,
+    readerInputForwarded: accepted,
+    selectedBundlePartId: selectedState.selectedBundlePartId,
+    selectedBundlePartIds: selectedState.selectedBundlePartIds,
+    equivalentBundlePartIds: selectedState.equivalentBundlePartIds,
+    rejectedBundlePartIds: selectedState.rejectedBundlePartIds,
+    conflictingBundlePartIds,
+    reviewOnly: true,
+    authoritative: false,
+    bundlePartCounts: approvalPrerequisiteSourceBundleCounts({
+      partReports,
+      accepted,
+      conflictingBundlePartIds
+    }),
+    bundlePartReports: approvalPrerequisitePublicBundlePartReports(
+      partReports,
+      selectedState.selectedBundlePartId,
+      accepted
+    ),
+    bundledReaderInput: selectedState.bundledReaderInput,
+    approvalPrerequisiteReader: selectedState.approvalPrerequisiteReader,
+    rejectionReasons: approvalPrerequisiteSourceBundleRejectionReasons({
+      classification,
+      partReports,
+      conflictingBundlePartIds
+    }),
+    approvalGrant: sourcePreflightGrantBlocked(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function bundleApprovalPrerequisiteSourcesForReview(input = {}) {
+  const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const bundleParts = approvalPrerequisiteSourceBundleParts(input);
+
+  if (bundleParts.length === 0) {
+    return approvalPrerequisiteSourceBundleResult({
+      reviewedAt,
+      classification: "missing_prerequisite_source_bundle_parts_rejected",
+      partReports: [],
+      selectedReport: null
+    });
+  }
+
+  const partReports = approvalPrerequisiteSourceBundlePartReports(
+    bundleParts,
+    reviewedAt
+  );
+  const decision = approvalPrerequisiteSourceBundleDecision(partReports);
+
+  return approvalPrerequisiteSourceBundleResult({
+    reviewedAt,
+    partReports,
     ...decision
   });
 }

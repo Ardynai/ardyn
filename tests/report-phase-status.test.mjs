@@ -1117,6 +1117,20 @@ const phase521CrossLinks = [
   "docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md",
   "docs/phase-5-21-approval-prerequisite-source-selection.md"
 ];
+const phase522DocFiles = [
+  "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+  "docs/phase-5-21-approval-prerequisite-source-selection.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase522CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-21-approval-prerequisite-source-selection.md",
+  "docs/phase-5-22-approval-prerequisite-source-bundle.md"
+];
 const phase519ExpectedTrueSafetyFlagNames = [
   "phase519ApprovalPrerequisiteReaderHardeningRecorded",
   "phase519ReaderReviewOnly",
@@ -1258,6 +1272,56 @@ const phase521SafetyFlagNames = [
   ...phase521ExpectedTrueSafetyFlagNames,
   ...phase521ExpectedFalseSafetyFlagNames
 ];
+const phase522ExpectedTrueSafetyFlagNames = [
+  "phase522ApprovalPrerequisiteSourceBundleRecorded",
+  "phase522BundleReviewOnly",
+  "phase522MissingBundlePartsRejected",
+  "phase522MissingRequiredBundlePartsRejected",
+  "phase522MalformedBundlePartsRejected",
+  "phase522DuplicateBundlePartsHandledDeterministically",
+  "phase522ConflictingBundlePartsRejected",
+  "phase522StaleSourcesRejected",
+  "phase522RevokedSourcesRejected",
+  "phase522UnknownSourcesRejected",
+  "phase522MalformedSourcesRejected",
+  "phase522EmptySourcesRejected",
+  "phase522ValidBundleFeedsReviewReaderOnly",
+  "phase522ServeRuntimeStillDefaultBlocked"
+];
+const phase522ExpectedFalseSafetyFlagNames = [
+  "phase522BundleAuthoritative",
+  "phase522ApprovalGrantProduced",
+  "phase522ApprovalGrantPersisted",
+  "phase522RuntimeEnabled",
+  "phase522RuntimeStarted",
+  "phase522RuntimeReady",
+  "phase522RuntimeCommandEnabled",
+  "phase522RuntimeCommandExposureEnabled",
+  "phase522RuntimeExecutionEnabled",
+  "phase522RuntimeExecuted",
+  "phase522DryRunBypassesBlock",
+  "phase522CanEnableRuntime",
+  "phase522CliSourceChanged",
+  "phase522RustSourceChanged",
+  "phase522FilesystemWatcherEnabled",
+  "phase522ExternalSourceLookupEnabled",
+  "phase522SecretsEnvIngestionEnabled",
+  "phase522LiveStdinLoopEnabled",
+  "phase522RuntimeStdoutWriterEnabled",
+  "phase522RuntimeStderrWriterEnabled",
+  "phase522ProcessSpawnEnabled",
+  "phase522ProcessTerminationEnabled",
+  "phase522RuntimeSupervisionEnabled",
+  "phase522RuntimeTranscriptWritePerformed",
+  "phase522RuntimeAuditWritePerformed",
+  "phase522AdapterRuntimeBehaviorEnabled",
+  "phase522ContentFabricRuntimeBehaviorEnabled",
+  "phase522WebSocketHttpSurfaceEnabled"
+];
+const phase522SafetyFlagNames = [
+  ...phase522ExpectedTrueSafetyFlagNames,
+  ...phase522ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1379,15 +1443,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.21 approval prerequisite source selection docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.22 approval prerequisite source bundle docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.21",
-    name: "Approval prerequisite source selection",
+    id: "5.22",
+    name: "Approval prerequisite source bundle",
     executionPosture:
-      "approval-prerequisite-source-selection runtime-disabled no-runtime-execution"
+      "approval-prerequisite-source-bundle runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1460,12 +1524,19 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.21 approval prerequisite source selection status report.",
+        "Render this deterministic local Phase 5.22 approval prerequisite source bundle status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.21 status report.",
+      purpose: "Run focused tests for this local Phase 5.22 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-22-approval-prerequisite-source-bundle.test.mjs",
+      purpose:
+        "Run focused Phase 5.22 approval prerequisite source bundle and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -11679,6 +11750,231 @@ test("report inventories Phase 5.21 as approval prerequisite source selection wi
   }
 });
 
+test("report inventories Phase 5.22 as approval prerequisite source bundle with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase522ApprovalPrerequisiteSourceBundleInventory;
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-22/approval-prerequisite-source-bundle-contract.json",
+    sourceApprovalPrerequisiteSelectionDocument:
+      "docs/phase-5-21-approval-prerequisite-source-selection.md",
+    sourceApprovalPrerequisiteSelectionFixture:
+      "tests/fixtures/host-policy/phase5-21/approval-prerequisite-source-selection-contract.json",
+    precedingPhase: "5.21",
+    layerId: "approval-prerequisite-source-bundle",
+    scope:
+      "phase-5-approval-prerequisite-source-bundle-review-only-runtime-disabled",
+    approvalPrerequisiteSourceBundleRecorded: true,
+    bundleKind: "approval-prerequisite-source-bundle",
+    bundleReviewOnly: true,
+    bundleAuthoritative: false,
+    missingBundlePartsRejected: true,
+    missingRequiredBundlePartsRejected: true,
+    malformedBundlePartsRejected: true,
+    duplicateBundlePartsHandledDeterministically: true,
+    conflictingBundlePartsRejected: true,
+    staleSourcesRejected: true,
+    revokedSourcesRejected: true,
+    unknownSourcesRejected: true,
+    malformedSourcesRejected: true,
+    emptySourcesRejected: true,
+    validBundleFeedsReviewReaderOnly: true,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    filesystemWatcherEnabled: false,
+    externalSourceLookupEnabled: false,
+    secretsEnvIngestionEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase522DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase522CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-22/approval-prerequisite-source-bundle-contract.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-22-approval-prerequisite-source-bundle.test.mjs"
+  ]);
+  assert.deepEqual(inventory.sourcePhase, {
+    phase: "phase-5.21-approval-prerequisite-source-selection",
+    selectionPath:
+      "packages/core/src/index.mjs#selectApprovalPrerequisiteSourcesForReview",
+    preflightPath:
+      "packages/core/src/index.mjs#preflightApprovalPrerequisiteSourcesForReview",
+    readerPath: "packages/core/src/index.mjs#readApprovalPrerequisiteRecordsForReview",
+    evaluatorPath: "packages/core/src/index.mjs#evaluateRuntimeApprovalPrerequisitesForReview",
+    runtimeEnabled: false,
+    approvalGrantProduced: false
+  });
+  assert.deepEqual(inventory.bundleSummary, {
+    approvalPrerequisiteSourceBundleRecorded: true,
+    bundleKind: "approval-prerequisite-source-bundle",
+    bundleReviewOnly: true,
+    bundleAuthoritative: false,
+    missingBundlePartsRejected: true,
+    missingRequiredBundlePartsRejected: true,
+    malformedBundlePartsRejected: true,
+    duplicateBundlePartsHandledDeterministically: true,
+    conflictingBundlePartsRejected: true,
+    staleSourcesRejected: true,
+    revokedSourcesRejected: true,
+    unknownSourcesRejected: true,
+    malformedSourcesRejected: true,
+    emptySourcesRejected: true,
+    validBundleFeedsReviewReaderOnly: true,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false
+  });
+  assert.equal(inventory.bundlePartShape.partKind, "selected-prerequisite-source");
+  assert.equal(inventory.bundlePartShape.partMode, "in-memory");
+  assert.equal(inventory.bundlePartShape.deterministicTieBreak, "lowest-part-id");
+  assert.equal(inventory.bundlePartShape.conflictPolicy, "fail-closed");
+  assert.equal(inventory.bundlePartShape.filesystemWatcherAllowed, false);
+  assert.equal(inventory.bundlePartShape.externalSourceLookupAllowed, false);
+  assert.equal(inventory.bundlePartShape.secretsEnvIngestionAllowed, false);
+  assert.equal(
+    inventory.bundleResultShape.schema,
+    "ardyn.phase-5.22.approval-prerequisite-source-bundle-result"
+  );
+  assert.equal(inventory.bundleResultShape.bundledReaderInputOnly, true);
+  assert.equal(inventory.bundleResultShape.approvalGrantProduced, false);
+  assert.deepEqual(inventory.sourceBundleCases.map(({ caseId }) => caseId), [
+    "missing-bundle-parts",
+    "missing-required-bundle-part",
+    "malformed-bundle-part",
+    "single-valid-bundle",
+    "duplicate-equivalent-bundle-parts",
+    "conflicting-bundle-parts-rejected",
+    "stale-source-bundle-rejected",
+    "revoked-source-bundle-rejected",
+    "unknown-source-bundle-rejected",
+    "malformed-source-bundle-rejected",
+    "empty-source-bundle-rejected"
+  ]);
+  for (const bundleCase of inventory.sourceBundleCases) {
+    assert.equal(bundleCase.reviewOnly, true);
+    assert.equal(bundleCase.authoritative, false);
+    assert.equal(bundleCase.approvalGrant.produced, false);
+    assert.equal(bundleCase.approvalGrant.persisted, false);
+    assert.equal(bundleCase.approvalGrant.grantId, null);
+    assertAllFalse(bundleCase.runtimeEffect);
+  }
+  assert.equal(inventory.readerIntegration.validBundleMayFeedReviewReader, true);
+  assert.equal(inventory.readerIntegration.rejectedBundleDoesNotFeedReader, true);
+  assert.equal(inventory.readerIntegration.readerStillReviewOnly, true);
+  assert.equal(inventory.readerIntegration.evaluatorStillReviewOnly, true);
+  assert.equal(inventory.readerIntegration.readerCanProduceGrant, false);
+  assert.equal(inventory.readerIntegration.evaluatorCanProduceGrant, false);
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.stdout, "");
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.ok(
+    inventory.forbiddenBehavior.includes("No CLI source-bundle command is exposed.")
+  );
+  assert.ok(
+    inventory.forbiddenBehavior.includes(
+      "No approval grant is produced or persisted."
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-22-approval-prerequisite-source-bundle.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.safetyPosture, {
+    approvalPrerequisiteSourceBundleRecorded: true,
+    bundleReviewOnly: true,
+    bundleAuthoritative: false,
+    missingBundlePartsRejected: true,
+    missingRequiredBundlePartsRejected: true,
+    malformedBundlePartsRejected: true,
+    duplicateBundlePartsHandledDeterministically: true,
+    conflictingBundlePartsRejected: true,
+    staleSourcesRejected: true,
+    revokedSourcesRejected: true,
+    unknownSourcesRejected: true,
+    malformedSourcesRejected: true,
+    emptySourcesRejected: true,
+    validBundleFeedsReviewReaderOnly: true,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    filesystemWatcherEnabled: false,
+    externalSourceLookupEnabled: false,
+    secretsEnvIngestionEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(report.safetyPosture.phase522ApprovalPrerequisiteSourceBundle, true);
+  for (const flagName of phase522ExpectedTrueSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], true);
+  }
+  for (const flagName of phase522ExpectedFalseSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], false);
+  }
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -11907,6 +12203,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase519ApprovalPrerequisiteReaderHardening, true);
   assert.equal(report.safetyPosture.phase520ApprovalPrerequisiteSourceIngestionPreflight, true);
   assert.equal(report.safetyPosture.phase521ApprovalPrerequisiteSourceSelection, true);
+  assert.equal(report.safetyPosture.phase522ApprovalPrerequisiteSourceBundle, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -12540,6 +12837,9 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   for (const flagName of phase521SafetyFlagNames) {
     delete comparableFlags[flagName];
   }
+  for (const flagName of phase522SafetyFlagNames) {
+    delete comparableFlags[flagName];
+  }
   assert.deepEqual(comparableFlags, expectedFlags);
   for (const flagName of phase519ExpectedTrueSafetyFlagNames) {
     assert.equal(report.safetyPosture.flags[flagName], true);
@@ -12557,6 +12857,12 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     assert.equal(report.safetyPosture.flags[flagName], true);
   }
   for (const flagName of phase521ExpectedFalseSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], false);
+  }
+  for (const flagName of phase522ExpectedTrueSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], true);
+  }
+  for (const flagName of phase522ExpectedFalseSafetyFlagNames) {
     assert.equal(report.safetyPosture.flags[flagName], false);
   }
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);

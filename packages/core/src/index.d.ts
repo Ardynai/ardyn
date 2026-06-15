@@ -125,6 +125,11 @@ export const APPROVAL_PREREQUISITE_SOURCE_SELECTION_SCHEMA:
 export const APPROVAL_PREREQUISITE_SOURCE_SELECTION_VERSION: "0.1.0";
 export const APPROVAL_PREREQUISITE_SOURCE_SELECTION_KIND:
   "approval-prerequisite-source-selection";
+export const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_SCHEMA:
+  "ardyn.phase-5.22.approval-prerequisite-source-bundle-result";
+export const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_VERSION: "0.1.0";
+export const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_KIND:
+  "approval-prerequisite-source-bundle";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1403,6 +1408,18 @@ export type ApprovalPrerequisiteSourceSelectionClassification =
   | "conflicting_valid_prerequisite_sources_rejected"
   | "valid_prerequisite_source_selected_review_only_runtime_still_blocked"
   | "equivalent_prerequisite_sources_selected_review_only_runtime_still_blocked";
+export type ApprovalPrerequisiteSourceBundleClassification =
+  | "missing_prerequisite_source_bundle_parts_rejected"
+  | "missing_required_prerequisite_source_bundle_part_rejected"
+  | "malformed_prerequisite_source_bundle_part_rejected"
+  | "valid_prerequisite_source_bundle_review_only_runtime_still_blocked"
+  | "duplicate_equivalent_prerequisite_source_bundle_parts_review_only_runtime_still_blocked"
+  | "conflicting_prerequisite_source_bundle_parts_rejected"
+  | "stale_prerequisite_source_bundle_rejected"
+  | "revoked_prerequisite_source_bundle_rejected"
+  | "unknown_prerequisite_source_bundle_rejected"
+  | "malformed_prerequisite_source_bundle_rejected"
+  | "empty_prerequisite_source_bundle_rejected";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -1584,6 +1601,54 @@ export interface ApprovalPrerequisiteSourceSelectionResult {
   };
   sourceSelectionReports: ApprovalPrerequisiteSourceSelectionSourceReport[];
   selectedReaderInput: ApprovalPrerequisiteReaderInputForReview | null;
+  approvalPrerequisiteReader: ApprovalPrerequisiteReaderResult | null;
+  rejectionReasons: string[];
+  approvalGrant: RuntimeApprovalGrantBlocked;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ApprovalPrerequisiteSourceBundlePartReport {
+  index: number;
+  partId: string | null;
+  partKind: unknown;
+  partMode: unknown;
+  malformed: boolean;
+  sourceSelectionClassification:
+    | ApprovalPrerequisiteSourceSelectionClassification
+    | null;
+  sourceSelectionAccepted: boolean;
+  selected: boolean;
+  rejected: boolean;
+  equivalentToSelected: boolean;
+  rejectionReasons: string[];
+}
+
+export interface ApprovalPrerequisiteSourceBundleResult {
+  schema: "ardyn.phase-5.22.approval-prerequisite-source-bundle-result";
+  schemaVersion: "0.1.0";
+  bundleKind: "approval-prerequisite-source-bundle";
+  bundleMode: "review-only";
+  reviewedAt: string;
+  classification: ApprovalPrerequisiteSourceBundleClassification;
+  sourceBundleAccepted: boolean;
+  readerInputForwarded: boolean;
+  selectedBundlePartId: string | null;
+  selectedBundlePartIds: string[];
+  equivalentBundlePartIds: string[];
+  rejectedBundlePartIds: (string | null)[];
+  conflictingBundlePartIds: (string | null)[];
+  reviewOnly: true;
+  authoritative: false;
+  bundlePartCounts: {
+    total: number;
+    malformed: number;
+    acceptedCandidates: number;
+    rejectedCandidates: number;
+    equivalentCandidates: number;
+    conflictingCandidates: number;
+  };
+  bundlePartReports: ApprovalPrerequisiteSourceBundlePartReport[];
+  bundledReaderInput: ApprovalPrerequisiteReaderInputForReview | null;
   approvalPrerequisiteReader: ApprovalPrerequisiteReaderResult | null;
   rejectionReasons: string[];
   approvalGrant: RuntimeApprovalGrantBlocked;
@@ -1821,6 +1886,10 @@ export function selectApprovalPrerequisiteSourcesForReview(input?: {
   reviewedAt?: string;
   sourceInputs?: unknown[];
 }): ApprovalPrerequisiteSourceSelectionResult;
+export function bundleApprovalPrerequisiteSourcesForReview(input?: {
+  reviewedAt?: string;
+  bundleParts?: unknown[];
+}): ApprovalPrerequisiteSourceBundleResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

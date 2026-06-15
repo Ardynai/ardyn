@@ -172,6 +172,9 @@ const phase520ApprovalPrerequisiteSourceIngestionPreflightMetadata = await readJ
 const phase521ApprovalPrerequisiteSourceSelectionMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-21/approval-prerequisite-source-selection-contract.json"
 );
+const phase522ApprovalPrerequisiteSourceBundleMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-22/approval-prerequisite-source-bundle-contract.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -219,10 +222,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.21",
-    name: "Approval prerequisite source selection",
+    id: "5.22",
+    name: "Approval prerequisite source bundle",
     executionPosture:
-      "approval-prerequisite-source-selection runtime-disabled no-runtime-execution"
+      "approval-prerequisite-source-bundle runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -270,12 +273,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.21 approval prerequisite source selection status report.",
+        "Render this deterministic local Phase 5.22 approval prerequisite source bundle status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.21 status report.",
+      purpose: "Run focused tests for this local Phase 5.22 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-22-approval-prerequisite-source-bundle.test.mjs",
+      purpose:
+        "Run focused Phase 5.22 approval prerequisite source bundle and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -11636,6 +11646,214 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase522ApprovalPrerequisiteSourceBundleInventory: {
+    statusLayer: {
+      document: "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-22/approval-prerequisite-source-bundle-contract.json",
+      sourceApprovalPrerequisiteSelectionDocument:
+        "docs/phase-5-21-approval-prerequisite-source-selection.md",
+      sourceApprovalPrerequisiteSelectionFixture:
+        "tests/fixtures/host-policy/phase5-21/approval-prerequisite-source-selection-contract.json",
+      precedingPhase: "5.21",
+      layerId: "approval-prerequisite-source-bundle",
+      scope:
+        "phase-5-approval-prerequisite-source-bundle-review-only-runtime-disabled",
+      approvalPrerequisiteSourceBundleRecorded:
+        phase522ApprovalPrerequisiteSourceBundleMetadata.bundleSummary
+          .approvalPrerequisiteSourceBundleRecorded,
+      bundleKind:
+        phase522ApprovalPrerequisiteSourceBundleMetadata.bundleSummary.bundleKind,
+      bundleReviewOnly: true,
+      bundleAuthoritative: false,
+      missingBundlePartsRejected: true,
+      missingRequiredBundlePartsRejected: true,
+      malformedBundlePartsRejected: true,
+      duplicateBundlePartsHandledDeterministically: true,
+      conflictingBundlePartsRejected: true,
+      staleSourcesRejected: true,
+      revokedSourcesRejected: true,
+      unknownSourcesRejected: true,
+      malformedSourcesRejected: true,
+      emptySourcesRejected: true,
+      validBundleFeedsReviewReaderOnly: true,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase522ApprovalPrerequisiteSourceBundleMetadata.bundleSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+        "Records the Phase 5.22 approval prerequisite source bundle contract while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-21-approval-prerequisite-source-selection.md",
+        "Provides the Phase 5.22 source-bundle handoff from source selection."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.22 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.22 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.22 changes no Rust-host runtime source and records a TypeScript source-bundle helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-21-approval-prerequisite-source-selection.md",
+      "docs/phase-5-22-approval-prerequisite-source-bundle.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-22/approval-prerequisite-source-bundle-contract.json",
+        "Records approval prerequisite source-bundle cases while grants and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.22 report metadata, docs cross-links, source bundle, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-22-approval-prerequisite-source-bundle.test.mjs",
+        "Pins the Phase 5.22 source-bundle helper, fixture shape, reader/evaluator integration, serve-runtime rejection, source-bundle command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-21-approval-prerequisite-source-selection.md",
+        "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-22/approval-prerequisite-source-bundle-contract.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-22-approval-prerequisite-source-bundle.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase: phase522ApprovalPrerequisiteSourceBundleMetadata.sourcePhase,
+    bundleSummary:
+      phase522ApprovalPrerequisiteSourceBundleMetadata.bundleSummary,
+    bundlePartShape:
+      phase522ApprovalPrerequisiteSourceBundleMetadata.bundlePartShape,
+    bundleResultShape:
+      phase522ApprovalPrerequisiteSourceBundleMetadata.bundleResultShape,
+    sourceBundleCases:
+      phase522ApprovalPrerequisiteSourceBundleMetadata.sourceBundleCases,
+    readerIntegration:
+      phase522ApprovalPrerequisiteSourceBundleMetadata.readerIntegration,
+    blockedRuntimeEffect:
+      phase522ApprovalPrerequisiteSourceBundleMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase522ApprovalPrerequisiteSourceBundleMetadata.serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase522ApprovalPrerequisiteSourceBundleMetadata.forbiddenBehavior,
+    validationCommands:
+      phase522ApprovalPrerequisiteSourceBundleMetadata.validationCommands,
+    safetyPosture: {
+      approvalPrerequisiteSourceBundleRecorded: true,
+      bundleReviewOnly: true,
+      bundleAuthoritative: false,
+      missingBundlePartsRejected: true,
+      missingRequiredBundlePartsRejected: true,
+      malformedBundlePartsRejected: true,
+      duplicateBundlePartsHandledDeterministically: true,
+      conflictingBundlePartsRejected: true,
+      staleSourcesRejected: true,
+      revokedSourcesRejected: true,
+      unknownSourcesRejected: true,
+      malformedSourcesRejected: true,
+      emptySourcesRejected: true,
+      validBundleFeedsReviewReaderOnly: true,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -11690,6 +11908,7 @@ const report = {
     phase519ApprovalPrerequisiteReaderHardening: true,
     phase520ApprovalPrerequisiteSourceIngestionPreflight: true,
     phase521ApprovalPrerequisiteSourceSelection: true,
+    phase522ApprovalPrerequisiteSourceBundle: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -12423,6 +12642,48 @@ const report = {
       phase521AdapterRuntimeBehaviorEnabled: false,
       phase521ContentFabricRuntimeBehaviorEnabled: false,
       phase521WebSocketHttpSurfaceEnabled: false,
+      phase522ApprovalPrerequisiteSourceBundleRecorded: true,
+      phase522BundleReviewOnly: true,
+      phase522BundleAuthoritative: false,
+      phase522MissingBundlePartsRejected: true,
+      phase522MissingRequiredBundlePartsRejected: true,
+      phase522MalformedBundlePartsRejected: true,
+      phase522DuplicateBundlePartsHandledDeterministically: true,
+      phase522ConflictingBundlePartsRejected: true,
+      phase522StaleSourcesRejected: true,
+      phase522RevokedSourcesRejected: true,
+      phase522UnknownSourcesRejected: true,
+      phase522MalformedSourcesRejected: true,
+      phase522EmptySourcesRejected: true,
+      phase522ValidBundleFeedsReviewReaderOnly: true,
+      phase522ApprovalGrantProduced: false,
+      phase522ApprovalGrantPersisted: false,
+      phase522RuntimeEnabled: false,
+      phase522RuntimeStarted: false,
+      phase522RuntimeReady: false,
+      phase522RuntimeCommandEnabled: false,
+      phase522RuntimeCommandExposureEnabled: false,
+      phase522RuntimeExecutionEnabled: false,
+      phase522RuntimeExecuted: false,
+      phase522ServeRuntimeStillDefaultBlocked: true,
+      phase522DryRunBypassesBlock: false,
+      phase522CanEnableRuntime: false,
+      phase522CliSourceChanged: false,
+      phase522RustSourceChanged: false,
+      phase522FilesystemWatcherEnabled: false,
+      phase522ExternalSourceLookupEnabled: false,
+      phase522SecretsEnvIngestionEnabled: false,
+      phase522LiveStdinLoopEnabled: false,
+      phase522RuntimeStdoutWriterEnabled: false,
+      phase522RuntimeStderrWriterEnabled: false,
+      phase522ProcessSpawnEnabled: false,
+      phase522ProcessTerminationEnabled: false,
+      phase522RuntimeSupervisionEnabled: false,
+      phase522RuntimeTranscriptWritePerformed: false,
+      phase522RuntimeAuditWritePerformed: false,
+      phase522AdapterRuntimeBehaviorEnabled: false,
+      phase522ContentFabricRuntimeBehaviorEnabled: false,
+      phase522WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

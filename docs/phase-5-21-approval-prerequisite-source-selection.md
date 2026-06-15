@@ -82,11 +82,16 @@ grant, command-exposure, or runtime block.
 
 ## Handoff
 
-Phase 5.21 creates deterministic source selection only. A future phase may
-define a still-review-only approval prerequisite source bundle or source
-attestation contract, but any such phase must still keep runtime unavailable
-until a separate reviewed grant and runtime enablement boundary exists.
+Phase 5.21 creates deterministic source selection only. Phase 5.22 adds
+deterministic source bundling for selected in-memory prerequisite sources while
+still keeping runtime unavailable. Any later source-bundle attestation or
+runtime-enablement phase must still keep runtime unavailable until a separate
+reviewed grant and runtime enablement boundary exists.
 
 Recommended next slice:
 
-`phase-5.22-approval-prerequisite-source-bundle-contract`
+`phase-5.22-approval-prerequisite-source-bundle`
+
+Next source-bundle doc:
+
+`phase-5.22-approval-prerequisite-source-bundle`

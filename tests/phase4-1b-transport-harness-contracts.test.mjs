@@ -390,10 +390,10 @@ test("Phase 4.1B status report inventories transport harness contracts without r
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.21",
-    name: "Approval prerequisite source selection",
+    id: "5.22",
+    name: "Approval prerequisite source bundle",
     executionPosture:
-      "approval-prerequisite-source-selection runtime-disabled no-runtime-execution"
+      "approval-prerequisite-source-bundle runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
