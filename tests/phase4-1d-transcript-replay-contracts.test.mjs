@@ -284,10 +284,10 @@ test("Phase 4.1D status report inventories transcript replay contracts without r
   const inventory = report.phase41DTranscriptReplayInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.22",
-    name: "Approval prerequisite source bundle",
+    id: "5.23",
+    name: "Prerequisite bundle consumption checkpoint",
     executionPosture:
-      "approval-prerequisite-source-bundle runtime-disabled no-runtime-execution"
+      "prerequisite-bundle-consumption-checkpoint runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

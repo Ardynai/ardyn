@@ -86,11 +86,12 @@ evaluator, grant, command-exposure, or runtime block.
 
 ## Handoff
 
-Phase 5.22 creates deterministic source bundling only. A future phase may define
-a still-review-only source-bundle attestation or bundle provenance contract, but
-any such phase must still keep runtime unavailable until a separate reviewed
-grant and runtime enablement boundary exists.
+Phase 5.22 creates deterministic source bundling only. Phase 5.23 adds a
+still-review-only prerequisite bundle consumption checkpoint that summarizes
+whether a valid bundle can feed the review-only evaluator path. That checkpoint
+must still keep runtime unavailable until a separate reviewed grant and runtime
+enablement boundary exists.
 
 Recommended next slice:
 
-`phase-5.23-approval-prerequisite-source-bundle-attestation`
+`phase-5.23-prerequisite-bundle-consumption-checkpoint`

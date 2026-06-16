@@ -1,0 +1,243 @@
+{
+  "schema": "ardyn.phase-5.23.prerequisite-bundle-consumption-checkpoint",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.23-prerequisite-bundle-consumption-checkpoint",
+  "artifactKind": "prerequisite-bundle-consumption-checkpoint",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhase": {
+    "phase": "phase-5.22-approval-prerequisite-source-bundle",
+    "bundlePath": "packages/core/src/index.mjs#bundleApprovalPrerequisiteSourcesForReview",
+    "checkpointPath": "packages/core/src/index.mjs#consumeApprovalPrerequisiteBundleForReview",
+    "readerPath": "packages/core/src/index.mjs#readApprovalPrerequisiteRecordsForReview",
+    "evaluatorPath": "packages/core/src/index.mjs#evaluateRuntimeApprovalPrerequisitesForReview",
+    "runtimeEnabled": false,
+    "approvalGrantProduced": false
+  },
+  "checkpointSummary": {
+    "consumptionCheckpointRecorded": true,
+    "checkpointKind": "approval-prerequisite-bundle-consumption-checkpoint",
+    "checkpointReviewOnly": true,
+    "checkpointAuthoritative": false,
+    "missingBundleRejected": true,
+    "malformedBundleRejected": true,
+    "conflictingBundleRejected": true,
+    "validBundleSummarizedForReviewOnlyEvaluation": true,
+    "bundleConsumptionReturnsCheckpointStateOnly": true,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false
+  },
+  "consumptionInputShape": {
+    "sourceBundleRequired": true,
+    "sourceBundleSchema": "ardyn.phase-5.22.approval-prerequisite-source-bundle-result",
+    "bundleKind": "approval-prerequisite-source-bundle",
+    "bundleModeRequired": "review-only",
+    "sourceBundleAcceptedRequired": true,
+    "bundledReaderInputRequired": true,
+    "conflictingBundlePolicy": "fail-closed",
+    "filesystemWatcherAllowed": false,
+    "externalSourceLookupAllowed": false,
+    "secretsEnvIngestionAllowed": false,
+    "filePathAllowed": false,
+    "urlAllowed": false
+  },
+  "consumptionResultShape": {
+    "schema": "ardyn.phase-5.23.approval-prerequisite-bundle-consumption-checkpoint-result",
+    "schemaVersion": "0.1.0",
+    "checkpointKind": "approval-prerequisite-bundle-consumption-checkpoint",
+    "checkpointMode": "review-only",
+    "reviewOnly": true,
+    "authoritative": false,
+    "checkpointStateOnly": true,
+    "validBundleMayFeedReviewOnlyEvaluator": true,
+    "rejectedBundleDoesNotFeedEvaluator": true,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimeEffectAllFalse": true
+  },
+  "bundleConsumptionCases": [
+    {
+      "caseId": "missing-bundle-rejected",
+      "classification": "missing_prerequisite_bundle_consumption_rejected",
+      "bundleConsumedForReview": false,
+      "evaluatorInputForwarded": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "malformed-bundle-rejected",
+      "classification": "malformed_prerequisite_bundle_consumption_rejected",
+      "bundleConsumedForReview": false,
+      "evaluatorInputForwarded": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "conflicting-bundle-rejected",
+      "classification": "conflicting_prerequisite_bundle_consumption_rejected",
+      "bundleConsumedForReview": false,
+      "evaluatorInputForwarded": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "valid-bundle-review-only-summary",
+      "classification": "valid_prerequisite_bundle_consumed_for_review_only_runtime_still_blocked",
+      "bundleConsumedForReview": true,
+      "evaluatorInputForwarded": true,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    }
+  ],
+  "reviewEvaluatorIntegration": {
+    "validBundleMayFeedReviewEvaluator": true,
+    "rejectedBundleDoesNotFeedEvaluator": true,
+    "checkpointStillReviewOnly": true,
+    "evaluatorStillReviewOnly": true,
+    "checkpointCanProduceGrant": false,
+    "evaluatorCanProduceGrant": false,
+    "validBundleCanEnableRuntime": false,
+    "validBundleCanStartRuntime": false
+  },
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalEvaluatorAuthoritative": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "recognizedByCli": true,
+    "exitCode": 1,
+    "stdout": "",
+    "stderrIncludes": [
+      "Runtime is unavailable by default.",
+      "runtimeEnabled=false"
+    ],
+    "dryRunBypassesBlock": false,
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "No CLI bundle-consumption command is exposed.",
+    "No approval grant is produced or persisted.",
+    "No runtime command exposure is enabled.",
+    "No runtime execution occurs.",
+    "No filesystem watcher is added.",
+    "No external source lookup is added.",
+    "No secrets or environment ingestion is added.",
+    "No Rust host implementation is added.",
+    "No live stdin loop is added.",
+    "No runtime stdout or stderr writer is added.",
+    "No process control is added."
+  ],
+  "filesAllowedToChange": [
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+    "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+    "packages/core/src/index.mjs",
+    "packages/core/src/index.d.ts",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs",
+    "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json",
+    "tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs"
+  ],
+  "filesForbiddenToChange": [
+    "apps/cli/src/index.mjs",
+    "crates/ardyn-host/src/lib.rs",
+    "crates/ardyn-host/src/stdio_runtime/mod.rs"
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status"
+  ]
+}

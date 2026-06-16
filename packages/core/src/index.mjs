@@ -109,6 +109,12 @@ export const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_SCHEMA =
 export const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_VERSION = "0.1.0";
 export const APPROVAL_PREREQUISITE_SOURCE_BUNDLE_KIND =
   "approval-prerequisite-source-bundle";
+export const APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_SCHEMA =
+  "ardyn.phase-5.23.approval-prerequisite-bundle-consumption-checkpoint-result";
+export const APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_VERSION =
+  "0.1.0";
+export const APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_KIND =
+  "approval-prerequisite-bundle-consumption-checkpoint";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -6662,6 +6668,275 @@ export function bundleApprovalPrerequisiteSourcesForReview(input = {}) {
     reviewedAt,
     partReports,
     ...decision
+  });
+}
+
+const APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_ACCEPTED_CLASSIFICATIONS =
+  Object.freeze([
+    "valid_prerequisite_bundle_consumed_for_review_only_runtime_still_blocked"
+  ]);
+
+function approvalPrerequisiteBundleConsumptionSourceBundle(input) {
+  return isPlainObjectRecord(input) ? input.sourceBundle : null;
+}
+
+function approvalPrerequisiteSourceBundleRuntimeEffectBlocked(sourceBundle) {
+  if (!isPlainObjectRecord(sourceBundle?.runtimeEffect)) {
+    return false;
+  }
+
+  return Object.keys(REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE).every(
+    (key) => sourceBundle.runtimeEffect[key] === false
+  );
+}
+
+function approvalPrerequisiteSourceBundleGrantBlocked(sourceBundle) {
+  return (
+    isPlainObjectRecord(sourceBundle?.approvalGrant) &&
+    sourceBundle.approvalGrant.produced === false &&
+    sourceBundle.approvalGrant.persisted === false &&
+    sourceBundle.approvalGrant.grantId === null
+  );
+}
+
+function approvalPrerequisiteBundleConsumptionMalformed(sourceBundle) {
+  return [
+    sourceBundle.schema !== APPROVAL_PREREQUISITE_SOURCE_BUNDLE_SCHEMA,
+    sourceBundle.schemaVersion !== APPROVAL_PREREQUISITE_SOURCE_BUNDLE_VERSION,
+    sourceBundle.bundleKind !== APPROVAL_PREREQUISITE_SOURCE_BUNDLE_KIND,
+    sourceBundle.bundleMode !== "review-only",
+    sourceBundle.reviewOnly !== true,
+    sourceBundle.authoritative !== false,
+    !approvalPrerequisiteSourceBundleGrantBlocked(sourceBundle),
+    !approvalPrerequisiteSourceBundleRuntimeEffectBlocked(sourceBundle)
+  ].some(Boolean);
+}
+
+function approvalPrerequisiteBundleConsumptionConflict(sourceBundle) {
+  return (
+    sourceBundle.classification ===
+      "conflicting_prerequisite_source_bundle_parts_rejected" ||
+    approvalPrerequisiteBundleConsumptionArrayField(
+      sourceBundle,
+      "conflictingBundlePartIds"
+    ).length > 0
+  );
+}
+
+function approvalPrerequisiteBundleConsumptionForwardable(sourceBundle) {
+  return (
+    sourceBundle.sourceBundleAccepted === true &&
+    sourceBundle.readerInputForwarded === true &&
+    isPlainObjectRecord(sourceBundle.bundledReaderInput) &&
+    Array.isArray(sourceBundle.bundledReaderInput.prerequisiteRecords)
+  );
+}
+
+function approvalPrerequisiteBundleConsumptionClassificationForPresentBundle(
+  sourceBundle
+) {
+  if (approvalPrerequisiteBundleConsumptionMalformed(sourceBundle)) {
+    return "malformed_prerequisite_bundle_consumption_rejected";
+  }
+
+  if (approvalPrerequisiteBundleConsumptionConflict(sourceBundle)) {
+    return "conflicting_prerequisite_bundle_consumption_rejected";
+  }
+
+  return approvalPrerequisiteBundleConsumptionForwardable(sourceBundle)
+    ? "valid_prerequisite_bundle_consumed_for_review_only_runtime_still_blocked"
+    : "malformed_prerequisite_bundle_consumption_rejected";
+}
+
+function approvalPrerequisiteBundleConsumptionClassification(sourceBundle) {
+  return isPlainObjectRecord(sourceBundle)
+    ? approvalPrerequisiteBundleConsumptionClassificationForPresentBundle(
+        sourceBundle
+      )
+    : "missing_prerequisite_bundle_consumption_rejected";
+}
+
+function approvalPrerequisiteBundleConsumptionAccepted(classification) {
+  return APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_ACCEPTED_CLASSIFICATIONS.includes(
+    classification
+  );
+}
+
+function approvalPrerequisiteBundleConsumptionEvaluator({
+  accepted,
+  reviewedAt,
+  sourceBundle
+}) {
+  if (!accepted) {
+    return null;
+  }
+
+  return evaluateRuntimeApprovalPrerequisitesForReview({
+    reviewedAt,
+    prerequisiteRecords: sourceBundle.bundledReaderInput.prerequisiteRecords
+  });
+}
+
+function approvalPrerequisiteBundleConsumptionArrayField(sourceBundle, fieldName) {
+  return Array.isArray(sourceBundle?.[fieldName]) ? sourceBundle[fieldName] : [];
+}
+
+function approvalPrerequisiteBundleConsumptionMissingSourceSummary() {
+  return {
+    sourceBundleSchema: null,
+    sourceBundleClassification: null,
+    sourceBundleAccepted: false,
+    selectedBundlePartId: null,
+    equivalentBundlePartIds: [],
+    rejectedBundlePartIds: [],
+    conflictingBundlePartIds: []
+  };
+}
+
+function approvalPrerequisiteBundleConsumptionPresentSourceSummary(sourceBundle) {
+  return {
+    sourceBundleSchema: sourceBundle.schema ?? null,
+    sourceBundleClassification: sourceBundle.classification ?? null,
+    sourceBundleAccepted: sourceBundle.sourceBundleAccepted === true,
+    selectedBundlePartId: sourceBundle.selectedBundlePartId ?? null,
+    equivalentBundlePartIds: approvalPrerequisiteBundleConsumptionArrayField(
+      sourceBundle,
+      "equivalentBundlePartIds"
+    ),
+    rejectedBundlePartIds: approvalPrerequisiteBundleConsumptionArrayField(
+      sourceBundle,
+      "rejectedBundlePartIds"
+    ),
+    conflictingBundlePartIds: approvalPrerequisiteBundleConsumptionArrayField(
+      sourceBundle,
+      "conflictingBundlePartIds"
+    )
+  };
+}
+
+function approvalPrerequisiteBundleConsumptionSourceSummary(sourceBundle) {
+  return isPlainObjectRecord(sourceBundle)
+    ? approvalPrerequisiteBundleConsumptionPresentSourceSummary(sourceBundle)
+    : approvalPrerequisiteBundleConsumptionMissingSourceSummary();
+}
+
+function approvalPrerequisiteBundleConsumptionRejectedSummary() {
+  return {
+    selectedBundlePartId: null,
+    readerRecordCount: 0,
+    evaluatorClassification: null,
+    prerequisiteSignalRecognized: false,
+    evaluatorReviewOnly: false,
+    evaluatorAuthoritative: false
+  };
+}
+
+function approvalPrerequisiteBundleConsumptionAcceptedSummary({
+  sourceBundle,
+  evaluator
+}) {
+  return {
+    selectedBundlePartId: sourceBundle.selectedBundlePartId,
+    readerRecordCount: sourceBundle.bundledReaderInput.prerequisiteRecords.length,
+    evaluatorClassification: evaluator.classification,
+    prerequisiteSignalRecognized: evaluator.prerequisiteSignalRecognized,
+    evaluatorReviewOnly: evaluator.reviewOnly,
+    evaluatorAuthoritative: evaluator.authoritative
+  };
+}
+
+function approvalPrerequisiteBundleConsumptionSummary({
+  accepted,
+  sourceBundle,
+  evaluator
+}) {
+  return accepted
+    ? approvalPrerequisiteBundleConsumptionAcceptedSummary({
+        sourceBundle,
+        evaluator
+      })
+    : approvalPrerequisiteBundleConsumptionRejectedSummary();
+}
+
+function approvalPrerequisiteBundleConsumptionRejectionReasons({
+  classification,
+  sourceBundle
+}) {
+  const classificationReasons =
+    {
+      missing_prerequisite_bundle_consumption_rejected: [
+        "missing_prerequisite_source_bundle"
+      ],
+      malformed_prerequisite_bundle_consumption_rejected: [
+        "malformed_prerequisite_source_bundle"
+      ],
+      conflicting_prerequisite_bundle_consumption_rejected: [
+        "conflicting_prerequisite_source_bundle_parts"
+      ]
+    }[classification] ?? [];
+  const bundleReasons = Array.isArray(sourceBundle?.rejectionReasons)
+    ? sourceBundle.rejectionReasons
+    : [];
+
+  return [
+    ...classificationReasons,
+    ...bundleReasons,
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function approvalPrerequisiteBundleConsumptionResult({
+  reviewedAt,
+  sourceBundle,
+  classification
+}) {
+  const accepted =
+    approvalPrerequisiteBundleConsumptionAccepted(classification);
+  const evaluator = approvalPrerequisiteBundleConsumptionEvaluator({
+    accepted,
+    reviewedAt,
+    sourceBundle
+  });
+
+  return {
+    schema: APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_SCHEMA,
+    schemaVersion: APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_VERSION,
+    checkpointKind: APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_KIND,
+    checkpointMode: "review-only",
+    reviewedAt,
+    classification,
+    bundleConsumedForReview: accepted,
+    evaluatorInputForwarded: accepted,
+    reviewOnly: true,
+    authoritative: false,
+    sourceBundleSummary:
+      approvalPrerequisiteBundleConsumptionSourceSummary(sourceBundle),
+    consumedBundleSummary: approvalPrerequisiteBundleConsumptionSummary({
+      accepted,
+      sourceBundle,
+      evaluator
+    }),
+    approvalPrerequisiteEvaluator: evaluator,
+    rejectionReasons: approvalPrerequisiteBundleConsumptionRejectionReasons({
+      classification,
+      sourceBundle
+    }),
+    approvalGrant: sourcePreflightGrantBlocked(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function consumeApprovalPrerequisiteBundleForReview(input = {}) {
+  const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const sourceBundle = approvalPrerequisiteBundleConsumptionSourceBundle(input);
+  const classification =
+    approvalPrerequisiteBundleConsumptionClassification(sourceBundle);
+
+  return approvalPrerequisiteBundleConsumptionResult({
+    reviewedAt,
+    sourceBundle,
+    classification
   });
 }
 

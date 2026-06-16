@@ -175,6 +175,9 @@ const phase521ApprovalPrerequisiteSourceSelectionMetadata = await readJson(
 const phase522ApprovalPrerequisiteSourceBundleMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-22/approval-prerequisite-source-bundle-contract.json"
 );
+const phase523PrerequisiteBundleConsumptionCheckpointMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -222,10 +225,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.22",
-    name: "Approval prerequisite source bundle",
+    id: "5.23",
+    name: "Prerequisite bundle consumption checkpoint",
     executionPosture:
-      "approval-prerequisite-source-bundle runtime-disabled no-runtime-execution"
+      "prerequisite-bundle-consumption-checkpoint runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -273,12 +276,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.22 approval prerequisite source bundle status report.",
+        "Render this deterministic local Phase 5.23 prerequisite bundle consumption checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.22 status report.",
+      purpose: "Run focused tests for this local Phase 5.23 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.23 prerequisite bundle consumption checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -11854,6 +11864,206 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase523PrerequisiteBundleConsumptionCheckpointInventory: {
+    statusLayer: {
+      document: "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json",
+      sourceApprovalPrerequisiteBundleDocument:
+        "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+      sourceApprovalPrerequisiteBundleFixture:
+        "tests/fixtures/host-policy/phase5-22/approval-prerequisite-source-bundle-contract.json",
+      precedingPhase: "5.22",
+      layerId: "prerequisite-bundle-consumption-checkpoint",
+      scope:
+        "phase-5-prerequisite-bundle-consumption-checkpoint-review-only-runtime-disabled",
+      consumptionCheckpointRecorded:
+        phase523PrerequisiteBundleConsumptionCheckpointMetadata.checkpointSummary
+          .consumptionCheckpointRecorded,
+      checkpointKind:
+        phase523PrerequisiteBundleConsumptionCheckpointMetadata.checkpointSummary
+          .checkpointKind,
+      checkpointReviewOnly: true,
+      checkpointAuthoritative: false,
+      missingBundleRejected: true,
+      malformedBundleRejected: true,
+      conflictingBundleRejected: true,
+      validBundleSummarizedForReviewOnlyEvaluation: true,
+      bundleConsumptionReturnsCheckpointStateOnly: true,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase523PrerequisiteBundleConsumptionCheckpointMetadata.checkpointSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+        "Records the Phase 5.23 prerequisite bundle consumption checkpoint while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+        "Provides the Phase 5.23 consumption-checkpoint handoff from source bundling."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.23 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.23 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.23 changes no Rust-host runtime source and records a TypeScript checkpoint helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+      "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json",
+        "Records prerequisite bundle consumption checkpoint cases while grants and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.23 report metadata, docs cross-links, checkpoint fixture, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs",
+        "Pins the Phase 5.23 checkpoint helper, fixture shape, evaluator integration, serve-runtime rejection, command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+        "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase523PrerequisiteBundleConsumptionCheckpointMetadata.sourcePhase,
+    checkpointSummary:
+      phase523PrerequisiteBundleConsumptionCheckpointMetadata.checkpointSummary,
+    consumptionInputShape:
+      phase523PrerequisiteBundleConsumptionCheckpointMetadata.consumptionInputShape,
+    consumptionResultShape:
+      phase523PrerequisiteBundleConsumptionCheckpointMetadata.consumptionResultShape,
+    bundleConsumptionCases:
+      phase523PrerequisiteBundleConsumptionCheckpointMetadata.bundleConsumptionCases,
+    reviewEvaluatorIntegration:
+      phase523PrerequisiteBundleConsumptionCheckpointMetadata
+        .reviewEvaluatorIntegration,
+    blockedRuntimeEffect:
+      phase523PrerequisiteBundleConsumptionCheckpointMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase523PrerequisiteBundleConsumptionCheckpointMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase523PrerequisiteBundleConsumptionCheckpointMetadata.forbiddenBehavior,
+    validationCommands:
+      phase523PrerequisiteBundleConsumptionCheckpointMetadata.validationCommands,
+    safetyPosture: {
+      consumptionCheckpointRecorded: true,
+      checkpointReviewOnly: true,
+      checkpointAuthoritative: false,
+      missingBundleRejected: true,
+      malformedBundleRejected: true,
+      conflictingBundleRejected: true,
+      validBundleSummarizedForReviewOnlyEvaluation: true,
+      bundleConsumptionReturnsCheckpointStateOnly: true,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -11909,6 +12119,7 @@ const report = {
     phase520ApprovalPrerequisiteSourceIngestionPreflight: true,
     phase521ApprovalPrerequisiteSourceSelection: true,
     phase522ApprovalPrerequisiteSourceBundle: true,
+    phase523PrerequisiteBundleConsumptionCheckpoint: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -12684,6 +12895,42 @@ const report = {
       phase522AdapterRuntimeBehaviorEnabled: false,
       phase522ContentFabricRuntimeBehaviorEnabled: false,
       phase522WebSocketHttpSurfaceEnabled: false,
+      phase523PrerequisiteBundleConsumptionCheckpointRecorded: true,
+      phase523CheckpointReviewOnly: true,
+      phase523CheckpointAuthoritative: false,
+      phase523MissingBundleRejected: true,
+      phase523MalformedBundleRejected: true,
+      phase523ConflictingBundleRejected: true,
+      phase523ValidBundleSummarizedForReviewOnlyEvaluation: true,
+      phase523BundleConsumptionReturnsCheckpointStateOnly: true,
+      phase523ApprovalGrantProduced: false,
+      phase523ApprovalGrantPersisted: false,
+      phase523RuntimeEnabled: false,
+      phase523RuntimeStarted: false,
+      phase523RuntimeReady: false,
+      phase523RuntimeCommandEnabled: false,
+      phase523RuntimeCommandExposureEnabled: false,
+      phase523RuntimeExecutionEnabled: false,
+      phase523RuntimeExecuted: false,
+      phase523ServeRuntimeStillDefaultBlocked: true,
+      phase523DryRunBypassesBlock: false,
+      phase523CanEnableRuntime: false,
+      phase523CliSourceChanged: false,
+      phase523RustSourceChanged: false,
+      phase523FilesystemWatcherEnabled: false,
+      phase523ExternalSourceLookupEnabled: false,
+      phase523SecretsEnvIngestionEnabled: false,
+      phase523LiveStdinLoopEnabled: false,
+      phase523RuntimeStdoutWriterEnabled: false,
+      phase523RuntimeStderrWriterEnabled: false,
+      phase523ProcessSpawnEnabled: false,
+      phase523ProcessTerminationEnabled: false,
+      phase523RuntimeSupervisionEnabled: false,
+      phase523RuntimeTranscriptWritePerformed: false,
+      phase523RuntimeAuditWritePerformed: false,
+      phase523AdapterRuntimeBehaviorEnabled: false,
+      phase523ContentFabricRuntimeBehaviorEnabled: false,
+      phase523WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

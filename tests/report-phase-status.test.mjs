@@ -1131,6 +1131,20 @@ const phase522CrossLinks = [
   "docs/phase-5-21-approval-prerequisite-source-selection.md",
   "docs/phase-5-22-approval-prerequisite-source-bundle.md"
 ];
+const phase523DocFiles = [
+  "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+  "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase523CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+  "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md"
+];
 const phase519ExpectedTrueSafetyFlagNames = [
   "phase519ApprovalPrerequisiteReaderHardeningRecorded",
   "phase519ReaderReviewOnly",
@@ -1322,6 +1336,50 @@ const phase522SafetyFlagNames = [
   ...phase522ExpectedTrueSafetyFlagNames,
   ...phase522ExpectedFalseSafetyFlagNames
 ];
+const phase523ExpectedTrueSafetyFlagNames = [
+  "phase523PrerequisiteBundleConsumptionCheckpointRecorded",
+  "phase523CheckpointReviewOnly",
+  "phase523MissingBundleRejected",
+  "phase523MalformedBundleRejected",
+  "phase523ConflictingBundleRejected",
+  "phase523ValidBundleSummarizedForReviewOnlyEvaluation",
+  "phase523BundleConsumptionReturnsCheckpointStateOnly",
+  "phase523ServeRuntimeStillDefaultBlocked"
+];
+const phase523ExpectedFalseSafetyFlagNames = [
+  "phase523CheckpointAuthoritative",
+  "phase523ApprovalGrantProduced",
+  "phase523ApprovalGrantPersisted",
+  "phase523RuntimeEnabled",
+  "phase523RuntimeStarted",
+  "phase523RuntimeReady",
+  "phase523RuntimeCommandEnabled",
+  "phase523RuntimeCommandExposureEnabled",
+  "phase523RuntimeExecutionEnabled",
+  "phase523RuntimeExecuted",
+  "phase523DryRunBypassesBlock",
+  "phase523CanEnableRuntime",
+  "phase523CliSourceChanged",
+  "phase523RustSourceChanged",
+  "phase523FilesystemWatcherEnabled",
+  "phase523ExternalSourceLookupEnabled",
+  "phase523SecretsEnvIngestionEnabled",
+  "phase523LiveStdinLoopEnabled",
+  "phase523RuntimeStdoutWriterEnabled",
+  "phase523RuntimeStderrWriterEnabled",
+  "phase523ProcessSpawnEnabled",
+  "phase523ProcessTerminationEnabled",
+  "phase523RuntimeSupervisionEnabled",
+  "phase523RuntimeTranscriptWritePerformed",
+  "phase523RuntimeAuditWritePerformed",
+  "phase523AdapterRuntimeBehaviorEnabled",
+  "phase523ContentFabricRuntimeBehaviorEnabled",
+  "phase523WebSocketHttpSurfaceEnabled"
+];
+const phase523SafetyFlagNames = [
+  ...phase523ExpectedTrueSafetyFlagNames,
+  ...phase523ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1443,15 +1501,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.22 approval prerequisite source bundle docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.23 prerequisite bundle consumption checkpoint docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.22",
-    name: "Approval prerequisite source bundle",
+    id: "5.23",
+    name: "Prerequisite bundle consumption checkpoint",
     executionPosture:
-      "approval-prerequisite-source-bundle runtime-disabled no-runtime-execution"
+      "prerequisite-bundle-consumption-checkpoint runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1524,12 +1582,19 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.22 approval prerequisite source bundle status report.",
+        "Render this deterministic local Phase 5.23 prerequisite bundle consumption checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.22 status report.",
+      purpose: "Run focused tests for this local Phase 5.23 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.23 prerequisite bundle consumption checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -11975,6 +12040,217 @@ test("report inventories Phase 5.22 as approval prerequisite source bundle with 
   }
 });
 
+test("report inventories Phase 5.23 as prerequisite bundle consumption checkpoint with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory = report.phase523PrerequisiteBundleConsumptionCheckpointInventory;
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json",
+    sourceApprovalPrerequisiteBundleDocument:
+      "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+    sourceApprovalPrerequisiteBundleFixture:
+      "tests/fixtures/host-policy/phase5-22/approval-prerequisite-source-bundle-contract.json",
+    precedingPhase: "5.22",
+    layerId: "prerequisite-bundle-consumption-checkpoint",
+    scope:
+      "phase-5-prerequisite-bundle-consumption-checkpoint-review-only-runtime-disabled",
+    consumptionCheckpointRecorded: true,
+    checkpointKind: "approval-prerequisite-bundle-consumption-checkpoint",
+    checkpointReviewOnly: true,
+    checkpointAuthoritative: false,
+    missingBundleRejected: true,
+    malformedBundleRejected: true,
+    conflictingBundleRejected: true,
+    validBundleSummarizedForReviewOnlyEvaluation: true,
+    bundleConsumptionReturnsCheckpointStateOnly: true,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    filesystemWatcherEnabled: false,
+    externalSourceLookupEnabled: false,
+    secretsEnvIngestionEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase523DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase523CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs"
+  ]);
+  assert.deepEqual(inventory.sourcePhase, {
+    phase: "phase-5.22-approval-prerequisite-source-bundle",
+    bundlePath:
+      "packages/core/src/index.mjs#bundleApprovalPrerequisiteSourcesForReview",
+    checkpointPath:
+      "packages/core/src/index.mjs#consumeApprovalPrerequisiteBundleForReview",
+    readerPath: "packages/core/src/index.mjs#readApprovalPrerequisiteRecordsForReview",
+    evaluatorPath: "packages/core/src/index.mjs#evaluateRuntimeApprovalPrerequisitesForReview",
+    runtimeEnabled: false,
+    approvalGrantProduced: false
+  });
+  assert.deepEqual(inventory.checkpointSummary, {
+    consumptionCheckpointRecorded: true,
+    checkpointKind: "approval-prerequisite-bundle-consumption-checkpoint",
+    checkpointReviewOnly: true,
+    checkpointAuthoritative: false,
+    missingBundleRejected: true,
+    malformedBundleRejected: true,
+    conflictingBundleRejected: true,
+    validBundleSummarizedForReviewOnlyEvaluation: true,
+    bundleConsumptionReturnsCheckpointStateOnly: true,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false
+  });
+  assert.equal(
+    inventory.consumptionInputShape.sourceBundleSchema,
+    "ardyn.phase-5.22.approval-prerequisite-source-bundle-result"
+  );
+  assert.equal(inventory.consumptionInputShape.bundleModeRequired, "review-only");
+  assert.equal(inventory.consumptionInputShape.conflictingBundlePolicy, "fail-closed");
+  assert.equal(inventory.consumptionInputShape.filesystemWatcherAllowed, false);
+  assert.equal(inventory.consumptionInputShape.externalSourceLookupAllowed, false);
+  assert.equal(inventory.consumptionInputShape.secretsEnvIngestionAllowed, false);
+  assert.equal(
+    inventory.consumptionResultShape.schema,
+    "ardyn.phase-5.23.approval-prerequisite-bundle-consumption-checkpoint-result"
+  );
+  assert.equal(inventory.consumptionResultShape.checkpointStateOnly, true);
+  assert.equal(inventory.consumptionResultShape.approvalGrantProduced, false);
+  assert.deepEqual(inventory.bundleConsumptionCases.map(({ caseId }) => caseId), [
+    "missing-bundle-rejected",
+    "malformed-bundle-rejected",
+    "conflicting-bundle-rejected",
+    "valid-bundle-review-only-summary"
+  ]);
+  for (const bundleCase of inventory.bundleConsumptionCases) {
+    assert.equal(bundleCase.reviewOnly, true);
+    assert.equal(bundleCase.authoritative, false);
+    assert.equal(bundleCase.approvalGrant.produced, false);
+    assert.equal(bundleCase.approvalGrant.persisted, false);
+    assert.equal(bundleCase.approvalGrant.grantId, null);
+    assertAllFalse(bundleCase.runtimeEffect);
+  }
+  assert.equal(
+    inventory.reviewEvaluatorIntegration.validBundleMayFeedReviewEvaluator,
+    true
+  );
+  assert.equal(
+    inventory.reviewEvaluatorIntegration.rejectedBundleDoesNotFeedEvaluator,
+    true
+  );
+  assert.equal(inventory.reviewEvaluatorIntegration.evaluatorStillReviewOnly, true);
+  assert.equal(inventory.reviewEvaluatorIntegration.evaluatorCanProduceGrant, false);
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.stdout, "");
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.ok(
+    inventory.forbiddenBehavior.includes(
+      "No CLI bundle-consumption command is exposed."
+    )
+  );
+  assert.ok(
+    inventory.forbiddenBehavior.includes(
+      "No approval grant is produced or persisted."
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.safetyPosture, {
+    consumptionCheckpointRecorded: true,
+    checkpointReviewOnly: true,
+    checkpointAuthoritative: false,
+    missingBundleRejected: true,
+    malformedBundleRejected: true,
+    conflictingBundleRejected: true,
+    validBundleSummarizedForReviewOnlyEvaluation: true,
+    bundleConsumptionReturnsCheckpointStateOnly: true,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    filesystemWatcherEnabled: false,
+    externalSourceLookupEnabled: false,
+    secretsEnvIngestionEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(
+    report.safetyPosture.phase523PrerequisiteBundleConsumptionCheckpoint,
+    true
+  );
+  for (const flagName of phase523ExpectedTrueSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], true);
+  }
+  for (const flagName of phase523ExpectedFalseSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], false);
+  }
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -12204,6 +12480,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase520ApprovalPrerequisiteSourceIngestionPreflight, true);
   assert.equal(report.safetyPosture.phase521ApprovalPrerequisiteSourceSelection, true);
   assert.equal(report.safetyPosture.phase522ApprovalPrerequisiteSourceBundle, true);
+  assert.equal(report.safetyPosture.phase523PrerequisiteBundleConsumptionCheckpoint, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -12840,6 +13117,9 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   for (const flagName of phase522SafetyFlagNames) {
     delete comparableFlags[flagName];
   }
+  for (const flagName of phase523SafetyFlagNames) {
+    delete comparableFlags[flagName];
+  }
   assert.deepEqual(comparableFlags, expectedFlags);
   for (const flagName of phase519ExpectedTrueSafetyFlagNames) {
     assert.equal(report.safetyPosture.flags[flagName], true);
@@ -12863,6 +13143,12 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     assert.equal(report.safetyPosture.flags[flagName], true);
   }
   for (const flagName of phase522ExpectedFalseSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], false);
+  }
+  for (const flagName of phase523ExpectedTrueSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], true);
+  }
+  for (const flagName of phase523ExpectedFalseSafetyFlagNames) {
     assert.equal(report.safetyPosture.flags[flagName], false);
   }
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);

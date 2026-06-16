@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.22 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.23 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -249,6 +249,18 @@ transcript/audit write, filesystem watcher, external source lookup, secrets/env
 ingestion, adapter or Content Fabric runtime behavior, WebSocket/HTTP surface,
 Rust source change, or change to `apps/cli/src/index.mjs`. Valid bundles can
 only feed the review-only reader/evaluator path; they cannot produce a grant,
+enable runtime, expose runtime commands, or start runtime. `serve-runtime` and
+`serve-runtime --dry-run` remain default-blocked.
+Phase 5.23 adds prerequisite bundle consumption checkpoint docs/status metadata
+and a core review helper only. It consumes in-memory Phase 5.22 bundle results
+before they may be summarized for the review-only evaluator path, but adds no
+Phase 5.23 CLI command, bundle-consumption command, source-bundle command,
+approval prerequisite reader command, approval evaluator command, approval
+grant command, runtime start path, live stdin loop, stdout/stderr runtime
+writer, process spawning or supervision, runtime transcript/audit write,
+filesystem watcher, external source lookup, secrets/env ingestion, adapter or
+Content Fabric runtime behavior, WebSocket/HTTP surface, Rust source change, or
+change to `apps/cli/src/index.mjs`. Valid checkpoints cannot produce a grant,
 enable runtime, expose runtime commands, or start runtime. `serve-runtime` and
 `serve-runtime --dry-run` remain default-blocked.
 See
@@ -738,3 +750,12 @@ runtime, performs no filesystem watching or external lookup, ingests no
 secrets/env data, and changes no CLI source. `serve-runtime` remains
 default-blocked. See
 `docs/phase-5-22-approval-prerequisite-source-bundle.md`.
+
+Phase 5.23 records prerequisite bundle consumption checkpointing only. The core
+helper consumes caller-provided in-memory Phase 5.22 bundle results before they
+may be summarized for the review-only evaluator path, but it is not
+authoritative, produces no approval grant, enables no runtime, exposes no
+runtime command, starts no runtime, performs no filesystem watching or external
+lookup, ingests no secrets/env data, and changes no CLI source. `serve-runtime`
+remains default-blocked. See
+`docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md`.

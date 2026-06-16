@@ -197,6 +197,14 @@ malformed bundle parts, duplicate equivalent bundle parts, conflicting bundle
 parts, and stale, revoked, unknown, malformed, and empty in-memory source cases
 as review metadata only. See
 `docs/phase-5-22-approval-prerequisite-source-bundle.md`.
+Phase 5.23 records prerequisite bundle consumption checkpointing in TypeScript
+core only. It keeps `stdio_runtime` private, grants no approval, produces no
+approval grant, implements no source watcher, external lookup, secrets/env
+ingestion, authoritative evaluator, bundle-consumption command, or runtime
+behavior, changes no Rust or CLI source, and records missing, malformed,
+conflicting, and valid in-memory bundle consumption cases as review metadata
+only. See
+`docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md`.
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -569,6 +577,19 @@ transcript/audit write, adapter/Fabric behavior, or WebSocket/HTTP surface is
 implemented. Runtime remains disabled, `stdio_runtime` remains private, and no
 Rust source changes are made. See
 `docs/phase-5-22-approval-prerequisite-source-bundle.md`.
+
+Phase 5.23 adds no Rust-host runtime implementation. It records a
+machine-readable prerequisite bundle consumption checkpoint layer in TypeScript
+core and keeps the Rust host private and fail-closed. No filesystem watcher,
+external source lookup, secrets/env ingestion, bundle-consumption command,
+authoritative approval evaluator, approval grant, host-policy runtime
+enforcement, runtime I/O, process control, rollback/kill-switch behavior,
+positive runtime smoke execution, runtime entrypoint, live stdin loop, runtime
+stdout/stderr writer, process spawning, process supervision, runtime
+transcript/audit write, adapter/Fabric behavior, or WebSocket/HTTP surface is
+implemented. Runtime remains disabled, `stdio_runtime` remains private, and no
+Rust source changes are made. See
+`docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

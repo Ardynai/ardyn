@@ -387,10 +387,10 @@ test("Phase 4.1 status report still inventories Phase 4.0I readiness metadata wi
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.22",
-    name: "Approval prerequisite source bundle",
+    id: "5.23",
+    name: "Prerequisite bundle consumption checkpoint",
     executionPosture:
-      "approval-prerequisite-source-bundle runtime-disabled no-runtime-execution"
+      "prerequisite-bundle-consumption-checkpoint runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
