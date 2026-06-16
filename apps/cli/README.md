@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.25 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.26 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -289,6 +289,19 @@ Rust source change, or change to `apps/cli/src/index.mjs`. Valid review
 artifacts cannot produce or persist a grant, grant runtime permission, enable
 runtime, expose runtime commands, or start runtime. `serve-runtime` and
 `serve-runtime --dry-run` remain default-blocked.
+Phase 5.26 adds review artifact evaluator-input handoff docs/status metadata
+and a core review helper only. It represents valid Phase 5.25 review artifacts
+only as evaluator-input candidates, but adds no Phase 5.26 CLI command,
+review-artifact-evaluator-input-handoff command, evaluator-input candidate
+command, approval evaluator input command, approval grant command, runtime
+permission command, command-exposure command, runtime start path, live stdin
+loop, stdout/stderr runtime writer, process spawning or supervision, runtime
+transcript/audit write, filesystem watcher, external source lookup, secrets/env
+ingestion, adapter or Content Fabric runtime behavior, WebSocket/HTTP surface,
+Rust source change, or change to `apps/cli/src/index.mjs`. Evaluator-input
+candidates cannot produce or persist a grant, grant runtime or command exposure
+permission, enable runtime, expose runtime commands, or start runtime.
+`serve-runtime` and `serve-runtime --dry-run` remain default-blocked.
 See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
@@ -319,7 +332,8 @@ See
 `docs/phase-5-22-approval-prerequisite-source-bundle.md`, and
 `docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md`, and
 `docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md`, and
-`docs/phase-5-25-non-authorizing-review-artifact-boundary.md`.
+`docs/phase-5-25-non-authorizing-review-artifact-boundary.md`, and
+`docs/phase-5-26-review-artifact-evaluator-input-handoff.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -806,3 +820,12 @@ runtime command, starts no runtime, performs no filesystem watching or external
 lookup, ingests no secrets/env data, and changes no CLI source.
 `serve-runtime` remains default-blocked. See
 `docs/phase-5-25-non-authorizing-review-artifact-boundary.md`.
+
+Phase 5.26 records review artifact evaluator-input handoff metadata only. The
+core helper represents valid Phase 5.25 non-authorizing review artifacts as
+review-only evaluator-input candidates, but it is not authoritative, produces
+or persists no approval grant, grants no runtime or command exposure
+permission, enables no runtime, exposes no runtime command, starts no runtime,
+performs no filesystem watching or external lookup, ingests no secrets/env
+data, and changes no CLI source. `serve-runtime` remains default-blocked. See
+`docs/phase-5-26-review-artifact-evaluator-input-handoff.md`.

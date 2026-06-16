@@ -125,6 +125,12 @@ export const PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_SCHEMA =
 export const PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_VERSION = "0.1.0";
 export const PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_KIND =
   "non-authorizing-prerequisite-review-artifact-boundary";
+export const PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_SCHEMA =
+  "ardyn.phase-5.26.prerequisite-review-artifact-evaluator-input-handoff-result";
+export const PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_VERSION =
+  "0.1.0";
+export const PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_KIND =
+  "review-artifact-evaluator-input-handoff";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -7057,6 +7063,9 @@ function reviewOnlyRuntimeEffectAllFalse(runtimeEffect) {
     isPlainObjectRecord(runtimeEffect) &&
     Object.keys(REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE).every(
       (key) => runtimeEffect[key] === false
+    ) &&
+    Object.values(runtimeEffect).every(
+      (value) => value === false
     )
   );
 }
@@ -7387,6 +7396,402 @@ export function createPrerequisiteReviewArtifactBoundaryForReview(input = {}) {
     rejectionReasons: prerequisiteReviewArtifactBoundaryRejectionReasons({
       accepted,
       integratedReview
+    }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+const PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_CANDIDATE_SCHEMA =
+  "ardyn.phase-5.26.review-artifact-evaluator-input-candidate";
+
+const PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_MIN_REVIEWED_AT =
+  "2026-06-15T00:00:00.000Z";
+
+const VALID_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_CLASSIFICATION =
+  "valid_review_artifact_evaluator_input_candidate_runtime_still_blocked";
+
+const PREREQUISITE_REVIEW_ARTIFACT_REQUIRED_FALSE_FIELDS = Object.freeze([
+  "reviewArtifactIsApprovalGrant",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "runtimePermissionGranted",
+  "commandExposurePermissionGranted"
+]);
+
+const PREREQUISITE_REVIEW_ARTIFACT_REQUIRED_FIELDS = Object.freeze([
+  ...PREREQUISITE_REVIEW_ARTIFACT_REQUIRED_FALSE_FIELDS,
+  "approvalGrantId"
+]);
+
+const PREREQUISITE_REVIEW_ARTIFACT_TRUE_RUNTIME_FIELDS = Object.freeze([
+  "authoritative",
+  "runtimeEnabled",
+  "runtimeStarted",
+  "runtimeExecuted"
+]);
+
+const PREREQUISITE_REVIEW_ARTIFACT_AUTHORITATIVE_TRUE_FIELD_PATTERN =
+  /(runtime|process|command|approvalGrant|watcher|lookup|secrets|env|stdin|stdout|stderr|writer|reader|webSocket|http|adapter|contentFabric)/i;
+
+const UTC_ISO_TIMESTAMP_WITH_MILLISECONDS_PATTERN =
+  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+
+function isUtcIsoTimestampWithMilliseconds(value) {
+  const timestamp = Date.parse(value);
+
+  return (
+    typeof value === "string" &&
+    UTC_ISO_TIMESTAMP_WITH_MILLISECONDS_PATTERN.test(value) &&
+    Number.isFinite(timestamp) &&
+    new Date(timestamp).toISOString() === value
+  );
+}
+
+function reviewArtifactHandoffTopLevelTrueRuntimeClaim(artifact) {
+  return Object.entries(artifact).some(
+    ([key, value]) =>
+      value === true &&
+      PREREQUISITE_REVIEW_ARTIFACT_AUTHORITATIVE_TRUE_FIELD_PATTERN.test(key)
+  );
+}
+
+const PREREQUISITE_REVIEW_ARTIFACT_CORE_SHAPE_CHECKS = Object.freeze([
+  ["schema", (value) => value === PREREQUISITE_REVIEW_ARTIFACT_SCHEMA],
+  [
+    "schemaVersion",
+    (value) => value === PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_VERSION
+  ],
+  [
+    "artifactKind",
+    (value) => value === "non-authorizing-prerequisite-review-artifact"
+  ],
+  ["artifactMode", (value) => value === "review-only"],
+  ["reviewedAt", isUtcIsoTimestampWithMilliseconds],
+  ["sourceIntegrationCheckpoint", isPlainObjectRecord],
+  ["pipelineSummary", isPlainObjectRecord],
+  ["integratedReviewSummary", isPlainObjectRecord],
+  ["runtimeEffect", isPlainObjectRecord]
+]);
+
+const PREREQUISITE_REVIEW_ARTIFACT_CHECKPOINT_CHECKS = Object.freeze([
+  [
+    "schema",
+    (value) => value === APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_SCHEMA
+  ],
+  [
+    "checkpointKind",
+    (value) => value === APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_KIND
+  ],
+  [
+    "classification",
+    (value) =>
+      value ===
+      "valid_prerequisite_integration_review_summary_runtime_still_blocked"
+  ],
+  ["reviewSummaryProduced", (value) => value === true],
+  ["reviewSummaryIsApprovalGrant", (value) => value === false]
+]);
+
+const PREREQUISITE_REVIEW_ARTIFACT_PIPELINE_CHECKS = Object.freeze([
+  ["sourceCount", (value) => typeof value === "number"],
+  ["selectedSourceId", (value) => typeof value === "string" || value === null],
+  [
+    "selectedBundlePartId",
+    (value) => typeof value === "string" || value === null
+  ],
+  ["readerRecordCount", (value) => typeof value === "number"],
+  ["evaluatorClassification", (value) => typeof value === "string"],
+  ["prerequisiteSignalRecognized", (value) => value === true]
+]);
+
+const PREREQUISITE_REVIEW_ARTIFACT_SUMMARY_CHECKS = Object.freeze([
+  ["schema", (value) => value === REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_SCHEMA],
+  ["evaluatorKind", (value) => value === REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_KIND],
+  ["evaluationMode", (value) => value === "review-only"],
+  ["prerequisiteSignalRecognized", (value) => value === true],
+  ["reviewOnly", (value) => value === true],
+  ["authoritative", (value) => value === false],
+  ["reviewSummaryIsApprovalGrant", (value) => value === false],
+  ["approvalGrantProduced", (value) => value === false],
+  ["approvalGrantPersisted", (value) => value === false],
+  ["approvalGrantId", (value) => value === null],
+  ["runtimeEffectAllFalse", (value) => value === true]
+]);
+
+function recordPassesChecks(record, checks) {
+  return checks.every(([key, predicate]) => predicate(record[key]));
+}
+
+function recordHasFields(record, fields) {
+  return fields.every((field) => Object.prototype.hasOwnProperty.call(record, field));
+}
+
+function reviewArtifactHandoffDigest(value) {
+  return `sha256:${createHash("sha256")
+    .update(stableJsonStringify(value))
+    .digest("hex")}`;
+}
+
+function reviewArtifactHandoffUnknown(artifact) {
+  return (
+    (typeof artifact.schema === "string" &&
+      artifact.schema !== PREREQUISITE_REVIEW_ARTIFACT_SCHEMA) ||
+    (typeof artifact.artifactKind === "string" &&
+      artifact.artifactKind !== "non-authorizing-prerequisite-review-artifact")
+  );
+}
+
+function reviewArtifactHandoffRevoked(artifact) {
+  return (
+    artifact.revoked === true ||
+    (isPlainObjectRecord(artifact.revocation) &&
+      artifact.revocation.revoked === true)
+  );
+}
+
+function reviewArtifactHandoffStale(artifact) {
+  return (
+    isUtcIsoTimestampWithMilliseconds(artifact.reviewedAt) &&
+    artifact.reviewedAt < PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_MIN_REVIEWED_AT
+  );
+}
+
+const PREREQUISITE_REVIEW_ARTIFACT_AUTHORIZING_CHECKS = Object.freeze([
+  (artifact) =>
+    PREREQUISITE_REVIEW_ARTIFACT_REQUIRED_FALSE_FIELDS.some(
+      (field) => artifact[field] !== false
+    ),
+  (artifact) => artifact.approvalGrantId !== null,
+  (artifact) => artifact.approvalGrant?.produced === true,
+  (artifact) => artifact.approvalGrant?.persisted === true,
+  (artifact) => !reviewOnlyRuntimeEffectAllFalse(artifact.runtimeEffect),
+  reviewArtifactHandoffTopLevelTrueRuntimeClaim,
+  (artifact) =>
+    PREREQUISITE_REVIEW_ARTIFACT_TRUE_RUNTIME_FIELDS.some(
+      (field) => artifact[field] === true
+    )
+]);
+
+function reviewArtifactHandoffAuthorizing(artifact) {
+  return PREREQUISITE_REVIEW_ARTIFACT_AUTHORIZING_CHECKS.some((predicate) =>
+    predicate(artifact)
+  );
+}
+
+const PREREQUISITE_REVIEW_ARTIFACT_MALFORMED_CHECKS = Object.freeze([
+  (artifact) =>
+    !recordPassesChecks(
+      artifact,
+      PREREQUISITE_REVIEW_ARTIFACT_CORE_SHAPE_CHECKS
+    ),
+  (artifact) =>
+    !recordHasFields(artifact, PREREQUISITE_REVIEW_ARTIFACT_REQUIRED_FIELDS),
+  (artifact) =>
+    !recordPassesChecks(
+      artifact.sourceIntegrationCheckpoint,
+      PREREQUISITE_REVIEW_ARTIFACT_CHECKPOINT_CHECKS
+    ),
+  (artifact) =>
+    !recordPassesChecks(
+      artifact.pipelineSummary,
+      PREREQUISITE_REVIEW_ARTIFACT_PIPELINE_CHECKS
+    ),
+  (artifact) =>
+    !recordPassesChecks(
+      artifact.integratedReviewSummary,
+      PREREQUISITE_REVIEW_ARTIFACT_SUMMARY_CHECKS
+    )
+]);
+
+function reviewArtifactHandoffMalformed(artifact) {
+  return PREREQUISITE_REVIEW_ARTIFACT_MALFORMED_CHECKS.some((predicate) =>
+    predicate(artifact)
+  );
+}
+
+const REVIEW_ARTIFACT_EVALUATOR_INPUT_SINGLE_REJECTION_CHECKS = Object.freeze([
+  [
+    (artifact) => !isPlainObjectRecord(artifact),
+    "malformed_review_artifact_evaluator_input_handoff_rejected"
+  ],
+  [
+    reviewArtifactHandoffUnknown,
+    "unknown_review_artifact_evaluator_input_handoff_rejected"
+  ],
+  [
+    reviewArtifactHandoffRevoked,
+    "revoked_review_artifact_evaluator_input_handoff_rejected"
+  ],
+  [
+    reviewArtifactHandoffStale,
+    "stale_review_artifact_evaluator_input_handoff_rejected"
+  ],
+  [
+    reviewArtifactHandoffMalformed,
+    "malformed_review_artifact_evaluator_input_handoff_rejected"
+  ],
+  [
+    reviewArtifactHandoffAuthorizing,
+    "authorizing_review_artifact_evaluator_input_handoff_rejected"
+  ]
+]);
+
+function reviewArtifactEvaluatorInputHandoffSingleClassification(artifact) {
+  return (
+    REVIEW_ARTIFACT_EVALUATOR_INPUT_SINGLE_REJECTION_CHECKS.find(
+      ([predicate]) => predicate(artifact)
+    )?.[1] ?? VALID_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_CLASSIFICATION
+  );
+}
+
+function firstReviewArtifactHandoffRejection(reviewArtifacts) {
+  return (
+    reviewArtifacts
+      .map(reviewArtifactEvaluatorInputHandoffSingleClassification)
+      .find(
+        (classification) =>
+          classification !==
+          VALID_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_CLASSIFICATION
+      ) ?? null
+  );
+}
+
+function reviewArtifactsContainDuplicate(reviewArtifacts) {
+  const digests = reviewArtifacts.map((artifact) =>
+    reviewArtifactHandoffDigest(artifact)
+  );
+
+  return new Set(digests).size !== digests.length;
+}
+
+const REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_RESOLVERS = Object.freeze([
+  (reviewArtifacts) =>
+    reviewArtifacts === undefined
+      ? "missing_review_artifact_evaluator_input_handoff_rejected"
+      : null,
+  (reviewArtifacts) =>
+    !Array.isArray(reviewArtifacts)
+      ? "malformed_review_artifact_evaluator_input_handoff_rejected"
+      : null,
+  (reviewArtifacts) =>
+    reviewArtifacts.length === 0
+      ? "empty_review_artifact_evaluator_input_handoff_rejected"
+      : null,
+  firstReviewArtifactHandoffRejection,
+  (reviewArtifacts) =>
+    reviewArtifactsContainDuplicate(reviewArtifacts)
+      ? "duplicate_invalid_review_artifact_evaluator_input_handoff_rejected"
+      : null,
+  (reviewArtifacts) =>
+    reviewArtifacts.length > 1
+      ? "conflicting_review_artifact_evaluator_input_handoff_rejected"
+      : null
+]);
+
+function reviewArtifactEvaluatorInputHandoffClassification(reviewArtifacts) {
+  let classification = null;
+
+  REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_RESOLVERS.some((resolver) => {
+    classification = resolver(reviewArtifacts);
+    return classification !== null;
+  });
+
+  return classification ?? VALID_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_CLASSIFICATION;
+}
+
+function reviewArtifactEvaluatorInputCandidateFromArtifact(reviewArtifact, reviewedAt) {
+  return {
+    schema: PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_CANDIDATE_SCHEMA,
+    schemaVersion:
+      PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_VERSION,
+    candidateKind: "review-artifact-evaluator-input-candidate",
+    candidateMode: "review-only",
+    reviewedAt,
+    sourceReviewArtifact: {
+      schema: reviewArtifact.schema,
+      artifactKind: reviewArtifact.artifactKind,
+      artifactMode: reviewArtifact.artifactMode,
+      reviewedAt: reviewArtifact.reviewedAt,
+      artifactDigest: reviewArtifactHandoffDigest(reviewArtifact),
+      sourceIntegrationCheckpoint: reviewArtifact.sourceIntegrationCheckpoint,
+      reviewArtifactIsApprovalGrant: false,
+      approvalGrantProduced: false,
+      runtimeEffectAllFalse: true
+    },
+    pipelineSummary: reviewArtifact.pipelineSummary,
+    integratedReviewSummary: reviewArtifact.integratedReviewSummary,
+    evaluatorInputCandidateIsApprovalGrant: false,
+    candidateIsApprovalGrant: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function reviewArtifactEvaluatorInputHandoffRejectionReasons({ accepted, classification }) {
+  if (accepted) {
+    return [
+      "evaluator_input_candidate_is_not_approval_grant",
+      "approval_grant_not_implemented",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    classification,
+    "evaluator_input_candidate_not_produced",
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+export function createReviewArtifactEvaluatorInputHandoffForReview(input = {}) {
+  const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewArtifacts = input.reviewArtifacts;
+  const classification =
+    reviewArtifactEvaluatorInputHandoffClassification(reviewArtifacts);
+  const accepted =
+    classification === VALID_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_CLASSIFICATION;
+  const reviewArtifact = accepted ? reviewArtifacts[0] : null;
+  const evaluatorInputCandidate = accepted
+    ? reviewArtifactEvaluatorInputCandidateFromArtifact(reviewArtifact, reviewedAt)
+    : null;
+
+  return {
+    schema: PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_SCHEMA,
+    schemaVersion:
+      PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_VERSION,
+    handoffKind: PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_KIND,
+    handoffMode: "review-only",
+    reviewedAt,
+    classification,
+    reviewArtifactAccepted: accepted,
+    evaluatorInputCandidateProduced: accepted,
+    evaluatorInputCandidateIsApprovalGrant: false,
+    evaluatorInputCandidate,
+    reviewArtifactSummary: accepted
+      ? {
+          schema: reviewArtifact.schema,
+          artifactKind: reviewArtifact.artifactKind,
+          artifactMode: reviewArtifact.artifactMode,
+          reviewedAt: reviewArtifact.reviewedAt,
+          artifactDigest: reviewArtifactHandoffDigest(reviewArtifact),
+          reviewArtifactIsApprovalGrant: false,
+          approvalGrantProduced: false,
+          runtimeEffectAllFalse: true
+        }
+      : null,
+    reviewOnly: true,
+    authoritative: false,
+    approvalGrant: sourcePreflightGrantBlocked(),
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    rejectionReasons: reviewArtifactEvaluatorInputHandoffRejectionReasons({
+      accepted,
+      classification
     }),
     runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
   };

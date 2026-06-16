@@ -8,10 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.25 Scope
+## Phase 3 through Phase 5.26 Scope
 
-This repository is currently in Phase 5.25 non-authorizing review artifact
-boundary mode. The goal is to load and validate ARDYN manifests and tasks, resolve
+This repository is currently in Phase 5.26 review artifact evaluator-input
+handoff mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
 dry-run session-event JSONL, define the stdout/stderr, redaction, transcript
@@ -109,8 +109,10 @@ checkpointing across source ingestion, source selection, source bundling, bundle
 consumption, and the review-only evaluator summary plus Phase 5.25
 non-authorizing review artifact boundary metadata proving the integrated review
 summary can be represented as a review artifact only, not as an approval grant,
-runtime permission, command exposure, or execution signal.
-Phase 5.25 is not runtime enablement.
+runtime permission, command exposure, or execution signal plus Phase 5.26
+review artifact evaluator-input handoff metadata proving a non-authorizing
+review artifact can become only a non-authorizing evaluator-input candidate.
+Phase 5.26 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -466,6 +468,16 @@ Included now:
   Rust-host change, or CLI source change, and keeps `serve-runtime`
   default-blocked. See
   `docs/phase-5-25-non-authorizing-review-artifact-boundary.md`.
+- Phase 5.26 review artifact evaluator-input handoff documentation, fixture,
+  core helper, and report metadata. This represents valid Phase 5.25
+  non-authorizing review artifacts only as evaluator-input candidates. It
+  rejects missing, malformed, empty, conflicting, stale, revoked, unknown,
+  duplicate-invalid, and authorizing-looking review artifacts, produces and
+  persists no approval grant, grants no runtime or command exposure permission,
+  starts or executes no runtime, performs no filesystem watching, external
+  lookup, secrets/env ingestion, Rust-host change, or CLI source change, and
+  keeps `serve-runtime` default-blocked. See
+  `docs/phase-5-26-review-artifact-evaluator-input-handoff.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -617,7 +629,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.25 non-authorizing review artifact boundary status report command is:
+The Phase 5.26 review artifact evaluator-input handoff status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -668,7 +680,8 @@ preflight metadata, and Phase 5.21 approval prerequisite source selection
 metadata, and Phase 5.22 approval prerequisite source bundle metadata, and Phase
 5.23 prerequisite bundle consumption checkpoint metadata, and Phase 5.24
 prerequisite evaluation integration checkpoint metadata, and Phase 5.25
-non-authorizing review artifact boundary metadata
+non-authorizing review artifact boundary metadata, and Phase 5.26 review
+artifact evaluator-input handoff metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply

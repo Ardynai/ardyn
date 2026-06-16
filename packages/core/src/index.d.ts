@@ -146,6 +146,12 @@ export const PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_SCHEMA:
 export const PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_VERSION: "0.1.0";
 export const PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_KIND:
   "non-authorizing-prerequisite-review-artifact-boundary";
+export const PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_SCHEMA:
+  "ardyn.phase-5.26.prerequisite-review-artifact-evaluator-input-handoff-result";
+export const PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_VERSION:
+  "0.1.0";
+export const PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_KIND:
+  "review-artifact-evaluator-input-handoff";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1461,6 +1467,17 @@ export type PrerequisiteReviewArtifactBoundaryClassification =
   | "revoked_prerequisite_review_artifact_input_rejected"
   | "unknown_prerequisite_review_artifact_input_rejected"
   | "valid_prerequisite_review_artifact_non_authorizing_runtime_still_blocked";
+export type ReviewArtifactEvaluatorInputHandoffClassification =
+  | "missing_review_artifact_evaluator_input_handoff_rejected"
+  | "malformed_review_artifact_evaluator_input_handoff_rejected"
+  | "empty_review_artifact_evaluator_input_handoff_rejected"
+  | "conflicting_review_artifact_evaluator_input_handoff_rejected"
+  | "stale_review_artifact_evaluator_input_handoff_rejected"
+  | "revoked_review_artifact_evaluator_input_handoff_rejected"
+  | "unknown_review_artifact_evaluator_input_handoff_rejected"
+  | "duplicate_invalid_review_artifact_evaluator_input_handoff_rejected"
+  | "authorizing_review_artifact_evaluator_input_handoff_rejected"
+  | "valid_review_artifact_evaluator_input_candidate_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -1884,6 +1901,67 @@ export interface PrerequisiteReviewArtifactBoundaryResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export interface ReviewArtifactEvaluatorInputCandidate {
+  schema: "ardyn.phase-5.26.review-artifact-evaluator-input-candidate";
+  schemaVersion: "0.1.0";
+  candidateKind: "review-artifact-evaluator-input-candidate";
+  candidateMode: "review-only";
+  reviewedAt: string;
+  sourceReviewArtifact: {
+    schema: "ardyn.phase-5.25.non-authorizing-prerequisite-review-artifact";
+    artifactKind: "non-authorizing-prerequisite-review-artifact";
+    artifactMode: "review-only";
+    reviewedAt: string;
+    artifactDigest: string;
+    sourceIntegrationCheckpoint:
+      NonAuthorizingPrerequisiteReviewArtifact["sourceIntegrationCheckpoint"];
+    reviewArtifactIsApprovalGrant: false;
+    approvalGrantProduced: false;
+    runtimeEffectAllFalse: true;
+  };
+  pipelineSummary: NonAuthorizingPrerequisiteReviewArtifact["pipelineSummary"];
+  integratedReviewSummary:
+    NonAuthorizingPrerequisiteReviewArtifact["integratedReviewSummary"];
+  evaluatorInputCandidateIsApprovalGrant: false;
+  candidateIsApprovalGrant: false;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ReviewArtifactEvaluatorInputHandoffResult {
+  schema: "ardyn.phase-5.26.prerequisite-review-artifact-evaluator-input-handoff-result";
+  schemaVersion: "0.1.0";
+  handoffKind: "review-artifact-evaluator-input-handoff";
+  handoffMode: "review-only";
+  reviewedAt: string;
+  classification: ReviewArtifactEvaluatorInputHandoffClassification;
+  reviewArtifactAccepted: boolean;
+  evaluatorInputCandidateProduced: boolean;
+  evaluatorInputCandidateIsApprovalGrant: false;
+  evaluatorInputCandidate: ReviewArtifactEvaluatorInputCandidate | null;
+  reviewArtifactSummary: {
+    schema: "ardyn.phase-5.25.non-authorizing-prerequisite-review-artifact";
+    artifactKind: "non-authorizing-prerequisite-review-artifact";
+    artifactMode: "review-only";
+    reviewedAt: string;
+    artifactDigest: string;
+    reviewArtifactIsApprovalGrant: false;
+    approvalGrantProduced: false;
+    runtimeEffectAllFalse: true;
+  } | null;
+  reviewOnly: true;
+  authoritative: false;
+  approvalGrant: RuntimeApprovalGrantBlocked;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -2131,6 +2209,10 @@ export function createPrerequisiteReviewArtifactBoundaryForReview(input?: {
   reviewedAt?: string;
   sourceInputs?: unknown[];
 }): PrerequisiteReviewArtifactBoundaryResult;
+export function createReviewArtifactEvaluatorInputHandoffForReview(input?: {
+  reviewedAt?: string;
+  reviewArtifacts?: unknown[];
+}): ReviewArtifactEvaluatorInputHandoffResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

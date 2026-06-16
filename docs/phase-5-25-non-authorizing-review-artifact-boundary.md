@@ -105,6 +105,7 @@ Phase 5.25 records these validation commands:
 
 Phase 5.25 proves the integrated prerequisite review summary can be represented
 as a non-authorizing review artifact without producing an approval grant or
-enabling runtime. A future phase may define display/transport rules for this
-review artifact, but it must still keep runtime blocked unless a separate
-approved runtime-enablement phase explicitly changes that posture.
+enabling runtime. Phase 5.26 may transform that review artifact into a
+non-authorizing evaluator-input candidate only. Neither boundary grants
+approval, persists a grant, grants runtime or command exposure permission,
+starts runtime, or executes runtime.

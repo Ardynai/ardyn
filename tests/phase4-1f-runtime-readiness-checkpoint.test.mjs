@@ -507,10 +507,10 @@ test("Phase 4.1F status report inventories checkpoint without running checks", a
   const inventory = report.phase41FRuntimeReadinessCheckpointInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.25",
-    name: "Non-authorizing review artifact boundary",
+    id: "5.26",
+    name: "Review artifact evaluator-input handoff contract",
     executionPosture:
-      "non-authorizing-review-artifact-boundary runtime-disabled no-runtime-execution"
+      "review-artifact-evaluator-input-handoff runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
