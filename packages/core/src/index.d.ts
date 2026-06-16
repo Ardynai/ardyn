@@ -157,6 +157,11 @@ export const APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_SCHEMA:
 export const APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_VERSION: "0.1.0";
 export const APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_KIND:
   "approval-evaluator-candidate-intake-checkpoint";
+export const REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_SCHEMA:
+  "ardyn.phase-5.28.review-only-evaluator-preflight-checkpoint-result";
+export const REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_VERSION: "0.1.0";
+export const REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_KIND:
+  "review-only-evaluator-preflight-checkpoint";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1497,6 +1502,24 @@ export type ApprovalEvaluatorCandidateIntakeCheckpointClassification =
   | "process_flag_true_approval_evaluator_candidate_intake_input_rejected"
   | "unsafe_approval_evaluator_candidate_intake_input_rejected"
   | "valid_approval_evaluator_candidate_intake_checkpoint_runtime_still_blocked";
+export type ReviewOnlyEvaluatorPreflightCheckpointClassification =
+  | "missing_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "malformed_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "empty_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "conflicting_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "stale_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "revoked_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "unknown_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "duplicate_invalid_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "authorizing_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "grant_looking_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "runtime_permission_looking_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "command_exposure_looking_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "runtime_effect_true_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "process_flag_true_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "unsafe_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "execution_signal_looking_review_only_evaluator_preflight_checkpoint_input_rejected"
+  | "valid_review_only_evaluator_preflight_checkpoint_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -2048,6 +2071,102 @@ export interface ApprovalEvaluatorCandidateIntakeCheckpointResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export interface ReviewOnlyEvaluatorPreflightCheckpointState {
+  schema: "ardyn.phase-5.28.review-only-evaluator-preflight-state";
+  schemaVersion: "0.1.0";
+  stateKind: "review-only-evaluator-preflight-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourceIntakeCheckpointState: {
+    schema: "ardyn.phase-5.27.approval-evaluator-candidate-intake-state";
+    stateKind: "approval-evaluator-candidate-intake-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    sourceEvaluatorInputCandidateDigest: string;
+    intakeCheckpointStateIsApprovalGrant: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    runtimeEffectAllFalse: true;
+  };
+  pipelineSummary: {
+    sourceCount: number;
+    selectedSourceId: string | null;
+    selectedBundlePartId: string | null;
+    readerRecordCount: number;
+    evaluatorClassification: string;
+    prerequisiteSignalRecognized: true;
+  };
+  integratedReviewSummary: {
+    schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
+    evaluatorKind: "review-only-runtime-approval-evaluator";
+    evaluationMode: "review-only";
+    classification: string;
+    prerequisiteSignalRecognized: true;
+    reviewOnly: true;
+    authoritative: false;
+    reviewSummaryIsApprovalGrant: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    approvalGrantId: null;
+    runtimeEffectAllFalse: true;
+  };
+  evaluatorPreflightAccepted: true;
+  evaluatorPreflightCheckpointStateIsApprovalGrant: false;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ReviewOnlyEvaluatorPreflightCheckpointResult {
+  schema: "ardyn.phase-5.28.review-only-evaluator-preflight-checkpoint-result";
+  schemaVersion: "0.1.0";
+  checkpointKind: "review-only-evaluator-preflight-checkpoint";
+  checkpointMode: "review-only";
+  reviewedAt: string;
+  classification: ReviewOnlyEvaluatorPreflightCheckpointClassification;
+  intakeCheckpointStateAccepted: boolean;
+  preflightCheckpointStateProduced: boolean;
+  preflightCheckpointStateIsApprovalGrant: false;
+  preflightCheckpointState: ReviewOnlyEvaluatorPreflightCheckpointState | null;
+  checkpointSummary: {
+    schema: "ardyn.phase-5.27.approval-evaluator-candidate-intake-state";
+    stateKind: "approval-evaluator-candidate-intake-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    intakeCheckpointStateIsApprovalGrant: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    runtimeEffectAllFalse: true;
+  } | null;
+  reviewOnly: true;
+  authoritative: false;
+  approvalGrant: RuntimeApprovalGrantBlocked;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -2303,6 +2422,10 @@ export function createApprovalEvaluatorCandidateIntakeCheckpointForReview(input?
   reviewedAt?: string;
   evaluatorInputCandidates?: unknown[];
 }): ApprovalEvaluatorCandidateIntakeCheckpointResult;
+export function createReviewOnlyEvaluatorPreflightCheckpointForReview(input?: {
+  reviewedAt?: string;
+  intakeCheckpointStates?: unknown[];
+}): ReviewOnlyEvaluatorPreflightCheckpointResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

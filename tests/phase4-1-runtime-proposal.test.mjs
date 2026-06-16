@@ -147,7 +147,8 @@ async function readFinalReadinessFixture() {
 async function runReport() {
   const { stdout, stderr } = await execFileAsync(process.execPath, [reportScriptPath], {
     cwd: repoRoot,
-    encoding: "utf8"
+    encoding: "utf8",
+    maxBuffer: 4 * 1024 * 1024
   });
 
   assert.equal(stderr, "");
@@ -357,10 +358,10 @@ test("Phase 4.1 status report inventories proposal metadata without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.27",
-    name: "Review-only approval-evaluator candidate intake checkpoint",
+    id: "5.28",
+    name: "Review-only evaluator preflight checkpoint",
     executionPosture:
-      "approval-evaluator-candidate-intake-checkpoint runtime-disabled no-runtime-execution"
+      "review-only-evaluator-preflight-checkpoint runtime-disabled no-evaluator-execution no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

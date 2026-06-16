@@ -3,6 +3,8 @@
 Phase 5.27 adds a deterministic review-only intake checkpoint for Phase 5.26
 `review-artifact-evaluator-input-candidate` objects. A valid candidate may
 produce only an in-memory `approval-evaluator-candidate-intake-state`.
+Phase 5.28 consumes that state as review-only evaluator preflight input without
+granting approval or executing an evaluator.
 
 Machine-readable Phase 5.27 artifact path:
 

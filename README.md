@@ -8,9 +8,9 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.27 Scope
+## Phase 3 through Phase 5.28 Scope
 
-This repository is currently in Phase 5.27 approval-evaluator candidate intake
+This repository is currently in Phase 5.28 review-only evaluator preflight
 checkpoint mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
@@ -113,8 +113,11 @@ runtime permission, command exposure, or execution signal plus Phase 5.26
 review artifact evaluator-input handoff metadata proving a non-authorizing
 review artifact can become only a non-authorizing evaluator-input candidate
 plus Phase 5.27 approval-evaluator candidate intake checkpoint metadata proving
-valid evaluator-input candidates can become only review-only checkpoint state.
-Phase 5.27 is not runtime enablement.
+valid evaluator-input candidates can become only review-only checkpoint state
+plus Phase 5.28 review-only evaluator preflight checkpoint metadata proving
+valid intake checkpoint state can become only review-only evaluator preflight
+state without evaluator execution.
+Phase 5.28 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -491,6 +494,19 @@ Included now:
   secrets/env ingestion, Rust-host change, or CLI source change, and keeps
   `serve-runtime` default-blocked. See
   `docs/phase-5-27-approval-evaluator-candidate-intake-checkpoint.md`.
+- Phase 5.28 review-only evaluator preflight checkpoint documentation,
+  fixture, core helper, and report metadata. This represents valid Phase 5.27
+  intake checkpoint state only as review-only evaluator preflight checkpoint
+  state. It rejects missing, malformed, empty, conflicting, stale, revoked,
+  unknown, duplicate-invalid, authorizing-looking, grant-looking,
+  runtime-permission-looking, command-exposure-looking, runtime-effect-true,
+  process-flag-true, unsafe, and execution-signal-looking checkpoint state,
+  produces and persists no approval grant, grants no runtime or command
+  exposure permission, starts or executes no runtime, executes no evaluator,
+  performs no filesystem watching, external lookup, secrets/env ingestion,
+  Rust-host change, or CLI source change, and keeps `serve-runtime`
+  default-blocked. See
+  `docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -642,7 +658,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.27 approval-evaluator candidate intake checkpoint status report command is:
+The Phase 5.28 review-only evaluator preflight checkpoint status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -695,7 +711,8 @@ metadata, and Phase 5.22 approval prerequisite source bundle metadata, and Phase
 prerequisite evaluation integration checkpoint metadata, and Phase 5.25
 non-authorizing review artifact boundary metadata, and Phase 5.26 review
 artifact evaluator-input handoff metadata, and Phase 5.27 approval-evaluator
-candidate intake checkpoint metadata
+candidate intake checkpoint metadata, and Phase 5.28 review-only evaluator
+preflight checkpoint metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply

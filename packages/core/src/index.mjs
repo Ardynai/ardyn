@@ -136,6 +136,11 @@ export const APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_SCHEMA =
 export const APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_VERSION = "0.1.0";
 export const APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_KIND =
   "approval-evaluator-candidate-intake-checkpoint";
+export const REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_SCHEMA =
+  "ardyn.phase-5.28.review-only-evaluator-preflight-checkpoint-result";
+export const REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_VERSION = "0.1.0";
+export const REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_KIND =
+  "review-only-evaluator-preflight-checkpoint";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -8255,6 +8260,720 @@ export function createApprovalEvaluatorCandidateIntakeCheckpointForReview(
     runtimeCommandExposureEnabled: false,
     runtimeExecutionEnabled: false,
     rejectionReasons: approvalEvaluatorCandidateIntakeRejectionReasons({
+      accepted,
+      classification
+    }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_STATE_SCHEMA =
+  "ardyn.phase-5.28.review-only-evaluator-preflight-state";
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_MIN_REVIEWED_AT =
+  "2026-06-16T00:00:00.000Z";
+
+const VALID_REVIEW_ONLY_EVALUATOR_PREFLIGHT_CLASSIFICATION =
+  "valid_review_only_evaluator_preflight_checkpoint_runtime_still_blocked";
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_REQUIRED_FALSE_FIELDS = Object.freeze([
+  "intakeCheckpointStateIsApprovalGrant",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "runtimePermissionGranted",
+  "commandExposurePermissionGranted",
+  "runtimeCommandExposureEnabled",
+  "runtimeExecutionEnabled"
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_REQUIRED_FIELDS = Object.freeze([
+  ...REVIEW_ONLY_EVALUATOR_PREFLIGHT_REQUIRED_FALSE_FIELDS,
+  "approvalGrantId"
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_AUTHORITATIVE_TRUE_FIELDS =
+  Object.freeze([
+    "authoritative",
+    "approvalEvaluatorAuthoritative",
+    "evaluatorAuthoritative"
+  ]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_RUNTIME_PERMISSION_TRUE_FIELDS =
+  Object.freeze([
+    "runtimePermissionGranted",
+    "runtimeApprovalPermissionGranted",
+    "canEnableRuntime",
+    "runtimeAllowed"
+  ]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_COMMAND_EXPOSURE_TRUE_FIELDS =
+  Object.freeze([
+    "commandExposurePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeCommandEnabled",
+    "commandAliasCreated",
+    "additionalRuntimeCommandsRecognized"
+  ]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_EXECUTION_SIGNAL_TRUE_FIELDS =
+  Object.freeze([
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecuted",
+    "executionRequested",
+    "executionStarted",
+    "executionEnabled",
+    "executionPermitted",
+    "executionSignal",
+    "runtimeExecutionRequested",
+    "runtimeExecutionEnabled",
+    "runtimeExecuted"
+  ]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_CANDIDATE_CHECKS = Object.freeze([
+  [
+    "schema",
+    (value) =>
+      value === PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_CANDIDATE_SCHEMA
+  ],
+  [
+    "candidateKind",
+    (value) => value === "review-artifact-evaluator-input-candidate"
+  ],
+  ["candidateMode", (value) => value === "review-only"],
+  ["reviewedAt", isUtcIsoTimestampWithMilliseconds],
+  [
+    "candidateDigest",
+    (value) =>
+      typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+  ],
+  ["sourceReviewArtifact", isPlainObjectRecord],
+  ["evaluatorInputCandidateIsApprovalGrant", (value) => value === false],
+  ["approvalGrantProduced", (value) => value === false],
+  ["runtimeEffectAllFalse", (value) => value === true]
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_STATE_FIELDS = Object.freeze([
+  "schema",
+  "schemaVersion",
+  "stateKind",
+  "stateMode",
+  "reviewedAt",
+  "sourceEvaluatorInputCandidate",
+  "pipelineSummary",
+  "integratedReviewSummary",
+  "approvalEvaluatorInputCandidateAccepted",
+  "intakeCheckpointStateIsApprovalGrant",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "approvalGrantId",
+  "runtimePermissionGranted",
+  "commandExposurePermissionGranted",
+  "runtimeCommandExposureEnabled",
+  "runtimeExecutionEnabled",
+  "runtimeEffect"
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_CANDIDATE_FIELDS = Object.freeze([
+  "schema",
+  "candidateKind",
+  "candidateMode",
+  "reviewedAt",
+  "candidateDigest",
+  "sourceReviewArtifact",
+  "evaluatorInputCandidateIsApprovalGrant",
+  "approvalGrantProduced",
+  "runtimeEffectAllFalse"
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_ARTIFACT_FIELDS = Object.freeze([
+  "schema",
+  "artifactKind",
+  "artifactMode",
+  "reviewedAt",
+  "artifactDigest",
+  "sourceIntegrationCheckpoint",
+  "reviewArtifactIsApprovalGrant",
+  "approvalGrantProduced",
+  "runtimeEffectAllFalse"
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_CHECKPOINT_FIELDS = Object.freeze([
+  "schema",
+  "checkpointKind",
+  "classification",
+  "reviewSummaryProduced",
+  "reviewSummaryIsApprovalGrant"
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_PIPELINE_SUMMARY_FIELDS = Object.freeze([
+  "sourceCount",
+  "selectedSourceId",
+  "selectedBundlePartId",
+  "readerRecordCount",
+  "evaluatorClassification",
+  "prerequisiteSignalRecognized"
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_INTEGRATED_SUMMARY_FIELDS = Object.freeze([
+  "schema",
+  "evaluatorKind",
+  "evaluationMode",
+  "classification",
+  "prerequisiteSignalRecognized",
+  "reviewOnly",
+  "authoritative",
+  "reviewSummaryIsApprovalGrant",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "approvalGrantId",
+  "runtimeEffectAllFalse"
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_ALLOWED_FIELDS = new Set([
+  ...REVIEW_ONLY_EVALUATOR_PREFLIGHT_STATE_FIELDS,
+  ...REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_CANDIDATE_FIELDS,
+  ...REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_ARTIFACT_FIELDS,
+  ...REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_CHECKPOINT_FIELDS,
+  ...REVIEW_ONLY_EVALUATOR_PREFLIGHT_PIPELINE_SUMMARY_FIELDS,
+  ...REVIEW_ONLY_EVALUATOR_PREFLIGHT_INTEGRATED_SUMMARY_FIELDS
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_STATE_CHECKS = Object.freeze([
+  ["schema", (value) => value === APPROVAL_EVALUATOR_CANDIDATE_INTAKE_STATE_SCHEMA],
+  [
+    "schemaVersion",
+    (value) => value === APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_VERSION
+  ],
+  ["stateKind", (value) => value === "approval-evaluator-candidate-intake-state"],
+  ["stateMode", (value) => value === "review-only"],
+  ["reviewedAt", isUtcIsoTimestampWithMilliseconds],
+  ["sourceEvaluatorInputCandidate", isPlainObjectRecord],
+  ["pipelineSummary", isPlainObjectRecord],
+  ["integratedReviewSummary", isPlainObjectRecord],
+  ["approvalEvaluatorInputCandidateAccepted", (value) => value === true],
+  ["runtimeEffect", isPlainObjectRecord]
+]);
+
+function recordHasExactFields(record, fields) {
+  return (
+    isPlainObjectRecord(record) &&
+    Object.keys(record).length === fields.length &&
+    recordHasFields(record, fields)
+  );
+}
+
+function reviewOnlyEvaluatorPreflightUnexpectedUnsafeField(
+  value,
+  seen = new Set()
+) {
+  if (Array.isArray(value)) {
+    return value.some((entry) =>
+      reviewOnlyEvaluatorPreflightUnexpectedUnsafeField(entry, seen)
+    );
+  }
+
+  if (!isPlainObjectRecord(value) || seen.has(value)) {
+    return false;
+  }
+
+  seen.add(value);
+
+  return Object.entries(value).some(
+    ([key, entry]) =>
+      (!REVIEW_ONLY_EVALUATOR_PREFLIGHT_ALLOWED_FIELDS.has(key) &&
+        APPROVAL_EVALUATOR_CANDIDATE_UNSAFE_TRUE_FIELD_PATTERN.test(key)) ||
+      reviewOnlyEvaluatorPreflightUnexpectedUnsafeField(entry, seen)
+  );
+}
+
+function reviewOnlyEvaluatorPreflightUnknown(checkpointState) {
+  return (
+    (typeof checkpointState.schema === "string" &&
+      checkpointState.schema !== APPROVAL_EVALUATOR_CANDIDATE_INTAKE_STATE_SCHEMA) ||
+    (typeof checkpointState.stateKind === "string" &&
+      checkpointState.stateKind !== "approval-evaluator-candidate-intake-state")
+  );
+}
+
+function reviewOnlyEvaluatorPreflightRevoked(checkpointState) {
+  return (
+    checkpointState.revoked === true ||
+    (isPlainObjectRecord(checkpointState.revocation) &&
+      checkpointState.revocation.revoked === true)
+  );
+}
+
+function reviewOnlyEvaluatorPreflightStale(checkpointState) {
+  return (
+    isUtcIsoTimestampWithMilliseconds(checkpointState.reviewedAt) &&
+    checkpointState.reviewedAt < REVIEW_ONLY_EVALUATOR_PREFLIGHT_MIN_REVIEWED_AT
+  );
+}
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_MALFORMED_CHECKS = Object.freeze([
+  (checkpointState) =>
+    !recordHasExactFields(
+      checkpointState,
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_STATE_FIELDS
+    ),
+  (checkpointState) =>
+    !recordPassesChecks(
+      checkpointState,
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_STATE_CHECKS
+    ),
+  (checkpointState) =>
+    !recordHasExactFields(
+      checkpointState.sourceEvaluatorInputCandidate,
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_CANDIDATE_FIELDS
+    ),
+  (checkpointState) =>
+    !recordHasFields(
+      checkpointState,
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_REQUIRED_FIELDS
+    ),
+  (checkpointState) =>
+    !recordPassesChecks(
+      checkpointState.sourceEvaluatorInputCandidate,
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_CANDIDATE_CHECKS
+    ),
+  (checkpointState) =>
+    !recordHasExactFields(
+      checkpointState.sourceEvaluatorInputCandidate.sourceReviewArtifact,
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_ARTIFACT_FIELDS
+    ),
+  (checkpointState) =>
+    !recordPassesChecks(
+      checkpointState.sourceEvaluatorInputCandidate.sourceReviewArtifact,
+      REVIEW_ARTIFACT_EVALUATOR_INPUT_CANDIDATE_SOURCE_CHECKS
+    ),
+  (checkpointState) =>
+    !recordHasExactFields(
+      checkpointState.sourceEvaluatorInputCandidate.sourceReviewArtifact
+        .sourceIntegrationCheckpoint,
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_SOURCE_CHECKPOINT_FIELDS
+    ),
+  (checkpointState) =>
+    !recordPassesChecks(
+      checkpointState.sourceEvaluatorInputCandidate.sourceReviewArtifact
+        .sourceIntegrationCheckpoint,
+      PREREQUISITE_REVIEW_ARTIFACT_CHECKPOINT_CHECKS
+    ),
+  (checkpointState) =>
+    !recordHasExactFields(
+      checkpointState.pipelineSummary,
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_PIPELINE_SUMMARY_FIELDS
+    ),
+  (checkpointState) =>
+    !recordPassesChecks(
+      checkpointState.pipelineSummary,
+      PREREQUISITE_REVIEW_ARTIFACT_PIPELINE_CHECKS
+    ),
+  (checkpointState) =>
+    !recordHasExactFields(
+      checkpointState.integratedReviewSummary,
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_INTEGRATED_SUMMARY_FIELDS
+    ),
+  (checkpointState) =>
+    !recordPassesChecks(
+      checkpointState.integratedReviewSummary,
+      PREREQUISITE_REVIEW_ARTIFACT_SUMMARY_CHECKS
+    )
+]);
+
+function reviewOnlyEvaluatorPreflightMalformed(checkpointState) {
+  return REVIEW_ONLY_EVALUATOR_PREFLIGHT_MALFORMED_CHECKS.some((predicate) =>
+    predicate(checkpointState)
+  );
+}
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_GRANT_FALSE_PATHS = Object.freeze([
+  Object.freeze(["intakeCheckpointStateIsApprovalGrant"]),
+  Object.freeze(["approvalGrantProduced"]),
+  Object.freeze(["approvalGrantPersisted"]),
+  Object.freeze([
+    "sourceEvaluatorInputCandidate",
+    "evaluatorInputCandidateIsApprovalGrant"
+  ]),
+  Object.freeze(["sourceEvaluatorInputCandidate", "approvalGrantProduced"]),
+  Object.freeze(["integratedReviewSummary", "reviewSummaryIsApprovalGrant"]),
+  Object.freeze(["integratedReviewSummary", "approvalGrantProduced"]),
+  Object.freeze(["integratedReviewSummary", "approvalGrantPersisted"])
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_GRANT_NULL_PATHS = Object.freeze([
+  Object.freeze(["approvalGrantId"]),
+  Object.freeze(["integratedReviewSummary", "approvalGrantId"])
+]);
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_GRANT_TRUE_PATHS = Object.freeze([
+  Object.freeze(["approvalGrant", "produced"]),
+  Object.freeze(["approvalGrant", "persisted"])
+]);
+
+function reviewOnlyEvaluatorPreflightPathValue(record, path) {
+  let current = record;
+
+  for (const field of path) {
+    if (!isPlainObjectRecord(current)) {
+      return undefined;
+    }
+
+    current = current[field];
+  }
+
+  return current;
+}
+
+function reviewOnlyEvaluatorPreflightPathDoesNotMatch(record, path, expected) {
+  return reviewOnlyEvaluatorPreflightPathValue(record, path) !== expected;
+}
+
+function reviewOnlyEvaluatorPreflightGrantLooking(checkpointState) {
+  return (
+    REVIEW_ONLY_EVALUATOR_PREFLIGHT_GRANT_FALSE_PATHS.some((path) =>
+      reviewOnlyEvaluatorPreflightPathDoesNotMatch(checkpointState, path, false)
+    ) ||
+    REVIEW_ONLY_EVALUATOR_PREFLIGHT_GRANT_NULL_PATHS.some((path) =>
+      reviewOnlyEvaluatorPreflightPathDoesNotMatch(checkpointState, path, null)
+    ) ||
+    REVIEW_ONLY_EVALUATOR_PREFLIGHT_GRANT_TRUE_PATHS.some(
+      (path) => reviewOnlyEvaluatorPreflightPathValue(checkpointState, path) === true
+    )
+  );
+}
+
+function reviewOnlyEvaluatorPreflightRuntimePermissionLooking(checkpointState) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    checkpointState,
+    (key) =>
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_RUNTIME_PERMISSION_TRUE_FIELDS.includes(
+        key
+      )
+  );
+}
+
+function reviewOnlyEvaluatorPreflightCommandExposureLooking(checkpointState) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    checkpointState,
+    (key) =>
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_COMMAND_EXPOSURE_TRUE_FIELDS.includes(
+        key
+      )
+  );
+}
+
+function reviewOnlyEvaluatorPreflightExecutionSignalLooking(checkpointState) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    checkpointState,
+    (key) =>
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_EXECUTION_SIGNAL_TRUE_FIELDS.includes(key)
+  );
+}
+
+function reviewOnlyEvaluatorPreflightRuntimeEffectTrue(checkpointState) {
+  return approvalEvaluatorCandidateRuntimeEffectTrue(checkpointState);
+}
+
+function reviewOnlyEvaluatorPreflightProcessFlagTrue(checkpointState) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    checkpointState,
+    (key) => APPROVAL_EVALUATOR_CANDIDATE_PROCESS_TRUE_FIELDS.includes(key)
+  );
+}
+
+function reviewOnlyEvaluatorPreflightUnsafeTrueSurface(checkpointState) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    checkpointState,
+    (key) => APPROVAL_EVALUATOR_CANDIDATE_UNSAFE_TRUE_FIELD_PATTERN.test(key)
+  );
+}
+
+function reviewOnlyEvaluatorPreflightAuthorizing(checkpointState) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    checkpointState,
+    (key) =>
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_AUTHORITATIVE_TRUE_FIELDS.includes(key)
+  );
+}
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_SINGLE_REJECTION_CHECKS = Object.freeze([
+  [
+    (checkpointState) => !isPlainObjectRecord(checkpointState),
+    "malformed_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightUnknown,
+    "unknown_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightRevoked,
+    "revoked_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightStale,
+    "stale_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightUnexpectedUnsafeField,
+    "unsafe_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightGrantLooking,
+    "grant_looking_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightRuntimePermissionLooking,
+    "runtime_permission_looking_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightCommandExposureLooking,
+    "command_exposure_looking_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightExecutionSignalLooking,
+    "execution_signal_looking_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightRuntimeEffectTrue,
+    "runtime_effect_true_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightProcessFlagTrue,
+    "process_flag_true_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightUnsafeTrueSurface,
+    "unsafe_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightAuthorizing,
+    "authorizing_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ],
+  [
+    reviewOnlyEvaluatorPreflightMalformed,
+    "malformed_review_only_evaluator_preflight_checkpoint_input_rejected"
+  ]
+]);
+
+function reviewOnlyEvaluatorPreflightSingleClassification(checkpointState) {
+  return (
+    REVIEW_ONLY_EVALUATOR_PREFLIGHT_SINGLE_REJECTION_CHECKS.find(
+      ([predicate]) => predicate(checkpointState)
+    )?.[1] ?? VALID_REVIEW_ONLY_EVALUATOR_PREFLIGHT_CLASSIFICATION
+  );
+}
+
+function firstReviewOnlyEvaluatorPreflightRejection(checkpointStates) {
+  return (
+    checkpointStates
+      .map(reviewOnlyEvaluatorPreflightSingleClassification)
+      .find(
+        (classification) =>
+          classification !== VALID_REVIEW_ONLY_EVALUATOR_PREFLIGHT_CLASSIFICATION
+      ) ?? null
+  );
+}
+
+function reviewOnlyEvaluatorPreflightStatesContainDuplicate(checkpointStates) {
+  const digests = checkpointStates.map((checkpointState) =>
+    reviewArtifactHandoffDigest(checkpointState)
+  );
+
+  return new Set(digests).size !== digests.length;
+}
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_RESOLVERS = Object.freeze([
+  (checkpointStates) =>
+    checkpointStates === undefined
+      ? "missing_review_only_evaluator_preflight_checkpoint_input_rejected"
+      : null,
+  (checkpointStates) =>
+    !Array.isArray(checkpointStates)
+      ? "malformed_review_only_evaluator_preflight_checkpoint_input_rejected"
+      : null,
+  (checkpointStates) =>
+    checkpointStates.length === 0
+      ? "empty_review_only_evaluator_preflight_checkpoint_input_rejected"
+      : null,
+  firstReviewOnlyEvaluatorPreflightRejection,
+  (checkpointStates) =>
+    reviewOnlyEvaluatorPreflightStatesContainDuplicate(checkpointStates)
+      ? "duplicate_invalid_review_only_evaluator_preflight_checkpoint_input_rejected"
+      : null,
+  (checkpointStates) =>
+    checkpointStates.length > 1
+      ? "conflicting_review_only_evaluator_preflight_checkpoint_input_rejected"
+      : null
+]);
+
+function reviewOnlyEvaluatorPreflightClassification(checkpointStates) {
+  let classification = null;
+
+  REVIEW_ONLY_EVALUATOR_PREFLIGHT_RESOLVERS.some((resolver) => {
+    classification = resolver(checkpointStates);
+    return classification !== null;
+  });
+
+  return classification ?? VALID_REVIEW_ONLY_EVALUATOR_PREFLIGHT_CLASSIFICATION;
+}
+
+function reviewOnlyEvaluatorPreflightPipelineSummary(pipelineSummary) {
+  return {
+    sourceCount: pipelineSummary.sourceCount,
+    selectedSourceId: pipelineSummary.selectedSourceId,
+    selectedBundlePartId: pipelineSummary.selectedBundlePartId,
+    readerRecordCount: pipelineSummary.readerRecordCount,
+    evaluatorClassification: pipelineSummary.evaluatorClassification,
+    prerequisiteSignalRecognized: pipelineSummary.prerequisiteSignalRecognized
+  };
+}
+
+function reviewOnlyEvaluatorPreflightIntegratedSummary(integratedReviewSummary) {
+  return {
+    schema: integratedReviewSummary.schema,
+    evaluatorKind: integratedReviewSummary.evaluatorKind,
+    evaluationMode: integratedReviewSummary.evaluationMode,
+    classification: integratedReviewSummary.classification,
+    prerequisiteSignalRecognized:
+      integratedReviewSummary.prerequisiteSignalRecognized,
+    reviewOnly: integratedReviewSummary.reviewOnly,
+    authoritative: integratedReviewSummary.authoritative,
+    reviewSummaryIsApprovalGrant:
+      integratedReviewSummary.reviewSummaryIsApprovalGrant,
+    approvalGrantProduced: integratedReviewSummary.approvalGrantProduced,
+    approvalGrantPersisted: integratedReviewSummary.approvalGrantPersisted,
+    approvalGrantId: integratedReviewSummary.approvalGrantId,
+    runtimeEffectAllFalse: integratedReviewSummary.runtimeEffectAllFalse
+  };
+}
+
+function reviewOnlyEvaluatorPreflightStateFromCheckpointState(
+  checkpointState,
+  reviewedAt
+) {
+  return {
+    schema: REVIEW_ONLY_EVALUATOR_PREFLIGHT_STATE_SCHEMA,
+    schemaVersion: REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_VERSION,
+    stateKind: "review-only-evaluator-preflight-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourceIntakeCheckpointState: {
+      schema: checkpointState.schema,
+      stateKind: checkpointState.stateKind,
+      stateMode: checkpointState.stateMode,
+      reviewedAt: checkpointState.reviewedAt,
+      stateDigest: reviewArtifactHandoffDigest(checkpointState),
+      sourceEvaluatorInputCandidateDigest:
+        checkpointState.sourceEvaluatorInputCandidate.candidateDigest,
+      intakeCheckpointStateIsApprovalGrant: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimeEffectAllFalse: true
+    },
+    pipelineSummary: reviewOnlyEvaluatorPreflightPipelineSummary(
+      checkpointState.pipelineSummary
+    ),
+    integratedReviewSummary: reviewOnlyEvaluatorPreflightIntegratedSummary(
+      checkpointState.integratedReviewSummary
+    ),
+    evaluatorPreflightAccepted: true,
+    evaluatorPreflightCheckpointStateIsApprovalGrant: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionRequested: false,
+    evaluatorExecutionStarted: false,
+    evaluatorExecutionEnabled: false,
+    evaluatorExecuted: false,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function reviewOnlyEvaluatorPreflightRejectionReasons({
+  accepted,
+  classification
+}) {
+  if (accepted) {
+    return [
+      "evaluator_preflight_checkpoint_state_is_not_approval_grant",
+      "approval_grant_not_implemented",
+      "evaluator_execution_not_implemented",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    classification,
+    "evaluator_preflight_checkpoint_state_not_produced",
+    "approval_grant_not_implemented",
+    "evaluator_execution_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+export function createReviewOnlyEvaluatorPreflightCheckpointForReview(
+  input = {}
+) {
+  const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const intakeCheckpointStates = input.intakeCheckpointStates;
+  const classification = reviewOnlyEvaluatorPreflightClassification(
+    intakeCheckpointStates
+  );
+  const accepted =
+    classification === VALID_REVIEW_ONLY_EVALUATOR_PREFLIGHT_CLASSIFICATION;
+  const intakeCheckpointState = accepted ? intakeCheckpointStates[0] : null;
+  const preflightCheckpointState = accepted
+    ? reviewOnlyEvaluatorPreflightStateFromCheckpointState(
+        intakeCheckpointState,
+        reviewedAt
+      )
+    : null;
+
+  return {
+    schema: REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_SCHEMA,
+    schemaVersion: REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_VERSION,
+    checkpointKind: REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_KIND,
+    checkpointMode: "review-only",
+    reviewedAt,
+    classification,
+    intakeCheckpointStateAccepted: accepted,
+    preflightCheckpointStateProduced: accepted,
+    preflightCheckpointStateIsApprovalGrant: false,
+    preflightCheckpointState,
+    checkpointSummary: accepted
+      ? {
+          schema: intakeCheckpointState.schema,
+          stateKind: intakeCheckpointState.stateKind,
+          stateMode: intakeCheckpointState.stateMode,
+          reviewedAt: intakeCheckpointState.reviewedAt,
+          stateDigest: reviewArtifactHandoffDigest(intakeCheckpointState),
+          intakeCheckpointStateIsApprovalGrant: false,
+          approvalGrantProduced: false,
+          approvalGrantPersisted: false,
+          runtimeEffectAllFalse: true
+        }
+      : null,
+    reviewOnly: true,
+    authoritative: false,
+    approvalGrant: sourcePreflightGrantBlocked(),
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionRequested: false,
+    evaluatorExecutionStarted: false,
+    evaluatorExecutionEnabled: false,
+    evaluatorExecuted: false,
+    rejectionReasons: reviewOnlyEvaluatorPreflightRejectionReasons({
       accepted,
       classification
     }),

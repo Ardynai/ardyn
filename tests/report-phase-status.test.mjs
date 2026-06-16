@@ -1201,6 +1201,20 @@ const phase527CrossLinks = [
   "docs/phase-5-26-review-artifact-evaluator-input-handoff.md",
   "docs/phase-5-27-approval-evaluator-candidate-intake-checkpoint.md"
 ];
+const phase528DocFiles = [
+  "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md",
+  "docs/phase-5-27-approval-evaluator-candidate-intake-checkpoint.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase528CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-27-approval-evaluator-candidate-intake-checkpoint.md",
+  "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md"
+];
 const phase519ExpectedTrueSafetyFlagNames = [
   "phase519ApprovalPrerequisiteReaderHardeningRecorded",
   "phase519ReaderReviewOnly",
@@ -1649,6 +1663,66 @@ const phase527SafetyFlagNames = [
   ...phase527ExpectedTrueSafetyFlagNames,
   ...phase527ExpectedFalseSafetyFlagNames
 ];
+const phase528ExpectedTrueSafetyFlagNames = [
+  "phase528ReviewOnlyEvaluatorPreflightCheckpointRecorded",
+  "phase528CheckpointReviewOnly",
+  "phase528ValidIntakeCheckpointStateProducesPreflightState",
+  "phase528MissingIntakeCheckpointStateRejected",
+  "phase528MalformedIntakeCheckpointStateRejected",
+  "phase528EmptyIntakeCheckpointStateRejected",
+  "phase528ConflictingIntakeCheckpointStateRejected",
+  "phase528StaleIntakeCheckpointStateRejected",
+  "phase528RevokedIntakeCheckpointStateRejected",
+  "phase528UnknownIntakeCheckpointStateRejected",
+  "phase528DuplicateInvalidIntakeCheckpointStateRejected",
+  "phase528AuthorizingLookingIntakeCheckpointStateRejected",
+  "phase528GrantLookingIntakeCheckpointStateRejected",
+  "phase528RuntimePermissionLookingIntakeCheckpointStateRejected",
+  "phase528CommandExposureLookingIntakeCheckpointStateRejected",
+  "phase528RuntimeEffectTrueIntakeCheckpointStateRejected",
+  "phase528ProcessFlagTrueIntakeCheckpointStateRejected",
+  "phase528UnsafeIntakeCheckpointStateRejected",
+  "phase528ExecutionSignalLookingIntakeCheckpointStateRejected",
+  "phase528ServeRuntimeStillDefaultBlocked"
+];
+const phase528ExpectedFalseSafetyFlagNames = [
+  "phase528CheckpointAuthoritative",
+  "phase528PreflightCheckpointStateIsApprovalGrant",
+  "phase528ApprovalGrantProduced",
+  "phase528ApprovalGrantPersisted",
+  "phase528RuntimePermissionGranted",
+  "phase528CommandExposurePermissionGranted",
+  "phase528RuntimeEnabled",
+  "phase528RuntimeStarted",
+  "phase528RuntimeReady",
+  "phase528RuntimeCommandEnabled",
+  "phase528RuntimeCommandExposureEnabled",
+  "phase528RuntimeExecutionEnabled",
+  "phase528RuntimeExecuted",
+  "phase528EvaluatorExecutionPerformed",
+  "phase528DryRunBypassesBlock",
+  "phase528CanEnableRuntime",
+  "phase528CliSourceChanged",
+  "phase528RustSourceChanged",
+  "phase528FilesystemWatcherEnabled",
+  "phase528ExternalSourceLookupEnabled",
+  "phase528SecretsEnvIngestionEnabled",
+  "phase528LiveStdinLoopEnabled",
+  "phase528RuntimeStdoutWriterEnabled",
+  "phase528RuntimeStderrWriterEnabled",
+  "phase528ProcessSpawnEnabled",
+  "phase528ProcessTerminationEnabled",
+  "phase528RuntimeSupervisionEnabled",
+  "phase528RuntimeTranscriptWritePerformed",
+  "phase528RuntimeAuditWritePerformed",
+  "phase528AdapterRuntimeBehaviorEnabled",
+  "phase528ContentFabricRuntimeBehaviorEnabled",
+  "phase528WebSocketHttpSurfaceEnabled"
+];
+const phase528SafetyFlagNames = [
+  ...phase528ExpectedTrueSafetyFlagNames,
+  ...phase528ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1740,7 +1814,8 @@ async function readJson(url) {
 
 async function runReport() {
   const { stdout, stderr } = await execFileAsync(process.execPath, [reportScriptPath], {
-    cwd: repoRoot
+    cwd: repoRoot,
+    maxBuffer: 4 * 1024 * 1024
   });
 
   assert.equal(stderr, "");
@@ -1782,15 +1857,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.27 approval-evaluator candidate intake checkpoint docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.28 review-only evaluator preflight checkpoint docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.27",
-    name: "Review-only approval-evaluator candidate intake checkpoint",
+    id: "5.28",
+    name: "Review-only evaluator preflight checkpoint",
     executionPosture:
-      "approval-evaluator-candidate-intake-checkpoint runtime-disabled no-runtime-execution"
+      "review-only-evaluator-preflight-checkpoint runtime-disabled no-evaluator-execution no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1863,12 +1938,19 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.27 approval-evaluator candidate intake checkpoint status report.",
+        "Render this deterministic local Phase 5.28 review-only evaluator preflight checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.27 status report.",
+      purpose: "Run focused tests for this local Phase 5.28 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.28 review-only evaluator preflight checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -13701,6 +13783,352 @@ test("report inventories Phase 5.27 as approval-evaluator candidate intake check
   assertSafetyFlags(report, phase527ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.28 as review-only evaluator preflight checkpoint with runtime and evaluator execution blocked", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase528ReviewOnlyEvaluatorPreflightCheckpointInventory;
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-28/review-only-evaluator-preflight-checkpoint.json",
+    sourceCandidateIntakeCheckpointDocument:
+      "docs/phase-5-27-approval-evaluator-candidate-intake-checkpoint.md",
+    sourceCandidateIntakeCheckpointFixture:
+      "tests/fixtures/host-policy/phase5-27/approval-evaluator-candidate-intake-checkpoint.json",
+    precedingPhase: "5.27",
+    layerId: "review-only-evaluator-preflight-checkpoint",
+    scope:
+      "phase-5-review-only-evaluator-preflight-checkpoint-runtime-disabled",
+    evaluatorPreflightCheckpointRecorded: true,
+    checkpointKind: "review-only-evaluator-preflight-checkpoint",
+    checkpointReviewOnly: true,
+    checkpointAuthoritative: false,
+    validIntakeCheckpointStateProducesPreflightState: true,
+    missingIntakeCheckpointStateRejected: true,
+    malformedIntakeCheckpointStateRejected: true,
+    emptyIntakeCheckpointStateRejected: true,
+    conflictingIntakeCheckpointStateRejected: true,
+    staleIntakeCheckpointStateRejected: true,
+    revokedIntakeCheckpointStateRejected: true,
+    unknownIntakeCheckpointStateRejected: true,
+    duplicateInvalidIntakeCheckpointStateRejected: true,
+    authorizingLookingIntakeCheckpointStateRejected: true,
+    grantLookingIntakeCheckpointStateRejected: true,
+    runtimePermissionLookingIntakeCheckpointStateRejected: true,
+    commandExposureLookingIntakeCheckpointStateRejected: true,
+    runtimeEffectTrueIntakeCheckpointStateRejected: true,
+    processFlagTrueIntakeCheckpointStateRejected: true,
+    unsafeIntakeCheckpointStateRejected: true,
+    executionSignalLookingIntakeCheckpointStateRejected: true,
+    preflightCheckpointStateIsApprovalGrant: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    evaluatorExecutionPerformed: false,
+    filesystemWatcherEnabled: false,
+    externalSourceLookupEnabled: false,
+    secretsEnvIngestionEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase528DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase528CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-28/review-only-evaluator-preflight-checkpoint.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs"
+  ]);
+  assert.deepEqual(inventory.sourcePhase, {
+    phase: "phase-5.27-approval-evaluator-candidate-intake-checkpoint",
+    candidateIntakeCheckpointPath:
+      "packages/core/src/index.mjs#createApprovalEvaluatorCandidateIntakeCheckpointForReview",
+    evaluatorPreflightCheckpointPath:
+      "packages/core/src/index.mjs#createReviewOnlyEvaluatorPreflightCheckpointForReview",
+    sourceIntakeCheckpointFixture:
+      "tests/fixtures/host-policy/phase5-27/approval-evaluator-candidate-intake-checkpoint.json",
+    runtimeEnabled: false,
+    approvalGrantProduced: false,
+    evaluatorExecutionPerformed: false
+  });
+  assert.deepEqual(inventory.preflightSummary, {
+    evaluatorPreflightCheckpointRecorded: true,
+    checkpointKind: "review-only-evaluator-preflight-checkpoint",
+    checkpointReviewOnly: true,
+    checkpointAuthoritative: false,
+    validIntakeCheckpointStateProducesPreflightState: true,
+    missingIntakeCheckpointStateRejected: true,
+    malformedIntakeCheckpointStateRejected: true,
+    emptyIntakeCheckpointStateRejected: true,
+    conflictingIntakeCheckpointStateRejected: true,
+    staleIntakeCheckpointStateRejected: true,
+    revokedIntakeCheckpointStateRejected: true,
+    unknownIntakeCheckpointStateRejected: true,
+    duplicateInvalidIntakeCheckpointStateRejected: true,
+    authorizingLookingIntakeCheckpointStateRejected: true,
+    grantLookingIntakeCheckpointStateRejected: true,
+    runtimePermissionLookingIntakeCheckpointStateRejected: true,
+    commandExposureLookingIntakeCheckpointStateRejected: true,
+    runtimeEffectTrueIntakeCheckpointStateRejected: true,
+    processFlagTrueIntakeCheckpointStateRejected: true,
+    unsafeIntakeCheckpointStateRejected: true,
+    executionSignalLookingIntakeCheckpointStateRejected: true,
+    preflightCheckpointStateIsApprovalGrant: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionPerformed: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false
+  });
+  assert.equal(
+    inventory.preflightInputShape.intakeCheckpointStateSchema,
+    "ardyn.phase-5.27.approval-evaluator-candidate-intake-state"
+  );
+  assert.equal(inventory.preflightInputShape.intakeCheckpointStateMode, "review-only");
+  assert.equal(
+    inventory.preflightInputShape.validIntakeCheckpointStateRequired,
+    true
+  );
+  assert.equal(
+    inventory.preflightInputShape.grantLookingCheckpointStatePolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.preflightInputShape.runtimePermissionLookingCheckpointStatePolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.preflightInputShape.commandExposureLookingCheckpointStatePolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.preflightInputShape.executionSignalLookingCheckpointStatePolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.preflightInputShape.unsafeNestedCheckpointDataPolicy,
+    "fail-closed"
+  );
+  assert.equal(inventory.preflightInputShape.filesystemWatcherAllowed, false);
+  assert.equal(inventory.preflightInputShape.externalSourceLookupAllowed, false);
+  assert.equal(inventory.preflightInputShape.secretsEnvIngestionAllowed, false);
+  assert.equal(
+    inventory.preflightResultShape.schema,
+    "ardyn.phase-5.28.review-only-evaluator-preflight-checkpoint-result"
+  );
+  assert.equal(
+    inventory.preflightResultShape.preflightCheckpointStateSchema,
+    "ardyn.phase-5.28.review-only-evaluator-preflight-state"
+  );
+  assert.equal(
+    inventory.preflightResultShape.preflightCheckpointStateIsApprovalGrant,
+    false
+  );
+  assert.equal(inventory.preflightResultShape.approvalGrantProduced, false);
+  assert.equal(inventory.preflightResultShape.approvalGrantPersisted, false);
+  assert.equal(inventory.preflightResultShape.runtimePermissionGranted, false);
+  assert.equal(
+    inventory.preflightResultShape.commandExposurePermissionGranted,
+    false
+  );
+  assert.equal(inventory.preflightResultShape.runtimeCommandExposureEnabled, false);
+  assert.equal(inventory.preflightResultShape.runtimeExecutionEnabled, false);
+  assert.equal(inventory.preflightResultShape.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.preflightResultShape.runtimeEffectAllFalse, true);
+  assert.deepEqual(
+    inventory.preflightCases.map(({ caseId }) => caseId),
+    [
+      "missing-review-only-evaluator-preflight-input-rejected",
+      "malformed-review-only-evaluator-preflight-input-rejected",
+      "malformed-review-only-evaluator-preflight-invalid-reviewed-at-rejected",
+      "empty-review-only-evaluator-preflight-input-rejected",
+      "conflicting-review-only-evaluator-preflight-input-rejected",
+      "stale-review-only-evaluator-preflight-input-rejected",
+      "revoked-review-only-evaluator-preflight-input-rejected",
+      "unknown-review-only-evaluator-preflight-input-rejected",
+      "duplicate-invalid-review-only-evaluator-preflight-input-rejected",
+      "authorizing-looking-review-only-evaluator-preflight-input-rejected",
+      "grant-looking-review-only-evaluator-preflight-input-rejected",
+      "runtime-permission-looking-review-only-evaluator-preflight-input-rejected",
+      "command-exposure-looking-review-only-evaluator-preflight-input-rejected",
+      "runtime-effect-true-review-only-evaluator-preflight-input-rejected",
+      "process-flag-true-review-only-evaluator-preflight-input-rejected",
+      "unsafe-top-level-review-only-evaluator-preflight-input-rejected",
+      "unsafe-nested-checkpoint-data-review-only-evaluator-preflight-input-rejected",
+      "execution-signal-looking-review-only-evaluator-preflight-input-rejected",
+      "valid-review-only-evaluator-preflight-checkpoint-state"
+    ]
+  );
+  for (const preflightCase of inventory.preflightCases) {
+    assert.equal(preflightCase.reviewOnly, true);
+    assert.equal(preflightCase.authoritative, false);
+    assert.equal(preflightCase.preflightCheckpointStateIsApprovalGrant, false);
+    assert.equal(preflightCase.approvalGrant.produced, false);
+    assert.equal(preflightCase.approvalGrant.persisted, false);
+    assert.equal(preflightCase.approvalGrant.grantId, null);
+    assert.equal(preflightCase.runtimePermissionGranted, false);
+    assert.equal(preflightCase.commandExposurePermissionGranted, false);
+    assert.equal(preflightCase.runtimeCommandExposureEnabled, false);
+    assert.equal(preflightCase.runtimeExecutionEnabled, false);
+    assert.equal(preflightCase.evaluatorExecuted, false);
+    assertAllFalse(preflightCase.runtimeEffect);
+  }
+  assert.equal(
+    inventory.preflightCheckpointStateBoundary.stateCanGrantApproval,
+    false
+  );
+  assert.equal(
+    inventory.preflightCheckpointStateBoundary.stateCanPersistGrant,
+    false
+  );
+  assert.equal(
+    inventory.preflightCheckpointStateBoundary.stateCanGrantRuntimePermission,
+    false
+  );
+  assert.equal(
+    inventory.preflightCheckpointStateBoundary
+      .stateCanGrantCommandExposurePermission,
+    false
+  );
+  assert.equal(
+    inventory.preflightCheckpointStateBoundary.stateCanExecuteEvaluator,
+    false
+  );
+  assert.equal(
+    inventory.preflightCheckpointStateBoundary.stateCanExecuteRuntime,
+    false
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
+    "serve-runtime",
+    "--dry-run"
+  ]);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.stdoutEmpty, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.equal(inventory.forbiddenBehavior.approvalGrantProduced, false);
+  assert.equal(inventory.forbiddenBehavior.approvalGrantPersisted, false);
+  assert.equal(inventory.forbiddenBehavior.runtimePermissionGranted, false);
+  assert.equal(
+    inventory.forbiddenBehavior.commandExposurePermissionGranted,
+    false
+  );
+  assert.equal(inventory.forbiddenBehavior.runtimeCommandExposureEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.runtimeExecutionEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.forbiddenBehavior.cliCommandAdded, false);
+  assert.equal(inventory.forbiddenBehavior.rustHostImplementationAdded, false);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "fallow health --score --hotspots --targets --format json"
+    )
+  );
+  assert.deepEqual(inventory.safetyPosture, {
+    evaluatorPreflightCheckpointRecorded: true,
+    checkpointReviewOnly: true,
+    checkpointAuthoritative: false,
+    validIntakeCheckpointStateProducesPreflightState: true,
+    missingIntakeCheckpointStateRejected: true,
+    malformedIntakeCheckpointStateRejected: true,
+    emptyIntakeCheckpointStateRejected: true,
+    conflictingIntakeCheckpointStateRejected: true,
+    staleIntakeCheckpointStateRejected: true,
+    revokedIntakeCheckpointStateRejected: true,
+    unknownIntakeCheckpointStateRejected: true,
+    duplicateInvalidIntakeCheckpointStateRejected: true,
+    authorizingLookingIntakeCheckpointStateRejected: true,
+    grantLookingIntakeCheckpointStateRejected: true,
+    runtimePermissionLookingIntakeCheckpointStateRejected: true,
+    commandExposureLookingIntakeCheckpointStateRejected: true,
+    runtimeEffectTrueIntakeCheckpointStateRejected: true,
+    processFlagTrueIntakeCheckpointStateRejected: true,
+    unsafeIntakeCheckpointStateRejected: true,
+    executionSignalLookingIntakeCheckpointStateRejected: true,
+    preflightCheckpointStateIsApprovalGrant: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    evaluatorExecutionPerformed: false,
+    filesystemWatcherEnabled: false,
+    externalSourceLookupEnabled: false,
+    secretsEnvIngestionEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(
+    report.safetyPosture.phase528ReviewOnlyEvaluatorPreflightCheckpoint,
+    true
+  );
+  assertSafetyFlags(report, phase528ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase528ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -13935,6 +14363,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase525NonAuthorizingReviewArtifactBoundary, true);
   assert.equal(report.safetyPosture.phase526ReviewArtifactEvaluatorInputHandoff, true);
   assert.equal(report.safetyPosture.phase527ApprovalEvaluatorCandidateIntakeCheckpoint, true);
+  assert.equal(report.safetyPosture.phase528ReviewOnlyEvaluatorPreflightCheckpoint, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -14568,7 +14997,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase524SafetyFlagNames,
     ...phase525SafetyFlagNames,
     ...phase526SafetyFlagNames,
-    ...phase527SafetyFlagNames
+    ...phase527SafetyFlagNames,
+    ...phase528SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -14589,6 +15019,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase526ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase527ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase527ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase528ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase528ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

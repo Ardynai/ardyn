@@ -190,6 +190,9 @@ const phase526ReviewArtifactEvaluatorInputHandoffMetadata = await readJson(
 const phase527ApprovalEvaluatorCandidateIntakeCheckpointMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-27/approval-evaluator-candidate-intake-checkpoint.json"
 );
+const phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-28/review-only-evaluator-preflight-checkpoint.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -237,10 +240,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.27",
-    name: "Review-only approval-evaluator candidate intake checkpoint",
+    id: "5.28",
+    name: "Review-only evaluator preflight checkpoint",
     executionPosture:
-      "approval-evaluator-candidate-intake-checkpoint runtime-disabled no-runtime-execution"
+      "review-only-evaluator-preflight-checkpoint runtime-disabled no-evaluator-execution no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -288,12 +291,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.27 approval-evaluator candidate intake checkpoint status report.",
+        "Render this deterministic local Phase 5.28 review-only evaluator preflight checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.27 status report.",
+      purpose: "Run focused tests for this local Phase 5.28 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.28 review-only evaluator preflight checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -12995,6 +13005,246 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase528ReviewOnlyEvaluatorPreflightCheckpointInventory: {
+    statusLayer: {
+      document:
+        "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-28/review-only-evaluator-preflight-checkpoint.json",
+      sourceCandidateIntakeCheckpointDocument:
+        "docs/phase-5-27-approval-evaluator-candidate-intake-checkpoint.md",
+      sourceCandidateIntakeCheckpointFixture:
+        "tests/fixtures/host-policy/phase5-27/approval-evaluator-candidate-intake-checkpoint.json",
+      precedingPhase: "5.27",
+      layerId: "review-only-evaluator-preflight-checkpoint",
+      scope:
+        "phase-5-review-only-evaluator-preflight-checkpoint-runtime-disabled",
+      evaluatorPreflightCheckpointRecorded:
+        phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata.preflightSummary
+          .evaluatorPreflightCheckpointRecorded,
+      checkpointKind:
+        phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata.preflightSummary
+          .checkpointKind,
+      checkpointReviewOnly: true,
+      checkpointAuthoritative: false,
+      validIntakeCheckpointStateProducesPreflightState: true,
+      missingIntakeCheckpointStateRejected: true,
+      malformedIntakeCheckpointStateRejected: true,
+      emptyIntakeCheckpointStateRejected: true,
+      conflictingIntakeCheckpointStateRejected: true,
+      staleIntakeCheckpointStateRejected: true,
+      revokedIntakeCheckpointStateRejected: true,
+      unknownIntakeCheckpointStateRejected: true,
+      duplicateInvalidIntakeCheckpointStateRejected: true,
+      authorizingLookingIntakeCheckpointStateRejected: true,
+      grantLookingIntakeCheckpointStateRejected: true,
+      runtimePermissionLookingIntakeCheckpointStateRejected: true,
+      commandExposureLookingIntakeCheckpointStateRejected: true,
+      runtimeEffectTrueIntakeCheckpointStateRejected: true,
+      processFlagTrueIntakeCheckpointStateRejected: true,
+      unsafeIntakeCheckpointStateRejected: true,
+      executionSignalLookingIntakeCheckpointStateRejected: true,
+      preflightCheckpointStateIsApprovalGrant: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata.preflightSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md",
+        "Records the Phase 5.28 review-only evaluator preflight checkpoint while runtime and evaluator execution remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-27-approval-evaluator-candidate-intake-checkpoint.md",
+        "Provides the Phase 5.28 source intake checkpoint state."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.28 as current docs/status mode while runtime and evaluator execution remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.28 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.28 changes no Rust-host runtime source and records a TypeScript preflight checkpoint helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-27-approval-evaluator-candidate-intake-checkpoint.md",
+      "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-28/review-only-evaluator-preflight-checkpoint.json",
+        "Records review-only evaluator preflight cases while grants, evaluator execution, and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.28 report metadata, docs cross-links, preflight fixture, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs",
+        "Pins the Phase 5.28 preflight helper, fixture shape, non-authorizing checkpoint state, serve-runtime rejection, command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-27-approval-evaluator-candidate-intake-checkpoint.md",
+        "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-28/review-only-evaluator-preflight-checkpoint.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      reportRunsChecks: false,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata.sourcePhase,
+    preflightSummary:
+      phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata.preflightSummary,
+    preflightInputShape:
+      phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata
+        .preflightInputShape,
+    preflightResultShape:
+      phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata
+        .preflightResultShape,
+    preflightCases:
+      phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata.preflightCases,
+    preflightCheckpointStateBoundary:
+      phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata
+        .preflightCheckpointStateBoundary,
+    blockedRuntimeEffect:
+      phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata
+        .blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata
+        .forbiddenBehavior,
+    validationCommands:
+      phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata.validationCommands,
+    safetyPosture: {
+      evaluatorPreflightCheckpointRecorded: true,
+      checkpointReviewOnly: true,
+      checkpointAuthoritative: false,
+      validIntakeCheckpointStateProducesPreflightState: true,
+      missingIntakeCheckpointStateRejected: true,
+      malformedIntakeCheckpointStateRejected: true,
+      emptyIntakeCheckpointStateRejected: true,
+      conflictingIntakeCheckpointStateRejected: true,
+      staleIntakeCheckpointStateRejected: true,
+      revokedIntakeCheckpointStateRejected: true,
+      unknownIntakeCheckpointStateRejected: true,
+      duplicateInvalidIntakeCheckpointStateRejected: true,
+      authorizingLookingIntakeCheckpointStateRejected: true,
+      grantLookingIntakeCheckpointStateRejected: true,
+      runtimePermissionLookingIntakeCheckpointStateRejected: true,
+      commandExposureLookingIntakeCheckpointStateRejected: true,
+      runtimeEffectTrueIntakeCheckpointStateRejected: true,
+      processFlagTrueIntakeCheckpointStateRejected: true,
+      unsafeIntakeCheckpointStateRejected: true,
+      executionSignalLookingIntakeCheckpointStateRejected: true,
+      preflightCheckpointStateIsApprovalGrant: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -13055,6 +13305,7 @@ const report = {
     phase525NonAuthorizingReviewArtifactBoundary: true,
     phase526ReviewArtifactEvaluatorInputHandoff: true,
     phase527ApprovalEvaluatorCandidateIntakeCheckpoint: true,
+    phase528ReviewOnlyEvaluatorPreflightCheckpoint: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -14047,6 +14298,58 @@ const report = {
       phase527AdapterRuntimeBehaviorEnabled: false,
       phase527ContentFabricRuntimeBehaviorEnabled: false,
       phase527WebSocketHttpSurfaceEnabled: false,
+      phase528ReviewOnlyEvaluatorPreflightCheckpointRecorded: true,
+      phase528CheckpointReviewOnly: true,
+      phase528CheckpointAuthoritative: false,
+      phase528ValidIntakeCheckpointStateProducesPreflightState: true,
+      phase528MissingIntakeCheckpointStateRejected: true,
+      phase528MalformedIntakeCheckpointStateRejected: true,
+      phase528EmptyIntakeCheckpointStateRejected: true,
+      phase528ConflictingIntakeCheckpointStateRejected: true,
+      phase528StaleIntakeCheckpointStateRejected: true,
+      phase528RevokedIntakeCheckpointStateRejected: true,
+      phase528UnknownIntakeCheckpointStateRejected: true,
+      phase528DuplicateInvalidIntakeCheckpointStateRejected: true,
+      phase528AuthorizingLookingIntakeCheckpointStateRejected: true,
+      phase528GrantLookingIntakeCheckpointStateRejected: true,
+      phase528RuntimePermissionLookingIntakeCheckpointStateRejected: true,
+      phase528CommandExposureLookingIntakeCheckpointStateRejected: true,
+      phase528RuntimeEffectTrueIntakeCheckpointStateRejected: true,
+      phase528ProcessFlagTrueIntakeCheckpointStateRejected: true,
+      phase528UnsafeIntakeCheckpointStateRejected: true,
+      phase528ExecutionSignalLookingIntakeCheckpointStateRejected: true,
+      phase528PreflightCheckpointStateIsApprovalGrant: false,
+      phase528ApprovalGrantProduced: false,
+      phase528ApprovalGrantPersisted: false,
+      phase528RuntimePermissionGranted: false,
+      phase528CommandExposurePermissionGranted: false,
+      phase528RuntimeEnabled: false,
+      phase528RuntimeStarted: false,
+      phase528RuntimeReady: false,
+      phase528RuntimeCommandEnabled: false,
+      phase528RuntimeCommandExposureEnabled: false,
+      phase528RuntimeExecutionEnabled: false,
+      phase528RuntimeExecuted: false,
+      phase528EvaluatorExecutionPerformed: false,
+      phase528ServeRuntimeStillDefaultBlocked: true,
+      phase528DryRunBypassesBlock: false,
+      phase528CanEnableRuntime: false,
+      phase528CliSourceChanged: false,
+      phase528RustSourceChanged: false,
+      phase528FilesystemWatcherEnabled: false,
+      phase528ExternalSourceLookupEnabled: false,
+      phase528SecretsEnvIngestionEnabled: false,
+      phase528LiveStdinLoopEnabled: false,
+      phase528RuntimeStdoutWriterEnabled: false,
+      phase528RuntimeStderrWriterEnabled: false,
+      phase528ProcessSpawnEnabled: false,
+      phase528ProcessTerminationEnabled: false,
+      phase528RuntimeSupervisionEnabled: false,
+      phase528RuntimeTranscriptWritePerformed: false,
+      phase528RuntimeAuditWritePerformed: false,
+      phase528AdapterRuntimeBehaviorEnabled: false,
+      phase528ContentFabricRuntimeBehaviorEnabled: false,
+      phase528WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

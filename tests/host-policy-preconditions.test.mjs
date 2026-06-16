@@ -12,7 +12,8 @@ const reportScriptPath = fileURLToPath(new URL("../scripts/report-phase-status.m
 
 async function runReport() {
   const { stdout, stderr } = await execFileAsync(process.execPath, [reportScriptPath], {
-    cwd: repoRoot
+    cwd: repoRoot,
+    maxBuffer: 4 * 1024 * 1024
   });
 
   assert.equal(stderr, "");
