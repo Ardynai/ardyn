@@ -91,3 +91,11 @@ Phase 5.31 records these validation commands:
 - `git diff --cached --check`
 - `fallow health --score --hotspots --targets --format json`
 - `fallow audit --format json`
+
+## Phase 5.32 Handoff
+
+Phase 5.32 consumes this review-only disposition boundary state into a
+review-only disposition aggregation checkpoint. The handoff remains
+non-authorizing: it does not perform reviewer routing, execute an evaluator,
+produce evaluator results, produce approval decisions, produce or persist
+approval grants, grant runtime permission, expose commands, or enable runtime.

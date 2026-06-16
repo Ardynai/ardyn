@@ -8,10 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.31 Scope
+## Phase 3 through Phase 5.32 Scope
 
-This repository is currently in Phase 5.31 review-only human/tool inspection
-disposition boundary mode. The goal is to load and validate ARDYN manifests and tasks, resolve
+This repository is currently in Phase 5.32 review-only disposition aggregation
+checkpoint mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
 dry-run session-event JSONL, define the stdout/stderr, redaction, transcript
@@ -129,8 +129,13 @@ review-only human/tool inspection disposition boundary metadata proving valid
 inspection artifacts can become only non-authorizing disposition state for
 later human/tool inspection without evaluator result production, approval
 decision production, approval grant production or persistence, evaluator
-execution, runtime permission, or command exposure.
-Phase 5.31 is not runtime enablement.
+execution, runtime permission, or command exposure plus Phase 5.32 review-only
+disposition aggregation checkpoint metadata proving valid disposition boundary
+state can become only non-authorizing aggregation metadata for later inspection
+without reviewer routing, evaluator result production, approval decision
+production, approval grant production or persistence, evaluator execution,
+runtime permission, or command exposure.
+Phase 5.32 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -565,6 +570,23 @@ Included now:
   filesystem watching, external lookup, secrets/env ingestion, Rust-host change,
   or CLI source change, and keeps `serve-runtime` default-blocked. See
   `docs/phase-5-31-human-tool-inspection-disposition-boundary.md`.
+- Phase 5.32 review-only disposition aggregation checkpoint documentation,
+  fixture, core helper, and report metadata. This represents valid Phase 5.31
+  disposition boundary state only as non-authorizing aggregation metadata for
+  later inspection. It rejects missing, malformed, invalid timestamp, empty,
+  conflicting, stale, revoked, unknown, duplicate-invalid,
+  authorizing-looking, grant-looking, approval-decision-looking,
+  approval-grant-looking, evaluator-result-looking,
+  evaluator-execution-looking, reviewer-routing-looking,
+  runtime-permission-looking, command-exposure-looking, runtime-effect-true,
+  process-flag-true, unsafe, and execution-signal-looking disposition state,
+  performs no reviewer routing, produces no evaluator result, produces no
+  approval decision, produces and persists no approval grant, executes no
+  evaluator, grants no runtime or command exposure permission, starts or
+  executes no runtime, performs no filesystem watching, external lookup,
+  secrets/env ingestion, Rust-host change, or CLI source change, and keeps
+  `serve-runtime` default-blocked. See
+  `docs/phase-5-32-review-only-disposition-aggregation-checkpoint.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -716,7 +738,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.31 review-only human/tool inspection disposition boundary status report command is:
+The Phase 5.32 review-only disposition aggregation checkpoint status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -773,7 +795,8 @@ candidate intake checkpoint metadata, and Phase 5.28 review-only evaluator
 preflight checkpoint metadata, and Phase 5.29 non-authorizing evaluator
 decision-candidate boundary metadata, and Phase 5.30 non-authorizing evaluator
 decision-candidate inspection artifact metadata, and Phase 5.31 review-only
-human/tool inspection disposition boundary metadata
+human/tool inspection disposition boundary metadata, and Phase 5.32 review-only
+disposition aggregation checkpoint metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply

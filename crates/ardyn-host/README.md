@@ -304,6 +304,23 @@ execution-signal-looking, and valid in-memory disposition cases as review
 metadata only. See
 `docs/phase-5-31-human-tool-inspection-disposition-boundary.md`.
 
+Phase 5.32 records review-only disposition aggregation checkpoint metadata in
+TypeScript core only. It keeps `stdio_runtime` private, performs no reviewer
+routing, executes no evaluator, produces no evaluator result, produces no
+approval decision, produces or persists no approval grant, implements no source
+watcher, external lookup, secrets/env ingestion, authoritative evaluator,
+aggregation-checkpoint command, reviewer-routing command, runtime permission,
+command exposure permission, or runtime behavior, changes no Rust or CLI
+source, and records missing, malformed, invalid timestamp, empty, conflicting,
+stale, revoked, unknown, duplicate-invalid, authorizing-looking,
+grant-looking, approval-decision-looking, approval-grant-looking,
+evaluator-result-looking, evaluator-execution-looking,
+reviewer-routing-looking, runtime-permission-looking,
+command-exposure-looking, runtime-effect-true, process-flag-true, unsafe,
+execution-signal-looking, and valid in-memory aggregation cases as review
+metadata only. See
+`docs/phase-5-32-review-only-disposition-aggregation-checkpoint.md`.
+
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -799,6 +816,20 @@ transcript/audit write, adapter/Fabric behavior, or WebSocket/HTTP surface is
 implemented. Runtime remains disabled, `stdio_runtime` remains private, and no
 Rust source changes are made. See
 `docs/phase-5-31-human-tool-inspection-disposition-boundary.md`.
+
+Phase 5.32 adds no Rust-host runtime implementation. It records a
+machine-readable review-only disposition aggregation checkpoint layer in
+TypeScript core and keeps the Rust host private and fail-closed. No reviewer
+routing, filesystem watcher, external source lookup, secrets/env ingestion,
+evaluator result command, approval decision, approval grant, runtime permission,
+command exposure permission, authoritative approval evaluator, evaluator
+execution, host-policy runtime enforcement, runtime I/O, process control,
+rollback/kill-switch behavior, positive runtime smoke execution, runtime
+entrypoint, live stdin loop, runtime stdout/stderr writer, process spawning,
+process supervision, runtime transcript/audit write, adapter/Fabric behavior,
+or WebSocket/HTTP surface is implemented. Runtime remains disabled,
+`stdio_runtime` remains private, and no Rust source changes are made. See
+`docs/phase-5-32-review-only-disposition-aggregation-checkpoint.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

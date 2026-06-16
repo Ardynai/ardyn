@@ -391,10 +391,10 @@ test("Phase 4.1B status report inventories transport harness contracts without r
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.31",
-    name: "Review-only human/tool inspection disposition boundary",
+    id: "5.32",
+    name: "Review-only disposition aggregation checkpoint",
     executionPosture:
-      "review-only-human-tool-inspection-disposition-boundary runtime-disabled no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-disposition-aggregation-checkpoint runtime-disabled no-reviewer-routing no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

@@ -1331,6 +1331,46 @@ const phase531ExpectedCaseIds = [
   "execution-signal-looking-human-tool-inspection-disposition-boundary-input-rejected",
   "valid-human-tool-inspection-disposition-boundary"
 ];
+const phase532DocFiles = [
+  "docs/phase-5-32-review-only-disposition-aggregation-checkpoint.md",
+  "docs/phase-5-31-human-tool-inspection-disposition-boundary.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase532CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-31-human-tool-inspection-disposition-boundary.md",
+  "docs/phase-5-32-review-only-disposition-aggregation-checkpoint.md"
+];
+const phase532ExpectedCaseIds = [
+  "missing-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "malformed-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "malformed-review-only-disposition-aggregation-checkpoint-invalid-reviewed-at-rejected",
+  "empty-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "conflicting-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "stale-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "revoked-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "unknown-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "duplicate-invalid-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "authorizing-looking-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "grant-looking-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "approval-decision-looking-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "approval-grant-looking-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "evaluator-result-looking-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "evaluator-execution-looking-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "reviewer-routing-looking-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "runtime-permission-looking-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "command-exposure-looking-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "runtime-effect-true-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "process-flag-true-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "unsafe-top-level-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "unsafe-nested-disposition-aggregation-data-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "execution-signal-looking-review-only-disposition-aggregation-checkpoint-input-rejected",
+  "valid-review-only-disposition-aggregation-checkpoint"
+];
 const phase519ExpectedTrueSafetyFlagNames = [
   "phase519ApprovalPrerequisiteReaderHardeningRecorded",
   "phase519ReaderReviewOnly",
@@ -2043,6 +2083,78 @@ const phase531SafetyFlagNames = [
   ...phase531ExpectedTrueSafetyFlagNames,
   ...phase531ExpectedFalseSafetyFlagNames
 ];
+const phase532ExpectedTrueSafetyFlagNames = [
+  "phase532ReviewOnlyDispositionAggregationCheckpointRecorded",
+  "phase532CheckpointReviewOnly",
+  "phase532ValidDispositionStateProducesAggregationState",
+  "phase532MissingDispositionStateRejected",
+  "phase532MalformedDispositionStateRejected",
+  "phase532EmptyDispositionStateRejected",
+  "phase532ConflictingDispositionStateRejected",
+  "phase532StaleDispositionStateRejected",
+  "phase532RevokedDispositionStateRejected",
+  "phase532UnknownDispositionStateRejected",
+  "phase532DuplicateInvalidDispositionStateRejected",
+  "phase532AuthorizingLookingDispositionStateRejected",
+  "phase532GrantLookingDispositionStateRejected",
+  "phase532ApprovalDecisionLookingDispositionStateRejected",
+  "phase532ApprovalGrantLookingDispositionStateRejected",
+  "phase532EvaluatorResultLookingDispositionStateRejected",
+  "phase532EvaluatorExecutionLookingDispositionStateRejected",
+  "phase532ReviewerRoutingLookingDispositionStateRejected",
+  "phase532RuntimePermissionLookingDispositionStateRejected",
+  "phase532CommandExposureLookingDispositionStateRejected",
+  "phase532RuntimeEffectTrueDispositionStateRejected",
+  "phase532ProcessFlagTrueDispositionStateRejected",
+  "phase532UnsafeDispositionStateRejected",
+  "phase532ExecutionSignalLookingDispositionStateRejected",
+  "phase532ServeRuntimeStillDefaultBlocked"
+];
+const phase532ExpectedFalseSafetyFlagNames = [
+  "phase532CheckpointAuthoritative",
+  "phase532AggregationCheckpointIsReviewerRouting",
+  "phase532AggregationCheckpointIsApprovalDecision",
+  "phase532AggregationCheckpointIsApprovalGrant",
+  "phase532ReviewerRoutingPerformed",
+  "phase532EvaluatorResultProduced",
+  "phase532EvaluatorResultPersisted",
+  "phase532ApprovalDecisionProduced",
+  "phase532ApprovalDecisionPersisted",
+  "phase532ApprovalGrantProduced",
+  "phase532ApprovalGrantPersisted",
+  "phase532RuntimePermissionGranted",
+  "phase532CommandExposurePermissionGranted",
+  "phase532RuntimeEnabled",
+  "phase532RuntimeStarted",
+  "phase532RuntimeReady",
+  "phase532RuntimeCommandEnabled",
+  "phase532RuntimeCommandExposureEnabled",
+  "phase532RuntimeExecutionEnabled",
+  "phase532RuntimeExecuted",
+  "phase532EvaluatorExecutionPerformed",
+  "phase532DryRunBypassesBlock",
+  "phase532CanEnableRuntime",
+  "phase532CliSourceChanged",
+  "phase532RustSourceChanged",
+  "phase532FilesystemWatcherEnabled",
+  "phase532ExternalSourceLookupEnabled",
+  "phase532SecretsEnvIngestionEnabled",
+  "phase532LiveStdinLoopEnabled",
+  "phase532RuntimeStdoutWriterEnabled",
+  "phase532RuntimeStderrWriterEnabled",
+  "phase532ProcessSpawnEnabled",
+  "phase532ProcessTerminationEnabled",
+  "phase532RuntimeSupervisionEnabled",
+  "phase532RuntimeTranscriptWritePerformed",
+  "phase532RuntimeAuditWritePerformed",
+  "phase532AdapterRuntimeBehaviorEnabled",
+  "phase532ContentFabricRuntimeBehaviorEnabled",
+  "phase532WebSocketHttpSurfaceEnabled"
+];
+const phase532SafetyFlagNames = [
+  ...phase532ExpectedTrueSafetyFlagNames,
+  ...phase532ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -2177,15 +2289,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.31 review-only human/tool inspection disposition boundary docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.32 review-only disposition aggregation checkpoint docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.31",
-    name: "Review-only human/tool inspection disposition boundary",
+    id: "5.32",
+    name: "Review-only disposition aggregation checkpoint",
     executionPosture:
-      "review-only-human-tool-inspection-disposition-boundary runtime-disabled no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-disposition-aggregation-checkpoint runtime-disabled no-reviewer-routing no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -2258,12 +2370,19 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.31 review-only human/tool inspection disposition boundary status report.",
+        "Render this deterministic local Phase 5.32 review-only disposition aggregation checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.31 status report.",
+      purpose: "Run focused tests for this local Phase 5.32 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-32-review-only-disposition-aggregation-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.32 review-only disposition aggregation checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -14964,6 +15083,162 @@ test("report inventories Phase 5.31 as review-only human/tool inspection disposi
   assertSafetyFlags(report, phase531ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.32 as review-only disposition aggregation checkpoint", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase532ReviewOnlyDispositionAggregationCheckpointInventory;
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase532DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase532CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-32/review-only-disposition-aggregation-checkpoint.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-32-review-only-disposition-aggregation-checkpoint.test.mjs"
+  ]);
+  assert.equal(inventory.statusLayer.precedingPhase, "5.31");
+  assert.equal(
+    inventory.statusLayer.layerId,
+    "review-only-disposition-aggregation-checkpoint"
+  );
+  assert.equal(
+    inventory.statusLayer.validDispositionStateProducesAggregationState,
+    true
+  );
+  assert.equal(inventory.statusLayer.reviewerRoutingPerformed, false);
+  assert.equal(inventory.statusLayer.evaluatorResultProduced, false);
+  assert.equal(inventory.statusLayer.evaluatorResultPersisted, false);
+  assert.equal(inventory.statusLayer.approvalDecisionProduced, false);
+  assert.equal(inventory.statusLayer.approvalDecisionPersisted, false);
+  assert.equal(inventory.statusLayer.approvalGrantProduced, false);
+  assert.equal(inventory.statusLayer.runtimePermissionGranted, false);
+  assert.equal(inventory.statusLayer.commandExposurePermissionGranted, false);
+  assert.equal(inventory.statusLayer.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.statusLayer.serveRuntimeStillDefaultBlocked, true);
+  assert.deepEqual(inventory.sourcePhase, {
+    phase: "phase-5.31-human-tool-inspection-disposition-boundary",
+    dispositionBoundaryPath:
+      "packages/core/src/index.mjs#createHumanToolInspectionDispositionBoundaryForReview",
+    aggregationCheckpointPath:
+      "packages/core/src/index.mjs#createReviewOnlyDispositionAggregationCheckpointForReview",
+    sourceDispositionBoundaryFixture:
+      "tests/fixtures/host-policy/phase5-31/human-tool-inspection-disposition-boundary.json",
+    runtimeEnabled: false,
+    reviewerRoutingPerformed: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    evaluatorExecutionPerformed: false
+  });
+  assert.equal(
+    inventory.aggregationCheckpointInputShape.dispositionStateSchema,
+    "ardyn.phase-5.31.review-only-human-tool-inspection-disposition-state"
+  );
+  assert.equal(
+    inventory.aggregationCheckpointInputShape.reviewerRoutingLookingDispositionStatePolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.aggregationCheckpointInputShape.unsafeNestedDispositionAggregationDataPolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.aggregationCheckpointResultShape.schema,
+    "ardyn.phase-5.32.review-only-disposition-aggregation-checkpoint-result"
+  );
+  assert.equal(
+    inventory.aggregationCheckpointResultShape.aggregationStateSchema,
+    "ardyn.phase-5.32.review-only-disposition-aggregation-state"
+  );
+  assert.equal(
+    inventory.aggregationCheckpointResultShape.aggregationCheckpointIsReviewerRouting,
+    false
+  );
+  assert.equal(
+    inventory.aggregationCheckpointResultShape.aggregationCheckpointIsApprovalDecision,
+    false
+  );
+  assert.equal(inventory.aggregationCheckpointResultShape.evaluatorResultProduced, false);
+  assert.equal(inventory.aggregationCheckpointResultShape.approvalDecisionProduced, false);
+  assert.equal(inventory.aggregationCheckpointResultShape.evaluatorExecuted, false);
+  assert.deepEqual(
+    inventory.aggregationCheckpointCases.map(({ caseId }) => caseId),
+    phase532ExpectedCaseIds
+  );
+  for (const aggregationCase of inventory.aggregationCheckpointCases) {
+    assert.equal(aggregationCase.reviewOnly, true);
+    assert.equal(aggregationCase.authoritative, false);
+    assert.equal(aggregationCase.reviewArtifactOnly, true);
+    assert.equal(aggregationCase.aggregationMetadataOnly, true);
+    assert.equal(aggregationCase.aggregationCheckpointIsReviewerRouting, false);
+    assert.equal(aggregationCase.aggregationCheckpointIsApprovalDecision, false);
+    assert.equal(aggregationCase.aggregationCheckpointIsApprovalGrant, false);
+    assert.equal(aggregationCase.reviewerRoutingPerformed, false);
+    assert.equal(aggregationCase.evaluatorResultProduced, false);
+    assert.equal(aggregationCase.evaluatorResultPersisted, false);
+    assert.equal(aggregationCase.approvalDecisionProduced, false);
+    assert.equal(aggregationCase.approvalGrant.produced, false);
+    assert.equal(aggregationCase.approvalGrant.persisted, false);
+    assert.equal(aggregationCase.approvalGrant.grantId, null);
+    assert.equal(aggregationCase.runtimePermissionGranted, false);
+    assert.equal(aggregationCase.commandExposurePermissionGranted, false);
+    assert.equal(aggregationCase.evaluatorExecuted, false);
+    assertAllFalse(aggregationCase.runtimeEffect);
+  }
+  assert.equal(
+    inventory.aggregationCheckpoint.aggregationCanPerformReviewerRouting,
+    false
+  );
+  assert.equal(
+    inventory.aggregationCheckpoint.aggregationCanExecuteEvaluator,
+    false
+  );
+  assert.equal(
+    inventory.aggregationCheckpoint.aggregationCanProduceEvaluatorResult,
+    false
+  );
+  assert.equal(
+    inventory.aggregationCheckpoint.aggregationCanProduceApprovalDecision,
+    false
+  );
+  assert.equal(
+    inventory.aggregationCheckpoint.aggregationCanGrantApproval,
+    false
+  );
+  assert.equal(
+    inventory.aggregationCheckpoint.aggregationCanGrantRuntimePermission,
+    false
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
+    "serve-runtime",
+    "--dry-run"
+  ]);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.equal(inventory.forbiddenBehavior.reviewerRouting, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorResultProduction, false);
+  assert.equal(inventory.forbiddenBehavior.approvalDecisionProduction, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorExecution, false);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-32-review-only-disposition-aggregation-checkpoint.test.mjs"
+    )
+  );
+  assert.equal(
+    report.safetyPosture.phase532ReviewOnlyDispositionAggregationCheckpoint,
+    true
+  );
+  assertSafetyFlags(report, phase532ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase532ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -15199,6 +15474,10 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase526ReviewArtifactEvaluatorInputHandoff, true);
   assert.equal(report.safetyPosture.phase527ApprovalEvaluatorCandidateIntakeCheckpoint, true);
   assert.equal(report.safetyPosture.phase528ReviewOnlyEvaluatorPreflightCheckpoint, true);
+  assert.equal(
+    report.safetyPosture.phase532ReviewOnlyDispositionAggregationCheckpoint,
+    true
+  );
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -15836,7 +16115,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase528SafetyFlagNames,
     ...phase529SafetyFlagNames,
     ...phase530SafetyFlagNames,
-    ...phase531SafetyFlagNames
+    ...phase531SafetyFlagNames,
+    ...phase532SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -15865,6 +16145,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase530ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase531ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase531ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase532ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase532ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

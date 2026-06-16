@@ -179,6 +179,11 @@ export const HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_SCHEMA:
 export const HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_VERSION: "0.1.0";
 export const HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_KIND:
   "human-tool-inspection-disposition-boundary";
+export const REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_SCHEMA:
+  "ardyn.phase-5.32.review-only-disposition-aggregation-checkpoint-result";
+export const REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_VERSION: "0.1.0";
+export const REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_KIND:
+  "review-only-disposition-aggregation-checkpoint";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1602,6 +1607,29 @@ export type HumanToolInspectionDispositionBoundaryClassification =
   | "unsafe_human_tool_inspection_disposition_boundary_input_rejected"
   | "execution_signal_looking_human_tool_inspection_disposition_boundary_input_rejected"
   | "valid_human_tool_inspection_disposition_boundary_runtime_still_blocked";
+export type ReviewOnlyDispositionAggregationCheckpointClassification =
+  | "missing_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "malformed_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "empty_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "conflicting_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "stale_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "revoked_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "unknown_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "duplicate_invalid_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "authorizing_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "grant_looking_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "approval_decision_looking_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "approval_grant_looking_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "evaluator_result_looking_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "evaluator_execution_looking_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "reviewer_routing_looking_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "runtime_permission_looking_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "command_exposure_looking_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "runtime_effect_true_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "process_flag_true_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "unsafe_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "execution_signal_looking_review_only_disposition_aggregation_checkpoint_input_rejected"
+  | "valid_review_only_disposition_aggregation_checkpoint_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -2610,6 +2638,140 @@ export interface HumanToolInspectionDispositionBoundaryResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export interface ReviewOnlyDispositionAggregationState {
+  schema: "ardyn.phase-5.32.review-only-disposition-aggregation-state";
+  schemaVersion: "0.1.0";
+  stateKind: "review-only-disposition-aggregation-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourceDispositionState: {
+    schema: "ardyn.phase-5.31.review-only-human-tool-inspection-disposition-state";
+    stateKind: "review-only-human-tool-inspection-disposition-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    sourceInspectionArtifactDigest: string;
+    sourceDecisionCandidateStateDigest: string;
+    sourcePreflightCheckpointStateDigest: string;
+    sourceIntakeCheckpointStateDigest: string;
+    sourceEvaluatorInputCandidateDigest: string;
+    inspectionArtifactAccepted: true;
+    reviewArtifactOnly: true;
+    dispositionStateIsApprovalDecision: false;
+    dispositionStateIsApprovalGrant: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  };
+  pipelineSummary: HumanToolInspectionDispositionState["pipelineSummary"];
+  integratedReviewSummary: HumanToolInspectionDispositionState["integratedReviewSummary"];
+  decisionCandidateSummary: HumanToolInspectionDispositionState["decisionCandidateSummary"];
+  inspectionSummary: HumanToolInspectionDispositionState["inspectionSummary"];
+  dispositionSummary: HumanToolInspectionDispositionState["dispositionSummary"];
+  aggregationSummary: {
+    aggregationKind: "review-only-disposition-aggregation-checkpoint";
+    aggregationMode: "review-only";
+    sourceDispositionClassification:
+      "valid_human_tool_inspection_disposition_boundary_runtime_still_blocked";
+    aggregationMetadataOnly: true;
+    reviewerRoutingPerformed: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    runtimePermissionGranted: false;
+    commandExposurePermissionGranted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  };
+  dispositionStateAccepted: true;
+  aggregationMetadataOnly: true;
+  aggregationCheckpointIsReviewerRouting: false;
+  aggregationCheckpointIsApprovalDecision: false;
+  aggregationCheckpointIsApprovalGrant: false;
+  reviewerRoutingPerformed: false;
+  reviewerRoutingEnabled: false;
+  reviewerRouteId: null;
+  evaluatorResultProduced: false;
+  evaluatorResultPersisted: false;
+  evaluatorResultId: null;
+  approvalDecisionProduced: false;
+  approvalDecisionPersisted: false;
+  approvalDecisionId: null;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ReviewOnlyDispositionAggregationCheckpointResult {
+  schema: "ardyn.phase-5.32.review-only-disposition-aggregation-checkpoint-result";
+  schemaVersion: "0.1.0";
+  checkpointKind: "review-only-disposition-aggregation-checkpoint";
+  checkpointMode: "review-only";
+  reviewedAt: string;
+  classification: ReviewOnlyDispositionAggregationCheckpointClassification;
+  dispositionStateAccepted: boolean;
+  aggregationStateProduced: boolean;
+  aggregationCheckpointIsReviewerRouting: false;
+  aggregationCheckpointIsApprovalDecision: false;
+  aggregationCheckpointIsApprovalGrant: false;
+  aggregationState: ReviewOnlyDispositionAggregationState | null;
+  aggregationSummary: {
+    schema: "ardyn.phase-5.31.review-only-human-tool-inspection-disposition-state";
+    stateKind: "review-only-human-tool-inspection-disposition-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    dispositionStateIsApprovalDecision: false;
+    dispositionStateIsApprovalGrant: false;
+    reviewerRoutingPerformed: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  } | null;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  aggregationMetadataOnly: true;
+  reviewerRoutingPerformed: false;
+  reviewerRoutingEnabled: false;
+  reviewerRouteId: null;
+  evaluatorResultProduced: false;
+  evaluatorResultPersisted: false;
+  evaluatorResultId: null;
+  approvalDecisionProduced: false;
+  approvalDecisionPersisted: false;
+  approvalDecisionId: null;
+  approvalGrant: RuntimeApprovalGrantBlocked;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -2881,6 +3043,10 @@ export function createHumanToolInspectionDispositionBoundaryForReview(input?: {
   reviewedAt?: string;
   inspectionArtifacts?: unknown[];
 }): HumanToolInspectionDispositionBoundaryResult;
+export function createReviewOnlyDispositionAggregationCheckpointForReview(input?: {
+  reviewedAt?: string;
+  dispositionStates?: unknown[];
+}): ReviewOnlyDispositionAggregationCheckpointResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
