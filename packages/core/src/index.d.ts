@@ -136,6 +136,11 @@ export const APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_VERSION:
   "0.1.0";
 export const APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_KIND:
   "approval-prerequisite-bundle-consumption-checkpoint";
+export const APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_SCHEMA:
+  "ardyn.phase-5.24.approval-prerequisite-integration-checkpoint-result";
+export const APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_VERSION: "0.1.0";
+export const APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_KIND:
+  "approval-prerequisite-evaluation-integration-checkpoint";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1431,6 +1436,16 @@ export type ApprovalPrerequisiteBundleConsumptionCheckpointClassification =
   | "malformed_prerequisite_bundle_consumption_rejected"
   | "conflicting_prerequisite_bundle_consumption_rejected"
   | "valid_prerequisite_bundle_consumed_for_review_only_runtime_still_blocked";
+export type ApprovalPrerequisiteIntegrationCheckpointClassification =
+  | "missing_prerequisite_integration_input_rejected"
+  | "malformed_prerequisite_integration_input_rejected"
+  | "empty_prerequisite_integration_input_rejected"
+  | "duplicate_prerequisite_integration_input_rejected"
+  | "conflicting_prerequisite_integration_input_rejected"
+  | "stale_prerequisite_integration_input_rejected"
+  | "revoked_prerequisite_integration_input_rejected"
+  | "unknown_prerequisite_integration_input_rejected"
+  | "valid_prerequisite_integration_review_summary_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -1704,6 +1719,97 @@ export interface ApprovalPrerequisiteBundleConsumptionCheckpointResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export interface ApprovalPrerequisiteIntegrationSourceIngestionResult {
+  index: number;
+  sourceId: string | null;
+  classification: ApprovalPrerequisiteSourcePreflightClassification;
+  sourceInputsAccepted: boolean;
+  readerInputForwarded: boolean;
+  prerequisiteSignalRecognized: boolean;
+  reviewOnly: boolean;
+  authoritative: boolean;
+  approvalGrantProduced: false;
+  runtimeEffectAllFalse: boolean;
+}
+
+export interface ApprovalPrerequisiteIntegrationSourceSelectionSummary {
+  classification: ApprovalPrerequisiteSourceSelectionClassification;
+  sourceSelectionAccepted: boolean;
+  readerInputForwarded: boolean;
+  selectedSourceId: string | null;
+  equivalentSourceIds: string[];
+  rejectedSourceIds: (string | null)[];
+  conflictingSourceIds: (string | null)[];
+  duplicateSourceIds: string[];
+  approvalGrantProduced: false;
+  runtimeEffectAllFalse: boolean;
+}
+
+export interface ApprovalPrerequisiteIntegrationSourceBundleSummary {
+  classification: ApprovalPrerequisiteSourceBundleClassification;
+  sourceBundleAccepted: boolean;
+  readerInputForwarded: boolean;
+  selectedBundlePartId: string | null;
+  equivalentBundlePartIds: string[];
+  rejectedBundlePartIds: (string | null)[];
+  conflictingBundlePartIds: (string | null)[];
+  approvalGrantProduced: false;
+  runtimeEffectAllFalse: boolean;
+}
+
+export interface ApprovalPrerequisiteIntegrationBundleConsumptionSummary {
+  classification: ApprovalPrerequisiteBundleConsumptionCheckpointClassification;
+  bundleConsumedForReview: boolean;
+  evaluatorInputForwarded: boolean;
+  selectedBundlePartId: string | null;
+  readerRecordCount: number;
+  evaluatorClassification: ReviewOnlyApprovalEvaluatorClassification | null;
+  prerequisiteSignalRecognized: boolean;
+  approvalGrantProduced: false;
+  runtimeEffectAllFalse: boolean;
+}
+
+export interface ApprovalPrerequisiteIntegrationReviewOnlyEvaluatorSummary {
+  schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
+  evaluatorKind: "review-only-runtime-approval-evaluator";
+  evaluationMode: "review-only";
+  classification: ReviewOnlyApprovalEvaluatorClassification;
+  prerequisiteSignalRecognized: boolean;
+  reviewOnly: true;
+  authoritative: false;
+  reviewSummaryIsApprovalGrant: false;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimeEffectAllFalse: boolean;
+}
+
+export interface ApprovalPrerequisiteIntegrationCheckpointResult {
+  schema: "ardyn.phase-5.24.approval-prerequisite-integration-checkpoint-result";
+  schemaVersion: "0.1.0";
+  checkpointKind: "approval-prerequisite-evaluation-integration-checkpoint";
+  checkpointMode: "review-only";
+  reviewedAt: string;
+  classification: ApprovalPrerequisiteIntegrationCheckpointClassification;
+  reviewSummaryProduced: boolean;
+  reviewSummaryIsApprovalGrant: false;
+  reviewOnly: true;
+  authoritative: false;
+  sourceIngestion: {
+    sourceCount: number;
+    sourcePreflightResults: ApprovalPrerequisiteIntegrationSourceIngestionResult[];
+  };
+  sourceSelection: ApprovalPrerequisiteIntegrationSourceSelectionSummary;
+  sourceBundle: ApprovalPrerequisiteIntegrationSourceBundleSummary;
+  bundleConsumption: ApprovalPrerequisiteIntegrationBundleConsumptionSummary;
+  reviewOnlyEvaluatorSummary:
+    | ApprovalPrerequisiteIntegrationReviewOnlyEvaluatorSummary
+    | null;
+  rejectionReasons: string[];
+  approvalGrant: RuntimeApprovalGrantBlocked;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -1943,6 +2049,10 @@ export function consumeApprovalPrerequisiteBundleForReview(input?: {
   reviewedAt?: string;
   sourceBundle?: unknown;
 }): ApprovalPrerequisiteBundleConsumptionCheckpointResult;
+export function evaluatePrerequisiteIntegrationCheckpointForReview(input?: {
+  reviewedAt?: string;
+  sourceInputs?: unknown[];
+}): ApprovalPrerequisiteIntegrationCheckpointResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

@@ -69,8 +69,8 @@ Phase 5.23 records these validation commands:
 
 ## Handoff
 
-Phase 5.23 consumes only the Phase 5.22 bundle contract. A future phase may add a
-second review-only checkpoint that compares prerequisite-bundle consumption
-against the complete Phase 5.6 through 5.16 enablement contracts. That future
-phase must still produce no approval grant and must keep runtime blocked unless a
-separate approved runtime-enablement phase explicitly changes that posture.
+Phase 5.23 consumes only the Phase 5.22 bundle contract. Phase 5.24 builds on
+this by connecting source ingestion, source selection, source bundling, bundle
+consumption, and the review-only evaluator summary. It must still produce no
+approval grant and must keep runtime blocked unless a separate approved
+runtime-enablement phase explicitly changes that posture.

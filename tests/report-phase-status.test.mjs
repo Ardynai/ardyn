@@ -1145,6 +1145,20 @@ const phase523CrossLinks = [
   "docs/phase-5-22-approval-prerequisite-source-bundle.md",
   "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md"
 ];
+const phase524DocFiles = [
+  "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+  "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase524CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+  "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md"
+];
 const phase519ExpectedTrueSafetyFlagNames = [
   "phase519ApprovalPrerequisiteReaderHardeningRecorded",
   "phase519ReaderReviewOnly",
@@ -1380,6 +1394,60 @@ const phase523SafetyFlagNames = [
   ...phase523ExpectedTrueSafetyFlagNames,
   ...phase523ExpectedFalseSafetyFlagNames
 ];
+const phase524ExpectedTrueSafetyFlagNames = [
+  "phase524PrerequisiteEvaluationIntegrationCheckpointRecorded",
+  "phase524CheckpointReviewOnly",
+  "phase524SourceIngestionConnected",
+  "phase524SourceSelectionConnected",
+  "phase524SourceBundlingConnected",
+  "phase524BundleConsumptionConnected",
+  "phase524ReviewOnlyEvaluatorSummaryConnected",
+  "phase524MissingPrerequisiteInputsRejected",
+  "phase524MalformedPrerequisiteInputsRejected",
+  "phase524EmptyPrerequisiteInputsRejected",
+  "phase524ConflictingPrerequisiteInputsRejected",
+  "phase524StalePrerequisiteInputsRejected",
+  "phase524RevokedPrerequisiteInputsRejected",
+  "phase524UnknownPrerequisiteInputsRejected",
+  "phase524DuplicatePrerequisiteInputsRejected",
+  "phase524ValidPrerequisiteInputsProduceReviewSummary",
+  "phase524ServeRuntimeStillDefaultBlocked"
+];
+const phase524ExpectedFalseSafetyFlagNames = [
+  "phase524CheckpointAuthoritative",
+  "phase524ReviewSummaryIsApprovalGrant",
+  "phase524ApprovalGrantProduced",
+  "phase524ApprovalGrantPersisted",
+  "phase524RuntimeEnabled",
+  "phase524RuntimeStarted",
+  "phase524RuntimeReady",
+  "phase524RuntimeCommandEnabled",
+  "phase524RuntimeCommandExposureEnabled",
+  "phase524RuntimeExecutionEnabled",
+  "phase524RuntimeExecuted",
+  "phase524DryRunBypassesBlock",
+  "phase524CanEnableRuntime",
+  "phase524CliSourceChanged",
+  "phase524RustSourceChanged",
+  "phase524FilesystemWatcherEnabled",
+  "phase524ExternalSourceLookupEnabled",
+  "phase524SecretsEnvIngestionEnabled",
+  "phase524LiveStdinLoopEnabled",
+  "phase524RuntimeStdoutWriterEnabled",
+  "phase524RuntimeStderrWriterEnabled",
+  "phase524ProcessSpawnEnabled",
+  "phase524ProcessTerminationEnabled",
+  "phase524RuntimeSupervisionEnabled",
+  "phase524RuntimeTranscriptWritePerformed",
+  "phase524RuntimeAuditWritePerformed",
+  "phase524AdapterRuntimeBehaviorEnabled",
+  "phase524ContentFabricRuntimeBehaviorEnabled",
+  "phase524WebSocketHttpSurfaceEnabled"
+];
+const phase524SafetyFlagNames = [
+  ...phase524ExpectedTrueSafetyFlagNames,
+  ...phase524ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1490,6 +1558,18 @@ function assertKnownInventoryStatuses(entries) {
   }
 }
 
+function removeSafetyFlags(flags, flagNames) {
+  for (const flagName of flagNames) {
+    delete flags[flagName];
+  }
+}
+
+function assertSafetyFlags(report, flagNames, expectedValue) {
+  for (const flagName of flagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], expectedValue);
+  }
+}
+
 test("package exposes report:phase-status without replacing existing test scripts", async () => {
   const packageJson = await readJson(packageJsonUrl);
 
@@ -1501,15 +1581,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.23 prerequisite bundle consumption checkpoint docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.24 prerequisite evaluation integration checkpoint docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.23",
-    name: "Prerequisite bundle consumption checkpoint",
+    id: "5.24",
+    name: "Prerequisite evaluation integration checkpoint",
     executionPosture:
-      "prerequisite-bundle-consumption-checkpoint runtime-disabled no-runtime-execution"
+      "prerequisite-evaluation-integration-checkpoint runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -1582,12 +1662,19 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.23 prerequisite bundle consumption checkpoint status report.",
+        "Render this deterministic local Phase 5.24 prerequisite evaluation integration checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.23 status report.",
+      purpose: "Run focused tests for this local Phase 5.24 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-24-prerequisite-evaluation-integration-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.24 prerequisite evaluation integration checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -12251,6 +12338,260 @@ test("report inventories Phase 5.23 as prerequisite bundle consumption checkpoin
   }
 });
 
+test("report inventories Phase 5.24 as prerequisite evaluation integration checkpoint with runtime blocked", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase524PrerequisiteEvaluationIntegrationCheckpointInventory;
+
+  assert.deepEqual(inventory.statusLayer, {
+    document: "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+    fixture:
+      "tests/fixtures/host-policy/phase5-24/prerequisite-evaluation-integration-checkpoint.json",
+    sourcePrerequisiteBundleConsumptionDocument:
+      "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+    sourcePrerequisiteBundleConsumptionFixture:
+      "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json",
+    precedingPhase: "5.23",
+    layerId: "prerequisite-evaluation-integration-checkpoint",
+    scope:
+      "phase-5-prerequisite-evaluation-integration-checkpoint-review-only-runtime-disabled",
+    integrationCheckpointRecorded: true,
+    checkpointKind: "approval-prerequisite-evaluation-integration-checkpoint",
+    checkpointReviewOnly: true,
+    checkpointAuthoritative: false,
+    sourceIngestionConnected: true,
+    sourceSelectionConnected: true,
+    sourceBundlingConnected: true,
+    bundleConsumptionConnected: true,
+    reviewOnlyEvaluatorSummaryConnected: true,
+    missingPrerequisiteInputsRejected: true,
+    malformedPrerequisiteInputsRejected: true,
+    emptyPrerequisiteInputsRejected: true,
+    conflictingPrerequisiteInputsRejected: true,
+    stalePrerequisiteInputsRejected: true,
+    revokedPrerequisiteInputsRejected: true,
+    unknownPrerequisiteInputsRejected: true,
+    duplicatePrerequisiteInputsRejected: true,
+    validPrerequisiteInputsProduceReviewSummary: true,
+    reviewSummaryIsApprovalGrant: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    filesystemWatcherEnabled: false,
+    externalSourceLookupEnabled: false,
+    secretsEnvIngestionEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorChanged: false,
+    contentFabricRuntimeBehaviorChanged: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    cliSourceChanged: false,
+    rustSourceChanged: false,
+    reportRunsChecks: false
+  });
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase524DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase524CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-24/prerequisite-evaluation-integration-checkpoint.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-24-prerequisite-evaluation-integration-checkpoint.test.mjs"
+  ]);
+  assert.deepEqual(inventory.sourcePhase, {
+    phase: "phase-5.23-prerequisite-bundle-consumption-checkpoint",
+    sourceIngestionPath:
+      "packages/core/src/index.mjs#preflightApprovalPrerequisiteSourcesForReview",
+    sourceSelectionPath:
+      "packages/core/src/index.mjs#selectApprovalPrerequisiteSourcesForReview",
+    sourceBundlePath:
+      "packages/core/src/index.mjs#bundleApprovalPrerequisiteSourcesForReview",
+    bundleConsumptionPath:
+      "packages/core/src/index.mjs#consumeApprovalPrerequisiteBundleForReview",
+    integrationCheckpointPath:
+      "packages/core/src/index.mjs#evaluatePrerequisiteIntegrationCheckpointForReview",
+    reviewOnlyEvaluatorPath:
+      "packages/core/src/index.mjs#evaluateRuntimeApprovalPrerequisitesForReview",
+    runtimeEnabled: false,
+    approvalGrantProduced: false
+  });
+  assert.deepEqual(inventory.integrationSummary, {
+    integrationCheckpointRecorded: true,
+    checkpointKind: "approval-prerequisite-evaluation-integration-checkpoint",
+    checkpointReviewOnly: true,
+    checkpointAuthoritative: false,
+    sourceIngestionConnected: true,
+    sourceSelectionConnected: true,
+    sourceBundlingConnected: true,
+    bundleConsumptionConnected: true,
+    reviewOnlyEvaluatorSummaryConnected: true,
+    missingPrerequisiteInputsRejected: true,
+    malformedPrerequisiteInputsRejected: true,
+    emptyPrerequisiteInputsRejected: true,
+    conflictingPrerequisiteInputsRejected: true,
+    stalePrerequisiteInputsRejected: true,
+    revokedPrerequisiteInputsRejected: true,
+    unknownPrerequisiteInputsRejected: true,
+    duplicatePrerequisiteInputsRejected: true,
+    validPrerequisiteInputsProduceReviewSummary: true,
+    reviewSummaryIsApprovalGrant: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeEnabled: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false
+  });
+  assert.equal(inventory.integrationInputShape.sourceInputsRequired, true);
+  assert.equal(inventory.integrationInputShape.sourceKind, "inline-prerequisite-records");
+  assert.equal(inventory.integrationInputShape.sourceMode, "in-memory");
+  assert.equal(inventory.integrationInputShape.conflictingInputPolicy, "fail-closed");
+  assert.equal(inventory.integrationInputShape.filesystemWatcherAllowed, false);
+  assert.equal(inventory.integrationInputShape.externalSourceLookupAllowed, false);
+  assert.equal(inventory.integrationInputShape.secretsEnvIngestionAllowed, false);
+  assert.equal(
+    inventory.integrationResultShape.schema,
+    "ardyn.phase-5.24.approval-prerequisite-integration-checkpoint-result"
+  );
+  assert.equal(inventory.integrationResultShape.reviewSummaryIsApprovalGrant, false);
+  assert.equal(inventory.integrationResultShape.approvalGrantProduced, false);
+  assert.deepEqual(
+    inventory.integrationCheckpointCases.map(({ caseId }) => caseId),
+    [
+      "missing-prerequisite-input-rejected",
+      "malformed-prerequisite-input-rejected",
+      "empty-prerequisite-input-rejected",
+      "conflicting-prerequisite-input-rejected",
+      "stale-prerequisite-input-rejected",
+      "revoked-prerequisite-input-rejected",
+      "unknown-prerequisite-input-rejected",
+      "duplicate-prerequisite-input-rejected",
+      "valid-prerequisite-review-summary"
+    ]
+  );
+  for (const checkpointCase of inventory.integrationCheckpointCases) {
+    assert.equal(checkpointCase.reviewOnly, true);
+    assert.equal(checkpointCase.authoritative, false);
+    assert.equal(checkpointCase.reviewSummaryIsApprovalGrant, false);
+    assert.equal(checkpointCase.approvalGrant.produced, false);
+    assert.equal(checkpointCase.approvalGrant.persisted, false);
+    assert.equal(checkpointCase.approvalGrant.grantId, null);
+    assertAllFalse(checkpointCase.runtimeEffect);
+  }
+  assert.equal(inventory.pipelineStageIntegration.sourceIngestionFeedsSelection, true);
+  assert.equal(inventory.pipelineStageIntegration.sourceSelectionFeedsBundling, true);
+  assert.equal(inventory.pipelineStageIntegration.sourceBundlingFeedsConsumption, true);
+  assert.equal(
+    inventory.pipelineStageIntegration.bundleConsumptionFeedsReviewOnlyEvaluatorSummary,
+    true
+  );
+  assert.equal(inventory.pipelineStageIntegration.reviewSummaryCanProduceGrant, false);
+  assert.equal(inventory.pipelineStageIntegration.reviewSummaryCanEnableRuntime, false);
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.recognizedByCli, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.stdout, "");
+  assert.equal(inventory.serveRuntimeBlockedBehavior.runtimeExecution, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.ok(
+    inventory.forbiddenBehavior.includes(
+      "No CLI integration-checkpoint command is exposed."
+    )
+  );
+  assert.ok(
+    inventory.forbiddenBehavior.includes(
+      "No approval grant is produced or persisted."
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-24-prerequisite-evaluation-integration-checkpoint.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.safetyPosture, {
+    integrationCheckpointRecorded: true,
+    checkpointReviewOnly: true,
+    checkpointAuthoritative: false,
+    sourceIngestionConnected: true,
+    sourceSelectionConnected: true,
+    sourceBundlingConnected: true,
+    bundleConsumptionConnected: true,
+    reviewOnlyEvaluatorSummaryConnected: true,
+    missingPrerequisiteInputsRejected: true,
+    malformedPrerequisiteInputsRejected: true,
+    emptyPrerequisiteInputsRejected: true,
+    conflictingPrerequisiteInputsRejected: true,
+    stalePrerequisiteInputsRejected: true,
+    revokedPrerequisiteInputsRejected: true,
+    unknownPrerequisiteInputsRejected: true,
+    duplicatePrerequisiteInputsRejected: true,
+    validPrerequisiteInputsProduceReviewSummary: true,
+    reviewSummaryIsApprovalGrant: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    runtimeBlocked: true,
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    filesystemWatcherEnabled: false,
+    externalSourceLookupEnabled: false,
+    secretsEnvIngestionEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    processSpawnEnabled: false,
+    processTerminationEnabled: false,
+    runtimeSupervisionEnabled: false,
+    runtimeTranscriptWritePerformed: false,
+    runtimeAuditWritePerformed: false,
+    adapterRuntimeBehaviorEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    serveRuntimeStillDefaultBlocked: true,
+    dryRunBypassesBlock: false,
+    canEnableRuntime: false,
+    noCliSourceChange: true,
+    noRustSourceChange: true
+  });
+  assert.equal(
+    report.safetyPosture.phase524PrerequisiteEvaluationIntegrationCheckpoint,
+    true
+  );
+  for (const flagName of phase524ExpectedTrueSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], true);
+  }
+  for (const flagName of phase524ExpectedFalseSafetyFlagNames) {
+    assert.equal(report.safetyPosture.flags[flagName], false);
+  }
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -12481,6 +12822,7 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assert.equal(report.safetyPosture.phase521ApprovalPrerequisiteSourceSelection, true);
   assert.equal(report.safetyPosture.phase522ApprovalPrerequisiteSourceBundle, true);
   assert.equal(report.safetyPosture.phase523PrerequisiteBundleConsumptionCheckpoint, true);
+  assert.equal(report.safetyPosture.phase524PrerequisiteEvaluationIntegrationCheckpoint, true);
   assert.equal(report.safetyPosture.noLocusRuntimeDependency, true);
 
   const expectedFlags = {
@@ -13105,52 +13447,27 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   };
 
   const comparableFlags = { ...report.safetyPosture.flags };
-  for (const flagName of phase519SafetyFlagNames) {
-    delete comparableFlags[flagName];
-  }
-  for (const flagName of phase520SafetyFlagNames) {
-    delete comparableFlags[flagName];
-  }
-  for (const flagName of phase521SafetyFlagNames) {
-    delete comparableFlags[flagName];
-  }
-  for (const flagName of phase522SafetyFlagNames) {
-    delete comparableFlags[flagName];
-  }
-  for (const flagName of phase523SafetyFlagNames) {
-    delete comparableFlags[flagName];
-  }
+  removeSafetyFlags(comparableFlags, [
+    ...phase519SafetyFlagNames,
+    ...phase520SafetyFlagNames,
+    ...phase521SafetyFlagNames,
+    ...phase522SafetyFlagNames,
+    ...phase523SafetyFlagNames,
+    ...phase524SafetyFlagNames
+  ]);
   assert.deepEqual(comparableFlags, expectedFlags);
-  for (const flagName of phase519ExpectedTrueSafetyFlagNames) {
-    assert.equal(report.safetyPosture.flags[flagName], true);
-  }
-  for (const flagName of phase519ExpectedFalseSafetyFlagNames) {
-    assert.equal(report.safetyPosture.flags[flagName], false);
-  }
-  for (const flagName of phase520ExpectedTrueSafetyFlagNames) {
-    assert.equal(report.safetyPosture.flags[flagName], true);
-  }
-  for (const flagName of phase520ExpectedFalseSafetyFlagNames) {
-    assert.equal(report.safetyPosture.flags[flagName], false);
-  }
-  for (const flagName of phase521ExpectedTrueSafetyFlagNames) {
-    assert.equal(report.safetyPosture.flags[flagName], true);
-  }
-  for (const flagName of phase521ExpectedFalseSafetyFlagNames) {
-    assert.equal(report.safetyPosture.flags[flagName], false);
-  }
-  for (const flagName of phase522ExpectedTrueSafetyFlagNames) {
-    assert.equal(report.safetyPosture.flags[flagName], true);
-  }
-  for (const flagName of phase522ExpectedFalseSafetyFlagNames) {
-    assert.equal(report.safetyPosture.flags[flagName], false);
-  }
-  for (const flagName of phase523ExpectedTrueSafetyFlagNames) {
-    assert.equal(report.safetyPosture.flags[flagName], true);
-  }
-  for (const flagName of phase523ExpectedFalseSafetyFlagNames) {
-    assert.equal(report.safetyPosture.flags[flagName], false);
-  }
+  assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase519ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase520ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase520ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase521ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase521ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase522ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase522ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase523ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase523ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase524ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase524ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

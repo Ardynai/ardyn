@@ -410,10 +410,10 @@ test("Phase 4.1H status report inventories disposition without running checks", 
   const inventory = report.phase41HExternalReviewDispositionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.23",
-    name: "Prerequisite bundle consumption checkpoint",
+    id: "5.24",
+    name: "Prerequisite evaluation integration checkpoint",
     executionPosture:
-      "prerequisite-bundle-consumption-checkpoint runtime-disabled no-runtime-execution"
+      "prerequisite-evaluation-integration-checkpoint runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

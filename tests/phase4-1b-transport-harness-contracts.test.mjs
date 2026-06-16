@@ -390,10 +390,10 @@ test("Phase 4.1B status report inventories transport harness contracts without r
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.23",
-    name: "Prerequisite bundle consumption checkpoint",
+    id: "5.24",
+    name: "Prerequisite evaluation integration checkpoint",
     executionPosture:
-      "prerequisite-bundle-consumption-checkpoint runtime-disabled no-runtime-execution"
+      "prerequisite-evaluation-integration-checkpoint runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

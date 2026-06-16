@@ -115,6 +115,11 @@ export const APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_VERSION =
   "0.1.0";
 export const APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_KIND =
   "approval-prerequisite-bundle-consumption-checkpoint";
+export const APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_SCHEMA =
+  "ardyn.phase-5.24.approval-prerequisite-integration-checkpoint-result";
+export const APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_VERSION = "0.1.0";
+export const APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_KIND =
+  "approval-prerequisite-evaluation-integration-checkpoint";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -6938,6 +6943,302 @@ export function consumeApprovalPrerequisiteBundleForReview(input = {}) {
     sourceBundle,
     classification
   });
+}
+
+const APPROVAL_PREREQUISITE_INTEGRATION_ACCEPTED_CLASSIFICATIONS = Object.freeze([
+  "valid_prerequisite_integration_review_summary_runtime_still_blocked"
+]);
+
+const APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_SELECTION =
+  Object.freeze({
+    missing_prerequisite_source_selection_rejected:
+      "missing_prerequisite_integration_input_rejected",
+    malformed_prerequisite_source_selection_rejected:
+      "malformed_prerequisite_integration_input_rejected",
+    empty_prerequisite_source_selection_rejected:
+      "empty_prerequisite_integration_input_rejected",
+    duplicate_prerequisite_source_selection_rejected:
+      "duplicate_prerequisite_integration_input_rejected",
+    stale_prerequisite_source_selection_rejected:
+      "stale_prerequisite_integration_input_rejected",
+    unknown_prerequisite_source_selection_rejected:
+      "unknown_prerequisite_integration_input_rejected",
+    revoked_prerequisite_source_selection_rejected:
+      "revoked_prerequisite_integration_input_rejected",
+    conflicting_valid_prerequisite_sources_rejected:
+      "conflicting_prerequisite_integration_input_rejected"
+  });
+
+const APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_BUNDLE =
+  Object.freeze({
+    missing_prerequisite_source_bundle_parts_rejected:
+      "missing_prerequisite_integration_input_rejected",
+    missing_required_prerequisite_source_bundle_part_rejected:
+      "malformed_prerequisite_integration_input_rejected",
+    malformed_prerequisite_source_bundle_part_rejected:
+      "malformed_prerequisite_integration_input_rejected",
+    conflicting_prerequisite_source_bundle_parts_rejected:
+      "conflicting_prerequisite_integration_input_rejected",
+    stale_prerequisite_source_bundle_rejected:
+      "stale_prerequisite_integration_input_rejected",
+    revoked_prerequisite_source_bundle_rejected:
+      "revoked_prerequisite_integration_input_rejected",
+    unknown_prerequisite_source_bundle_rejected:
+      "unknown_prerequisite_integration_input_rejected",
+    malformed_prerequisite_source_bundle_rejected:
+      "malformed_prerequisite_integration_input_rejected",
+    empty_prerequisite_source_bundle_rejected:
+      "empty_prerequisite_integration_input_rejected"
+  });
+
+const APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_CONSUMPTION =
+  Object.freeze({
+    missing_prerequisite_bundle_consumption_rejected:
+      "missing_prerequisite_integration_input_rejected",
+    malformed_prerequisite_bundle_consumption_rejected:
+      "malformed_prerequisite_integration_input_rejected",
+    conflicting_prerequisite_bundle_consumption_rejected:
+      "conflicting_prerequisite_integration_input_rejected",
+    valid_prerequisite_bundle_consumed_for_review_only_runtime_still_blocked:
+      "valid_prerequisite_integration_review_summary_runtime_still_blocked"
+  });
+
+function approvalPrerequisiteIntegrationSourceInputs(input) {
+  return Array.isArray(input.sourceInputs) ? input.sourceInputs : [];
+}
+
+function approvalPrerequisiteIntegrationBundleParts(sourceInputs) {
+  return sourceInputs.length === 0
+    ? []
+    : [
+        {
+          partId: "phase-5.24-selected-prerequisite-sources",
+          partKind: APPROVAL_PREREQUISITE_SOURCE_BUNDLE_PART_KIND,
+          partMode: APPROVAL_PREREQUISITE_SOURCE_BUNDLE_PART_MODE,
+          sourceInputs
+        }
+      ];
+}
+
+function approvalPrerequisiteIntegrationSourceIngestionResults({
+  reviewedAt,
+  sourceInputs
+}) {
+  return sourceInputs.map((source, index) => {
+    const result = preflightApprovalPrerequisiteSourcesForReview({
+      reviewedAt,
+      sourceInputs: [source]
+    });
+    const sourceReport = result.sourceInputs[0] ?? null;
+
+    return {
+      index,
+      sourceId: sourceReport?.sourceId ?? null,
+      classification: result.classification,
+      sourceInputsAccepted: result.sourceInputsAccepted,
+      readerInputForwarded: result.readerInputForwarded,
+      prerequisiteSignalRecognized:
+        result.approvalPrerequisiteReader?.prerequisiteSignalRecognized ?? false,
+      reviewOnly: result.reviewOnly,
+      authoritative: result.authoritative,
+      approvalGrantProduced: result.approvalGrant.produced,
+      runtimeEffectAllFalse: reviewOnlyRuntimeEffectAllFalse(result.runtimeEffect)
+    };
+  });
+}
+
+function reviewOnlyRuntimeEffectAllFalse(runtimeEffect) {
+  return (
+    isPlainObjectRecord(runtimeEffect) &&
+    Object.keys(REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE).every(
+      (key) => runtimeEffect[key] === false
+    )
+  );
+}
+
+function approvalPrerequisiteIntegrationSelectionSummary(sourceSelection) {
+  return {
+    classification: sourceSelection.classification,
+    sourceSelectionAccepted: sourceSelection.sourceSelectionAccepted,
+    readerInputForwarded: sourceSelection.readerInputForwarded,
+    selectedSourceId: sourceSelection.selectedSourceId,
+    equivalentSourceIds: sourceSelection.equivalentSourceIds,
+    rejectedSourceIds: sourceSelection.rejectedSourceIds,
+    conflictingSourceIds: sourceSelection.conflictingSourceIds,
+    duplicateSourceIds: sourceSelection.duplicateSourceIds,
+    approvalGrantProduced: sourceSelection.approvalGrant.produced,
+    runtimeEffectAllFalse: reviewOnlyRuntimeEffectAllFalse(sourceSelection.runtimeEffect)
+  };
+}
+
+function approvalPrerequisiteIntegrationBundleSummary(sourceBundle) {
+  return {
+    classification: sourceBundle.classification,
+    sourceBundleAccepted: sourceBundle.sourceBundleAccepted,
+    readerInputForwarded: sourceBundle.readerInputForwarded,
+    selectedBundlePartId: sourceBundle.selectedBundlePartId,
+    equivalentBundlePartIds: sourceBundle.equivalentBundlePartIds,
+    rejectedBundlePartIds: sourceBundle.rejectedBundlePartIds,
+    conflictingBundlePartIds: sourceBundle.conflictingBundlePartIds,
+    approvalGrantProduced: sourceBundle.approvalGrant.produced,
+    runtimeEffectAllFalse: reviewOnlyRuntimeEffectAllFalse(sourceBundle.runtimeEffect)
+  };
+}
+
+function approvalPrerequisiteIntegrationConsumptionSummary(bundleConsumption) {
+  return {
+    classification: bundleConsumption.classification,
+    bundleConsumedForReview: bundleConsumption.bundleConsumedForReview,
+    evaluatorInputForwarded: bundleConsumption.evaluatorInputForwarded,
+    selectedBundlePartId:
+      bundleConsumption.consumedBundleSummary.selectedBundlePartId,
+    readerRecordCount: bundleConsumption.consumedBundleSummary.readerRecordCount,
+    evaluatorClassification:
+      bundleConsumption.consumedBundleSummary.evaluatorClassification,
+    prerequisiteSignalRecognized:
+      bundleConsumption.consumedBundleSummary.prerequisiteSignalRecognized,
+    approvalGrantProduced: bundleConsumption.approvalGrant.produced,
+    runtimeEffectAllFalse: reviewOnlyRuntimeEffectAllFalse(
+      bundleConsumption.runtimeEffect
+    )
+  };
+}
+
+function approvalPrerequisiteIntegrationReviewSummary(evaluator) {
+  if (evaluator == null) {
+    return null;
+  }
+
+  return {
+    schema: evaluator.schema,
+    evaluatorKind: evaluator.evaluatorKind,
+    evaluationMode: evaluator.evaluationMode,
+    classification: evaluator.classification,
+    prerequisiteSignalRecognized: evaluator.prerequisiteSignalRecognized,
+    reviewOnly: evaluator.reviewOnly,
+    authoritative: evaluator.authoritative,
+    reviewSummaryIsApprovalGrant: false,
+    approvalGrantProduced: evaluator.approvalGrant.produced,
+    approvalGrantPersisted: evaluator.approvalGrant.persisted,
+    approvalGrantId: evaluator.approvalGrant.grantId,
+    runtimeEffectAllFalse: reviewOnlyRuntimeEffectAllFalse(evaluator.runtimeEffect)
+  };
+}
+
+function approvalPrerequisiteIntegrationClassification({
+  sourceSelection,
+  sourceBundle,
+  bundleConsumption
+}) {
+  return (
+    APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_SELECTION[
+      sourceSelection.classification
+    ] ??
+    APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_BUNDLE[
+      sourceBundle.classification
+    ] ??
+    APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_CONSUMPTION[
+      bundleConsumption.classification
+    ] ??
+    "malformed_prerequisite_integration_input_rejected"
+  );
+}
+
+function approvalPrerequisiteIntegrationAccepted(classification) {
+  return APPROVAL_PREREQUISITE_INTEGRATION_ACCEPTED_CLASSIFICATIONS.includes(
+    classification
+  );
+}
+
+function approvalPrerequisiteIntegrationRejectionReasons({
+  accepted,
+  sourceSelection,
+  sourceBundle,
+  bundleConsumption
+}) {
+  if (accepted) {
+    return [
+      "review_summary_is_not_approval_grant",
+      "approval_grant_not_implemented",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    ...sourceSelection.rejectionReasons,
+    ...sourceBundle.rejectionReasons,
+    ...bundleConsumption.rejectionReasons,
+    "review_summary_not_produced",
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+export function evaluatePrerequisiteIntegrationCheckpointForReview(
+  input = {}
+) {
+  const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const sourceInputs = approvalPrerequisiteIntegrationSourceInputs(input);
+  const sourceIngestionResults =
+    approvalPrerequisiteIntegrationSourceIngestionResults({
+      reviewedAt,
+      sourceInputs
+    });
+  const sourceSelection = selectApprovalPrerequisiteSourcesForReview({
+    reviewedAt,
+    sourceInputs
+  });
+  const sourceBundle = bundleApprovalPrerequisiteSourcesForReview({
+    reviewedAt,
+    bundleParts: approvalPrerequisiteIntegrationBundleParts(sourceInputs)
+  });
+  const bundleConsumption = consumeApprovalPrerequisiteBundleForReview({
+    reviewedAt,
+    sourceBundle
+  });
+  const classification = approvalPrerequisiteIntegrationClassification({
+    sourceSelection,
+    sourceBundle,
+    bundleConsumption
+  });
+  const accepted = approvalPrerequisiteIntegrationAccepted(classification);
+  const reviewOnlyEvaluatorSummary = accepted
+    ? approvalPrerequisiteIntegrationReviewSummary(
+        bundleConsumption.approvalPrerequisiteEvaluator
+      )
+    : null;
+
+  return {
+    schema: APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_SCHEMA,
+    schemaVersion: APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_VERSION,
+    checkpointKind: APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_KIND,
+    checkpointMode: "review-only",
+    reviewedAt,
+    classification,
+    reviewSummaryProduced: accepted,
+    reviewSummaryIsApprovalGrant: false,
+    reviewOnly: true,
+    authoritative: false,
+    sourceIngestion: {
+      sourceCount: sourceInputs.length,
+      sourcePreflightResults: sourceIngestionResults
+    },
+    sourceSelection: approvalPrerequisiteIntegrationSelectionSummary(
+      sourceSelection
+    ),
+    sourceBundle: approvalPrerequisiteIntegrationBundleSummary(sourceBundle),
+    bundleConsumption:
+      approvalPrerequisiteIntegrationConsumptionSummary(bundleConsumption),
+    reviewOnlyEvaluatorSummary,
+    rejectionReasons: approvalPrerequisiteIntegrationRejectionReasons({
+      accepted,
+      sourceSelection,
+      sourceBundle,
+      bundleConsumption
+    }),
+    approvalGrant: sourcePreflightGrantBlocked(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
 }
 
 export function createHostInfo() {

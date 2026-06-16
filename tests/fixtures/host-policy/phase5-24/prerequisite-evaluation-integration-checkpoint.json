@@ -1,0 +1,391 @@
+{
+  "schema": "ardyn.phase-5.24.prerequisite-evaluation-integration-checkpoint",
+  "schemaVersion": "0.1.0",
+  "phase": "phase-5.24-prerequisite-evaluation-integration-checkpoint",
+  "artifactKind": "prerequisite-evaluation-integration-checkpoint",
+  "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+  "sourcePhase": {
+    "phase": "phase-5.23-prerequisite-bundle-consumption-checkpoint",
+    "sourceIngestionPath": "packages/core/src/index.mjs#preflightApprovalPrerequisiteSourcesForReview",
+    "sourceSelectionPath": "packages/core/src/index.mjs#selectApprovalPrerequisiteSourcesForReview",
+    "sourceBundlePath": "packages/core/src/index.mjs#bundleApprovalPrerequisiteSourcesForReview",
+    "bundleConsumptionPath": "packages/core/src/index.mjs#consumeApprovalPrerequisiteBundleForReview",
+    "integrationCheckpointPath": "packages/core/src/index.mjs#evaluatePrerequisiteIntegrationCheckpointForReview",
+    "reviewOnlyEvaluatorPath": "packages/core/src/index.mjs#evaluateRuntimeApprovalPrerequisitesForReview",
+    "runtimeEnabled": false,
+    "approvalGrantProduced": false
+  },
+  "integrationSummary": {
+    "integrationCheckpointRecorded": true,
+    "checkpointKind": "approval-prerequisite-evaluation-integration-checkpoint",
+    "checkpointReviewOnly": true,
+    "checkpointAuthoritative": false,
+    "sourceIngestionConnected": true,
+    "sourceSelectionConnected": true,
+    "sourceBundlingConnected": true,
+    "bundleConsumptionConnected": true,
+    "reviewOnlyEvaluatorSummaryConnected": true,
+    "missingPrerequisiteInputsRejected": true,
+    "malformedPrerequisiteInputsRejected": true,
+    "emptyPrerequisiteInputsRejected": true,
+    "conflictingPrerequisiteInputsRejected": true,
+    "stalePrerequisiteInputsRejected": true,
+    "revokedPrerequisiteInputsRejected": true,
+    "unknownPrerequisiteInputsRejected": true,
+    "duplicatePrerequisiteInputsRejected": true,
+    "validPrerequisiteInputsProduceReviewSummary": true,
+    "reviewSummaryIsApprovalGrant": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false
+  },
+  "integrationInputShape": {
+    "sourceInputsRequired": true,
+    "sourceKind": "inline-prerequisite-records",
+    "sourceMode": "in-memory",
+    "sourceSelectionPolicy": "deterministic-lowest-source-id-for-equivalent-valid-sources",
+    "sourceBundlePartId": "phase-5.24-selected-prerequisite-sources",
+    "bundleModeRequired": "review-only",
+    "conflictingInputPolicy": "fail-closed",
+    "filesystemWatcherAllowed": false,
+    "externalSourceLookupAllowed": false,
+    "secretsEnvIngestionAllowed": false,
+    "filePathAllowed": false,
+    "urlAllowed": false
+  },
+  "integrationResultShape": {
+    "schema": "ardyn.phase-5.24.approval-prerequisite-integration-checkpoint-result",
+    "schemaVersion": "0.1.0",
+    "checkpointKind": "approval-prerequisite-evaluation-integration-checkpoint",
+    "checkpointMode": "review-only",
+    "reviewOnly": true,
+    "authoritative": false,
+    "validInputsMayProduceReviewSummary": true,
+    "reviewSummaryIsApprovalGrant": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimeEffectAllFalse": true
+  },
+  "integrationCheckpointCases": [
+    {
+      "caseId": "missing-prerequisite-input-rejected",
+      "classification": "missing_prerequisite_integration_input_rejected",
+      "reviewSummaryProduced": false,
+      "reviewSummaryIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "malformed-prerequisite-input-rejected",
+      "classification": "malformed_prerequisite_integration_input_rejected",
+      "reviewSummaryProduced": false,
+      "reviewSummaryIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "empty-prerequisite-input-rejected",
+      "classification": "empty_prerequisite_integration_input_rejected",
+      "reviewSummaryProduced": false,
+      "reviewSummaryIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "conflicting-prerequisite-input-rejected",
+      "classification": "conflicting_prerequisite_integration_input_rejected",
+      "reviewSummaryProduced": false,
+      "reviewSummaryIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "stale-prerequisite-input-rejected",
+      "classification": "stale_prerequisite_integration_input_rejected",
+      "reviewSummaryProduced": false,
+      "reviewSummaryIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "revoked-prerequisite-input-rejected",
+      "classification": "revoked_prerequisite_integration_input_rejected",
+      "reviewSummaryProduced": false,
+      "reviewSummaryIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "unknown-prerequisite-input-rejected",
+      "classification": "unknown_prerequisite_integration_input_rejected",
+      "reviewSummaryProduced": false,
+      "reviewSummaryIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "duplicate-prerequisite-input-rejected",
+      "classification": "duplicate_prerequisite_integration_input_rejected",
+      "reviewSummaryProduced": false,
+      "reviewSummaryIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "valid-prerequisite-review-summary",
+      "classification": "valid_prerequisite_integration_review_summary_runtime_still_blocked",
+      "reviewSummaryProduced": true,
+      "reviewSummaryIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    }
+  ],
+  "pipelineStageIntegration": {
+    "sourceIngestionFeedsSelection": true,
+    "sourceSelectionFeedsBundling": true,
+    "sourceBundlingFeedsConsumption": true,
+    "bundleConsumptionFeedsReviewOnlyEvaluatorSummary": true,
+    "rejectedInputsDoNotProduceReviewSummary": true,
+    "validInputsProduceDeterministicReviewSummary": true,
+    "reviewSummaryCanProduceGrant": false,
+    "reviewSummaryCanPersistGrant": false,
+    "reviewSummaryCanEnableRuntime": false,
+    "reviewSummaryCanExposeRuntimeCommand": false,
+    "reviewSummaryCanExecuteRuntime": false
+  },
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalEvaluatorAuthoritative": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "recognizedByCli": true,
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "stderrIncludes": [
+      "Runtime unavailable: serve-runtime is recognized",
+      "runtime is not enabled in Phase 5.5"
+    ],
+    "dryRunBypassesBlock": false,
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "No CLI integration-checkpoint command is exposed.",
+    "No approval grant is produced or persisted.",
+    "No runtime command exposure is enabled.",
+    "No runtime execution occurs.",
+    "No filesystem watcher is added.",
+    "No external source lookup is added.",
+    "No secrets or environment ingestion is added.",
+    "No Rust host implementation is added.",
+    "No live stdin loop is added.",
+    "No runtime stdout or stderr writer is added.",
+    "No process control is added.",
+    "No dry-run bypass is added."
+  ],
+  "filesAllowedToChange": [
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+    "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+    "packages/core/src/index.mjs",
+    "packages/core/src/index.d.ts",
+    "scripts/report-phase-status.mjs",
+    "tests/report-phase-status.test.mjs",
+    "tests/fixtures/host-policy/phase5-24/prerequisite-evaluation-integration-checkpoint.json",
+    "tests/phase5-24-prerequisite-evaluation-integration-checkpoint.test.mjs"
+  ],
+  "filesForbiddenToChange": [
+    "apps/cli/src/index.mjs",
+    "crates/ardyn-host/src/lib.rs",
+    "crates/ardyn-host/src/stdio_runtime/mod.rs"
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-24-prerequisite-evaluation-integration-checkpoint.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status"
+  ]
+}

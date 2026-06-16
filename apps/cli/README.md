@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.23 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.24 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -263,6 +263,19 @@ Content Fabric runtime behavior, WebSocket/HTTP surface, Rust source change, or
 change to `apps/cli/src/index.mjs`. Valid checkpoints cannot produce a grant,
 enable runtime, expose runtime commands, or start runtime. `serve-runtime` and
 `serve-runtime --dry-run` remain default-blocked.
+Phase 5.24 adds prerequisite evaluation integration checkpoint docs/status
+metadata and a core review helper only. It connects in-memory prerequisite
+source ingestion, source selection, source bundling, bundle consumption, and the
+review-only evaluator summary, but adds no Phase 5.24 CLI command,
+integration-checkpoint command, bundle-consumption command, source-bundle
+command, approval prerequisite reader command, approval evaluator command,
+approval grant command, runtime start path, live stdin loop, stdout/stderr
+runtime writer, process spawning or supervision, runtime transcript/audit write,
+filesystem watcher, external source lookup, secrets/env ingestion, adapter or
+Content Fabric runtime behavior, WebSocket/HTTP surface, Rust source change, or
+change to `apps/cli/src/index.mjs`. Valid integration checkpoints cannot produce
+a grant, enable runtime, expose runtime commands, or start runtime.
+`serve-runtime` and `serve-runtime --dry-run` remain default-blocked.
 See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
@@ -759,3 +772,12 @@ runtime command, starts no runtime, performs no filesystem watching or external
 lookup, ingests no secrets/env data, and changes no CLI source. `serve-runtime`
 remains default-blocked. See
 `docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md`.
+
+Phase 5.24 records prerequisite evaluation integration checkpointing only. The
+core helper connects caller-provided in-memory prerequisite source ingestion,
+source selection, source bundling, bundle consumption, and the review-only
+evaluator summary, but it is not authoritative, produces no approval grant,
+enables no runtime, exposes no runtime command, starts no runtime, performs no
+filesystem watching or external lookup, ingests no secrets/env data, and changes
+no CLI source. `serve-runtime` remains default-blocked. See
+`docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md`.
