@@ -153,6 +153,11 @@ export const NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_VE
   "0.1.0";
 export const NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_KIND =
   "non-authorizing-evaluator-decision-candidate-inspection-artifact";
+export const HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_SCHEMA =
+  "ardyn.phase-5.31.human-tool-inspection-disposition-boundary-result";
+export const HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_VERSION = "0.1.0";
+export const HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_KIND =
+  "human-tool-inspection-disposition-boundary";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -10622,6 +10627,1038 @@ export function createNonAuthorizingEvaluatorDecisionCandidateInspectionArtifact
       }),
     runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
   };
+}
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_STATE_SCHEMA =
+  "ardyn.phase-5.31.review-only-human-tool-inspection-disposition-state";
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_MIN_REVIEWED_AT =
+  "2026-06-16T00:00:00.000Z";
+
+const VALID_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION =
+  "valid_human_tool_inspection_disposition_boundary_runtime_still_blocked";
+const MALFORMED_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION =
+  "malformed_human_tool_inspection_disposition_boundary_input_rejected";
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_ARTIFACT_REQUIRED_FALSE_FIELDS =
+  Object.freeze([
+    "inspectionArtifactIsApprovalDecision",
+    "inspectionArtifactIsApprovalGrant",
+    "evaluatorResultProduced",
+    "evaluatorResultPersisted",
+    "approvalDecisionProduced",
+    "approvalDecisionPersisted",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "runtimePermissionGranted",
+    "commandExposurePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecuted"
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_ARTIFACT_REQUIRED_NULL_FIELDS =
+  Object.freeze(["evaluatorResultId", "approvalDecisionId", "approvalGrantId"]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_ARTIFACT_FIELDS = Object.freeze([
+  "schema",
+  "schemaVersion",
+  "artifactKind",
+  "artifactMode",
+  "reviewedAt",
+  "sourceDecisionCandidateState",
+  "pipelineSummary",
+  "integratedReviewSummary",
+  "decisionCandidateSummary",
+  "inspectionSummary",
+  "inspectionArtifactOnly",
+  "inspectionArtifactIsApprovalDecision",
+  "inspectionArtifactIsApprovalGrant",
+  "evaluatorResultProduced",
+  "evaluatorResultPersisted",
+  "evaluatorResultId",
+  "approvalDecisionProduced",
+  "approvalDecisionPersisted",
+  "approvalDecisionId",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "approvalGrantId",
+  "runtimePermissionGranted",
+  "commandExposurePermissionGranted",
+  "runtimeCommandExposureEnabled",
+  "runtimeExecutionEnabled",
+  "evaluatorExecutionRequested",
+  "evaluatorExecutionStarted",
+  "evaluatorExecutionEnabled",
+  "evaluatorExecuted",
+  "runtimeEffect"
+]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_SOURCE_ARTIFACT_FIELDS = Object.freeze([
+  "schema",
+  "stateKind",
+  "stateMode",
+  "reviewedAt",
+  "stateDigest",
+  "sourcePreflightCheckpointStateDigest",
+  "sourceIntakeCheckpointStateDigest",
+  "sourceEvaluatorInputCandidateDigest",
+  "decisionCandidateAccepted",
+  "decisionCandidateStateIsApprovalDecision",
+  "decisionCandidateStateIsApprovalGrant",
+  "evaluatorResultProduced",
+  "approvalDecisionProduced",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "evaluatorExecuted",
+  "runtimeEffectAllFalse"
+]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_INSPECTION_SUMMARY_FIELDS =
+  Object.freeze([
+    "artifactKind",
+    "artifactMode",
+    "sourceDecisionCandidateClassification",
+    "reviewArtifactOnly",
+    "evaluatorResultProduced",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "runtimePermissionGranted",
+    "commandExposurePermissionGranted",
+    "evaluatorExecuted",
+    "runtimeEffectAllFalse"
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_ALLOWED_FIELDS = new Set([
+  ...HUMAN_TOOL_INSPECTION_DISPOSITION_ARTIFACT_FIELDS,
+  ...HUMAN_TOOL_INSPECTION_DISPOSITION_SOURCE_ARTIFACT_FIELDS,
+  ...HUMAN_TOOL_INSPECTION_DISPOSITION_INSPECTION_SUMMARY_FIELDS,
+  ...NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_SUMMARY_FIELDS,
+  ...NON_AUTHORIZING_EVALUATOR_DECISION_PIPELINE_SUMMARY_FIELDS,
+  ...NON_AUTHORIZING_EVALUATOR_DECISION_INTEGRATED_SUMMARY_FIELDS
+]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_ARTIFACT_CHECKS = Object.freeze([
+  [
+    "schema",
+    (value) =>
+      value ===
+      NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_INTERNAL_SCHEMA
+  ],
+  [
+    "schemaVersion",
+    (value) =>
+      value ===
+      NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_VERSION
+  ],
+  [
+    "artifactKind",
+    (value) =>
+      value ===
+      NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_KIND
+  ],
+  ["artifactMode", (value) => value === "review-only"],
+  ["reviewedAt", isUtcIsoTimestampWithMilliseconds],
+  ["sourceDecisionCandidateState", isPlainObjectRecord],
+  ["pipelineSummary", isPlainObjectRecord],
+  ["integratedReviewSummary", isPlainObjectRecord],
+  ["decisionCandidateSummary", isPlainObjectRecord],
+  ["inspectionSummary", isPlainObjectRecord],
+  ["inspectionArtifactOnly", (value) => value === true],
+  ["runtimeEffect", isPlainObjectRecord]
+]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_SOURCE_ARTIFACT_CHECKS = Object.freeze([
+  [
+    "schema",
+    (value) => value === NON_AUTHORIZING_EVALUATOR_DECISION_STATE_SCHEMA
+  ],
+  [
+    "stateKind",
+    (value) => value === "review-only-evaluator-decision-candidate-state"
+  ],
+  ["stateMode", (value) => value === "review-only"],
+  ["reviewedAt", isUtcIsoTimestampWithMilliseconds],
+  [
+    "stateDigest",
+    (value) =>
+      typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+  ],
+  [
+    "sourcePreflightCheckpointStateDigest",
+    (value) =>
+      typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+  ],
+  [
+    "sourceIntakeCheckpointStateDigest",
+    (value) =>
+      typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+  ],
+  [
+    "sourceEvaluatorInputCandidateDigest",
+    (value) =>
+      typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+  ],
+  ["decisionCandidateAccepted", (value) => value === true],
+  ["decisionCandidateStateIsApprovalDecision", (value) => value === false],
+  ["decisionCandidateStateIsApprovalGrant", (value) => value === false],
+  ["evaluatorResultProduced", (value) => value === false],
+  ["approvalDecisionProduced", (value) => value === false],
+  ["approvalGrantProduced", (value) => value === false],
+  ["approvalGrantPersisted", (value) => value === false],
+  ["evaluatorExecuted", (value) => value === false],
+  ["runtimeEffectAllFalse", (value) => value === true]
+]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_INSPECTION_SUMMARY_CHECKS =
+  Object.freeze([
+    [
+      "artifactKind",
+      (value) =>
+        value ===
+        NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_KIND
+    ],
+    ["artifactMode", (value) => value === "review-only"],
+    [
+      "sourceDecisionCandidateClassification",
+      (value) => value === VALID_NON_AUTHORIZING_EVALUATOR_DECISION_CLASSIFICATION
+    ],
+    ["reviewArtifactOnly", (value) => value === true],
+    ["evaluatorResultProduced", (value) => value === false],
+    ["approvalDecisionProduced", (value) => value === false],
+    ["approvalGrantProduced", (value) => value === false],
+    ["runtimePermissionGranted", (value) => value === false],
+    ["commandExposurePermissionGranted", (value) => value === false],
+    ["evaluatorExecuted", (value) => value === false],
+    ["runtimeEffectAllFalse", (value) => value === true]
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_EVALUATOR_RESULT_FALSE_PATHS =
+  Object.freeze([
+    Object.freeze(["evaluatorResultProduced"]),
+    Object.freeze(["evaluatorResultPersisted"]),
+    Object.freeze(["sourceDecisionCandidateState", "evaluatorResultProduced"]),
+    Object.freeze(["inspectionSummary", "evaluatorResultProduced"])
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_EVALUATOR_RESULT_NULL_PATHS =
+  Object.freeze([Object.freeze(["evaluatorResultId"])]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_EVALUATOR_RESULT_OBJECT_FIELDS =
+  Object.freeze([
+    "evaluatorResult",
+    "evaluationResult",
+    "evaluatorOutput",
+    "evaluatorOutcome",
+    "resultProduced"
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_DECISION_FALSE_PATHS =
+  Object.freeze([
+    Object.freeze(["inspectionArtifactIsApprovalDecision"]),
+    Object.freeze(["approvalDecisionProduced"]),
+    Object.freeze(["approvalDecisionPersisted"]),
+    Object.freeze([
+      "sourceDecisionCandidateState",
+      "decisionCandidateStateIsApprovalDecision"
+    ]),
+    Object.freeze(["sourceDecisionCandidateState", "approvalDecisionProduced"]),
+    Object.freeze(["inspectionSummary", "approvalDecisionProduced"]),
+    Object.freeze(["decisionCandidateSummary", "approvalDecisionProduced"])
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_DECISION_NULL_PATHS =
+  Object.freeze([Object.freeze(["approvalDecisionId"])]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_DECISION_TRUE_FIELDS =
+  Object.freeze([
+    "approvalDecisionGranted",
+    "approvalDecisionAccepted",
+    "approvalDecisionAuthorized",
+    "inspectionDispositionIsApprovalDecision"
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_GRANT_FALSE_PATHS =
+  Object.freeze([
+    Object.freeze(["inspectionArtifactIsApprovalGrant"]),
+    Object.freeze(["approvalGrantProduced"]),
+    Object.freeze(["approvalGrantPersisted"]),
+    Object.freeze([
+      "sourceDecisionCandidateState",
+      "decisionCandidateStateIsApprovalGrant"
+    ]),
+    Object.freeze(["sourceDecisionCandidateState", "approvalGrantProduced"]),
+    Object.freeze(["sourceDecisionCandidateState", "approvalGrantPersisted"]),
+    Object.freeze(["integratedReviewSummary", "reviewSummaryIsApprovalGrant"]),
+    Object.freeze(["integratedReviewSummary", "approvalGrantProduced"]),
+    Object.freeze(["integratedReviewSummary", "approvalGrantPersisted"]),
+    Object.freeze(["inspectionSummary", "approvalGrantProduced"]),
+    Object.freeze(["decisionCandidateSummary", "approvalGrantProduced"])
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_GRANT_NULL_PATHS =
+  Object.freeze([
+    Object.freeze(["approvalGrantId"]),
+    Object.freeze(["integratedReviewSummary", "approvalGrantId"])
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_GRANT_TRUE_PATHS =
+  Object.freeze([
+    Object.freeze(["approvalGrant", "produced"]),
+    Object.freeze(["approvalGrant", "persisted"])
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_GENERIC_GRANT_TRUE_FIELDS =
+  Object.freeze([
+    "grantProduced",
+    "grantPersisted",
+    "grantCreated",
+    "grantIssued",
+    "grantAuthorized",
+    "grantAccepted",
+    "runtimeGrantProduced",
+    "permissionGrantProduced"
+  ]);
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_EVALUATOR_EXECUTION_TRUE_FIELDS =
+  Object.freeze([
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecutionPerformed",
+    "evaluatorExecuted"
+  ]);
+
+function humanToolInspectionDispositionUnexpectedUnsafeField(
+  value,
+  seen = new Set()
+) {
+  if (Array.isArray(value)) {
+    return value.some((entry) =>
+      humanToolInspectionDispositionUnexpectedUnsafeField(entry, seen)
+    );
+  }
+
+  if (!isPlainObjectRecord(value) || seen.has(value)) {
+    return false;
+  }
+
+  seen.add(value);
+
+  return Object.entries(value).some(
+    ([key, entry]) =>
+      (!HUMAN_TOOL_INSPECTION_DISPOSITION_ALLOWED_FIELDS.has(key) &&
+        APPROVAL_EVALUATOR_CANDIDATE_UNSAFE_TRUE_FIELD_PATTERN.test(key)) ||
+      humanToolInspectionDispositionUnexpectedUnsafeField(entry, seen)
+  );
+}
+
+function humanToolInspectionDispositionKeyPresent(value, keys, seen = new Set()) {
+  if (Array.isArray(value)) {
+    return value.some((entry) =>
+      humanToolInspectionDispositionKeyPresent(entry, keys, seen)
+    );
+  }
+
+  if (!isPlainObjectRecord(value) || seen.has(value)) {
+    return false;
+  }
+
+  seen.add(value);
+
+  return Object.entries(value).some(
+    ([key, entry]) =>
+      keys.includes(key) ||
+      humanToolInspectionDispositionKeyPresent(entry, keys, seen)
+  );
+}
+
+function humanToolInspectionDispositionUnknown(inspectionArtifact) {
+  return (
+    (typeof inspectionArtifact.schema === "string" &&
+      inspectionArtifact.schema !==
+        NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_INTERNAL_SCHEMA) ||
+    (typeof inspectionArtifact.artifactKind === "string" &&
+      inspectionArtifact.artifactKind !==
+        NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_KIND)
+  );
+}
+
+function humanToolInspectionDispositionRevoked(inspectionArtifact) {
+  return (
+    inspectionArtifact.revoked === true ||
+    (isPlainObjectRecord(inspectionArtifact.revocation) &&
+      inspectionArtifact.revocation.revoked === true)
+  );
+}
+
+function humanToolInspectionDispositionStale(inspectionArtifact) {
+  return (
+    isUtcIsoTimestampWithMilliseconds(inspectionArtifact.reviewedAt) &&
+    inspectionArtifact.reviewedAt <
+      HUMAN_TOOL_INSPECTION_DISPOSITION_MIN_REVIEWED_AT
+  );
+}
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_MALFORMED_CHECKS = Object.freeze([
+  (inspectionArtifact) =>
+    !recordHasExactFields(
+      inspectionArtifact,
+      HUMAN_TOOL_INSPECTION_DISPOSITION_ARTIFACT_FIELDS
+    ),
+  (inspectionArtifact) =>
+    !recordPassesChecks(
+      inspectionArtifact,
+      HUMAN_TOOL_INSPECTION_DISPOSITION_ARTIFACT_CHECKS
+    ),
+  (inspectionArtifact) =>
+    !recordHasExactFields(
+      inspectionArtifact.sourceDecisionCandidateState,
+      HUMAN_TOOL_INSPECTION_DISPOSITION_SOURCE_ARTIFACT_FIELDS
+    ),
+  (inspectionArtifact) =>
+    !recordPassesChecks(
+      inspectionArtifact.sourceDecisionCandidateState,
+      HUMAN_TOOL_INSPECTION_DISPOSITION_SOURCE_ARTIFACT_CHECKS
+    ),
+  (inspectionArtifact) =>
+    !recordHasExactFields(
+      inspectionArtifact.pipelineSummary,
+      NON_AUTHORIZING_EVALUATOR_DECISION_PIPELINE_SUMMARY_FIELDS
+    ),
+  (inspectionArtifact) =>
+    !recordPassesChecks(
+      inspectionArtifact.pipelineSummary,
+      PREREQUISITE_REVIEW_ARTIFACT_PIPELINE_CHECKS
+    ),
+  (inspectionArtifact) =>
+    !recordHasExactFields(
+      inspectionArtifact.integratedReviewSummary,
+      NON_AUTHORIZING_EVALUATOR_DECISION_INTEGRATED_SUMMARY_FIELDS
+    ),
+  (inspectionArtifact) =>
+    !recordPassesChecks(
+      inspectionArtifact.integratedReviewSummary,
+      PREREQUISITE_REVIEW_ARTIFACT_SUMMARY_CHECKS
+    ),
+  (inspectionArtifact) =>
+    !recordHasExactFields(
+      inspectionArtifact.decisionCandidateSummary,
+      NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_SUMMARY_FIELDS
+    ),
+  (inspectionArtifact) =>
+    !recordPassesChecks(
+      inspectionArtifact.decisionCandidateSummary,
+      NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_SUMMARY_CHECKS
+    ),
+  (inspectionArtifact) =>
+    !recordHasExactFields(
+      inspectionArtifact.inspectionSummary,
+      HUMAN_TOOL_INSPECTION_DISPOSITION_INSPECTION_SUMMARY_FIELDS
+    ),
+  (inspectionArtifact) =>
+    !recordPassesChecks(
+      inspectionArtifact.inspectionSummary,
+      HUMAN_TOOL_INSPECTION_DISPOSITION_INSPECTION_SUMMARY_CHECKS
+    ),
+  (inspectionArtifact) =>
+    !recordPassesChecks(
+      inspectionArtifact,
+      HUMAN_TOOL_INSPECTION_DISPOSITION_ARTIFACT_REQUIRED_FALSE_FIELDS.map(
+        (field) => [field, (value) => value === false]
+      )
+    ),
+  (inspectionArtifact) =>
+    !recordPassesChecks(
+      inspectionArtifact,
+      HUMAN_TOOL_INSPECTION_DISPOSITION_ARTIFACT_REQUIRED_NULL_FIELDS.map(
+        (field) => [field, (value) => value === null]
+      )
+    ),
+  (inspectionArtifact) =>
+    !reviewOnlyRuntimeEffectAllFalse(inspectionArtifact.runtimeEffect)
+]);
+
+function humanToolInspectionDispositionMalformed(inspectionArtifact) {
+  return HUMAN_TOOL_INSPECTION_DISPOSITION_MALFORMED_CHECKS.some((predicate) =>
+    predicate(inspectionArtifact)
+  );
+}
+
+function humanToolInspectionDispositionGrantLooking(inspectionArtifact) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    inspectionArtifact,
+    (key) =>
+      HUMAN_TOOL_INSPECTION_DISPOSITION_GENERIC_GRANT_TRUE_FIELDS.includes(key)
+  );
+}
+
+function humanToolInspectionDispositionApprovalDecisionLooking(
+  inspectionArtifact
+) {
+  return (
+    HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_DECISION_FALSE_PATHS.some(
+      (path) =>
+        reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+          inspectionArtifact,
+          path,
+          false
+        )
+    ) ||
+    HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_DECISION_NULL_PATHS.some((path) =>
+      reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+        inspectionArtifact,
+        path,
+        null
+      )
+    ) ||
+    approvalEvaluatorCandidateNestedTrueClaim(
+      inspectionArtifact,
+      (key) =>
+        HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_DECISION_TRUE_FIELDS.includes(
+          key
+        )
+    ) ||
+    humanToolInspectionDispositionKeyPresent(inspectionArtifact, [
+      "approvalDecision",
+      "approvalDecisionResult",
+      "decision"
+    ])
+  );
+}
+
+function humanToolInspectionDispositionApprovalGrantLooking(inspectionArtifact) {
+  return (
+    HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_GRANT_FALSE_PATHS.some((path) =>
+      reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+        inspectionArtifact,
+        path,
+        false
+      )
+    ) ||
+    HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_GRANT_NULL_PATHS.some((path) =>
+      reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+        inspectionArtifact,
+        path,
+        null
+      )
+    ) ||
+    HUMAN_TOOL_INSPECTION_DISPOSITION_APPROVAL_GRANT_TRUE_PATHS.some(
+      (path) =>
+        reviewOnlyEvaluatorPreflightPathValue(inspectionArtifact, path) === true
+    )
+  );
+}
+
+function humanToolInspectionDispositionEvaluatorResultLooking(
+  inspectionArtifact
+) {
+  return (
+    HUMAN_TOOL_INSPECTION_DISPOSITION_EVALUATOR_RESULT_FALSE_PATHS.some((path) =>
+      reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+        inspectionArtifact,
+        path,
+        false
+      )
+    ) ||
+    HUMAN_TOOL_INSPECTION_DISPOSITION_EVALUATOR_RESULT_NULL_PATHS.some((path) =>
+      reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+        inspectionArtifact,
+        path,
+        null
+      )
+    ) ||
+    humanToolInspectionDispositionKeyPresent(
+      inspectionArtifact,
+      HUMAN_TOOL_INSPECTION_DISPOSITION_EVALUATOR_RESULT_OBJECT_FIELDS
+    )
+  );
+}
+
+function humanToolInspectionDispositionEvaluatorExecutionLooking(
+  inspectionArtifact
+) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    inspectionArtifact,
+    (key) =>
+      HUMAN_TOOL_INSPECTION_DISPOSITION_EVALUATOR_EXECUTION_TRUE_FIELDS.includes(
+        key
+      )
+  );
+}
+
+function humanToolInspectionDispositionRuntimePermissionLooking(
+  inspectionArtifact
+) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    inspectionArtifact,
+    (key) =>
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_RUNTIME_PERMISSION_TRUE_FIELDS.includes(key)
+  );
+}
+
+function humanToolInspectionDispositionCommandExposureLooking(
+  inspectionArtifact
+) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    inspectionArtifact,
+    (key) =>
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_COMMAND_EXPOSURE_TRUE_FIELDS.includes(key)
+  );
+}
+
+function humanToolInspectionDispositionRuntimeEffectTrue(inspectionArtifact) {
+  return approvalEvaluatorCandidateRuntimeEffectTrue(inspectionArtifact);
+}
+
+function humanToolInspectionDispositionProcessFlagTrue(inspectionArtifact) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    inspectionArtifact,
+    (key) => APPROVAL_EVALUATOR_CANDIDATE_PROCESS_TRUE_FIELDS.includes(key)
+  );
+}
+
+function humanToolInspectionDispositionUnsafeTrueSurface(inspectionArtifact) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    inspectionArtifact,
+    (key) => APPROVAL_EVALUATOR_CANDIDATE_UNSAFE_TRUE_FIELD_PATTERN.test(key)
+  );
+}
+
+function humanToolInspectionDispositionExecutionSignalLooking(
+  inspectionArtifact
+) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    inspectionArtifact,
+    (key) => REVIEW_ONLY_EVALUATOR_PREFLIGHT_EXECUTION_SIGNAL_TRUE_FIELDS.includes(key)
+  );
+}
+
+function humanToolInspectionDispositionAuthorizing(inspectionArtifact) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    inspectionArtifact,
+    (key) =>
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_AUTHORITATIVE_TRUE_FIELDS.includes(key)
+  );
+}
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_SINGLE_REJECTION_CHECKS =
+  Object.freeze([
+    [
+      (inspectionArtifact) => !isPlainObjectRecord(inspectionArtifact),
+      "malformed_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionUnknown,
+      "unknown_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionRevoked,
+      "revoked_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionStale,
+      "stale_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionApprovalDecisionLooking,
+      "approval_decision_looking_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionUnexpectedUnsafeField,
+      "unsafe_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionGrantLooking,
+      "grant_looking_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionApprovalGrantLooking,
+      "approval_grant_looking_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionEvaluatorResultLooking,
+      "evaluator_result_looking_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionEvaluatorExecutionLooking,
+      "evaluator_execution_looking_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionRuntimePermissionLooking,
+      "runtime_permission_looking_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionCommandExposureLooking,
+      "command_exposure_looking_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionRuntimeEffectTrue,
+      "runtime_effect_true_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionProcessFlagTrue,
+      "process_flag_true_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionUnsafeTrueSurface,
+      "unsafe_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionExecutionSignalLooking,
+      "execution_signal_looking_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionAuthorizing,
+      "authorizing_human_tool_inspection_disposition_boundary_input_rejected"
+    ],
+    [
+      humanToolInspectionDispositionMalformed,
+      "malformed_human_tool_inspection_disposition_boundary_input_rejected"
+    ]
+  ]);
+
+function humanToolInspectionDispositionSingleClassification(inspectionArtifact) {
+  return (
+    HUMAN_TOOL_INSPECTION_DISPOSITION_SINGLE_REJECTION_CHECKS.find(
+      ([predicate]) => predicate(inspectionArtifact)
+    )?.[1] ?? VALID_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION
+  );
+}
+
+function firstHumanToolInspectionDispositionRejection(inspectionArtifacts) {
+  return (
+    inspectionArtifacts
+      .map(humanToolInspectionDispositionSingleClassification)
+      .find(
+        (classification) =>
+          classification !== VALID_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION
+      ) ?? null
+  );
+}
+
+function humanToolInspectionDispositionArtifactsContainDuplicate(
+  inspectionArtifacts
+) {
+  const digests = inspectionArtifacts.map((inspectionArtifact) =>
+    reviewArtifactHandoffDigest(inspectionArtifact)
+  );
+
+  return new Set(digests).size !== digests.length;
+}
+
+const HUMAN_TOOL_INSPECTION_DISPOSITION_RESOLVERS = Object.freeze([
+  (inspectionArtifacts) =>
+    inspectionArtifacts === undefined
+      ? "missing_human_tool_inspection_disposition_boundary_input_rejected"
+      : null,
+  (inspectionArtifacts) =>
+    !Array.isArray(inspectionArtifacts)
+      ? "malformed_human_tool_inspection_disposition_boundary_input_rejected"
+      : null,
+  (inspectionArtifacts) =>
+    inspectionArtifacts.length === 0
+      ? "empty_human_tool_inspection_disposition_boundary_input_rejected"
+      : null,
+  firstHumanToolInspectionDispositionRejection,
+  (inspectionArtifacts) =>
+    humanToolInspectionDispositionArtifactsContainDuplicate(inspectionArtifacts)
+      ? "duplicate_invalid_human_tool_inspection_disposition_boundary_input_rejected"
+      : null,
+  (inspectionArtifacts) =>
+    inspectionArtifacts.length > 1
+      ? "conflicting_human_tool_inspection_disposition_boundary_input_rejected"
+      : null
+]);
+
+function humanToolInspectionDispositionClassification(inspectionArtifacts) {
+  let classification = null;
+
+  HUMAN_TOOL_INSPECTION_DISPOSITION_RESOLVERS.some((resolver) => {
+    classification = resolver(inspectionArtifacts);
+    return classification !== null;
+  });
+
+  return (
+    classification ?? VALID_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION
+  );
+}
+
+function humanToolInspectionDispositionSummary() {
+  return {
+    dispositionKind: "review-only-human-tool-inspection-disposition",
+    dispositionMode: "review-only",
+    sourceInspectionArtifactClassification:
+      VALID_NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_CLASSIFICATION,
+    reviewArtifactOnly: true,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    evaluatorExecuted: false,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function humanToolInspectionDispositionStateFromArtifact(
+  inspectionArtifact,
+  reviewedAt
+) {
+  return {
+    schema: HUMAN_TOOL_INSPECTION_DISPOSITION_STATE_SCHEMA,
+    schemaVersion: HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_VERSION,
+    stateKind: "review-only-human-tool-inspection-disposition-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourceInspectionArtifact: {
+      schema: inspectionArtifact.schema,
+      artifactKind: inspectionArtifact.artifactKind,
+      artifactMode: inspectionArtifact.artifactMode,
+      reviewedAt: inspectionArtifact.reviewedAt,
+      artifactDigest: reviewArtifactHandoffDigest(inspectionArtifact),
+      sourceDecisionCandidateStateDigest:
+        inspectionArtifact.sourceDecisionCandidateState.stateDigest,
+      sourcePreflightCheckpointStateDigest:
+        inspectionArtifact.sourceDecisionCandidateState
+          .sourcePreflightCheckpointStateDigest,
+      sourceIntakeCheckpointStateDigest:
+        inspectionArtifact.sourceDecisionCandidateState
+          .sourceIntakeCheckpointStateDigest,
+      sourceEvaluatorInputCandidateDigest:
+        inspectionArtifact.sourceDecisionCandidateState
+          .sourceEvaluatorInputCandidateDigest,
+      inspectionArtifactOnly: true,
+      inspectionArtifactIsApprovalDecision: false,
+      inspectionArtifactIsApprovalGrant: false,
+      evaluatorResultProduced: false,
+      approvalDecisionProduced: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      evaluatorExecuted: false,
+      runtimeEffectAllFalse: true
+    },
+    pipelineSummary: reviewOnlyEvaluatorPreflightPipelineSummary(
+      inspectionArtifact.pipelineSummary
+    ),
+    integratedReviewSummary: reviewOnlyEvaluatorPreflightIntegratedSummary(
+      inspectionArtifact.integratedReviewSummary
+    ),
+    decisionCandidateSummary:
+      nonAuthorizingEvaluatorDecisionCandidateSummary(),
+    inspectionSummary:
+      nonAuthorizingEvaluatorDecisionCandidateInspectionSummary(),
+    dispositionSummary: humanToolInspectionDispositionSummary(),
+    inspectionArtifactAccepted: true,
+    reviewArtifactOnly: true,
+    dispositionStateIsApprovalDecision: false,
+    dispositionStateIsApprovalGrant: false,
+    evaluatorResultProduced: false,
+    evaluatorResultPersisted: false,
+    evaluatorResultId: null,
+    approvalDecisionProduced: false,
+    approvalDecisionPersisted: false,
+    approvalDecisionId: null,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionRequested: false,
+    evaluatorExecutionStarted: false,
+    evaluatorExecutionEnabled: false,
+    evaluatorExecuted: false,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function humanToolInspectionDispositionRejectionReasons({
+  accepted,
+  classification
+}) {
+  if (accepted) {
+    return [
+      "human_tool_inspection_disposition_state_is_review_only",
+      "evaluator_result_not_implemented",
+      "approval_decision_not_implemented",
+      "approval_grant_not_implemented",
+      "evaluator_execution_not_implemented",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    classification,
+    "human_tool_inspection_disposition_state_not_produced",
+    "evaluator_result_not_implemented",
+    "approval_decision_not_implemented",
+    "approval_grant_not_implemented",
+    "evaluator_execution_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function humanToolInspectionDispositionBoundaryInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function humanToolInspectionDispositionBoundaryReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function humanToolInspectionDispositionBoundaryInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt))
+  );
+}
+
+function humanToolInspectionDispositionBoundaryInspectionArtifacts(inputRecord) {
+  return inputRecord === null ? undefined : inputRecord.inspectionArtifacts;
+}
+
+function humanToolInspectionDispositionBoundaryClassification(
+  inputRecord,
+  inspectionArtifacts
+) {
+  return humanToolInspectionDispositionBoundaryInputMalformed(inputRecord)
+    ? MALFORMED_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION
+    : humanToolInspectionDispositionClassification(inspectionArtifacts);
+}
+
+function humanToolInspectionDispositionSummaryFromArtifact(inspectionArtifact) {
+  return {
+    schema: inspectionArtifact.schema,
+    artifactKind: inspectionArtifact.artifactKind,
+    artifactMode: inspectionArtifact.artifactMode,
+    reviewedAt: inspectionArtifact.reviewedAt,
+    artifactDigest: reviewArtifactHandoffDigest(inspectionArtifact),
+    inspectionArtifactIsApprovalDecision: false,
+    inspectionArtifactIsApprovalGrant: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    evaluatorExecuted: false,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function humanToolInspectionDispositionAcceptedOutput({
+  accepted,
+  inspectionArtifacts,
+  reviewedAt
+}) {
+  if (!accepted) {
+    return {
+      dispositionState: null,
+      dispositionSummary: null
+    };
+  }
+
+  const inspectionArtifact = inspectionArtifacts[0];
+
+  return {
+    dispositionState: humanToolInspectionDispositionStateFromArtifact(
+      inspectionArtifact,
+      reviewedAt
+    ),
+    dispositionSummary:
+      humanToolInspectionDispositionSummaryFromArtifact(inspectionArtifact)
+  };
+}
+
+function humanToolInspectionDispositionBoundaryResult({
+  reviewedAt,
+  classification,
+  accepted,
+  dispositionState,
+  dispositionSummary
+}) {
+  return {
+    schema: HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_SCHEMA,
+    schemaVersion: HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_VERSION,
+    boundaryKind: HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_KIND,
+    boundaryMode: "review-only",
+    reviewedAt,
+    classification,
+    inspectionArtifactAccepted: accepted,
+    dispositionStateProduced: accepted,
+    dispositionStateIsApprovalDecision: false,
+    dispositionStateIsApprovalGrant: false,
+    dispositionState,
+    dispositionSummary,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    evaluatorResultProduced: false,
+    evaluatorResultPersisted: false,
+    evaluatorResultId: null,
+    approvalDecisionProduced: false,
+    approvalDecisionPersisted: false,
+    approvalDecisionId: null,
+    approvalGrant: sourcePreflightGrantBlocked(),
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionRequested: false,
+    evaluatorExecutionStarted: false,
+    evaluatorExecutionEnabled: false,
+    evaluatorExecuted: false,
+    rejectionReasons: humanToolInspectionDispositionRejectionReasons({
+      accepted,
+      classification
+    }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createHumanToolInspectionDispositionBoundaryForReview(input = {}) {
+  const inputRecord = humanToolInspectionDispositionBoundaryInputRecord(input);
+  const reviewedAt =
+    humanToolInspectionDispositionBoundaryReviewedAt(inputRecord);
+  const inspectionArtifacts =
+    humanToolInspectionDispositionBoundaryInspectionArtifacts(inputRecord);
+  const classification =
+    humanToolInspectionDispositionBoundaryClassification(
+      inputRecord,
+      inspectionArtifacts
+    );
+  const accepted =
+    classification === VALID_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION;
+  const { dispositionState, dispositionSummary } =
+    humanToolInspectionDispositionAcceptedOutput({
+      accepted,
+      inspectionArtifacts,
+      reviewedAt
+    });
+
+  return humanToolInspectionDispositionBoundaryResult({
+    reviewedAt,
+    classification,
+    accepted,
+    dispositionState,
+    dispositionSummary
+  });
 }
 
 export function createHostInfo() {

@@ -174,6 +174,11 @@ export const NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_VE
   "0.1.0";
 export const NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_KIND:
   "non-authorizing-evaluator-decision-candidate-inspection-artifact";
+export const HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_SCHEMA:
+  "ardyn.phase-5.31.human-tool-inspection-disposition-boundary-result";
+export const HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_VERSION: "0.1.0";
+export const HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_KIND:
+  "human-tool-inspection-disposition-boundary";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1575,6 +1580,28 @@ export type NonAuthorizingEvaluatorDecisionCandidateInspectionArtifactClassifica
   | "unsafe_non_authorizing_evaluator_decision_candidate_inspection_artifact_input_rejected"
   | "execution_signal_looking_non_authorizing_evaluator_decision_candidate_inspection_artifact_input_rejected"
   | "valid_non_authorizing_evaluator_decision_candidate_inspection_artifact_runtime_still_blocked";
+export type HumanToolInspectionDispositionBoundaryClassification =
+  | "missing_human_tool_inspection_disposition_boundary_input_rejected"
+  | "malformed_human_tool_inspection_disposition_boundary_input_rejected"
+  | "empty_human_tool_inspection_disposition_boundary_input_rejected"
+  | "conflicting_human_tool_inspection_disposition_boundary_input_rejected"
+  | "stale_human_tool_inspection_disposition_boundary_input_rejected"
+  | "revoked_human_tool_inspection_disposition_boundary_input_rejected"
+  | "unknown_human_tool_inspection_disposition_boundary_input_rejected"
+  | "duplicate_invalid_human_tool_inspection_disposition_boundary_input_rejected"
+  | "authorizing_human_tool_inspection_disposition_boundary_input_rejected"
+  | "grant_looking_human_tool_inspection_disposition_boundary_input_rejected"
+  | "approval_decision_looking_human_tool_inspection_disposition_boundary_input_rejected"
+  | "approval_grant_looking_human_tool_inspection_disposition_boundary_input_rejected"
+  | "evaluator_result_looking_human_tool_inspection_disposition_boundary_input_rejected"
+  | "evaluator_execution_looking_human_tool_inspection_disposition_boundary_input_rejected"
+  | "runtime_permission_looking_human_tool_inspection_disposition_boundary_input_rejected"
+  | "command_exposure_looking_human_tool_inspection_disposition_boundary_input_rejected"
+  | "runtime_effect_true_human_tool_inspection_disposition_boundary_input_rejected"
+  | "process_flag_true_human_tool_inspection_disposition_boundary_input_rejected"
+  | "unsafe_human_tool_inspection_disposition_boundary_input_rejected"
+  | "execution_signal_looking_human_tool_inspection_disposition_boundary_input_rejected"
+  | "valid_human_tool_inspection_disposition_boundary_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -2463,6 +2490,126 @@ export interface NonAuthorizingEvaluatorDecisionCandidateInspectionArtifactResul
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export interface HumanToolInspectionDispositionState {
+  schema: "ardyn.phase-5.31.review-only-human-tool-inspection-disposition-state";
+  schemaVersion: "0.1.0";
+  stateKind: "review-only-human-tool-inspection-disposition-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourceInspectionArtifact: {
+    schema: "ardyn.phase-5.30.non-authorizing-evaluator-decision-candidate-inspection-artifact";
+    artifactKind: "non-authorizing-evaluator-decision-candidate-inspection-artifact";
+    artifactMode: "review-only";
+    reviewedAt: string;
+    artifactDigest: string;
+    sourceDecisionCandidateStateDigest: string;
+    sourcePreflightCheckpointStateDigest: string;
+    sourceIntakeCheckpointStateDigest: string;
+    sourceEvaluatorInputCandidateDigest: string;
+    inspectionArtifactOnly: true;
+    inspectionArtifactIsApprovalDecision: false;
+    inspectionArtifactIsApprovalGrant: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  };
+  pipelineSummary: NonAuthorizingEvaluatorDecisionCandidateInspectionArtifact["pipelineSummary"];
+  integratedReviewSummary: NonAuthorizingEvaluatorDecisionCandidateInspectionArtifact["integratedReviewSummary"];
+  decisionCandidateSummary: NonAuthorizingEvaluatorDecisionCandidateInspectionArtifact["decisionCandidateSummary"];
+  inspectionSummary: NonAuthorizingEvaluatorDecisionCandidateInspectionArtifact["inspectionSummary"];
+  dispositionSummary: {
+    dispositionKind: "review-only-human-tool-inspection-disposition";
+    dispositionMode: "review-only";
+    sourceInspectionArtifactClassification:
+      "valid_non_authorizing_evaluator_decision_candidate_inspection_artifact_runtime_still_blocked";
+    reviewArtifactOnly: true;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    runtimePermissionGranted: false;
+    commandExposurePermissionGranted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  };
+  inspectionArtifactAccepted: true;
+  reviewArtifactOnly: true;
+  dispositionStateIsApprovalDecision: false;
+  dispositionStateIsApprovalGrant: false;
+  evaluatorResultProduced: false;
+  evaluatorResultPersisted: false;
+  evaluatorResultId: null;
+  approvalDecisionProduced: false;
+  approvalDecisionPersisted: false;
+  approvalDecisionId: null;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface HumanToolInspectionDispositionBoundaryResult {
+  schema: "ardyn.phase-5.31.human-tool-inspection-disposition-boundary-result";
+  schemaVersion: "0.1.0";
+  boundaryKind: "human-tool-inspection-disposition-boundary";
+  boundaryMode: "review-only";
+  reviewedAt: string;
+  classification: HumanToolInspectionDispositionBoundaryClassification;
+  inspectionArtifactAccepted: boolean;
+  dispositionStateProduced: boolean;
+  dispositionStateIsApprovalDecision: false;
+  dispositionStateIsApprovalGrant: false;
+  dispositionState: HumanToolInspectionDispositionState | null;
+  dispositionSummary: {
+    schema: "ardyn.phase-5.30.non-authorizing-evaluator-decision-candidate-inspection-artifact";
+    artifactKind: "non-authorizing-evaluator-decision-candidate-inspection-artifact";
+    artifactMode: "review-only";
+    reviewedAt: string;
+    artifactDigest: string;
+    inspectionArtifactIsApprovalDecision: false;
+    inspectionArtifactIsApprovalGrant: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  } | null;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  evaluatorResultProduced: false;
+  evaluatorResultPersisted: false;
+  evaluatorResultId: null;
+  approvalDecisionProduced: false;
+  approvalDecisionPersisted: false;
+  approvalDecisionId: null;
+  approvalGrant: RuntimeApprovalGrantBlocked;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -2730,6 +2877,10 @@ export function createNonAuthorizingEvaluatorDecisionCandidateInspectionArtifact
   reviewedAt?: string;
   decisionCandidateStates?: unknown[];
 }): NonAuthorizingEvaluatorDecisionCandidateInspectionArtifactResult;
+export function createHumanToolInspectionDispositionBoundaryForReview(input?: {
+  reviewedAt?: string;
+  inspectionArtifacts?: unknown[];
+}): HumanToolInspectionDispositionBoundaryResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

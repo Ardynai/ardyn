@@ -1292,6 +1292,45 @@ const phase530ExpectedCaseIds = [
   "execution-signal-looking-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
   "valid-non-authorizing-evaluator-decision-candidate-inspection-artifact"
 ];
+const phase531DocFiles = [
+  "docs/phase-5-31-human-tool-inspection-disposition-boundary.md",
+  "docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase531CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md",
+  "docs/phase-5-31-human-tool-inspection-disposition-boundary.md"
+];
+const phase531ExpectedCaseIds = [
+  "missing-human-tool-inspection-disposition-boundary-input-rejected",
+  "malformed-human-tool-inspection-disposition-boundary-input-rejected",
+  "malformed-human-tool-inspection-disposition-boundary-invalid-reviewed-at-rejected",
+  "empty-human-tool-inspection-disposition-boundary-input-rejected",
+  "conflicting-human-tool-inspection-disposition-boundary-input-rejected",
+  "stale-human-tool-inspection-disposition-boundary-input-rejected",
+  "revoked-human-tool-inspection-disposition-boundary-input-rejected",
+  "unknown-human-tool-inspection-disposition-boundary-input-rejected",
+  "duplicate-invalid-human-tool-inspection-disposition-boundary-input-rejected",
+  "authorizing-looking-human-tool-inspection-disposition-boundary-input-rejected",
+  "grant-looking-human-tool-inspection-disposition-boundary-input-rejected",
+  "approval-decision-looking-human-tool-inspection-disposition-boundary-input-rejected",
+  "approval-grant-looking-human-tool-inspection-disposition-boundary-input-rejected",
+  "evaluator-result-looking-human-tool-inspection-disposition-boundary-input-rejected",
+  "evaluator-execution-looking-human-tool-inspection-disposition-boundary-input-rejected",
+  "runtime-permission-looking-human-tool-inspection-disposition-boundary-input-rejected",
+  "command-exposure-looking-human-tool-inspection-disposition-boundary-input-rejected",
+  "runtime-effect-true-human-tool-inspection-disposition-boundary-input-rejected",
+  "process-flag-true-human-tool-inspection-disposition-boundary-input-rejected",
+  "unsafe-top-level-human-tool-inspection-disposition-boundary-input-rejected",
+  "unsafe-nested-inspection-artifact-disposition-data-human-tool-inspection-disposition-boundary-input-rejected",
+  "execution-signal-looking-human-tool-inspection-disposition-boundary-input-rejected",
+  "valid-human-tool-inspection-disposition-boundary"
+];
 const phase519ExpectedTrueSafetyFlagNames = [
   "phase519ApprovalPrerequisiteReaderHardeningRecorded",
   "phase519ReaderReviewOnly",
@@ -1935,6 +1974,75 @@ const phase530SafetyFlagNames = [
   ...phase530ExpectedTrueSafetyFlagNames,
   ...phase530ExpectedFalseSafetyFlagNames
 ];
+const phase531ExpectedTrueSafetyFlagNames = [
+  "phase531HumanToolInspectionDispositionBoundaryRecorded",
+  "phase531BoundaryReviewOnly",
+  "phase531ValidInspectionArtifactProducesDispositionState",
+  "phase531MissingInspectionArtifactRejected",
+  "phase531MalformedInspectionArtifactRejected",
+  "phase531EmptyInspectionArtifactRejected",
+  "phase531ConflictingInspectionArtifactRejected",
+  "phase531StaleInspectionArtifactRejected",
+  "phase531RevokedInspectionArtifactRejected",
+  "phase531UnknownInspectionArtifactRejected",
+  "phase531DuplicateInvalidInspectionArtifactRejected",
+  "phase531AuthorizingLookingInspectionArtifactRejected",
+  "phase531GrantLookingInspectionArtifactRejected",
+  "phase531ApprovalDecisionLookingInspectionArtifactRejected",
+  "phase531ApprovalGrantLookingInspectionArtifactRejected",
+  "phase531EvaluatorResultLookingInspectionArtifactRejected",
+  "phase531EvaluatorExecutionLookingInspectionArtifactRejected",
+  "phase531RuntimePermissionLookingInspectionArtifactRejected",
+  "phase531CommandExposureLookingInspectionArtifactRejected",
+  "phase531RuntimeEffectTrueInspectionArtifactRejected",
+  "phase531ProcessFlagTrueInspectionArtifactRejected",
+  "phase531UnsafeInspectionArtifactRejected",
+  "phase531ExecutionSignalLookingInspectionArtifactRejected",
+  "phase531ServeRuntimeStillDefaultBlocked"
+];
+const phase531ExpectedFalseSafetyFlagNames = [
+  "phase531BoundaryAuthoritative",
+  "phase531DispositionStateIsApprovalDecision",
+  "phase531DispositionStateIsApprovalGrant",
+  "phase531EvaluatorResultProduced",
+  "phase531EvaluatorResultPersisted",
+  "phase531ApprovalDecisionProduced",
+  "phase531ApprovalDecisionPersisted",
+  "phase531ApprovalGrantProduced",
+  "phase531ApprovalGrantPersisted",
+  "phase531RuntimePermissionGranted",
+  "phase531CommandExposurePermissionGranted",
+  "phase531RuntimeEnabled",
+  "phase531RuntimeStarted",
+  "phase531RuntimeReady",
+  "phase531RuntimeCommandEnabled",
+  "phase531RuntimeCommandExposureEnabled",
+  "phase531RuntimeExecutionEnabled",
+  "phase531RuntimeExecuted",
+  "phase531EvaluatorExecutionPerformed",
+  "phase531DryRunBypassesBlock",
+  "phase531CanEnableRuntime",
+  "phase531CliSourceChanged",
+  "phase531RustSourceChanged",
+  "phase531FilesystemWatcherEnabled",
+  "phase531ExternalSourceLookupEnabled",
+  "phase531SecretsEnvIngestionEnabled",
+  "phase531LiveStdinLoopEnabled",
+  "phase531RuntimeStdoutWriterEnabled",
+  "phase531RuntimeStderrWriterEnabled",
+  "phase531ProcessSpawnEnabled",
+  "phase531ProcessTerminationEnabled",
+  "phase531RuntimeSupervisionEnabled",
+  "phase531RuntimeTranscriptWritePerformed",
+  "phase531RuntimeAuditWritePerformed",
+  "phase531AdapterRuntimeBehaviorEnabled",
+  "phase531ContentFabricRuntimeBehaviorEnabled",
+  "phase531WebSocketHttpSurfaceEnabled"
+];
+const phase531SafetyFlagNames = [
+  ...phase531ExpectedTrueSafetyFlagNames,
+  ...phase531ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -2069,15 +2177,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.30 non-authorizing evaluator decision-candidate inspection artifact docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.31 review-only human/tool inspection disposition boundary docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.30",
-    name: "Non-authorizing evaluator decision-candidate inspection artifact",
+    id: "5.31",
+    name: "Review-only human/tool inspection disposition boundary",
     executionPosture:
-      "non-authorizing-evaluator-decision-candidate-inspection-artifact runtime-disabled no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-human-tool-inspection-disposition-boundary runtime-disabled no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -2150,12 +2258,19 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.30 non-authorizing evaluator decision-candidate inspection artifact status report.",
+        "Render this deterministic local Phase 5.31 review-only human/tool inspection disposition boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.30 status report.",
+      purpose: "Run focused tests for this local Phase 5.31 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-31-human-tool-inspection-disposition-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.31 review-only human/tool inspection disposition boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -14714,6 +14829,141 @@ test("report inventories Phase 5.30 as non-authorizing evaluator decision-candid
   assertSafetyFlags(report, phase530ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.31 as review-only human/tool inspection disposition boundary", async () => {
+  const report = await runReport();
+  const inventory = report.phase531HumanToolInspectionDispositionBoundaryInventory;
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase531DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase531CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-31/human-tool-inspection-disposition-boundary.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-31-human-tool-inspection-disposition-boundary.test.mjs"
+  ]);
+  assert.equal(inventory.statusLayer.precedingPhase, "5.30");
+  assert.equal(
+    inventory.statusLayer.layerId,
+    "human-tool-inspection-disposition-boundary"
+  );
+  assert.equal(
+    inventory.statusLayer.validInspectionArtifactProducesDispositionState,
+    true
+  );
+  assert.equal(inventory.statusLayer.evaluatorResultProduced, false);
+  assert.equal(inventory.statusLayer.evaluatorResultPersisted, false);
+  assert.equal(inventory.statusLayer.approvalDecisionProduced, false);
+  assert.equal(inventory.statusLayer.approvalDecisionPersisted, false);
+  assert.equal(inventory.statusLayer.approvalGrantProduced, false);
+  assert.equal(inventory.statusLayer.runtimePermissionGranted, false);
+  assert.equal(inventory.statusLayer.commandExposurePermissionGranted, false);
+  assert.equal(inventory.statusLayer.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.statusLayer.serveRuntimeStillDefaultBlocked, true);
+  assert.deepEqual(inventory.sourcePhase, {
+    phase: "phase-5.30-non-authorizing-evaluator-decision-candidate-inspection-artifact",
+    inspectionArtifactPath:
+      "packages/core/src/index.mjs#createNonAuthorizingEvaluatorDecisionCandidateInspectionArtifactForReview",
+    dispositionBoundaryPath:
+      "packages/core/src/index.mjs#createHumanToolInspectionDispositionBoundaryForReview",
+    sourceInspectionArtifactFixture:
+      "tests/fixtures/host-policy/phase5-30/non-authorizing-evaluator-decision-candidate-inspection-artifact.json",
+    runtimeEnabled: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    evaluatorExecutionPerformed: false
+  });
+  assert.equal(
+    inventory.dispositionBoundaryInputShape.inspectionArtifactSchema,
+    "ardyn.phase-5.30.non-authorizing-evaluator-decision-candidate-inspection-artifact"
+  );
+  assert.equal(
+    inventory.dispositionBoundaryInputShape.evaluatorResultLookingInspectionArtifactPolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.dispositionBoundaryInputShape.unsafeNestedInspectionArtifactDispositionDataPolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.dispositionBoundaryResultShape.schema,
+    "ardyn.phase-5.31.human-tool-inspection-disposition-boundary-result"
+  );
+  assert.equal(
+    inventory.dispositionBoundaryResultShape.dispositionStateSchema,
+    "ardyn.phase-5.31.review-only-human-tool-inspection-disposition-state"
+  );
+  assert.equal(
+    inventory.dispositionBoundaryResultShape.dispositionStateIsApprovalDecision,
+    false
+  );
+  assert.equal(inventory.dispositionBoundaryResultShape.evaluatorResultProduced, false);
+  assert.equal(inventory.dispositionBoundaryResultShape.approvalDecisionProduced, false);
+  assert.equal(inventory.dispositionBoundaryResultShape.evaluatorExecuted, false);
+  assert.deepEqual(
+    inventory.dispositionBoundaryCases.map(({ caseId }) => caseId),
+    phase531ExpectedCaseIds
+  );
+  for (const dispositionCase of inventory.dispositionBoundaryCases) {
+    assert.equal(dispositionCase.reviewOnly, true);
+    assert.equal(dispositionCase.authoritative, false);
+    assert.equal(dispositionCase.reviewArtifactOnly, true);
+    assert.equal(dispositionCase.dispositionStateIsApprovalDecision, false);
+    assert.equal(dispositionCase.dispositionStateIsApprovalGrant, false);
+    assert.equal(dispositionCase.evaluatorResultProduced, false);
+    assert.equal(dispositionCase.evaluatorResultPersisted, false);
+    assert.equal(dispositionCase.approvalDecisionProduced, false);
+    assert.equal(dispositionCase.approvalGrant.produced, false);
+    assert.equal(dispositionCase.approvalGrant.persisted, false);
+    assert.equal(dispositionCase.approvalGrant.grantId, null);
+    assert.equal(dispositionCase.runtimePermissionGranted, false);
+    assert.equal(dispositionCase.commandExposurePermissionGranted, false);
+    assert.equal(dispositionCase.evaluatorExecuted, false);
+    assertAllFalse(dispositionCase.runtimeEffect);
+  }
+  assert.equal(inventory.dispositionBoundary.dispositionCanExecuteEvaluator, false);
+  assert.equal(
+    inventory.dispositionBoundary.dispositionCanProduceEvaluatorResult,
+    false
+  );
+  assert.equal(
+    inventory.dispositionBoundary.dispositionCanProduceApprovalDecision,
+    false
+  );
+  assert.equal(inventory.dispositionBoundary.dispositionCanGrantApproval, false);
+  assert.equal(
+    inventory.dispositionBoundary.dispositionCanGrantRuntimePermission,
+    false
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
+    "serve-runtime",
+    "--dry-run"
+  ]);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorResultProduction, false);
+  assert.equal(inventory.forbiddenBehavior.approvalDecisionProduction, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorExecution, false);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-31-human-tool-inspection-disposition-boundary.test.mjs"
+    )
+  );
+  assert.equal(
+    report.safetyPosture.phase531HumanToolInspectionDispositionBoundary,
+    true
+  );
+  assertSafetyFlags(report, phase531ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase531ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -15585,7 +15835,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase527SafetyFlagNames,
     ...phase528SafetyFlagNames,
     ...phase529SafetyFlagNames,
-    ...phase530SafetyFlagNames
+    ...phase530SafetyFlagNames,
+    ...phase531SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -15612,6 +15863,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase529ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase530ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase530ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase531ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase531ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

@@ -201,6 +201,9 @@ const phase530NonAuthorizingEvaluatorDecisionCandidateInspectionArtifactMetadata
   await readJson(
     "tests/fixtures/host-policy/phase5-30/non-authorizing-evaluator-decision-candidate-inspection-artifact.json"
   );
+const phase531HumanToolInspectionDispositionBoundaryMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-31/human-tool-inspection-disposition-boundary.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -248,10 +251,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.30",
-    name: "Non-authorizing evaluator decision-candidate inspection artifact",
+    id: "5.31",
+    name: "Review-only human/tool inspection disposition boundary",
     executionPosture:
-      "non-authorizing-evaluator-decision-candidate-inspection-artifact runtime-disabled no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-human-tool-inspection-disposition-boundary runtime-disabled no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -299,12 +302,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.30 non-authorizing evaluator decision-candidate inspection artifact status report.",
+        "Render this deterministic local Phase 5.31 review-only human/tool inspection disposition boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.30 status report.",
+      purpose: "Run focused tests for this local Phase 5.31 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-31-human-tool-inspection-disposition-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.31 review-only human/tool inspection disposition boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -13789,6 +13799,266 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase531HumanToolInspectionDispositionBoundaryInventory: {
+    statusLayer: {
+      document: "docs/phase-5-31-human-tool-inspection-disposition-boundary.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-31/human-tool-inspection-disposition-boundary.json",
+      sourceInspectionArtifactDocument:
+        "docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md",
+      sourceInspectionArtifactFixture:
+        "tests/fixtures/host-policy/phase5-30/non-authorizing-evaluator-decision-candidate-inspection-artifact.json",
+      precedingPhase: "5.30",
+      layerId: "human-tool-inspection-disposition-boundary",
+      scope:
+        "phase-5-review-only-human-tool-inspection-disposition-boundary-runtime-disabled",
+      humanToolInspectionDispositionBoundaryRecorded:
+        phase531HumanToolInspectionDispositionBoundaryMetadata
+          .dispositionBoundarySummary
+          .humanToolInspectionDispositionBoundaryRecorded,
+      boundaryKind:
+        phase531HumanToolInspectionDispositionBoundaryMetadata
+          .dispositionBoundarySummary.boundaryKind,
+      boundaryReviewOnly: true,
+      boundaryAuthoritative: false,
+      validInspectionArtifactProducesDispositionState: true,
+      missingInspectionArtifactRejected: true,
+      malformedInspectionArtifactRejected: true,
+      emptyInspectionArtifactRejected: true,
+      conflictingInspectionArtifactRejected: true,
+      staleInspectionArtifactRejected: true,
+      revokedInspectionArtifactRejected: true,
+      unknownInspectionArtifactRejected: true,
+      duplicateInvalidInspectionArtifactRejected: true,
+      authorizingLookingInspectionArtifactRejected: true,
+      grantLookingInspectionArtifactRejected: true,
+      approvalDecisionLookingInspectionArtifactRejected: true,
+      approvalGrantLookingInspectionArtifactRejected: true,
+      evaluatorResultLookingInspectionArtifactRejected: true,
+      evaluatorExecutionLookingInspectionArtifactRejected: true,
+      runtimePermissionLookingInspectionArtifactRejected: true,
+      commandExposureLookingInspectionArtifactRejected: true,
+      runtimeEffectTrueInspectionArtifactRejected: true,
+      processFlagTrueInspectionArtifactRejected: true,
+      unsafeInspectionArtifactRejected: true,
+      executionSignalLookingInspectionArtifactRejected: true,
+      dispositionStateIsApprovalDecision: false,
+      dispositionStateIsApprovalGrant: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase531HumanToolInspectionDispositionBoundaryMetadata
+          .dispositionBoundarySummary.serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-31-human-tool-inspection-disposition-boundary.md",
+        "Records the Phase 5.31 review-only human/tool inspection disposition boundary while runtime and evaluator execution remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md",
+        "Provides the Phase 5.31 source inspection artifact."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.31 as current docs/status mode while runtime and evaluator execution remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.31 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.31 changes no Rust-host runtime source and records a TypeScript disposition-boundary helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md",
+      "docs/phase-5-31-human-tool-inspection-disposition-boundary.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-31/human-tool-inspection-disposition-boundary.json",
+        "Records review-only human/tool inspection disposition cases while evaluator results, approval decisions, grants, evaluator execution, and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.31 report metadata, docs cross-links, disposition fixture, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-31-human-tool-inspection-disposition-boundary.test.mjs",
+        "Pins the Phase 5.31 disposition helper, fixture shape, non-authorizing state, serve-runtime rejection, command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md",
+        "docs/phase-5-31-human-tool-inspection-disposition-boundary.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-31/human-tool-inspection-disposition-boundary.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-31-human-tool-inspection-disposition-boundary.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      reportRunsChecks: false,
+      separateEvaluatorResultPhaseRequired: true,
+      separateApprovalDecisionPhaseRequired: true,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase: phase531HumanToolInspectionDispositionBoundaryMetadata.sourcePhase,
+    dispositionBoundarySummary:
+      phase531HumanToolInspectionDispositionBoundaryMetadata
+        .dispositionBoundarySummary,
+    dispositionBoundaryInputShape:
+      phase531HumanToolInspectionDispositionBoundaryMetadata
+        .dispositionBoundaryInputShape,
+    dispositionBoundaryResultShape:
+      phase531HumanToolInspectionDispositionBoundaryMetadata
+        .dispositionBoundaryResultShape,
+    dispositionBoundaryCases:
+      phase531HumanToolInspectionDispositionBoundaryMetadata
+        .dispositionBoundaryCases,
+    dispositionBoundary:
+      phase531HumanToolInspectionDispositionBoundaryMetadata.dispositionBoundary,
+    blockedRuntimeEffect:
+      phase531HumanToolInspectionDispositionBoundaryMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase531HumanToolInspectionDispositionBoundaryMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase531HumanToolInspectionDispositionBoundaryMetadata.forbiddenBehavior,
+    validationCommands:
+      phase531HumanToolInspectionDispositionBoundaryMetadata.validationCommands,
+    safetyPosture: {
+      humanToolInspectionDispositionBoundaryRecorded: true,
+      boundaryReviewOnly: true,
+      boundaryAuthoritative: false,
+      validInspectionArtifactProducesDispositionState: true,
+      missingInspectionArtifactRejected: true,
+      malformedInspectionArtifactRejected: true,
+      emptyInspectionArtifactRejected: true,
+      conflictingInspectionArtifactRejected: true,
+      staleInspectionArtifactRejected: true,
+      revokedInspectionArtifactRejected: true,
+      unknownInspectionArtifactRejected: true,
+      duplicateInvalidInspectionArtifactRejected: true,
+      authorizingLookingInspectionArtifactRejected: true,
+      grantLookingInspectionArtifactRejected: true,
+      approvalDecisionLookingInspectionArtifactRejected: true,
+      approvalGrantLookingInspectionArtifactRejected: true,
+      evaluatorResultLookingInspectionArtifactRejected: true,
+      evaluatorExecutionLookingInspectionArtifactRejected: true,
+      runtimePermissionLookingInspectionArtifactRejected: true,
+      commandExposureLookingInspectionArtifactRejected: true,
+      runtimeEffectTrueInspectionArtifactRejected: true,
+      processFlagTrueInspectionArtifactRejected: true,
+      unsafeInspectionArtifactRejected: true,
+      executionSignalLookingInspectionArtifactRejected: true,
+      dispositionStateIsApprovalDecision: false,
+      dispositionStateIsApprovalGrant: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -13852,6 +14122,7 @@ const report = {
     phase528ReviewOnlyEvaluatorPreflightCheckpoint: true,
     phase529NonAuthorizingEvaluatorDecisionCandidateBoundary: true,
     phase530NonAuthorizingEvaluatorDecisionCandidateInspectionArtifact: true,
+    phase531HumanToolInspectionDispositionBoundary: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -15016,6 +15287,67 @@ const report = {
       phase530AdapterRuntimeBehaviorEnabled: false,
       phase530ContentFabricRuntimeBehaviorEnabled: false,
       phase530WebSocketHttpSurfaceEnabled: false,
+      phase531HumanToolInspectionDispositionBoundaryRecorded: true,
+      phase531BoundaryReviewOnly: true,
+      phase531BoundaryAuthoritative: false,
+      phase531ValidInspectionArtifactProducesDispositionState: true,
+      phase531MissingInspectionArtifactRejected: true,
+      phase531MalformedInspectionArtifactRejected: true,
+      phase531EmptyInspectionArtifactRejected: true,
+      phase531ConflictingInspectionArtifactRejected: true,
+      phase531StaleInspectionArtifactRejected: true,
+      phase531RevokedInspectionArtifactRejected: true,
+      phase531UnknownInspectionArtifactRejected: true,
+      phase531DuplicateInvalidInspectionArtifactRejected: true,
+      phase531AuthorizingLookingInspectionArtifactRejected: true,
+      phase531GrantLookingInspectionArtifactRejected: true,
+      phase531ApprovalDecisionLookingInspectionArtifactRejected: true,
+      phase531ApprovalGrantLookingInspectionArtifactRejected: true,
+      phase531EvaluatorResultLookingInspectionArtifactRejected: true,
+      phase531EvaluatorExecutionLookingInspectionArtifactRejected: true,
+      phase531RuntimePermissionLookingInspectionArtifactRejected: true,
+      phase531CommandExposureLookingInspectionArtifactRejected: true,
+      phase531RuntimeEffectTrueInspectionArtifactRejected: true,
+      phase531ProcessFlagTrueInspectionArtifactRejected: true,
+      phase531UnsafeInspectionArtifactRejected: true,
+      phase531ExecutionSignalLookingInspectionArtifactRejected: true,
+      phase531DispositionStateIsApprovalDecision: false,
+      phase531DispositionStateIsApprovalGrant: false,
+      phase531EvaluatorResultProduced: false,
+      phase531EvaluatorResultPersisted: false,
+      phase531ApprovalDecisionProduced: false,
+      phase531ApprovalDecisionPersisted: false,
+      phase531ApprovalGrantProduced: false,
+      phase531ApprovalGrantPersisted: false,
+      phase531RuntimePermissionGranted: false,
+      phase531CommandExposurePermissionGranted: false,
+      phase531RuntimeEnabled: false,
+      phase531RuntimeStarted: false,
+      phase531RuntimeReady: false,
+      phase531RuntimeCommandEnabled: false,
+      phase531RuntimeCommandExposureEnabled: false,
+      phase531RuntimeExecutionEnabled: false,
+      phase531RuntimeExecuted: false,
+      phase531EvaluatorExecutionPerformed: false,
+      phase531ServeRuntimeStillDefaultBlocked: true,
+      phase531DryRunBypassesBlock: false,
+      phase531CanEnableRuntime: false,
+      phase531CliSourceChanged: false,
+      phase531RustSourceChanged: false,
+      phase531FilesystemWatcherEnabled: false,
+      phase531ExternalSourceLookupEnabled: false,
+      phase531SecretsEnvIngestionEnabled: false,
+      phase531LiveStdinLoopEnabled: false,
+      phase531RuntimeStdoutWriterEnabled: false,
+      phase531RuntimeStderrWriterEnabled: false,
+      phase531ProcessSpawnEnabled: false,
+      phase531ProcessTerminationEnabled: false,
+      phase531RuntimeSupervisionEnabled: false,
+      phase531RuntimeTranscriptWritePerformed: false,
+      phase531RuntimeAuditWritePerformed: false,
+      phase531AdapterRuntimeBehaviorEnabled: false,
+      phase531ContentFabricRuntimeBehaviorEnabled: false,
+      phase531WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

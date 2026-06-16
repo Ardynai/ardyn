@@ -570,10 +570,10 @@ test("Phase 4.1G status report inventories packet without running checks", async
   const inventory = report.phase41GExternalReviewPacketInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.30",
-    name: "Non-authorizing evaluator decision-candidate inspection artifact",
+    id: "5.31",
+    name: "Review-only human/tool inspection disposition boundary",
     executionPosture:
-      "non-authorizing-evaluator-decision-candidate-inspection-artifact runtime-disabled no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-human-tool-inspection-disposition-boundary runtime-disabled no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

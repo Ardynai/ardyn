@@ -89,3 +89,11 @@ Phase 5.30 records these validation commands:
 - `git diff --cached --check`
 - `fallow health --score --hotspots --targets --format json`
 - `fallow audit --format json`
+
+## Phase 5.31 Handoff
+
+Phase 5.31 consumes this non-authorizing inspection artifact into a
+review-only human/tool inspection disposition boundary. That handoff remains
+non-authorizing and does not produce evaluator results, approval decisions,
+approval grants, runtime permission, command exposure permission, or runtime
+execution.

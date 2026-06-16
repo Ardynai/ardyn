@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.30 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.31 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -360,6 +360,21 @@ results, produce approval decisions, produce or persist grants, grant runtime or
 command exposure permission, enable runtime, expose runtime commands, start
 runtime, or execute an evaluator. `serve-runtime` and `serve-runtime --dry-run`
 remain default-blocked.
+Phase 5.31 adds review-only human/tool inspection disposition boundary
+docs/status metadata and a core review helper only. It represents valid Phase
+5.30 inspection artifacts only as non-authorizing disposition state for later
+human/tool inspection, but adds no Phase 5.31 CLI command, disposition-boundary
+command, evaluator-result command, approval decision command, approval grant
+command, runtime permission command, command-exposure command, evaluator
+execution path, runtime start path, live stdin loop, stdout/stderr runtime
+writer, process spawning or supervision, runtime transcript/audit write,
+filesystem watcher, external source lookup, secrets/env ingestion, adapter or
+Content Fabric runtime behavior, WebSocket/HTTP surface, Rust source change, or
+change to `apps/cli/src/index.mjs`. Disposition state cannot produce evaluator
+results, produce approval decisions, produce or persist grants, grant runtime or
+command exposure permission, enable runtime, expose runtime commands, start
+runtime, or execute an evaluator. `serve-runtime` and `serve-runtime --dry-run`
+remain default-blocked.
 See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
@@ -395,7 +410,8 @@ See
 `docs/phase-5-27-approval-evaluator-candidate-intake-checkpoint.md`, and
 `docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md`, and
 `docs/phase-5-29-non-authorizing-evaluator-decision-candidate-boundary.md`, and
-`docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md`.
+`docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md`, and
+`docs/phase-5-31-human-tool-inspection-disposition-boundary.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -932,3 +948,15 @@ runtime command, starts no runtime, performs no filesystem watching or external
 lookup, ingests no secrets/env data, and changes no CLI source. `serve-runtime`
 remains default-blocked. See
 `docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md`.
+
+Phase 5.31 records review-only human/tool inspection disposition boundary
+metadata only. The core helper represents valid Phase 5.30 inspection artifacts
+as non-authorizing disposition state for later human/tool inspection, but it is
+not an evaluator result, approval decision, approval grant, runtime permission,
+or command exposure permission. It executes no evaluator, produces no evaluator
+result, produces no approval decision, produces or persists no approval grant,
+grants no runtime or command exposure permission, enables no runtime, exposes no
+runtime command, starts no runtime, performs no filesystem watching or external
+lookup, ingests no secrets/env data, and changes no CLI source. `serve-runtime`
+remains default-blocked. See
+`docs/phase-5-31-human-tool-inspection-disposition-boundary.md`.
