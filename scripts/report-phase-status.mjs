@@ -207,6 +207,9 @@ const phase531HumanToolInspectionDispositionBoundaryMetadata = await readJson(
 const phase532ReviewOnlyDispositionAggregationCheckpointMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-32/review-only-disposition-aggregation-checkpoint.json"
 );
+const phase533ReviewOnlyAggregationInspectionHandoffMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-33/review-only-aggregation-inspection-handoff.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -254,10 +257,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.32",
-    name: "Review-only disposition aggregation checkpoint",
+    id: "5.33",
+    name: "Review-only aggregation inspection handoff",
     executionPosture:
-      "review-only-disposition-aggregation-checkpoint runtime-disabled no-reviewer-routing no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-aggregation-inspection-handoff runtime-disabled no-reviewer-routing no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -305,12 +308,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.32 review-only disposition aggregation checkpoint status report.",
+        "Render this deterministic local Phase 5.33 review-only aggregation inspection handoff status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.32 status report.",
+      purpose: "Run focused tests for this local Phase 5.33 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-33-review-only-aggregation-inspection-handoff.test.mjs",
+      purpose:
+        "Run focused Phase 5.33 review-only aggregation inspection handoff and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -14343,6 +14353,281 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase533ReviewOnlyAggregationInspectionHandoffInventory: {
+    statusLayer: {
+      document: "docs/phase-5-33-review-only-aggregation-inspection-handoff.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-33/review-only-aggregation-inspection-handoff.json",
+      sourceAggregationCheckpointDocument:
+        "docs/phase-5-32-review-only-disposition-aggregation-checkpoint.md",
+      sourceAggregationCheckpointFixture:
+        "tests/fixtures/host-policy/phase5-32/review-only-disposition-aggregation-checkpoint.json",
+      precedingPhase: "5.32",
+      layerId: "review-only-aggregation-inspection-handoff",
+      scope:
+        "phase-5-review-only-aggregation-inspection-handoff-runtime-disabled",
+      reviewOnlyAggregationInspectionHandoffRecorded:
+        phase533ReviewOnlyAggregationInspectionHandoffMetadata
+          .aggregationInspectionHandoffSummary
+          .reviewOnlyAggregationInspectionHandoffRecorded,
+      handoffKind:
+        phase533ReviewOnlyAggregationInspectionHandoffMetadata
+          .aggregationInspectionHandoffSummary.handoffKind,
+      handoffReviewOnly: true,
+      handoffAuthoritative: false,
+      validAggregationStateProducesInspectionHandoffState: true,
+      missingAggregationStateRejected: true,
+      malformedAggregationStateRejected: true,
+      emptyAggregationStateRejected: true,
+      conflictingAggregationStateRejected: true,
+      staleAggregationStateRejected: true,
+      revokedAggregationStateRejected: true,
+      unknownAggregationStateRejected: true,
+      duplicateInvalidAggregationStateRejected: true,
+      authorizingLookingAggregationStateRejected: true,
+      grantLookingAggregationStateRejected: true,
+      approvalDecisionLookingAggregationStateRejected: true,
+      approvalGrantLookingAggregationStateRejected: true,
+      evaluatorResultLookingAggregationStateRejected: true,
+      evaluatorExecutionLookingAggregationStateRejected: true,
+      reviewerRoutingLookingAggregationStateRejected: true,
+      runtimePermissionLookingAggregationStateRejected: true,
+      commandExposureLookingAggregationStateRejected: true,
+      runtimeEffectTrueAggregationStateRejected: true,
+      processFlagTrueAggregationStateRejected: true,
+      unsafeAggregationStateRejected: true,
+      executionSignalLookingAggregationStateRejected: true,
+      handoffIsReviewerRouting: false,
+      handoffIsEvaluatorExecution: false,
+      handoffIsEvaluatorResult: false,
+      handoffIsApprovalDecision: false,
+      handoffIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase533ReviewOnlyAggregationInspectionHandoffMetadata
+          .aggregationInspectionHandoffSummary.serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-33-review-only-aggregation-inspection-handoff.md",
+        "Records the Phase 5.33 review-only aggregation inspection handoff while reviewer routing, evaluator execution, evaluator results, and runtime remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-32-review-only-disposition-aggregation-checkpoint.md",
+        "Provides the Phase 5.33 source disposition aggregation checkpoint state."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.33 as current docs/status mode while runtime and reviewer routing remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.33 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.33 changes no Rust-host runtime source and records a TypeScript aggregation-inspection handoff helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-32-review-only-disposition-aggregation-checkpoint.md",
+      "docs/phase-5-33-review-only-aggregation-inspection-handoff.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-33/review-only-aggregation-inspection-handoff.json",
+        "Records review-only aggregation inspection handoff cases while reviewer routing, evaluator execution, evaluator results, approval decisions, grants, and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.33 report metadata, docs cross-links, handoff fixture, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-33-review-only-aggregation-inspection-handoff.test.mjs",
+        "Pins the Phase 5.33 handoff helper, fixture shape, non-authorizing state, serve-runtime rejection, command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-32-review-only-disposition-aggregation-checkpoint.md",
+        "docs/phase-5-33-review-only-aggregation-inspection-handoff.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-33/review-only-aggregation-inspection-handoff.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-33-review-only-aggregation-inspection-handoff.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      reviewerRoutingPerformedByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateReviewerRoutingPhaseRequired: true,
+      separateEvaluatorExecutionPhaseRequired: true,
+      separateEvaluatorResultPhaseRequired: true,
+      separateApprovalDecisionPhaseRequired: true,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase533ReviewOnlyAggregationInspectionHandoffMetadata.sourcePhase,
+    aggregationInspectionHandoffSummary:
+      phase533ReviewOnlyAggregationInspectionHandoffMetadata
+        .aggregationInspectionHandoffSummary,
+    aggregationInspectionHandoffInputShape:
+      phase533ReviewOnlyAggregationInspectionHandoffMetadata
+        .aggregationInspectionHandoffInputShape,
+    aggregationInspectionHandoffResultShape:
+      phase533ReviewOnlyAggregationInspectionHandoffMetadata
+        .aggregationInspectionHandoffResultShape,
+    aggregationInspectionHandoffCases:
+      phase533ReviewOnlyAggregationInspectionHandoffMetadata
+        .aggregationInspectionHandoffCases,
+    aggregationInspectionHandoff:
+      phase533ReviewOnlyAggregationInspectionHandoffMetadata
+        .aggregationInspectionHandoff,
+    blockedRuntimeEffect:
+      phase533ReviewOnlyAggregationInspectionHandoffMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase533ReviewOnlyAggregationInspectionHandoffMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase533ReviewOnlyAggregationInspectionHandoffMetadata.forbiddenBehavior,
+    validationCommands:
+      phase533ReviewOnlyAggregationInspectionHandoffMetadata.validationCommands,
+    safetyPosture: {
+      reviewOnlyAggregationInspectionHandoffRecorded: true,
+      handoffReviewOnly: true,
+      handoffAuthoritative: false,
+      validAggregationStateProducesInspectionHandoffState: true,
+      missingAggregationStateRejected: true,
+      malformedAggregationStateRejected: true,
+      emptyAggregationStateRejected: true,
+      conflictingAggregationStateRejected: true,
+      staleAggregationStateRejected: true,
+      revokedAggregationStateRejected: true,
+      unknownAggregationStateRejected: true,
+      duplicateInvalidAggregationStateRejected: true,
+      authorizingLookingAggregationStateRejected: true,
+      grantLookingAggregationStateRejected: true,
+      approvalDecisionLookingAggregationStateRejected: true,
+      approvalGrantLookingAggregationStateRejected: true,
+      evaluatorResultLookingAggregationStateRejected: true,
+      evaluatorExecutionLookingAggregationStateRejected: true,
+      reviewerRoutingLookingAggregationStateRejected: true,
+      runtimePermissionLookingAggregationStateRejected: true,
+      commandExposureLookingAggregationStateRejected: true,
+      runtimeEffectTrueAggregationStateRejected: true,
+      processFlagTrueAggregationStateRejected: true,
+      unsafeAggregationStateRejected: true,
+      executionSignalLookingAggregationStateRejected: true,
+      handoffIsReviewerRouting: false,
+      handoffIsEvaluatorExecution: false,
+      handoffIsEvaluatorResult: false,
+      handoffIsApprovalDecision: false,
+      handoffIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -14408,6 +14693,7 @@ const report = {
     phase530NonAuthorizingEvaluatorDecisionCandidateInspectionArtifact: true,
     phase531HumanToolInspectionDispositionBoundary: true,
     phase532ReviewOnlyDispositionAggregationCheckpoint: true,
+    phase533ReviewOnlyAggregationInspectionHandoff: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -15697,6 +15983,72 @@ const report = {
       phase532AdapterRuntimeBehaviorEnabled: false,
       phase532ContentFabricRuntimeBehaviorEnabled: false,
       phase532WebSocketHttpSurfaceEnabled: false,
+      phase533ReviewOnlyAggregationInspectionHandoffRecorded: true,
+      phase533HandoffReviewOnly: true,
+      phase533HandoffAuthoritative: false,
+      phase533ValidAggregationStateProducesInspectionHandoffState: true,
+      phase533MissingAggregationStateRejected: true,
+      phase533MalformedAggregationStateRejected: true,
+      phase533EmptyAggregationStateRejected: true,
+      phase533ConflictingAggregationStateRejected: true,
+      phase533StaleAggregationStateRejected: true,
+      phase533RevokedAggregationStateRejected: true,
+      phase533UnknownAggregationStateRejected: true,
+      phase533DuplicateInvalidAggregationStateRejected: true,
+      phase533AuthorizingLookingAggregationStateRejected: true,
+      phase533GrantLookingAggregationStateRejected: true,
+      phase533ApprovalDecisionLookingAggregationStateRejected: true,
+      phase533ApprovalGrantLookingAggregationStateRejected: true,
+      phase533EvaluatorResultLookingAggregationStateRejected: true,
+      phase533EvaluatorExecutionLookingAggregationStateRejected: true,
+      phase533ReviewerRoutingLookingAggregationStateRejected: true,
+      phase533RuntimePermissionLookingAggregationStateRejected: true,
+      phase533CommandExposureLookingAggregationStateRejected: true,
+      phase533RuntimeEffectTrueAggregationStateRejected: true,
+      phase533ProcessFlagTrueAggregationStateRejected: true,
+      phase533UnsafeAggregationStateRejected: true,
+      phase533ExecutionSignalLookingAggregationStateRejected: true,
+      phase533HandoffIsReviewerRouting: false,
+      phase533HandoffIsEvaluatorExecution: false,
+      phase533HandoffIsEvaluatorResult: false,
+      phase533HandoffIsApprovalDecision: false,
+      phase533HandoffIsApprovalGrant: false,
+      phase533ReviewerRoutingPerformed: false,
+      phase533EvaluatorResultProduced: false,
+      phase533EvaluatorResultPersisted: false,
+      phase533ApprovalDecisionProduced: false,
+      phase533ApprovalDecisionPersisted: false,
+      phase533ApprovalGrantProduced: false,
+      phase533ApprovalGrantPersisted: false,
+      phase533RuntimePermissionGranted: false,
+      phase533CommandExposurePermissionGranted: false,
+      phase533RuntimeEnabled: false,
+      phase533RuntimeStarted: false,
+      phase533RuntimeReady: false,
+      phase533RuntimeCommandEnabled: false,
+      phase533RuntimeCommandExposureEnabled: false,
+      phase533RuntimeExecutionEnabled: false,
+      phase533RuntimeExecuted: false,
+      phase533EvaluatorExecutionPerformed: false,
+      phase533ServeRuntimeStillDefaultBlocked: true,
+      phase533DryRunBypassesBlock: false,
+      phase533CanEnableRuntime: false,
+      phase533CliSourceChanged: false,
+      phase533RustSourceChanged: false,
+      phase533FilesystemWatcherEnabled: false,
+      phase533ExternalSourceLookupEnabled: false,
+      phase533SecretsEnvIngestionEnabled: false,
+      phase533LiveStdinLoopEnabled: false,
+      phase533RuntimeStdoutWriterEnabled: false,
+      phase533RuntimeStderrWriterEnabled: false,
+      phase533ProcessSpawnEnabled: false,
+      phase533ProcessTerminationEnabled: false,
+      phase533RuntimeSupervisionEnabled: false,
+      phase533RuntimeTranscriptWritePerformed: false,
+      phase533RuntimeAuditWritePerformed: false,
+      phase533AdapterRuntimeBehaviorEnabled: false,
+      phase533ContentFabricRuntimeBehaviorEnabled: false,
+      phase533WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

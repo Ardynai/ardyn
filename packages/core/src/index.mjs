@@ -163,6 +163,11 @@ export const REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_SCHEMA =
 export const REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_VERSION = "0.1.0";
 export const REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_KIND =
   "review-only-disposition-aggregation-checkpoint";
+export const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SCHEMA =
+  "ardyn.phase-5.33.review-only-aggregation-inspection-handoff-result";
+export const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_VERSION = "0.1.0";
+export const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_KIND =
+  "review-only-aggregation-inspection-handoff";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -12751,6 +12756,1170 @@ export function createReviewOnlyDispositionAggregationCheckpointForReview(
     classification,
     accepted,
     aggregationState,
+    aggregationSummary
+  });
+}
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_STATE_SCHEMA =
+  "ardyn.phase-5.33.review-only-aggregation-inspection-handoff-state";
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_MIN_REVIEWED_AT =
+  "2026-06-16T00:00:00.000Z";
+
+const VALID_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION =
+  "valid_review_only_aggregation_inspection_handoff_runtime_still_blocked";
+const MALFORMED_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION =
+  "malformed_review_only_aggregation_inspection_handoff_input_rejected";
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_REQUIRED_FALSE_FIELDS =
+  Object.freeze([
+    "aggregationCheckpointIsReviewerRouting",
+    "aggregationCheckpointIsApprovalDecision",
+    "aggregationCheckpointIsApprovalGrant",
+    "reviewerRoutingPerformed",
+    "reviewerRoutingEnabled",
+    "evaluatorResultProduced",
+    "evaluatorResultPersisted",
+    "approvalDecisionProduced",
+    "approvalDecisionPersisted",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "runtimePermissionGranted",
+    "commandExposurePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecuted"
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_REQUIRED_NULL_FIELDS =
+  Object.freeze([
+    "reviewerRouteId",
+    "evaluatorResultId",
+    "approvalDecisionId",
+    "approvalGrantId"
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SOURCE_STATE_FIELDS =
+  Object.freeze([
+    "schema",
+    "schemaVersion",
+    "stateKind",
+    "stateMode",
+    "reviewedAt",
+    "sourceDispositionState",
+    "pipelineSummary",
+    "integratedReviewSummary",
+    "decisionCandidateSummary",
+    "inspectionSummary",
+    "dispositionSummary",
+    "aggregationSummary",
+    "dispositionStateAccepted",
+    "aggregationMetadataOnly",
+    "aggregationCheckpointIsReviewerRouting",
+    "aggregationCheckpointIsApprovalDecision",
+    "aggregationCheckpointIsApprovalGrant",
+    "reviewerRoutingPerformed",
+    "reviewerRoutingEnabled",
+    "reviewerRouteId",
+    "evaluatorResultProduced",
+    "evaluatorResultPersisted",
+    "evaluatorResultId",
+    "approvalDecisionProduced",
+    "approvalDecisionPersisted",
+    "approvalDecisionId",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "approvalGrantId",
+    "runtimePermissionGranted",
+    "commandExposurePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecuted",
+    "runtimeEffect"
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SOURCE_DISPOSITION_FIELDS =
+  Object.freeze([
+    "schema",
+    "stateKind",
+    "stateMode",
+    "reviewedAt",
+    "stateDigest",
+    "sourceInspectionArtifactDigest",
+    "sourceDecisionCandidateStateDigest",
+    "sourcePreflightCheckpointStateDigest",
+    "sourceIntakeCheckpointStateDigest",
+    "sourceEvaluatorInputCandidateDigest",
+    "inspectionArtifactAccepted",
+    "reviewArtifactOnly",
+    "dispositionStateIsApprovalDecision",
+    "dispositionStateIsApprovalGrant",
+    "evaluatorResultProduced",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "evaluatorExecuted",
+    "runtimeEffectAllFalse"
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_AGGREGATION_SUMMARY_FIELDS =
+  Object.freeze([
+    "aggregationKind",
+    "aggregationMode",
+    "sourceDispositionClassification",
+    "aggregationMetadataOnly",
+    "reviewerRoutingPerformed",
+    "evaluatorResultProduced",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "runtimePermissionGranted",
+    "commandExposurePermissionGranted",
+    "evaluatorExecuted",
+    "runtimeEffectAllFalse"
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_ALLOWED_FIELDS = new Set([
+  ...REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SOURCE_STATE_FIELDS,
+  ...REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SOURCE_DISPOSITION_FIELDS,
+  ...REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_AGGREGATION_SUMMARY_FIELDS,
+  ...HUMAN_TOOL_INSPECTION_DISPOSITION_INSPECTION_SUMMARY_FIELDS,
+  ...REVIEW_ONLY_DISPOSITION_AGGREGATION_DISPOSITION_SUMMARY_FIELDS,
+  ...NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_SUMMARY_FIELDS,
+  ...NON_AUTHORIZING_EVALUATOR_DECISION_PIPELINE_SUMMARY_FIELDS,
+  ...NON_AUTHORIZING_EVALUATOR_DECISION_INTEGRATED_SUMMARY_FIELDS
+]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SOURCE_STATE_CHECKS =
+  Object.freeze([
+    [
+      "schema",
+      (value) => value === REVIEW_ONLY_DISPOSITION_AGGREGATION_STATE_SCHEMA
+    ],
+    [
+      "schemaVersion",
+      (value) => value === REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_VERSION
+    ],
+    [
+      "stateKind",
+      (value) => value === "review-only-disposition-aggregation-state"
+    ],
+    ["stateMode", (value) => value === "review-only"],
+    ["reviewedAt", isUtcIsoTimestampWithMilliseconds],
+    ["sourceDispositionState", isPlainObjectRecord],
+    ["pipelineSummary", isPlainObjectRecord],
+    ["integratedReviewSummary", isPlainObjectRecord],
+    ["decisionCandidateSummary", isPlainObjectRecord],
+    ["inspectionSummary", isPlainObjectRecord],
+    ["dispositionSummary", isPlainObjectRecord],
+    ["aggregationSummary", isPlainObjectRecord],
+    ["dispositionStateAccepted", (value) => value === true],
+    ["aggregationMetadataOnly", (value) => value === true],
+    ["runtimeEffect", isPlainObjectRecord]
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SOURCE_DISPOSITION_CHECKS =
+  Object.freeze([
+    ["schema", (value) => value === HUMAN_TOOL_INSPECTION_DISPOSITION_STATE_SCHEMA],
+    [
+      "stateKind",
+      (value) => value === "review-only-human-tool-inspection-disposition-state"
+    ],
+    ["stateMode", (value) => value === "review-only"],
+    ["reviewedAt", isUtcIsoTimestampWithMilliseconds],
+    [
+      "stateDigest",
+      (value) =>
+        typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourceInspectionArtifactDigest",
+      (value) =>
+        typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourceDecisionCandidateStateDigest",
+      (value) =>
+        typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourcePreflightCheckpointStateDigest",
+      (value) =>
+        typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourceIntakeCheckpointStateDigest",
+      (value) =>
+        typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourceEvaluatorInputCandidateDigest",
+      (value) =>
+        typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    ["inspectionArtifactAccepted", (value) => value === true],
+    ["reviewArtifactOnly", (value) => value === true],
+    ["dispositionStateIsApprovalDecision", (value) => value === false],
+    ["dispositionStateIsApprovalGrant", (value) => value === false],
+    ["evaluatorResultProduced", (value) => value === false],
+    ["approvalDecisionProduced", (value) => value === false],
+    ["approvalGrantProduced", (value) => value === false],
+    ["approvalGrantPersisted", (value) => value === false],
+    ["evaluatorExecuted", (value) => value === false],
+    ["runtimeEffectAllFalse", (value) => value === true]
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_AGGREGATION_SUMMARY_CHECKS =
+  Object.freeze([
+    [
+      "aggregationKind",
+      (value) => value === "review-only-disposition-aggregation-checkpoint"
+    ],
+    ["aggregationMode", (value) => value === "review-only"],
+    [
+      "sourceDispositionClassification",
+      (value) => value === VALID_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION
+    ],
+    ["aggregationMetadataOnly", (value) => value === true],
+    ["reviewerRoutingPerformed", (value) => value === false],
+    ["evaluatorResultProduced", (value) => value === false],
+    ["approvalDecisionProduced", (value) => value === false],
+    ["approvalGrantProduced", (value) => value === false],
+    ["runtimePermissionGranted", (value) => value === false],
+    ["commandExposurePermissionGranted", (value) => value === false],
+    ["evaluatorExecuted", (value) => value === false],
+    ["runtimeEffectAllFalse", (value) => value === true]
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_EVALUATOR_RESULT_FALSE_PATHS =
+  Object.freeze([
+    Object.freeze(["evaluatorResultProduced"]),
+    Object.freeze(["evaluatorResultPersisted"]),
+    Object.freeze(["sourceDispositionState", "evaluatorResultProduced"]),
+    Object.freeze(["aggregationSummary", "evaluatorResultProduced"]),
+    Object.freeze(["inspectionSummary", "evaluatorResultProduced"]),
+    Object.freeze(["dispositionSummary", "evaluatorResultProduced"])
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_EVALUATOR_RESULT_NULL_PATHS =
+  Object.freeze([Object.freeze(["evaluatorResultId"])]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_EVALUATOR_RESULT_OBJECT_FIELDS =
+  Object.freeze([
+    "evaluatorResult",
+    "evaluationResult",
+    "evaluatorOutput",
+    "evaluatorOutcome",
+    "resultProduced"
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_DECISION_FALSE_PATHS =
+  Object.freeze([
+    Object.freeze(["aggregationCheckpointIsApprovalDecision"]),
+    Object.freeze(["approvalDecisionProduced"]),
+    Object.freeze(["approvalDecisionPersisted"]),
+    Object.freeze(["sourceDispositionState", "dispositionStateIsApprovalDecision"]),
+    Object.freeze(["inspectionSummary", "approvalDecisionProduced"]),
+    Object.freeze(["decisionCandidateSummary", "approvalDecisionProduced"]),
+    Object.freeze(["dispositionSummary", "approvalDecisionProduced"]),
+    Object.freeze(["aggregationSummary", "approvalDecisionProduced"])
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_DECISION_NULL_PATHS =
+  Object.freeze([Object.freeze(["approvalDecisionId"])]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_DECISION_TRUE_FIELDS =
+  Object.freeze([
+    "approvalDecision",
+    "approvalDecisionResult",
+    "approvalDecisionGranted",
+    "approvalDecisionAccepted",
+    "approvalDecisionAuthorized",
+    "aggregationInspectionHandoffIsApprovalDecision"
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_GRANT_FALSE_PATHS =
+  Object.freeze([
+    Object.freeze(["aggregationCheckpointIsApprovalGrant"]),
+    Object.freeze(["approvalGrantProduced"]),
+    Object.freeze(["approvalGrantPersisted"]),
+    Object.freeze(["sourceDispositionState", "dispositionStateIsApprovalGrant"]),
+    Object.freeze(["sourceDispositionState", "approvalGrantProduced"]),
+    Object.freeze(["sourceDispositionState", "approvalGrantPersisted"]),
+    Object.freeze(["integratedReviewSummary", "reviewSummaryIsApprovalGrant"]),
+    Object.freeze(["integratedReviewSummary", "approvalGrantProduced"]),
+    Object.freeze(["integratedReviewSummary", "approvalGrantPersisted"]),
+    Object.freeze(["inspectionSummary", "approvalGrantProduced"]),
+    Object.freeze(["decisionCandidateSummary", "approvalGrantProduced"]),
+    Object.freeze(["dispositionSummary", "approvalGrantProduced"]),
+    Object.freeze(["aggregationSummary", "approvalGrantProduced"])
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_GRANT_NULL_PATHS =
+  Object.freeze([
+    Object.freeze(["approvalGrantId"]),
+    Object.freeze(["integratedReviewSummary", "approvalGrantId"])
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_GRANT_TRUE_PATHS =
+  Object.freeze([
+    Object.freeze(["approvalGrant", "produced"]),
+    Object.freeze(["approvalGrant", "persisted"])
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_GENERIC_GRANT_TRUE_FIELDS =
+  Object.freeze([
+    "grantProduced",
+    "grantPersisted",
+    "grantCreated",
+    "grantIssued",
+    "grantAuthorized",
+    "grantAccepted",
+    "runtimeGrantProduced",
+    "permissionGrantProduced"
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_EVALUATOR_EXECUTION_TRUE_FIELDS =
+  Object.freeze([
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecutionPerformed",
+    "evaluatorExecuted"
+  ]);
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_REVIEWER_ROUTING_FIELDS =
+  Object.freeze([
+    "reviewerRouting",
+    "reviewerRoute",
+    "reviewerQueue",
+    "reviewerAssignment",
+    "assignedReviewer",
+    "assignedReviewers",
+    "routing",
+    "routingDecision",
+    "routingResult",
+    "routeReviewer",
+    "reviewerRoutingPermissionGranted"
+  ]);
+
+function reviewOnlyAggregationInspectionHandoffUnexpectedUnsafeField(
+  value,
+  seen = new Set()
+) {
+  if (Array.isArray(value)) {
+    return value.some((entry) =>
+      reviewOnlyAggregationInspectionHandoffUnexpectedUnsafeField(entry, seen)
+    );
+  }
+
+  if (!isPlainObjectRecord(value) || seen.has(value)) {
+    return false;
+  }
+
+  seen.add(value);
+
+  return Object.entries(value).some(
+    ([key, entry]) =>
+      (!REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_ALLOWED_FIELDS.has(key) &&
+        APPROVAL_EVALUATOR_CANDIDATE_UNSAFE_TRUE_FIELD_PATTERN.test(key)) ||
+      reviewOnlyAggregationInspectionHandoffUnexpectedUnsafeField(entry, seen)
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffKeyPresent(
+  value,
+  keys,
+  seen = new Set()
+) {
+  if (Array.isArray(value)) {
+    return value.some((entry) =>
+      reviewOnlyAggregationInspectionHandoffKeyPresent(entry, keys, seen)
+    );
+  }
+
+  if (!isPlainObjectRecord(value) || seen.has(value)) {
+    return false;
+  }
+
+  seen.add(value);
+
+  return Object.entries(value).some(
+    ([key, entry]) =>
+      keys.includes(key) ||
+      reviewOnlyAggregationInspectionHandoffKeyPresent(entry, keys, seen)
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffUnknown(aggregationState) {
+  return (
+    (typeof aggregationState.schema === "string" &&
+      aggregationState.schema !== REVIEW_ONLY_DISPOSITION_AGGREGATION_STATE_SCHEMA) ||
+    (typeof aggregationState.stateKind === "string" &&
+      aggregationState.stateKind !== "review-only-disposition-aggregation-state")
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffRevoked(aggregationState) {
+  return (
+    aggregationState.revoked === true ||
+    (isPlainObjectRecord(aggregationState.revocation) &&
+      aggregationState.revocation.revoked === true)
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffStale(aggregationState) {
+  return (
+    isUtcIsoTimestampWithMilliseconds(aggregationState.reviewedAt) &&
+    aggregationState.reviewedAt <
+      REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_MIN_REVIEWED_AT
+  );
+}
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_MALFORMED_CHECKS =
+  Object.freeze([
+    (aggregationState) =>
+      !recordHasExactFields(
+        aggregationState,
+        REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SOURCE_STATE_FIELDS
+      ),
+    (aggregationState) =>
+      !recordPassesChecks(
+        aggregationState,
+        REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SOURCE_STATE_CHECKS
+      ),
+    (aggregationState) =>
+      !recordHasExactFields(
+        aggregationState.sourceDispositionState,
+        REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SOURCE_DISPOSITION_FIELDS
+      ),
+    (aggregationState) =>
+      !recordPassesChecks(
+        aggregationState.sourceDispositionState,
+        REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SOURCE_DISPOSITION_CHECKS
+      ),
+    (aggregationState) =>
+      !recordHasExactFields(
+        aggregationState.pipelineSummary,
+        NON_AUTHORIZING_EVALUATOR_DECISION_PIPELINE_SUMMARY_FIELDS
+      ),
+    (aggregationState) =>
+      !recordPassesChecks(
+        aggregationState.pipelineSummary,
+        PREREQUISITE_REVIEW_ARTIFACT_PIPELINE_CHECKS
+      ),
+    (aggregationState) =>
+      !recordHasExactFields(
+        aggregationState.integratedReviewSummary,
+        NON_AUTHORIZING_EVALUATOR_DECISION_INTEGRATED_SUMMARY_FIELDS
+      ),
+    (aggregationState) =>
+      !recordPassesChecks(
+        aggregationState.integratedReviewSummary,
+        PREREQUISITE_REVIEW_ARTIFACT_SUMMARY_CHECKS
+      ),
+    (aggregationState) =>
+      !recordHasExactFields(
+        aggregationState.decisionCandidateSummary,
+        NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_SUMMARY_FIELDS
+      ),
+    (aggregationState) =>
+      !recordPassesChecks(
+        aggregationState.decisionCandidateSummary,
+        NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_SUMMARY_CHECKS
+      ),
+    (aggregationState) =>
+      !recordHasExactFields(
+        aggregationState.inspectionSummary,
+        HUMAN_TOOL_INSPECTION_DISPOSITION_INSPECTION_SUMMARY_FIELDS
+      ),
+    (aggregationState) =>
+      !recordPassesChecks(
+        aggregationState.inspectionSummary,
+        HUMAN_TOOL_INSPECTION_DISPOSITION_INSPECTION_SUMMARY_CHECKS
+      ),
+    (aggregationState) =>
+      !recordHasExactFields(
+        aggregationState.dispositionSummary,
+        REVIEW_ONLY_DISPOSITION_AGGREGATION_DISPOSITION_SUMMARY_FIELDS
+      ),
+    (aggregationState) =>
+      !recordPassesChecks(
+        aggregationState.dispositionSummary,
+        REVIEW_ONLY_DISPOSITION_AGGREGATION_DISPOSITION_SUMMARY_CHECKS
+      ),
+    (aggregationState) =>
+      !recordHasExactFields(
+        aggregationState.aggregationSummary,
+        REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_AGGREGATION_SUMMARY_FIELDS
+      ),
+    (aggregationState) =>
+      !recordPassesChecks(
+        aggregationState.aggregationSummary,
+        REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_AGGREGATION_SUMMARY_CHECKS
+      ),
+    (aggregationState) =>
+      !recordPassesChecks(
+        aggregationState,
+        REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_REQUIRED_FALSE_FIELDS.map(
+          (field) => [field, (value) => value === false]
+        )
+      ),
+    (aggregationState) =>
+      !recordPassesChecks(
+        aggregationState,
+        REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_REQUIRED_NULL_FIELDS.map(
+          (field) => [field, (value) => value === null]
+        )
+      ),
+    (aggregationState) =>
+      !reviewOnlyRuntimeEffectAllFalse(aggregationState.runtimeEffect)
+  ]);
+
+function reviewOnlyAggregationInspectionHandoffMalformed(aggregationState) {
+  return REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_MALFORMED_CHECKS.some(
+    (predicate) => predicate(aggregationState)
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffGrantLooking(aggregationState) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    aggregationState,
+    (key) =>
+      REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_GENERIC_GRANT_TRUE_FIELDS.includes(
+        key
+      )
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffApprovalDecisionLooking(
+  aggregationState
+) {
+  return (
+    REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_DECISION_FALSE_PATHS.some(
+      (path) =>
+        reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+          aggregationState,
+          path,
+          false
+        )
+    ) ||
+    REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_DECISION_NULL_PATHS.some(
+      (path) =>
+        reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+          aggregationState,
+          path,
+          null
+        )
+    ) ||
+    reviewOnlyAggregationInspectionHandoffKeyPresent(
+      aggregationState,
+      REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_DECISION_TRUE_FIELDS
+    )
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffApprovalGrantLooking(
+  aggregationState
+) {
+  return (
+    REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_GRANT_FALSE_PATHS.some(
+      (path) =>
+        reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+          aggregationState,
+          path,
+          false
+        )
+    ) ||
+    REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_GRANT_NULL_PATHS.some(
+      (path) =>
+        reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+          aggregationState,
+          path,
+          null
+        )
+    ) ||
+    REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_APPROVAL_GRANT_TRUE_PATHS.some(
+      (path) =>
+        reviewOnlyEvaluatorPreflightPathValue(aggregationState, path) === true
+    )
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffEvaluatorResultLooking(
+  aggregationState
+) {
+  return (
+    REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_EVALUATOR_RESULT_FALSE_PATHS.some(
+      (path) =>
+        reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+          aggregationState,
+          path,
+          false
+        )
+    ) ||
+    REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_EVALUATOR_RESULT_NULL_PATHS.some(
+      (path) =>
+        reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+          aggregationState,
+          path,
+          null
+        )
+    ) ||
+    reviewOnlyAggregationInspectionHandoffKeyPresent(
+      aggregationState,
+      REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_EVALUATOR_RESULT_OBJECT_FIELDS
+    )
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffEvaluatorExecutionLooking(
+  aggregationState
+) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    aggregationState,
+    (key) =>
+      REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_EVALUATOR_EXECUTION_TRUE_FIELDS.includes(
+        key
+      )
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffReviewerRoutingLooking(
+  aggregationState
+) {
+  return reviewOnlyAggregationInspectionHandoffKeyPresent(
+    aggregationState,
+    REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_REVIEWER_ROUTING_FIELDS
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffRuntimePermissionLooking(
+  aggregationState
+) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    aggregationState,
+    (key) =>
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_RUNTIME_PERMISSION_TRUE_FIELDS.includes(key)
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffCommandExposureLooking(
+  aggregationState
+) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    aggregationState,
+    (key) =>
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_COMMAND_EXPOSURE_TRUE_FIELDS.includes(key)
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffRuntimeEffectTrue(
+  aggregationState
+) {
+  return approvalEvaluatorCandidateRuntimeEffectTrue(aggregationState);
+}
+
+function reviewOnlyAggregationInspectionHandoffProcessFlagTrue(aggregationState) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    aggregationState,
+    (key) => APPROVAL_EVALUATOR_CANDIDATE_PROCESS_TRUE_FIELDS.includes(key)
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffUnsafeTrueSurface(
+  aggregationState
+) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    aggregationState,
+    (key) => APPROVAL_EVALUATOR_CANDIDATE_UNSAFE_TRUE_FIELD_PATTERN.test(key)
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffExecutionSignalLooking(
+  aggregationState
+) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    aggregationState,
+    (key) => REVIEW_ONLY_EVALUATOR_PREFLIGHT_EXECUTION_SIGNAL_TRUE_FIELDS.includes(key)
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffAuthorizing(aggregationState) {
+  return approvalEvaluatorCandidateNestedTrueClaim(
+    aggregationState,
+    (key) =>
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_AUTHORITATIVE_TRUE_FIELDS.includes(key)
+  );
+}
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SINGLE_REJECTION_CHECKS =
+  Object.freeze([
+    [
+      (aggregationState) => !isPlainObjectRecord(aggregationState),
+      "malformed_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffUnknown,
+      "unknown_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffRevoked,
+      "revoked_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffStale,
+      "stale_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffApprovalDecisionLooking,
+      "approval_decision_looking_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffUnexpectedUnsafeField,
+      "unsafe_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffGrantLooking,
+      "grant_looking_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffApprovalGrantLooking,
+      "approval_grant_looking_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffEvaluatorResultLooking,
+      "evaluator_result_looking_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffEvaluatorExecutionLooking,
+      "evaluator_execution_looking_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffReviewerRoutingLooking,
+      "reviewer_routing_looking_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffRuntimePermissionLooking,
+      "runtime_permission_looking_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffCommandExposureLooking,
+      "command_exposure_looking_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffRuntimeEffectTrue,
+      "runtime_effect_true_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffProcessFlagTrue,
+      "process_flag_true_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffUnsafeTrueSurface,
+      "unsafe_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffExecutionSignalLooking,
+      "execution_signal_looking_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffAuthorizing,
+      "authorizing_review_only_aggregation_inspection_handoff_input_rejected"
+    ],
+    [
+      reviewOnlyAggregationInspectionHandoffMalformed,
+      "malformed_review_only_aggregation_inspection_handoff_input_rejected"
+    ]
+  ]);
+
+function reviewOnlyAggregationInspectionHandoffSingleClassification(
+  aggregationState
+) {
+  return (
+    REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SINGLE_REJECTION_CHECKS.find(
+      ([predicate]) => predicate(aggregationState)
+    )?.[1] ??
+    VALID_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION
+  );
+}
+
+function firstReviewOnlyAggregationInspectionHandoffRejection(
+  aggregationStates
+) {
+  return (
+    aggregationStates
+      .map(reviewOnlyAggregationInspectionHandoffSingleClassification)
+      .find(
+        (classification) =>
+          classification !==
+          VALID_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION
+      ) ?? null
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffStatesContainDuplicate(
+  aggregationStates
+) {
+  const digests = aggregationStates.map((aggregationState) =>
+    reviewArtifactHandoffDigest(aggregationState)
+  );
+
+  return new Set(digests).size !== digests.length;
+}
+
+const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_RESOLVERS = Object.freeze([
+  (aggregationStates) =>
+    aggregationStates === undefined
+      ? "missing_review_only_aggregation_inspection_handoff_input_rejected"
+      : null,
+  (aggregationStates) =>
+    !Array.isArray(aggregationStates)
+      ? "malformed_review_only_aggregation_inspection_handoff_input_rejected"
+      : null,
+  (aggregationStates) =>
+    aggregationStates.length === 0
+      ? "empty_review_only_aggregation_inspection_handoff_input_rejected"
+      : null,
+  firstReviewOnlyAggregationInspectionHandoffRejection,
+  (aggregationStates) =>
+    reviewOnlyAggregationInspectionHandoffStatesContainDuplicate(
+      aggregationStates
+    )
+      ? "duplicate_invalid_review_only_aggregation_inspection_handoff_input_rejected"
+      : null,
+  (aggregationStates) =>
+    aggregationStates.length > 1
+      ? "conflicting_review_only_aggregation_inspection_handoff_input_rejected"
+      : null
+]);
+
+function reviewOnlyAggregationInspectionHandoffClassification(
+  aggregationStates
+) {
+  let classification = null;
+
+  REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_RESOLVERS.some((resolver) => {
+    classification = resolver(aggregationStates);
+    return classification !== null;
+  });
+
+  return (
+    classification ??
+    VALID_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffSummary() {
+  return {
+    handoffKind: "review-only-aggregation-inspection-handoff",
+    handoffMode: "review-only",
+    sourceAggregationClassification:
+      VALID_REVIEW_ONLY_DISPOSITION_AGGREGATION_CLASSIFICATION,
+    inspectionHandoffMetadataOnly: true,
+    reviewerRoutingPerformed: false,
+    evaluatorExecutionPerformed: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    evaluatorExecuted: false,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function reviewOnlyAggregationInspectionHandoffStateFromAggregationState(
+  aggregationState,
+  reviewedAt
+) {
+  return {
+    schema: REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_STATE_SCHEMA,
+    schemaVersion: REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_VERSION,
+    stateKind: "review-only-aggregation-inspection-handoff-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourceAggregationState: {
+      schema: aggregationState.schema,
+      stateKind: aggregationState.stateKind,
+      stateMode: aggregationState.stateMode,
+      reviewedAt: aggregationState.reviewedAt,
+      stateDigest: reviewArtifactHandoffDigest(aggregationState),
+      sourceDispositionStateDigest:
+        aggregationState.sourceDispositionState.stateDigest,
+      sourceInspectionArtifactDigest:
+        aggregationState.sourceDispositionState.sourceInspectionArtifactDigest,
+      sourceDecisionCandidateStateDigest:
+        aggregationState.sourceDispositionState.sourceDecisionCandidateStateDigest,
+      sourcePreflightCheckpointStateDigest:
+        aggregationState.sourceDispositionState
+          .sourcePreflightCheckpointStateDigest,
+      sourceIntakeCheckpointStateDigest:
+        aggregationState.sourceDispositionState.sourceIntakeCheckpointStateDigest,
+      sourceEvaluatorInputCandidateDigest:
+        aggregationState.sourceDispositionState
+          .sourceEvaluatorInputCandidateDigest,
+      dispositionStateAccepted: true,
+      aggregationMetadataOnly: true,
+      aggregationCheckpointIsReviewerRouting: false,
+      aggregationCheckpointIsApprovalDecision: false,
+      aggregationCheckpointIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      evaluatorResultProduced: false,
+      approvalDecisionProduced: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      evaluatorExecuted: false,
+      runtimeEffectAllFalse: true
+    },
+    pipelineSummary: reviewOnlyEvaluatorPreflightPipelineSummary(
+      aggregationState.pipelineSummary
+    ),
+    integratedReviewSummary: reviewOnlyEvaluatorPreflightIntegratedSummary(
+      aggregationState.integratedReviewSummary
+    ),
+    decisionCandidateSummary:
+      nonAuthorizingEvaluatorDecisionCandidateSummary(),
+    inspectionSummary:
+      nonAuthorizingEvaluatorDecisionCandidateInspectionSummary(),
+    dispositionSummary: humanToolInspectionDispositionSummary(),
+    aggregationSummary: reviewOnlyDispositionAggregationSummary(),
+    handoffSummary: reviewOnlyAggregationInspectionHandoffSummary(),
+    aggregationStateAccepted: true,
+    inspectionHandoffMetadataOnly: true,
+    handoffIsReviewerRouting: false,
+    handoffIsEvaluatorExecution: false,
+    handoffIsEvaluatorResult: false,
+    handoffIsApprovalDecision: false,
+    handoffIsApprovalGrant: false,
+    reviewerRoutingPerformed: false,
+    reviewerRoutingEnabled: false,
+    reviewerRouteId: null,
+    evaluatorResultProduced: false,
+    evaluatorResultPersisted: false,
+    evaluatorResultId: null,
+    approvalDecisionProduced: false,
+    approvalDecisionPersisted: false,
+    approvalDecisionId: null,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionRequested: false,
+    evaluatorExecutionStarted: false,
+    evaluatorExecutionEnabled: false,
+    evaluatorExecuted: false,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function reviewOnlyAggregationInspectionHandoffRejectionReasons({
+  accepted,
+  classification
+}) {
+  if (accepted) {
+    return [
+      "aggregation_inspection_handoff_is_review_only",
+      "reviewer_routing_not_implemented",
+      "evaluator_execution_not_implemented",
+      "evaluator_result_not_implemented",
+      "approval_decision_not_implemented",
+      "approval_grant_not_implemented",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    classification,
+    "aggregation_inspection_handoff_state_not_produced",
+    "reviewer_routing_not_implemented",
+    "evaluator_execution_not_implemented",
+    "evaluator_result_not_implemented",
+    "approval_decision_not_implemented",
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function reviewOnlyAggregationInspectionHandoffInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function reviewOnlyAggregationInspectionHandoffReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function reviewOnlyAggregationInspectionHandoffInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt))
+  );
+}
+
+function reviewOnlyAggregationInspectionHandoffAggregationStates(inputRecord) {
+  return inputRecord === null ? undefined : inputRecord.aggregationStates;
+}
+
+function reviewOnlyAggregationInspectionHandoffInputClassification(
+  inputRecord,
+  aggregationStates
+) {
+  return reviewOnlyAggregationInspectionHandoffInputMalformed(inputRecord)
+    ? MALFORMED_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION
+    : reviewOnlyAggregationInspectionHandoffClassification(aggregationStates);
+}
+
+function reviewOnlyAggregationInspectionHandoffSummaryFromAggregationState(
+  aggregationState
+) {
+  return {
+    schema: aggregationState.schema,
+    stateKind: aggregationState.stateKind,
+    stateMode: aggregationState.stateMode,
+    reviewedAt: aggregationState.reviewedAt,
+    stateDigest: reviewArtifactHandoffDigest(aggregationState),
+    aggregationCheckpointIsReviewerRouting: false,
+    aggregationCheckpointIsApprovalDecision: false,
+    aggregationCheckpointIsApprovalGrant: false,
+    reviewerRoutingPerformed: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    evaluatorExecuted: false,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function reviewOnlyAggregationInspectionHandoffAcceptedOutput({
+  accepted,
+  aggregationStates,
+  reviewedAt
+}) {
+  if (!accepted) {
+    return {
+      inspectionHandoffState: null,
+      aggregationSummary: null
+    };
+  }
+
+  const aggregationState = aggregationStates[0];
+
+  return {
+    inspectionHandoffState:
+      reviewOnlyAggregationInspectionHandoffStateFromAggregationState(
+        aggregationState,
+        reviewedAt
+      ),
+    aggregationSummary:
+      reviewOnlyAggregationInspectionHandoffSummaryFromAggregationState(
+        aggregationState
+      )
+  };
+}
+
+function reviewOnlyAggregationInspectionHandoffResult({
+  reviewedAt,
+  classification,
+  accepted,
+  inspectionHandoffState,
+  aggregationSummary
+}) {
+  return {
+    schema: REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SCHEMA,
+    schemaVersion: REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_VERSION,
+    handoffKind: REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_KIND,
+    handoffMode: "review-only",
+    reviewedAt,
+    classification,
+    aggregationStateAccepted: accepted,
+    inspectionHandoffStateProduced: accepted,
+    handoffIsReviewerRouting: false,
+    handoffIsEvaluatorExecution: false,
+    handoffIsEvaluatorResult: false,
+    handoffIsApprovalDecision: false,
+    handoffIsApprovalGrant: false,
+    inspectionHandoffState,
+    aggregationSummary,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    inspectionHandoffMetadataOnly: true,
+    reviewerRoutingPerformed: false,
+    reviewerRoutingEnabled: false,
+    reviewerRouteId: null,
+    evaluatorResultProduced: false,
+    evaluatorResultPersisted: false,
+    evaluatorResultId: null,
+    approvalDecisionProduced: false,
+    approvalDecisionPersisted: false,
+    approvalDecisionId: null,
+    approvalGrant: sourcePreflightGrantBlocked(),
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionRequested: false,
+    evaluatorExecutionStarted: false,
+    evaluatorExecutionEnabled: false,
+    evaluatorExecuted: false,
+    rejectionReasons: reviewOnlyAggregationInspectionHandoffRejectionReasons({
+      accepted,
+      classification
+    }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createReviewOnlyAggregationInspectionHandoffForReview(
+  input = {}
+) {
+  const inputRecord = reviewOnlyAggregationInspectionHandoffInputRecord(input);
+  const reviewedAt =
+    reviewOnlyAggregationInspectionHandoffReviewedAt(inputRecord);
+  const aggregationStates =
+    reviewOnlyAggregationInspectionHandoffAggregationStates(inputRecord);
+  const classification =
+    reviewOnlyAggregationInspectionHandoffInputClassification(
+      inputRecord,
+      aggregationStates
+    );
+  const accepted =
+    classification ===
+    VALID_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION;
+  const { inspectionHandoffState, aggregationSummary } =
+    reviewOnlyAggregationInspectionHandoffAcceptedOutput({
+      accepted,
+      aggregationStates,
+      reviewedAt
+    });
+
+  return reviewOnlyAggregationInspectionHandoffResult({
+    reviewedAt,
+    classification,
+    accepted,
+    inspectionHandoffState,
     aggregationSummary
   });
 }
