@@ -384,10 +384,10 @@ test("Phase 4.1E status report inventories failure-audit contracts without runni
   const inventory = report.phase41EFailureAuditInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.24",
-    name: "Prerequisite evaluation integration checkpoint",
+    id: "5.25",
+    name: "Non-authorizing review artifact boundary",
     executionPosture:
-      "prerequisite-evaluation-integration-checkpoint runtime-disabled no-runtime-execution"
+      "non-authorizing-review-artifact-boundary runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

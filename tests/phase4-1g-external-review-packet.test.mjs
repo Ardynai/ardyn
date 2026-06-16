@@ -569,10 +569,10 @@ test("Phase 4.1G status report inventories packet without running checks", async
   const inventory = report.phase41GExternalReviewPacketInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.24",
-    name: "Prerequisite evaluation integration checkpoint",
+    id: "5.25",
+    name: "Non-authorizing review artifact boundary",
     executionPosture:
-      "prerequisite-evaluation-integration-checkpoint runtime-disabled no-runtime-execution"
+      "non-authorizing-review-artifact-boundary runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

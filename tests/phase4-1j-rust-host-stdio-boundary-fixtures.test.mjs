@@ -169,10 +169,10 @@ test("Phase 4.1J report inventories fixture-backed Rust harness coverage without
   const inventory = report.phase41JFixtureBackedStdioBoundaryInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.24",
-    name: "Prerequisite evaluation integration checkpoint",
+    id: "5.25",
+    name: "Non-authorizing review artifact boundary",
     executionPosture:
-      "prerequisite-evaluation-integration-checkpoint runtime-disabled no-runtime-execution"
+      "non-authorizing-review-artifact-boundary runtime-disabled no-runtime-execution"
   });
   assert.equal(inventory.boundaryLayer.fixtureBackedRustHostCoverage, true);
   assert.equal(inventory.boundaryLayer.privateRustCfgTestHarness, true);

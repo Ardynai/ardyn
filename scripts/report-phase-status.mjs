@@ -181,6 +181,9 @@ const phase523PrerequisiteBundleConsumptionCheckpointMetadata = await readJson(
 const phase524PrerequisiteEvaluationIntegrationCheckpointMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-24/prerequisite-evaluation-integration-checkpoint.json"
 );
+const phase525NonAuthorizingReviewArtifactBoundaryMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-25/non-authorizing-review-artifact-boundary.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -228,10 +231,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.24",
-    name: "Prerequisite evaluation integration checkpoint",
+    id: "5.25",
+    name: "Non-authorizing review artifact boundary",
     executionPosture:
-      "prerequisite-evaluation-integration-checkpoint runtime-disabled no-runtime-execution"
+      "non-authorizing-review-artifact-boundary runtime-disabled no-runtime-execution"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -279,12 +282,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.24 prerequisite evaluation integration checkpoint status report.",
+        "Render this deterministic local Phase 5.25 non-authorizing review artifact boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.24 status report.",
+      purpose: "Run focused tests for this local Phase 5.25 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-25-non-authorizing-review-artifact-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.25 non-authorizing review artifact boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -12296,6 +12306,226 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase525NonAuthorizingReviewArtifactBoundaryInventory: {
+    statusLayer: {
+      document:
+        "docs/phase-5-25-non-authorizing-review-artifact-boundary.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-25/non-authorizing-review-artifact-boundary.json",
+      sourcePrerequisiteEvaluationIntegrationDocument:
+        "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+      sourcePrerequisiteEvaluationIntegrationFixture:
+        "tests/fixtures/host-policy/phase5-24/prerequisite-evaluation-integration-checkpoint.json",
+      precedingPhase: "5.24",
+      layerId: "non-authorizing-review-artifact-boundary",
+      scope:
+        "phase-5-non-authorizing-review-artifact-boundary-review-only-runtime-disabled",
+      artifactBoundaryRecorded:
+        phase525NonAuthorizingReviewArtifactBoundaryMetadata
+          .artifactBoundarySummary.artifactBoundaryRecorded,
+      boundaryKind:
+        phase525NonAuthorizingReviewArtifactBoundaryMetadata
+          .artifactBoundarySummary.boundaryKind,
+      boundaryReviewOnly: true,
+      boundaryAuthoritative: false,
+      integratedReviewSummaryAccepted: true,
+      missingPrerequisiteInputsRejected: true,
+      malformedPrerequisiteInputsRejected: true,
+      emptyPrerequisiteInputsRejected: true,
+      conflictingPrerequisiteInputsRejected: true,
+      stalePrerequisiteInputsRejected: true,
+      revokedPrerequisiteInputsRejected: true,
+      unknownPrerequisiteInputsRejected: true,
+      duplicateInvalidPrerequisiteInputsRejected: true,
+      validIntegratedSummariesProduceReviewArtifact: true,
+      reviewArtifactIsApprovalGrant: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase525NonAuthorizingReviewArtifactBoundaryMetadata
+          .artifactBoundarySummary.serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-25-non-authorizing-review-artifact-boundary.md",
+        "Records the Phase 5.25 non-authorizing review artifact boundary while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+        "Provides the Phase 5.25 source integrated prerequisite review summary."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.25 as current docs/status mode while runtime execution remains blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.25 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.25 changes no Rust-host runtime source and records a TypeScript review-artifact boundary helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+      "docs/phase-5-25-non-authorizing-review-artifact-boundary.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-25/non-authorizing-review-artifact-boundary.json",
+        "Records non-authorizing review artifact boundary cases while grants and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.25 report metadata, docs cross-links, boundary fixture, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-25-non-authorizing-review-artifact-boundary.test.mjs",
+        "Pins the Phase 5.25 boundary helper, fixture shape, non-authorizing artifact, serve-runtime rejection, command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+        "docs/phase-5-25-non-authorizing-review-artifact-boundary.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-25/non-authorizing-review-artifact-boundary.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-25-non-authorizing-review-artifact-boundary.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase525NonAuthorizingReviewArtifactBoundaryMetadata.sourcePhase,
+    artifactBoundarySummary:
+      phase525NonAuthorizingReviewArtifactBoundaryMetadata
+        .artifactBoundarySummary,
+    artifactInputShape:
+      phase525NonAuthorizingReviewArtifactBoundaryMetadata.artifactInputShape,
+    artifactResultShape:
+      phase525NonAuthorizingReviewArtifactBoundaryMetadata.artifactResultShape,
+    artifactBoundaryCases:
+      phase525NonAuthorizingReviewArtifactBoundaryMetadata.artifactBoundaryCases,
+    reviewArtifactBoundary:
+      phase525NonAuthorizingReviewArtifactBoundaryMetadata
+        .reviewArtifactBoundary,
+    blockedRuntimeEffect:
+      phase525NonAuthorizingReviewArtifactBoundaryMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase525NonAuthorizingReviewArtifactBoundaryMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase525NonAuthorizingReviewArtifactBoundaryMetadata.forbiddenBehavior,
+    validationCommands:
+      phase525NonAuthorizingReviewArtifactBoundaryMetadata.validationCommands,
+    safetyPosture: {
+      artifactBoundaryRecorded: true,
+      boundaryReviewOnly: true,
+      boundaryAuthoritative: false,
+      integratedReviewSummaryAccepted: true,
+      missingPrerequisiteInputsRejected: true,
+      malformedPrerequisiteInputsRejected: true,
+      emptyPrerequisiteInputsRejected: true,
+      conflictingPrerequisiteInputsRejected: true,
+      stalePrerequisiteInputsRejected: true,
+      revokedPrerequisiteInputsRejected: true,
+      unknownPrerequisiteInputsRejected: true,
+      duplicateInvalidPrerequisiteInputsRejected: true,
+      validIntegratedSummariesProduceReviewArtifact: true,
+      reviewArtifactIsApprovalGrant: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -12353,6 +12583,7 @@ const report = {
     phase522ApprovalPrerequisiteSourceBundle: true,
     phase523PrerequisiteBundleConsumptionCheckpoint: true,
     phase524PrerequisiteEvaluationIntegrationCheckpoint: true,
+    phase525NonAuthorizingReviewArtifactBoundary: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -13210,6 +13441,50 @@ const report = {
       phase524AdapterRuntimeBehaviorEnabled: false,
       phase524ContentFabricRuntimeBehaviorEnabled: false,
       phase524WebSocketHttpSurfaceEnabled: false,
+      phase525NonAuthorizingReviewArtifactBoundaryRecorded: true,
+      phase525BoundaryReviewOnly: true,
+      phase525BoundaryAuthoritative: false,
+      phase525IntegratedReviewSummaryAccepted: true,
+      phase525MissingPrerequisiteInputsRejected: true,
+      phase525MalformedPrerequisiteInputsRejected: true,
+      phase525EmptyPrerequisiteInputsRejected: true,
+      phase525ConflictingPrerequisiteInputsRejected: true,
+      phase525StalePrerequisiteInputsRejected: true,
+      phase525RevokedPrerequisiteInputsRejected: true,
+      phase525UnknownPrerequisiteInputsRejected: true,
+      phase525DuplicateInvalidPrerequisiteInputsRejected: true,
+      phase525ValidIntegratedSummariesProduceReviewArtifact: true,
+      phase525ReviewArtifactIsApprovalGrant: false,
+      phase525ApprovalGrantProduced: false,
+      phase525ApprovalGrantPersisted: false,
+      phase525RuntimePermissionGranted: false,
+      phase525CommandExposurePermissionGranted: false,
+      phase525RuntimeEnabled: false,
+      phase525RuntimeStarted: false,
+      phase525RuntimeReady: false,
+      phase525RuntimeCommandEnabled: false,
+      phase525RuntimeCommandExposureEnabled: false,
+      phase525RuntimeExecutionEnabled: false,
+      phase525RuntimeExecuted: false,
+      phase525ServeRuntimeStillDefaultBlocked: true,
+      phase525DryRunBypassesBlock: false,
+      phase525CanEnableRuntime: false,
+      phase525CliSourceChanged: false,
+      phase525RustSourceChanged: false,
+      phase525FilesystemWatcherEnabled: false,
+      phase525ExternalSourceLookupEnabled: false,
+      phase525SecretsEnvIngestionEnabled: false,
+      phase525LiveStdinLoopEnabled: false,
+      phase525RuntimeStdoutWriterEnabled: false,
+      phase525RuntimeStderrWriterEnabled: false,
+      phase525ProcessSpawnEnabled: false,
+      phase525ProcessTerminationEnabled: false,
+      phase525RuntimeSupervisionEnabled: false,
+      phase525RuntimeTranscriptWritePerformed: false,
+      phase525RuntimeAuditWritePerformed: false,
+      phase525AdapterRuntimeBehaviorEnabled: false,
+      phase525ContentFabricRuntimeBehaviorEnabled: false,
+      phase525WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

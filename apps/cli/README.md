@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.24 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.25 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -276,6 +276,19 @@ Content Fabric runtime behavior, WebSocket/HTTP surface, Rust source change, or
 change to `apps/cli/src/index.mjs`. Valid integration checkpoints cannot produce
 a grant, enable runtime, expose runtime commands, or start runtime.
 `serve-runtime` and `serve-runtime --dry-run` remain default-blocked.
+
+Phase 5.25 adds non-authorizing review artifact boundary docs/status metadata
+and a core review helper only. It represents valid Phase 5.24 integrated review
+summaries only as non-authorizing review artifacts, but adds no Phase 5.25 CLI
+command, review-artifact-boundary command, approval grant command, runtime
+permission command, command-exposure command, runtime start path, live stdin
+loop, stdout/stderr runtime writer, process spawning or supervision, runtime
+transcript/audit write, filesystem watcher, external source lookup, secrets/env
+ingestion, adapter or Content Fabric runtime behavior, WebSocket/HTTP surface,
+Rust source change, or change to `apps/cli/src/index.mjs`. Valid review
+artifacts cannot produce or persist a grant, grant runtime permission, enable
+runtime, expose runtime commands, or start runtime. `serve-runtime` and
+`serve-runtime --dry-run` remain default-blocked.
 See
 `docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md` and
 `docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md` and
@@ -303,7 +316,10 @@ See
 `docs/phase-5-19-approval-prerequisite-reader-hardening.md`, and
 `docs/phase-5-20-approval-prerequisite-source-ingestion-preflight.md`, and
 `docs/phase-5-21-approval-prerequisite-source-selection.md`, and
-`docs/phase-5-22-approval-prerequisite-source-bundle.md`.
+`docs/phase-5-22-approval-prerequisite-source-bundle.md`, and
+`docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md`, and
+`docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md`, and
+`docs/phase-5-25-non-authorizing-review-artifact-boundary.md`.
 
 Phase 4.0C adds pre-runtime transport policy only as the historical predecessor
 to Phase 4.0D; it adds no replay or live runtime CLI.
@@ -781,3 +797,12 @@ enables no runtime, exposes no runtime command, starts no runtime, performs no
 filesystem watching or external lookup, ingests no secrets/env data, and changes
 no CLI source. `serve-runtime` remains default-blocked. See
 `docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md`.
+
+Phase 5.25 records non-authorizing review artifact boundary metadata only. The
+core helper represents valid Phase 5.24 integrated review summaries as
+review-only artifacts, but it is not authoritative, produces or persists no
+approval grant, grants no runtime permission, enables no runtime, exposes no
+runtime command, starts no runtime, performs no filesystem watching or external
+lookup, ingests no secrets/env data, and changes no CLI source.
+`serve-runtime` remains default-blocked. See
+`docs/phase-5-25-non-authorizing-review-artifact-boundary.md`.

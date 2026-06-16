@@ -75,8 +75,7 @@ Phase 5.24 records these validation commands:
 ## Handoff
 
 Phase 5.24 proves the prerequisite pipeline can produce a deterministic
-review-only evaluator summary without producing an approval grant. A future
-phase may compare this integration checkpoint against the complete Phase 5.6
-through 5.16 runtime-enablement prerequisite set. That future phase must still
-keep runtime blocked unless a separate approved runtime-enablement phase
-explicitly changes that posture.
+review-only evaluator summary without producing an approval grant. Phase 5.25
+may represent that integrated summary as a non-authorizing review artifact only.
+That future artifact boundary must still keep runtime blocked unless a separate
+approved runtime-enablement phase explicitly changes that posture.

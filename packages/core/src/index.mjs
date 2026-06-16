@@ -120,6 +120,11 @@ export const APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_SCHEMA =
 export const APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_VERSION = "0.1.0";
 export const APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_KIND =
   "approval-prerequisite-evaluation-integration-checkpoint";
+export const PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_SCHEMA =
+  "ardyn.phase-5.25.prerequisite-review-artifact-boundary-result";
+export const PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_VERSION = "0.1.0";
+export const PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_KIND =
+  "non-authorizing-prerequisite-review-artifact-boundary";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -7237,6 +7242,152 @@ export function evaluatePrerequisiteIntegrationCheckpointForReview(
       bundleConsumption
     }),
     approvalGrant: sourcePreflightGrantBlocked(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+const PREREQUISITE_REVIEW_ARTIFACT_SCHEMA =
+  "ardyn.phase-5.25.non-authorizing-prerequisite-review-artifact";
+
+const PREREQUISITE_REVIEW_ARTIFACT_ACCEPTED_CLASSIFICATIONS = Object.freeze([
+  "valid_prerequisite_review_artifact_non_authorizing_runtime_still_blocked"
+]);
+
+const PREREQUISITE_REVIEW_ARTIFACT_CLASSIFICATION_BY_INTEGRATION =
+  Object.freeze({
+    missing_prerequisite_integration_input_rejected:
+      "missing_prerequisite_review_artifact_input_rejected",
+    malformed_prerequisite_integration_input_rejected:
+      "malformed_prerequisite_review_artifact_input_rejected",
+    empty_prerequisite_integration_input_rejected:
+      "empty_prerequisite_review_artifact_input_rejected",
+    duplicate_prerequisite_integration_input_rejected:
+      "duplicate_invalid_prerequisite_review_artifact_input_rejected",
+    conflicting_prerequisite_integration_input_rejected:
+      "conflicting_prerequisite_review_artifact_input_rejected",
+    stale_prerequisite_integration_input_rejected:
+      "stale_prerequisite_review_artifact_input_rejected",
+    revoked_prerequisite_integration_input_rejected:
+      "revoked_prerequisite_review_artifact_input_rejected",
+    unknown_prerequisite_integration_input_rejected:
+      "unknown_prerequisite_review_artifact_input_rejected",
+    valid_prerequisite_integration_review_summary_runtime_still_blocked:
+      "valid_prerequisite_review_artifact_non_authorizing_runtime_still_blocked"
+  });
+
+function prerequisiteReviewArtifactAccepted(classification) {
+  return PREREQUISITE_REVIEW_ARTIFACT_ACCEPTED_CLASSIFICATIONS.includes(
+    classification
+  );
+}
+
+function prerequisiteReviewArtifactClassification(integratedReview) {
+  return (
+    PREREQUISITE_REVIEW_ARTIFACT_CLASSIFICATION_BY_INTEGRATION[
+      integratedReview.classification
+    ] ?? "malformed_prerequisite_review_artifact_input_rejected"
+  );
+}
+
+function prerequisiteReviewArtifactFromIntegratedReview(integratedReview) {
+  return {
+    schema: PREREQUISITE_REVIEW_ARTIFACT_SCHEMA,
+    schemaVersion: PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_VERSION,
+    artifactKind: "non-authorizing-prerequisite-review-artifact",
+    artifactMode: "review-only",
+    reviewedAt: integratedReview.reviewedAt,
+    sourceIntegrationCheckpoint: {
+      schema: integratedReview.schema,
+      checkpointKind: integratedReview.checkpointKind,
+      classification: integratedReview.classification,
+      reviewSummaryProduced: integratedReview.reviewSummaryProduced,
+      reviewSummaryIsApprovalGrant: false
+    },
+    pipelineSummary: {
+      sourceCount: integratedReview.sourceIngestion.sourceCount,
+      selectedSourceId: integratedReview.sourceSelection.selectedSourceId,
+      selectedBundlePartId: integratedReview.sourceBundle.selectedBundlePartId,
+      readerRecordCount: integratedReview.bundleConsumption.readerRecordCount,
+      evaluatorClassification:
+        integratedReview.bundleConsumption.evaluatorClassification,
+      prerequisiteSignalRecognized:
+        integratedReview.bundleConsumption.prerequisiteSignalRecognized
+    },
+    integratedReviewSummary: integratedReview.reviewOnlyEvaluatorSummary,
+    reviewArtifactIsApprovalGrant: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function prerequisiteReviewArtifactBoundaryIntegratedSummary(integratedReview) {
+  return {
+    schema: integratedReview.schema,
+    checkpointKind: integratedReview.checkpointKind,
+    classification: integratedReview.classification,
+    reviewSummaryProduced: integratedReview.reviewSummaryProduced,
+    reviewSummaryIsApprovalGrant: integratedReview.reviewSummaryIsApprovalGrant,
+    approvalGrantProduced: integratedReview.approvalGrant.produced,
+    runtimeEffectAllFalse: reviewOnlyRuntimeEffectAllFalse(
+      integratedReview.runtimeEffect
+    )
+  };
+}
+
+function prerequisiteReviewArtifactBoundaryRejectionReasons({
+  accepted,
+  integratedReview
+}) {
+  if (accepted) {
+    return [
+      "review_artifact_is_not_approval_grant",
+      "approval_grant_not_implemented",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    ...integratedReview.rejectionReasons,
+    "review_artifact_not_produced",
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+export function createPrerequisiteReviewArtifactBoundaryForReview(input = {}) {
+  const integratedReview = evaluatePrerequisiteIntegrationCheckpointForReview(input);
+  const classification =
+    prerequisiteReviewArtifactClassification(integratedReview);
+  const accepted = prerequisiteReviewArtifactAccepted(classification);
+  const reviewArtifact = accepted
+    ? prerequisiteReviewArtifactFromIntegratedReview(integratedReview)
+    : null;
+
+  return {
+    schema: PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_SCHEMA,
+    schemaVersion: PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_VERSION,
+    boundaryKind: PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_KIND,
+    boundaryMode: "review-only",
+    reviewedAt: integratedReview.reviewedAt,
+    classification,
+    reviewArtifactProduced: accepted,
+    reviewArtifactIsApprovalGrant: false,
+    reviewArtifact,
+    integratedReviewSummary:
+      prerequisiteReviewArtifactBoundaryIntegratedSummary(integratedReview),
+    reviewOnly: true,
+    authoritative: false,
+    approvalGrant: sourcePreflightGrantBlocked(),
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    rejectionReasons: prerequisiteReviewArtifactBoundaryRejectionReasons({
+      accepted,
+      integratedReview
+    }),
     runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
   };
 }
