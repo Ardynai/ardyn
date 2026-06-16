@@ -258,6 +258,21 @@ execution-signal-looking, and valid in-memory preflight cases as review
 metadata only. See
 `docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md`.
 
+Phase 5.29 records non-authorizing evaluator decision-candidate boundary
+metadata in TypeScript core only. It keeps `stdio_runtime` private, executes no
+evaluator, produces no approval decision, produces or persists no approval
+grant, implements no source watcher, external lookup, secrets/env ingestion,
+authoritative evaluator, evaluator execution path, decision-candidate command,
+runtime permission, command exposure permission, or runtime behavior, changes
+no Rust or CLI source, and records missing, malformed, invalid timestamp,
+empty, conflicting, stale, revoked, unknown, duplicate-invalid,
+authorizing-looking, grant-looking, approval-decision-looking,
+approval-grant-looking, runtime-permission-looking, command-exposure-looking,
+evaluator-execution-looking, runtime-effect-true, process-flag-true, unsafe,
+execution-signal-looking, and valid in-memory decision-candidate cases as
+review metadata only. See
+`docs/phase-5-29-non-authorizing-evaluator-decision-candidate-boundary.md`.
+
 None of these phases adds a Rust-host stdio ownership implementation. Rust
 task planning, runtime
 execution, live stdio reading, process-level stdio ownership, tool execution,
@@ -711,6 +726,20 @@ transcript/audit write, adapter/Fabric behavior, or WebSocket/HTTP surface is
 implemented. Runtime remains disabled, `stdio_runtime` remains private, and no
 Rust source changes are made. See
 `docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md`.
+
+Phase 5.29 adds no Rust-host runtime implementation. It records a
+machine-readable non-authorizing evaluator decision-candidate boundary layer in
+TypeScript core and keeps the Rust host private and fail-closed. No filesystem
+watcher, external source lookup, secrets/env ingestion, evaluator decision
+command, approval decision, approval grant, runtime permission, command
+exposure permission, authoritative approval evaluator, evaluator execution,
+host-policy runtime enforcement, runtime I/O, process control,
+rollback/kill-switch behavior, positive runtime smoke execution, runtime
+entrypoint, live stdin loop, runtime stdout/stderr writer, process spawning,
+process supervision, runtime transcript/audit write, adapter/Fabric behavior,
+or WebSocket/HTTP surface is implemented. Runtime remains disabled,
+`stdio_runtime` remains private, and no Rust source changes are made. See
+`docs/phase-5-29-non-authorizing-evaluator-decision-candidate-boundary.md`.
 
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write

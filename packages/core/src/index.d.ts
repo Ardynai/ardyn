@@ -162,6 +162,12 @@ export const REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_SCHEMA:
 export const REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_VERSION: "0.1.0";
 export const REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_KIND:
   "review-only-evaluator-preflight-checkpoint";
+export const NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_BOUNDARY_SCHEMA:
+  "ardyn.phase-5.29.non-authorizing-evaluator-decision-candidate-boundary-result";
+export const NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_BOUNDARY_VERSION:
+  "0.1.0";
+export const NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_BOUNDARY_KIND:
+  "non-authorizing-evaluator-decision-candidate-boundary";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1520,6 +1526,27 @@ export type ReviewOnlyEvaluatorPreflightCheckpointClassification =
   | "unsafe_review_only_evaluator_preflight_checkpoint_input_rejected"
   | "execution_signal_looking_review_only_evaluator_preflight_checkpoint_input_rejected"
   | "valid_review_only_evaluator_preflight_checkpoint_runtime_still_blocked";
+export type NonAuthorizingEvaluatorDecisionCandidateClassification =
+  | "missing_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "malformed_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "empty_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "conflicting_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "stale_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "revoked_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "unknown_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "duplicate_invalid_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "authorizing_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "grant_looking_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "approval_decision_looking_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "approval_grant_looking_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "runtime_permission_looking_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "command_exposure_looking_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "evaluator_execution_looking_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "runtime_effect_true_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "process_flag_true_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "unsafe_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "execution_signal_looking_non_authorizing_evaluator_decision_candidate_input_rejected"
+  | "valid_non_authorizing_evaluator_decision_candidate_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -2167,6 +2194,130 @@ export interface ReviewOnlyEvaluatorPreflightCheckpointResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export interface NonAuthorizingEvaluatorDecisionCandidateState {
+  schema: "ardyn.phase-5.29.review-only-evaluator-decision-candidate-state";
+  schemaVersion: "0.1.0";
+  stateKind: "review-only-evaluator-decision-candidate-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePreflightCheckpointState: {
+    schema: "ardyn.phase-5.28.review-only-evaluator-preflight-state";
+    stateKind: "review-only-evaluator-preflight-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    sourceIntakeCheckpointStateDigest: string;
+    sourceEvaluatorInputCandidateDigest: string;
+    preflightCheckpointStateIsApprovalGrant: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  };
+  pipelineSummary: {
+    sourceCount: number;
+    selectedSourceId: string | null;
+    selectedBundlePartId: string | null;
+    readerRecordCount: number;
+    evaluatorClassification: string;
+    prerequisiteSignalRecognized: true;
+  };
+  integratedReviewSummary: {
+    schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
+    evaluatorKind: "review-only-runtime-approval-evaluator";
+    evaluationMode: "review-only";
+    classification: string;
+    prerequisiteSignalRecognized: true;
+    reviewOnly: true;
+    authoritative: false;
+    reviewSummaryIsApprovalGrant: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    approvalGrantId: null;
+    runtimeEffectAllFalse: true;
+  };
+  decisionCandidateSummary: {
+    candidateKind: "review-only-evaluator-decision-candidate";
+    candidateMode: "review-only";
+    candidateClassification:
+      "valid_non_authorizing_evaluator_decision_candidate_runtime_still_blocked";
+    reviewArtifactOnly: true;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    runtimePermissionGranted: false;
+    commandExposurePermissionGranted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  };
+  decisionCandidateAccepted: true;
+  reviewArtifactOnly: true;
+  decisionCandidateStateIsApprovalDecision: false;
+  decisionCandidateStateIsApprovalGrant: false;
+  approvalDecisionProduced: false;
+  approvalDecisionPersisted: false;
+  approvalDecisionId: null;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface NonAuthorizingEvaluatorDecisionCandidateBoundaryResult {
+  schema: "ardyn.phase-5.29.non-authorizing-evaluator-decision-candidate-boundary-result";
+  schemaVersion: "0.1.0";
+  boundaryKind: "non-authorizing-evaluator-decision-candidate-boundary";
+  boundaryMode: "review-only";
+  reviewedAt: string;
+  classification: NonAuthorizingEvaluatorDecisionCandidateClassification;
+  preflightCheckpointStateAccepted: boolean;
+  decisionCandidateStateProduced: boolean;
+  decisionCandidateStateIsApprovalDecision: false;
+  decisionCandidateStateIsApprovalGrant: false;
+  decisionCandidateState: NonAuthorizingEvaluatorDecisionCandidateState | null;
+  decisionCandidateSummary: {
+    schema: "ardyn.phase-5.28.review-only-evaluator-preflight-state";
+    stateKind: "review-only-evaluator-preflight-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    preflightCheckpointStateIsApprovalGrant: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  } | null;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  approvalDecisionProduced: false;
+  approvalDecisionPersisted: false;
+  approvalDecisionId: null;
+  approvalGrant: RuntimeApprovalGrantBlocked;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -2426,6 +2577,10 @@ export function createReviewOnlyEvaluatorPreflightCheckpointForReview(input?: {
   reviewedAt?: string;
   intakeCheckpointStates?: unknown[];
 }): ReviewOnlyEvaluatorPreflightCheckpointResult;
+export function createNonAuthorizingEvaluatorDecisionCandidateBoundaryForReview(input?: {
+  reviewedAt?: string;
+  preflightCheckpointStates?: unknown[];
+}): NonAuthorizingEvaluatorDecisionCandidateBoundaryResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

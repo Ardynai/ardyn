@@ -13,6 +13,11 @@ Focused Phase 5.28 test path:
 
 `../tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs`
 
+Phase 5.29 consumes this review-only preflight state as a non-authorizing
+evaluator decision-candidate input. The Phase 5.29 boundary still cannot
+produce approval decisions, produce approval grants, execute an evaluator, grant
+runtime permission, or expose commands.
+
 ## Boundary
 
 The checkpoint consumes only caller-provided Phase 5.27 intake checkpoint state.

@@ -193,6 +193,10 @@ const phase527ApprovalEvaluatorCandidateIntakeCheckpointMetadata = await readJso
 const phase528ReviewOnlyEvaluatorPreflightCheckpointMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-28/review-only-evaluator-preflight-checkpoint.json"
 );
+const phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata =
+  await readJson(
+    "tests/fixtures/host-policy/phase5-29/non-authorizing-evaluator-decision-candidate-boundary.json"
+  );
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -240,10 +244,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.28",
-    name: "Review-only evaluator preflight checkpoint",
+    id: "5.29",
+    name: "Non-authorizing evaluator decision-candidate boundary",
     executionPosture:
-      "review-only-evaluator-preflight-checkpoint runtime-disabled no-evaluator-execution no-runtime-execution"
+      "non-authorizing-evaluator-decision-candidate-boundary runtime-disabled no-evaluator-execution no-runtime-execution no-approval-decision"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -291,12 +295,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.28 review-only evaluator preflight checkpoint status report.",
+        "Render this deterministic local Phase 5.29 non-authorizing evaluator decision-candidate boundary status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.28 status report.",
+      purpose: "Run focused tests for this local Phase 5.29 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-29-non-authorizing-evaluator-decision-candidate-boundary.test.mjs",
+      purpose:
+        "Run focused Phase 5.29 non-authorizing evaluator decision-candidate boundary and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -13245,6 +13256,263 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryInventory: {
+    statusLayer: {
+      document:
+        "docs/phase-5-29-non-authorizing-evaluator-decision-candidate-boundary.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-29/non-authorizing-evaluator-decision-candidate-boundary.json",
+      sourcePreflightCheckpointDocument:
+        "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md",
+      sourcePreflightCheckpointFixture:
+        "tests/fixtures/host-policy/phase5-28/review-only-evaluator-preflight-checkpoint.json",
+      precedingPhase: "5.28",
+      layerId: "non-authorizing-evaluator-decision-candidate-boundary",
+      scope:
+        "phase-5-non-authorizing-evaluator-decision-candidate-boundary-runtime-disabled",
+      evaluatorDecisionCandidateBoundaryRecorded:
+        phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+          .decisionCandidateSummary.evaluatorDecisionCandidateBoundaryRecorded,
+      boundaryKind:
+        phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+          .decisionCandidateSummary.boundaryKind,
+      boundaryReviewOnly: true,
+      boundaryAuthoritative: false,
+      validPreflightCheckpointStateProducesDecisionCandidateState: true,
+      missingPreflightCheckpointStateRejected: true,
+      malformedPreflightCheckpointStateRejected: true,
+      emptyPreflightCheckpointStateRejected: true,
+      conflictingPreflightCheckpointStateRejected: true,
+      stalePreflightCheckpointStateRejected: true,
+      revokedPreflightCheckpointStateRejected: true,
+      unknownPreflightCheckpointStateRejected: true,
+      duplicateInvalidPreflightCheckpointStateRejected: true,
+      authorizingLookingPreflightCheckpointStateRejected: true,
+      grantLookingPreflightCheckpointStateRejected: true,
+      approvalDecisionLookingPreflightCheckpointStateRejected: true,
+      approvalGrantLookingPreflightCheckpointStateRejected: true,
+      runtimePermissionLookingPreflightCheckpointStateRejected: true,
+      commandExposureLookingPreflightCheckpointStateRejected: true,
+      evaluatorExecutionLookingPreflightCheckpointStateRejected: true,
+      runtimeEffectTruePreflightCheckpointStateRejected: true,
+      processFlagTruePreflightCheckpointStateRejected: true,
+      unsafePreflightCheckpointStateRejected: true,
+      executionSignalLookingPreflightCheckpointStateRejected: true,
+      decisionCandidateStateIsApprovalDecision: false,
+      decisionCandidateStateIsApprovalGrant: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+          .decisionCandidateSummary.serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-29-non-authorizing-evaluator-decision-candidate-boundary.md",
+        "Records the Phase 5.29 non-authorizing evaluator decision-candidate boundary while runtime and evaluator execution remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md",
+        "Provides the Phase 5.29 source preflight checkpoint state."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.29 as current docs/status mode while runtime and evaluator execution remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.29 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.29 changes no Rust-host runtime source and records a TypeScript decision-candidate boundary helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md",
+      "docs/phase-5-29-non-authorizing-evaluator-decision-candidate-boundary.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-29/non-authorizing-evaluator-decision-candidate-boundary.json",
+        "Records non-authorizing evaluator decision-candidate cases while approval decisions, grants, evaluator execution, and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.29 report metadata, docs cross-links, decision-candidate fixture, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-29-non-authorizing-evaluator-decision-candidate-boundary.test.mjs",
+        "Pins the Phase 5.29 decision-candidate helper, fixture shape, non-authorizing state, serve-runtime rejection, command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-28-review-only-evaluator-preflight-checkpoint.md",
+        "docs/phase-5-29-non-authorizing-evaluator-decision-candidate-boundary.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-29/non-authorizing-evaluator-decision-candidate-boundary.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-29-non-authorizing-evaluator-decision-candidate-boundary.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      reportRunsChecks: false,
+      separateApprovalDecisionPhaseRequired: true,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata.sourcePhase,
+    decisionCandidateSummary:
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+        .decisionCandidateSummary,
+    decisionCandidateInputShape:
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+        .decisionCandidateInputShape,
+    decisionCandidateResultShape:
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+        .decisionCandidateResultShape,
+    decisionCandidateCases:
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+        .decisionCandidateCases,
+    decisionCandidateStateBoundary:
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+        .decisionCandidateStateBoundary,
+    blockedRuntimeEffect:
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+        .blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+        .forbiddenBehavior,
+    validationCommands:
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryMetadata
+        .validationCommands,
+    safetyPosture: {
+      evaluatorDecisionCandidateBoundaryRecorded: true,
+      boundaryReviewOnly: true,
+      boundaryAuthoritative: false,
+      validPreflightCheckpointStateProducesDecisionCandidateState: true,
+      missingPreflightCheckpointStateRejected: true,
+      malformedPreflightCheckpointStateRejected: true,
+      emptyPreflightCheckpointStateRejected: true,
+      conflictingPreflightCheckpointStateRejected: true,
+      stalePreflightCheckpointStateRejected: true,
+      revokedPreflightCheckpointStateRejected: true,
+      unknownPreflightCheckpointStateRejected: true,
+      duplicateInvalidPreflightCheckpointStateRejected: true,
+      authorizingLookingPreflightCheckpointStateRejected: true,
+      grantLookingPreflightCheckpointStateRejected: true,
+      approvalDecisionLookingPreflightCheckpointStateRejected: true,
+      approvalGrantLookingPreflightCheckpointStateRejected: true,
+      runtimePermissionLookingPreflightCheckpointStateRejected: true,
+      commandExposureLookingPreflightCheckpointStateRejected: true,
+      evaluatorExecutionLookingPreflightCheckpointStateRejected: true,
+      runtimeEffectTruePreflightCheckpointStateRejected: true,
+      processFlagTruePreflightCheckpointStateRejected: true,
+      unsafePreflightCheckpointStateRejected: true,
+      executionSignalLookingPreflightCheckpointStateRejected: true,
+      decisionCandidateStateIsApprovalDecision: false,
+      decisionCandidateStateIsApprovalGrant: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -13306,6 +13574,7 @@ const report = {
     phase526ReviewArtifactEvaluatorInputHandoff: true,
     phase527ApprovalEvaluatorCandidateIntakeCheckpoint: true,
     phase528ReviewOnlyEvaluatorPreflightCheckpoint: true,
+    phase529NonAuthorizingEvaluatorDecisionCandidateBoundary: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -14350,6 +14619,64 @@ const report = {
       phase528AdapterRuntimeBehaviorEnabled: false,
       phase528ContentFabricRuntimeBehaviorEnabled: false,
       phase528WebSocketHttpSurfaceEnabled: false,
+      phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryRecorded: true,
+      phase529BoundaryReviewOnly: true,
+      phase529BoundaryAuthoritative: false,
+      phase529ValidPreflightCheckpointStateProducesDecisionCandidateState: true,
+      phase529MissingPreflightCheckpointStateRejected: true,
+      phase529MalformedPreflightCheckpointStateRejected: true,
+      phase529EmptyPreflightCheckpointStateRejected: true,
+      phase529ConflictingPreflightCheckpointStateRejected: true,
+      phase529StalePreflightCheckpointStateRejected: true,
+      phase529RevokedPreflightCheckpointStateRejected: true,
+      phase529UnknownPreflightCheckpointStateRejected: true,
+      phase529DuplicateInvalidPreflightCheckpointStateRejected: true,
+      phase529AuthorizingLookingPreflightCheckpointStateRejected: true,
+      phase529GrantLookingPreflightCheckpointStateRejected: true,
+      phase529ApprovalDecisionLookingPreflightCheckpointStateRejected: true,
+      phase529ApprovalGrantLookingPreflightCheckpointStateRejected: true,
+      phase529RuntimePermissionLookingPreflightCheckpointStateRejected: true,
+      phase529CommandExposureLookingPreflightCheckpointStateRejected: true,
+      phase529EvaluatorExecutionLookingPreflightCheckpointStateRejected: true,
+      phase529RuntimeEffectTruePreflightCheckpointStateRejected: true,
+      phase529ProcessFlagTruePreflightCheckpointStateRejected: true,
+      phase529UnsafePreflightCheckpointStateRejected: true,
+      phase529ExecutionSignalLookingPreflightCheckpointStateRejected: true,
+      phase529DecisionCandidateStateIsApprovalDecision: false,
+      phase529DecisionCandidateStateIsApprovalGrant: false,
+      phase529ApprovalDecisionProduced: false,
+      phase529ApprovalDecisionPersisted: false,
+      phase529ApprovalGrantProduced: false,
+      phase529ApprovalGrantPersisted: false,
+      phase529RuntimePermissionGranted: false,
+      phase529CommandExposurePermissionGranted: false,
+      phase529RuntimeEnabled: false,
+      phase529RuntimeStarted: false,
+      phase529RuntimeReady: false,
+      phase529RuntimeCommandEnabled: false,
+      phase529RuntimeCommandExposureEnabled: false,
+      phase529RuntimeExecutionEnabled: false,
+      phase529RuntimeExecuted: false,
+      phase529EvaluatorExecutionPerformed: false,
+      phase529ServeRuntimeStillDefaultBlocked: true,
+      phase529DryRunBypassesBlock: false,
+      phase529CanEnableRuntime: false,
+      phase529CliSourceChanged: false,
+      phase529RustSourceChanged: false,
+      phase529FilesystemWatcherEnabled: false,
+      phase529ExternalSourceLookupEnabled: false,
+      phase529SecretsEnvIngestionEnabled: false,
+      phase529LiveStdinLoopEnabled: false,
+      phase529RuntimeStdoutWriterEnabled: false,
+      phase529RuntimeStderrWriterEnabled: false,
+      phase529ProcessSpawnEnabled: false,
+      phase529ProcessTerminationEnabled: false,
+      phase529RuntimeSupervisionEnabled: false,
+      phase529RuntimeTranscriptWritePerformed: false,
+      phase529RuntimeAuditWritePerformed: false,
+      phase529AdapterRuntimeBehaviorEnabled: false,
+      phase529ContentFabricRuntimeBehaviorEnabled: false,
+      phase529WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

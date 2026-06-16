@@ -411,10 +411,10 @@ test("Phase 4.1H status report inventories disposition without running checks", 
   const inventory = report.phase41HExternalReviewDispositionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.28",
-    name: "Review-only evaluator preflight checkpoint",
+    id: "5.29",
+    name: "Non-authorizing evaluator decision-candidate boundary",
     executionPosture:
-      "review-only-evaluator-preflight-checkpoint runtime-disabled no-evaluator-execution no-runtime-execution"
+      "non-authorizing-evaluator-decision-candidate-boundary runtime-disabled no-evaluator-execution no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
