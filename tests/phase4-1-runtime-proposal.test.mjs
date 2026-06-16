@@ -358,10 +358,10 @@ test("Phase 4.1 status report inventories proposal metadata without running chec
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.29",
-    name: "Non-authorizing evaluator decision-candidate boundary",
+    id: "5.30",
+    name: "Non-authorizing evaluator decision-candidate inspection artifact",
     executionPosture:
-      "non-authorizing-evaluator-decision-candidate-boundary runtime-disabled no-evaluator-execution no-runtime-execution no-approval-decision"
+      "non-authorizing-evaluator-decision-candidate-inspection-artifact runtime-disabled no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

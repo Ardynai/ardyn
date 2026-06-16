@@ -1253,6 +1253,45 @@ const phase529ExpectedCaseIds = [
   "execution-signal-looking-non-authorizing-evaluator-decision-candidate-input-rejected",
   "valid-non-authorizing-evaluator-decision-candidate-state"
 ];
+const phase530DocFiles = [
+  "docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md",
+  "docs/phase-5-29-non-authorizing-evaluator-decision-candidate-boundary.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase530CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-29-non-authorizing-evaluator-decision-candidate-boundary.md",
+  "docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md"
+];
+const phase530ExpectedCaseIds = [
+  "missing-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "malformed-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "malformed-non-authorizing-evaluator-decision-candidate-inspection-artifact-invalid-reviewed-at-rejected",
+  "empty-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "conflicting-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "stale-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "revoked-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "unknown-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "duplicate-invalid-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "authorizing-looking-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "grant-looking-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "approval-decision-looking-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "approval-grant-looking-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "runtime-permission-looking-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "command-exposure-looking-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "evaluator-execution-looking-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "evaluator-result-looking-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "runtime-effect-true-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "process-flag-true-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "unsafe-top-level-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "unsafe-nested-decision-candidate-report-artifact-data-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "execution-signal-looking-non-authorizing-evaluator-decision-candidate-inspection-artifact-input-rejected",
+  "valid-non-authorizing-evaluator-decision-candidate-inspection-artifact"
+];
 const phase519ExpectedTrueSafetyFlagNames = [
   "phase519ApprovalPrerequisiteReaderHardeningRecorded",
   "phase519ReaderReviewOnly",
@@ -1827,6 +1866,75 @@ const phase529SafetyFlagNames = [
   ...phase529ExpectedTrueSafetyFlagNames,
   ...phase529ExpectedFalseSafetyFlagNames
 ];
+const phase530ExpectedTrueSafetyFlagNames = [
+  "phase530NonAuthorizingEvaluatorDecisionCandidateInspectionArtifactRecorded",
+  "phase530ArtifactReviewOnly",
+  "phase530ValidDecisionCandidateStateProducesInspectionArtifact",
+  "phase530MissingDecisionCandidateStateRejected",
+  "phase530MalformedDecisionCandidateStateRejected",
+  "phase530EmptyDecisionCandidateStateRejected",
+  "phase530ConflictingDecisionCandidateStateRejected",
+  "phase530StaleDecisionCandidateStateRejected",
+  "phase530RevokedDecisionCandidateStateRejected",
+  "phase530UnknownDecisionCandidateStateRejected",
+  "phase530DuplicateInvalidDecisionCandidateStateRejected",
+  "phase530AuthorizingLookingDecisionCandidateStateRejected",
+  "phase530GrantLookingDecisionCandidateStateRejected",
+  "phase530ApprovalDecisionLookingDecisionCandidateStateRejected",
+  "phase530ApprovalGrantLookingDecisionCandidateStateRejected",
+  "phase530RuntimePermissionLookingDecisionCandidateStateRejected",
+  "phase530CommandExposureLookingDecisionCandidateStateRejected",
+  "phase530EvaluatorExecutionLookingDecisionCandidateStateRejected",
+  "phase530EvaluatorResultLookingDecisionCandidateStateRejected",
+  "phase530RuntimeEffectTrueDecisionCandidateStateRejected",
+  "phase530ProcessFlagTrueDecisionCandidateStateRejected",
+  "phase530UnsafeDecisionCandidateStateRejected",
+  "phase530ExecutionSignalLookingDecisionCandidateStateRejected",
+  "phase530ServeRuntimeStillDefaultBlocked"
+];
+const phase530ExpectedFalseSafetyFlagNames = [
+  "phase530ArtifactAuthoritative",
+  "phase530InspectionArtifactIsApprovalDecision",
+  "phase530InspectionArtifactIsApprovalGrant",
+  "phase530EvaluatorResultProduced",
+  "phase530EvaluatorResultPersisted",
+  "phase530ApprovalDecisionProduced",
+  "phase530ApprovalDecisionPersisted",
+  "phase530ApprovalGrantProduced",
+  "phase530ApprovalGrantPersisted",
+  "phase530RuntimePermissionGranted",
+  "phase530CommandExposurePermissionGranted",
+  "phase530RuntimeEnabled",
+  "phase530RuntimeStarted",
+  "phase530RuntimeReady",
+  "phase530RuntimeCommandEnabled",
+  "phase530RuntimeCommandExposureEnabled",
+  "phase530RuntimeExecutionEnabled",
+  "phase530RuntimeExecuted",
+  "phase530EvaluatorExecutionPerformed",
+  "phase530DryRunBypassesBlock",
+  "phase530CanEnableRuntime",
+  "phase530CliSourceChanged",
+  "phase530RustSourceChanged",
+  "phase530FilesystemWatcherEnabled",
+  "phase530ExternalSourceLookupEnabled",
+  "phase530SecretsEnvIngestionEnabled",
+  "phase530LiveStdinLoopEnabled",
+  "phase530RuntimeStdoutWriterEnabled",
+  "phase530RuntimeStderrWriterEnabled",
+  "phase530ProcessSpawnEnabled",
+  "phase530ProcessTerminationEnabled",
+  "phase530RuntimeSupervisionEnabled",
+  "phase530RuntimeTranscriptWritePerformed",
+  "phase530RuntimeAuditWritePerformed",
+  "phase530AdapterRuntimeBehaviorEnabled",
+  "phase530ContentFabricRuntimeBehaviorEnabled",
+  "phase530WebSocketHttpSurfaceEnabled"
+];
+const phase530SafetyFlagNames = [
+  ...phase530ExpectedTrueSafetyFlagNames,
+  ...phase530ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -1961,15 +2069,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.29 non-authorizing evaluator decision-candidate boundary docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.30 non-authorizing evaluator decision-candidate inspection artifact docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.29",
-    name: "Non-authorizing evaluator decision-candidate boundary",
+    id: "5.30",
+    name: "Non-authorizing evaluator decision-candidate inspection artifact",
     executionPosture:
-      "non-authorizing-evaluator-decision-candidate-boundary runtime-disabled no-evaluator-execution no-runtime-execution no-approval-decision"
+      "non-authorizing-evaluator-decision-candidate-inspection-artifact runtime-disabled no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -2042,12 +2150,19 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.29 non-authorizing evaluator decision-candidate boundary status report.",
+        "Render this deterministic local Phase 5.30 non-authorizing evaluator decision-candidate inspection artifact status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.29 status report.",
+      purpose: "Run focused tests for this local Phase 5.30 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-30-evaluator-decision-candidate-inspection-artifact.test.mjs",
+      purpose:
+        "Run focused Phase 5.30 non-authorizing evaluator decision-candidate inspection artifact and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -14465,6 +14580,140 @@ test("report inventories Phase 5.29 as non-authorizing evaluator decision-candid
   assertSafetyFlags(report, phase529ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.30 as non-authorizing evaluator decision-candidate inspection artifact", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase530NonAuthorizingEvaluatorDecisionCandidateInspectionArtifactInventory;
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase530DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase530CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-30/non-authorizing-evaluator-decision-candidate-inspection-artifact.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-30-evaluator-decision-candidate-inspection-artifact.test.mjs"
+  ]);
+  assert.equal(inventory.statusLayer.precedingPhase, "5.29");
+  assert.equal(
+    inventory.statusLayer.layerId,
+    "non-authorizing-evaluator-decision-candidate-inspection-artifact"
+  );
+  assert.equal(
+    inventory.statusLayer.validDecisionCandidateStateProducesInspectionArtifact,
+    true
+  );
+  assert.equal(inventory.statusLayer.evaluatorResultProduced, false);
+  assert.equal(inventory.statusLayer.approvalDecisionProduced, false);
+  assert.equal(inventory.statusLayer.approvalGrantProduced, false);
+  assert.equal(inventory.statusLayer.runtimePermissionGranted, false);
+  assert.equal(inventory.statusLayer.commandExposurePermissionGranted, false);
+  assert.equal(inventory.statusLayer.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.statusLayer.serveRuntimeStillDefaultBlocked, true);
+  assert.deepEqual(inventory.sourcePhase, {
+    phase: "phase-5.29-non-authorizing-evaluator-decision-candidate-boundary",
+    decisionCandidateStatePath:
+      "packages/core/src/index.mjs#createNonAuthorizingEvaluatorDecisionCandidateBoundaryForReview",
+    inspectionArtifactPath:
+      "packages/core/src/index.mjs#createNonAuthorizingEvaluatorDecisionCandidateInspectionArtifactForReview",
+    sourceDecisionCandidateFixture:
+      "tests/fixtures/host-policy/phase5-29/non-authorizing-evaluator-decision-candidate-boundary.json",
+    runtimeEnabled: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    evaluatorExecutionPerformed: false
+  });
+  assert.equal(
+    inventory.inspectionArtifactInputShape.decisionCandidateStateSchema,
+    "ardyn.phase-5.29.review-only-evaluator-decision-candidate-state"
+  );
+  assert.equal(
+    inventory.inspectionArtifactInputShape.evaluatorResultLookingDecisionCandidateStatePolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.inspectionArtifactInputShape.unsafeNestedDecisionCandidateReportArtifactDataPolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.inspectionArtifactResultShape.schema,
+    "ardyn.phase-5.30.non-authorizing-evaluator-decision-candidate-inspection-artifact-result"
+  );
+  assert.equal(
+    inventory.inspectionArtifactResultShape.inspectionArtifactSchema,
+    "ardyn.phase-5.30.non-authorizing-evaluator-decision-candidate-inspection-artifact"
+  );
+  assert.equal(
+    inventory.inspectionArtifactResultShape.inspectionArtifactIsApprovalDecision,
+    false
+  );
+  assert.equal(inventory.inspectionArtifactResultShape.evaluatorResultProduced, false);
+  assert.equal(inventory.inspectionArtifactResultShape.approvalDecisionProduced, false);
+  assert.equal(inventory.inspectionArtifactResultShape.evaluatorExecuted, false);
+  assert.deepEqual(
+    inventory.inspectionArtifactCases.map(({ caseId }) => caseId),
+    phase530ExpectedCaseIds
+  );
+  for (const inspectionCase of inventory.inspectionArtifactCases) {
+    assert.equal(inspectionCase.reviewOnly, true);
+    assert.equal(inspectionCase.authoritative, false);
+    assert.equal(inspectionCase.reviewArtifactOnly, true);
+    assert.equal(inspectionCase.inspectionArtifactIsApprovalDecision, false);
+    assert.equal(inspectionCase.inspectionArtifactIsApprovalGrant, false);
+    assert.equal(inspectionCase.evaluatorResultProduced, false);
+    assert.equal(inspectionCase.approvalDecisionProduced, false);
+    assert.equal(inspectionCase.approvalGrant.produced, false);
+    assert.equal(inspectionCase.approvalGrant.persisted, false);
+    assert.equal(inspectionCase.approvalGrant.grantId, null);
+    assert.equal(inspectionCase.runtimePermissionGranted, false);
+    assert.equal(inspectionCase.commandExposurePermissionGranted, false);
+    assert.equal(inspectionCase.evaluatorExecuted, false);
+    assertAllFalse(inspectionCase.runtimeEffect);
+  }
+  assert.equal(inventory.inspectionArtifactBoundary.artifactCanExecuteEvaluator, false);
+  assert.equal(
+    inventory.inspectionArtifactBoundary.artifactCanProduceEvaluatorResult,
+    false
+  );
+  assert.equal(
+    inventory.inspectionArtifactBoundary.artifactCanProduceApprovalDecision,
+    false
+  );
+  assert.equal(inventory.inspectionArtifactBoundary.artifactCanGrantApproval, false);
+  assert.equal(
+    inventory.inspectionArtifactBoundary.artifactCanGrantRuntimePermission,
+    false
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
+    "serve-runtime",
+    "--dry-run"
+  ]);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorResultProduction, false);
+  assert.equal(inventory.forbiddenBehavior.approvalDecisionProduction, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorExecution, false);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-30-evaluator-decision-candidate-inspection-artifact.test.mjs"
+    )
+  );
+  assert.equal(
+    report.safetyPosture
+      .phase530NonAuthorizingEvaluatorDecisionCandidateInspectionArtifact,
+    true
+  );
+  assertSafetyFlags(report, phase530ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase530ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -15335,7 +15584,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase526SafetyFlagNames,
     ...phase527SafetyFlagNames,
     ...phase528SafetyFlagNames,
-    ...phase529SafetyFlagNames
+    ...phase529SafetyFlagNames,
+    ...phase530SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -15360,6 +15610,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase528ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase529ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase529ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase530ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase530ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

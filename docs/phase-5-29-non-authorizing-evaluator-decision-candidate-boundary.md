@@ -13,6 +13,12 @@ Focused Phase 5.29 test path:
 
 `../tests/phase5-29-non-authorizing-evaluator-decision-candidate-boundary.test.mjs`
 
+Phase 5.30 consumes the Phase 5.29 decision-candidate state as input to a
+non-authorizing inspection artifact. That next artifact remains review-only and
+still cannot produce evaluator results, approval decisions, approval grants,
+runtime permission, command exposure permission, evaluator execution, or runtime
+execution.
+
 ## Boundary
 
 The boundary consumes only caller-provided Phase 5.28 preflight checkpoint

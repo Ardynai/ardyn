@@ -8,10 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.29 Scope
+## Phase 3 through Phase 5.30 Scope
 
-This repository is currently in Phase 5.29 non-authorizing evaluator
-decision-candidate boundary mode. The goal is to load and validate ARDYN manifests and tasks, resolve
+This repository is currently in Phase 5.30 non-authorizing evaluator
+decision-candidate inspection artifact mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
 dry-run session-event JSONL, define the stdout/stderr, redaction, transcript
@@ -120,8 +120,12 @@ state without evaluator execution plus Phase 5.29 non-authorizing evaluator
 decision-candidate boundary metadata proving valid preflight checkpoint state
 can become only review-only decision-candidate state without an approval
 decision, approval grant, evaluator execution, runtime permission, or command
-exposure.
-Phase 5.29 is not runtime enablement.
+exposure plus Phase 5.30 non-authorizing evaluator decision-candidate
+inspection artifact metadata proving valid decision-candidate state can become
+only a review-only inspection artifact without evaluator result production,
+approval decision production, approval grant production or persistence,
+evaluator execution, runtime permission, or command exposure.
+Phase 5.30 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -526,6 +530,21 @@ Included now:
   lookup, secrets/env ingestion, Rust-host change, or CLI source change, and
   keeps `serve-runtime` default-blocked. See
   `docs/phase-5-29-non-authorizing-evaluator-decision-candidate-boundary.md`.
+- Phase 5.30 non-authorizing evaluator decision-candidate inspection artifact
+  documentation, fixture, core helper, and report metadata. This represents
+  valid Phase 5.29 decision-candidate state only as a review-only inspection
+  artifact. It rejects missing, malformed, invalid timestamp, empty,
+  conflicting, stale, revoked, unknown, duplicate-invalid, authorizing-looking,
+  grant-looking, approval-decision-looking, approval-grant-looking,
+  runtime-permission-looking, command-exposure-looking,
+  evaluator-execution-looking, evaluator-result-looking, runtime-effect-true,
+  process-flag-true, unsafe, and execution-signal-looking decision-candidate
+  state, produces no evaluator result, produces no approval decision, produces
+  and persists no approval grant, executes no evaluator, grants no runtime or
+  command exposure permission, starts or executes no runtime, performs no
+  filesystem watching, external lookup, secrets/env ingestion, Rust-host change,
+  or CLI source change, and keeps `serve-runtime` default-blocked. See
+  `docs/phase-5-30-non-authorizing-evaluator-decision-candidate-inspection-artifact.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -677,7 +696,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.29 non-authorizing evaluator decision-candidate boundary status report command is:
+The Phase 5.30 non-authorizing evaluator decision-candidate inspection artifact status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -732,7 +751,8 @@ non-authorizing review artifact boundary metadata, and Phase 5.26 review
 artifact evaluator-input handoff metadata, and Phase 5.27 approval-evaluator
 candidate intake checkpoint metadata, and Phase 5.28 review-only evaluator
 preflight checkpoint metadata, and Phase 5.29 non-authorizing evaluator
-decision-candidate boundary metadata
+decision-candidate boundary metadata, and Phase 5.30 non-authorizing evaluator
+decision-candidate inspection artifact metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply
