@@ -507,10 +507,10 @@ test("Phase 4.1F status report inventories checkpoint without running checks", a
   const inventory = report.phase41FRuntimeReadinessCheckpointInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.26",
-    name: "Review artifact evaluator-input handoff contract",
+    id: "5.27",
+    name: "Review-only approval-evaluator candidate intake checkpoint",
     executionPosture:
-      "review-artifact-evaluator-input-handoff runtime-disabled no-runtime-execution"
+      "approval-evaluator-candidate-intake-checkpoint runtime-disabled no-runtime-execution"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

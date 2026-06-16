@@ -108,6 +108,6 @@ Phase 5.26 records these validation commands:
 
 Phase 5.26 proves the Phase 5.25 review artifact can be transformed into a
 non-authorizing evaluator-input candidate without producing an approval grant or
-enabling runtime. A future phase may define an approval-evaluator consumption
-contract for this candidate, but it must still keep runtime blocked unless a
-separate approved runtime-enablement phase explicitly changes that posture.
+enabling runtime. Phase 5.27 consumes that candidate as review-only intake
+checkpoint state. It still keeps runtime blocked unless a separate approved
+runtime-enablement phase explicitly changes that posture.

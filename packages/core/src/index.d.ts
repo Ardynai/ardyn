@@ -152,6 +152,11 @@ export const PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_VERSION:
   "0.1.0";
 export const PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_KIND:
   "review-artifact-evaluator-input-handoff";
+export const APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_SCHEMA:
+  "ardyn.phase-5.27.approval-evaluator-candidate-intake-checkpoint-result";
+export const APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_VERSION: "0.1.0";
+export const APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_KIND:
+  "approval-evaluator-candidate-intake-checkpoint";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1478,6 +1483,20 @@ export type ReviewArtifactEvaluatorInputHandoffClassification =
   | "duplicate_invalid_review_artifact_evaluator_input_handoff_rejected"
   | "authorizing_review_artifact_evaluator_input_handoff_rejected"
   | "valid_review_artifact_evaluator_input_candidate_runtime_still_blocked";
+export type ApprovalEvaluatorCandidateIntakeCheckpointClassification =
+  | "missing_approval_evaluator_candidate_intake_input_rejected"
+  | "malformed_approval_evaluator_candidate_intake_input_rejected"
+  | "empty_approval_evaluator_candidate_intake_input_rejected"
+  | "conflicting_approval_evaluator_candidate_intake_input_rejected"
+  | "stale_approval_evaluator_candidate_intake_input_rejected"
+  | "revoked_approval_evaluator_candidate_intake_input_rejected"
+  | "unknown_approval_evaluator_candidate_intake_input_rejected"
+  | "duplicate_invalid_approval_evaluator_candidate_intake_input_rejected"
+  | "authorizing_approval_evaluator_candidate_intake_input_rejected"
+  | "runtime_effect_true_approval_evaluator_candidate_intake_input_rejected"
+  | "process_flag_true_approval_evaluator_candidate_intake_input_rejected"
+  | "unsafe_approval_evaluator_candidate_intake_input_rejected"
+  | "valid_approval_evaluator_candidate_intake_checkpoint_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -1962,6 +1981,73 @@ export interface ReviewArtifactEvaluatorInputHandoffResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export interface ApprovalEvaluatorCandidateIntakeCheckpointState {
+  schema: "ardyn.phase-5.27.approval-evaluator-candidate-intake-state";
+  schemaVersion: "0.1.0";
+  stateKind: "approval-evaluator-candidate-intake-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourceEvaluatorInputCandidate: {
+    schema: "ardyn.phase-5.26.review-artifact-evaluator-input-candidate";
+    candidateKind: "review-artifact-evaluator-input-candidate";
+    candidateMode: "review-only";
+    reviewedAt: string;
+    candidateDigest: string;
+    sourceReviewArtifact: ReviewArtifactEvaluatorInputCandidate["sourceReviewArtifact"];
+    evaluatorInputCandidateIsApprovalGrant: false;
+    approvalGrantProduced: false;
+    runtimeEffectAllFalse: true;
+  };
+  pipelineSummary: ReviewArtifactEvaluatorInputCandidate["pipelineSummary"];
+  integratedReviewSummary:
+    ReviewArtifactEvaluatorInputCandidate["integratedReviewSummary"];
+  approvalEvaluatorInputCandidateAccepted: true;
+  intakeCheckpointStateIsApprovalGrant: false;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ApprovalEvaluatorCandidateIntakeCheckpointResult {
+  schema: "ardyn.phase-5.27.approval-evaluator-candidate-intake-checkpoint-result";
+  schemaVersion: "0.1.0";
+  checkpointKind: "approval-evaluator-candidate-intake-checkpoint";
+  checkpointMode: "review-only";
+  reviewedAt: string;
+  classification: ApprovalEvaluatorCandidateIntakeCheckpointClassification;
+  evaluatorInputCandidateAccepted: boolean;
+  intakeCheckpointStateProduced: boolean;
+  intakeCheckpointStateIsApprovalGrant: false;
+  intakeCheckpointState: ApprovalEvaluatorCandidateIntakeCheckpointState | null;
+  candidateSummary: {
+    schema: "ardyn.phase-5.26.review-artifact-evaluator-input-candidate";
+    candidateKind: "review-artifact-evaluator-input-candidate";
+    candidateMode: "review-only";
+    reviewedAt: string;
+    candidateDigest: string;
+    evaluatorInputCandidateIsApprovalGrant: false;
+    approvalGrantProduced: false;
+    runtimeEffectAllFalse: true;
+  } | null;
+  reviewOnly: true;
+  authoritative: false;
+  approvalGrant: RuntimeApprovalGrantBlocked;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -2213,6 +2299,10 @@ export function createReviewArtifactEvaluatorInputHandoffForReview(input?: {
   reviewedAt?: string;
   reviewArtifacts?: unknown[];
 }): ReviewArtifactEvaluatorInputHandoffResult;
+export function createApprovalEvaluatorCandidateIntakeCheckpointForReview(input?: {
+  reviewedAt?: string;
+  evaluatorInputCandidates?: unknown[];
+}): ApprovalEvaluatorCandidateIntakeCheckpointResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
