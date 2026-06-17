@@ -201,6 +201,11 @@ export const REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_SCHEMA =
 export const REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_VERSION = "0.1.0";
 export const REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_KIND =
   "review-only-inspection-handoff-checkpoint";
+export const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_SCHEMA =
+  "ardyn.phase-5.40.review-only-checkpoint-handoff-layer-result";
+export const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_VERSION = "0.1.0";
+export const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_KIND =
+  "review-only-checkpoint-handoff-layer";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -21305,6 +21310,914 @@ export function createReviewOnlyInspectionHandoffCheckpointForReview(input = {})
     accepted,
     inspectionHandoffCheckpoint,
     inspectionHandoffMetadataSummary
+  });
+}
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_STATE_SCHEMA =
+  "ardyn.phase-5.40.review-only-checkpoint-handoff-layer-state";
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_MIN_REVIEWED_AT =
+  "2026-06-17T00:00:00.000Z";
+
+const VALID_REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_CLASSIFICATION =
+  "valid_review_only_checkpoint_handoff_layer_runtime_still_blocked";
+const MALFORMED_REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_CLASSIFICATION =
+  "malformed_review_only_checkpoint_handoff_layer_input_rejected";
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_SOURCE_FIELDS = Object.freeze([
+  "schema",
+  "schemaVersion",
+  "stateKind",
+  "stateMode",
+  "reviewedAt",
+  "sourceInspectionHandoffMetadata",
+  "checkpointSummary",
+  "cleanupToolkitBaselineEvidence",
+  "inspectionHandoffMetadataAccepted",
+  "inspectionHandoffCheckpointMetadataOnly",
+  "inspectionHandoffCheckpointIsReviewerRouting",
+  "inspectionHandoffCheckpointIsReviewerAssignment",
+  "inspectionHandoffCheckpointIsEvaluatorExecution",
+  "inspectionHandoffCheckpointIsEvaluatorResult",
+  "inspectionHandoffCheckpointIsApprovalDecision",
+  "inspectionHandoffCheckpointIsApprovalGrant",
+  "reviewerRoutingPerformed",
+  "reviewerRoutingEnabled",
+  "reviewerRouteId",
+  "reviewerAssignmentPerformed",
+  "reviewerAssignmentEnabled",
+  "reviewerAssignmentId",
+  "reviewerId",
+  "evaluatorResultProduced",
+  "evaluatorResultPersisted",
+  "evaluatorResultId",
+  "approvalDecisionProduced",
+  "approvalDecisionPersisted",
+  "approvalDecisionId",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "approvalGrantId",
+  "runtimePermissionGranted",
+  "commandExposurePermissionGranted",
+  "runtimeCommandExposureEnabled",
+  "runtimeExecutionEnabled",
+  "evaluatorExecutionRequested",
+  "evaluatorExecutionStarted",
+  "evaluatorExecutionEnabled",
+  "evaluatorExecuted",
+  "runtimeEffect"
+]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REQUIRED_FALSE_FIELDS =
+  Object.freeze([
+    "inspectionHandoffCheckpointIsReviewerRouting",
+    "inspectionHandoffCheckpointIsReviewerAssignment",
+    "inspectionHandoffCheckpointIsEvaluatorExecution",
+    "inspectionHandoffCheckpointIsEvaluatorResult",
+    "inspectionHandoffCheckpointIsApprovalDecision",
+    "inspectionHandoffCheckpointIsApprovalGrant",
+    "reviewerRoutingPerformed",
+    "reviewerRoutingEnabled",
+    "reviewerAssignmentPerformed",
+    "reviewerAssignmentEnabled",
+    "evaluatorResultProduced",
+    "evaluatorResultPersisted",
+    "approvalDecisionProduced",
+    "approvalDecisionPersisted",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "runtimePermissionGranted",
+    "commandExposurePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecuted"
+  ]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REQUIRED_NULL_FIELDS =
+  Object.freeze([
+    "reviewerRouteId",
+    "reviewerAssignmentId",
+    "reviewerId",
+    "evaluatorResultId",
+    "approvalDecisionId",
+    "approvalGrantId"
+  ]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REQUIRED_LITERAL_FIELDS =
+  Object.freeze([
+    ["schema", REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_STATE_SCHEMA],
+    ["schemaVersion", REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_VERSION],
+    ["stateKind", "review-only-inspection-handoff-checkpoint-state"],
+    ["stateMode", "review-only"],
+    ["inspectionHandoffMetadataAccepted", true],
+    ["inspectionHandoffCheckpointMetadataOnly", true]
+  ]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REQUIRED_OBJECT_FIELDS =
+  Object.freeze([
+    "sourceInspectionHandoffMetadata",
+    "checkpointSummary",
+    "cleanupToolkitBaselineEvidence"
+  ]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REQUIRED_SUMMARY_FIELDS =
+  Object.freeze([
+    ["checkpointKind", REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_KIND],
+    ["checkpointMode", "review-only"],
+    [
+      "sourceInspectionHandoffMetadataBoundaryClassification",
+      VALID_REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_CLASSIFICATION
+    ],
+    ["inspectionHandoffCheckpointMetadataOnly", true],
+    [
+      "cleanupToolkitBaselineEvidence",
+      "phase-5.38a-behavior-preserving-runtime-blocked"
+    ]
+  ]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_UNKNOWN_TRUE_FIELDS = Object.freeze([
+  "unknown",
+  "sourceUnknown"
+]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REVOKED_TRUE_FIELDS =
+  Object.freeze(["revoked"]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REVOKED_PRESENT_FIELDS =
+  Object.freeze(["revokedAt"]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REVIEWER_ASSIGNMENT_FALSE_FIELDS =
+  Object.freeze(["reviewerAssignmentPerformed", "reviewerAssignmentEnabled"]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REVIEWER_ASSIGNMENT_NULL_FIELDS =
+  Object.freeze(["reviewerAssignmentId", "reviewerId"]);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_ALLOWED_TOP_LEVEL_FIELDS = new Set(
+  REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_SOURCE_FIELDS
+);
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_OBJECT_FIELD_GROUPS = Object.freeze({
+  approvalDecision: [
+    "approvalDecision",
+    "approvalDecisionResult",
+    "approvalDecisionGranted",
+    "approvalDecisionAccepted",
+    "approvalDecisionAuthorized",
+    "checkpointHandoffLayerIsApprovalDecision"
+  ],
+  evaluatorResult: [
+    "evaluatorResult",
+    "evaluationResult",
+    "evaluatorOutput",
+    "evaluatorOutcome",
+    "resultProduced"
+  ],
+  reviewerRouting: [
+    "reviewerRouting",
+    "reviewerRoute",
+    "reviewerQueue",
+    "routing",
+    "routingDecision",
+    "routingResult",
+    "routeReviewer",
+    "reviewerRoutingPermissionGranted"
+  ],
+  reviewerAssignment: [
+    "reviewerAssignment",
+    "reviewerAssigned",
+    "reviewerAssignee",
+    "assignedReviewer",
+    "assignedReviewers",
+    "reviewerIds",
+    "reviewerAllocation",
+    "assignmentDecision",
+    "humanReviewer",
+    "toolReviewer",
+    "reviewerAssignmentPermissionGranted"
+  ]
+});
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_MALFORMED_CHECKS = Object.freeze([
+  (checkpoint) => isPlainObjectRecord(checkpoint),
+  (checkpoint) =>
+    reviewOnlyInspectionHandoffMetadataBoundaryFieldsEqual(
+      checkpoint,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REQUIRED_LITERAL_FIELDS
+    ),
+  (checkpoint) => isUtcIsoTimestampWithMilliseconds(checkpoint.reviewedAt),
+  (checkpoint) =>
+    reviewOnlyInspectionHandoffMetadataBoundaryFieldsPlainObjects(
+      checkpoint,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REQUIRED_OBJECT_FIELDS
+    ),
+  (_checkpoint, summary) => isPlainObjectRecord(summary),
+  (_checkpoint, summary) =>
+    reviewOnlyInspectionHandoffMetadataBoundaryFieldsEqual(
+      summary,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REQUIRED_SUMMARY_FIELDS
+    ),
+  (checkpoint) =>
+    REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REQUIRED_FALSE_FIELDS.every(
+      (field) => checkpoint[field] === false
+    ),
+  (checkpoint) =>
+    REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REQUIRED_NULL_FIELDS.every(
+      (field) => checkpoint[field] === null
+    ),
+  (checkpoint) =>
+    reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse(
+      checkpoint.runtimeEffect
+    )
+]);
+
+function reviewOnlyCheckpointHandoffLayerUnexpectedUnsafeField(checkpoint) {
+  return (
+    isPlainObjectRecord(checkpoint) &&
+    Object.keys(checkpoint).some(
+      (key) =>
+        !REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_ALLOWED_TOP_LEVEL_FIELDS.has(key)
+    )
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerUnsafeNestedMetadata(checkpoint) {
+  return reviewOnlyInspectionHandoffMetadataBoundaryKeyPresent(checkpoint, [
+    "checkpointHandoffLayer",
+    "checkpointHandoffLayerMetadata",
+    "checkpointMetadata",
+    "handoffMetadata",
+    "checkpointHandoffMetadata",
+    "reviewerRoutingMetadata",
+    "reviewerAssignmentMetadata",
+    "evaluatorExecutionMetadata",
+    "evaluatorResultMetadata",
+    "approvalDecisionMetadata",
+    "approvalGrantMetadata",
+    "runtimePermissionMetadata",
+    "commandExposureMetadata",
+    "executionMetadata"
+  ]);
+}
+
+function reviewOnlyCheckpointHandoffLayerUnknown(checkpoint) {
+  return (
+    isPlainObjectRecord(checkpoint) &&
+    (reviewOnlyInspectionHandoffMetadataBoundaryAnyFieldTrue(
+      checkpoint,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_UNKNOWN_TRUE_FIELDS
+    ) ||
+      ["classification", "status"].some(
+        (field) => checkpoint[field] === "unknown"
+      ))
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerRevoked(checkpoint) {
+  return (
+    isPlainObjectRecord(checkpoint) &&
+    (reviewOnlyInspectionHandoffMetadataBoundaryAnyFieldTrue(
+      checkpoint,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REVOKED_TRUE_FIELDS
+    ) ||
+      reviewOnlyInspectionHandoffMetadataBoundaryAnyFieldPresent(
+        checkpoint,
+        REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REVOKED_PRESENT_FIELDS
+      ) ||
+      ["classification", "status"].some(
+        (field) => checkpoint[field] === "revoked"
+      ))
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerStale(checkpoint) {
+  return (
+    isPlainObjectRecord(checkpoint) &&
+    isUtcIsoTimestampWithMilliseconds(checkpoint.reviewedAt) &&
+    checkpoint.reviewedAt < REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_MIN_REVIEWED_AT
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerMalformed(checkpoint) {
+  const summary = isPlainObjectRecord(checkpoint)
+    ? checkpoint.checkpointSummary
+    : null;
+
+  return !REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_MALFORMED_CHECKS.every(
+    (predicate) => predicate(checkpoint, summary)
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerApprovalDecisionLooking(checkpoint) {
+  return (
+    checkpoint.approvalDecisionProduced !== false ||
+    checkpoint.approvalDecisionPersisted !== false ||
+    checkpoint.approvalDecisionId !== null ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(
+      checkpoint,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_OBJECT_FIELD_GROUPS.approvalDecision
+    )
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerApprovalGrantLooking(checkpoint) {
+  return (
+    checkpoint.approvalGrantProduced !== false ||
+    checkpoint.approvalGrantPersisted !== false ||
+    checkpoint.approvalGrantId !== null
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerEvaluatorResultLooking(checkpoint) {
+  return (
+    checkpoint.evaluatorResultProduced !== false ||
+    checkpoint.evaluatorResultPersisted !== false ||
+    checkpoint.evaluatorResultId !== null ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(
+      checkpoint,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_OBJECT_FIELD_GROUPS.evaluatorResult
+    )
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerEvaluatorExecutionLooking(checkpoint) {
+  return (
+    checkpoint.evaluatorExecutionRequested !== false ||
+    checkpoint.evaluatorExecutionStarted !== false ||
+    checkpoint.evaluatorExecutionEnabled !== false ||
+    checkpoint.evaluatorExecuted !== false
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerReviewerRoutingLooking(checkpoint) {
+  return (
+    checkpoint.reviewerRoutingPerformed !== false ||
+    checkpoint.reviewerRoutingEnabled !== false ||
+    checkpoint.reviewerRouteId !== null ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyPresent(
+      checkpoint,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_OBJECT_FIELD_GROUPS.reviewerRouting
+    )
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerReviewerAssignmentLooking(checkpoint) {
+  return (
+    reviewOnlyInspectionHandoffMetadataBoundaryAnyFieldNotEqual(
+      checkpoint,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REVIEWER_ASSIGNMENT_FALSE_FIELDS,
+      false
+    ) ||
+    reviewOnlyInspectionHandoffMetadataBoundaryAnyFieldNotEqual(
+      checkpoint,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_REVIEWER_ASSIGNMENT_NULL_FIELDS,
+      null
+    ) ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyPresent(
+      checkpoint,
+      REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_OBJECT_FIELD_GROUPS.reviewerAssignment
+    )
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerRuntimePermissionLooking(checkpoint) {
+  return (
+    checkpoint.runtimePermissionGranted !== false ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(checkpoint, [
+      "runtimePermission",
+      "runtimePermissionGranted",
+      "canEnableRuntime"
+    ])
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerCommandExposureLooking(checkpoint) {
+  return (
+    checkpoint.commandExposurePermissionGranted !== false ||
+    checkpoint.runtimeCommandExposureEnabled !== false ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(checkpoint, [
+      "commandExposure",
+      "commandExposurePermissionGranted",
+      "runtimeCommandEnabled",
+      "runtimeCommandExposureEnabled"
+    ])
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerRuntimeEffectTrue(checkpoint) {
+  return (
+    !reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse(
+      checkpoint.runtimeEffect
+    ) ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(checkpoint, [
+      "runtimeEnabled",
+      "runtimeStarted",
+      "runtimeReady",
+      "runtimeExecutionEnabled",
+      "runtimeExecuted"
+    ])
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerProcessFlagTrue(checkpoint) {
+  return reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(checkpoint, [
+    "processSpawned",
+    "processSpawning",
+    "processControlPerformed",
+    "processTerminationEnabled",
+    "runtimeSupervisionEnabled",
+    "stdinLoopEnabled",
+    "stdoutRuntimeWriterEnabled",
+    "stderrRuntimeWriterEnabled"
+  ]);
+}
+
+function reviewOnlyCheckpointHandoffLayerExecutionSignalLooking(checkpoint) {
+  return (
+    checkpoint.runtimeExecutionEnabled !== false ||
+    checkpoint.evaluatorExecuted !== false ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(checkpoint, [
+      "executionSignal",
+      "executionRequested",
+      "executionStarted",
+      "runtimeExecutionSignal",
+      "approvalEvaluatorAuthoritative"
+    ])
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerAuthorizing(checkpoint) {
+  return reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(checkpoint, [
+    "authoritative",
+    "authorizing",
+    "authorized",
+    "authorizationGranted",
+    "approvalAuthorized",
+    "canApproveRuntime",
+    "canGrantRuntime"
+  ]);
+}
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_SINGLE_REJECTION_CHECKS =
+  Object.freeze([
+    [
+      "unknown_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerUnknown
+    ],
+    [
+      "revoked_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerRevoked
+    ],
+    [
+      "stale_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerStale
+    ],
+    [
+      "approval_decision_looking_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerApprovalDecisionLooking
+    ],
+    [
+      "reviewer_routing_looking_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerReviewerRoutingLooking
+    ],
+    [
+      "reviewer_assignment_looking_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerReviewerAssignmentLooking
+    ],
+    [
+      "unsafe_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerUnexpectedUnsafeField
+    ],
+    [
+      "unsafe_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerUnsafeNestedMetadata
+    ],
+    [
+      "approval_grant_looking_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerApprovalGrantLooking
+    ],
+    [
+      "grant_looking_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyInspectionHandoffMetadataBoundaryGrantLooking
+    ],
+    [
+      "evaluator_result_looking_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerEvaluatorResultLooking
+    ],
+    [
+      "evaluator_execution_looking_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerEvaluatorExecutionLooking
+    ],
+    [
+      "runtime_permission_looking_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerRuntimePermissionLooking
+    ],
+    [
+      "command_exposure_looking_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerCommandExposureLooking
+    ],
+    [
+      "runtime_effect_true_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerRuntimeEffectTrue
+    ],
+    [
+      "process_flag_true_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerProcessFlagTrue
+    ],
+    [
+      "execution_signal_looking_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerExecutionSignalLooking
+    ],
+    [
+      "authorizing_review_only_checkpoint_handoff_layer_input_rejected",
+      reviewOnlyCheckpointHandoffLayerAuthorizing
+    ],
+    [
+      MALFORMED_REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_CLASSIFICATION,
+      reviewOnlyCheckpointHandoffLayerMalformed
+    ]
+  ]);
+
+function reviewOnlyCheckpointHandoffLayerSingleClassification(checkpoint) {
+  const rejection =
+    REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_SINGLE_REJECTION_CHECKS.find(
+      ([, predicate]) => predicate(checkpoint)
+    );
+
+  return rejection?.[0] ?? VALID_REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_CLASSIFICATION;
+}
+
+function reviewOnlyCheckpointHandoffLayerInputsContainDuplicate(checkpoints) {
+  const digests = checkpoints
+    .filter(isPlainObjectRecord)
+    .map((entry) => reviewArtifactHandoffDigest(entry));
+  return new Set(digests).size !== digests.length;
+}
+
+function reviewOnlyCheckpointHandoffLayerMultiInputClassification(checkpoints) {
+  return reviewOnlyCheckpointHandoffLayerInputsContainDuplicate(checkpoints)
+    ? "duplicate_invalid_review_only_checkpoint_handoff_layer_input_rejected"
+    : "conflicting_review_only_checkpoint_handoff_layer_input_rejected";
+}
+
+const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_INPUT_REJECTIONS = Object.freeze([
+  [
+    (checkpoints) => checkpoints === undefined,
+    () => "missing_review_only_checkpoint_handoff_layer_input_rejected"
+  ],
+  [
+    (checkpoints) => !Array.isArray(checkpoints),
+    () => MALFORMED_REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_CLASSIFICATION
+  ],
+  [
+    (checkpoints) => checkpoints.length === 0,
+    () => "empty_review_only_checkpoint_handoff_layer_input_rejected"
+  ],
+  [
+    (checkpoints) => checkpoints.length > 1,
+    reviewOnlyCheckpointHandoffLayerMultiInputClassification
+  ]
+]);
+
+function reviewOnlyCheckpointHandoffLayerInputRejection(checkpoints) {
+  const rejection = REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_INPUT_REJECTIONS.find(
+    ([predicate]) => predicate(checkpoints)
+  );
+  return rejection?.[1](checkpoints);
+}
+
+function reviewOnlyCheckpointHandoffLayerClassification(checkpoints) {
+  const inputRejection =
+    reviewOnlyCheckpointHandoffLayerInputRejection(checkpoints);
+
+  return (
+    inputRejection ??
+    reviewOnlyCheckpointHandoffLayerSingleClassification(checkpoints[0])
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerSummary() {
+  return {
+    checkpointHandoffKind: REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_KIND,
+    checkpointHandoffMode: "review-only",
+    sourceInspectionHandoffCheckpointClassification:
+      VALID_REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_CLASSIFICATION,
+    checkpointHandoffMetadataOnly: true,
+    cleanupHardeningToolkitEvidence:
+      "installed-toolkit-validation-evidence-only",
+    reviewerRoutingPerformed: false,
+    reviewerAssignmentPerformed: false,
+    evaluatorExecutionPerformed: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    evaluatorExecuted: false,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function reviewOnlyCheckpointHandoffLayerCleanupEvidence() {
+  return {
+    phase: "phase-5.40-review-only-checkpoint-handoff-layer",
+    evidenceMode: "installed-cleanup-hardening-toolkit-validation-only",
+    npmAuditRequired: true,
+    cargoAuditRequired: true,
+    cargoMacheteRequired: true,
+    fallowStaticRequired: true,
+    optionalAdvisoryChecksAllowed: true,
+    megaLinterRun: false,
+    broadTrunkRewriteRun: false,
+    toolsInstalledByPhase540: false,
+    fallowRuntimeUsed: false,
+    runtimeExecutionEnabled: false,
+    commandExposurePermissionGranted: false
+  };
+}
+
+function reviewOnlyCheckpointHandoffLayerStateFromCheckpoint(
+  checkpoint,
+  reviewedAt
+) {
+  return {
+    schema: REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_STATE_SCHEMA,
+    schemaVersion: REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_VERSION,
+    stateKind: "review-only-checkpoint-handoff-layer-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourceInspectionHandoffCheckpoint: {
+      schema: checkpoint.schema,
+      stateKind: checkpoint.stateKind,
+      stateMode: checkpoint.stateMode,
+      reviewedAt: checkpoint.reviewedAt,
+      stateDigest: reviewArtifactHandoffDigest(checkpoint),
+      sourceInspectionHandoffMetadataDigest:
+        checkpoint.sourceInspectionHandoffMetadata.stateDigest,
+      inspectionHandoffCheckpointMetadataOnly: true,
+      inspectionHandoffCheckpointIsReviewerRouting: false,
+      inspectionHandoffCheckpointIsReviewerAssignment: false,
+      inspectionHandoffCheckpointIsEvaluatorExecution: false,
+      inspectionHandoffCheckpointIsEvaluatorResult: false,
+      inspectionHandoffCheckpointIsApprovalDecision: false,
+      inspectionHandoffCheckpointIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorResultProduced: false,
+      approvalDecisionProduced: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      evaluatorExecuted: false,
+      runtimeEffectAllFalse: true
+    },
+    checkpointHandoffSummary: reviewOnlyCheckpointHandoffLayerSummary(),
+    cleanupHardeningToolkitEvidence:
+      reviewOnlyCheckpointHandoffLayerCleanupEvidence(),
+    inspectionHandoffCheckpointAccepted: true,
+    checkpointHandoffMetadataOnly: true,
+    checkpointHandoffLayerIsReviewerRouting: false,
+    checkpointHandoffLayerIsReviewerAssignment: false,
+    checkpointHandoffLayerIsEvaluatorExecution: false,
+    checkpointHandoffLayerIsEvaluatorResult: false,
+    checkpointHandoffLayerIsApprovalDecision: false,
+    checkpointHandoffLayerIsApprovalGrant: false,
+    reviewerRoutingPerformed: false,
+    reviewerRoutingEnabled: false,
+    reviewerRouteId: null,
+    reviewerAssignmentPerformed: false,
+    reviewerAssignmentEnabled: false,
+    reviewerAssignmentId: null,
+    reviewerId: null,
+    evaluatorResultProduced: false,
+    evaluatorResultPersisted: false,
+    evaluatorResultId: null,
+    approvalDecisionProduced: false,
+    approvalDecisionPersisted: false,
+    approvalDecisionId: null,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionRequested: false,
+    evaluatorExecutionStarted: false,
+    evaluatorExecutionEnabled: false,
+    evaluatorExecuted: false,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function reviewOnlyCheckpointHandoffLayerRejectionReasons({
+  accepted,
+  classification
+}) {
+  if (accepted) {
+    return [
+      "checkpoint_handoff_layer_is_review_only",
+      "reviewer_routing_not_implemented",
+      "reviewer_assignment_not_implemented",
+      "evaluator_execution_not_implemented",
+      "evaluator_result_not_implemented",
+      "approval_decision_not_implemented",
+      "approval_grant_not_implemented",
+      "installed_cleanup_hardening_toolkit_evidence_only",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    classification,
+    "checkpoint_handoff_layer_not_produced",
+    "reviewer_routing_not_implemented",
+    "reviewer_assignment_not_implemented",
+    "evaluator_execution_not_implemented",
+    "evaluator_result_not_implemented",
+    "approval_decision_not_implemented",
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function reviewOnlyCheckpointHandoffLayerInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function reviewOnlyCheckpointHandoffLayerReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function reviewOnlyCheckpointHandoffLayerInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt))
+  );
+}
+
+function reviewOnlyCheckpointHandoffLayerEntries(inputRecord) {
+  return inputRecord === null
+    ? undefined
+    : inputRecord.inspectionHandoffCheckpointEntries;
+}
+
+function reviewOnlyCheckpointHandoffLayerInputClassification(
+  inputRecord,
+  checkpoints
+) {
+  return reviewOnlyCheckpointHandoffLayerInputMalformed(inputRecord)
+    ? MALFORMED_REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_CLASSIFICATION
+    : reviewOnlyCheckpointHandoffLayerClassification(checkpoints);
+}
+
+function reviewOnlyCheckpointHandoffLayerSummaryFromCheckpoint(checkpoint) {
+  return {
+    schema: checkpoint.schema,
+    stateKind: checkpoint.stateKind,
+    stateMode: checkpoint.stateMode,
+    reviewedAt: checkpoint.reviewedAt,
+    stateDigest: reviewArtifactHandoffDigest(checkpoint),
+    inspectionHandoffCheckpointMetadataOnly: true,
+    inspectionHandoffCheckpointIsReviewerRouting: false,
+    inspectionHandoffCheckpointIsReviewerAssignment: false,
+    inspectionHandoffCheckpointIsEvaluatorExecution: false,
+    inspectionHandoffCheckpointIsEvaluatorResult: false,
+    inspectionHandoffCheckpointIsApprovalDecision: false,
+    inspectionHandoffCheckpointIsApprovalGrant: false,
+    reviewerRoutingPerformed: false,
+    reviewerAssignmentPerformed: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    evaluatorExecuted: false,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function reviewOnlyCheckpointHandoffLayerAcceptedOutput({
+  accepted,
+  checkpoints,
+  reviewedAt
+}) {
+  if (!accepted) {
+    return {
+      checkpointHandoffLayer: null,
+      inspectionHandoffCheckpointSummary: null
+    };
+  }
+
+  const sourceCheckpoint = checkpoints[0];
+
+  return {
+    checkpointHandoffLayer:
+      reviewOnlyCheckpointHandoffLayerStateFromCheckpoint(
+        sourceCheckpoint,
+        reviewedAt
+      ),
+    inspectionHandoffCheckpointSummary:
+      reviewOnlyCheckpointHandoffLayerSummaryFromCheckpoint(sourceCheckpoint)
+  };
+}
+
+function reviewOnlyCheckpointHandoffLayerResult({
+  reviewedAt,
+  classification,
+  accepted,
+  checkpointHandoffLayer,
+  inspectionHandoffCheckpointSummary
+}) {
+  return {
+    schema: REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_SCHEMA,
+    schemaVersion: REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_VERSION,
+    checkpointHandoffKind: REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_KIND,
+    checkpointHandoffMode: "review-only",
+    reviewedAt,
+    classification,
+    inspectionHandoffCheckpointAccepted: accepted,
+    checkpointHandoffLayerProduced: accepted,
+    checkpointHandoffLayerIsReviewerRouting: false,
+    checkpointHandoffLayerIsReviewerAssignment: false,
+    checkpointHandoffLayerIsEvaluatorExecution: false,
+    checkpointHandoffLayerIsEvaluatorResult: false,
+    checkpointHandoffLayerIsApprovalDecision: false,
+    checkpointHandoffLayerIsApprovalGrant: false,
+    checkpointHandoffLayer,
+    inspectionHandoffCheckpointSummary,
+    cleanupHardeningToolkitEvidence:
+      reviewOnlyCheckpointHandoffLayerCleanupEvidence(),
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    checkpointHandoffMetadataOnly: true,
+    reviewerRoutingPerformed: false,
+    reviewerRoutingEnabled: false,
+    reviewerRouteId: null,
+    reviewerAssignmentPerformed: false,
+    reviewerAssignmentEnabled: false,
+    reviewerAssignmentId: null,
+    reviewerId: null,
+    evaluatorResultProduced: false,
+    evaluatorResultPersisted: false,
+    evaluatorResultId: null,
+    approvalDecisionProduced: false,
+    approvalDecisionPersisted: false,
+    approvalDecisionId: null,
+    approvalGrant: sourcePreflightGrantBlocked(),
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionRequested: false,
+    evaluatorExecutionStarted: false,
+    evaluatorExecutionEnabled: false,
+    evaluatorExecuted: false,
+    rejectionReasons: reviewOnlyCheckpointHandoffLayerRejectionReasons({
+      accepted,
+      classification
+    }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createReviewOnlyCheckpointHandoffLayerForReview(input = {}) {
+  const inputRecord = reviewOnlyCheckpointHandoffLayerInputRecord(input);
+  const reviewedAt = reviewOnlyCheckpointHandoffLayerReviewedAt(inputRecord);
+  const checkpoints = reviewOnlyCheckpointHandoffLayerEntries(inputRecord);
+  const classification = reviewOnlyCheckpointHandoffLayerInputClassification(
+    inputRecord,
+    checkpoints
+  );
+  const accepted =
+    classification === VALID_REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_CLASSIFICATION;
+  const { checkpointHandoffLayer, inspectionHandoffCheckpointSummary } =
+    reviewOnlyCheckpointHandoffLayerAcceptedOutput({
+      accepted,
+      checkpoints,
+      reviewedAt
+    });
+
+  return reviewOnlyCheckpointHandoffLayerResult({
+    reviewedAt,
+    classification,
+    accepted,
+    checkpointHandoffLayer,
+    inspectionHandoffCheckpointSummary
   });
 }
 

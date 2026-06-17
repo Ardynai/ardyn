@@ -222,6 +222,11 @@ export const REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_SCHEMA:
 export const REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_VERSION: "0.1.0";
 export const REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_KIND:
   "review-only-inspection-handoff-checkpoint";
+export const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_SCHEMA:
+  "ardyn.phase-5.40.review-only-checkpoint-handoff-layer-result";
+export const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_VERSION: "0.1.0";
+export const REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_KIND:
+  "review-only-checkpoint-handoff-layer";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1835,6 +1840,30 @@ export type ReviewOnlyInspectionHandoffCheckpointClassification =
   | "unsafe_review_only_inspection_handoff_checkpoint_input_rejected"
   | "execution_signal_looking_review_only_inspection_handoff_checkpoint_input_rejected"
   | "valid_review_only_inspection_handoff_checkpoint_runtime_still_blocked";
+export type ReviewOnlyCheckpointHandoffLayerClassification =
+  | "missing_review_only_checkpoint_handoff_layer_input_rejected"
+  | "malformed_review_only_checkpoint_handoff_layer_input_rejected"
+  | "empty_review_only_checkpoint_handoff_layer_input_rejected"
+  | "conflicting_review_only_checkpoint_handoff_layer_input_rejected"
+  | "stale_review_only_checkpoint_handoff_layer_input_rejected"
+  | "revoked_review_only_checkpoint_handoff_layer_input_rejected"
+  | "unknown_review_only_checkpoint_handoff_layer_input_rejected"
+  | "duplicate_invalid_review_only_checkpoint_handoff_layer_input_rejected"
+  | "authorizing_review_only_checkpoint_handoff_layer_input_rejected"
+  | "grant_looking_review_only_checkpoint_handoff_layer_input_rejected"
+  | "approval_decision_looking_review_only_checkpoint_handoff_layer_input_rejected"
+  | "approval_grant_looking_review_only_checkpoint_handoff_layer_input_rejected"
+  | "evaluator_result_looking_review_only_checkpoint_handoff_layer_input_rejected"
+  | "evaluator_execution_looking_review_only_checkpoint_handoff_layer_input_rejected"
+  | "reviewer_routing_looking_review_only_checkpoint_handoff_layer_input_rejected"
+  | "reviewer_assignment_looking_review_only_checkpoint_handoff_layer_input_rejected"
+  | "runtime_permission_looking_review_only_checkpoint_handoff_layer_input_rejected"
+  | "command_exposure_looking_review_only_checkpoint_handoff_layer_input_rejected"
+  | "runtime_effect_true_review_only_checkpoint_handoff_layer_input_rejected"
+  | "process_flag_true_review_only_checkpoint_handoff_layer_input_rejected"
+  | "unsafe_review_only_checkpoint_handoff_layer_input_rejected"
+  | "execution_signal_looking_review_only_checkpoint_handoff_layer_input_rejected"
+  | "valid_review_only_checkpoint_handoff_layer_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -4124,6 +4153,176 @@ export interface ReviewOnlyInspectionHandoffCheckpointResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export interface ReviewOnlyCheckpointHandoffLayerState {
+  schema: "ardyn.phase-5.40.review-only-checkpoint-handoff-layer-state";
+  schemaVersion: "0.1.0";
+  stateKind: "review-only-checkpoint-handoff-layer-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourceInspectionHandoffCheckpoint: {
+    schema: "ardyn.phase-5.39.review-only-inspection-handoff-checkpoint-state";
+    stateKind: "review-only-inspection-handoff-checkpoint-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    sourceInspectionHandoffMetadataDigest: string;
+    inspectionHandoffCheckpointMetadataOnly: true;
+    inspectionHandoffCheckpointIsReviewerRouting: false;
+    inspectionHandoffCheckpointIsReviewerAssignment: false;
+    inspectionHandoffCheckpointIsEvaluatorExecution: false;
+    inspectionHandoffCheckpointIsEvaluatorResult: false;
+    inspectionHandoffCheckpointIsApprovalDecision: false;
+    inspectionHandoffCheckpointIsApprovalGrant: false;
+    reviewerRoutingPerformed: false;
+    reviewerAssignmentPerformed: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  };
+  checkpointHandoffSummary: {
+    checkpointHandoffKind: "review-only-checkpoint-handoff-layer";
+    checkpointHandoffMode: "review-only";
+    sourceInspectionHandoffCheckpointClassification:
+      "valid_review_only_inspection_handoff_checkpoint_runtime_still_blocked";
+    checkpointHandoffMetadataOnly: true;
+    cleanupHardeningToolkitEvidence:
+      "installed-toolkit-validation-evidence-only";
+    reviewerRoutingPerformed: false;
+    reviewerAssignmentPerformed: false;
+    evaluatorExecutionPerformed: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    runtimePermissionGranted: false;
+    commandExposurePermissionGranted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  };
+  cleanupHardeningToolkitEvidence: {
+    phase: "phase-5.40-review-only-checkpoint-handoff-layer";
+    evidenceMode: "installed-cleanup-hardening-toolkit-validation-only";
+    npmAuditRequired: true;
+    cargoAuditRequired: true;
+    cargoMacheteRequired: true;
+    fallowStaticRequired: true;
+    optionalAdvisoryChecksAllowed: true;
+    megaLinterRun: false;
+    broadTrunkRewriteRun: false;
+    toolsInstalledByPhase540: false;
+    fallowRuntimeUsed: false;
+    runtimeExecutionEnabled: false;
+    commandExposurePermissionGranted: false;
+  };
+  inspectionHandoffCheckpointAccepted: true;
+  checkpointHandoffMetadataOnly: true;
+  checkpointHandoffLayerIsReviewerRouting: false;
+  checkpointHandoffLayerIsReviewerAssignment: false;
+  checkpointHandoffLayerIsEvaluatorExecution: false;
+  checkpointHandoffLayerIsEvaluatorResult: false;
+  checkpointHandoffLayerIsApprovalDecision: false;
+  checkpointHandoffLayerIsApprovalGrant: false;
+  reviewerRoutingPerformed: false;
+  reviewerRoutingEnabled: false;
+  reviewerRouteId: null;
+  reviewerAssignmentPerformed: false;
+  reviewerAssignmentEnabled: false;
+  reviewerAssignmentId: null;
+  reviewerId: null;
+  evaluatorResultProduced: false;
+  evaluatorResultPersisted: false;
+  evaluatorResultId: null;
+  approvalDecisionProduced: false;
+  approvalDecisionPersisted: false;
+  approvalDecisionId: null;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ReviewOnlyCheckpointHandoffLayerResult {
+  schema: "ardyn.phase-5.40.review-only-checkpoint-handoff-layer-result";
+  schemaVersion: "0.1.0";
+  checkpointHandoffKind: "review-only-checkpoint-handoff-layer";
+  checkpointHandoffMode: "review-only";
+  reviewedAt: string;
+  classification: ReviewOnlyCheckpointHandoffLayerClassification;
+  inspectionHandoffCheckpointAccepted: boolean;
+  checkpointHandoffLayerProduced: boolean;
+  checkpointHandoffLayerIsReviewerRouting: false;
+  checkpointHandoffLayerIsReviewerAssignment: false;
+  checkpointHandoffLayerIsEvaluatorExecution: false;
+  checkpointHandoffLayerIsEvaluatorResult: false;
+  checkpointHandoffLayerIsApprovalDecision: false;
+  checkpointHandoffLayerIsApprovalGrant: false;
+  checkpointHandoffLayer: ReviewOnlyCheckpointHandoffLayerState | null;
+  inspectionHandoffCheckpointSummary: {
+    schema: "ardyn.phase-5.39.review-only-inspection-handoff-checkpoint-state";
+    stateKind: "review-only-inspection-handoff-checkpoint-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    inspectionHandoffCheckpointMetadataOnly: true;
+    inspectionHandoffCheckpointIsReviewerRouting: false;
+    inspectionHandoffCheckpointIsReviewerAssignment: false;
+    inspectionHandoffCheckpointIsEvaluatorExecution: false;
+    inspectionHandoffCheckpointIsEvaluatorResult: false;
+    inspectionHandoffCheckpointIsApprovalDecision: false;
+    inspectionHandoffCheckpointIsApprovalGrant: false;
+    reviewerRoutingPerformed: false;
+    reviewerAssignmentPerformed: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  } | null;
+  cleanupHardeningToolkitEvidence: ReviewOnlyCheckpointHandoffLayerState["cleanupHardeningToolkitEvidence"];
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  checkpointHandoffMetadataOnly: true;
+  reviewerRoutingPerformed: false;
+  reviewerRoutingEnabled: false;
+  reviewerRouteId: null;
+  reviewerAssignmentPerformed: false;
+  reviewerAssignmentEnabled: false;
+  reviewerAssignmentId: null;
+  reviewerId: null;
+  evaluatorResultProduced: false;
+  evaluatorResultPersisted: false;
+  evaluatorResultId: null;
+  approvalDecisionProduced: false;
+  approvalDecisionPersisted: false;
+  approvalDecisionId: null;
+  approvalGrant: RuntimeApprovalGrantBlocked;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -4427,6 +4626,10 @@ export function createReviewOnlyInspectionHandoffCheckpointForReview(input?: {
   reviewedAt?: string;
   inspectionHandoffMetadataEntries?: unknown[];
 }): ReviewOnlyInspectionHandoffCheckpointResult;
+export function createReviewOnlyCheckpointHandoffLayerForReview(input?: {
+  reviewedAt?: string;
+  inspectionHandoffCheckpointEntries?: unknown[];
+}): ReviewOnlyCheckpointHandoffLayerResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
