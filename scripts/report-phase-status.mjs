@@ -234,6 +234,9 @@ const phase539ReviewOnlyInspectionHandoffCheckpointMetadata = await readJson(
 const phase540ReviewOnlyCheckpointHandoffLayerMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-40/review-only-checkpoint-handoff-layer.json"
 );
+const phase541ReviewOnlyMetadataHandoffCheckpointMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-41/review-only-metadata-handoff-checkpoint.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -281,10 +284,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.40",
-    name: "Review-only checkpoint handoff layer",
+    id: "5.41",
+    name: "Review-only metadata handoff checkpoint",
     executionPosture:
-      "review-only-checkpoint-handoff-layer runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-metadata-handoff-checkpoint runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -365,12 +368,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.40 checkpoint handoff layer status report.",
+        "Render this deterministic local Phase 5.41 metadata handoff checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.40 status report.",
+      purpose: "Run focused tests for this local Phase 5.41 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-41-review-only-metadata-handoff-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.41 review-only metadata handoff checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -17035,6 +17045,311 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase541ReviewOnlyMetadataHandoffCheckpointInventory: {
+    statusLayer: {
+      document: "docs/phase-5-41-review-only-metadata-handoff-checkpoint.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-41/review-only-metadata-handoff-checkpoint.json",
+      sourceCheckpointHandoffLayerDocument:
+        "docs/phase-5-40-review-only-checkpoint-handoff-layer.md",
+      sourceCheckpointHandoffLayerFixture:
+        "tests/fixtures/host-policy/phase5-40/review-only-checkpoint-handoff-layer.json",
+      precedingPhase: "5.40",
+      layerId: "review-only-metadata-handoff-checkpoint",
+      scope:
+        "phase-5-review-only-metadata-handoff-checkpoint-runtime-disabled",
+      reviewOnlyMetadataHandoffCheckpointRecorded:
+        phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+          .metadataHandoffCheckpointSummary
+          .reviewOnlyMetadataHandoffCheckpointRecorded,
+      metadataHandoffCheckpointKind:
+        phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+          .metadataHandoffCheckpointSummary.metadataHandoffCheckpointKind,
+      metadataHandoffCheckpointReviewOnly: true,
+      metadataHandoffCheckpointAuthoritative: false,
+      validCheckpointHandoffLayerProducesCheckpoint: true,
+      missingCheckpointHandoffLayerRejected: true,
+      malformedCheckpointHandoffLayerRejected: true,
+      emptyCheckpointHandoffLayerRejected: true,
+      conflictingCheckpointHandoffLayerRejected: true,
+      staleCheckpointHandoffLayerRejected: true,
+      revokedCheckpointHandoffLayerRejected: true,
+      unknownCheckpointHandoffLayerRejected: true,
+      duplicateInvalidCheckpointHandoffLayerRejected: true,
+      authorizingLookingCheckpointHandoffLayerRejected: true,
+      grantLookingCheckpointHandoffLayerRejected: true,
+      approvalDecisionLookingCheckpointHandoffLayerRejected: true,
+      approvalGrantLookingCheckpointHandoffLayerRejected: true,
+      evaluatorResultLookingCheckpointHandoffLayerRejected: true,
+      evaluatorExecutionLookingCheckpointHandoffLayerRejected: true,
+      reviewerRoutingLookingCheckpointHandoffLayerRejected: true,
+      reviewerAssignmentLookingCheckpointHandoffLayerRejected: true,
+      runtimePermissionLookingCheckpointHandoffLayerRejected: true,
+      commandExposureLookingCheckpointHandoffLayerRejected: true,
+      runtimeEffectTrueCheckpointHandoffLayerRejected: true,
+      processFlagTrueCheckpointHandoffLayerRejected: true,
+      unsafeCheckpointHandoffMetadataRejected: true,
+      executionSignalLookingCheckpointHandoffLayerRejected: true,
+      metadataHandoffCheckpointIsReviewerRouting: false,
+      metadataHandoffCheckpointIsReviewerAssignment: false,
+      metadataHandoffCheckpointIsEvaluatorExecution: false,
+      metadataHandoffCheckpointIsEvaluatorResult: false,
+      metadataHandoffCheckpointIsApprovalDecision: false,
+      metadataHandoffCheckpointIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      cleanupHardeningToolkitEvidenceOnly:
+        phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+          .metadataHandoffCheckpointSummary
+          .cleanupHardeningToolkitEvidenceOnly,
+      toolsInstalledByPhase541: false,
+      megaLinterRun: false,
+      broadTrunkRewriteRun: false,
+      fallowRuntimeUsed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+          .metadataHandoffCheckpointSummary.serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-41-review-only-metadata-handoff-checkpoint.md",
+        "Records the Phase 5.41 review-only metadata handoff checkpoint while reviewer routing, reviewer assignment, evaluator execution, evaluator results, approval decisions, grants, and runtime remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-40-review-only-checkpoint-handoff-layer.md",
+        "Provides the Phase 5.41 source checkpoint handoff layer."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.41 as current docs/status mode while runtime, reviewer routing, and reviewer assignment remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.41 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.41 changes no Rust-host runtime source and records a TypeScript metadata handoff checkpoint helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-40-review-only-checkpoint-handoff-layer.md",
+      "docs/phase-5-41-review-only-metadata-handoff-checkpoint.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-41/review-only-metadata-handoff-checkpoint.json",
+        "Records review-only metadata handoff checkpoint cases while reviewer routing, reviewer assignment, evaluator execution, evaluator results, approval decisions, grants, and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.41 report metadata, docs cross-links, metadata handoff checkpoint fixture, cleanup hardening evidence, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-41-review-only-metadata-handoff-checkpoint.test.mjs",
+        "Pins the Phase 5.41 metadata handoff checkpoint helper, fixture shape, non-authorizing state, serve-runtime rejection, command rejection, and CLI/Rust source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-40-review-only-checkpoint-handoff-layer.md",
+        "docs/phase-5-41-review-only-metadata-handoff-checkpoint.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-41/review-only-metadata-handoff-checkpoint.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-41-review-only-metadata-handoff-checkpoint.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      cleanupToolsInstalledByThisPhase: false,
+      megaLinterRunByThisPhase: false,
+      broadTrunkRewriteRunByThisPhase: false,
+      reviewerRoutingPerformedByThisPhase: false,
+      reviewerAssignmentPerformedByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateReviewerRoutingPhaseRequired: true,
+      separateReviewerAssignmentPhaseRequired: true,
+      separateEvaluatorExecutionPhaseRequired: true,
+      separateEvaluatorResultPhaseRequired: true,
+      separateApprovalDecisionPhaseRequired: true,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata.sourcePhase,
+    metadataHandoffCheckpointSummary:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+        .metadataHandoffCheckpointSummary,
+    metadataHandoffCheckpointInputShape:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+        .metadataHandoffCheckpointInputShape,
+    metadataHandoffCheckpointResultShape:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+        .metadataHandoffCheckpointResultShape,
+    metadataHandoffCheckpointCases:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+        .metadataHandoffCheckpointCases,
+    metadataHandoffCheckpoint:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+        .metadataHandoffCheckpoint,
+    cleanupHardeningToolkitEvidence:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+        .cleanupHardeningToolkitEvidence,
+    blockedRuntimeEffect:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata.forbiddenBehavior,
+    validationCommands:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata.validationCommands,
+    optionalAdvisoryCommands:
+      phase541ReviewOnlyMetadataHandoffCheckpointMetadata
+        .optionalAdvisoryCommands,
+    safetyPosture: {
+      reviewOnlyMetadataHandoffCheckpointRecorded: true,
+      metadataHandoffCheckpointReviewOnly: true,
+      metadataHandoffCheckpointAuthoritative: false,
+      validCheckpointHandoffLayerProducesCheckpoint: true,
+      missingCheckpointHandoffLayerRejected: true,
+      malformedCheckpointHandoffLayerRejected: true,
+      emptyCheckpointHandoffLayerRejected: true,
+      conflictingCheckpointHandoffLayerRejected: true,
+      staleCheckpointHandoffLayerRejected: true,
+      revokedCheckpointHandoffLayerRejected: true,
+      unknownCheckpointHandoffLayerRejected: true,
+      duplicateInvalidCheckpointHandoffLayerRejected: true,
+      authorizingLookingCheckpointHandoffLayerRejected: true,
+      grantLookingCheckpointHandoffLayerRejected: true,
+      approvalDecisionLookingCheckpointHandoffLayerRejected: true,
+      approvalGrantLookingCheckpointHandoffLayerRejected: true,
+      evaluatorResultLookingCheckpointHandoffLayerRejected: true,
+      evaluatorExecutionLookingCheckpointHandoffLayerRejected: true,
+      reviewerRoutingLookingCheckpointHandoffLayerRejected: true,
+      reviewerAssignmentLookingCheckpointHandoffLayerRejected: true,
+      runtimePermissionLookingCheckpointHandoffLayerRejected: true,
+      commandExposureLookingCheckpointHandoffLayerRejected: true,
+      runtimeEffectTrueCheckpointHandoffLayerRejected: true,
+      processFlagTrueCheckpointHandoffLayerRejected: true,
+      unsafeCheckpointHandoffMetadataRejected: true,
+      executionSignalLookingCheckpointHandoffLayerRejected: true,
+      metadataHandoffCheckpointIsReviewerRouting: false,
+      metadataHandoffCheckpointIsReviewerAssignment: false,
+      metadataHandoffCheckpointIsEvaluatorExecution: false,
+      metadataHandoffCheckpointIsEvaluatorResult: false,
+      metadataHandoffCheckpointIsApprovalDecision: false,
+      metadataHandoffCheckpointIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      cleanupHardeningToolkitEvidenceOnly: true,
+      toolsInstalledByPhase541: false,
+      megaLinterRun: false,
+      broadTrunkRewriteRun: false,
+      fallowRuntimeUsed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -17109,6 +17424,7 @@ const report = {
     phase538ALanguageAwareCleanupToolkitAdoption: true,
     phase539ReviewOnlyInspectionHandoffCheckpoint: true,
     phase540ReviewOnlyCheckpointHandoffLayer: true,
+    phase541ReviewOnlyMetadataHandoffCheckpoint: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -18984,6 +19300,80 @@ const report = {
       phase540AdapterRuntimeBehaviorEnabled: false,
       phase540ContentFabricRuntimeBehaviorEnabled: false,
       phase540WebSocketHttpSurfaceEnabled: false,
+      phase541ReviewOnlyMetadataHandoffCheckpointRecorded: true,
+      phase541MetadataHandoffCheckpointReviewOnly: true,
+      phase541MetadataHandoffCheckpointAuthoritative: false,
+      phase541ValidCheckpointHandoffLayerProducesCheckpoint: true,
+      phase541MissingCheckpointHandoffLayerRejected: true,
+      phase541MalformedCheckpointHandoffLayerRejected: true,
+      phase541EmptyCheckpointHandoffLayerRejected: true,
+      phase541ConflictingCheckpointHandoffLayerRejected: true,
+      phase541StaleCheckpointHandoffLayerRejected: true,
+      phase541RevokedCheckpointHandoffLayerRejected: true,
+      phase541UnknownCheckpointHandoffLayerRejected: true,
+      phase541DuplicateInvalidCheckpointHandoffLayerRejected: true,
+      phase541AuthorizingLookingCheckpointHandoffLayerRejected: true,
+      phase541GrantLookingCheckpointHandoffLayerRejected: true,
+      phase541ApprovalDecisionLookingCheckpointHandoffLayerRejected: true,
+      phase541ApprovalGrantLookingCheckpointHandoffLayerRejected: true,
+      phase541EvaluatorResultLookingCheckpointHandoffLayerRejected: true,
+      phase541EvaluatorExecutionLookingCheckpointHandoffLayerRejected: true,
+      phase541ReviewerRoutingLookingCheckpointHandoffLayerRejected: true,
+      phase541ReviewerAssignmentLookingCheckpointHandoffLayerRejected: true,
+      phase541RuntimePermissionLookingCheckpointHandoffLayerRejected: true,
+      phase541CommandExposureLookingCheckpointHandoffLayerRejected: true,
+      phase541RuntimeEffectTrueCheckpointHandoffLayerRejected: true,
+      phase541ProcessFlagTrueCheckpointHandoffLayerRejected: true,
+      phase541UnsafeCheckpointHandoffMetadataRejected: true,
+      phase541ExecutionSignalLookingCheckpointHandoffLayerRejected: true,
+      phase541MetadataHandoffCheckpointIsReviewerRouting: false,
+      phase541MetadataHandoffCheckpointIsReviewerAssignment: false,
+      phase541MetadataHandoffCheckpointIsEvaluatorExecution: false,
+      phase541MetadataHandoffCheckpointIsEvaluatorResult: false,
+      phase541MetadataHandoffCheckpointIsApprovalDecision: false,
+      phase541MetadataHandoffCheckpointIsApprovalGrant: false,
+      phase541ReviewerRoutingPerformed: false,
+      phase541ReviewerAssignmentPerformed: false,
+      phase541EvaluatorResultProduced: false,
+      phase541EvaluatorResultPersisted: false,
+      phase541ApprovalDecisionProduced: false,
+      phase541ApprovalDecisionPersisted: false,
+      phase541ApprovalGrantProduced: false,
+      phase541ApprovalGrantPersisted: false,
+      phase541RuntimePermissionGranted: false,
+      phase541CommandExposurePermissionGranted: false,
+      phase541RuntimeEnabled: false,
+      phase541RuntimeStarted: false,
+      phase541RuntimeReady: false,
+      phase541RuntimeCommandEnabled: false,
+      phase541RuntimeCommandExposureEnabled: false,
+      phase541RuntimeExecutionEnabled: false,
+      phase541RuntimeExecuted: false,
+      phase541EvaluatorExecutionPerformed: false,
+      phase541CleanupHardeningToolkitEvidenceOnly: true,
+      phase541ToolsInstalled: false,
+      phase541MegaLinterRun: false,
+      phase541BroadTrunkRewriteRun: false,
+      phase541FallowRuntimeUsed: false,
+      phase541ServeRuntimeStillDefaultBlocked: true,
+      phase541DryRunBypassesBlock: false,
+      phase541CanEnableRuntime: false,
+      phase541CliSourceChanged: false,
+      phase541RustSourceChanged: false,
+      phase541FilesystemWatcherEnabled: false,
+      phase541ExternalSourceLookupEnabled: false,
+      phase541SecretsEnvIngestionEnabled: false,
+      phase541LiveStdinLoopEnabled: false,
+      phase541RuntimeStdoutWriterEnabled: false,
+      phase541RuntimeStderrWriterEnabled: false,
+      phase541ProcessSpawnEnabled: false,
+      phase541ProcessTerminationEnabled: false,
+      phase541RuntimeSupervisionEnabled: false,
+      phase541RuntimeTranscriptWritePerformed: false,
+      phase541RuntimeAuditWritePerformed: false,
+      phase541AdapterRuntimeBehaviorEnabled: false,
+      phase541ContentFabricRuntimeBehaviorEnabled: false,
+      phase541WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

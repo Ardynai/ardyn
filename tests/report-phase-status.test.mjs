@@ -3155,6 +3155,129 @@ const phase540SafetyFlagNames = [
   ...phase540ExpectedTrueSafetyFlagNames,
   ...phase540ExpectedFalseSafetyFlagNames
 ];
+const phase541DocFiles = [
+  "docs/phase-5-41-review-only-metadata-handoff-checkpoint.md",
+  "docs/phase-5-40-review-only-checkpoint-handoff-layer.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase541CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-40-review-only-checkpoint-handoff-layer.md",
+  "docs/phase-5-41-review-only-metadata-handoff-checkpoint.md"
+];
+const phase541ExpectedCaseIds = [
+  "missing-review-only-metadata-handoff-checkpoint-input-rejected",
+  "malformed-review-only-metadata-handoff-checkpoint-input-rejected",
+  "malformed-review-only-metadata-handoff-checkpoint-invalid-reviewed-at-rejected",
+  "empty-review-only-metadata-handoff-checkpoint-input-rejected",
+  "conflicting-review-only-metadata-handoff-checkpoint-input-rejected",
+  "stale-review-only-metadata-handoff-checkpoint-input-rejected",
+  "revoked-review-only-metadata-handoff-checkpoint-input-rejected",
+  "unknown-review-only-metadata-handoff-checkpoint-input-rejected",
+  "duplicate-invalid-review-only-metadata-handoff-checkpoint-input-rejected",
+  "authorizing-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "grant-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "approval-decision-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "approval-grant-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "evaluator-result-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "evaluator-execution-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "reviewer-routing-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "reviewer-assignment-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "runtime-permission-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "command-exposure-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "runtime-effect-true-review-only-metadata-handoff-checkpoint-input-rejected",
+  "process-flag-true-review-only-metadata-handoff-checkpoint-input-rejected",
+  "unsafe-top-level-review-only-metadata-handoff-checkpoint-input-rejected",
+  "unsafe-nested-checkpoint-handoff-metadata-review-only-metadata-handoff-checkpoint-input-rejected",
+  "execution-signal-looking-review-only-metadata-handoff-checkpoint-input-rejected",
+  "valid-review-only-metadata-handoff-checkpoint"
+];
+const phase541ExpectedTrueSafetyFlagNames = [
+  "phase541ReviewOnlyMetadataHandoffCheckpointRecorded",
+  "phase541MetadataHandoffCheckpointReviewOnly",
+  "phase541ValidCheckpointHandoffLayerProducesCheckpoint",
+  "phase541MissingCheckpointHandoffLayerRejected",
+  "phase541MalformedCheckpointHandoffLayerRejected",
+  "phase541EmptyCheckpointHandoffLayerRejected",
+  "phase541ConflictingCheckpointHandoffLayerRejected",
+  "phase541StaleCheckpointHandoffLayerRejected",
+  "phase541RevokedCheckpointHandoffLayerRejected",
+  "phase541UnknownCheckpointHandoffLayerRejected",
+  "phase541DuplicateInvalidCheckpointHandoffLayerRejected",
+  "phase541AuthorizingLookingCheckpointHandoffLayerRejected",
+  "phase541GrantLookingCheckpointHandoffLayerRejected",
+  "phase541ApprovalDecisionLookingCheckpointHandoffLayerRejected",
+  "phase541ApprovalGrantLookingCheckpointHandoffLayerRejected",
+  "phase541EvaluatorResultLookingCheckpointHandoffLayerRejected",
+  "phase541EvaluatorExecutionLookingCheckpointHandoffLayerRejected",
+  "phase541ReviewerRoutingLookingCheckpointHandoffLayerRejected",
+  "phase541ReviewerAssignmentLookingCheckpointHandoffLayerRejected",
+  "phase541RuntimePermissionLookingCheckpointHandoffLayerRejected",
+  "phase541CommandExposureLookingCheckpointHandoffLayerRejected",
+  "phase541RuntimeEffectTrueCheckpointHandoffLayerRejected",
+  "phase541ProcessFlagTrueCheckpointHandoffLayerRejected",
+  "phase541UnsafeCheckpointHandoffMetadataRejected",
+  "phase541ExecutionSignalLookingCheckpointHandoffLayerRejected",
+  "phase541CleanupHardeningToolkitEvidenceOnly",
+  "phase541ServeRuntimeStillDefaultBlocked"
+];
+const phase541ExpectedFalseSafetyFlagNames = [
+  "phase541MetadataHandoffCheckpointAuthoritative",
+  "phase541MetadataHandoffCheckpointIsReviewerRouting",
+  "phase541MetadataHandoffCheckpointIsReviewerAssignment",
+  "phase541MetadataHandoffCheckpointIsEvaluatorExecution",
+  "phase541MetadataHandoffCheckpointIsEvaluatorResult",
+  "phase541MetadataHandoffCheckpointIsApprovalDecision",
+  "phase541MetadataHandoffCheckpointIsApprovalGrant",
+  "phase541ReviewerRoutingPerformed",
+  "phase541ReviewerAssignmentPerformed",
+  "phase541EvaluatorResultProduced",
+  "phase541EvaluatorResultPersisted",
+  "phase541ApprovalDecisionProduced",
+  "phase541ApprovalDecisionPersisted",
+  "phase541ApprovalGrantProduced",
+  "phase541ApprovalGrantPersisted",
+  "phase541RuntimePermissionGranted",
+  "phase541CommandExposurePermissionGranted",
+  "phase541RuntimeEnabled",
+  "phase541RuntimeStarted",
+  "phase541RuntimeReady",
+  "phase541RuntimeCommandEnabled",
+  "phase541RuntimeCommandExposureEnabled",
+  "phase541RuntimeExecutionEnabled",
+  "phase541RuntimeExecuted",
+  "phase541EvaluatorExecutionPerformed",
+  "phase541ToolsInstalled",
+  "phase541MegaLinterRun",
+  "phase541BroadTrunkRewriteRun",
+  "phase541FallowRuntimeUsed",
+  "phase541DryRunBypassesBlock",
+  "phase541CanEnableRuntime",
+  "phase541CliSourceChanged",
+  "phase541RustSourceChanged",
+  "phase541FilesystemWatcherEnabled",
+  "phase541ExternalSourceLookupEnabled",
+  "phase541SecretsEnvIngestionEnabled",
+  "phase541LiveStdinLoopEnabled",
+  "phase541RuntimeStdoutWriterEnabled",
+  "phase541RuntimeStderrWriterEnabled",
+  "phase541ProcessSpawnEnabled",
+  "phase541ProcessTerminationEnabled",
+  "phase541RuntimeSupervisionEnabled",
+  "phase541RuntimeTranscriptWritePerformed",
+  "phase541RuntimeAuditWritePerformed",
+  "phase541AdapterRuntimeBehaviorEnabled",
+  "phase541ContentFabricRuntimeBehaviorEnabled",
+  "phase541WebSocketHttpSurfaceEnabled"
+];
+const phase541SafetyFlagNames = [
+  ...phase541ExpectedTrueSafetyFlagNames,
+  ...phase541ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -3289,15 +3412,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.40 checkpoint handoff layer docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.41 metadata handoff checkpoint docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.40",
-    name: "Review-only checkpoint handoff layer",
+    id: "5.41",
+    name: "Review-only metadata handoff checkpoint",
     executionPosture:
-      "review-only-checkpoint-handoff-layer runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-metadata-handoff-checkpoint runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -3360,11 +3483,11 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.40 checkpoint handoff layer status report."
+    "Render this deterministic local Phase 5.41 metadata handoff checkpoint status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.40 status report."
+    "Run focused tests for this local Phase 5.41 status report."
   );
   assert.match(
     verificationByCommand.get("cargo audit").purpose,
@@ -17655,6 +17778,235 @@ test("report inventories Phase 5.40 as review-only checkpoint handoff layer", as
   assertSafetyFlags(report, phase540ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.41 as review-only metadata handoff checkpoint", async () => {
+  const report = await runReport();
+  const inventory = report.phase541ReviewOnlyMetadataHandoffCheckpointInventory;
+
+  assert.equal(inventory.statusLayer.layerId, "review-only-metadata-handoff-checkpoint");
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase541DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase541CrossLinks);
+  assert.equal(
+    inventory.statusLayer.metadataHandoffCheckpointIsReviewerRouting,
+    false
+  );
+  assert.equal(
+    inventory.statusLayer.metadataHandoffCheckpointIsReviewerAssignment,
+    false
+  );
+  assert.equal(
+    inventory.statusLayer.metadataHandoffCheckpointIsEvaluatorExecution,
+    false
+  );
+  assert.equal(
+    inventory.statusLayer.metadataHandoffCheckpointIsEvaluatorResult,
+    false
+  );
+  assert.equal(
+    inventory.statusLayer.metadataHandoffCheckpointIsApprovalDecision,
+    false
+  );
+  assert.equal(
+    inventory.statusLayer.metadataHandoffCheckpointIsApprovalGrant,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged.length, 0);
+  assert.equal(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged.length, 0);
+  assert.equal(inventory.ownershipBoundary.reviewerRoutingPerformedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.reviewerAssignmentPerformedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.evaluatorExecutionPerformedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.evaluatorResultProducedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.approvalDecisionProducedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.approvalGrantProducedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.runtimePermissionGrantedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.commandExposurePermissionGrantedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.runtimeEnabledByThisPhase, false);
+  assert.equal(inventory.sourcePhase.phase, "phase-5.40-review-only-checkpoint-handoff-layer");
+  assert.equal(
+    inventory.metadataHandoffCheckpointInputShape.checkpointHandoffLayerEntries,
+    "exactly one Phase 5.40 review-only checkpoint handoff layer state"
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpointResultShape.schema,
+    "ardyn.phase-5.41.review-only-metadata-handoff-checkpoint-result"
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpointResultShape.stateSchema,
+    "ardyn.phase-5.41.review-only-metadata-handoff-checkpoint-state"
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpointResultShape.performsReviewerRouting,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpointResultShape.assignsReviewers,
+    false
+  );
+  assert.equal(inventory.metadataHandoffCheckpointResultShape.executesEvaluator, false);
+  assert.equal(
+    inventory.metadataHandoffCheckpointResultShape.producesEvaluatorResult,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpointResultShape.producesApprovalDecision,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpointResultShape.producesApprovalGrant,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpointResultShape.persistsApprovalGrant,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpointResultShape.grantsRuntimePermission,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpointResultShape.grantsCommandExposurePermission,
+    false
+  );
+  assert.deepEqual(
+    inventory.metadataHandoffCheckpointCases.map(({ caseId }) => caseId),
+    phase541ExpectedCaseIds
+  );
+  for (const checkpointCase of inventory.metadataHandoffCheckpointCases) {
+    assert.equal(checkpointCase.reviewOnly, true);
+    assert.equal(checkpointCase.authoritative, false);
+    assert.equal(checkpointCase.reviewArtifactOnly, true);
+    assert.equal(checkpointCase.metadataHandoffCheckpointIsReviewerRouting, false);
+    assert.equal(
+      checkpointCase.metadataHandoffCheckpointIsReviewerAssignment,
+      false
+    );
+    assert.equal(
+      checkpointCase.metadataHandoffCheckpointIsEvaluatorExecution,
+      false
+    );
+    assert.equal(checkpointCase.metadataHandoffCheckpointIsEvaluatorResult, false);
+    assert.equal(
+      checkpointCase.metadataHandoffCheckpointIsApprovalDecision,
+      false
+    );
+    assert.equal(checkpointCase.metadataHandoffCheckpointIsApprovalGrant, false);
+    assert.equal(checkpointCase.reviewerRoutingPerformed, false);
+    assert.equal(checkpointCase.reviewerAssignmentPerformed, false);
+    assert.equal(checkpointCase.evaluatorResultProduced, false);
+    assert.equal(checkpointCase.evaluatorResultPersisted, false);
+    assert.equal(checkpointCase.approvalDecisionProduced, false);
+    assert.equal(checkpointCase.approvalDecisionPersisted, false);
+    assert.equal(checkpointCase.approvalGrant.produced, false);
+    assert.equal(checkpointCase.approvalGrant.persisted, false);
+    assert.equal(checkpointCase.approvalGrant.grantId, null);
+    assert.equal(checkpointCase.approvalGrantProduced, false);
+    assert.equal(checkpointCase.approvalGrantPersisted, false);
+    assert.equal(checkpointCase.runtimePermissionGranted, false);
+    assert.equal(checkpointCase.commandExposurePermissionGranted, false);
+    assert.equal(checkpointCase.runtimeCommandExposureEnabled, false);
+    assert.equal(checkpointCase.runtimeExecutionEnabled, false);
+    assert.equal(checkpointCase.evaluatorExecuted, false);
+    assertAllFalse(checkpointCase.runtimeEffect);
+  }
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.metadataHandoffCheckpointMetadataOnly,
+    true
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.sourceCheckpointHandoffLayer
+      .checkpointHandoffMetadataOnly,
+    true
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.metadataHandoffCheckpointIsReviewerRouting,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.metadataHandoffCheckpointIsReviewerAssignment,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.metadataHandoffCheckpointIsEvaluatorExecution,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.metadataHandoffCheckpointIsEvaluatorResult,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.metadataHandoffCheckpointIsApprovalDecision,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.metadataHandoffCheckpointIsApprovalGrant,
+    false
+  );
+  assert.equal(inventory.metadataHandoffCheckpoint.reviewerRoutingPerformed, false);
+  assert.equal(inventory.metadataHandoffCheckpoint.reviewerAssignmentPerformed, false);
+  assert.equal(inventory.metadataHandoffCheckpoint.evaluatorExecuted, false);
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.evaluatorExecutionRequested,
+    false
+  );
+  assert.equal(inventory.metadataHandoffCheckpoint.evaluatorResultProduced, false);
+  assert.equal(inventory.metadataHandoffCheckpoint.approvalDecisionProduced, false);
+  assert.equal(inventory.metadataHandoffCheckpoint.approvalGrantProduced, false);
+  assert.equal(inventory.metadataHandoffCheckpoint.approvalGrantPersisted, false);
+  assert.equal(inventory.metadataHandoffCheckpoint.runtimePermissionGranted, false);
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.commandExposurePermissionGranted,
+    false
+  );
+  assert.equal(
+    inventory.metadataHandoffCheckpoint.runtimeCommandExposureEnabled,
+    false
+  );
+  assert.equal(inventory.metadataHandoffCheckpoint.runtimeExecutionEnabled, false);
+  assert.equal(inventory.cleanupHardeningToolkitEvidence.cargoAuditRequired, true);
+  assert.equal(inventory.cleanupHardeningToolkitEvidence.cargoMacheteRequired, true);
+  assert.equal(inventory.cleanupHardeningToolkitEvidence.toolsInstalledByPhase541, false);
+  assert.equal(inventory.cleanupHardeningToolkitEvidence.fallowRuntimeUsed, false);
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.defaultBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBypassesBlock, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.stdout, "");
+  assert.equal(inventory.forbiddenBehavior.reviewerRoutingPerformed, false);
+  assert.equal(inventory.forbiddenBehavior.reviewerAssignmentPerformed, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorResultProduced, false);
+  assert.equal(inventory.forbiddenBehavior.approvalDecisionProduced, false);
+  assert.equal(inventory.forbiddenBehavior.approvalGrantProduced, false);
+  assert.equal(inventory.forbiddenBehavior.approvalGrantPersisted, false);
+  assert.equal(inventory.forbiddenBehavior.runtimePermissionGranted, false);
+  assert.equal(inventory.forbiddenBehavior.commandExposurePermissionGranted, false);
+  assert.equal(inventory.forbiddenBehavior.runtimeCommandExposureEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.runtimeExecutionEnabled, false);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-41-review-only-metadata-handoff-checkpoint.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, [
+    "knip",
+    "depcheck",
+    "osv-scanner scan .",
+    "trivy fs --scanners vuln,secret,misconfig .",
+    "semgrep --config auto ."
+  ]);
+  assert.equal(report.safetyPosture.phase541ReviewOnlyMetadataHandoffCheckpoint, true);
+  assertSafetyFlags(report, phase541ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase541ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -18555,7 +18907,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase538SafetyFlagNames,
     ...phase538ASafetyFlagNames,
     ...phase539SafetyFlagNames,
-    ...phase540SafetyFlagNames
+    ...phase540SafetyFlagNames,
+    ...phase541SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -18604,6 +18957,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase539ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase540ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase540ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase541ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase541ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });
