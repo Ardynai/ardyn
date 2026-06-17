@@ -85,6 +85,15 @@ Phase 5.36 adds no:
 `serve-runtime` remains default-blocked. `serve-runtime --dry-run` remains
 blocked and cannot bypass runtime disablement.
 
+## Phase 5.37 Handoff
+
+Phase 5.37 consumes valid Phase 5.36 readiness handoff/disposition metadata
+only as input to a review-only handoff disposition inspection checkpoint. It
+does not perform reviewer routing, assign reviewers, execute evaluators,
+produce evaluator results, produce approval decisions, produce or persist
+approval grants, grant runtime permission, grant command exposure permission, or
+enable runtime execution.
+
 ## Validation
 
 Phase 5.36 records these validation commands:

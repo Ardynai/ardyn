@@ -220,6 +220,10 @@ const phase536ReviewOnlyReadinessHandoffDispositionBoundaryMetadata =
   await readJson(
     "tests/fixtures/host-policy/phase5-36/review-only-readiness-handoff-disposition-boundary.json"
   );
+const phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata =
+  await readJson(
+    "tests/fixtures/host-policy/phase5-37/review-only-handoff-disposition-inspection-checkpoint.json"
+  );
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -267,10 +271,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.36",
-    name: "Review-only readiness handoff disposition boundary",
+    id: "5.37",
+    name: "Review-only handoff disposition inspection checkpoint",
     executionPosture:
-      "review-only-readiness-handoff-disposition-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-handoff-disposition-inspection-checkpoint runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -318,12 +322,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.36 review-only readiness handoff disposition boundary status report.",
+        "Render this deterministic local Phase 5.37 review-only handoff disposition inspection checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.36 status report.",
+      purpose: "Run focused tests for this local Phase 5.37 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-37-review-only-handoff-disposition-inspection-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.37 review-only handoff disposition inspection checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -15326,7 +15337,7 @@ const report = {
       ),
       await localInventoryEntry(
         "README.md",
-        "Marks Phase 5.36 as current docs/status mode while runtime, reviewer routing, and reviewer assignment remain blocked."
+        "Records the Phase 5.36 docs/status mode while runtime, reviewer routing, and reviewer assignment remain blocked."
       ),
       await localInventoryEntry(
         "apps/cli/README.md",
@@ -15509,6 +15520,294 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase537ReviewOnlyHandoffDispositionInspectionCheckpointInventory: {
+    statusLayer: {
+      document:
+        "docs/phase-5-37-review-only-handoff-disposition-inspection-checkpoint.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-37/review-only-handoff-disposition-inspection-checkpoint.json",
+      sourceReadinessHandoffDispositionDocument:
+        "docs/phase-5-36-review-only-readiness-handoff-disposition-boundary.md",
+      sourceReadinessHandoffDispositionFixture:
+        "tests/fixtures/host-policy/phase5-36/review-only-readiness-handoff-disposition-boundary.json",
+      precedingPhase: "5.36",
+      layerId: "review-only-handoff-disposition-inspection-checkpoint",
+      scope:
+        "phase-5-review-only-handoff-disposition-inspection-checkpoint-runtime-disabled",
+      reviewOnlyHandoffDispositionInspectionCheckpointRecorded:
+        phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+          .handoffDispositionInspectionCheckpointSummary
+          .reviewOnlyHandoffDispositionInspectionCheckpointRecorded,
+      checkpointKind:
+        phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+          .handoffDispositionInspectionCheckpointSummary.checkpointKind,
+      checkpointReviewOnly: true,
+      checkpointAuthoritative: false,
+      validReadinessHandoffDispositionProducesInspectionCheckpoint: true,
+      missingReadinessHandoffDispositionRejected: true,
+      malformedReadinessHandoffDispositionRejected: true,
+      emptyReadinessHandoffDispositionRejected: true,
+      conflictingReadinessHandoffDispositionRejected: true,
+      staleReadinessHandoffDispositionRejected: true,
+      revokedReadinessHandoffDispositionRejected: true,
+      unknownReadinessHandoffDispositionRejected: true,
+      duplicateInvalidReadinessHandoffDispositionRejected: true,
+      authorizingLookingReadinessHandoffDispositionRejected: true,
+      grantLookingReadinessHandoffDispositionRejected: true,
+      approvalDecisionLookingReadinessHandoffDispositionRejected: true,
+      approvalGrantLookingReadinessHandoffDispositionRejected: true,
+      evaluatorResultLookingReadinessHandoffDispositionRejected: true,
+      evaluatorExecutionLookingReadinessHandoffDispositionRejected: true,
+      reviewerRoutingLookingReadinessHandoffDispositionRejected: true,
+      reviewerAssignmentLookingReadinessHandoffDispositionRejected: true,
+      runtimePermissionLookingReadinessHandoffDispositionRejected: true,
+      commandExposureLookingReadinessHandoffDispositionRejected: true,
+      runtimeEffectTrueReadinessHandoffDispositionRejected: true,
+      processFlagTrueReadinessHandoffDispositionRejected: true,
+      unsafeReadinessHandoffDispositionRejected: true,
+      executionSignalLookingReadinessHandoffDispositionRejected: true,
+      handoffDispositionInspectionCheckpointIsReviewerRouting: false,
+      handoffDispositionInspectionCheckpointIsReviewerAssignment: false,
+      handoffDispositionInspectionCheckpointIsEvaluatorExecution: false,
+      handoffDispositionInspectionCheckpointIsEvaluatorResult: false,
+      handoffDispositionInspectionCheckpointIsApprovalDecision: false,
+      handoffDispositionInspectionCheckpointIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+          .handoffDispositionInspectionCheckpointSummary
+          .serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-37-review-only-handoff-disposition-inspection-checkpoint.md",
+        "Records the Phase 5.37 review-only handoff disposition inspection checkpoint while reviewer routing, reviewer assignment, evaluator execution, evaluator results, approval decisions, grants, and runtime remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-36-review-only-readiness-handoff-disposition-boundary.md",
+        "Provides the Phase 5.37 source readiness handoff disposition metadata."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.37 as current docs/status mode while runtime, reviewer routing, and reviewer assignment remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.37 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.37 changes no Rust-host runtime source and records a TypeScript handoff disposition inspection checkpoint helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-36-review-only-readiness-handoff-disposition-boundary.md",
+      "docs/phase-5-37-review-only-handoff-disposition-inspection-checkpoint.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-37/review-only-handoff-disposition-inspection-checkpoint.json",
+        "Records review-only handoff disposition inspection checkpoint cases while reviewer routing, reviewer assignment, evaluator execution, evaluator results, approval decisions, grants, and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.37 report metadata, docs cross-links, handoff disposition inspection checkpoint fixture, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-37-review-only-handoff-disposition-inspection-checkpoint.test.mjs",
+        "Pins the Phase 5.37 handoff disposition inspection checkpoint helper, fixture shape, non-authorizing state, serve-runtime rejection, command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-36-review-only-readiness-handoff-disposition-boundary.md",
+        "docs/phase-5-37-review-only-handoff-disposition-inspection-checkpoint.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-37/review-only-handoff-disposition-inspection-checkpoint.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-37-review-only-handoff-disposition-inspection-checkpoint.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      reviewerRoutingPerformedByThisPhase: false,
+      reviewerAssignmentPerformedByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateReviewerRoutingPhaseRequired: true,
+      separateReviewerAssignmentPhaseRequired: true,
+      separateEvaluatorExecutionPhaseRequired: true,
+      separateEvaluatorResultPhaseRequired: true,
+      separateApprovalDecisionPhaseRequired: true,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata.sourcePhase,
+    handoffDispositionInspectionCheckpointSummary:
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+        .handoffDispositionInspectionCheckpointSummary,
+    handoffDispositionInspectionCheckpointInputShape:
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+        .handoffDispositionInspectionCheckpointInputShape,
+    handoffDispositionInspectionCheckpointResultShape:
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+        .handoffDispositionInspectionCheckpointResultShape,
+    handoffDispositionInspectionCheckpointCases:
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+        .handoffDispositionInspectionCheckpointCases,
+    handoffDispositionInspectionCheckpoint:
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+        .handoffDispositionInspectionCheckpoint,
+    blockedRuntimeEffect:
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+        .blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+        .forbiddenBehavior,
+    validationCommands:
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointMetadata
+        .validationCommands,
+    safetyPosture: {
+      reviewOnlyHandoffDispositionInspectionCheckpointRecorded: true,
+      checkpointReviewOnly: true,
+      checkpointAuthoritative: false,
+      validReadinessHandoffDispositionProducesInspectionCheckpoint: true,
+      missingReadinessHandoffDispositionRejected: true,
+      malformedReadinessHandoffDispositionRejected: true,
+      emptyReadinessHandoffDispositionRejected: true,
+      conflictingReadinessHandoffDispositionRejected: true,
+      staleReadinessHandoffDispositionRejected: true,
+      revokedReadinessHandoffDispositionRejected: true,
+      unknownReadinessHandoffDispositionRejected: true,
+      duplicateInvalidReadinessHandoffDispositionRejected: true,
+      authorizingLookingReadinessHandoffDispositionRejected: true,
+      grantLookingReadinessHandoffDispositionRejected: true,
+      approvalDecisionLookingReadinessHandoffDispositionRejected: true,
+      approvalGrantLookingReadinessHandoffDispositionRejected: true,
+      evaluatorResultLookingReadinessHandoffDispositionRejected: true,
+      evaluatorExecutionLookingReadinessHandoffDispositionRejected: true,
+      reviewerRoutingLookingReadinessHandoffDispositionRejected: true,
+      reviewerAssignmentLookingReadinessHandoffDispositionRejected: true,
+      runtimePermissionLookingReadinessHandoffDispositionRejected: true,
+      commandExposureLookingReadinessHandoffDispositionRejected: true,
+      runtimeEffectTrueReadinessHandoffDispositionRejected: true,
+      processFlagTrueReadinessHandoffDispositionRejected: true,
+      unsafeReadinessHandoffDispositionRejected: true,
+      executionSignalLookingReadinessHandoffDispositionRejected: true,
+      handoffDispositionInspectionCheckpointIsReviewerRouting: false,
+      handoffDispositionInspectionCheckpointIsReviewerAssignment: false,
+      handoffDispositionInspectionCheckpointIsEvaluatorExecution: false,
+      handoffDispositionInspectionCheckpointIsEvaluatorResult: false,
+      handoffDispositionInspectionCheckpointIsApprovalDecision: false,
+      handoffDispositionInspectionCheckpointIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -15578,6 +15877,7 @@ const report = {
     phase534ReviewOnlyHandoffReadinessArtifact: true,
     phase535ReviewOnlyReadinessInspectionCheckpoint: true,
     phase536ReviewOnlyReadinessHandoffDispositionBoundary: true,
+    phase537ReviewOnlyHandoffDispositionInspectionCheckpoint: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -17140,6 +17440,75 @@ const report = {
       phase536AdapterRuntimeBehaviorEnabled: false,
       phase536ContentFabricRuntimeBehaviorEnabled: false,
       phase536WebSocketHttpSurfaceEnabled: false,
+      phase537ReviewOnlyHandoffDispositionInspectionCheckpointRecorded: true,
+      phase537CheckpointReviewOnly: true,
+      phase537CheckpointAuthoritative: false,
+      phase537ValidReadinessHandoffDispositionProducesInspectionCheckpoint: true,
+      phase537MissingReadinessHandoffDispositionRejected: true,
+      phase537MalformedReadinessHandoffDispositionRejected: true,
+      phase537EmptyReadinessHandoffDispositionRejected: true,
+      phase537ConflictingReadinessHandoffDispositionRejected: true,
+      phase537StaleReadinessHandoffDispositionRejected: true,
+      phase537RevokedReadinessHandoffDispositionRejected: true,
+      phase537UnknownReadinessHandoffDispositionRejected: true,
+      phase537DuplicateInvalidReadinessHandoffDispositionRejected: true,
+      phase537AuthorizingLookingReadinessHandoffDispositionRejected: true,
+      phase537GrantLookingReadinessHandoffDispositionRejected: true,
+      phase537ApprovalDecisionLookingReadinessHandoffDispositionRejected: true,
+      phase537ApprovalGrantLookingReadinessHandoffDispositionRejected: true,
+      phase537EvaluatorResultLookingReadinessHandoffDispositionRejected: true,
+      phase537EvaluatorExecutionLookingReadinessHandoffDispositionRejected: true,
+      phase537ReviewerRoutingLookingReadinessHandoffDispositionRejected: true,
+      phase537ReviewerAssignmentLookingReadinessHandoffDispositionRejected: true,
+      phase537RuntimePermissionLookingReadinessHandoffDispositionRejected: true,
+      phase537CommandExposureLookingReadinessHandoffDispositionRejected: true,
+      phase537RuntimeEffectTrueReadinessHandoffDispositionRejected: true,
+      phase537ProcessFlagTrueReadinessHandoffDispositionRejected: true,
+      phase537UnsafeReadinessHandoffDispositionRejected: true,
+      phase537ExecutionSignalLookingReadinessHandoffDispositionRejected: true,
+      phase537HandoffDispositionInspectionCheckpointIsReviewerRouting: false,
+      phase537HandoffDispositionInspectionCheckpointIsReviewerAssignment: false,
+      phase537HandoffDispositionInspectionCheckpointIsEvaluatorExecution: false,
+      phase537HandoffDispositionInspectionCheckpointIsEvaluatorResult: false,
+      phase537HandoffDispositionInspectionCheckpointIsApprovalDecision: false,
+      phase537HandoffDispositionInspectionCheckpointIsApprovalGrant: false,
+      phase537ReviewerRoutingPerformed: false,
+      phase537ReviewerAssignmentPerformed: false,
+      phase537EvaluatorResultProduced: false,
+      phase537EvaluatorResultPersisted: false,
+      phase537ApprovalDecisionProduced: false,
+      phase537ApprovalDecisionPersisted: false,
+      phase537ApprovalGrantProduced: false,
+      phase537ApprovalGrantPersisted: false,
+      phase537RuntimePermissionGranted: false,
+      phase537CommandExposurePermissionGranted: false,
+      phase537RuntimeEnabled: false,
+      phase537RuntimeStarted: false,
+      phase537RuntimeReady: false,
+      phase537RuntimeCommandEnabled: false,
+      phase537RuntimeCommandExposureEnabled: false,
+      phase537RuntimeExecutionEnabled: false,
+      phase537RuntimeExecuted: false,
+      phase537EvaluatorExecutionPerformed: false,
+      phase537ServeRuntimeStillDefaultBlocked: true,
+      phase537DryRunBypassesBlock: false,
+      phase537CanEnableRuntime: false,
+      phase537CliSourceChanged: false,
+      phase537RustSourceChanged: false,
+      phase537FilesystemWatcherEnabled: false,
+      phase537ExternalSourceLookupEnabled: false,
+      phase537SecretsEnvIngestionEnabled: false,
+      phase537LiveStdinLoopEnabled: false,
+      phase537RuntimeStdoutWriterEnabled: false,
+      phase537RuntimeStderrWriterEnabled: false,
+      phase537ProcessSpawnEnabled: false,
+      phase537ProcessTerminationEnabled: false,
+      phase537RuntimeSupervisionEnabled: false,
+      phase537RuntimeTranscriptWritePerformed: false,
+      phase537RuntimeAuditWritePerformed: false,
+      phase537AdapterRuntimeBehaviorEnabled: false,
+      phase537ContentFabricRuntimeBehaviorEnabled: false,
+      phase537WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,
