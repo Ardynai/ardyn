@@ -66,6 +66,18 @@ The readiness inspection checkpoint is not:
 - command exposure permission
 - runtime execution signal
 
+## Phase 5.36 Handoff
+
+Phase 5.36 consumes this review-only readiness inspection checkpoint as input to
+the review-only readiness handoff/disposition boundary:
+
+`docs/phase-5-36-review-only-readiness-handoff-disposition-boundary.md`
+
+That handoff remains metadata-only and does not perform reviewer routing,
+reviewer assignment, evaluator execution, evaluator result production, approval
+decision production, approval grant production or persistence, runtime
+permission granting, command exposure granting, or runtime execution.
+
 ## Runtime Posture
 
 Phase 5.35 adds no:

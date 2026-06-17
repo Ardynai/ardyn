@@ -570,10 +570,10 @@ test("Phase 4.1G status report inventories packet without running checks", async
   const inventory = report.phase41GExternalReviewPacketInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.35",
-    name: "Review-only readiness inspection checkpoint",
+    id: "5.36",
+    name: "Review-only readiness handoff disposition boundary",
     executionPosture:
-      "review-only-readiness-inspection-checkpoint runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-readiness-handoff-disposition-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);

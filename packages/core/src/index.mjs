@@ -178,6 +178,12 @@ export const REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_SCHEMA =
 export const REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_VERSION = "0.1.0";
 export const REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_KIND =
   "review-only-readiness-inspection-checkpoint";
+export const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_SCHEMA =
+  "ardyn.phase-5.36.review-only-readiness-handoff-disposition-boundary-result";
+export const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_VERSION =
+  "0.1.0";
+export const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_KIND =
+  "review-only-readiness-handoff-disposition-boundary";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -16438,6 +16444,1379 @@ export function createReviewOnlyReadinessInspectionCheckpointForReview(
     accepted,
     readinessInspectionCheckpoint,
     readinessArtifactSummary
+  });
+}
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_STATE_SCHEMA =
+  "ardyn.phase-5.36.review-only-readiness-handoff-disposition-state";
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_MIN_REVIEWED_AT =
+  "2026-06-16T00:00:00.000Z";
+
+const VALID_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION =
+  "valid_review_only_readiness_handoff_disposition_runtime_still_blocked";
+const MALFORMED_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION =
+  "malformed_review_only_readiness_handoff_disposition_input_rejected";
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SOURCE_FIELDS = Object.freeze([
+  "schema",
+  "schemaVersion",
+  "stateKind",
+  "stateMode",
+  "reviewedAt",
+  "sourceHandoffReadinessArtifact",
+  "pipelineSummary",
+  "integratedReviewSummary",
+  "decisionCandidateSummary",
+  "inspectionSummary",
+  "dispositionSummary",
+  "aggregationSummary",
+  "handoffSummary",
+  "readinessSummary",
+  "inspectionCheckpointSummary",
+  "readinessArtifactAccepted",
+  "readinessInspectionCheckpointMetadataOnly",
+  "readinessInspectionCheckpointIsReviewerRouting",
+  "readinessInspectionCheckpointIsReviewerAssignment",
+  "readinessInspectionCheckpointIsEvaluatorExecution",
+  "readinessInspectionCheckpointIsEvaluatorResult",
+  "readinessInspectionCheckpointIsApprovalDecision",
+  "readinessInspectionCheckpointIsApprovalGrant",
+  "reviewerRoutingPerformed",
+  "reviewerRoutingEnabled",
+  "reviewerRouteId",
+  "reviewerAssignmentPerformed",
+  "reviewerAssignmentEnabled",
+  "reviewerAssignmentId",
+  "reviewerId",
+  "evaluatorResultProduced",
+  "evaluatorResultPersisted",
+  "evaluatorResultId",
+  "approvalDecisionProduced",
+  "approvalDecisionPersisted",
+  "approvalDecisionId",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "approvalGrantId",
+  "runtimePermissionGranted",
+  "commandExposurePermissionGranted",
+  "runtimeCommandExposureEnabled",
+  "runtimeExecutionEnabled",
+  "evaluatorExecutionRequested",
+  "evaluatorExecutionStarted",
+  "evaluatorExecutionEnabled",
+  "evaluatorExecuted",
+  "runtimeEffect"
+]);
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SOURCE_CHECKPOINT_FIELDS =
+  Object.freeze([
+    "schema",
+    "stateKind",
+    "stateMode",
+    "reviewedAt",
+    "stateDigest",
+    "sourceInspectionHandoffStateDigest",
+    "sourceAggregationStateDigest",
+    "sourceDispositionStateDigest",
+    "sourceInspectionArtifactDigest",
+    "sourceDecisionCandidateStateDigest",
+    "sourcePreflightCheckpointStateDigest",
+    "sourceIntakeCheckpointStateDigest",
+    "sourceEvaluatorInputCandidateDigest",
+    "handoffStateAccepted",
+    "readinessArtifactMetadataOnly",
+    "readinessArtifactIsReviewerRouting",
+    "readinessArtifactIsReviewerAssignment",
+    "readinessArtifactIsEvaluatorExecution",
+    "readinessArtifactIsEvaluatorResult",
+    "readinessArtifactIsApprovalDecision",
+    "readinessArtifactIsApprovalGrant",
+    "reviewerRoutingPerformed",
+    "reviewerAssignmentPerformed",
+    "evaluatorResultProduced",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "evaluatorExecuted",
+    "runtimeEffectAllFalse"
+  ]);
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CHECKPOINT_SUMMARY_FIELDS =
+  Object.freeze([
+    "checkpointKind",
+    "checkpointMode",
+    "sourceReadinessClassification",
+    "readinessInspectionCheckpointMetadataOnly",
+    "reviewerRoutingPerformed",
+    "reviewerAssignmentPerformed",
+    "evaluatorExecutionPerformed",
+    "evaluatorResultProduced",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "runtimePermissionGranted",
+    "commandExposurePermissionGranted",
+    "evaluatorExecuted",
+    "runtimeEffectAllFalse"
+  ]);
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_DECISION_CANDIDATE_SUMMARY_FIELDS =
+  Object.freeze([
+    "candidateKind",
+    "candidateMode",
+    "candidateClassification",
+    "reviewArtifactOnly",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "runtimePermissionGranted",
+    "commandExposurePermissionGranted",
+    "evaluatorExecuted",
+    "runtimeEffectAllFalse"
+  ]);
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_REQUIRED_FALSE_FIELDS =
+  Object.freeze([
+    "readinessInspectionCheckpointIsReviewerRouting",
+    "readinessInspectionCheckpointIsReviewerAssignment",
+    "readinessInspectionCheckpointIsEvaluatorExecution",
+    "readinessInspectionCheckpointIsEvaluatorResult",
+    "readinessInspectionCheckpointIsApprovalDecision",
+    "readinessInspectionCheckpointIsApprovalGrant",
+    "reviewerRoutingPerformed",
+    "reviewerRoutingEnabled",
+    "reviewerAssignmentPerformed",
+    "reviewerAssignmentEnabled",
+    "evaluatorResultProduced",
+    "evaluatorResultPersisted",
+    "approvalDecisionProduced",
+    "approvalDecisionPersisted",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "runtimePermissionGranted",
+    "commandExposurePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecuted"
+  ]);
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_REQUIRED_NULL_FIELDS =
+  Object.freeze([
+    "reviewerRouteId",
+    "reviewerAssignmentId",
+    "reviewerId",
+    "evaluatorResultId",
+    "approvalDecisionId",
+    "approvalGrantId"
+  ]);
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_ALLOWED_FIELDS = new Set([
+  ...REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SOURCE_FIELDS,
+  ...REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SOURCE_CHECKPOINT_FIELDS,
+  ...REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CHECKPOINT_SUMMARY_FIELDS,
+  ...REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_DECISION_CANDIDATE_SUMMARY_FIELDS,
+  ...REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_READINESS_SUMMARY_FIELDS,
+  ...REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_HANDOFF_SUMMARY_FIELDS,
+  ...REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_AGGREGATION_SUMMARY_FIELDS,
+  ...HUMAN_TOOL_INSPECTION_DISPOSITION_INSPECTION_SUMMARY_FIELDS,
+  ...REVIEW_ONLY_DISPOSITION_AGGREGATION_DISPOSITION_SUMMARY_FIELDS,
+  ...NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_SUMMARY_FIELDS,
+  ...NON_AUTHORIZING_EVALUATOR_DECISION_PIPELINE_SUMMARY_FIELDS,
+  ...NON_AUTHORIZING_EVALUATOR_DECISION_INTEGRATED_SUMMARY_FIELDS
+]);
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SOURCE_CHECKS = Object.freeze([
+  [
+    "schema",
+    (value) => value === REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_STATE_SCHEMA
+  ],
+  [
+    "schemaVersion",
+    (value) => value === REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_VERSION
+  ],
+  [
+    "stateKind",
+    (value) => value === "review-only-readiness-inspection-checkpoint-state"
+  ],
+  ["stateMode", (value) => value === "review-only"],
+  ["reviewedAt", isUtcIsoTimestampWithMilliseconds],
+  ["sourceHandoffReadinessArtifact", isPlainObjectRecord],
+  ["pipelineSummary", isPlainObjectRecord],
+  ["integratedReviewSummary", isPlainObjectRecord],
+  ["decisionCandidateSummary", isPlainObjectRecord],
+  ["inspectionSummary", isPlainObjectRecord],
+  ["dispositionSummary", isPlainObjectRecord],
+  ["aggregationSummary", isPlainObjectRecord],
+  ["handoffSummary", isPlainObjectRecord],
+  ["readinessSummary", isPlainObjectRecord],
+  ["inspectionCheckpointSummary", isPlainObjectRecord],
+  ["readinessArtifactAccepted", (value) => value === true],
+  ["readinessInspectionCheckpointMetadataOnly", (value) => value === true],
+  ["runtimeEffect", isPlainObjectRecord]
+]);
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SOURCE_CHECKPOINT_CHECKS =
+  Object.freeze([
+    [
+      "schema",
+      (value) => value === REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_STATE_SCHEMA
+    ],
+    [
+      "stateKind",
+      (value) => value === "review-only-handoff-readiness-artifact-state"
+    ],
+    ["stateMode", (value) => value === "review-only"],
+    ["reviewedAt", isUtcIsoTimestampWithMilliseconds],
+    ["stateDigest", (value) => typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)],
+    [
+      "sourceInspectionHandoffStateDigest",
+      (value) => typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourceAggregationStateDigest",
+      (value) => typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourceDispositionStateDigest",
+      (value) => typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourceInspectionArtifactDigest",
+      (value) => typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourceDecisionCandidateStateDigest",
+      (value) => typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourcePreflightCheckpointStateDigest",
+      (value) => typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourceIntakeCheckpointStateDigest",
+      (value) => typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    [
+      "sourceEvaluatorInputCandidateDigest",
+      (value) => typeof value === "string" && /^sha256:[0-9a-f]{64}$/.test(value)
+    ],
+    ["handoffStateAccepted", (value) => value === true],
+    ["readinessArtifactMetadataOnly", (value) => value === true],
+    ["readinessArtifactIsReviewerRouting", (value) => value === false],
+    ["readinessArtifactIsReviewerAssignment", (value) => value === false],
+    ["readinessArtifactIsEvaluatorExecution", (value) => value === false],
+    ["readinessArtifactIsEvaluatorResult", (value) => value === false],
+    ["readinessArtifactIsApprovalDecision", (value) => value === false],
+    ["readinessArtifactIsApprovalGrant", (value) => value === false],
+    ["reviewerRoutingPerformed", (value) => value === false],
+    ["reviewerAssignmentPerformed", (value) => value === false],
+    ["evaluatorResultProduced", (value) => value === false],
+    ["approvalDecisionProduced", (value) => value === false],
+    ["approvalGrantProduced", (value) => value === false],
+    ["approvalGrantPersisted", (value) => value === false],
+    ["evaluatorExecuted", (value) => value === false],
+    ["runtimeEffectAllFalse", (value) => value === true]
+  ]);
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CHECKPOINT_SUMMARY_CHECKS =
+  Object.freeze([
+    [
+      "checkpointKind",
+      (value) => value === "review-only-readiness-inspection-checkpoint"
+    ],
+    ["checkpointMode", (value) => value === "review-only"],
+    [
+      "sourceReadinessClassification",
+      (value) =>
+        value === VALID_REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_CLASSIFICATION
+    ],
+    ["readinessInspectionCheckpointMetadataOnly", (value) => value === true],
+    ["reviewerRoutingPerformed", (value) => value === false],
+    ["reviewerAssignmentPerformed", (value) => value === false],
+    ["evaluatorExecutionPerformed", (value) => value === false],
+    ["evaluatorResultProduced", (value) => value === false],
+    ["approvalDecisionProduced", (value) => value === false],
+    ["approvalGrantProduced", (value) => value === false],
+    ["runtimePermissionGranted", (value) => value === false],
+    ["commandExposurePermissionGranted", (value) => value === false],
+    ["evaluatorExecuted", (value) => value === false],
+    ["runtimeEffectAllFalse", (value) => value === true]
+  ]);
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_FALSE_PATHS = Object.freeze({
+  approvalDecision: [
+    ["readinessInspectionCheckpointIsApprovalDecision"],
+    ["approvalDecisionProduced"],
+    ["approvalDecisionPersisted"],
+    ["inspectionCheckpointSummary", "approvalDecisionProduced"],
+    ["inspectionSummary", "approvalDecisionProduced"],
+    ["decisionCandidateSummary", "approvalDecisionProduced"],
+    ["dispositionSummary", "approvalDecisionProduced"],
+    ["aggregationSummary", "approvalDecisionProduced"],
+    ["handoffSummary", "approvalDecisionProduced"],
+    ["readinessSummary", "approvalDecisionProduced"]
+  ],
+  approvalGrant: [
+    ["readinessInspectionCheckpointIsApprovalGrant"],
+    ["approvalGrantProduced"],
+    ["approvalGrantPersisted"],
+    ["sourceHandoffReadinessArtifact", "readinessArtifactIsApprovalGrant"],
+    ["sourceHandoffReadinessArtifact", "approvalGrantProduced"],
+    ["sourceHandoffReadinessArtifact", "approvalGrantPersisted"],
+    ["integratedReviewSummary", "reviewSummaryIsApprovalGrant"],
+    ["integratedReviewSummary", "approvalGrantProduced"],
+    ["integratedReviewSummary", "approvalGrantPersisted"],
+    ["inspectionCheckpointSummary", "approvalGrantProduced"],
+    ["inspectionSummary", "approvalGrantProduced"],
+    ["decisionCandidateSummary", "approvalGrantProduced"],
+    ["dispositionSummary", "approvalGrantProduced"],
+    ["aggregationSummary", "approvalGrantProduced"],
+    ["handoffSummary", "approvalGrantProduced"],
+    ["readinessSummary", "approvalGrantProduced"]
+  ],
+  evaluatorResult: [
+    ["readinessInspectionCheckpointIsEvaluatorResult"],
+    ["evaluatorResultProduced"],
+    ["evaluatorResultPersisted"],
+    ["sourceHandoffReadinessArtifact", "readinessArtifactIsEvaluatorResult"],
+    ["sourceHandoffReadinessArtifact", "evaluatorResultProduced"],
+    ["inspectionCheckpointSummary", "evaluatorResultProduced"],
+    ["readinessSummary", "evaluatorResultProduced"],
+    ["aggregationSummary", "evaluatorResultProduced"],
+    ["inspectionSummary", "evaluatorResultProduced"],
+    ["dispositionSummary", "evaluatorResultProduced"],
+    ["handoffSummary", "evaluatorResultProduced"]
+  ],
+  reviewerRouting: [
+    ["readinessInspectionCheckpointIsReviewerRouting"],
+    ["reviewerRoutingPerformed"],
+    ["reviewerRoutingEnabled"],
+    ["sourceHandoffReadinessArtifact", "readinessArtifactIsReviewerRouting"],
+    ["sourceHandoffReadinessArtifact", "reviewerRoutingPerformed"],
+    ["inspectionCheckpointSummary", "reviewerRoutingPerformed"],
+    ["readinessSummary", "reviewerRoutingPerformed"]
+  ],
+  reviewerAssignment: [
+    ["readinessInspectionCheckpointIsReviewerAssignment"],
+    ["reviewerAssignmentPerformed"],
+    ["reviewerAssignmentEnabled"],
+    ["sourceHandoffReadinessArtifact", "readinessArtifactIsReviewerAssignment"],
+    ["sourceHandoffReadinessArtifact", "reviewerAssignmentPerformed"],
+    ["inspectionCheckpointSummary", "reviewerAssignmentPerformed"],
+    ["readinessSummary", "reviewerAssignmentPerformed"]
+  ],
+  evaluatorExecution: [
+    ["readinessInspectionCheckpointIsEvaluatorExecution"],
+    ["evaluatorExecutionRequested"],
+    ["evaluatorExecutionStarted"],
+    ["evaluatorExecutionEnabled"],
+    ["evaluatorExecuted"],
+    ["sourceHandoffReadinessArtifact", "readinessArtifactIsEvaluatorExecution"],
+    ["sourceHandoffReadinessArtifact", "evaluatorExecuted"],
+    ["inspectionCheckpointSummary", "evaluatorExecuted"],
+    ["readinessSummary", "evaluatorExecuted"]
+  ],
+  runtimePermission: [
+    ["runtimePermissionGranted"],
+    ["inspectionCheckpointSummary", "runtimePermissionGranted"],
+    ["readinessSummary", "runtimePermissionGranted"]
+  ],
+  commandExposure: [
+    ["commandExposurePermissionGranted"],
+    ["runtimeCommandExposureEnabled"],
+    ["inspectionCheckpointSummary", "commandExposurePermissionGranted"],
+    ["readinessSummary", "commandExposurePermissionGranted"]
+  ],
+  runtimeExecution: [
+    ["runtimeExecutionEnabled"]
+  ]
+});
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_NULL_PATHS = Object.freeze({
+  approvalDecision: [["approvalDecisionId"]],
+  approvalGrant: [["approvalGrantId"], ["integratedReviewSummary", "approvalGrantId"]],
+  evaluatorResult: [["evaluatorResultId"]],
+  reviewerRouting: [["reviewerRouteId"]],
+  reviewerAssignment: [["reviewerAssignmentId"], ["reviewerId"]]
+});
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_OBJECT_FIELD_GROUPS =
+  Object.freeze({
+    approvalDecision: [
+      "approvalDecision",
+      "approvalDecisionResult",
+      "approvalDecisionGranted",
+      "approvalDecisionAccepted",
+      "approvalDecisionAuthorized",
+      "readinessHandoffDispositionIsApprovalDecision"
+    ],
+    evaluatorResult: [
+      "evaluatorResult",
+      "evaluationResult",
+      "evaluatorOutput",
+      "evaluatorOutcome",
+      "resultProduced"
+    ],
+    reviewerRouting: [
+      "reviewerRouting",
+      "reviewerRoute",
+      "reviewerQueue",
+      "routing",
+      "routingDecision",
+      "routingResult",
+      "routeReviewer",
+      "reviewerRoutingPermissionGranted"
+    ],
+    reviewerAssignment: [
+      "reviewerAssignment",
+      "reviewerAssigned",
+      "reviewerAssignee",
+      "assignedReviewer",
+      "assignedReviewers",
+      "reviewerIds",
+      "reviewerAllocation",
+      "assignmentDecision",
+      "humanReviewer",
+      "toolReviewer",
+      "reviewerAssignmentPermissionGranted"
+    ]
+  });
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_GRANT_KEY_PATTERN =
+  /(^|_|\b)grant(ed|ing|Id|Produced|Persisted)?($|_|\b)/i;
+
+function reviewOnlyReadinessHandoffDispositionKeyPresent(
+  value,
+  keys,
+  seen = new Set()
+) {
+  if (Array.isArray(value)) {
+    return value.some((entry) =>
+      reviewOnlyReadinessHandoffDispositionKeyPresent(entry, keys, seen)
+    );
+  }
+
+  if (!isPlainObjectRecord(value) || seen.has(value)) {
+    return false;
+  }
+
+  seen.add(value);
+
+  return Object.entries(value).some(
+    ([key, entry]) =>
+      keys.includes(key) ||
+      reviewOnlyReadinessHandoffDispositionKeyPresent(entry, keys, seen)
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionKeyTruePresent(
+  value,
+  keys,
+  seen = new Set()
+) {
+  if (Array.isArray(value)) {
+    return value.some((entry) =>
+      reviewOnlyReadinessHandoffDispositionKeyTruePresent(entry, keys, seen)
+    );
+  }
+
+  if (!isPlainObjectRecord(value) || seen.has(value)) {
+    return false;
+  }
+
+  seen.add(value);
+
+  return Object.entries(value).some(
+    ([key, entry]) =>
+      (keys.includes(key) && entry === true) ||
+      reviewOnlyReadinessHandoffDispositionKeyTruePresent(entry, keys, seen)
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionUnexpectedUnsafeField(
+  value,
+  seen = new Set()
+) {
+  if (Array.isArray(value)) {
+    return value.some((entry) =>
+      reviewOnlyReadinessHandoffDispositionUnexpectedUnsafeField(entry, seen)
+    );
+  }
+
+  if (!isPlainObjectRecord(value) || seen.has(value)) {
+    return false;
+  }
+
+  seen.add(value);
+
+  return Object.entries(value).some(
+    ([key, entry]) =>
+      (!REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_ALLOWED_FIELDS.has(key) &&
+        APPROVAL_EVALUATOR_CANDIDATE_UNSAFE_TRUE_FIELD_PATTERN.test(key)) ||
+      reviewOnlyReadinessHandoffDispositionUnexpectedUnsafeField(entry, seen)
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionPathMismatch(
+  readinessInspectionCheckpoint,
+  pathGroup,
+  expected
+) {
+  return pathGroup.some((path) =>
+    reviewOnlyEvaluatorPreflightPathDoesNotMatch(
+      readinessInspectionCheckpoint,
+      path,
+      expected
+    )
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionUnknown(
+  readinessInspectionCheckpoint
+) {
+  return (
+    (typeof readinessInspectionCheckpoint.schema === "string" &&
+      readinessInspectionCheckpoint.schema !==
+        REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_STATE_SCHEMA) ||
+    (typeof readinessInspectionCheckpoint.stateKind === "string" &&
+      readinessInspectionCheckpoint.stateKind !==
+        "review-only-readiness-inspection-checkpoint-state")
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionRevoked(
+  readinessInspectionCheckpoint
+) {
+  return (
+    readinessInspectionCheckpoint.revoked === true ||
+    (isPlainObjectRecord(readinessInspectionCheckpoint.revocation) &&
+      readinessInspectionCheckpoint.revocation.revoked === true)
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionStale(
+  readinessInspectionCheckpoint
+) {
+  return (
+    isUtcIsoTimestampWithMilliseconds(readinessInspectionCheckpoint.reviewedAt) &&
+    readinessInspectionCheckpoint.reviewedAt <
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_MIN_REVIEWED_AT
+  );
+}
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_MALFORMED_CHECKS =
+  Object.freeze([
+    (readinessInspectionCheckpoint) =>
+      !recordHasExactFields(
+        readinessInspectionCheckpoint,
+        REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SOURCE_FIELDS
+      ),
+    (readinessInspectionCheckpoint) =>
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SOURCE_CHECKS.some(
+        ([field, predicate]) => !predicate(readinessInspectionCheckpoint[field])
+      ),
+    (readinessInspectionCheckpoint) =>
+      !recordHasExactFields(
+        readinessInspectionCheckpoint.sourceHandoffReadinessArtifact,
+        REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SOURCE_CHECKPOINT_FIELDS
+      ),
+    (readinessInspectionCheckpoint) =>
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SOURCE_CHECKPOINT_CHECKS.some(
+        ([field, predicate]) =>
+          !predicate(
+            readinessInspectionCheckpoint.sourceHandoffReadinessArtifact?.[field]
+          )
+      ),
+    (readinessInspectionCheckpoint) =>
+      !recordHasExactFields(
+        readinessInspectionCheckpoint.inspectionCheckpointSummary,
+        REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CHECKPOINT_SUMMARY_FIELDS
+      ),
+    (readinessInspectionCheckpoint) =>
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CHECKPOINT_SUMMARY_CHECKS.some(
+        ([field, predicate]) =>
+          !predicate(readinessInspectionCheckpoint.inspectionCheckpointSummary?.[field])
+      ),
+    (readinessInspectionCheckpoint) =>
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_REQUIRED_FALSE_FIELDS.some(
+        (field) => readinessInspectionCheckpoint[field] !== false
+      ),
+    (readinessInspectionCheckpoint) =>
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_REQUIRED_NULL_FIELDS.some(
+        (field) => readinessInspectionCheckpoint[field] !== null
+      ),
+    (readinessInspectionCheckpoint) =>
+      !reviewOnlyRuntimeEffectAllFalse(readinessInspectionCheckpoint.runtimeEffect)
+  ]);
+
+function reviewOnlyReadinessHandoffDispositionMalformed(
+  readinessInspectionCheckpoint
+) {
+  return REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_MALFORMED_CHECKS.some(
+    (predicate) => predicate(readinessInspectionCheckpoint)
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionGrantLooking(
+  readinessInspectionCheckpoint
+) {
+  return Object.entries(readinessInspectionCheckpoint).some(
+    ([key, value]) =>
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_GRANT_KEY_PATTERN.test(key) &&
+      value !== false &&
+      value !== null &&
+      value !== undefined
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionApprovalDecisionLooking(
+  readinessInspectionCheckpoint
+) {
+  return (
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_FALSE_PATHS.approvalDecision,
+      false
+    ) ||
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_NULL_PATHS.approvalDecision,
+      null
+    ) ||
+    reviewOnlyReadinessHandoffDispositionKeyTruePresent(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_OBJECT_FIELD_GROUPS
+        .approvalDecision
+    )
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionApprovalGrantLooking(
+  readinessInspectionCheckpoint
+) {
+  return (
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_FALSE_PATHS.approvalGrant,
+      false
+    ) ||
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_NULL_PATHS.approvalGrant,
+      null
+    )
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionEvaluatorResultLooking(
+  readinessInspectionCheckpoint
+) {
+  return (
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_FALSE_PATHS.evaluatorResult,
+      false
+    ) ||
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_NULL_PATHS.evaluatorResult,
+      null
+    ) ||
+    reviewOnlyReadinessHandoffDispositionKeyTruePresent(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_OBJECT_FIELD_GROUPS.evaluatorResult
+    )
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionEvaluatorExecutionLooking(
+  readinessInspectionCheckpoint
+) {
+  return reviewOnlyReadinessHandoffDispositionPathMismatch(
+    readinessInspectionCheckpoint,
+    REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_FALSE_PATHS.evaluatorExecution,
+    false
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionReviewerRoutingLooking(
+  readinessInspectionCheckpoint
+) {
+  return (
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_FALSE_PATHS.reviewerRouting,
+      false
+    ) ||
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_NULL_PATHS.reviewerRouting,
+      null
+    ) ||
+    reviewOnlyReadinessHandoffDispositionKeyPresent(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_OBJECT_FIELD_GROUPS.reviewerRouting
+    )
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionReviewerAssignmentLooking(
+  readinessInspectionCheckpoint
+) {
+  return (
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_FALSE_PATHS.reviewerAssignment,
+      false
+    ) ||
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_NULL_PATHS.reviewerAssignment,
+      null
+    ) ||
+    reviewOnlyReadinessHandoffDispositionKeyPresent(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_OBJECT_FIELD_GROUPS
+        .reviewerAssignment
+    )
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionRuntimePermissionLooking(
+  readinessInspectionCheckpoint
+) {
+  return (
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_FALSE_PATHS.runtimePermission,
+      false
+    ) ||
+    reviewOnlyReadinessHandoffDispositionKeyTruePresent(
+      readinessInspectionCheckpoint,
+      [
+        "runtimePermission",
+        "runtimeAuthorization",
+        "runtimeAuthorized"
+      ]
+    )
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionCommandExposureLooking(
+  readinessInspectionCheckpoint
+) {
+  return (
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_FALSE_PATHS.commandExposure,
+      false
+    ) ||
+    reviewOnlyReadinessHandoffDispositionKeyTruePresent(
+      readinessInspectionCheckpoint,
+      [
+        "commandExposure",
+        "commandExposurePermission",
+        "runtimeCommandEnabled",
+        "commandsExposed"
+      ]
+    )
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionRuntimeEffectTrue(
+  readinessInspectionCheckpoint
+) {
+  return (
+    !reviewOnlyRuntimeEffectAllFalse(readinessInspectionCheckpoint.runtimeEffect) ||
+    reviewOnlyReadinessHandoffDispositionKeyTruePresent(
+      readinessInspectionCheckpoint,
+      ["runtimeStarted", "runtimeReady", "runtimeExecuted"]
+    )
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionProcessFlagTrue(
+  readinessInspectionCheckpoint
+) {
+  return reviewOnlyReadinessHandoffDispositionKeyTruePresent(
+    readinessInspectionCheckpoint,
+    [
+      "processStarted",
+      "processSpawned",
+      "processSpawnEnabled",
+      "processRunning",
+      "processKilled",
+      "processControlEnabled"
+    ]
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionUnsafeTrueSurface(
+  readinessInspectionCheckpoint
+) {
+  return reviewOnlyReadinessHandoffDispositionKeyTruePresent(
+    readinessInspectionCheckpoint,
+    [
+      "filesystemWatcherEnabled",
+      "externalLookupEnabled",
+      "externalSourceLookupEnabled",
+      "secretsEnvIngestionEnabled",
+      "envIngestionEnabled",
+      "webSocketHttpSurfaceEnabled",
+      "adapterRuntimeBehaviorEnabled",
+      "contentFabricRuntimeBehaviorEnabled"
+    ]
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionExecutionSignalLooking(
+  readinessInspectionCheckpoint
+) {
+  return (
+    reviewOnlyReadinessHandoffDispositionPathMismatch(
+      readinessInspectionCheckpoint,
+      REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_FALSE_PATHS.runtimeExecution,
+      false
+    ) ||
+    reviewOnlyReadinessHandoffDispositionKeyTruePresent(
+      readinessInspectionCheckpoint,
+      [
+        "executionSignal",
+        "executionRequested",
+        "executionStarted",
+        "executionEnabled",
+        "execute",
+        "startRuntime"
+      ]
+    )
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionAuthorizing(
+  readinessInspectionCheckpoint
+) {
+  return (
+    readinessInspectionCheckpoint.reviewOnly !== true &&
+    readinessInspectionCheckpoint.authoritative === true
+  ) || reviewOnlyReadinessHandoffDispositionKeyTruePresent(
+    readinessInspectionCheckpoint,
+    [
+      "authorization",
+      "authorized",
+      "authorizing",
+      "authorizationGranted",
+      "approvalAuthorized",
+      "permissionGranted"
+    ]
+  );
+}
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SINGLE_REJECTION_CHECKS =
+  Object.freeze([
+    [
+      reviewOnlyReadinessHandoffDispositionUnknown,
+      "unknown_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionRevoked,
+      "revoked_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionStale,
+      "stale_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionApprovalDecisionLooking,
+      "approval_decision_looking_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionReviewerRoutingLooking,
+      "reviewer_routing_looking_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionReviewerAssignmentLooking,
+      "reviewer_assignment_looking_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionUnexpectedUnsafeField,
+      "unsafe_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionGrantLooking,
+      "grant_looking_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionApprovalGrantLooking,
+      "approval_grant_looking_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionEvaluatorResultLooking,
+      "evaluator_result_looking_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionEvaluatorExecutionLooking,
+      "evaluator_execution_looking_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionRuntimePermissionLooking,
+      "runtime_permission_looking_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionCommandExposureLooking,
+      "command_exposure_looking_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionRuntimeEffectTrue,
+      "runtime_effect_true_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionProcessFlagTrue,
+      "process_flag_true_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionUnsafeTrueSurface,
+      "unsafe_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionExecutionSignalLooking,
+      "execution_signal_looking_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionAuthorizing,
+      "authorizing_review_only_readiness_handoff_disposition_input_rejected"
+    ],
+    [
+      reviewOnlyReadinessHandoffDispositionMalformed,
+      "malformed_review_only_readiness_handoff_disposition_input_rejected"
+    ]
+  ]);
+
+function reviewOnlyReadinessHandoffDispositionSingleClassification(
+  readinessInspectionCheckpoint
+) {
+  return (
+    REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_SINGLE_REJECTION_CHECKS.find(
+      ([predicate]) => predicate(readinessInspectionCheckpoint)
+    )?.[1] ?? VALID_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION
+  );
+}
+
+function firstReviewOnlyReadinessHandoffDispositionRejection(
+  readinessInspectionCheckpoints
+) {
+  return (
+    readinessInspectionCheckpoints
+      .map(reviewOnlyReadinessHandoffDispositionSingleClassification)
+      .find(
+        (classification) =>
+          classification !==
+          VALID_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION
+      ) ?? null
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionCheckpointsContainDuplicate(
+  readinessInspectionCheckpoints
+) {
+  const digests = readinessInspectionCheckpoints.map((checkpoint) =>
+    reviewArtifactHandoffDigest(checkpoint)
+  );
+
+  return new Set(digests).size !== digests.length;
+}
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_RESOLVERS = Object.freeze([
+  (readinessInspectionCheckpoints) =>
+    readinessInspectionCheckpoints === undefined
+      ? "missing_review_only_readiness_handoff_disposition_input_rejected"
+      : null,
+  (readinessInspectionCheckpoints) =>
+    !Array.isArray(readinessInspectionCheckpoints)
+      ? "malformed_review_only_readiness_handoff_disposition_input_rejected"
+      : null,
+  (readinessInspectionCheckpoints) =>
+    readinessInspectionCheckpoints.length === 0
+      ? "empty_review_only_readiness_handoff_disposition_input_rejected"
+      : null,
+  firstReviewOnlyReadinessHandoffDispositionRejection,
+  (readinessInspectionCheckpoints) =>
+    reviewOnlyReadinessHandoffDispositionCheckpointsContainDuplicate(
+      readinessInspectionCheckpoints
+    )
+      ? "duplicate_invalid_review_only_readiness_handoff_disposition_input_rejected"
+      : null,
+  (readinessInspectionCheckpoints) =>
+    readinessInspectionCheckpoints.length > 1
+      ? "conflicting_review_only_readiness_handoff_disposition_input_rejected"
+      : null
+]);
+
+function reviewOnlyReadinessHandoffDispositionClassification(
+  readinessInspectionCheckpoints
+) {
+  let classification = null;
+
+  REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_RESOLVERS.some((resolver) => {
+    classification = resolver(readinessInspectionCheckpoints);
+    return classification !== null;
+  });
+
+  return (
+    classification ??
+    VALID_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionSummary() {
+  return {
+    dispositionKind: "review-only-readiness-handoff-disposition",
+    dispositionMode: "review-only",
+    sourceReadinessInspectionClassification:
+      VALID_REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_CLASSIFICATION,
+    readinessHandoffDispositionMetadataOnly: true,
+    reviewerRoutingPerformed: false,
+    reviewerAssignmentPerformed: false,
+    evaluatorExecutionPerformed: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    evaluatorExecuted: false,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function reviewOnlyReadinessHandoffDispositionStateFromCheckpoint(
+  readinessInspectionCheckpoint,
+  reviewedAt
+) {
+  return {
+    schema: REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_STATE_SCHEMA,
+    schemaVersion: REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_VERSION,
+    stateKind: "review-only-readiness-handoff-disposition-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourceReadinessInspectionCheckpoint: {
+      schema: readinessInspectionCheckpoint.schema,
+      stateKind: readinessInspectionCheckpoint.stateKind,
+      stateMode: readinessInspectionCheckpoint.stateMode,
+      reviewedAt: readinessInspectionCheckpoint.reviewedAt,
+      stateDigest: reviewArtifactHandoffDigest(readinessInspectionCheckpoint),
+      sourceHandoffReadinessArtifactDigest:
+        readinessInspectionCheckpoint.sourceHandoffReadinessArtifact.stateDigest,
+      sourceInspectionHandoffStateDigest:
+        readinessInspectionCheckpoint.sourceHandoffReadinessArtifact
+          .sourceInspectionHandoffStateDigest,
+      sourceAggregationStateDigest:
+        readinessInspectionCheckpoint.sourceHandoffReadinessArtifact
+          .sourceAggregationStateDigest,
+      sourceDispositionStateDigest:
+        readinessInspectionCheckpoint.sourceHandoffReadinessArtifact
+          .sourceDispositionStateDigest,
+      sourceInspectionArtifactDigest:
+        readinessInspectionCheckpoint.sourceHandoffReadinessArtifact
+          .sourceInspectionArtifactDigest,
+      sourceDecisionCandidateStateDigest:
+        readinessInspectionCheckpoint.sourceHandoffReadinessArtifact
+          .sourceDecisionCandidateStateDigest,
+      sourcePreflightCheckpointStateDigest:
+        readinessInspectionCheckpoint.sourceHandoffReadinessArtifact
+          .sourcePreflightCheckpointStateDigest,
+      sourceIntakeCheckpointStateDigest:
+        readinessInspectionCheckpoint.sourceHandoffReadinessArtifact
+          .sourceIntakeCheckpointStateDigest,
+      sourceEvaluatorInputCandidateDigest:
+        readinessInspectionCheckpoint.sourceHandoffReadinessArtifact
+          .sourceEvaluatorInputCandidateDigest,
+      readinessArtifactAccepted: true,
+      readinessInspectionCheckpointMetadataOnly: true,
+      readinessInspectionCheckpointIsReviewerRouting: false,
+      readinessInspectionCheckpointIsReviewerAssignment: false,
+      readinessInspectionCheckpointIsEvaluatorExecution: false,
+      readinessInspectionCheckpointIsEvaluatorResult: false,
+      readinessInspectionCheckpointIsApprovalDecision: false,
+      readinessInspectionCheckpointIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorResultProduced: false,
+      approvalDecisionProduced: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      evaluatorExecuted: false,
+      runtimeEffectAllFalse: true
+    },
+    pipelineSummary: reviewOnlyEvaluatorPreflightPipelineSummary(
+      readinessInspectionCheckpoint.pipelineSummary
+    ),
+    integratedReviewSummary: reviewOnlyEvaluatorPreflightIntegratedSummary(
+      readinessInspectionCheckpoint.integratedReviewSummary
+    ),
+    decisionCandidateSummary:
+      nonAuthorizingEvaluatorDecisionCandidateSummary(),
+    inspectionSummary:
+      nonAuthorizingEvaluatorDecisionCandidateInspectionSummary(),
+    dispositionSummary: humanToolInspectionDispositionSummary(),
+    aggregationSummary: reviewOnlyDispositionAggregationSummary(),
+    handoffSummary: reviewOnlyAggregationInspectionHandoffSummary(),
+    readinessSummary: reviewOnlyHandoffReadinessSummary(),
+    inspectionCheckpointSummary:
+      reviewOnlyReadinessInspectionCheckpointSummary(),
+    readinessHandoffDispositionSummary:
+      reviewOnlyReadinessHandoffDispositionSummary(),
+    readinessInspectionCheckpointAccepted: true,
+    readinessHandoffDispositionMetadataOnly: true,
+    readinessHandoffDispositionIsReviewerRouting: false,
+    readinessHandoffDispositionIsReviewerAssignment: false,
+    readinessHandoffDispositionIsEvaluatorExecution: false,
+    readinessHandoffDispositionIsEvaluatorResult: false,
+    readinessHandoffDispositionIsApprovalDecision: false,
+    readinessHandoffDispositionIsApprovalGrant: false,
+    reviewerRoutingPerformed: false,
+    reviewerRoutingEnabled: false,
+    reviewerRouteId: null,
+    reviewerAssignmentPerformed: false,
+    reviewerAssignmentEnabled: false,
+    reviewerAssignmentId: null,
+    reviewerId: null,
+    evaluatorResultProduced: false,
+    evaluatorResultPersisted: false,
+    evaluatorResultId: null,
+    approvalDecisionProduced: false,
+    approvalDecisionPersisted: false,
+    approvalDecisionId: null,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionRequested: false,
+    evaluatorExecutionStarted: false,
+    evaluatorExecutionEnabled: false,
+    evaluatorExecuted: false,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function reviewOnlyReadinessHandoffDispositionRejectionReasons({
+  accepted,
+  classification
+}) {
+  if (accepted) {
+    return [
+      "readiness_handoff_disposition_is_review_only",
+      "reviewer_routing_not_implemented",
+      "reviewer_assignment_not_implemented",
+      "evaluator_execution_not_implemented",
+      "evaluator_result_not_implemented",
+      "approval_decision_not_implemented",
+      "approval_grant_not_implemented",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    classification,
+    "readiness_handoff_disposition_not_produced",
+    "reviewer_routing_not_implemented",
+    "reviewer_assignment_not_implemented",
+    "evaluator_execution_not_implemented",
+    "evaluator_result_not_implemented",
+    "approval_decision_not_implemented",
+    "approval_grant_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function reviewOnlyReadinessHandoffDispositionInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function reviewOnlyReadinessHandoffDispositionReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function reviewOnlyReadinessHandoffDispositionInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt))
+  );
+}
+
+function reviewOnlyReadinessHandoffDispositionCheckpoints(inputRecord) {
+  return inputRecord === null
+    ? undefined
+    : inputRecord.readinessInspectionCheckpoints;
+}
+
+function reviewOnlyReadinessHandoffDispositionInputClassification(
+  inputRecord,
+  readinessInspectionCheckpoints
+) {
+  return reviewOnlyReadinessHandoffDispositionInputMalformed(inputRecord)
+    ? MALFORMED_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION
+    : reviewOnlyReadinessHandoffDispositionClassification(
+        readinessInspectionCheckpoints
+      );
+}
+
+function reviewOnlyReadinessHandoffDispositionSummaryFromCheckpoint(
+  readinessInspectionCheckpoint
+) {
+  return {
+    schema: readinessInspectionCheckpoint.schema,
+    stateKind: readinessInspectionCheckpoint.stateKind,
+    stateMode: readinessInspectionCheckpoint.stateMode,
+    reviewedAt: readinessInspectionCheckpoint.reviewedAt,
+    stateDigest: reviewArtifactHandoffDigest(readinessInspectionCheckpoint),
+    readinessInspectionCheckpointIsReviewerRouting: false,
+    readinessInspectionCheckpointIsReviewerAssignment: false,
+    readinessInspectionCheckpointIsEvaluatorExecution: false,
+    readinessInspectionCheckpointIsEvaluatorResult: false,
+    readinessInspectionCheckpointIsApprovalDecision: false,
+    readinessInspectionCheckpointIsApprovalGrant: false,
+    reviewerRoutingPerformed: false,
+    reviewerAssignmentPerformed: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    evaluatorExecuted: false,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function reviewOnlyReadinessHandoffDispositionAcceptedOutput({
+  accepted,
+  readinessInspectionCheckpoints,
+  reviewedAt
+}) {
+  if (!accepted) {
+    return {
+      readinessHandoffDisposition: null,
+      readinessInspectionCheckpointSummary: null
+    };
+  }
+
+  const readinessInspectionCheckpoint = readinessInspectionCheckpoints[0];
+
+  return {
+    readinessHandoffDisposition:
+      reviewOnlyReadinessHandoffDispositionStateFromCheckpoint(
+        readinessInspectionCheckpoint,
+        reviewedAt
+      ),
+    readinessInspectionCheckpointSummary:
+      reviewOnlyReadinessHandoffDispositionSummaryFromCheckpoint(
+        readinessInspectionCheckpoint
+      )
+  };
+}
+
+function reviewOnlyReadinessHandoffDispositionResult({
+  reviewedAt,
+  classification,
+  accepted,
+  readinessHandoffDisposition,
+  readinessInspectionCheckpointSummary
+}) {
+  return {
+    schema: REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_SCHEMA,
+    schemaVersion: REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_VERSION,
+    boundaryKind: REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_KIND,
+    boundaryMode: "review-only",
+    reviewedAt,
+    classification,
+    readinessInspectionCheckpointAccepted: accepted,
+    readinessHandoffDispositionProduced: accepted,
+    readinessHandoffDispositionIsReviewerRouting: false,
+    readinessHandoffDispositionIsReviewerAssignment: false,
+    readinessHandoffDispositionIsEvaluatorExecution: false,
+    readinessHandoffDispositionIsEvaluatorResult: false,
+    readinessHandoffDispositionIsApprovalDecision: false,
+    readinessHandoffDispositionIsApprovalGrant: false,
+    readinessHandoffDisposition,
+    readinessInspectionCheckpointSummary,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    readinessHandoffDispositionMetadataOnly: true,
+    reviewerRoutingPerformed: false,
+    reviewerRoutingEnabled: false,
+    reviewerRouteId: null,
+    reviewerAssignmentPerformed: false,
+    reviewerAssignmentEnabled: false,
+    reviewerAssignmentId: null,
+    reviewerId: null,
+    evaluatorResultProduced: false,
+    evaluatorResultPersisted: false,
+    evaluatorResultId: null,
+    approvalDecisionProduced: false,
+    approvalDecisionPersisted: false,
+    approvalDecisionId: null,
+    approvalGrant: sourcePreflightGrantBlocked(),
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalGrantId: null,
+    runtimePermissionGranted: false,
+    commandExposurePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    evaluatorExecutionRequested: false,
+    evaluatorExecutionStarted: false,
+    evaluatorExecutionEnabled: false,
+    evaluatorExecuted: false,
+    rejectionReasons: reviewOnlyReadinessHandoffDispositionRejectionReasons({
+      accepted,
+      classification
+    }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createReviewOnlyReadinessHandoffDispositionBoundaryForReview(
+  input = {}
+) {
+  const inputRecord = reviewOnlyReadinessHandoffDispositionInputRecord(input);
+  const reviewedAt =
+    reviewOnlyReadinessHandoffDispositionReviewedAt(inputRecord);
+  const readinessInspectionCheckpoints =
+    reviewOnlyReadinessHandoffDispositionCheckpoints(inputRecord);
+  const classification =
+    reviewOnlyReadinessHandoffDispositionInputClassification(
+      inputRecord,
+      readinessInspectionCheckpoints
+    );
+  const accepted =
+    classification ===
+    VALID_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION;
+  const { readinessHandoffDisposition, readinessInspectionCheckpointSummary } =
+    reviewOnlyReadinessHandoffDispositionAcceptedOutput({
+      accepted,
+      readinessInspectionCheckpoints,
+      reviewedAt
+    });
+
+  return reviewOnlyReadinessHandoffDispositionResult({
+    reviewedAt,
+    classification,
+    accepted,
+    readinessHandoffDisposition,
+    readinessInspectionCheckpointSummary
   });
 }
 
