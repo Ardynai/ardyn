@@ -1016,6 +1016,22 @@ evaluator execution/result, approval decision/grant, runtime permission, or
 command exposure permission is introduced. See
 `docs/phase-5-38a-cleanup-toolkit-adoption.md`.
 
+Phase 5.39 adds no Rust-host runtime implementation. It records a
+machine-readable review-only inspection handoff checkpoint layer in TypeScript
+core, consumes the Phase 5.38 inspection/handoff metadata boundary, and carries
+Phase 5.38A cleanup baseline evidence as behavior-preserving metadata only. No
+reviewer routing, reviewer assignment, filesystem watcher, external source
+lookup, secrets/env ingestion, evaluator execution command, evaluator result
+command, approval decision, approval grant, runtime permission, command exposure
+permission, authoritative approval evaluator, host-policy runtime enforcement,
+runtime I/O, process control, rollback/kill-switch behavior, positive runtime
+smoke execution, runtime entrypoint, live stdin loop, runtime stdout/stderr
+writer, process spawning, process supervision, runtime transcript/audit write,
+adapter/Fabric behavior, WebSocket/HTTP surface, cleanup-tool installation, or
+Fallow Runtime use is introduced. Runtime remains disabled, `stdio_runtime`
+remains private, and no Rust source changes are made. See
+`docs/phase-5-39-review-only-inspection-handoff-checkpoint.md`.
+
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write
 handling, process exit semantics, redaction enforcement, transcript
