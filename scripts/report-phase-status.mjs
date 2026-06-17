@@ -213,6 +213,9 @@ const phase533ReviewOnlyAggregationInspectionHandoffMetadata = await readJson(
 const phase534ReviewOnlyHandoffReadinessArtifactMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-34/review-only-handoff-readiness-artifact.json"
 );
+const phase535ReviewOnlyReadinessInspectionCheckpointMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-35/review-only-readiness-inspection-checkpoint.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -260,10 +263,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.34",
-    name: "Review-only handoff readiness artifact",
+    id: "5.35",
+    name: "Review-only readiness inspection checkpoint",
     executionPosture:
-      "review-only-handoff-readiness-artifact runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-readiness-inspection-checkpoint runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -311,12 +314,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.34 review-only handoff readiness artifact status report.",
+        "Render this deterministic local Phase 5.35 review-only readiness inspection checkpoint status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.34 status report.",
+      purpose: "Run focused tests for this local Phase 5.35 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-35-review-only-readiness-inspection-checkpoint.test.mjs",
+      purpose:
+        "Run focused Phase 5.35 review-only readiness inspection checkpoint and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -14919,6 +14929,288 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase535ReviewOnlyReadinessInspectionCheckpointInventory: {
+    statusLayer: {
+      document: "docs/phase-5-35-review-only-readiness-inspection-checkpoint.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-35/review-only-readiness-inspection-checkpoint.json",
+      sourceReadinessDocument:
+        "docs/phase-5-34-review-only-handoff-readiness-artifact.md",
+      sourceReadinessFixture:
+        "tests/fixtures/host-policy/phase5-34/review-only-handoff-readiness-artifact.json",
+      precedingPhase: "5.34",
+      layerId: "review-only-readiness-inspection-checkpoint",
+      scope:
+        "phase-5-review-only-readiness-inspection-checkpoint-runtime-disabled",
+      reviewOnlyReadinessInspectionCheckpointRecorded:
+        phase535ReviewOnlyReadinessInspectionCheckpointMetadata
+          .readinessInspectionCheckpointSummary
+          .reviewOnlyReadinessInspectionCheckpointRecorded,
+      artifactKind:
+        phase535ReviewOnlyReadinessInspectionCheckpointMetadata
+          .readinessInspectionCheckpointSummary.artifactKind,
+      artifactReviewOnly: true,
+      artifactAuthoritative: false,
+      validReadinessArtifactProducesInspectionCheckpoint: true,
+      missingReadinessArtifactRejected: true,
+      malformedReadinessArtifactRejected: true,
+      emptyReadinessArtifactRejected: true,
+      conflictingReadinessArtifactRejected: true,
+      staleReadinessArtifactRejected: true,
+      revokedReadinessArtifactRejected: true,
+      unknownReadinessArtifactRejected: true,
+      duplicateInvalidReadinessArtifactRejected: true,
+      authorizingLookingReadinessArtifactRejected: true,
+      grantLookingReadinessArtifactRejected: true,
+      approvalDecisionLookingReadinessArtifactRejected: true,
+      approvalGrantLookingReadinessArtifactRejected: true,
+      evaluatorResultLookingReadinessArtifactRejected: true,
+      evaluatorExecutionLookingReadinessArtifactRejected: true,
+      reviewerRoutingLookingReadinessArtifactRejected: true,
+      reviewerAssignmentLookingReadinessArtifactRejected: true,
+      runtimePermissionLookingReadinessArtifactRejected: true,
+      commandExposureLookingReadinessArtifactRejected: true,
+      runtimeEffectTrueReadinessArtifactRejected: true,
+      processFlagTrueReadinessArtifactRejected: true,
+      unsafeReadinessArtifactRejected: true,
+      executionSignalLookingReadinessArtifactRejected: true,
+      readinessInspectionCheckpointIsReviewerRouting: false,
+      readinessInspectionCheckpointIsReviewerAssignment: false,
+      readinessInspectionCheckpointIsEvaluatorExecution: false,
+      readinessInspectionCheckpointIsEvaluatorResult: false,
+      readinessInspectionCheckpointIsApprovalDecision: false,
+      readinessInspectionCheckpointIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase535ReviewOnlyReadinessInspectionCheckpointMetadata
+          .readinessInspectionCheckpointSummary.serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-35-review-only-readiness-inspection-checkpoint.md",
+        "Records the Phase 5.35 review-only readiness inspection checkpoint while reviewer routing, reviewer assignment, evaluator execution, evaluator results, and runtime remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-34-review-only-handoff-readiness-artifact.md",
+        "Provides the Phase 5.35 source handoff readiness artifact metadata."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.35 as current docs/status mode while runtime, reviewer routing, and reviewer assignment remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.35 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.35 changes no Rust-host runtime source and records a TypeScript readiness-inspection helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-34-review-only-handoff-readiness-artifact.md",
+      "docs/phase-5-35-review-only-readiness-inspection-checkpoint.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-35/review-only-readiness-inspection-checkpoint.json",
+        "Records review-only readiness inspection cases while reviewer routing, reviewer assignment, evaluator execution, evaluator results, approval decisions, grants, and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.35 report metadata, docs cross-links, readiness inspection fixture, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-35-review-only-readiness-inspection-checkpoint.test.mjs",
+        "Pins the Phase 5.35 readiness inspection helper, fixture shape, non-authorizing state, serve-runtime rejection, command rejection, and CLI source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-34-review-only-handoff-readiness-artifact.md",
+        "docs/phase-5-35-review-only-readiness-inspection-checkpoint.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-35/review-only-readiness-inspection-checkpoint.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-35-review-only-readiness-inspection-checkpoint.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      reviewerRoutingPerformedByThisPhase: false,
+      reviewerAssignmentPerformedByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateReviewerRoutingPhaseRequired: true,
+      separateReviewerAssignmentPhaseRequired: true,
+      separateEvaluatorExecutionPhaseRequired: true,
+      separateEvaluatorResultPhaseRequired: true,
+      separateApprovalDecisionPhaseRequired: true,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase: phase535ReviewOnlyReadinessInspectionCheckpointMetadata.sourcePhase,
+    readinessInspectionCheckpointSummary:
+      phase535ReviewOnlyReadinessInspectionCheckpointMetadata
+        .readinessInspectionCheckpointSummary,
+    readinessInspectionCheckpointInputShape:
+      phase535ReviewOnlyReadinessInspectionCheckpointMetadata
+        .readinessInspectionCheckpointInputShape,
+    readinessInspectionCheckpointResultShape:
+      phase535ReviewOnlyReadinessInspectionCheckpointMetadata
+        .readinessInspectionCheckpointResultShape,
+    readinessInspectionCheckpointCases:
+      phase535ReviewOnlyReadinessInspectionCheckpointMetadata
+        .readinessInspectionCheckpointCases,
+    readinessInspectionCheckpoint:
+      phase535ReviewOnlyReadinessInspectionCheckpointMetadata
+        .readinessInspectionCheckpoint,
+    blockedRuntimeEffect:
+      phase535ReviewOnlyReadinessInspectionCheckpointMetadata.blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase535ReviewOnlyReadinessInspectionCheckpointMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase535ReviewOnlyReadinessInspectionCheckpointMetadata.forbiddenBehavior,
+    validationCommands:
+      phase535ReviewOnlyReadinessInspectionCheckpointMetadata.validationCommands,
+    safetyPosture: {
+      reviewOnlyReadinessInspectionCheckpointRecorded: true,
+      artifactReviewOnly: true,
+      artifactAuthoritative: false,
+      validReadinessArtifactProducesInspectionCheckpoint: true,
+      missingReadinessArtifactRejected: true,
+      malformedReadinessArtifactRejected: true,
+      emptyReadinessArtifactRejected: true,
+      conflictingReadinessArtifactRejected: true,
+      staleReadinessArtifactRejected: true,
+      revokedReadinessArtifactRejected: true,
+      unknownReadinessArtifactRejected: true,
+      duplicateInvalidReadinessArtifactRejected: true,
+      authorizingLookingReadinessArtifactRejected: true,
+      grantLookingReadinessArtifactRejected: true,
+      approvalDecisionLookingReadinessArtifactRejected: true,
+      approvalGrantLookingReadinessArtifactRejected: true,
+      evaluatorResultLookingReadinessArtifactRejected: true,
+      evaluatorExecutionLookingReadinessArtifactRejected: true,
+      reviewerRoutingLookingReadinessArtifactRejected: true,
+      reviewerAssignmentLookingReadinessArtifactRejected: true,
+      runtimePermissionLookingReadinessArtifactRejected: true,
+      commandExposureLookingReadinessArtifactRejected: true,
+      runtimeEffectTrueReadinessArtifactRejected: true,
+      processFlagTrueReadinessArtifactRejected: true,
+      unsafeReadinessArtifactRejected: true,
+      executionSignalLookingReadinessArtifactRejected: true,
+      readinessInspectionCheckpointIsReviewerRouting: false,
+      readinessInspectionCheckpointIsReviewerAssignment: false,
+      readinessInspectionCheckpointIsEvaluatorExecution: false,
+      readinessInspectionCheckpointIsEvaluatorResult: false,
+      readinessInspectionCheckpointIsApprovalDecision: false,
+      readinessInspectionCheckpointIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -14986,6 +15278,7 @@ const report = {
     phase532ReviewOnlyDispositionAggregationCheckpoint: true,
     phase533ReviewOnlyAggregationInspectionHandoff: true,
     phase534ReviewOnlyHandoffReadinessArtifact: true,
+    phase535ReviewOnlyReadinessInspectionCheckpoint: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -16410,6 +16703,75 @@ const report = {
       phase534AdapterRuntimeBehaviorEnabled: false,
       phase534ContentFabricRuntimeBehaviorEnabled: false,
       phase534WebSocketHttpSurfaceEnabled: false,
+      phase535ReviewOnlyReadinessInspectionCheckpointRecorded: true,
+      phase535ArtifactReviewOnly: true,
+      phase535ArtifactAuthoritative: false,
+      phase535ValidReadinessArtifactProducesInspectionCheckpoint: true,
+      phase535MissingReadinessArtifactRejected: true,
+      phase535MalformedReadinessArtifactRejected: true,
+      phase535EmptyReadinessArtifactRejected: true,
+      phase535ConflictingReadinessArtifactRejected: true,
+      phase535StaleReadinessArtifactRejected: true,
+      phase535RevokedReadinessArtifactRejected: true,
+      phase535UnknownReadinessArtifactRejected: true,
+      phase535DuplicateInvalidReadinessArtifactRejected: true,
+      phase535AuthorizingLookingReadinessArtifactRejected: true,
+      phase535GrantLookingReadinessArtifactRejected: true,
+      phase535ApprovalDecisionLookingReadinessArtifactRejected: true,
+      phase535ApprovalGrantLookingReadinessArtifactRejected: true,
+      phase535EvaluatorResultLookingReadinessArtifactRejected: true,
+      phase535EvaluatorExecutionLookingReadinessArtifactRejected: true,
+      phase535ReviewerRoutingLookingReadinessArtifactRejected: true,
+      phase535ReviewerAssignmentLookingReadinessArtifactRejected: true,
+      phase535RuntimePermissionLookingReadinessArtifactRejected: true,
+      phase535CommandExposureLookingReadinessArtifactRejected: true,
+      phase535RuntimeEffectTrueReadinessArtifactRejected: true,
+      phase535ProcessFlagTrueReadinessArtifactRejected: true,
+      phase535UnsafeReadinessArtifactRejected: true,
+      phase535ExecutionSignalLookingReadinessArtifactRejected: true,
+      phase535ReadinessInspectionCheckpointIsReviewerRouting: false,
+      phase535ReadinessInspectionCheckpointIsReviewerAssignment: false,
+      phase535ReadinessInspectionCheckpointIsEvaluatorExecution: false,
+      phase535ReadinessInspectionCheckpointIsEvaluatorResult: false,
+      phase535ReadinessInspectionCheckpointIsApprovalDecision: false,
+      phase535ReadinessInspectionCheckpointIsApprovalGrant: false,
+      phase535ReviewerRoutingPerformed: false,
+      phase535ReviewerAssignmentPerformed: false,
+      phase535EvaluatorResultProduced: false,
+      phase535EvaluatorResultPersisted: false,
+      phase535ApprovalDecisionProduced: false,
+      phase535ApprovalDecisionPersisted: false,
+      phase535ApprovalGrantProduced: false,
+      phase535ApprovalGrantPersisted: false,
+      phase535RuntimePermissionGranted: false,
+      phase535CommandExposurePermissionGranted: false,
+      phase535RuntimeEnabled: false,
+      phase535RuntimeStarted: false,
+      phase535RuntimeReady: false,
+      phase535RuntimeCommandEnabled: false,
+      phase535RuntimeCommandExposureEnabled: false,
+      phase535RuntimeExecutionEnabled: false,
+      phase535RuntimeExecuted: false,
+      phase535EvaluatorExecutionPerformed: false,
+      phase535ServeRuntimeStillDefaultBlocked: true,
+      phase535DryRunBypassesBlock: false,
+      phase535CanEnableRuntime: false,
+      phase535CliSourceChanged: false,
+      phase535RustSourceChanged: false,
+      phase535FilesystemWatcherEnabled: false,
+      phase535ExternalSourceLookupEnabled: false,
+      phase535SecretsEnvIngestionEnabled: false,
+      phase535LiveStdinLoopEnabled: false,
+      phase535RuntimeStdoutWriterEnabled: false,
+      phase535RuntimeStderrWriterEnabled: false,
+      phase535ProcessSpawnEnabled: false,
+      phase535ProcessTerminationEnabled: false,
+      phase535RuntimeSupervisionEnabled: false,
+      phase535RuntimeTranscriptWritePerformed: false,
+      phase535RuntimeAuditWritePerformed: false,
+      phase535AdapterRuntimeBehaviorEnabled: false,
+      phase535ContentFabricRuntimeBehaviorEnabled: false,
+      phase535WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

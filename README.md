@@ -8,10 +8,10 @@ ARDYN is not Locus and is not Multiverse.
 - Multiverse is an external closed-source product/network. ARDYN can optionally register with Multiverse through an adapter, but Multiverse is not required to run ARDYN.
 - OpenClaw, Hermes, Agent Zero, Space Agent, HiClaw, AgentScope, and related systems are references only. ARDYN does not copy their source code.
 
-## Phase 3 through Phase 5.34 Scope
+## Phase 3 through Phase 5.35 Scope
 
-This repository is currently in Phase 5.34 review-only handoff readiness
-artifact mode. The goal is to load and validate ARDYN manifests and tasks, resolve
+This repository is currently in Phase 5.35 review-only readiness inspection
+checkpoint mode. The goal is to load and validate ARDYN manifests and tasks, resolve
 requested capabilities into deterministic non-executing plans, report static
 TypeScript/Rust host identity, expose dry-run handshake data, emit finite
 dry-run session-event JSONL, define the stdout/stderr, redaction, transcript
@@ -144,8 +144,13 @@ metadata proving valid handoff metadata can become only non-authorizing
 readiness artifact metadata without reviewer routing, reviewer assignment,
 evaluator execution, evaluator result production, approval decision production,
 approval grant production or persistence, runtime permission, or command
+exposure plus Phase 5.35 review-only readiness inspection checkpoint metadata
+proving valid readiness artifact metadata can become only non-authorizing
+inspection checkpoint metadata without reviewer routing, reviewer assignment,
+evaluator execution, evaluator result production, approval decision production,
+approval grant production or persistence, runtime permission, or command
 exposure.
-Phase 5.34 is not runtime enablement.
+Phase 5.35 is not runtime enablement.
 Runtime command enablement, live runtime behavior,
 adapter/Fabric runtime behavior, stdout/stderr writers, process control,
 transcript/audit side effects, and CLI runtime commands remain blocked before
@@ -631,6 +636,24 @@ Included now:
   lookup, secrets/env ingestion, Rust-host change, or CLI source change, and
   keeps `serve-runtime` default-blocked. See
   `docs/phase-5-34-review-only-handoff-readiness-artifact.md`.
+- Phase 5.35 review-only readiness inspection checkpoint documentation,
+  fixture, core helper, and report metadata. This represents valid Phase 5.34
+  readiness artifact metadata only as non-authorizing inspection checkpoint
+  metadata for later review. It rejects missing, malformed, invalid timestamp,
+  empty, conflicting, stale, revoked, unknown, duplicate-invalid,
+  authorizing-looking, grant-looking, approval-decision-looking,
+  approval-grant-looking, evaluator-result-looking,
+  evaluator-execution-looking, reviewer-routing-looking,
+  reviewer-assignment-looking, runtime-permission-looking,
+  command-exposure-looking, runtime-effect-true, process-flag-true, unsafe,
+  and execution-signal-looking readiness artifacts, performs no reviewer
+  routing, assigns no reviewers, executes no evaluator, produces no evaluator
+  result, produces no approval decision, produces and persists no approval
+  grant, grants no runtime or command exposure permission, starts or executes
+  no runtime, performs no filesystem watching, external lookup, secrets/env
+  ingestion, Rust-host change, or CLI source change, and keeps `serve-runtime`
+  default-blocked. See
+  `docs/phase-5-35-review-only-readiness-inspection-checkpoint.md`.
 - Metadata-only adapter registration stubs for OpenClaw, MCP, and the plugin API.
 - Minimal Rust host functions for host info, platform info, optional manifest loading, and non-executing host handshakes.
 - CLI commands for doctor, identity, capabilities, task planning, review-artifact display review, review-trace comparison, and dry-run serve planning.
@@ -782,7 +805,7 @@ Review outcomes:
   request changes, candidate ranking changes, and confirm all safety flags
   remain false.
 
-The Phase 5.34 review-only handoff readiness artifact status report command is:
+The Phase 5.35 review-only readiness inspection checkpoint status report command is:
 
 ```powershell
 npm run report:phase-status
@@ -842,7 +865,8 @@ decision-candidate inspection artifact metadata, and Phase 5.31 review-only
 human/tool inspection disposition boundary metadata, Phase 5.32 review-only
 disposition aggregation checkpoint metadata, and Phase 5.33 review-only
 aggregation inspection handoff metadata, and Phase 5.34 review-only handoff
-readiness artifact metadata
+readiness artifact metadata, and Phase 5.35 review-only readiness inspection
+checkpoint metadata
 are included as the current static audit layers.
 It must not run checks, start servers, spawn long-running processes, call
 adapters, execute tools, write files, use secrets, call external CI, or imply

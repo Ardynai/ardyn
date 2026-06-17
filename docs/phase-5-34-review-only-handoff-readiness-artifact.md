@@ -66,6 +66,15 @@ The readiness artifact is not:
 - command exposure permission
 - runtime execution signal
 
+## Phase 5.35 Handoff
+
+Phase 5.35 consumes this non-authorizing readiness artifact metadata as source
+input for a review-only readiness inspection checkpoint. The Phase 5.35
+checkpoint remains non-authorizing and adds no reviewer routing, reviewer
+assignment, evaluator execution, evaluator result, approval decision, approval
+grant, runtime permission, command exposure permission, runtime command
+exposure, or runtime execution.
+
 ## Runtime Posture
 
 Phase 5.34 adds no:

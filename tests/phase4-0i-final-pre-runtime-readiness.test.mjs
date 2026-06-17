@@ -388,10 +388,10 @@ test("Phase 4.1 status report still inventories Phase 4.0I readiness metadata wi
   const report = await runReport();
 
   assert.deepEqual(report.phase, {
-    id: "5.34",
-    name: "Review-only handoff readiness artifact",
+    id: "5.35",
+    name: "Review-only readiness inspection checkpoint",
     executionPosture:
-      "review-only-handoff-readiness-artifact runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-readiness-inspection-checkpoint runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
