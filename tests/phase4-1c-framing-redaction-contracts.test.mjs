@@ -347,13 +347,6 @@ test("Phase 4.1C docs cross-link framing/redaction contracts without implying ru
 test("Phase 4.1C status report inventories framing/redaction contracts without running checks", async () => {
   const report = await runReport();
   const inventory = report.phase41CFramingRedactionInventory;
-
-  assert.deepEqual(report.phase, {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
-    executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
-  });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
   assert.equal(inventory.framingRedactionContract.schema, "ardyn.stdio-framing-redaction-contract");

@@ -506,13 +506,6 @@ test("Phase 4.1F docs cross-link checkpoint without implying runtime", async () 
 test("Phase 4.1F status report inventories checkpoint without running checks", async () => {
   const report = await runReport();
   const inventory = report.phase41FRuntimeReadinessCheckpointInventory;
-
-  assert.deepEqual(report.phase, {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
-    executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
-  });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
   assert.equal(inventory.checkpoint.schema, "ardyn.runtime-readiness-checkpoint");

@@ -386,13 +386,6 @@ test("Phase 4.0I docs cross-link the readiness bundle without implying execution
 
 test("Phase 4.1 status report still inventories Phase 4.0I readiness metadata without running checks", async () => {
   const report = await runReport();
-
-  assert.deepEqual(report.phase, {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
-    executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
-  });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
   assert.equal(report.phase40IInventory.finalPreRuntimeReadiness.phase41Implemented, false);

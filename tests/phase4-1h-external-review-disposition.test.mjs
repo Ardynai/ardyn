@@ -409,13 +409,6 @@ test("Phase 4.1H docs cross-link disposition without implying runtime", async ()
 test("Phase 4.1H status report inventories disposition without running checks", async () => {
   const report = await runReport();
   const inventory = report.phase41HExternalReviewDispositionInventory;
-
-  assert.deepEqual(report.phase, {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
-    executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
-  });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
   assert.equal(inventory.disposition.schema, "ardyn.external-review-disposition-record");

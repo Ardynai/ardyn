@@ -389,13 +389,6 @@ test("Phase 4.1B docs cross-link transport harness contracts without implying ru
 
 test("Phase 4.1B status report inventories transport harness contracts without running checks", async () => {
   const report = await runReport();
-
-  assert.deepEqual(report.phase, {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
-    executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
-  });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
   assert.equal(report.phase41BTransportHarnessInventory.transportHarnessContract.schema, "ardyn.transport-harness-contract");

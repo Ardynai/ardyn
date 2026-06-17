@@ -1007,6 +1007,15 @@ remains disabled, `stdio_runtime` remains private, and no Rust source changes
 are made. See
 `docs/phase-5-38-review-only-inspection-handoff-metadata-boundary.md`.
 
+Phase 5.38A adds no Rust-host runtime implementation. It applies only
+behavior-preserving cleanup for the language-aware toolkit baseline: Rust
+formatting remains stable, Clippy findings are addressed without renaming
+serialized audit metadata, and no live runtime, process control, stdout/stderr
+writer, transcript/audit runtime write, reviewer routing, reviewer assignment,
+evaluator execution/result, approval decision/grant, runtime permission, or
+command exposure permission is introduced. See
+`docs/phase-5-38a-cleanup-toolkit-adoption.md`.
+
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write
 handling, process exit semantics, redaction enforcement, transcript

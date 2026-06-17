@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.38 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.38A keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -1141,3 +1141,7 @@ runtime, performs no filesystem watching or external lookup, ingests no
 secrets/env data, and changes no CLI source. `serve-runtime` remains
 default-blocked. See
 `docs/phase-5-38-review-only-inspection-handoff-metadata-boundary.md`.
+
+Phase 5.38A records a language-aware cleanup toolkit baseline only. It adds no
+CLI command, changes no CLI runtime behavior, does not use Fallow Runtime, and
+keeps `serve-runtime` and `serve-runtime --dry-run` default-blocked.

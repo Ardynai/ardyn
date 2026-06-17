@@ -275,10 +275,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
+    id: "5.38A",
+    name: "Language-aware cleanup toolkit adoption",
     executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "language-aware-cleanup-toolkit-adoption behavior-preserving runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -314,6 +314,12 @@ const report = {
       ranByReport: false
     },
     {
+      command: "cargo clippy --workspace -- -D warnings",
+      purpose:
+        "Run the already available Rust linter/static-analysis pass without permitting warnings.",
+      ranByReport: false
+    },
+    {
       command: "git diff --check",
       purpose: "Check the working diff for whitespace errors.",
       ranByReport: false
@@ -324,14 +330,29 @@ const report = {
       ranByReport: false
     },
     {
+      command: "npm audit --json",
+      purpose: "Run the package dependency security audit without changing dependencies.",
+      ranByReport: false
+    },
+    {
+      command: "fallow health --score --hotspots --targets --format json",
+      purpose: "Run Fallow health/static evidence without using Fallow Runtime.",
+      ranByReport: false
+    },
+    {
+      command: "fallow audit --format json",
+      purpose: "Run Fallow audit/static evidence without using Fallow Runtime.",
+      ranByReport: false
+    },
+    {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.38 review-only inspection handoff metadata boundary status report.",
+        "Render this deterministic local Phase 5.38A cleanup toolkit adoption status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.38 status report.",
+      purpose: "Run focused tests for this local Phase 5.38A status report.",
       ranByReport: false
     },
     {
@@ -579,18 +600,6 @@ const report = {
       command: "node --test tests/phase5-2-runtime-default-blocked.test.mjs",
       purpose:
         "Run focused Phase 5.2 blocked-runtime fixture and candidate command rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "fallow health --score --hotspots --targets --format json",
-      purpose:
-        "Run deterministic Fallow health and hotspot evidence for JS/TS/package/test/report surfaces.",
-      ranByReport: false
-    },
-    {
-      command: "fallow audit --format json",
-      purpose:
-        "Run deterministic Fallow changed-code audit evidence for JS/TS/package/test/report surfaces.",
       ranByReport: false
     },
     {
@@ -16106,6 +16115,284 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase538ACleanupToolkitAdoptionInventory: {
+    statusLayer: {
+      document: "docs/phase-5-38a-cleanup-toolkit-adoption.md",
+      precedingPhase: "5.38",
+      layerId: "language-aware-cleanup-toolkit-adoption",
+      scope:
+        "phase-5-38a-behavior-preserving-cleanup-toolkit-adoption-runtime-disabled",
+      cleanupToolkitBaselineRecorded: true,
+      languageAwarePassOrderRecorded: true,
+      behaviorPreserving: true,
+      reviewBoundaryChainContinued: false,
+      runtimeCapabilityAdded: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorExecutionPerformed: false,
+      evaluatorResultProduced: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      processControlEnabled: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      fallowRuntimeUsed: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-38a-cleanup-toolkit-adoption.md",
+        "Records the Phase 5.38A language-aware cleanup toolkit baseline, safe fixes, skipped tools, deferred risky findings, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.38A as the current cleanup/status mode while preserving Phase 5.38 runtime blocking."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.38A adds no CLI command and keeps serve-runtime default-blocked."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.38A Rust edits are behavior-preserving cleanup only and add no runtime implementation."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-38-review-only-inspection-handoff-metadata-boundary.md",
+      "docs/phase-5-38a-cleanup-toolkit-adoption.md"
+    ],
+    toolkitPassOrder: [
+      {
+        order: 1,
+        pass: "formatter",
+        tools: [
+          {
+            tool: "cargo fmt --check",
+            language: "Rust",
+            status: "available",
+            installsDependencies: false
+          },
+          {
+            tool: "JS/TS formatter",
+            language: "JavaScript/TypeScript",
+            status: "skipped",
+            reason: "No configured Prettier, ESLint formatter, or Biome setup."
+          },
+          {
+            tool: "Markdown/JSON/TOML formatter",
+            language: "Markdown/JSON/TOML",
+            status: "skipped",
+            reason: "No configured repository formatter for these file types."
+          }
+        ]
+      },
+      {
+        order: 2,
+        pass: "linter",
+        tools: [
+          {
+            tool: "cargo clippy --workspace -- -D warnings",
+            language: "Rust",
+            status: "available",
+            installsDependencies: false
+          },
+          {
+            tool: "JS/TS linter",
+            language: "JavaScript/TypeScript",
+            status: "skipped",
+            reason: "No configured ESLint or Biome linter setup."
+          }
+        ]
+      },
+      {
+        order: 3,
+        pass: "dead-code/static analysis",
+        tools: [
+          {
+            tool: "cargo check --workspace",
+            language: "Rust",
+            status: "available",
+            installsDependencies: false
+          },
+          {
+            tool: "fallow health --score --hotspots --targets --format json",
+            language: "mixed",
+            status: "available",
+            installsDependencies: false,
+            runtimeUsed: false
+          },
+          {
+            tool: "fallow audit --format json",
+            language: "mixed",
+            status: "available",
+            installsDependencies: false,
+            runtimeUsed: false
+          }
+        ]
+      },
+      {
+        order: 4,
+        pass: "security/dependency audit",
+        tools: [
+          {
+            tool: "npm audit --json",
+            language: "JavaScript/TypeScript/package",
+            status: "available",
+            installsDependencies: false
+          },
+          {
+            tool: "cargo audit",
+            language: "Rust",
+            status: "skipped",
+            reason: "Not already installed in this environment."
+          }
+        ]
+      }
+    ],
+    safeFixesApplied: [
+      {
+        file: "crates/ardyn-host/src/stdio_runtime/mod.rs",
+        summary:
+          "Preserved serialized failure audit category names with a targeted Clippy allow and replaced an explicit false comparison with direct negation.",
+        behaviorPreserving: true,
+        runtimeCapabilityAdded: false
+      },
+      {
+        file: "crates/ardyn-host/src/lib.rs",
+        summary:
+          "Replaced a manual stdio runtime input stream sequence counter with an iterator-backed sequence.",
+        behaviorPreserving: true,
+        runtimeCapabilityAdded: false
+      }
+    ],
+    riskyFindingsDeferred: [
+      {
+        finding: "Rename public serialized stdio runtime failure audit enum variants",
+        disposition: "deferred",
+        reason:
+          "The serialized enum names are contract-like audit metadata and should not be renamed as incidental cleanup."
+      },
+      {
+        finding: "Broad dead-code or public-symbol removal",
+        disposition: "deferred",
+        reason:
+          "Symbols referenced by tests, fixtures, docs, public APIs, or phase-status reports require separate proof before removal."
+      },
+      {
+        finding: "Fallow duplication warning in phase-status report/test metadata",
+        disposition: "deferred",
+        reason:
+          "The repeated false safety flags are intentional phase inventory evidence; extracting them should be a separate report structure cleanup with compatibility review."
+      }
+    ],
+    securityFollowUps: [],
+    unavailableOrSkippedTools: [
+      {
+        tool: "prettier",
+        reason: "No configured repository formatter and no broad install requested."
+      },
+      {
+        tool: "eslint",
+        reason: "No configured repository linter and no broad install requested."
+      },
+      {
+        tool: "biome",
+        reason: "No configured repository formatter/linter and no broad install requested."
+      },
+      {
+        tool: "markdownlint",
+        reason: "No configured Markdown linter and no broad install requested."
+      },
+      {
+        tool: "taplo",
+        reason: "No configured TOML formatter and no broad install requested."
+      },
+      {
+        tool: "cargo-audit",
+        reason: "Not already installed in this environment."
+      },
+      {
+        tool: "cargo-machete",
+        reason: "Not already installed in this environment."
+      },
+      {
+        tool: "MegaLinter/Trunk/Semgrep/Trivy",
+        reason:
+          "Not configured for this repository; running them would require broad external tooling."
+      }
+    ],
+    sourceBoundary: {
+      phase5ReviewBoundaryChainContinued: false,
+      coreReviewHelperAdded: false,
+      fixtureAdded: false,
+      cliBehaviorChanged: false,
+      runtimeCommandExposureAdded: false,
+      rustHostRuntimeImplementationAdded: false,
+      liveRuntimeAdded: false,
+      externalLookupAdded: false,
+      envSecretsIngestionAdded: false
+    },
+    validationCommands: [
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "git diff --check",
+      "git diff --cached --check",
+      "fallow health --score --hotspots --targets --format json",
+      "fallow audit --format json",
+      "npm audit --json"
+    ],
+    forbiddenBehavior: {
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorExecutionPerformed: false,
+      evaluatorResultProduced: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeExecuted: false,
+      processControlEnabled: false,
+      filesystemWatcherEnabled: false,
+      externalLookupEnabled: false,
+      envSecretsIngestionEnabled: false,
+      adapterFabricWebSocketHttpSurfaceEnabled: false,
+      fallowRuntimeUsed: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -16177,6 +16464,7 @@ const report = {
     phase536ReviewOnlyReadinessHandoffDispositionBoundary: true,
     phase537ReviewOnlyHandoffDispositionInspectionCheckpoint: true,
     phase538ReviewOnlyInspectionHandoffMetadataBoundary: true,
+    phase538ALanguageAwareCleanupToolkitAdoption: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -17877,6 +18165,34 @@ const report = {
       phase538AdapterRuntimeBehaviorEnabled: false,
       phase538ContentFabricRuntimeBehaviorEnabled: false,
       phase538WebSocketHttpSurfaceEnabled: false,
+      phase538ACleanupToolkitAdoptionRecorded: true,
+      phase538ALanguageAwarePassOrderRecorded: true,
+      phase538ABehaviorPreserving: true,
+      phase538AServeRuntimeStillDefaultBlocked: true,
+      phase538AReviewBoundaryChainContinued: false,
+      phase538AReviewerRoutingPerformed: false,
+      phase538AReviewerAssignmentPerformed: false,
+      phase538AEvaluatorExecutionPerformed: false,
+      phase538AEvaluatorResultProduced: false,
+      phase538AApprovalDecisionProduced: false,
+      phase538AApprovalDecisionPersisted: false,
+      phase538AApprovalGrantProduced: false,
+      phase538AApprovalGrantPersisted: false,
+      phase538ARuntimePermissionGranted: false,
+      phase538ACommandExposurePermissionGranted: false,
+      phase538ARuntimeEnabled: false,
+      phase538ARuntimeStarted: false,
+      phase538ARuntimeCommandExposureEnabled: false,
+      phase538ARuntimeExecutionEnabled: false,
+      phase538ARuntimeExecuted: false,
+      phase538AProcessControlEnabled: false,
+      phase538AFilesystemWatcherEnabled: false,
+      phase538AExternalLookupEnabled: false,
+      phase538ASecretsEnvIngestionEnabled: false,
+      phase538AAdapterFabricWebSocketHttpSurfaceEnabled: false,
+      phase538AFallowRuntimeUsed: false,
+      phase538ADryRunBypassesBlock: false,
+      phase538ACanEnableRuntime: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

@@ -2859,6 +2859,55 @@ const phase538SafetyFlagNames = [
   ...phase538ExpectedTrueSafetyFlagNames,
   ...phase538ExpectedFalseSafetyFlagNames
 ];
+const phase538ADocFiles = [
+  "docs/phase-5-38a-cleanup-toolkit-adoption.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase538ACrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-38-review-only-inspection-handoff-metadata-boundary.md",
+  "docs/phase-5-38a-cleanup-toolkit-adoption.md"
+];
+const phase538AExpectedTrueSafetyFlagNames = [
+  "phase538ACleanupToolkitAdoptionRecorded",
+  "phase538ALanguageAwarePassOrderRecorded",
+  "phase538ABehaviorPreserving",
+  "phase538AServeRuntimeStillDefaultBlocked"
+];
+const phase538AExpectedFalseSafetyFlagNames = [
+  "phase538AReviewBoundaryChainContinued",
+  "phase538AReviewerRoutingPerformed",
+  "phase538AReviewerAssignmentPerformed",
+  "phase538AEvaluatorExecutionPerformed",
+  "phase538AEvaluatorResultProduced",
+  "phase538AApprovalDecisionProduced",
+  "phase538AApprovalDecisionPersisted",
+  "phase538AApprovalGrantProduced",
+  "phase538AApprovalGrantPersisted",
+  "phase538ARuntimePermissionGranted",
+  "phase538ACommandExposurePermissionGranted",
+  "phase538ARuntimeEnabled",
+  "phase538ARuntimeStarted",
+  "phase538ARuntimeCommandExposureEnabled",
+  "phase538ARuntimeExecutionEnabled",
+  "phase538ARuntimeExecuted",
+  "phase538AProcessControlEnabled",
+  "phase538AFilesystemWatcherEnabled",
+  "phase538AExternalLookupEnabled",
+  "phase538ASecretsEnvIngestionEnabled",
+  "phase538AAdapterFabricWebSocketHttpSurfaceEnabled",
+  "phase538AFallowRuntimeUsed",
+  "phase538ADryRunBypassesBlock",
+  "phase538ACanEnableRuntime"
+];
+const phase538ASafetyFlagNames = [
+  ...phase538AExpectedTrueSafetyFlagNames,
+  ...phase538AExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -2993,15 +3042,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.38 review-only inspection handoff metadata boundary docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.38A cleanup toolkit adoption docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
+    id: "5.38A",
+    name: "Language-aware cleanup toolkit adoption",
     executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "language-aware-cleanup-toolkit-adoption behavior-preserving runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -3035,532 +3084,66 @@ test("report lists configured checks and verification commands without running t
     }
   ]);
 
-  assert.deepEqual(report.verificationCommands, [
-    {
-      command: "npm test",
-      purpose: "Run the repository node:test suite.",
-      ranByReport: false
-    },
-    {
-      command: "npm run test:schemas",
-      purpose: "Run focused schema validation tests.",
-      ranByReport: false
-    },
-    {
-      command: "cargo test --workspace",
-      purpose: "Run Rust workspace tests.",
-      ranByReport: false
-    },
-    {
-      command: "cargo check --workspace",
-      purpose: "Check Rust workspace compilation without producing binaries.",
-      ranByReport: false
-    },
-    {
-      command: "cargo fmt --check",
-      purpose: "Check Rust formatting without modifying files.",
-      ranByReport: false
-    },
-    {
-      command: "git diff --check",
-      purpose: "Check the working diff for whitespace errors.",
-      ranByReport: false
-    },
-    {
-      command: "git diff --cached --check",
-      purpose: "Check the staged diff for whitespace errors after new files are staged.",
-      ranByReport: false
-    },
-    {
-      command: "npm run report:phase-status",
-      purpose:
-        "Render this deterministic local Phase 5.38 review-only inspection handoff metadata boundary status report.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.38 status report.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-38-review-only-inspection-handoff-metadata-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.38 review-only inspection handoff metadata boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-37-review-only-handoff-disposition-inspection-checkpoint.test.mjs",
-      purpose:
-        "Run focused Phase 5.37 review-only handoff disposition inspection checkpoint and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-36-review-only-readiness-handoff-disposition-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.36 review-only readiness handoff disposition boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-35-review-only-readiness-inspection-checkpoint.test.mjs",
-      purpose:
-        "Run focused Phase 5.35 review-only readiness inspection checkpoint and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-34-review-only-handoff-readiness-artifact.test.mjs",
-      purpose:
-        "Run focused Phase 5.34 review-only handoff readiness artifact and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-33-review-only-aggregation-inspection-handoff.test.mjs",
-      purpose:
-        "Run focused Phase 5.33 review-only aggregation inspection handoff and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-32-review-only-disposition-aggregation-checkpoint.test.mjs",
-      purpose:
-        "Run focused Phase 5.32 review-only disposition aggregation checkpoint and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-31-human-tool-inspection-disposition-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.31 review-only human/tool inspection disposition boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-30-evaluator-decision-candidate-inspection-artifact.test.mjs",
-      purpose:
-        "Run focused Phase 5.30 non-authorizing evaluator decision-candidate inspection artifact and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-29-non-authorizing-evaluator-decision-candidate-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.29 non-authorizing evaluator decision-candidate boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs",
-      purpose:
-        "Run focused Phase 5.28 review-only evaluator preflight checkpoint and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-27-approval-evaluator-candidate-intake-checkpoint.test.mjs",
-      purpose:
-        "Run focused Phase 5.27 approval-evaluator candidate intake checkpoint and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-26-review-artifact-evaluator-input-handoff.test.mjs",
-      purpose:
-        "Run focused Phase 5.26 review artifact evaluator-input handoff and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-25-non-authorizing-review-artifact-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.25 non-authorizing review artifact boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-24-prerequisite-evaluation-integration-checkpoint.test.mjs",
-      purpose:
-        "Run focused Phase 5.24 prerequisite evaluation integration checkpoint and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs",
-      purpose:
-        "Run focused Phase 5.23 prerequisite bundle consumption checkpoint and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-22-approval-prerequisite-source-bundle.test.mjs",
-      purpose:
-        "Run focused Phase 5.22 approval prerequisite source bundle and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-21-approval-prerequisite-source-selection.test.mjs",
-      purpose:
-        "Run focused Phase 5.21 approval prerequisite source selection and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command:
-        "node --test tests/phase5-20-approval-prerequisite-source-ingestion-preflight.test.mjs",
-      purpose:
-        "Run focused Phase 5.20 approval prerequisite source ingestion preflight and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-19-approval-prerequisite-reader-hardening.test.mjs",
-      purpose:
-        "Run focused Phase 5.19 approval prerequisite reader hardening and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-18-review-only-approval-evaluator-skeleton.test.mjs",
-      purpose:
-        "Run focused Phase 5.18 review-only approval evaluator skeleton and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-17-guarded-runtime-implementation-plan.test.mjs",
-      purpose:
-        "Run focused Phase 5.17 guarded runtime implementation plan and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-16-runtime-enable-readiness-checkpoint.test.mjs",
-      purpose:
-        "Run focused Phase 5.16 runtime enablement readiness checkpoint and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-15-positive-runtime-smoke-requirement.test.mjs",
-      purpose:
-        "Run focused Phase 5.15 positive runtime smoke requirement and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-14-runtime-rollback-kill-switch-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.14 runtime rollback/kill-switch boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-13-runtime-process-control-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.13 runtime process-control boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-12-runtime-transcript-audit-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.12 runtime transcript/audit boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-11-runtime-stdio-safety-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.11 runtime stdio safety boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-10-runtime-host-policy-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.10 runtime host-policy boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-9-approval-evaluator-grant-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.9 approval evaluator/grant boundary and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-8-runtime-command-exposure-approval.test.mjs",
-      purpose:
-        "Run focused Phase 5.8 command-exposure approval contract and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-7-runtime-approval-validation.test.mjs",
-      purpose:
-        "Run focused Phase 5.7 runtime approval validation contract and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-6-runtime-enable-preconditions.test.mjs",
-      purpose:
-        "Run focused Phase 5.6 runtime enablement precondition gate and blocked-runtime checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-5-default-blocked-runtime-cli.test.mjs",
-      purpose:
-        "Run focused Phase 5.5 default-blocked runtime CLI fixture and command behavior checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-4a-jules-review-disposition.test.mjs",
-      purpose:
-        "Run focused Phase 5.4A Jules review disposition fixture and runtime rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-4-disabled-command-exposure-plan.test.mjs",
-      purpose:
-        "Run focused Phase 5.4 disabled command exposure fixture and runtime rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-3-command-surface-preflight.test.mjs",
-      purpose:
-        "Run focused Phase 5.3 command-surface approval preflight fixture and runtime rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-2-runtime-default-blocked.test.mjs",
-      purpose:
-        "Run focused Phase 5.2 blocked-runtime fixture and candidate command rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "fallow health --score --hotspots --targets --format json",
-      purpose:
-        "Run deterministic Fallow health and hotspot evidence for JS/TS/package/test/report surfaces.",
-      ranByReport: false
-    },
-    {
-      command: "fallow audit --format json",
-      purpose:
-        "Run deterministic Fallow changed-code audit evidence for JS/TS/package/test/report surfaces.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-1-controlled-runtime-implementation-approval-boundary.test.mjs",
-      purpose:
-        "Run focused Phase 5.1 implementation approval-boundary fixture and runtime rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase5-1-command-surface-review.test.mjs",
-      purpose:
-        "Run focused Phase 5.1 command-surface review matrix and candidate command rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-2d-external-review-disposition-phase5-handoff.test.mjs",
-      purpose:
-        "Run focused Phase 4.2D Jules review disposition, Phase 5 handoff, and runtime rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-2c-runtime-readiness-review-gate.test.mjs",
-      purpose:
-        "Run focused Phase 4.2C readiness gate fixture, source-guard, external-review, and rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-2b-blocked-lifecycle-failure-audit-skeleton.test.mjs",
-      purpose:
-        "Run focused Phase 4.2B blocked lifecycle/failure-audit skeleton fixture, source-guard, and rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs",
-      purpose:
-        "Run focused Phase 4.2A blocked Rust-host stdio runtime skeleton fixture, source-guard, and rejection checks.",
-      ranByReport: false
-    },
-    {
-      command: "cargo test -p ardyn-host stdio_runtime",
-      purpose:
-        "Run Rust-host Phase 4.2B blocked stdio lifecycle/failure-audit skeleton planning and unavailable-entrypoint tests.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1l-runtime-implementation-readiness.test.mjs",
-      purpose:
-        "Run focused Phase 4.1L runtime implementation-readiness and 4.2A handoff checks.",
-      ranByReport: false
-    },
-    {
-      command: "cargo test -p ardyn-host phase4_1l",
-      purpose:
-        "Run Rust-host design-facing static checks for the Phase 4.1L 4.2A handoff boundary.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1k-stdio-runtime-contract-gates.test.mjs",
-      purpose:
-        "Run focused Phase 4.1K approval-gated Rust-host stdio runtime contract-gate checks.",
-      ranByReport: false
-    },
-    {
-      command: "cargo test -p ardyn-host stdio_runtime_contract",
-      purpose:
-        "Run Rust-host stdio runtime contract-gate tests when the Phase 4.1K Rust contract slice is present.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1j-rust-host-stdio-boundary-fixtures.test.mjs",
-      purpose: "Run focused Phase 4.1J fixture-backed Rust-host stdio boundary checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1i-rust-host-stdio-harness.test.mjs",
-      purpose: "Run focused Phase 4.1I Rust-host stdio harness boundary checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1h-external-review-disposition.test.mjs",
-      purpose: "Run focused Phase 4.1H external review disposition static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1g-external-review-packet.test.mjs",
-      purpose: "Run focused Phase 4.1G external review packet static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1f-runtime-readiness-checkpoint.test.mjs",
-      purpose: "Run focused Phase 4.1F runtime-readiness checkpoint static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1e-failure-audit-kill-semantics.test.mjs",
-      purpose: "Run focused Phase 4.1E failure-audit/terminal-state/kill-exit static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1d-transcript-replay-contracts.test.mjs",
-      purpose: "Run focused Phase 4.1D transcript persistence/replay static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1c-framing-redaction-contracts.test.mjs",
-      purpose: "Run focused Phase 4.1C framing/redaction static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1b-transport-harness-contracts.test.mjs",
-      purpose: "Run focused Phase 4.1B transport harness contract static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1a-host-policy-approval-records.test.mjs",
-      purpose: "Run focused Phase 4.1A host-policy approval-record static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-1-runtime-proposal.test.mjs",
-      purpose: "Run focused Phase 4.1 runtime proposal static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-0i-final-pre-runtime-readiness.test.mjs",
-      purpose: "Run focused Phase 4.0I final pre-runtime readiness static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-0h-reviewer-handoff-index.test.mjs",
-      purpose: "Run focused Phase 4.0H reviewer handoff index static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/host-policy-preconditions.test.mjs",
-      purpose: "Run focused documentation/report checks for host-policy preconditions.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-0c-transport-policy.test.mjs",
-      purpose: "Run focused Phase 4.0C pre-runtime transport policy static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-0d-rust-host-policy-contracts.test.mjs",
-      purpose: "Run focused Phase 4.0D Rust-host transport policy contract static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-0e-policy-metadata.test.mjs",
-      purpose: "Run focused Phase 4.0E Rust-host policy metadata export static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-0f-host-policy-review-records.test.mjs",
-      purpose: "Run focused Phase 4.0F host-policy review-record static checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase4-0g-host-policy-review-comparison.test.mjs",
-      purpose: "Run focused Phase 4.0G host-policy review-record comparison checks.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/core-phase3-5-trace-fixtures.test.mjs",
-      purpose: "Run focused Phase 3.5 trace-review fixture tests.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/core-phase3-6-review-artifact-versioning.test.mjs",
-      purpose: "Run focused Phase 3.6 review-artifact versioning and display tests.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/core-phase3-7-schema-attestation.test.mjs",
-      purpose: "Run focused Phase 3.7 schema migration and attestation planning tests.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/session-event-schema.test.mjs",
-      purpose: "Run focused Phase 3.8 session-event schema and fixture tests.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/session-transcript-schema.test.mjs",
-      purpose: "Run focused Phase 3.9 session-transcript schema and fixture tests.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/core-phase3-9-session-transcripts.test.mjs",
-      purpose: "Run focused Phase 3.9 static transcript validation and summary tests.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/core-phase3-10-transcript-versioning.test.mjs",
-      purpose: "Run focused Phase 3.10 transcript compatibility, migration, and display tests.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/phase3-8-locus-family-alignment.test.mjs",
-      purpose: "Run focused Phase 3.8 harness identity, Fabric family, and Locus display freeze tests.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/cli-phase3.test.mjs",
-      purpose: "Run focused CLI tests covering review-trace and review artifact export ergonomics.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/core-phase4-stdio-dry-run.test.mjs",
-      purpose: "Run focused Phase 4.0A core tests for JSONL event emission and path policy.",
-      ranByReport: false
-    },
-    {
-      command: "node --test tests/cli-phase4-stdio-dry-run.test.mjs",
-      purpose: "Run focused Phase 4.0A CLI tests for stdout JSONL, stderr errors, and no side effects.",
-      ranByReport: false
-    }
+  const verificationByCommand = new Map(
+    report.verificationCommands.map((entry) => [entry.command, entry])
+  );
+
+  assert.equal(verificationByCommand.size, report.verificationCommands.length);
+  for (const { ranByReport } of report.verificationCommands) {
+    assert.equal(ranByReport, false);
+  }
+
+  assert.deepEqual(Array.from(verificationByCommand.keys()).slice(0, 13), [
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "cargo clippy --workspace -- -D warnings",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm audit --json",
+    "fallow health --score --hotspots --targets --format json",
+    "fallow audit --format json",
+    "npm run report:phase-status",
+    "node --test tests/report-phase-status.test.mjs"
   ]);
 
-  for (const command of report.verificationCommands) {
-    assert.equal(command.ranByReport, false, `${command.command} should not be run by report`);
+  assert.equal(
+    verificationByCommand.get("npm run report:phase-status").purpose,
+    "Render this deterministic local Phase 5.38A cleanup toolkit adoption status report."
+  );
+  assert.equal(
+    verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
+    "Run focused tests for this local Phase 5.38A status report."
+  );
+  assert.match(
+    verificationByCommand.get("cargo clippy --workspace -- -D warnings").purpose,
+    /Rust linter\/static-analysis/
+  );
+  assert.match(
+    verificationByCommand.get("npm audit --json").purpose,
+    /dependency security audit/
+  );
+  assert.match(
+    verificationByCommand.get("fallow health --score --hotspots --targets --format json")
+      .purpose,
+    /without using Fallow Runtime/
+  );
+  assert.match(
+    verificationByCommand.get("fallow audit --format json").purpose,
+    /without using Fallow Runtime/
+  );
+
+  for (const command of [
+    "node --test tests/phase5-38-review-only-inspection-handoff-metadata-boundary.test.mjs",
+    "node --test tests/phase5-37-review-only-handoff-disposition-inspection-checkpoint.test.mjs",
+    "node --test tests/phase5-2-runtime-default-blocked.test.mjs",
+    "cargo test -p ardyn-host stdio_runtime",
+    "node --test tests/phase4-0i-final-pre-runtime-readiness.test.mjs",
+    "node --test tests/core-phase3-5-trace-fixtures.test.mjs"
+  ]) {
+    assert.ok(verificationByCommand.has(command), command);
   }
 });
 
@@ -17191,6 +16774,140 @@ test("report inventories Phase 5.38 as review-only inspection handoff metadata b
   assertSafetyFlags(report, phase538ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.38A as language-aware cleanup toolkit adoption", async () => {
+  const report = await runReport();
+  const inventory = report.phase538ACleanupToolkitAdoptionInventory;
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase538ADocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase538ACrossLinks);
+  assert.equal(inventory.statusLayer.precedingPhase, "5.38");
+  assert.equal(inventory.statusLayer.layerId, "language-aware-cleanup-toolkit-adoption");
+  assert.equal(inventory.statusLayer.cleanupToolkitBaselineRecorded, true);
+  assert.equal(inventory.statusLayer.languageAwarePassOrderRecorded, true);
+  assert.equal(inventory.statusLayer.behaviorPreserving, true);
+  assert.equal(inventory.statusLayer.reviewBoundaryChainContinued, false);
+  assert.equal(inventory.statusLayer.runtimeCapabilityAdded, false);
+  assert.equal(inventory.statusLayer.reviewerRoutingPerformed, false);
+  assert.equal(inventory.statusLayer.reviewerAssignmentPerformed, false);
+  assert.equal(inventory.statusLayer.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.statusLayer.evaluatorResultProduced, false);
+  assert.equal(inventory.statusLayer.approvalDecisionProduced, false);
+  assert.equal(inventory.statusLayer.approvalGrantProduced, false);
+  assert.equal(inventory.statusLayer.approvalGrantPersisted, false);
+  assert.equal(inventory.statusLayer.runtimePermissionGranted, false);
+  assert.equal(inventory.statusLayer.commandExposurePermissionGranted, false);
+  assert.equal(inventory.statusLayer.runtimeEnabled, false);
+  assert.equal(inventory.statusLayer.runtimeCommandExposureEnabled, false);
+  assert.equal(inventory.statusLayer.runtimeExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.runtimeExecuted, false);
+  assert.equal(inventory.statusLayer.fallowRuntimeUsed, false);
+  assert.equal(inventory.statusLayer.serveRuntimeStillDefaultBlocked, true);
+  assert.equal(inventory.statusLayer.dryRunBypassesBlock, false);
+  assert.deepEqual(
+    inventory.toolkitPassOrder.map(({ order, pass }) => [order, pass]),
+    [
+      [1, "formatter"],
+      [2, "linter"],
+      [3, "dead-code/static analysis"],
+      [4, "security/dependency audit"]
+    ]
+  );
+  assert.ok(
+    inventory.toolkitPassOrder.some(({ tools }) =>
+      tools.some(
+        ({ tool, status }) =>
+          tool === "cargo clippy --workspace -- -D warnings" &&
+          status === "available"
+      )
+    )
+  );
+  assert.ok(
+    inventory.toolkitPassOrder.some(({ tools }) =>
+      tools.some(
+        ({ tool, status, runtimeUsed }) =>
+          tool === "fallow audit --format json" &&
+          status === "available" &&
+          runtimeUsed === false
+      )
+    )
+  );
+  assert.ok(
+    inventory.safeFixesApplied.some(
+      ({ file, behaviorPreserving, runtimeCapabilityAdded }) =>
+        file === "crates/ardyn-host/src/stdio_runtime/mod.rs" &&
+        behaviorPreserving === true &&
+        runtimeCapabilityAdded === false
+    )
+  );
+  assert.ok(
+    inventory.safeFixesApplied.some(
+      ({ file, behaviorPreserving, runtimeCapabilityAdded }) =>
+        file === "crates/ardyn-host/src/lib.rs" &&
+        behaviorPreserving === true &&
+        runtimeCapabilityAdded === false
+    )
+  );
+  assert.ok(
+    inventory.riskyFindingsDeferred.some(
+      ({ finding, disposition }) =>
+        finding.includes("serialized stdio runtime failure audit enum variants") &&
+        disposition === "deferred"
+    )
+  );
+  assert.deepEqual(inventory.securityFollowUps, []);
+  assert.ok(
+    inventory.unavailableOrSkippedTools.some(
+      ({ tool, reason }) =>
+        tool === "cargo-audit" && reason.includes("Not already installed")
+    )
+  );
+  assert.equal(inventory.sourceBoundary.phase5ReviewBoundaryChainContinued, false);
+  assert.equal(inventory.sourceBoundary.coreReviewHelperAdded, false);
+  assert.equal(inventory.sourceBoundary.fixtureAdded, false);
+  assert.equal(inventory.sourceBoundary.cliBehaviorChanged, false);
+  assert.equal(inventory.sourceBoundary.runtimeCommandExposureAdded, false);
+  assert.equal(inventory.sourceBoundary.rustHostRuntimeImplementationAdded, false);
+  assert.equal(inventory.sourceBoundary.liveRuntimeAdded, false);
+  assert.ok(inventory.validationCommands.includes("cargo clippy --workspace -- -D warnings"));
+  assert.ok(inventory.validationCommands.includes("npm audit --json"));
+  assert.ok(
+    inventory.validationCommands.includes(
+      "fallow health --score --hotspots --targets --format json"
+    )
+  );
+  assert.ok(inventory.validationCommands.includes("fallow audit --format json"));
+  assert.equal(inventory.forbiddenBehavior.reviewerRoutingPerformed, false);
+  assert.equal(inventory.forbiddenBehavior.reviewerAssignmentPerformed, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorResultProduced, false);
+  assert.equal(inventory.forbiddenBehavior.approvalDecisionProduced, false);
+  assert.equal(inventory.forbiddenBehavior.approvalGrantProduced, false);
+  assert.equal(inventory.forbiddenBehavior.approvalGrantPersisted, false);
+  assert.equal(inventory.forbiddenBehavior.runtimePermissionGranted, false);
+  assert.equal(inventory.forbiddenBehavior.commandExposurePermissionGranted, false);
+  assert.equal(inventory.forbiddenBehavior.runtimeCommandExposureEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.runtimeExecutionEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.runtimeEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.runtimeExecuted, false);
+  assert.equal(inventory.forbiddenBehavior.processControlEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.filesystemWatcherEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.externalLookupEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.envSecretsIngestionEnabled, false);
+  assert.equal(
+    inventory.forbiddenBehavior.adapterFabricWebSocketHttpSurfaceEnabled,
+    false
+  );
+  assert.equal(inventory.forbiddenBehavior.fallowRuntimeUsed, false);
+  assert.equal(inventory.forbiddenBehavior.serveRuntimeStillDefaultBlocked, true);
+  assert.equal(inventory.forbiddenBehavior.dryRunBypassesBlock, false);
+  assert.equal(report.safetyPosture.phase538ALanguageAwareCleanupToolkitAdoption, true);
+  assertSafetyFlags(report, phase538AExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase538AExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -18086,7 +17803,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase535SafetyFlagNames,
     ...phase536SafetyFlagNames,
     ...phase537SafetyFlagNames,
-    ...phase538SafetyFlagNames
+    ...phase538SafetyFlagNames,
+    ...phase538ASafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -18129,6 +17847,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase537ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase538ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase538ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase538AExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase538AExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

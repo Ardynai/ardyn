@@ -3891,8 +3891,7 @@ pub fn classify_stdio_runtime_input_stream(input: &[u8]) -> StdioRuntimeFrameCla
         return StdioRuntimeFrameClass::RejectedOversizedInput;
     }
 
-    let mut expected_sequence = 1_u64;
-    for line in input.split_terminator('\n') {
+    for (expected_sequence, line) in (1_u64..).zip(input.split_terminator('\n')) {
         if line.is_empty() {
             return StdioRuntimeFrameClass::RejectedBlankLine;
         }
@@ -3927,8 +3926,6 @@ pub fn classify_stdio_runtime_input_stream(input: &[u8]) -> StdioRuntimeFrameCla
         if frame.payload.runtime_requested || frame.payload.approval_requested {
             return StdioRuntimeFrameClass::RejectedRuntimeApprovalRequest;
         }
-
-        expected_sequence += 1;
     }
 
     StdioRuntimeFrameClass::AcceptedStaticProbe

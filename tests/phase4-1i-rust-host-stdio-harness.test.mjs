@@ -79,8 +79,6 @@ async function runCliFailure(args, options = {}) {
 test("Phase 4.1I report records private Rust stdio harness tests without runtime approval", async () => {
   const report = await runReport();
   const inventory = report.phase41IRustHostStdioHarnessInventory;
-
-  assert.equal(report.phase.id, "5.38");
   assert.equal(inventory.harnessLayer.privateRustCfgTestHarness, true);
   assert.equal(inventory.harnessLayer.inMemoryOnly, true);
   assert.equal(inventory.harnessLayer.productionRuntimeSourceChanged, false);

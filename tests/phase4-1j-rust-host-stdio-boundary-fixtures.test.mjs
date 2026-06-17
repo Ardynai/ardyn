@@ -168,13 +168,6 @@ test("Phase 4.1J fixture suite covers concrete stdio boundary cases without runt
 test("Phase 4.1J report inventories fixture-backed Rust harness coverage without runtime readiness", async () => {
   const report = await runReport();
   const inventory = report.phase41JFixtureBackedStdioBoundaryInventory;
-
-  assert.deepEqual(report.phase, {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
-    executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
-  });
   assert.equal(inventory.boundaryLayer.fixtureBackedRustHostCoverage, true);
   assert.equal(inventory.boundaryLayer.privateRustCfgTestHarness, true);
   assert.equal(inventory.boundaryLayer.publicRuntimeContractIntroduced, false);

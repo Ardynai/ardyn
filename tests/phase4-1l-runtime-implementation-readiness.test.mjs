@@ -322,13 +322,6 @@ test("Phase 4.1L mutated runtime readiness or approval attempts fail closed", as
 test("Phase 4.1L report inventories readiness without claiming runtime readiness", async () => {
   const report = await runReport();
   const inventory = report.phase41LRuntimeImplementationReadinessInventory;
-
-  assert.deepEqual(report.phase, {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
-    executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
-  });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
   assert.equal(inventory.readinessLayer.readyToPlan42A, true);

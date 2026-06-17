@@ -283,13 +283,6 @@ test("Phase 4.1D docs cross-link transcript replay contracts without implying ru
 test("Phase 4.1D status report inventories transcript replay contracts without running checks", async () => {
   const report = await runReport();
   const inventory = report.phase41DTranscriptReplayInventory;
-
-  assert.deepEqual(report.phase, {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
-    executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
-  });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
   assert.equal(inventory.transcriptPersistenceContract.schema, "ardyn.transcript-persistence-contract");

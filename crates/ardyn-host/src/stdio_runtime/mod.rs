@@ -86,6 +86,7 @@ pub enum StdioRuntimeLifecycleStateKind {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
+#[allow(clippy::enum_variant_names)]
 pub enum StdioRuntimeFailureAuditCategory {
     RuntimeUnavailable,
     LifecycleUnavailable,
@@ -324,7 +325,7 @@ impl BlockedStdioRuntimeEntrypointResult {
                 .as_ref()
                 .map(|plan| plan.all_effects_blocked())
                 .unwrap_or(true)
-            && self.error.runtime_available == false
+            && !self.error.runtime_available
     }
 }
 

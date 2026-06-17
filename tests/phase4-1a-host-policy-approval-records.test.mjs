@@ -317,13 +317,6 @@ test("Phase 4.1A docs cross-link approval records without implying runtime", asy
 
 test("Phase 4.1A status report inventories approval records without running checks", async () => {
   const report = await runReport();
-
-  assert.deepEqual(report.phase, {
-    id: "5.38",
-    name: "Review-only inspection handoff metadata boundary",
-    executionPosture:
-      "review-only-inspection-handoff-metadata-boundary runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
-  });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
   assert.equal(report.phase41AApprovalRecordInventory.hostPolicyApprovalRecords.schema, "ardyn.host-policy-approval-record");
