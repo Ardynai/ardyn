@@ -237,6 +237,10 @@ const phase540ReviewOnlyCheckpointHandoffLayerMetadata = await readJson(
 const phase541ReviewOnlyMetadataHandoffCheckpointMetadata = await readJson(
   "tests/fixtures/host-policy/phase5-41/review-only-metadata-handoff-checkpoint.json"
 );
+const phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata =
+  await readJson(
+    "tests/fixtures/host-policy/phase5-42/review-only-handoff-metadata-consolidation-layer.json"
+  );
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -284,10 +288,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.41",
-    name: "Review-only metadata handoff checkpoint",
+    id: "5.42",
+    name: "Review-only handoff metadata consolidation layer",
     executionPosture:
-      "review-only-metadata-handoff-checkpoint runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-handoff-metadata-consolidation-layer runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -368,12 +372,19 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.41 metadata handoff checkpoint status report.",
+        "Render this deterministic local Phase 5.42 handoff metadata consolidation layer status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.41 status report.",
+      purpose: "Run focused tests for this local Phase 5.42 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-42-review-only-handoff-metadata-consolidation-layer.test.mjs",
+      purpose:
+        "Run focused Phase 5.42 review-only handoff metadata consolidation layer and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -17350,6 +17361,337 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase542ReviewOnlyHandoffMetadataConsolidationLayerInventory: {
+    statusLayer: {
+      document:
+        "docs/phase-5-42-review-only-handoff-metadata-consolidation-layer.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-42/review-only-handoff-metadata-consolidation-layer.json",
+      sourceMetadataHandoffCheckpointDocument:
+        "docs/phase-5-41-review-only-metadata-handoff-checkpoint.md",
+      sourceMetadataHandoffCheckpointFixture:
+        "tests/fixtures/host-policy/phase5-41/review-only-metadata-handoff-checkpoint.json",
+      precedingPhase: "5.41",
+      layerId: "review-only-handoff-metadata-consolidation-layer",
+      scope:
+        "phase-5-review-only-handoff-metadata-consolidation-layer-runtime-disabled",
+      reviewOnlyHandoffMetadataConsolidationLayerRecorded:
+        phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+          .handoffMetadataConsolidationSummary
+          .reviewOnlyHandoffMetadataConsolidationLayerRecorded,
+      handoffMetadataConsolidationLayerKind:
+        phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+          .handoffMetadataConsolidationSummary
+          .handoffMetadataConsolidationLayerKind,
+      handoffMetadataConsolidationLayerReviewOnly: true,
+      handoffMetadataConsolidationLayerAuthoritative: false,
+      validMetadataHandoffCheckpointProducesConsolidation: true,
+      missingMetadataHandoffCheckpointRejected: true,
+      malformedMetadataHandoffCheckpointRejected: true,
+      emptyMetadataHandoffCheckpointRejected: true,
+      conflictingMetadataHandoffCheckpointRejected: true,
+      staleMetadataHandoffCheckpointRejected: true,
+      revokedMetadataHandoffCheckpointRejected: true,
+      unknownMetadataHandoffCheckpointRejected: true,
+      duplicateInvalidMetadataHandoffCheckpointRejected: true,
+      authorizingLookingMetadataHandoffCheckpointRejected: true,
+      grantLookingMetadataHandoffCheckpointRejected: true,
+      approvalDecisionLookingMetadataHandoffCheckpointRejected: true,
+      approvalGrantLookingMetadataHandoffCheckpointRejected: true,
+      evaluatorResultLookingMetadataHandoffCheckpointRejected: true,
+      evaluatorExecutionLookingMetadataHandoffCheckpointRejected: true,
+      reviewerRoutingLookingMetadataHandoffCheckpointRejected: true,
+      reviewerAssignmentLookingMetadataHandoffCheckpointRejected: true,
+      runtimePermissionLookingMetadataHandoffCheckpointRejected: true,
+      commandExposureLookingMetadataHandoffCheckpointRejected: true,
+      runtimeEffectTrueMetadataHandoffCheckpointRejected: true,
+      processFlagTrueMetadataHandoffCheckpointRejected: true,
+      unsafeHandoffCheckpointConsolidationMetadataRejected: true,
+      executionSignalLookingMetadataHandoffCheckpointRejected: true,
+      nestedApprovalGrantRejected: true,
+      nestedApprovalDecisionRejected: true,
+      nestedReviewerAssignmentRejected: true,
+      nestedReviewerRoutingRejected: true,
+      nestedEvaluatorExecutionRejected: true,
+      nestedEvaluatorResultRejected: true,
+      nestedRuntimeEffectRejected: true,
+      nestedCommandExposureRejected: true,
+      missingOrMalformedSourceDigestRejected: true,
+      handoffMetadataConsolidationLayerIsReviewerRouting: false,
+      handoffMetadataConsolidationLayerIsReviewerAssignment: false,
+      handoffMetadataConsolidationLayerIsEvaluatorExecution: false,
+      handoffMetadataConsolidationLayerIsEvaluatorResult: false,
+      handoffMetadataConsolidationLayerIsApprovalDecision: false,
+      handoffMetadataConsolidationLayerIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      cleanupHardeningToolkitEvidenceOnly:
+        phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+          .handoffMetadataConsolidationSummary
+          .cleanupHardeningToolkitEvidenceOnly,
+      toolsInstalledByPhase542: false,
+      megaLinterRun: false,
+      broadTrunkRewriteRun: false,
+      fallowRuntimeUsed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked:
+        phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+          .handoffMetadataConsolidationSummary.serveRuntimeStillDefaultBlocked,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-42-review-only-handoff-metadata-consolidation-layer.md",
+        "Records the Phase 5.42 review-only handoff metadata consolidation layer while reviewer routing, reviewer assignment, evaluator execution, evaluator results, approval decisions, grants, and runtime remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-41-review-only-metadata-handoff-checkpoint.md",
+        "Provides the Phase 5.42 source metadata handoff checkpoint."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.42 as current docs/status mode while runtime, reviewer routing, and reviewer assignment remain blocked."
+      ),
+      await localInventoryEntry(
+        "apps/cli/README.md",
+        "Documents that Phase 5.42 adds no CLI command and preserves serve-runtime default-blocked behavior."
+      ),
+      await localInventoryEntry(
+        "crates/ardyn-host/README.md",
+        "Documents that Phase 5.42 changes no Rust-host runtime source and records a TypeScript consolidation helper only."
+      )
+    ],
+    crossLinks: [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-41-review-only-metadata-handoff-checkpoint.md",
+      "docs/phase-5-42-review-only-handoff-metadata-consolidation-layer.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-42/review-only-handoff-metadata-consolidation-layer.json",
+        "Records review-only handoff metadata consolidation cases while reviewer routing, reviewer assignment, evaluator execution, evaluator results, approval decisions, grants, and runtime behavior remain disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins Phase 5.42 report metadata, docs cross-links, handoff metadata consolidation fixture, cleanup hardening evidence, and runtime-disabled posture."
+      ),
+      await localInventoryEntry(
+        "tests/phase5-42-review-only-handoff-metadata-consolidation-layer.test.mjs",
+        "Pins the Phase 5.42 handoff metadata consolidation helper, fixture shape, nested-source regressions, non-authorizing state, serve-runtime rejection, command rejection, and CLI/Rust source guard checks."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "README.md",
+        "apps/cli/README.md",
+        "crates/ardyn-host/README.md",
+        "docs/phase-5-41-review-only-metadata-handoff-checkpoint.md",
+        "docs/phase-5-42-review-only-handoff-metadata-consolidation-layer.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-42/review-only-handoff-metadata-consolidation-layer.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-42-review-only-handoff-metadata-consolidation-layer.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      cleanupToolsInstalledByThisPhase: false,
+      megaLinterRunByThisPhase: false,
+      broadTrunkRewriteRunByThisPhase: false,
+      reviewerRoutingPerformedByThisPhase: false,
+      reviewerAssignmentPerformedByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateReviewerRoutingPhaseRequired: true,
+      separateReviewerAssignmentPhaseRequired: true,
+      separateEvaluatorExecutionPhaseRequired: true,
+      separateEvaluatorResultPhaseRequired: true,
+      separateApprovalDecisionPhaseRequired: true,
+      separateApprovalGrantPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    sourcePhase:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata.sourcePhase,
+    handoffMetadataConsolidationSummary:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .handoffMetadataConsolidationSummary,
+    handoffMetadataConsolidationInputShape:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .handoffMetadataConsolidationInputShape,
+    handoffMetadataConsolidationResultShape:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .handoffMetadataConsolidationResultShape,
+    handoffMetadataConsolidationCases:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .handoffMetadataConsolidationCases,
+    nestedSourceRegressionCases:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .nestedSourceRegressionCases,
+    handoffMetadataConsolidationLayer:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .handoffMetadataConsolidationLayer,
+    cleanupHardeningToolkitEvidence:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .cleanupHardeningToolkitEvidence,
+    blockedRuntimeEffect:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .blockedRuntimeEffect,
+    serveRuntimeBlockedBehavior:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .serveRuntimeBlockedBehavior,
+    forbiddenBehavior:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .forbiddenBehavior,
+    validationCommands:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .validationCommands,
+    optionalAdvisoryCommands:
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerMetadata
+        .optionalAdvisoryCommands,
+    safetyPosture: {
+      reviewOnlyHandoffMetadataConsolidationLayerRecorded: true,
+      handoffMetadataConsolidationLayerReviewOnly: true,
+      handoffMetadataConsolidationLayerAuthoritative: false,
+      validMetadataHandoffCheckpointProducesConsolidation: true,
+      missingMetadataHandoffCheckpointRejected: true,
+      malformedMetadataHandoffCheckpointRejected: true,
+      emptyMetadataHandoffCheckpointRejected: true,
+      conflictingMetadataHandoffCheckpointRejected: true,
+      staleMetadataHandoffCheckpointRejected: true,
+      revokedMetadataHandoffCheckpointRejected: true,
+      unknownMetadataHandoffCheckpointRejected: true,
+      duplicateInvalidMetadataHandoffCheckpointRejected: true,
+      authorizingLookingMetadataHandoffCheckpointRejected: true,
+      grantLookingMetadataHandoffCheckpointRejected: true,
+      approvalDecisionLookingMetadataHandoffCheckpointRejected: true,
+      approvalGrantLookingMetadataHandoffCheckpointRejected: true,
+      evaluatorResultLookingMetadataHandoffCheckpointRejected: true,
+      evaluatorExecutionLookingMetadataHandoffCheckpointRejected: true,
+      reviewerRoutingLookingMetadataHandoffCheckpointRejected: true,
+      reviewerAssignmentLookingMetadataHandoffCheckpointRejected: true,
+      runtimePermissionLookingMetadataHandoffCheckpointRejected: true,
+      commandExposureLookingMetadataHandoffCheckpointRejected: true,
+      runtimeEffectTrueMetadataHandoffCheckpointRejected: true,
+      processFlagTrueMetadataHandoffCheckpointRejected: true,
+      unsafeHandoffCheckpointConsolidationMetadataRejected: true,
+      executionSignalLookingMetadataHandoffCheckpointRejected: true,
+      nestedApprovalGrantRejected: true,
+      nestedApprovalDecisionRejected: true,
+      nestedReviewerAssignmentRejected: true,
+      nestedReviewerRoutingRejected: true,
+      nestedEvaluatorExecutionRejected: true,
+      nestedEvaluatorResultRejected: true,
+      nestedRuntimeEffectRejected: true,
+      nestedCommandExposureRejected: true,
+      missingOrMalformedSourceDigestRejected: true,
+      handoffMetadataConsolidationLayerIsReviewerRouting: false,
+      handoffMetadataConsolidationLayerIsReviewerAssignment: false,
+      handoffMetadataConsolidationLayerIsEvaluatorExecution: false,
+      handoffMetadataConsolidationLayerIsEvaluatorResult: false,
+      handoffMetadataConsolidationLayerIsApprovalDecision: false,
+      handoffMetadataConsolidationLayerIsApprovalGrant: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorResultProduced: false,
+      evaluatorResultPersisted: false,
+      approvalDecisionProduced: false,
+      approvalDecisionPersisted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      evaluatorExecutionPerformed: false,
+      cleanupHardeningToolkitEvidenceOnly: true,
+      toolsInstalledByPhase542: false,
+      megaLinterRun: false,
+      broadTrunkRewriteRun: false,
+      fallowRuntimeUsed: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      canEnableRuntime: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -17425,6 +17767,7 @@ const report = {
     phase539ReviewOnlyInspectionHandoffCheckpoint: true,
     phase540ReviewOnlyCheckpointHandoffLayer: true,
     phase541ReviewOnlyMetadataHandoffCheckpoint: true,
+    phase542ReviewOnlyHandoffMetadataConsolidationLayer: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -19374,6 +19717,89 @@ const report = {
       phase541AdapterRuntimeBehaviorEnabled: false,
       phase541ContentFabricRuntimeBehaviorEnabled: false,
       phase541WebSocketHttpSurfaceEnabled: false,
+      phase542ReviewOnlyHandoffMetadataConsolidationLayerRecorded: true,
+      phase542HandoffMetadataConsolidationLayerReviewOnly: true,
+      phase542HandoffMetadataConsolidationLayerAuthoritative: false,
+      phase542ValidMetadataHandoffCheckpointProducesConsolidation: true,
+      phase542MissingMetadataHandoffCheckpointRejected: true,
+      phase542MalformedMetadataHandoffCheckpointRejected: true,
+      phase542EmptyMetadataHandoffCheckpointRejected: true,
+      phase542ConflictingMetadataHandoffCheckpointRejected: true,
+      phase542StaleMetadataHandoffCheckpointRejected: true,
+      phase542RevokedMetadataHandoffCheckpointRejected: true,
+      phase542UnknownMetadataHandoffCheckpointRejected: true,
+      phase542DuplicateInvalidMetadataHandoffCheckpointRejected: true,
+      phase542AuthorizingLookingMetadataHandoffCheckpointRejected: true,
+      phase542GrantLookingMetadataHandoffCheckpointRejected: true,
+      phase542ApprovalDecisionLookingMetadataHandoffCheckpointRejected: true,
+      phase542ApprovalGrantLookingMetadataHandoffCheckpointRejected: true,
+      phase542EvaluatorResultLookingMetadataHandoffCheckpointRejected: true,
+      phase542EvaluatorExecutionLookingMetadataHandoffCheckpointRejected: true,
+      phase542ReviewerRoutingLookingMetadataHandoffCheckpointRejected: true,
+      phase542ReviewerAssignmentLookingMetadataHandoffCheckpointRejected: true,
+      phase542RuntimePermissionLookingMetadataHandoffCheckpointRejected: true,
+      phase542CommandExposureLookingMetadataHandoffCheckpointRejected: true,
+      phase542RuntimeEffectTrueMetadataHandoffCheckpointRejected: true,
+      phase542ProcessFlagTrueMetadataHandoffCheckpointRejected: true,
+      phase542UnsafeHandoffCheckpointConsolidationMetadataRejected: true,
+      phase542ExecutionSignalLookingMetadataHandoffCheckpointRejected: true,
+      phase542NestedApprovalGrantRejected: true,
+      phase542NestedApprovalDecisionRejected: true,
+      phase542NestedReviewerAssignmentRejected: true,
+      phase542NestedReviewerRoutingRejected: true,
+      phase542NestedEvaluatorExecutionRejected: true,
+      phase542NestedEvaluatorResultRejected: true,
+      phase542NestedRuntimeEffectRejected: true,
+      phase542NestedCommandExposureRejected: true,
+      phase542MissingOrMalformedSourceDigestRejected: true,
+      phase542HandoffMetadataConsolidationLayerIsReviewerRouting: false,
+      phase542HandoffMetadataConsolidationLayerIsReviewerAssignment: false,
+      phase542HandoffMetadataConsolidationLayerIsEvaluatorExecution: false,
+      phase542HandoffMetadataConsolidationLayerIsEvaluatorResult: false,
+      phase542HandoffMetadataConsolidationLayerIsApprovalDecision: false,
+      phase542HandoffMetadataConsolidationLayerIsApprovalGrant: false,
+      phase542ReviewerRoutingPerformed: false,
+      phase542ReviewerAssignmentPerformed: false,
+      phase542EvaluatorResultProduced: false,
+      phase542EvaluatorResultPersisted: false,
+      phase542ApprovalDecisionProduced: false,
+      phase542ApprovalDecisionPersisted: false,
+      phase542ApprovalGrantProduced: false,
+      phase542ApprovalGrantPersisted: false,
+      phase542RuntimePermissionGranted: false,
+      phase542CommandExposurePermissionGranted: false,
+      phase542RuntimeEnabled: false,
+      phase542RuntimeStarted: false,
+      phase542RuntimeReady: false,
+      phase542RuntimeCommandEnabled: false,
+      phase542RuntimeCommandExposureEnabled: false,
+      phase542RuntimeExecutionEnabled: false,
+      phase542RuntimeExecuted: false,
+      phase542EvaluatorExecutionPerformed: false,
+      phase542CleanupHardeningToolkitEvidenceOnly: true,
+      phase542ToolsInstalled: false,
+      phase542MegaLinterRun: false,
+      phase542BroadTrunkRewriteRun: false,
+      phase542FallowRuntimeUsed: false,
+      phase542ServeRuntimeStillDefaultBlocked: true,
+      phase542DryRunBypassesBlock: false,
+      phase542CanEnableRuntime: false,
+      phase542CliSourceChanged: false,
+      phase542RustSourceChanged: false,
+      phase542FilesystemWatcherEnabled: false,
+      phase542ExternalSourceLookupEnabled: false,
+      phase542SecretsEnvIngestionEnabled: false,
+      phase542LiveStdinLoopEnabled: false,
+      phase542RuntimeStdoutWriterEnabled: false,
+      phase542RuntimeStderrWriterEnabled: false,
+      phase542ProcessSpawnEnabled: false,
+      phase542ProcessTerminationEnabled: false,
+      phase542RuntimeSupervisionEnabled: false,
+      phase542RuntimeTranscriptWritePerformed: false,
+      phase542RuntimeAuditWritePerformed: false,
+      phase542AdapterRuntimeBehaviorEnabled: false,
+      phase542ContentFabricRuntimeBehaviorEnabled: false,
+      phase542WebSocketHttpSurfaceEnabled: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

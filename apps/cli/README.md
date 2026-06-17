@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.41 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.42 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -1186,3 +1186,17 @@ command, command exposure permission command, or change to
 `apps/cli/src/index.mjs`. `serve-runtime` remains default-blocked and
 `serve-runtime --dry-run` cannot bypass blocking. See
 `docs/phase-5-41-review-only-metadata-handoff-checkpoint.md`.
+
+Phase 5.42 records review-only handoff metadata consolidation layer metadata
+only. The core helper represents valid Phase 5.41 metadata handoff checkpoint
+state as non-authorizing consolidation metadata for later review, but it is not
+reviewer routing, reviewer assignment, evaluator execution, an evaluator
+result, approval decision, approval grant, runtime permission, or command
+exposure permission. It adds no Phase 5.42 CLI command,
+handoff-metadata-consolidation-layer command, metadata-handoff-checkpoint
+command, reviewer-routing command, reviewer-assignment command, evaluator
+execution command, evaluator result command, approval decision command, approval
+grant command, runtime permission command, command exposure permission command,
+or change to `apps/cli/src/index.mjs`. `serve-runtime` remains default-blocked
+and `serve-runtime --dry-run` cannot bypass blocking. See
+`docs/phase-5-42-review-only-handoff-metadata-consolidation-layer.md`.
