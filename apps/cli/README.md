@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.37 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.38 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -1127,3 +1127,17 @@ no runtime command, starts no runtime, performs no filesystem watching or
 external lookup, ingests no secrets/env data, and changes no CLI source.
 `serve-runtime` remains default-blocked. See
 `docs/phase-5-37-review-only-handoff-disposition-inspection-checkpoint.md`.
+
+Phase 5.38 records review-only inspection/handoff metadata boundary metadata
+only. The core helper represents valid Phase 5.37 checkpoint metadata as
+non-authorizing inspection/handoff metadata for later review, but it is not
+reviewer routing, reviewer assignment, evaluator execution, an evaluator
+result, approval decision, approval grant, runtime permission, or command
+exposure permission. It performs no reviewer routing, assigns no reviewers,
+executes no evaluator, produces no evaluator result, produces no approval
+decision, produces or persists no approval grant, grants no runtime or command
+exposure permission, enables no runtime, exposes no runtime command, starts no
+runtime, performs no filesystem watching or external lookup, ingests no
+secrets/env data, and changes no CLI source. `serve-runtime` remains
+default-blocked. See
+`docs/phase-5-38-review-only-inspection-handoff-metadata-boundary.md`.

@@ -42,6 +42,15 @@ execution-signal-looking readiness handoff/disposition metadata.
 
 Rejected inputs produce no handoff disposition inspection checkpoint state.
 
+## Phase 5.38 Handoff
+
+Phase 5.38 consumes the Phase 5.37 handoff disposition inspection checkpoint as
+source metadata only. The next boundary remains review-only inspection/handoff
+metadata and still cannot route reviewers, assign reviewers, execute an
+evaluator, produce evaluator results, produce approval decisions, produce or
+persist approval grants, grant runtime permission, expose commands, or execute
+runtime.
+
 ## Handoff Disposition Inspection Checkpoint
 
 The Phase 5.37 handoff disposition inspection checkpoint records:
