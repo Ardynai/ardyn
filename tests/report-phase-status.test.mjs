@@ -1411,6 +1411,47 @@ const phase533ExpectedCaseIds = [
   "execution-signal-looking-review-only-aggregation-inspection-handoff-input-rejected",
   "valid-review-only-aggregation-inspection-handoff"
 ];
+const phase534DocFiles = [
+  "docs/phase-5-34-review-only-handoff-readiness-artifact.md",
+  "docs/phase-5-33-review-only-aggregation-inspection-handoff.md",
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md"
+];
+const phase534CrossLinks = [
+  "README.md",
+  "apps/cli/README.md",
+  "crates/ardyn-host/README.md",
+  "docs/phase-5-33-review-only-aggregation-inspection-handoff.md",
+  "docs/phase-5-34-review-only-handoff-readiness-artifact.md"
+];
+const phase534ExpectedCaseIds = [
+  "missing-review-only-handoff-readiness-artifact-input-rejected",
+  "malformed-review-only-handoff-readiness-artifact-input-rejected",
+  "malformed-review-only-handoff-readiness-artifact-invalid-reviewed-at-rejected",
+  "empty-review-only-handoff-readiness-artifact-input-rejected",
+  "conflicting-review-only-handoff-readiness-artifact-input-rejected",
+  "stale-review-only-handoff-readiness-artifact-input-rejected",
+  "revoked-review-only-handoff-readiness-artifact-input-rejected",
+  "unknown-review-only-handoff-readiness-artifact-input-rejected",
+  "duplicate-invalid-review-only-handoff-readiness-artifact-input-rejected",
+  "authorizing-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "grant-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "approval-decision-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "approval-grant-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "evaluator-result-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "evaluator-execution-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "reviewer-routing-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "reviewer-assignment-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "runtime-permission-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "command-exposure-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "runtime-effect-true-review-only-handoff-readiness-artifact-input-rejected",
+  "process-flag-true-review-only-handoff-readiness-artifact-input-rejected",
+  "unsafe-top-level-review-only-handoff-readiness-artifact-input-rejected",
+  "unsafe-nested-handoff-readiness-artifact-data-review-only-handoff-readiness-artifact-input-rejected",
+  "execution-signal-looking-review-only-handoff-readiness-artifact-input-rejected",
+  "valid-review-only-handoff-readiness-artifact"
+];
 const phase519ExpectedTrueSafetyFlagNames = [
   "phase519ApprovalPrerequisiteReaderHardeningRecorded",
   "phase519ReaderReviewOnly",
@@ -2269,6 +2310,83 @@ const phase533SafetyFlagNames = [
   ...phase533ExpectedTrueSafetyFlagNames,
   ...phase533ExpectedFalseSafetyFlagNames
 ];
+const phase534ExpectedTrueSafetyFlagNames = [
+  "phase534ReviewOnlyHandoffReadinessArtifactRecorded",
+  "phase534ArtifactReviewOnly",
+  "phase534ValidHandoffStateProducesReadinessArtifact",
+  "phase534MissingHandoffStateRejected",
+  "phase534MalformedHandoffStateRejected",
+  "phase534EmptyHandoffStateRejected",
+  "phase534ConflictingHandoffStateRejected",
+  "phase534StaleHandoffStateRejected",
+  "phase534RevokedHandoffStateRejected",
+  "phase534UnknownHandoffStateRejected",
+  "phase534DuplicateInvalidHandoffStateRejected",
+  "phase534AuthorizingLookingHandoffStateRejected",
+  "phase534GrantLookingHandoffStateRejected",
+  "phase534ApprovalDecisionLookingHandoffStateRejected",
+  "phase534ApprovalGrantLookingHandoffStateRejected",
+  "phase534EvaluatorResultLookingHandoffStateRejected",
+  "phase534EvaluatorExecutionLookingHandoffStateRejected",
+  "phase534ReviewerRoutingLookingHandoffStateRejected",
+  "phase534ReviewerAssignmentLookingHandoffStateRejected",
+  "phase534RuntimePermissionLookingHandoffStateRejected",
+  "phase534CommandExposureLookingHandoffStateRejected",
+  "phase534RuntimeEffectTrueHandoffStateRejected",
+  "phase534ProcessFlagTrueHandoffStateRejected",
+  "phase534UnsafeHandoffStateRejected",
+  "phase534ExecutionSignalLookingHandoffStateRejected",
+  "phase534ServeRuntimeStillDefaultBlocked"
+];
+const phase534ExpectedFalseSafetyFlagNames = [
+  "phase534ArtifactAuthoritative",
+  "phase534ReadinessArtifactIsReviewerRouting",
+  "phase534ReadinessArtifactIsReviewerAssignment",
+  "phase534ReadinessArtifactIsEvaluatorExecution",
+  "phase534ReadinessArtifactIsEvaluatorResult",
+  "phase534ReadinessArtifactIsApprovalDecision",
+  "phase534ReadinessArtifactIsApprovalGrant",
+  "phase534ReviewerRoutingPerformed",
+  "phase534ReviewerAssignmentPerformed",
+  "phase534EvaluatorResultProduced",
+  "phase534EvaluatorResultPersisted",
+  "phase534ApprovalDecisionProduced",
+  "phase534ApprovalDecisionPersisted",
+  "phase534ApprovalGrantProduced",
+  "phase534ApprovalGrantPersisted",
+  "phase534RuntimePermissionGranted",
+  "phase534CommandExposurePermissionGranted",
+  "phase534RuntimeEnabled",
+  "phase534RuntimeStarted",
+  "phase534RuntimeReady",
+  "phase534RuntimeCommandEnabled",
+  "phase534RuntimeCommandExposureEnabled",
+  "phase534RuntimeExecutionEnabled",
+  "phase534RuntimeExecuted",
+  "phase534EvaluatorExecutionPerformed",
+  "phase534DryRunBypassesBlock",
+  "phase534CanEnableRuntime",
+  "phase534CliSourceChanged",
+  "phase534RustSourceChanged",
+  "phase534FilesystemWatcherEnabled",
+  "phase534ExternalSourceLookupEnabled",
+  "phase534SecretsEnvIngestionEnabled",
+  "phase534LiveStdinLoopEnabled",
+  "phase534RuntimeStdoutWriterEnabled",
+  "phase534RuntimeStderrWriterEnabled",
+  "phase534ProcessSpawnEnabled",
+  "phase534ProcessTerminationEnabled",
+  "phase534RuntimeSupervisionEnabled",
+  "phase534RuntimeTranscriptWritePerformed",
+  "phase534RuntimeAuditWritePerformed",
+  "phase534AdapterRuntimeBehaviorEnabled",
+  "phase534ContentFabricRuntimeBehaviorEnabled",
+  "phase534WebSocketHttpSurfaceEnabled"
+];
+const phase534SafetyFlagNames = [
+  ...phase534ExpectedTrueSafetyFlagNames,
+  ...phase534ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -2403,15 +2521,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.33 review-only aggregation inspection handoff docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.34 review-only handoff readiness artifact docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.33",
-    name: "Review-only aggregation inspection handoff",
+    id: "5.34",
+    name: "Review-only handoff readiness artifact",
     executionPosture:
-      "review-only-aggregation-inspection-handoff runtime-disabled no-reviewer-routing no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-handoff-readiness-artifact runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -2484,12 +2602,19 @@ test("report lists configured checks and verification commands without running t
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.33 review-only aggregation inspection handoff status report.",
+        "Render this deterministic local Phase 5.34 review-only handoff readiness artifact status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.33 status report.",
+      purpose: "Run focused tests for this local Phase 5.34 status report.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-34-review-only-handoff-readiness-artifact.test.mjs",
+      purpose:
+        "Run focused Phase 5.34 review-only handoff readiness artifact and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -15543,6 +15668,207 @@ test("report inventories Phase 5.33 as review-only aggregation inspection handof
   assertSafetyFlags(report, phase533ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.34 as review-only handoff readiness artifact", async () => {
+  const report = await runReport();
+  const inventory = report.phase534ReviewOnlyHandoffReadinessArtifactInventory;
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase534DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase534CrossLinks);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assert.deepEqual(inventory.machineReadableArtifacts.map(({ path }) => path), [
+    "tests/fixtures/host-policy/phase5-34/review-only-handoff-readiness-artifact.json"
+  ]);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(inventory.tests.map(({ path }) => path), [
+    "tests/report-phase-status.test.mjs",
+    "tests/phase5-34-review-only-handoff-readiness-artifact.test.mjs"
+  ]);
+  assert.equal(inventory.statusLayer.precedingPhase, "5.33");
+  assert.equal(
+    inventory.statusLayer.layerId,
+    "review-only-handoff-readiness-artifact"
+  );
+  assert.equal(
+    inventory.statusLayer.validHandoffStateProducesReadinessArtifact,
+    true
+  );
+  assert.equal(inventory.statusLayer.readinessArtifactIsReviewerRouting, false);
+  assert.equal(inventory.statusLayer.readinessArtifactIsReviewerAssignment, false);
+  assert.equal(inventory.statusLayer.readinessArtifactIsEvaluatorExecution, false);
+  assert.equal(inventory.statusLayer.readinessArtifactIsEvaluatorResult, false);
+  assert.equal(inventory.statusLayer.readinessArtifactIsApprovalDecision, false);
+  assert.equal(inventory.statusLayer.readinessArtifactIsApprovalGrant, false);
+  assert.equal(inventory.statusLayer.reviewerRoutingPerformed, false);
+  assert.equal(inventory.statusLayer.reviewerAssignmentPerformed, false);
+  assert.equal(inventory.statusLayer.evaluatorResultProduced, false);
+  assert.equal(inventory.statusLayer.evaluatorResultPersisted, false);
+  assert.equal(inventory.statusLayer.approvalDecisionProduced, false);
+  assert.equal(inventory.statusLayer.approvalDecisionPersisted, false);
+  assert.equal(inventory.statusLayer.approvalGrantProduced, false);
+  assert.equal(inventory.statusLayer.runtimePermissionGranted, false);
+  assert.equal(inventory.statusLayer.commandExposurePermissionGranted, false);
+  assert.equal(inventory.statusLayer.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.statusLayer.serveRuntimeStillDefaultBlocked, true);
+  assert.deepEqual(inventory.sourcePhase, {
+    phase: "phase-5.33-review-only-aggregation-inspection-handoff",
+    aggregationInspectionHandoffPath:
+      "packages/core/src/index.mjs#createReviewOnlyAggregationInspectionHandoffForReview",
+    handoffReadinessArtifactPath:
+      "packages/core/src/index.mjs#createReviewOnlyHandoffReadinessArtifactForReview",
+    sourceHandoffFixture:
+      "tests/fixtures/host-policy/phase5-33/review-only-aggregation-inspection-handoff.json",
+    runtimeEnabled: false,
+    reviewerRoutingPerformed: false,
+    reviewerAssignmentPerformed: false,
+    evaluatorExecutionPerformed: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false
+  });
+  assert.equal(
+    inventory.handoffReadinessArtifactInputShape.handoffStateSchema,
+    "ardyn.phase-5.33.review-only-aggregation-inspection-handoff-state"
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactInputShape.reviewerRoutingLookingHandoffStatePolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactInputShape.reviewerAssignmentLookingHandoffStatePolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactInputShape.unsafeNestedHandoffReadinessArtifactDataPolicy,
+    "fail-closed"
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.schema,
+    "ardyn.phase-5.34.review-only-handoff-readiness-artifact-result"
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.readinessArtifactStateSchema,
+    "ardyn.phase-5.34.review-only-handoff-readiness-artifact-state"
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.readinessArtifactIsReviewerRouting,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.readinessArtifactIsReviewerAssignment,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.readinessArtifactIsEvaluatorExecution,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.readinessArtifactIsEvaluatorResult,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.readinessArtifactIsApprovalDecision,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.readinessArtifactIsApprovalGrant,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.evaluatorResultProduced,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.approvalDecisionProduced,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifactResultShape.evaluatorExecuted,
+    false
+  );
+  assert.deepEqual(
+    inventory.handoffReadinessArtifactCases.map(({ caseId }) => caseId),
+    phase534ExpectedCaseIds
+  );
+  for (const artifactCase of inventory.handoffReadinessArtifactCases) {
+    assert.equal(artifactCase.reviewOnly, true);
+    assert.equal(artifactCase.authoritative, false);
+    assert.equal(artifactCase.reviewArtifactOnly, true);
+    assert.equal(artifactCase.readinessArtifactMetadataOnly, true);
+    assert.equal(artifactCase.readinessArtifactIsReviewerRouting, false);
+    assert.equal(artifactCase.readinessArtifactIsReviewerAssignment, false);
+    assert.equal(artifactCase.readinessArtifactIsEvaluatorExecution, false);
+    assert.equal(artifactCase.readinessArtifactIsEvaluatorResult, false);
+    assert.equal(artifactCase.readinessArtifactIsApprovalDecision, false);
+    assert.equal(artifactCase.readinessArtifactIsApprovalGrant, false);
+    assert.equal(artifactCase.reviewerRoutingPerformed, false);
+    assert.equal(artifactCase.reviewerAssignmentPerformed, false);
+    assert.equal(artifactCase.evaluatorResultProduced, false);
+    assert.equal(artifactCase.evaluatorResultPersisted, false);
+    assert.equal(artifactCase.approvalDecisionProduced, false);
+    assert.equal(artifactCase.approvalGrant.produced, false);
+    assert.equal(artifactCase.approvalGrant.persisted, false);
+    assert.equal(artifactCase.approvalGrant.grantId, null);
+    assert.equal(artifactCase.runtimePermissionGranted, false);
+    assert.equal(artifactCase.commandExposurePermissionGranted, false);
+    assert.equal(artifactCase.evaluatorExecuted, false);
+    assertAllFalse(artifactCase.runtimeEffect);
+  }
+  assert.equal(
+    inventory.handoffReadinessArtifact.artifactCanPerformReviewerRouting,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifact.artifactCanAssignReviewers,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifact.artifactCanExecuteEvaluator,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifact.artifactCanProduceEvaluatorResult,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifact.artifactCanProduceApprovalDecision,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifact.artifactCanGrantApproval,
+    false
+  );
+  assert.equal(
+    inventory.handoffReadinessArtifact.artifactCanGrantRuntimePermission,
+    false
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
+  assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
+    "serve-runtime",
+    "--dry-run"
+  ]);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
+  assert.equal(inventory.forbiddenBehavior.reviewerRouting, false);
+  assert.equal(inventory.forbiddenBehavior.reviewerAssignment, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorResult, false);
+  assert.equal(inventory.forbiddenBehavior.approvalDecision, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorExecution, false);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-34-review-only-handoff-readiness-artifact.test.mjs"
+    )
+  );
+  assert.equal(
+    report.safetyPosture.phase534ReviewOnlyHandoffReadinessArtifact,
+    true
+  );
+  assertSafetyFlags(report, phase534ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase534ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -16421,7 +16747,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase530SafetyFlagNames,
     ...phase531SafetyFlagNames,
     ...phase532SafetyFlagNames,
-    ...phase533SafetyFlagNames
+    ...phase533SafetyFlagNames,
+    ...phase534SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -16454,6 +16781,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase532ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase533ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase533ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase534ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase534ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

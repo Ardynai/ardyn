@@ -189,6 +189,11 @@ export const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SCHEMA:
 export const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_VERSION: "0.1.0";
 export const REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_KIND:
   "review-only-aggregation-inspection-handoff";
+export const REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_SCHEMA:
+  "ardyn.phase-5.34.review-only-handoff-readiness-artifact-result";
+export const REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_VERSION: "0.1.0";
+export const REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_KIND:
+  "review-only-handoff-readiness-artifact";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1658,6 +1663,30 @@ export type ReviewOnlyAggregationInspectionHandoffClassification =
   | "unsafe_review_only_aggregation_inspection_handoff_input_rejected"
   | "execution_signal_looking_review_only_aggregation_inspection_handoff_input_rejected"
   | "valid_review_only_aggregation_inspection_handoff_runtime_still_blocked";
+export type ReviewOnlyHandoffReadinessArtifactClassification =
+  | "missing_review_only_handoff_readiness_artifact_input_rejected"
+  | "malformed_review_only_handoff_readiness_artifact_input_rejected"
+  | "empty_review_only_handoff_readiness_artifact_input_rejected"
+  | "conflicting_review_only_handoff_readiness_artifact_input_rejected"
+  | "stale_review_only_handoff_readiness_artifact_input_rejected"
+  | "revoked_review_only_handoff_readiness_artifact_input_rejected"
+  | "unknown_review_only_handoff_readiness_artifact_input_rejected"
+  | "duplicate_invalid_review_only_handoff_readiness_artifact_input_rejected"
+  | "authorizing_review_only_handoff_readiness_artifact_input_rejected"
+  | "grant_looking_review_only_handoff_readiness_artifact_input_rejected"
+  | "approval_decision_looking_review_only_handoff_readiness_artifact_input_rejected"
+  | "approval_grant_looking_review_only_handoff_readiness_artifact_input_rejected"
+  | "evaluator_result_looking_review_only_handoff_readiness_artifact_input_rejected"
+  | "evaluator_execution_looking_review_only_handoff_readiness_artifact_input_rejected"
+  | "reviewer_routing_looking_review_only_handoff_readiness_artifact_input_rejected"
+  | "reviewer_assignment_looking_review_only_handoff_readiness_artifact_input_rejected"
+  | "runtime_permission_looking_review_only_handoff_readiness_artifact_input_rejected"
+  | "command_exposure_looking_review_only_handoff_readiness_artifact_input_rejected"
+  | "runtime_effect_true_review_only_handoff_readiness_artifact_input_rejected"
+  | "process_flag_true_review_only_handoff_readiness_artifact_input_rejected"
+  | "unsafe_review_only_handoff_readiness_artifact_input_rejected"
+  | "execution_signal_looking_review_only_handoff_readiness_artifact_input_rejected"
+  | "valid_review_only_handoff_readiness_artifact_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -2944,6 +2973,169 @@ export interface ReviewOnlyAggregationInspectionHandoffResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export interface ReviewOnlyHandoffReadinessArtifactState {
+  schema: "ardyn.phase-5.34.review-only-handoff-readiness-artifact-state";
+  schemaVersion: "0.1.0";
+  stateKind: "review-only-handoff-readiness-artifact-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourceInspectionHandoffState: {
+    schema: "ardyn.phase-5.33.review-only-aggregation-inspection-handoff-state";
+    stateKind: "review-only-aggregation-inspection-handoff-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    sourceAggregationStateDigest: string;
+    sourceDispositionStateDigest: string;
+    sourceInspectionArtifactDigest: string;
+    sourceDecisionCandidateStateDigest: string;
+    sourcePreflightCheckpointStateDigest: string;
+    sourceIntakeCheckpointStateDigest: string;
+    sourceEvaluatorInputCandidateDigest: string;
+    aggregationStateAccepted: true;
+    inspectionHandoffMetadataOnly: true;
+    handoffIsReviewerRouting: false;
+    handoffIsEvaluatorExecution: false;
+    handoffIsEvaluatorResult: false;
+    handoffIsApprovalDecision: false;
+    handoffIsApprovalGrant: false;
+    reviewerRoutingPerformed: false;
+    reviewerAssignmentPerformed: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  };
+  pipelineSummary: ReviewOnlyAggregationInspectionHandoffState["pipelineSummary"];
+  integratedReviewSummary: ReviewOnlyAggregationInspectionHandoffState["integratedReviewSummary"];
+  decisionCandidateSummary: ReviewOnlyAggregationInspectionHandoffState["decisionCandidateSummary"];
+  inspectionSummary: ReviewOnlyAggregationInspectionHandoffState["inspectionSummary"];
+  dispositionSummary: ReviewOnlyAggregationInspectionHandoffState["dispositionSummary"];
+  aggregationSummary: ReviewOnlyAggregationInspectionHandoffState["aggregationSummary"];
+  handoffSummary: ReviewOnlyAggregationInspectionHandoffState["handoffSummary"];
+  readinessSummary: {
+    readinessKind: "review-only-handoff-readiness-artifact";
+    readinessMode: "review-only";
+    sourceHandoffClassification:
+      "valid_review_only_aggregation_inspection_handoff_runtime_still_blocked";
+    readinessArtifactMetadataOnly: true;
+    reviewerRoutingPerformed: false;
+    reviewerAssignmentPerformed: false;
+    evaluatorExecutionPerformed: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    runtimePermissionGranted: false;
+    commandExposurePermissionGranted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  };
+  handoffStateAccepted: true;
+  readinessArtifactMetadataOnly: true;
+  readinessArtifactIsReviewerRouting: false;
+  readinessArtifactIsReviewerAssignment: false;
+  readinessArtifactIsEvaluatorExecution: false;
+  readinessArtifactIsEvaluatorResult: false;
+  readinessArtifactIsApprovalDecision: false;
+  readinessArtifactIsApprovalGrant: false;
+  reviewerRoutingPerformed: false;
+  reviewerRoutingEnabled: false;
+  reviewerRouteId: null;
+  reviewerAssignmentPerformed: false;
+  reviewerAssignmentEnabled: false;
+  reviewerAssignmentId: null;
+  reviewerId: null;
+  evaluatorResultProduced: false;
+  evaluatorResultPersisted: false;
+  evaluatorResultId: null;
+  approvalDecisionProduced: false;
+  approvalDecisionPersisted: false;
+  approvalDecisionId: null;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ReviewOnlyHandoffReadinessArtifactResult {
+  schema: "ardyn.phase-5.34.review-only-handoff-readiness-artifact-result";
+  schemaVersion: "0.1.0";
+  artifactKind: "review-only-handoff-readiness-artifact";
+  artifactMode: "review-only";
+  reviewedAt: string;
+  classification: ReviewOnlyHandoffReadinessArtifactClassification;
+  handoffStateAccepted: boolean;
+  readinessArtifactProduced: boolean;
+  readinessArtifactIsReviewerRouting: false;
+  readinessArtifactIsReviewerAssignment: false;
+  readinessArtifactIsEvaluatorExecution: false;
+  readinessArtifactIsEvaluatorResult: false;
+  readinessArtifactIsApprovalDecision: false;
+  readinessArtifactIsApprovalGrant: false;
+  readinessArtifact: ReviewOnlyHandoffReadinessArtifactState | null;
+  handoffSummary: {
+    schema: "ardyn.phase-5.33.review-only-aggregation-inspection-handoff-state";
+    stateKind: "review-only-aggregation-inspection-handoff-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    handoffIsReviewerRouting: false;
+    handoffIsEvaluatorExecution: false;
+    handoffIsEvaluatorResult: false;
+    handoffIsApprovalDecision: false;
+    handoffIsApprovalGrant: false;
+    reviewerRoutingPerformed: false;
+    reviewerAssignmentPerformed: false;
+    evaluatorResultProduced: false;
+    approvalDecisionProduced: false;
+    approvalGrantProduced: false;
+    approvalGrantPersisted: false;
+    evaluatorExecuted: false;
+    runtimeEffectAllFalse: true;
+  } | null;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  readinessArtifactMetadataOnly: true;
+  reviewerRoutingPerformed: false;
+  reviewerRoutingEnabled: false;
+  reviewerRouteId: null;
+  reviewerAssignmentPerformed: false;
+  reviewerAssignmentEnabled: false;
+  reviewerAssignmentId: null;
+  reviewerId: null;
+  evaluatorResultProduced: false;
+  evaluatorResultPersisted: false;
+  evaluatorResultId: null;
+  approvalDecisionProduced: false;
+  approvalDecisionPersisted: false;
+  approvalDecisionId: null;
+  approvalGrant: RuntimeApprovalGrantBlocked;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  approvalGrantId: null;
+  runtimePermissionGranted: false;
+  commandExposurePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  evaluatorExecutionRequested: false;
+  evaluatorExecutionStarted: false;
+  evaluatorExecutionEnabled: false;
+  evaluatorExecuted: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -3223,6 +3415,10 @@ export function createReviewOnlyAggregationInspectionHandoffForReview(input?: {
   reviewedAt?: string;
   aggregationStates?: unknown[];
 }): ReviewOnlyAggregationInspectionHandoffResult;
+export function createReviewOnlyHandoffReadinessArtifactForReview(input?: {
+  reviewedAt?: string;
+  handoffStates?: unknown[];
+}): ReviewOnlyHandoffReadinessArtifactResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

@@ -86,6 +86,15 @@ Phase 5.33 adds no:
 
 `serve-runtime` and `serve-runtime --dry-run` remain default-blocked.
 
+## Phase 5.34 Handoff
+
+Phase 5.34 consumes the Phase 5.33 aggregation inspection handoff metadata into
+a review-only handoff readiness artifact. The follow-on artifact remains
+non-authorizing and does not perform reviewer routing, reviewer assignment,
+evaluator execution, evaluator result production, approval decisions, approval
+grants, runtime permission grants, command exposure grants, or runtime
+execution.
+
 ## Validation
 
 Phase 5.33 records these validation commands:

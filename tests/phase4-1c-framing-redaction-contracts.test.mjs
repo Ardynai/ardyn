@@ -349,10 +349,10 @@ test("Phase 4.1C status report inventories framing/redaction contracts without r
   const inventory = report.phase41CFramingRedactionInventory;
 
   assert.deepEqual(report.phase, {
-    id: "5.33",
-    name: "Review-only aggregation inspection handoff",
+    id: "5.34",
+    name: "Review-only handoff readiness artifact",
     executionPosture:
-      "review-only-aggregation-inspection-handoff runtime-disabled no-reviewer-routing no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
+      "review-only-handoff-readiness-artifact runtime-disabled no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
