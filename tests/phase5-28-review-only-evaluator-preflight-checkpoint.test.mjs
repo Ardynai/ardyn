@@ -118,8 +118,25 @@ const preflightCommandProbes = Object.freeze([
   "serve-runtime"
 ]);
 
+const prototypePollutionMetadataKeys = Object.freeze([
+  "__proto__",
+  "constructor",
+  "prototype"
+]);
+
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
+}
+
+function defineEnumerableDataProperty(record, key, value) {
+  Object.defineProperty(record, key, {
+    value,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  });
+
+  return record;
 }
 
 function validity(overrides = {}) {
@@ -588,6 +605,68 @@ test("Phase 5.28 valid checkpoint produces only evaluator preflight state", () =
       "valid_prerequisites_review_only_runtime_still_blocked",
     prerequisiteSignalRecognized: true
   });
+});
+
+test("Phase 5.44A preflight path lookup ignores inherited grant-looking data", () => {
+  const state = validIntakeCheckpointState("source-phase-5-44a-inherited-grant");
+  const pollutedPrototype = Object.create(null);
+  pollutedPrototype.approvalGrant = {
+    produced: true,
+    persisted: true
+  };
+  for (const key of prototypePollutionMetadataKeys) {
+    defineEnumerableDataProperty(pollutedPrototype, key, {
+      ardynPhase544APrototypePolluted: true
+    });
+  }
+  Object.setPrototypeOf(state, pollutedPrototype);
+
+  const result = createReviewOnlyEvaluatorPreflightCheckpointForReview({
+    reviewedAt,
+    intakeCheckpointStates: [state]
+  });
+
+  assert.equal(
+    result.classification,
+    "valid_review_only_evaluator_preflight_checkpoint_runtime_still_blocked"
+  );
+  assert.equal(result.intakeCheckpointStateAccepted, true);
+  assert.equal(result.preflightCheckpointStateProduced, true);
+  assert.equal(result.approvalGrant.produced, false);
+  assert.equal(result.approvalGrant.persisted, false);
+  assert.equal(Object.prototype.ardynPhase544APrototypePolluted, undefined);
+  assert.equal({}.ardynPhase544APrototypePolluted, undefined);
+});
+
+test("Phase 5.44A prototype-pollution metadata keys fail closed without prototype mutation", () => {
+  for (const key of prototypePollutionMetadataKeys) {
+    const state = validIntakeCheckpointState(`source-phase-5-44a-${key}`);
+    defineEnumerableDataProperty(state.integratedReviewSummary, key, {
+      ardynPhase544APrototypePolluted: true,
+      approvalGrant: {
+        produced: true,
+        persisted: true
+      }
+    });
+
+    const result = createReviewOnlyEvaluatorPreflightCheckpointForReview({
+      reviewedAt,
+      intakeCheckpointStates: [state]
+    });
+
+    assert.equal(
+      result.classification,
+      "malformed_review_only_evaluator_preflight_checkpoint_input_rejected",
+      key
+    );
+    assert.equal(result.intakeCheckpointStateAccepted, false, key);
+    assert.equal(result.preflightCheckpointStateProduced, false, key);
+    assert.equal(result.preflightCheckpointState, null, key);
+    assert.equal(result.approvalGrant.produced, false, key);
+    assert.equal(result.approvalGrant.persisted, false, key);
+    assert.equal(Object.prototype.ardynPhase544APrototypePolluted, undefined, key);
+    assert.equal({}.ardynPhase544APrototypePolluted, undefined, key);
+  }
 });
 
 test("Phase 5.28 rejected checkpoint state fails closed before preflight state", () => {

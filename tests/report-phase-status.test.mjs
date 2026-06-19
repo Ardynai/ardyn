@@ -3852,15 +3852,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.44 consolidation metadata checkpoint docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.44A prototype-pollution hardening docs/status metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.44",
-    name: "Review-only consolidation metadata checkpoint",
+    id: "5.44A",
+    name: "Focused prototype-pollution hardening",
     executionPosture:
-      "review-only-consolidation-metadata-checkpoint runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-external-system-integration no-connector-permission-grant"
+      "focused-prototype-pollution-hardening runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-external-system-integration no-connector-ingestion"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -3923,11 +3923,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.44 consolidation metadata checkpoint status report."
+    "Render this deterministic local Phase 5.44A prototype-pollution hardening status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.44 status report."
+    "Run focused tests for this local Phase 5.44A status report."
+  );
+  assert.equal(
+    verificationByCommand.get("semgrep --config auto .").purpose,
+    "Verify the Phase 5.44A prototype-pollution finding is removed without dependency or config changes."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.28 review-only evaluator preflight checkpoint, Phase 5.44A prototype-pollution regression, and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -19191,6 +19201,119 @@ test("report inventories Phase 5.44 as review-only consolidation metadata checkp
   );
   assertSafetyFlags(report, phase544ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase544ExpectedFalseSafetyFlagNames, false);
+});
+
+test("report inventories Phase 5.44A as focused prototype-pollution hardening", async () => {
+  const report = await runReport();
+  const inventory = report.phase544APrototypePollutionHardeningInventory;
+
+  assert.equal(
+    inventory.statusLayer.document,
+    "docs/phase-5-44a-prototype-pollution-hardening.md"
+  );
+  assert.equal(inventory.statusLayer.affectedFile, "packages/core/src/index.mjs");
+  assert.equal(
+    inventory.statusLayer.affectedHelper,
+    "reviewOnlyEvaluatorPreflightPathValue"
+  );
+  assert.equal(inventory.statusLayer.affectedSemgrepLineBeforePatch, 8709);
+  assert.equal(
+    inventory.statusLayer.semgrepCheckId,
+    "javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-loop"
+  );
+  assert.equal(
+    inventory.statusLayer.hardeningApproach,
+    "reserved path segments are rejected and nested path traversal uses descriptor-based own data-property reads"
+  );
+  assert.deepEqual(inventory.statusLayer.prototypePollutionKeysBlocked, [
+    "__proto__",
+    "constructor",
+    "prototype"
+  ]);
+  assert.equal(inventory.statusLayer.normalMetadataKeysPreserved, true);
+  assert.equal(inventory.statusLayer.reviewOnlyMetadataChainContinued, false);
+  assert.equal(inventory.statusLayer.runtimeStarted, false);
+  assert.equal(inventory.statusLayer.runtimeReady, false);
+  assert.equal(inventory.statusLayer.runtimeExecuted, false);
+  assert.equal(inventory.statusLayer.connectorIngestionAdded, false);
+  assert.equal(inventory.statusLayer.secureDropImplemented, false);
+  assert.equal(inventory.statusLayer.cliSourceChanged, false);
+  assert.equal(inventory.statusLayer.rustSourceChanged, false);
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-5-44a-prototype-pollution-hardening.md", "present"],
+      ["README.md", "present"]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs",
+        "present"
+      ],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+  assert.deepEqual(inventory.semgrepBaseline, {
+    command: "semgrep --config auto .",
+    beforeFindings: 1,
+    afterExpectedFindings: 0,
+    findingFile: "packages/core/src/index.mjs",
+    findingLineBeforePatch: 8709,
+    findingBlamedCommit: "bb85a2c8",
+    findingStatus: "fixed-in-phase-5.44a"
+  });
+  assert.deepEqual(inventory.regressionCoverage.keysCovered, [
+    "__proto__",
+    "constructor",
+    "prototype"
+  ]);
+  assert.equal(inventory.regressionCoverage.inheritedPrototypeGrantDataIgnored, true);
+  assert.equal(inventory.regressionCoverage.unsafeOwnMetadataKeysFailClosed, true);
+  assert.equal(inventory.regressionCoverage.objectPrototypeMutationPrevented, true);
+  assert.equal(inventory.regressionCoverage.normalMetadataBehaviorPreserved, true);
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.defaultBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBypassesBlock, false);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.stdout, "");
+  assert.equal(inventory.forbiddenBehavior.reviewerRoutingPerformed, false);
+  assert.equal(inventory.forbiddenBehavior.reviewerAssignmentPerformed, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.forbiddenBehavior.evaluatorResultProduced, false);
+  assert.equal(inventory.forbiddenBehavior.approvalDecisionProduced, false);
+  assert.equal(inventory.forbiddenBehavior.approvalGrantProduced, false);
+  assert.equal(inventory.forbiddenBehavior.approvalGrantPersisted, false);
+  assert.equal(inventory.forbiddenBehavior.runtimePermissionGranted, false);
+  assert.equal(inventory.forbiddenBehavior.commandExposurePermissionGranted, false);
+  assert.equal(inventory.forbiddenBehavior.runtimeCommandExposureEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.runtimeExecutionEnabled, false);
+  assert.equal(inventory.forbiddenBehavior.connectorIngestionAdded, false);
+  assert.equal(inventory.forbiddenBehavior.secureDropImplemented, false);
+  assert.equal(inventory.safetyPosture.prototypePollutionFindingFixed, true);
+  assert.equal(inventory.safetyPosture.reviewOnlyMetadataChainContinued, false);
+  assert.equal(inventory.safetyPosture.runtimeBlocked, true);
+  assert.equal(inventory.safetyPosture.runtimeEnabled, false);
+  assert.equal(inventory.safetyPosture.runtimeCommandExposureEnabled, false);
+  assert.equal(inventory.safetyPosture.runtimeExecutionEnabled, false);
+  assert.equal(inventory.safetyPosture.reviewerRoutingPerformed, false);
+  assert.equal(inventory.safetyPosture.reviewerAssignmentPerformed, false);
+  assert.equal(inventory.safetyPosture.evaluatorExecutionPerformed, false);
+  assert.equal(inventory.safetyPosture.evaluatorResultProduced, false);
+  assert.equal(inventory.safetyPosture.approvalDecisionProduced, false);
+  assert.equal(inventory.safetyPosture.approvalGrantProduced, false);
+  assert.equal(inventory.safetyPosture.approvalGrantPersisted, false);
+  assert.equal(inventory.safetyPosture.commandExposurePermissionGranted, false);
+  assert.equal(inventory.safetyPosture.connectorIngestionAdded, false);
+  assert.equal(inventory.safetyPosture.secureDropImplemented, false);
+  assert.equal(inventory.safetyPosture.serveRuntimeStillDefaultBlocked, true);
+  assert.equal(inventory.safetyPosture.dryRunBypassesBlock, false);
+  assert.equal(inventory.safetyPosture.noCliSourceChange, true);
+  assert.equal(inventory.safetyPosture.noRustSourceChange, true);
+  assert.equal(report.safetyPosture.phase544APrototypePollutionHardening, true);
 });
 
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {

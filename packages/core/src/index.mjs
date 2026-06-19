@@ -8698,15 +8698,21 @@ const REVIEW_ONLY_EVALUATOR_PREFLIGHT_GRANT_TRUE_PATHS = Object.freeze([
   Object.freeze(["approvalGrant", "persisted"])
 ]);
 
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_PROTOTYPE_POLLUTION_PATH_FIELDS =
+  Object.freeze(new Set(["__proto__", "constructor", "prototype"]));
+
 function reviewOnlyEvaluatorPreflightPathValue(record, path) {
   let current = record;
 
   for (const field of path) {
-    if (!isPlainObjectRecord(current)) {
+    if (
+      REVIEW_ONLY_EVALUATOR_PREFLIGHT_PROTOTYPE_POLLUTION_PATH_FIELDS.has(field) ||
+      !isPlainObjectRecord(current)
+    ) {
       return undefined;
     }
 
-    current = current[field];
+    current = dataProperty(current, field);
   }
 
   return current;

@@ -296,10 +296,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.44",
-    name: "Review-only consolidation metadata checkpoint",
+    id: "5.44A",
+    name: "Focused prototype-pollution hardening",
     executionPosture:
-      "review-only-consolidation-metadata-checkpoint runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-external-system-integration no-connector-permission-grant"
+      "focused-prototype-pollution-hardening runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-external-system-integration no-connector-ingestion"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -380,12 +380,18 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.44 consolidation metadata checkpoint status report.",
+        "Render this deterministic local Phase 5.44A prototype-pollution hardening status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.44 status report.",
+      purpose: "Run focused tests for this local Phase 5.44A status report.",
+      ranByReport: false
+    },
+    {
+      command: "semgrep --config auto .",
+      purpose:
+        "Verify the Phase 5.44A prototype-pollution finding is removed without dependency or config changes.",
       ranByReport: false
     },
     {
@@ -504,7 +510,7 @@ const report = {
       command:
         "node --test tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs",
       purpose:
-        "Run focused Phase 5.28 review-only evaluator preflight checkpoint and blocked-runtime checks.",
+        "Run focused Phase 5.28 review-only evaluator preflight checkpoint, Phase 5.44A prototype-pollution regression, and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -18023,7 +18029,7 @@ const report = {
       ),
       await localInventoryEntry(
         "README.md",
-        "Marks Phase 5.44 as current docs/status mode while runtime, reviewer routing, reviewer assignment, evaluator execution, approval decisions, approval grants, external system integration, and connector grants remain blocked."
+        "Records Phase 5.44 docs/status mode while runtime, reviewer routing, reviewer assignment, evaluator execution, approval decisions, approval grants, external system integration, and connector grants remain blocked."
       ),
       await localInventoryEntry(
         "apps/cli/README.md",
@@ -18243,6 +18249,158 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase544APrototypePollutionHardeningInventory: {
+    statusLayer: {
+      document: "docs/phase-5-44a-prototype-pollution-hardening.md",
+      affectedFile: "packages/core/src/index.mjs",
+      affectedHelper: "reviewOnlyEvaluatorPreflightPathValue",
+      affectedSemgrepLineBeforePatch: 8709,
+      semgrepCheckId:
+        "javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-loop",
+      hardeningApproach:
+        "reserved path segments are rejected and nested path traversal uses descriptor-based own data-property reads",
+      prototypePollutionKeysBlocked: ["__proto__", "constructor", "prototype"],
+      normalMetadataKeysPreserved: true,
+      reviewOnlyMetadataChainContinued: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeExecuted: false,
+      filesystemWatcherEnabled: false,
+      externalSourceLookupEnabled: false,
+      secretsEnvIngestionEnabled: false,
+      connectorIngestionAdded: false,
+      secureDropImplemented: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      processSpawnEnabled: false,
+      processTerminationEnabled: false,
+      runtimeSupervisionEnabled: false,
+      runtimeTranscriptWritePerformed: false,
+      runtimeAuditWritePerformed: false,
+      adapterRuntimeBehaviorChanged: false,
+      contentFabricRuntimeBehaviorChanged: false,
+      webSocketHttpSurfaceEnabled: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-44a-prototype-pollution-hardening.md",
+        "Records the focused prototype-pollution hardening for the Phase 5.28 evaluator preflight path lookup while runtime and authorization surfaces remain blocked."
+      ),
+      await localInventoryEntry(
+        "README.md",
+        "Marks Phase 5.44A as a focused security-hardening slice without continuing the Phase 5 metadata chain or changing runtime posture."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs",
+        "Pins inherited grant-looking prototype data rejection, own __proto__/constructor/prototype metadata key regressions, normal metadata behavior, serve-runtime blocking, and CLI source guard checks."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.44A status inventory, Semgrep baseline note, and runtime/authorization-disabled posture."
+      )
+    ],
+    semgrepBaseline: {
+      command: "semgrep --config auto .",
+      beforeFindings: 1,
+      afterExpectedFindings: 0,
+      findingFile: "packages/core/src/index.mjs",
+      findingLineBeforePatch: 8709,
+      findingBlamedCommit: "bb85a2c8",
+      findingStatus: "fixed-in-phase-5.44a"
+    },
+    regressionCoverage: {
+      inheritedPrototypeGrantDataIgnored: true,
+      unsafeOwnMetadataKeysFailClosed: true,
+      keysCovered: ["__proto__", "constructor", "prototype"],
+      objectPrototypeMutationPrevented: true,
+      normalMetadataBehaviorPreserved: true
+    },
+    ownershipBoundary: {
+      securityHardeningFilesChanged: ["packages/core/src/index.mjs"],
+      focusedTestFiles: [
+        "tests/phase5-28-review-only-evaluator-preflight-checkpoint.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      docsStatusFiles: [
+        "README.md",
+        "docs/phase-5-44a-prototype-pollution-hardening.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      connectorIngestionAddedByThisPhase: false,
+      secureDropImplementedByThisPhase: false,
+      reviewerRoutingPerformedByThisPhase: false,
+      reviewerAssignmentPerformedByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false
+    },
+    serveRuntimeBlockedBehavior: {
+      defaultBlocked: true,
+      dryRunBlocked: true,
+      dryRunBypassesBlock: false,
+      stdout: ""
+    },
+    forbiddenBehavior: {
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorExecutionPerformed: false,
+      evaluatorResultProduced: false,
+      approvalDecisionProduced: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      connectorIngestionAdded: false,
+      secureDropImplemented: false
+    },
+    safetyPosture: {
+      prototypePollutionFindingFixed: true,
+      reviewOnlyMetadataChainContinued: false,
+      runtimeBlocked: true,
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorExecutionPerformed: false,
+      evaluatorResultProduced: false,
+      approvalDecisionProduced: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      commandExposurePermissionGranted: false,
+      connectorIngestionAdded: false,
+      secureDropImplemented: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -18321,6 +18479,7 @@ const report = {
     phase542ReviewOnlyHandoffMetadataConsolidationLayer: true,
     phase543ReviewOnlyConsolidationCheckpointHandoff: true,
     phase544ReviewOnlyConsolidationMetadataCheckpoint: true,
+    phase544APrototypePollutionHardening: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

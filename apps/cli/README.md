@@ -2,7 +2,7 @@
 
 CLI app scaffold for ARDYN.
 
-Phase 5.44 keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
+Phase 5.44A keeps the Phase 5.5 command posture over the same command set as Phase 4.0B, Phase 4.0C, Phase
 4.0D, Phase 4.0E, Phase 4.0F, Phase 4.0G, Phase 4.0H, Phase 4.0I, Phase
 4.1/4.1A/4.1B/4.1C/4.1D/4.1E, Phase 4.1F, Phase 4.1G, Phase 4.1H, and
 Phase 4.1I, Phase 4.1J, Phase 4.1K, Phase 4.1L, Phase 4.2A, Phase 4.2B,
@@ -1231,3 +1231,14 @@ external system integration command, or change to `apps/cli/src/index.mjs`.
 `serve-runtime` remains default-blocked and `serve-runtime --dry-run` cannot
 bypass blocking. See
 `docs/phase-5-44-review-only-consolidation-metadata-checkpoint.md`.
+
+Phase 5.44A records focused prototype-pollution hardening only. It changes the
+TypeScript core evaluator preflight nested path lookup and tests; it adds no
+Phase 5.44A CLI command, prototype-pollution command, hardening command,
+reviewer-routing command, reviewer-assignment command, evaluator execution
+command, evaluator result command, approval decision command, approval grant
+command, runtime permission command, command exposure permission command,
+connector ingestion command, Secure Drop command, external lookup command, or
+change to `apps/cli/src/index.mjs`. `serve-runtime` remains default-blocked and
+`serve-runtime --dry-run` cannot bypass blocking. See
+`docs/phase-5-44a-prototype-pollution-hardening.md`.
