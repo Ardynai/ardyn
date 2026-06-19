@@ -1,0 +1,1115 @@
+{
+  "schema": "ardyn.phase-5.46.consumer-contract-readiness-matrix-result",
+  "schemaVersion": "0.1.0",
+  "consumerContractReadinessMatrixKind": "consumer-contract-readiness-matrix",
+  "consumerContractReadinessMatrixMode": "review-only",
+  "reviewedAt": "2026-06-19T00:00:00.000Z",
+  "classification": "valid_consumer_contract_readiness_matrix_runtime_still_blocked",
+  "sourceTargetConsumerPlanningMetadataAccepted": true,
+  "consumerContractReadinessMatrixProduced": true,
+  "consumerContractReadinessMatrix": {
+    "schema": "ardyn.phase-5.46.consumer-contract-readiness-matrix-state",
+    "schemaVersion": "0.1.0",
+    "stateKind": "consumer-contract-readiness-matrix-state",
+    "stateMode": "review-only",
+    "reviewedAt": "2026-06-19T00:00:00.000Z",
+    "sourceTargetConsumerPlanningMetadata": {
+      "schema": "ardyn.phase-5.45.target-consumer-planning-metadata-state",
+      "stateKind": "target-consumer-planning-metadata-state",
+      "stateMode": "review-only",
+      "reviewedAt": "2026-06-19T00:00:00.000Z",
+      "stateDigest": "sha256:2fbcc3b6b9102ae1b576c5af606ccb399eb0a95f209919b2f9485b8592080b28",
+      "targetConsumerPlanningMetadataOnly": true,
+      "firstClassTargetConsumerIds": [
+        "locus",
+        "multiverse"
+      ],
+      "locusFirstClassTargetConsumer": true,
+      "multiverseFirstClassTargetConsumer": true,
+      "secureDropFutureContentFabricCapabilityReferenceOnly": true,
+      "runtimeEffectAllFalse": true
+    },
+    "matrixRows": [
+      {
+        "rowId": "locus.status-control-surface-display",
+        "consumerId": "locus",
+        "consumerName": "Locus",
+        "touchpointName": "status/control-surface display",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "locus.status-control-surface.display-contract",
+          "ardyn.review-status.snapshot-contract",
+          "ardyn.control-surface-readonly-metadata-contract"
+        ],
+        "currentAllowedBehavior": "Display deterministic Ardyn status and control-surface metadata as review-only text.",
+        "explicitlyForbiddenBehavior": [
+          "command control",
+          "runtime control",
+          "process control",
+          "live status polling",
+          "approval grant persistence"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires a later explicit command/control authorization phase before any interactive Locus control surface can call Ardyn.",
+          "Current Phase 5.46 output is documentary metadata only."
+        ]
+      },
+      {
+        "rowId": "locus.process-tool-capability-metadata",
+        "consumerId": "locus",
+        "consumerName": "Locus",
+        "touchpointName": "process/tool capability metadata",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "locus.process-capability-metadata-contract",
+          "locus.tool-capability-metadata-contract",
+          "ardyn.non-executing-capability-display-contract"
+        ],
+        "currentAllowedBehavior": "Expose static process/tool capability labels for review without tool execution.",
+        "explicitlyForbiddenBehavior": [
+          "process spawn",
+          "process termination",
+          "tool invocation",
+          "stdin loop",
+          "stdout/stderr runtime writer"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires separate process-control and tool-execution authorization phases.",
+          "No process supervision or stdio runtime writer is introduced."
+        ]
+      },
+      {
+        "rowId": "locus.visible-review-artifacts",
+        "consumerId": "locus",
+        "consumerName": "Locus",
+        "touchpointName": "Locus-visible review artifacts",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "locus.review-artifact-display-contract",
+          "ardyn.review-artifact-index-contract",
+          "ardyn.review-only-artifact-provenance-contract"
+        ],
+        "currentAllowedBehavior": "List deterministic Ardyn review artifacts and provenance metadata for Locus-visible review.",
+        "explicitlyForbiddenBehavior": [
+          "reviewer routing",
+          "reviewer assignment",
+          "evaluator execution",
+          "evaluator result production",
+          "approval decision"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires future review routing and evaluator authorization phases before artifacts can drive assignment or decisions.",
+          "Current artifacts remain non-authoritative."
+        ]
+      },
+      {
+        "rowId": "locus.future-secure-drop-compose-inbox-surface",
+        "consumerId": "locus",
+        "consumerName": "Locus",
+        "touchpointName": "future Secure Drop compose/inbox consumer surface",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "content-fabric.secure-drop.compose-consumer-contract",
+          "content-fabric.secure-drop.inbox-consumer-contract",
+          "ardyn.future-secure-drop-consumer-boundary-contract"
+        ],
+        "currentAllowedBehavior": "Reference future content-fabric Secure Drop compose and inbox contracts by name only.",
+        "explicitlyForbiddenBehavior": [
+          "Secure Drop crypto",
+          "Secure Drop transport",
+          "stego",
+          "send/receive",
+          "inbox polling",
+          "file selection",
+          "filesystem scanning",
+          "secret/vault/env access",
+          "ST3GG vendoring"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires a later explicit content-fabric Secure Drop authorization phase.",
+          "Ardyn does not consume Secure Drop in Phase 5.46."
+        ]
+      },
+      {
+        "rowId": "locus.command-control-runtime-boundary",
+        "consumerId": "locus",
+        "consumerName": "Locus",
+        "touchpointName": "command/control runtime boundary",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "ardyn.command-control-runtime-authorization-contract",
+          "ardyn.command-exposure-precondition-contract",
+          "locus.control-surface-command-boundary-contract"
+        ],
+        "currentAllowedBehavior": "Document that Locus command/control runtime remains unavailable.",
+        "explicitlyForbiddenBehavior": [
+          "command exposure",
+          "runtime permission grant",
+          "runtime execution",
+          "process control",
+          "transcript runtime write",
+          "audit runtime write"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires explicit runtime enablement and command exposure authorization.",
+          "serve-runtime remains blocked, including dry-run."
+        ]
+      },
+      {
+        "rowId": "multiverse.world-project-orchestration-metadata",
+        "consumerId": "multiverse",
+        "consumerName": "Multiverse",
+        "touchpointName": "world/project orchestration metadata",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "multiverse.world-project-orchestration-metadata-contract",
+          "ardyn.world-project-wrapper-status-contract",
+          "ardyn.non-executing-orchestration-reference-contract"
+        ],
+        "currentAllowedBehavior": "Record static world/project orchestration metadata for future wrapper planning.",
+        "explicitlyForbiddenBehavior": [
+          "live registry connection",
+          "world mutation",
+          "project mutation",
+          "task execution",
+          "adapter runtime behavior"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires future Multiverse orchestration authorization before live registry or project writes.",
+          "Phase 5.46 does not connect to Multiverse."
+        ]
+      },
+      {
+        "rowId": "multiverse.visible-ai-capability-metadata",
+        "consumerId": "multiverse",
+        "consumerName": "Multiverse",
+        "touchpointName": "visible AI capability metadata",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "multiverse.visible-ai-capability-metadata-contract",
+          "ardyn.ai-capability-review-only-contract",
+          "ardyn.evaluator-non-execution-contract"
+        ],
+        "currentAllowedBehavior": "Expose AI capability labels and requirements for review-only planning.",
+        "explicitlyForbiddenBehavior": [
+          "model runtime",
+          "evaluator execution",
+          "evaluator result production",
+          "approval decision",
+          "approval grant"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires explicit evaluator and model-runtime authorization phases.",
+          "Current metadata cannot trigger AI execution."
+        ]
+      },
+      {
+        "rowId": "multiverse.task-capability-wrapper-metadata",
+        "consumerId": "multiverse",
+        "consumerName": "Multiverse",
+        "touchpointName": "task/capability wrapper metadata",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "multiverse.task-wrapper-metadata-contract",
+          "multiverse.capability-wrapper-metadata-contract",
+          "ardyn.task-capability-wrapper-boundary-contract"
+        ],
+        "currentAllowedBehavior": "Describe task and capability wrapper metadata without invoking tasks or MCP tools.",
+        "explicitlyForbiddenBehavior": [
+          "task execution",
+          "MCP execution",
+          "MCP tool exposure",
+          "connector grants",
+          "runtime command exposure"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires future task runtime and MCP authorization phases.",
+          "No MCP tool is exposed by Ardyn in Phase 5.46."
+        ]
+      },
+      {
+        "rowId": "multiverse.review-only-citizen-adapter-candidate-metadata",
+        "consumerId": "multiverse",
+        "consumerName": "Multiverse",
+        "touchpointName": "review-only citizen/adapter candidate metadata",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "multiverse.citizen-candidate-review-contract",
+          "multiverse.adapter-candidate-review-contract",
+          "ardyn.connector-grant-precondition-contract"
+        ],
+        "currentAllowedBehavior": "Record citizen/adapter candidates as review-only metadata for future consideration.",
+        "explicitlyForbiddenBehavior": [
+          "adapter runtime behavior",
+          "connector ingestion",
+          "connector grant",
+          "HTTP runtime",
+          "secret/vault/env access"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires explicit connector and adapter runtime authorization phases.",
+          "Candidate metadata is non-authorizing and cannot grant connector access."
+        ]
+      },
+      {
+        "rowId": "multiverse.registry-websocket-mcp-task-runtime-boundary",
+        "consumerId": "multiverse",
+        "consumerName": "Multiverse",
+        "touchpointName": "registry/websocket/MCP/task runtime boundary",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "multiverse.registry-runtime-authorization-contract",
+          "multiverse.websocket-runtime-authorization-contract",
+          "multiverse.mcp-task-runtime-authorization-contract",
+          "ardyn.runtime-boundary-contract"
+        ],
+        "currentAllowedBehavior": "Document that registry, websocket, MCP, and task runtime paths remain unavailable.",
+        "explicitlyForbiddenBehavior": [
+          "live registry connection",
+          "websocket runtime",
+          "HTTP runtime",
+          "MCP tool exposure",
+          "MCP execution",
+          "task execution"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires explicit registry, websocket, MCP, and task runtime authorization phases.",
+          "Fallow remains advisory only and Fallow Runtime is not used."
+        ]
+      },
+      {
+        "rowId": "multiverse.fabric-coordination-metadata",
+        "consumerId": "multiverse",
+        "consumerName": "Multiverse",
+        "touchpointName": "Fabric coordination metadata",
+        "readinessState": "future-contract-required-runtime-blocked",
+        "requiredFutureContracts": [
+          "multiverse.fabric-coordination-metadata-contract",
+          "ardyn.fabric-runtime-authorization-contract",
+          "content-fabric.runtime-behavior-authorization-contract"
+        ],
+        "currentAllowedBehavior": "Record Fabric coordination references as metadata only.",
+        "explicitlyForbiddenBehavior": [
+          "Fabric runtime surface",
+          "content-fabric runtime behavior",
+          "adapter runtime behavior",
+          "websocket/HTTP runtime",
+          "Secure Drop implementation"
+        ],
+        "authorizationFlags": {
+          "runtimeAuthorizationGranted": false,
+          "commandAuthorizationGranted": false,
+          "connectorAuthorizationGranted": false,
+          "fabricRuntimeAuthorizationGranted": false,
+          "webSocketRuntimeAuthorizationGranted": false,
+          "httpRuntimeAuthorizationGranted": false,
+          "mcpRuntimeAuthorizationGranted": false,
+          "mcpToolExposureAuthorizationGranted": false,
+          "taskRuntimeAuthorizationGranted": false,
+          "secureDropAuthorizationGranted": false,
+          "approvalGrantProduced": false,
+          "documentaryMetadataVisible": true
+        },
+        "blockerNotes": [
+          "Requires separate Fabric and content-fabric runtime authorization phases.",
+          "Secure Drop remains a future content-fabric capability reference only."
+        ]
+      }
+    ],
+    "matrixSummary": {
+      "consumerContractReadinessMatrixKind": "consumer-contract-readiness-matrix",
+      "consumerContractReadinessMatrixMode": "review-only",
+      "sourceTargetConsumerPlanningMetadataAccepted": true,
+      "targetConsumerIds": [
+        "locus",
+        "multiverse"
+      ],
+      "targetConsumerCount": 2,
+      "rowCount": 11,
+      "locusRowCount": 5,
+      "multiverseRowCount": 6,
+      "locusStatusControlSurfaceDisplayCovered": true,
+      "locusProcessToolCapabilityMetadataCovered": true,
+      "locusVisibleReviewArtifactsCovered": true,
+      "locusFutureSecureDropComposeInboxConsumerSurfaceCovered": true,
+      "locusCommandControlRuntimeBoundaryCovered": true,
+      "multiverseWorldProjectOrchestrationMetadataCovered": true,
+      "multiverseVisibleAiCapabilityMetadataCovered": true,
+      "multiverseTaskCapabilityWrapperMetadataCovered": true,
+      "multiverseReviewOnlyCitizenAdapterCandidateMetadataCovered": true,
+      "multiverseRegistryWebSocketMcpTaskRuntimeBoundaryCovered": true,
+      "multiverseFabricCoordinationMetadataCovered": true,
+      "metadataOnly": true,
+      "reviewOnly": true,
+      "authoritative": false,
+      "runtimeAuthorizationGranted": false,
+      "commandAuthorizationGranted": false,
+      "connectorAuthorizationGranted": false,
+      "fabricRuntimeAuthorizationGranted": false,
+      "webSocketRuntimeAuthorizationGranted": false,
+      "mcpRuntimeAuthorizationGranted": false,
+      "taskRuntimeAuthorizationGranted": false,
+      "secureDropAuthorizationGranted": false
+    },
+    "targetConsumerIds": [
+      "locus",
+      "multiverse"
+    ],
+    "consumerContractReadinessMatrixOnly": true,
+    "reviewOnly": true,
+    "authoritative": false,
+    "reviewArtifactOnly": true,
+    "consumerContractReadinessMatrixIsReviewerRouting": false,
+    "consumerContractReadinessMatrixIsReviewerAssignment": false,
+    "consumerContractReadinessMatrixIsEvaluatorExecution": false,
+    "consumerContractReadinessMatrixIsEvaluatorResult": false,
+    "consumerContractReadinessMatrixIsApprovalDecision": false,
+    "consumerContractReadinessMatrixIsApprovalGrant": false,
+    "commandRuntimeControlEnabled": false,
+    "commandExposurePermissionGranted": false,
+    "runtimePermissionGranted": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "reviewerRoutingPerformed": false,
+    "reviewerAssignmentPerformed": false,
+    "evaluatorExecutionPerformed": false,
+    "evaluatorResultProduced": false,
+    "approvalDecisionProduced": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "connectorGrantProduced": false,
+    "connectorIngestionAdded": false,
+    "liveRegistryConnectionEnabled": false,
+    "webSocketRuntimeEnabled": false,
+    "httpRuntimeEnabled": false,
+    "taskRuntimeExecutionEnabled": false,
+    "taskExecutionEnabled": false,
+    "mcpRuntimeExecutionEnabled": false,
+    "mcpToolExposureEnabled": false,
+    "fabricRuntimeSurfaceEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "secureDropImplemented": false,
+    "secureDropCryptoImplemented": false,
+    "secureDropTransportImplemented": false,
+    "secureDropStegoImplemented": false,
+    "secureDropSendReceiveImplemented": false,
+    "secureDropInboxPollingEnabled": false,
+    "fileSelectionEnabled": false,
+    "filesystemWatcherEnabled": false,
+    "filesystemScanningEnabled": false,
+    "secretVaultEnvAccessEnabled": false,
+    "st3ggVendored": false,
+    "processControlEnabled": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "transcriptRuntimeWritePerformed": false,
+    "auditRuntimeWritePerformed": false,
+    "runtimeEffect": {
+      "runtimeEnabled": false,
+      "runtimeStarted": false,
+      "runtimeReady": false,
+      "runtimeCommandEnabled": false,
+      "runtimeCommandExposureEnabled": false,
+      "runtimeExecutionEnabled": false,
+      "runtimeExecuted": false,
+      "approvalGrantProduced": false,
+      "approvalGrantPersisted": false,
+      "approvalEvaluatorAuthoritative": false
+    }
+  },
+  "sourceTargetConsumerPlanningMetadataSummary": {
+    "schema": "ardyn.phase-5.45.target-consumer-planning-metadata-state",
+    "stateKind": "target-consumer-planning-metadata-state",
+    "stateMode": "review-only",
+    "reviewedAt": "2026-06-19T00:00:00.000Z",
+    "stateDigest": "sha256:2fbcc3b6b9102ae1b576c5af606ccb399eb0a95f209919b2f9485b8592080b28",
+    "targetConsumerPlanningMetadataOnly": true,
+    "firstClassTargetConsumerIds": [
+      "locus",
+      "multiverse"
+    ],
+    "locusFirstClassTargetConsumer": true,
+    "multiverseFirstClassTargetConsumer": true,
+    "secureDropFutureContentFabricCapabilityReferenceOnly": true,
+    "runtimeEffectAllFalse": true
+  },
+  "matrixSummary": {
+    "consumerContractReadinessMatrixKind": "consumer-contract-readiness-matrix",
+    "consumerContractReadinessMatrixMode": "review-only",
+    "sourceTargetConsumerPlanningMetadataAccepted": true,
+    "targetConsumerIds": [
+      "locus",
+      "multiverse"
+    ],
+    "targetConsumerCount": 2,
+    "rowCount": 11,
+    "locusRowCount": 5,
+    "multiverseRowCount": 6,
+    "locusStatusControlSurfaceDisplayCovered": true,
+    "locusProcessToolCapabilityMetadataCovered": true,
+    "locusVisibleReviewArtifactsCovered": true,
+    "locusFutureSecureDropComposeInboxConsumerSurfaceCovered": true,
+    "locusCommandControlRuntimeBoundaryCovered": true,
+    "multiverseWorldProjectOrchestrationMetadataCovered": true,
+    "multiverseVisibleAiCapabilityMetadataCovered": true,
+    "multiverseTaskCapabilityWrapperMetadataCovered": true,
+    "multiverseReviewOnlyCitizenAdapterCandidateMetadataCovered": true,
+    "multiverseRegistryWebSocketMcpTaskRuntimeBoundaryCovered": true,
+    "multiverseFabricCoordinationMetadataCovered": true,
+    "metadataOnly": true,
+    "reviewOnly": true,
+    "authoritative": false,
+    "runtimeAuthorizationGranted": false,
+    "commandAuthorizationGranted": false,
+    "connectorAuthorizationGranted": false,
+    "fabricRuntimeAuthorizationGranted": false,
+    "webSocketRuntimeAuthorizationGranted": false,
+    "mcpRuntimeAuthorizationGranted": false,
+    "taskRuntimeAuthorizationGranted": false,
+    "secureDropAuthorizationGranted": false
+  },
+  "matrixRows": [
+    {
+      "rowId": "locus.status-control-surface-display",
+      "consumerId": "locus",
+      "consumerName": "Locus",
+      "touchpointName": "status/control-surface display",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "locus.status-control-surface.display-contract",
+        "ardyn.review-status.snapshot-contract",
+        "ardyn.control-surface-readonly-metadata-contract"
+      ],
+      "currentAllowedBehavior": "Display deterministic Ardyn status and control-surface metadata as review-only text.",
+      "explicitlyForbiddenBehavior": [
+        "command control",
+        "runtime control",
+        "process control",
+        "live status polling",
+        "approval grant persistence"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires a later explicit command/control authorization phase before any interactive Locus control surface can call Ardyn.",
+        "Current Phase 5.46 output is documentary metadata only."
+      ]
+    },
+    {
+      "rowId": "locus.process-tool-capability-metadata",
+      "consumerId": "locus",
+      "consumerName": "Locus",
+      "touchpointName": "process/tool capability metadata",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "locus.process-capability-metadata-contract",
+        "locus.tool-capability-metadata-contract",
+        "ardyn.non-executing-capability-display-contract"
+      ],
+      "currentAllowedBehavior": "Expose static process/tool capability labels for review without tool execution.",
+      "explicitlyForbiddenBehavior": [
+        "process spawn",
+        "process termination",
+        "tool invocation",
+        "stdin loop",
+        "stdout/stderr runtime writer"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires separate process-control and tool-execution authorization phases.",
+        "No process supervision or stdio runtime writer is introduced."
+      ]
+    },
+    {
+      "rowId": "locus.visible-review-artifacts",
+      "consumerId": "locus",
+      "consumerName": "Locus",
+      "touchpointName": "Locus-visible review artifacts",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "locus.review-artifact-display-contract",
+        "ardyn.review-artifact-index-contract",
+        "ardyn.review-only-artifact-provenance-contract"
+      ],
+      "currentAllowedBehavior": "List deterministic Ardyn review artifacts and provenance metadata for Locus-visible review.",
+      "explicitlyForbiddenBehavior": [
+        "reviewer routing",
+        "reviewer assignment",
+        "evaluator execution",
+        "evaluator result production",
+        "approval decision"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires future review routing and evaluator authorization phases before artifacts can drive assignment or decisions.",
+        "Current artifacts remain non-authoritative."
+      ]
+    },
+    {
+      "rowId": "locus.future-secure-drop-compose-inbox-surface",
+      "consumerId": "locus",
+      "consumerName": "Locus",
+      "touchpointName": "future Secure Drop compose/inbox consumer surface",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "content-fabric.secure-drop.compose-consumer-contract",
+        "content-fabric.secure-drop.inbox-consumer-contract",
+        "ardyn.future-secure-drop-consumer-boundary-contract"
+      ],
+      "currentAllowedBehavior": "Reference future content-fabric Secure Drop compose and inbox contracts by name only.",
+      "explicitlyForbiddenBehavior": [
+        "Secure Drop crypto",
+        "Secure Drop transport",
+        "stego",
+        "send/receive",
+        "inbox polling",
+        "file selection",
+        "filesystem scanning",
+        "secret/vault/env access",
+        "ST3GG vendoring"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires a later explicit content-fabric Secure Drop authorization phase.",
+        "Ardyn does not consume Secure Drop in Phase 5.46."
+      ]
+    },
+    {
+      "rowId": "locus.command-control-runtime-boundary",
+      "consumerId": "locus",
+      "consumerName": "Locus",
+      "touchpointName": "command/control runtime boundary",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "ardyn.command-control-runtime-authorization-contract",
+        "ardyn.command-exposure-precondition-contract",
+        "locus.control-surface-command-boundary-contract"
+      ],
+      "currentAllowedBehavior": "Document that Locus command/control runtime remains unavailable.",
+      "explicitlyForbiddenBehavior": [
+        "command exposure",
+        "runtime permission grant",
+        "runtime execution",
+        "process control",
+        "transcript runtime write",
+        "audit runtime write"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires explicit runtime enablement and command exposure authorization.",
+        "serve-runtime remains blocked, including dry-run."
+      ]
+    },
+    {
+      "rowId": "multiverse.world-project-orchestration-metadata",
+      "consumerId": "multiverse",
+      "consumerName": "Multiverse",
+      "touchpointName": "world/project orchestration metadata",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "multiverse.world-project-orchestration-metadata-contract",
+        "ardyn.world-project-wrapper-status-contract",
+        "ardyn.non-executing-orchestration-reference-contract"
+      ],
+      "currentAllowedBehavior": "Record static world/project orchestration metadata for future wrapper planning.",
+      "explicitlyForbiddenBehavior": [
+        "live registry connection",
+        "world mutation",
+        "project mutation",
+        "task execution",
+        "adapter runtime behavior"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires future Multiverse orchestration authorization before live registry or project writes.",
+        "Phase 5.46 does not connect to Multiverse."
+      ]
+    },
+    {
+      "rowId": "multiverse.visible-ai-capability-metadata",
+      "consumerId": "multiverse",
+      "consumerName": "Multiverse",
+      "touchpointName": "visible AI capability metadata",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "multiverse.visible-ai-capability-metadata-contract",
+        "ardyn.ai-capability-review-only-contract",
+        "ardyn.evaluator-non-execution-contract"
+      ],
+      "currentAllowedBehavior": "Expose AI capability labels and requirements for review-only planning.",
+      "explicitlyForbiddenBehavior": [
+        "model runtime",
+        "evaluator execution",
+        "evaluator result production",
+        "approval decision",
+        "approval grant"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires explicit evaluator and model-runtime authorization phases.",
+        "Current metadata cannot trigger AI execution."
+      ]
+    },
+    {
+      "rowId": "multiverse.task-capability-wrapper-metadata",
+      "consumerId": "multiverse",
+      "consumerName": "Multiverse",
+      "touchpointName": "task/capability wrapper metadata",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "multiverse.task-wrapper-metadata-contract",
+        "multiverse.capability-wrapper-metadata-contract",
+        "ardyn.task-capability-wrapper-boundary-contract"
+      ],
+      "currentAllowedBehavior": "Describe task and capability wrapper metadata without invoking tasks or MCP tools.",
+      "explicitlyForbiddenBehavior": [
+        "task execution",
+        "MCP execution",
+        "MCP tool exposure",
+        "connector grants",
+        "runtime command exposure"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires future task runtime and MCP authorization phases.",
+        "No MCP tool is exposed by Ardyn in Phase 5.46."
+      ]
+    },
+    {
+      "rowId": "multiverse.review-only-citizen-adapter-candidate-metadata",
+      "consumerId": "multiverse",
+      "consumerName": "Multiverse",
+      "touchpointName": "review-only citizen/adapter candidate metadata",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "multiverse.citizen-candidate-review-contract",
+        "multiverse.adapter-candidate-review-contract",
+        "ardyn.connector-grant-precondition-contract"
+      ],
+      "currentAllowedBehavior": "Record citizen/adapter candidates as review-only metadata for future consideration.",
+      "explicitlyForbiddenBehavior": [
+        "adapter runtime behavior",
+        "connector ingestion",
+        "connector grant",
+        "HTTP runtime",
+        "secret/vault/env access"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires explicit connector and adapter runtime authorization phases.",
+        "Candidate metadata is non-authorizing and cannot grant connector access."
+      ]
+    },
+    {
+      "rowId": "multiverse.registry-websocket-mcp-task-runtime-boundary",
+      "consumerId": "multiverse",
+      "consumerName": "Multiverse",
+      "touchpointName": "registry/websocket/MCP/task runtime boundary",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "multiverse.registry-runtime-authorization-contract",
+        "multiverse.websocket-runtime-authorization-contract",
+        "multiverse.mcp-task-runtime-authorization-contract",
+        "ardyn.runtime-boundary-contract"
+      ],
+      "currentAllowedBehavior": "Document that registry, websocket, MCP, and task runtime paths remain unavailable.",
+      "explicitlyForbiddenBehavior": [
+        "live registry connection",
+        "websocket runtime",
+        "HTTP runtime",
+        "MCP tool exposure",
+        "MCP execution",
+        "task execution"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires explicit registry, websocket, MCP, and task runtime authorization phases.",
+        "Fallow remains advisory only and Fallow Runtime is not used."
+      ]
+    },
+    {
+      "rowId": "multiverse.fabric-coordination-metadata",
+      "consumerId": "multiverse",
+      "consumerName": "Multiverse",
+      "touchpointName": "Fabric coordination metadata",
+      "readinessState": "future-contract-required-runtime-blocked",
+      "requiredFutureContracts": [
+        "multiverse.fabric-coordination-metadata-contract",
+        "ardyn.fabric-runtime-authorization-contract",
+        "content-fabric.runtime-behavior-authorization-contract"
+      ],
+      "currentAllowedBehavior": "Record Fabric coordination references as metadata only.",
+      "explicitlyForbiddenBehavior": [
+        "Fabric runtime surface",
+        "content-fabric runtime behavior",
+        "adapter runtime behavior",
+        "websocket/HTTP runtime",
+        "Secure Drop implementation"
+      ],
+      "authorizationFlags": {
+        "runtimeAuthorizationGranted": false,
+        "commandAuthorizationGranted": false,
+        "connectorAuthorizationGranted": false,
+        "fabricRuntimeAuthorizationGranted": false,
+        "webSocketRuntimeAuthorizationGranted": false,
+        "httpRuntimeAuthorizationGranted": false,
+        "mcpRuntimeAuthorizationGranted": false,
+        "mcpToolExposureAuthorizationGranted": false,
+        "taskRuntimeAuthorizationGranted": false,
+        "secureDropAuthorizationGranted": false,
+        "approvalGrantProduced": false,
+        "documentaryMetadataVisible": true
+      },
+      "blockerNotes": [
+        "Requires separate Fabric and content-fabric runtime authorization phases.",
+        "Secure Drop remains a future content-fabric capability reference only."
+      ]
+    }
+  ],
+  "targetConsumerIds": [
+    "locus",
+    "multiverse"
+  ],
+  "reviewOnly": true,
+  "authoritative": false,
+  "reviewArtifactOnly": true,
+  "consumerContractReadinessMatrixOnly": true,
+  "consumerContractReadinessMatrixIsReviewerRouting": false,
+  "consumerContractReadinessMatrixIsReviewerAssignment": false,
+  "consumerContractReadinessMatrixIsEvaluatorExecution": false,
+  "consumerContractReadinessMatrixIsEvaluatorResult": false,
+  "consumerContractReadinessMatrixIsApprovalDecision": false,
+  "consumerContractReadinessMatrixIsApprovalGrant": false,
+  "commandRuntimeControlEnabled": false,
+  "commandExposurePermissionGranted": false,
+  "runtimePermissionGranted": false,
+  "runtimeCommandExposureEnabled": false,
+  "runtimeExecutionEnabled": false,
+  "reviewerRoutingPerformed": false,
+  "reviewerAssignmentPerformed": false,
+  "evaluatorExecutionPerformed": false,
+  "evaluatorResultProduced": false,
+  "approvalDecisionProduced": false,
+  "approvalGrantProduced": false,
+  "approvalGrantPersisted": false,
+  "connectorGrantProduced": false,
+  "connectorIngestionAdded": false,
+  "liveRegistryConnectionEnabled": false,
+  "webSocketRuntimeEnabled": false,
+  "httpRuntimeEnabled": false,
+  "taskRuntimeExecutionEnabled": false,
+  "taskExecutionEnabled": false,
+  "mcpRuntimeExecutionEnabled": false,
+  "mcpToolExposureEnabled": false,
+  "fabricRuntimeSurfaceEnabled": false,
+  "contentFabricRuntimeBehaviorEnabled": false,
+  "adapterRuntimeBehaviorEnabled": false,
+  "secureDropImplemented": false,
+  "secureDropCryptoImplemented": false,
+  "secureDropTransportImplemented": false,
+  "secureDropStegoImplemented": false,
+  "secureDropSendReceiveImplemented": false,
+  "secureDropInboxPollingEnabled": false,
+  "fileSelectionEnabled": false,
+  "filesystemWatcherEnabled": false,
+  "filesystemScanningEnabled": false,
+  "secretVaultEnvAccessEnabled": false,
+  "st3ggVendored": false,
+  "processControlEnabled": false,
+  "liveStdinLoopEnabled": false,
+  "runtimeStdoutWriterEnabled": false,
+  "runtimeStderrWriterEnabled": false,
+  "transcriptRuntimeWritePerformed": false,
+  "auditRuntimeWritePerformed": false,
+  "rejectionReasons": [
+    "consumer_contract_readiness_matrix_is_review_only",
+    "locus_and_multiverse_touchpoints_mapped_to_future_contracts",
+    "runtime_command_connector_fabric_websocket_mcp_task_secure_drop_authorizations_false",
+    "secure_drop_is_future_content_fabric_capability_reference_only",
+    "fallow_runtime_not_used",
+    "runtime_enablement_still_blocked"
+  ],
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalEvaluatorAuthoritative": false
+  }
+}

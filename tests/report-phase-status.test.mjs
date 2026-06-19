@@ -3786,6 +3786,76 @@ const phase545SafetyFlagNames = [
   ...phase545ExpectedTrueSafetyFlagNames,
   ...phase545ExpectedFalseSafetyFlagNames
 ];
+const phase546DocFiles = [
+  "docs/phase-5-46-consumer-contract-readiness-matrix.md",
+  "docs/phase-5-45-target-consumer-planning-metadata.md"
+];
+const phase546CrossLinks = [
+  "docs/phase-5-45-target-consumer-planning-metadata.md",
+  "docs/phase-5-46-consumer-contract-readiness-matrix.md"
+];
+const phase546ExpectedTrueSafetyFlagNames = [
+  "phase546ConsumerContractReadinessMatrixRecorded",
+  "phase546ConsumerContractReadinessMatrixReviewOnly",
+  "phase546ConsumerContractReadinessMatrixProduced",
+  "phase546LocusTouchpointsCovered",
+  "phase546MultiverseTouchpointsCovered",
+  "phase546SecureDropFutureContentFabricCapabilityReferenceOnly",
+  "phase546ServeRuntimeStillDefaultBlocked"
+];
+const phase546ExpectedFalseSafetyFlagNames = [
+  "phase546FallowRuntimeUsed",
+  "phase546ConsumerContractReadinessMatrixAuthoritative",
+  "phase546CommandRuntimeControlEnabled",
+  "phase546RuntimePermissionGranted",
+  "phase546CommandExposurePermissionGranted",
+  "phase546RuntimeCommandExposureEnabled",
+  "phase546RuntimeExecutionEnabled",
+  "phase546ReviewerRoutingPerformed",
+  "phase546ReviewerAssignmentPerformed",
+  "phase546EvaluatorExecutionPerformed",
+  "phase546EvaluatorResultProduced",
+  "phase546ApprovalDecisionProduced",
+  "phase546ApprovalGrantProduced",
+  "phase546ApprovalGrantPersisted",
+  "phase546ConnectorGrantProduced",
+  "phase546ConnectorIngestionAdded",
+  "phase546LiveRegistryConnectionEnabled",
+  "phase546WebSocketRuntimeEnabled",
+  "phase546HttpRuntimeEnabled",
+  "phase546TaskRuntimeExecutionEnabled",
+  "phase546TaskExecutionEnabled",
+  "phase546McpRuntimeExecutionEnabled",
+  "phase546McpToolExposureEnabled",
+  "phase546FabricRuntimeSurfaceEnabled",
+  "phase546ContentFabricRuntimeBehaviorEnabled",
+  "phase546AdapterRuntimeBehaviorEnabled",
+  "phase546SecureDropImplemented",
+  "phase546SecureDropCryptoImplemented",
+  "phase546SecureDropTransportImplemented",
+  "phase546SecureDropStegoImplemented",
+  "phase546SecureDropSendReceiveImplemented",
+  "phase546SecureDropInboxPollingEnabled",
+  "phase546FileSelectionEnabled",
+  "phase546FilesystemWatcherEnabled",
+  "phase546FilesystemScanningEnabled",
+  "phase546SecretVaultEnvAccessEnabled",
+  "phase546St3ggVendored",
+  "phase546ProcessControlEnabled",
+  "phase546LiveStdinLoopEnabled",
+  "phase546RuntimeStdoutWriterEnabled",
+  "phase546RuntimeStderrWriterEnabled",
+  "phase546RuntimeTranscriptWritePerformed",
+  "phase546RuntimeAuditWritePerformed",
+  "phase546DryRunBypassesBlock",
+  "phase546CliSourceChanged",
+  "phase546RustSourceChanged",
+  "phase546FabricSourceChanged"
+];
+const phase546SafetyFlagNames = [
+  ...phase546ExpectedTrueSafetyFlagNames,
+  ...phase546ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -3920,15 +3990,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.45 target-consumer planning metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.46 consumer contract readiness matrix and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.45",
-    name: "Locus and Multiverse target consumer planning metadata",
+    id: "5.46",
+    name: "Locus and Multiverse consumer contract readiness matrix",
     executionPosture:
-      "target-consumer-planning-metadata runtime-disabled no-new-runtime-capability no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-connector-grant no-fabric-runtime no-secure-drop-runtime"
+      "consumer-contract-readiness-matrix runtime-disabled no-new-runtime-capability no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-connector-grant no-fabric-runtime no-websocket-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -3991,15 +4061,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.45 target-consumer planning metadata status report."
+    "Render this deterministic local Phase 5.46 consumer contract readiness matrix status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.45 status report."
+    "Run focused tests for this local Phase 5.46 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.45 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.46 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-46-consumer-contract-readiness-matrix.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.46 Locus/Multiverse consumer contract readiness matrix and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -19542,6 +19618,149 @@ test("report inventories Phase 5.45 as Locus/Multiverse target-consumer planning
   assertSafetyFlags(report, phase545ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.46 as Locus/Multiverse consumer contract readiness matrix", async () => {
+  const report = await runReport();
+  const inventory = report.phase546ConsumerContractReadinessMatrixInventory;
+  const rows = new Map(inventory.matrixRows.map((row) => [row.rowId, row]));
+
+  assert.equal(inventory.statusLayer.layerId, "consumer-contract-readiness-matrix");
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase546DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase546CrossLinks);
+  assert.deepEqual(inventory.statusLayer.targetConsumerIds, [
+    "locus",
+    "multiverse"
+  ]);
+  assert.equal(inventory.statusLayer.rowCount, 11);
+  assert.equal(inventory.statusLayer.locusRowCount, 5);
+  assert.equal(inventory.statusLayer.multiverseRowCount, 6);
+  assert.equal(inventory.statusLayer.locusTouchpointsCovered, true);
+  assert.equal(inventory.statusLayer.multiverseTouchpointsCovered, true);
+  assert.equal(
+    inventory.statusLayer.secureDropFutureContentFabricCapabilityReferenceOnly,
+    true
+  );
+  assert.equal(inventory.statusLayer.commandRuntimeControlEnabled, false);
+  assert.equal(inventory.statusLayer.connectorGrantProduced, false);
+  assert.equal(inventory.statusLayer.webSocketRuntimeEnabled, false);
+  assert.equal(inventory.statusLayer.taskRuntimeExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.taskExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.mcpRuntimeExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.mcpToolExposureEnabled, false);
+  assert.equal(inventory.statusLayer.fabricRuntimeSurfaceEnabled, false);
+  assert.equal(inventory.statusLayer.contentFabricRuntimeBehaviorEnabled, false);
+  assert.equal(inventory.statusLayer.secureDropImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropCryptoImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropTransportImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropStegoImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropSendReceiveImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropInboxPollingEnabled, false);
+  assert.equal(inventory.statusLayer.fileSelectionEnabled, false);
+  assert.equal(inventory.statusLayer.filesystemScanningEnabled, false);
+  assert.equal(inventory.statusLayer.secretVaultEnvAccessEnabled, false);
+  assert.equal(inventory.statusLayer.st3ggVendored, false);
+  assert.equal(inventory.statusLayer.fallowRuntimeUsed, false);
+  assert.equal(inventory.statusLayer.cliSourceChanged, false);
+  assert.equal(inventory.statusLayer.rustSourceChanged, false);
+  assert.equal(inventory.statusLayer.fabricSourceChanged, false);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-46/consumer-contract-readiness-matrix.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/phase5-46-consumer-contract-readiness-matrix.test.mjs",
+        "present"
+      ],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.equal(inventory.ownershipBoundary.mcpToolExposureAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fallowRuntimeUsedByThisPhase, false);
+  assert.equal(
+    inventory.sourceTargetConsumerPlanningMetadataSummary.schema,
+    "ardyn.phase-5.45.target-consumer-planning-metadata-state"
+  );
+  assert.equal(
+    inventory.consumerContractReadinessMatrix.schema,
+    "ardyn.phase-5.46.consumer-contract-readiness-matrix-state"
+  );
+  assert.deepEqual(inventory.consumerContractReadinessMatrix.targetConsumerIds, [
+    "locus",
+    "multiverse"
+  ]);
+  assert.deepEqual([...rows.keys()], [
+    "locus.status-control-surface-display",
+    "locus.process-tool-capability-metadata",
+    "locus.visible-review-artifacts",
+    "locus.future-secure-drop-compose-inbox-surface",
+    "locus.command-control-runtime-boundary",
+    "multiverse.world-project-orchestration-metadata",
+    "multiverse.visible-ai-capability-metadata",
+    "multiverse.task-capability-wrapper-metadata",
+    "multiverse.review-only-citizen-adapter-candidate-metadata",
+    "multiverse.registry-websocket-mcp-task-runtime-boundary",
+    "multiverse.fabric-coordination-metadata"
+  ]);
+  for (const row of rows.values()) {
+    assert.equal(row.readinessState, "future-contract-required-runtime-blocked");
+    assert.equal(row.authorizationFlags.documentaryMetadataVisible, true);
+    for (const [key, value] of Object.entries(row.authorizationFlags)) {
+      if (key !== "documentaryMetadataVisible") {
+        assert.equal(value, false, `${row.rowId}.${key}`);
+      }
+    }
+  }
+  assert.ok(
+    rows
+      .get("locus.future-secure-drop-compose-inbox-surface")
+      .requiredFutureContracts.includes(
+        "content-fabric.secure-drop.compose-consumer-contract"
+      )
+  );
+  assert.ok(
+    rows
+      .get("multiverse.registry-websocket-mcp-task-runtime-boundary")
+      .explicitlyForbiddenBehavior.includes("MCP tool exposure")
+  );
+  assert.ok(
+    rows
+      .get("multiverse.fabric-coordination-metadata")
+      .explicitlyForbiddenBehavior.includes("Fabric runtime surface")
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assertAllFalse(inventory.forbiddenBehavior);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.defaultBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBypassesBlock, false);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-46-consumer-contract-readiness-matrix.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, [
+    "semgrep --config auto ."
+  ]);
+  assert.equal(report.safetyPosture.phase546ConsumerContractReadinessMatrix, true);
+  assertSafetyFlags(report, phase546ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase546ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -20447,7 +20666,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase542SafetyFlagNames,
     ...phase543SafetyFlagNames,
     ...phase544SafetyFlagNames,
-    ...phase545SafetyFlagNames
+    ...phase545SafetyFlagNames,
+    ...phase546SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -20506,6 +20726,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase544ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase545ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase545ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase546ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase546ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

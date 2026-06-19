@@ -232,6 +232,11 @@ export const TARGET_CONSUMER_PLANNING_METADATA_SCHEMA =
 export const TARGET_CONSUMER_PLANNING_METADATA_VERSION = "0.1.0";
 export const TARGET_CONSUMER_PLANNING_METADATA_KIND =
   "target-consumer-planning-metadata";
+export const CONSUMER_CONTRACT_READINESS_MATRIX_SCHEMA =
+  "ardyn.phase-5.46.consumer-contract-readiness-matrix-result";
+export const CONSUMER_CONTRACT_READINESS_MATRIX_VERSION = "0.1.0";
+export const CONSUMER_CONTRACT_READINESS_MATRIX_KIND =
+  "consumer-contract-readiness-matrix";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -28282,6 +28287,1040 @@ export function createTargetConsumerPlanningMetadataForReview(input = {}) {
     accepted,
     targetConsumerPlanningMetadata,
     sourceConsolidationMetadataCheckpointSummary
+  });
+}
+
+const CONSUMER_CONTRACT_READINESS_MATRIX_STATE_SCHEMA =
+  "ardyn.phase-5.46.consumer-contract-readiness-matrix-state";
+const VALID_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION =
+  "valid_consumer_contract_readiness_matrix_runtime_still_blocked";
+const MALFORMED_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION =
+  "malformed_consumer_contract_readiness_matrix_input_rejected";
+const MISMATCHED_SOURCE_DIGEST_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION =
+  "mismatched_source_digest_consumer_contract_readiness_matrix_input_rejected";
+
+const CONSUMER_CONTRACT_READINESS_MATRIX_SOURCE_LITERAL_FIELDS = Object.freeze([
+  ["schema", TARGET_CONSUMER_PLANNING_METADATA_STATE_SCHEMA],
+  ["schemaVersion", TARGET_CONSUMER_PLANNING_METADATA_VERSION],
+  ["stateKind", "target-consumer-planning-metadata-state"],
+  ["stateMode", "review-only"],
+  ["targetConsumerPlanningMetadataOnly", true],
+  ["reviewOnly", true],
+  ["authoritative", false],
+  ["reviewArtifactOnly", true]
+]);
+
+const CONSUMER_CONTRACT_READINESS_MATRIX_SOURCE_FALSE_FIELDS = Object.freeze([
+  "targetConsumerPlanningMetadataIsReviewerRouting",
+  "targetConsumerPlanningMetadataIsReviewerAssignment",
+  "targetConsumerPlanningMetadataIsEvaluatorExecution",
+  "targetConsumerPlanningMetadataIsEvaluatorResult",
+  "targetConsumerPlanningMetadataIsApprovalDecision",
+  "targetConsumerPlanningMetadataIsApprovalGrant",
+  ...Object.keys(targetConsumerPlanningMetadataForbiddenBehavior())
+]);
+
+const CONSUMER_CONTRACT_READINESS_MATRIX_REVIEWER_ROUTING_TRUE_FIELDS =
+  Object.freeze([
+    "consumerContractReadinessMatrixIsReviewerRouting",
+    "reviewerRoutingPerformed",
+    "reviewerRoutingEnabled"
+  ]);
+const CONSUMER_CONTRACT_READINESS_MATRIX_REVIEWER_ASSIGNMENT_TRUE_FIELDS =
+  Object.freeze([
+    "consumerContractReadinessMatrixIsReviewerAssignment",
+    "reviewerAssignmentPerformed",
+    "reviewerAssignmentEnabled"
+  ]);
+const CONSUMER_CONTRACT_READINESS_MATRIX_EVALUATOR_EXECUTION_TRUE_FIELDS =
+  Object.freeze([
+    "consumerContractReadinessMatrixIsEvaluatorExecution",
+    "evaluatorExecutionPerformed",
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecuted"
+  ]);
+const CONSUMER_CONTRACT_READINESS_MATRIX_EVALUATOR_RESULT_TRUE_FIELDS =
+  Object.freeze([
+    "consumerContractReadinessMatrixIsEvaluatorResult",
+    "evaluatorResultProduced",
+    "evaluatorResultPersisted"
+  ]);
+const CONSUMER_CONTRACT_READINESS_MATRIX_APPROVAL_DECISION_TRUE_FIELDS =
+  Object.freeze([
+    "consumerContractReadinessMatrixIsApprovalDecision",
+    "approvalDecisionProduced",
+    "approvalDecisionPersisted"
+  ]);
+const CONSUMER_CONTRACT_READINESS_MATRIX_GRANT_TRUE_FIELDS = Object.freeze([
+  "consumerContractReadinessMatrixIsApprovalGrant",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "connectorGrantProduced",
+  "connectorPermissionGranted",
+  "connectorAccessGranted"
+]);
+const CONSUMER_CONTRACT_READINESS_MATRIX_RUNTIME_PERMISSION_TRUE_FIELDS =
+  Object.freeze([
+    "runtimePermissionGranted",
+    "runtimeEnablementApproved",
+    "canEnableRuntime"
+  ]);
+const CONSUMER_CONTRACT_READINESS_MATRIX_COMMAND_EXPOSURE_TRUE_FIELDS =
+  Object.freeze([
+    "commandExposurePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "commandControlEnabled"
+  ]);
+const CONSUMER_CONTRACT_READINESS_MATRIX_PROCESS_TRUE_FIELDS = Object.freeze([
+  "processControlEnabled",
+  "processSpawnEnabled",
+  "processTerminationEnabled",
+  "runtimeSupervisionEnabled"
+]);
+const CONSUMER_CONTRACT_READINESS_MATRIX_UNSAFE_RUNTIME_TRUE_FIELDS =
+  Object.freeze([
+    "runtimeEnabled",
+    "runtimeStarted",
+    "runtimeReady",
+    "runtimeCommandEnabled",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "runtimeExecuted",
+    "liveRegistryConnectionEnabled",
+    "webSocketRuntimeEnabled",
+    "httpRuntimeEnabled",
+    "taskRuntimeExecutionEnabled",
+    "taskExecutionEnabled",
+    "mcpRuntimeExecutionEnabled",
+    "mcpExecutionEnabled",
+    "mcpToolExposureEnabled",
+    "fabricRuntimeSurfaceEnabled",
+    "contentFabricRuntimeBehaviorEnabled",
+    "adapterRuntimeBehaviorEnabled",
+    "filesystemWatcherEnabled",
+    "externalSourceLookupEnabled",
+    "fileSelectionEnabled",
+    "filesystemScanningEnabled",
+    "connectorIngestionAdded",
+    "secretVaultEnvAccessEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "st3ggVendored",
+    "transcriptRuntimeWritePerformed",
+    "auditRuntimeWritePerformed",
+    "runtimeStdoutWriterEnabled",
+    "runtimeStderrWriterEnabled",
+    "liveStdinLoopEnabled"
+  ]);
+
+function consumerContractReadinessMatrixInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function consumerContractReadinessMatrixReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function consumerContractReadinessMatrixInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt))
+  );
+}
+
+function consumerContractReadinessMatrixEntries(inputRecord) {
+  return inputRecord === null
+    ? undefined
+    : inputRecord.targetConsumerPlanningMetadataEntries;
+}
+
+function consumerContractReadinessMatrixSourceDigest(inputRecord) {
+  return inputRecord === null
+    ? undefined
+    : inputRecord.sourceTargetConsumerPlanningMetadataDigest;
+}
+
+function consumerContractReadinessMatrixDigestMissing(inputRecord) {
+  return (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(
+      inputRecord,
+      "sourceTargetConsumerPlanningMetadataDigest"
+    )
+  );
+}
+
+function consumerContractReadinessMatrixSourceDigestMatches(
+  sourceStates,
+  sourceDigest
+) {
+  return (
+    Array.isArray(sourceStates) &&
+    sourceStates.length === 1 &&
+    isPlainObjectRecord(sourceStates[0]) &&
+    sourceDigest === reviewArtifactHandoffDigest(sourceStates[0])
+  );
+}
+
+function consumerContractReadinessMatrixSourceConsumerById(sourceState, id) {
+  return Array.isArray(sourceState.targetConsumers)
+    ? sourceState.targetConsumers.find((consumer) => consumer.consumerId === id)
+    : undefined;
+}
+
+function consumerContractReadinessMatrixSourceValid(sourceState) {
+  const locus = consumerContractReadinessMatrixSourceConsumerById(
+    sourceState,
+    "locus"
+  );
+  const multiverse = consumerContractReadinessMatrixSourceConsumerById(
+    sourceState,
+    "multiverse"
+  );
+
+  return (
+    isPlainObjectRecord(sourceState) &&
+    isUtcIsoTimestampWithMilliseconds(sourceState.reviewedAt) &&
+    reviewOnlyInspectionHandoffMetadataBoundaryFieldsEqual(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_SOURCE_LITERAL_FIELDS
+    ) &&
+    CONSUMER_CONTRACT_READINESS_MATRIX_SOURCE_FALSE_FIELDS.every(
+      (field) => sourceState[field] === false
+    ) &&
+    isPlainObjectRecord(sourceState.primaryHarnessLayer) &&
+    sourceState.primaryHarnessLayer.product === "Ardyn" &&
+    sourceState.primaryHarnessLayer.primaryHarnessForRepoFamily === true &&
+    sourceState.primaryHarnessLayer.planningMetadataOnly === true &&
+    sourceState.primaryHarnessLayer.runtimeBlocked === true &&
+    Array.isArray(sourceState.primaryHarnessLayer.firstClassTargetConsumers) &&
+    sourceState.primaryHarnessLayer.firstClassTargetConsumers.length === 2 &&
+    sourceState.primaryHarnessLayer.firstClassTargetConsumers[0] === "locus" &&
+    sourceState.primaryHarnessLayer.firstClassTargetConsumers[1] ===
+      "multiverse" &&
+    Array.isArray(sourceState.targetConsumerIds) &&
+    sourceState.targetConsumerIds.length === 2 &&
+    sourceState.targetConsumerIds[0] === "locus" &&
+    sourceState.targetConsumerIds[1] === "multiverse" &&
+    isPlainObjectRecord(locus) &&
+    locus.firstClassTargetConsumer === true &&
+    isPlainObjectRecord(locus.statusControlSurfaceContracts) &&
+    locus.statusControlSurfaceContracts.commandControlEnabled === false &&
+    locus.statusControlSurfaceContracts.runtimeControlEnabled === false &&
+    isPlainObjectRecord(locus.processToolCapabilityMetadata) &&
+    locus.processToolCapabilityMetadata.processControlEnabled === false &&
+    locus.processToolCapabilityMetadata.toolExecutionEnabled === false &&
+    isPlainObjectRecord(locus.secureDropFutureContractReferences) &&
+    locus.secureDropFutureContractReferences.canonicalCapabilityOwner ===
+      "content-fabric" &&
+    locus.secureDropFutureContractReferences.ardynConsumesNow === false &&
+    isPlainObjectRecord(multiverse) &&
+    multiverse.firstClassTargetConsumer === true &&
+    isPlainObjectRecord(multiverse.worldProjectOrchestrationContracts) &&
+    multiverse.worldProjectOrchestrationContracts
+      .liveRegistryConnectionEnabled === false &&
+    multiverse.worldProjectOrchestrationContracts.liveTaskExecutionEnabled ===
+      false &&
+    isPlainObjectRecord(multiverse.taskCapabilityWrapperContracts) &&
+    multiverse.taskCapabilityWrapperContracts.taskExecutionEnabled === false &&
+    multiverse.taskCapabilityWrapperContracts.mcpExecutionEnabled === false &&
+    isPlainObjectRecord(multiverse.fabricCoordinationMetadata) &&
+    multiverse.fabricCoordinationMetadata.fabricRuntimeSurfaceEnabled ===
+      false &&
+    multiverse.fabricCoordinationMetadata
+      .contentFabricRuntimeBehaviorEnabled === false &&
+    isPlainObjectRecord(sourceState.secureDropFutureCapability) &&
+    sourceState.secureDropFutureCapability.canonicalCapability ===
+      "content-fabric.secure-drop" &&
+    sourceState.secureDropFutureCapability.ardynConsumesNow === false &&
+    sourceState.secureDropFutureCapability.cryptoImplemented === false &&
+    sourceState.secureDropFutureCapability.transportImplemented === false &&
+    sourceState.secureDropFutureCapability.stegoImplemented === false &&
+    sourceState.secureDropFutureCapability.sendReceiveImplemented === false &&
+    sourceState.secureDropFutureCapability.inboxPollingImplemented === false &&
+    sourceState.secureDropFutureCapability.fileSelectionImplemented === false &&
+    sourceState.secureDropFutureCapability.filesystemScanningImplemented ===
+      false &&
+    sourceState.secureDropFutureCapability.connectorIngestionImplemented ===
+      false &&
+    sourceState.secureDropFutureCapability.secretVaultEnvAccessImplemented ===
+      false &&
+    sourceState.secureDropFutureCapability.st3ggVendored === false &&
+    reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse(
+      sourceState.runtimeEffect
+    )
+  );
+}
+
+function consumerContractReadinessMatrixKeyTruePresent(sourceState, fields) {
+  return reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(
+    sourceState,
+    fields
+  );
+}
+
+function consumerContractReadinessMatrixUnsafeRuntimeSignal(sourceState) {
+  return (
+    consumerContractReadinessMatrixKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_UNSAFE_RUNTIME_TRUE_FIELDS
+    ) ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_PROCESS_TRUE_FIELDS
+    )
+  );
+}
+
+function consumerContractReadinessMatrixSingleClassification(sourceState) {
+  if (
+    consumerContractReadinessMatrixKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_GRANT_TRUE_FIELDS
+    )
+  ) {
+    return "grant_looking_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (
+    consumerContractReadinessMatrixKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_APPROVAL_DECISION_TRUE_FIELDS
+    )
+  ) {
+    return "approval_decision_looking_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (
+    consumerContractReadinessMatrixKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_EVALUATOR_RESULT_TRUE_FIELDS
+    )
+  ) {
+    return "evaluator_result_looking_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (
+    consumerContractReadinessMatrixKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_EVALUATOR_EXECUTION_TRUE_FIELDS
+    )
+  ) {
+    return "evaluator_execution_looking_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (
+    consumerContractReadinessMatrixKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_REVIEWER_ROUTING_TRUE_FIELDS
+    )
+  ) {
+    return "reviewer_routing_looking_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (
+    consumerContractReadinessMatrixKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_REVIEWER_ASSIGNMENT_TRUE_FIELDS
+    )
+  ) {
+    return "reviewer_assignment_looking_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (
+    consumerContractReadinessMatrixKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_RUNTIME_PERMISSION_TRUE_FIELDS
+    )
+  ) {
+    return "runtime_permission_looking_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (
+    consumerContractReadinessMatrixKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_COMMAND_EXPOSURE_TRUE_FIELDS
+    )
+  ) {
+    return "command_exposure_looking_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (
+    isPlainObjectRecord(sourceState) &&
+    isPlainObjectRecord(sourceState.runtimeEffect) &&
+    !reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse(
+      sourceState.runtimeEffect
+    )
+  ) {
+    return "runtime_effect_true_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (
+    consumerContractReadinessMatrixKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_READINESS_MATRIX_PROCESS_TRUE_FIELDS
+    )
+  ) {
+    return "process_flag_true_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (consumerContractReadinessMatrixUnsafeRuntimeSignal(sourceState)) {
+    return "execution_signal_looking_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  return consumerContractReadinessMatrixSourceValid(sourceState)
+    ? VALID_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION
+    : MALFORMED_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION;
+}
+
+function consumerContractReadinessMatrixInputRejection(sourceStates) {
+  if (sourceStates === undefined) {
+    return "missing_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (!Array.isArray(sourceStates)) {
+    return MALFORMED_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION;
+  }
+
+  if (sourceStates.length === 0) {
+    return "empty_consumer_contract_readiness_matrix_input_rejected";
+  }
+
+  if (sourceStates.some((entry) => !isPlainObjectRecord(entry))) {
+    return MALFORMED_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION;
+  }
+
+  return sourceStates.length > 1
+    ? "duplicate_invalid_consumer_contract_readiness_matrix_input_rejected"
+    : undefined;
+}
+
+function consumerContractReadinessMatrixInputClassification({
+  inputRecord,
+  sourceStates,
+  sourceDigest
+}) {
+  if (consumerContractReadinessMatrixInputMalformed(inputRecord)) {
+    return MALFORMED_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION;
+  }
+
+  const inputRejection =
+    consumerContractReadinessMatrixInputRejection(sourceStates);
+
+  if (inputRejection !== undefined) {
+    return inputRejection;
+  }
+
+  if (
+    consumerContractReadinessMatrixDigestMissing(inputRecord) ||
+    !reviewOnlyMetadataHandoffCheckpointDigestString(sourceDigest)
+  ) {
+    return MALFORMED_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION;
+  }
+
+  if (
+    !consumerContractReadinessMatrixSourceDigestMatches(
+      sourceStates,
+      sourceDigest
+    )
+  ) {
+    return MISMATCHED_SOURCE_DIGEST_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION;
+  }
+
+  return consumerContractReadinessMatrixSingleClassification(sourceStates[0]);
+}
+
+function consumerContractReadinessMatrixAuthorizationFlags() {
+  return {
+    runtimeAuthorizationGranted: false,
+    commandAuthorizationGranted: false,
+    connectorAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    webSocketRuntimeAuthorizationGranted: false,
+    httpRuntimeAuthorizationGranted: false,
+    mcpRuntimeAuthorizationGranted: false,
+    mcpToolExposureAuthorizationGranted: false,
+    taskRuntimeAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false,
+    approvalGrantProduced: false,
+    documentaryMetadataVisible: true
+  };
+}
+
+function consumerContractReadinessMatrixRow({
+  rowId,
+  consumerId,
+  consumerName,
+  touchpointName,
+  requiredFutureContracts,
+  currentAllowedBehavior,
+  explicitlyForbiddenBehavior,
+  blockerNotes
+}) {
+  return {
+    rowId,
+    consumerId,
+    consumerName,
+    touchpointName,
+    readinessState: "future-contract-required-runtime-blocked",
+    requiredFutureContracts,
+    currentAllowedBehavior,
+    explicitlyForbiddenBehavior,
+    authorizationFlags: consumerContractReadinessMatrixAuthorizationFlags(),
+    blockerNotes
+  };
+}
+
+function consumerContractReadinessMatrixRows() {
+  return [
+    consumerContractReadinessMatrixRow({
+      rowId: "locus.status-control-surface-display",
+      consumerId: "locus",
+      consumerName: "Locus",
+      touchpointName: "status/control-surface display",
+      requiredFutureContracts: [
+        "locus.status-control-surface.display-contract",
+        "ardyn.review-status.snapshot-contract",
+        "ardyn.control-surface-readonly-metadata-contract"
+      ],
+      currentAllowedBehavior:
+        "Display deterministic Ardyn status and control-surface metadata as review-only text.",
+      explicitlyForbiddenBehavior: [
+        "command control",
+        "runtime control",
+        "process control",
+        "live status polling",
+        "approval grant persistence"
+      ],
+      blockerNotes: [
+        "Requires a later explicit command/control authorization phase before any interactive Locus control surface can call Ardyn.",
+        "Current Phase 5.46 output is documentary metadata only."
+      ]
+    }),
+    consumerContractReadinessMatrixRow({
+      rowId: "locus.process-tool-capability-metadata",
+      consumerId: "locus",
+      consumerName: "Locus",
+      touchpointName: "process/tool capability metadata",
+      requiredFutureContracts: [
+        "locus.process-capability-metadata-contract",
+        "locus.tool-capability-metadata-contract",
+        "ardyn.non-executing-capability-display-contract"
+      ],
+      currentAllowedBehavior:
+        "Expose static process/tool capability labels for review without tool execution.",
+      explicitlyForbiddenBehavior: [
+        "process spawn",
+        "process termination",
+        "tool invocation",
+        "stdin loop",
+        "stdout/stderr runtime writer"
+      ],
+      blockerNotes: [
+        "Requires separate process-control and tool-execution authorization phases.",
+        "No process supervision or stdio runtime writer is introduced."
+      ]
+    }),
+    consumerContractReadinessMatrixRow({
+      rowId: "locus.visible-review-artifacts",
+      consumerId: "locus",
+      consumerName: "Locus",
+      touchpointName: "Locus-visible review artifacts",
+      requiredFutureContracts: [
+        "locus.review-artifact-display-contract",
+        "ardyn.review-artifact-index-contract",
+        "ardyn.review-only-artifact-provenance-contract"
+      ],
+      currentAllowedBehavior:
+        "List deterministic Ardyn review artifacts and provenance metadata for Locus-visible review.",
+      explicitlyForbiddenBehavior: [
+        "reviewer routing",
+        "reviewer assignment",
+        "evaluator execution",
+        "evaluator result production",
+        "approval decision"
+      ],
+      blockerNotes: [
+        "Requires future review routing and evaluator authorization phases before artifacts can drive assignment or decisions.",
+        "Current artifacts remain non-authoritative."
+      ]
+    }),
+    consumerContractReadinessMatrixRow({
+      rowId: "locus.future-secure-drop-compose-inbox-surface",
+      consumerId: "locus",
+      consumerName: "Locus",
+      touchpointName: "future Secure Drop compose/inbox consumer surface",
+      requiredFutureContracts: [
+        "content-fabric.secure-drop.compose-consumer-contract",
+        "content-fabric.secure-drop.inbox-consumer-contract",
+        "ardyn.future-secure-drop-consumer-boundary-contract"
+      ],
+      currentAllowedBehavior:
+        "Reference future content-fabric Secure Drop compose and inbox contracts by name only.",
+      explicitlyForbiddenBehavior: [
+        "Secure Drop crypto",
+        "Secure Drop transport",
+        "stego",
+        "send/receive",
+        "inbox polling",
+        "file selection",
+        "filesystem scanning",
+        "secret/vault/env access",
+        "ST3GG vendoring"
+      ],
+      blockerNotes: [
+        "Requires a later explicit content-fabric Secure Drop authorization phase.",
+        "Ardyn does not consume Secure Drop in Phase 5.46."
+      ]
+    }),
+    consumerContractReadinessMatrixRow({
+      rowId: "locus.command-control-runtime-boundary",
+      consumerId: "locus",
+      consumerName: "Locus",
+      touchpointName: "command/control runtime boundary",
+      requiredFutureContracts: [
+        "ardyn.command-control-runtime-authorization-contract",
+        "ardyn.command-exposure-precondition-contract",
+        "locus.control-surface-command-boundary-contract"
+      ],
+      currentAllowedBehavior:
+        "Document that Locus command/control runtime remains unavailable.",
+      explicitlyForbiddenBehavior: [
+        "command exposure",
+        "runtime permission grant",
+        "runtime execution",
+        "process control",
+        "transcript runtime write",
+        "audit runtime write"
+      ],
+      blockerNotes: [
+        "Requires explicit runtime enablement and command exposure authorization.",
+        "serve-runtime remains blocked, including dry-run."
+      ]
+    }),
+    consumerContractReadinessMatrixRow({
+      rowId: "multiverse.world-project-orchestration-metadata",
+      consumerId: "multiverse",
+      consumerName: "Multiverse",
+      touchpointName: "world/project orchestration metadata",
+      requiredFutureContracts: [
+        "multiverse.world-project-orchestration-metadata-contract",
+        "ardyn.world-project-wrapper-status-contract",
+        "ardyn.non-executing-orchestration-reference-contract"
+      ],
+      currentAllowedBehavior:
+        "Record static world/project orchestration metadata for future wrapper planning.",
+      explicitlyForbiddenBehavior: [
+        "live registry connection",
+        "world mutation",
+        "project mutation",
+        "task execution",
+        "adapter runtime behavior"
+      ],
+      blockerNotes: [
+        "Requires future Multiverse orchestration authorization before live registry or project writes.",
+        "Phase 5.46 does not connect to Multiverse."
+      ]
+    }),
+    consumerContractReadinessMatrixRow({
+      rowId: "multiverse.visible-ai-capability-metadata",
+      consumerId: "multiverse",
+      consumerName: "Multiverse",
+      touchpointName: "visible AI capability metadata",
+      requiredFutureContracts: [
+        "multiverse.visible-ai-capability-metadata-contract",
+        "ardyn.ai-capability-review-only-contract",
+        "ardyn.evaluator-non-execution-contract"
+      ],
+      currentAllowedBehavior:
+        "Expose AI capability labels and requirements for review-only planning.",
+      explicitlyForbiddenBehavior: [
+        "model runtime",
+        "evaluator execution",
+        "evaluator result production",
+        "approval decision",
+        "approval grant"
+      ],
+      blockerNotes: [
+        "Requires explicit evaluator and model-runtime authorization phases.",
+        "Current metadata cannot trigger AI execution."
+      ]
+    }),
+    consumerContractReadinessMatrixRow({
+      rowId: "multiverse.task-capability-wrapper-metadata",
+      consumerId: "multiverse",
+      consumerName: "Multiverse",
+      touchpointName: "task/capability wrapper metadata",
+      requiredFutureContracts: [
+        "multiverse.task-wrapper-metadata-contract",
+        "multiverse.capability-wrapper-metadata-contract",
+        "ardyn.task-capability-wrapper-boundary-contract"
+      ],
+      currentAllowedBehavior:
+        "Describe task and capability wrapper metadata without invoking tasks or MCP tools.",
+      explicitlyForbiddenBehavior: [
+        "task execution",
+        "MCP execution",
+        "MCP tool exposure",
+        "connector grants",
+        "runtime command exposure"
+      ],
+      blockerNotes: [
+        "Requires future task runtime and MCP authorization phases.",
+        "No MCP tool is exposed by Ardyn in Phase 5.46."
+      ]
+    }),
+    consumerContractReadinessMatrixRow({
+      rowId: "multiverse.review-only-citizen-adapter-candidate-metadata",
+      consumerId: "multiverse",
+      consumerName: "Multiverse",
+      touchpointName: "review-only citizen/adapter candidate metadata",
+      requiredFutureContracts: [
+        "multiverse.citizen-candidate-review-contract",
+        "multiverse.adapter-candidate-review-contract",
+        "ardyn.connector-grant-precondition-contract"
+      ],
+      currentAllowedBehavior:
+        "Record citizen/adapter candidates as review-only metadata for future consideration.",
+      explicitlyForbiddenBehavior: [
+        "adapter runtime behavior",
+        "connector ingestion",
+        "connector grant",
+        "HTTP runtime",
+        "secret/vault/env access"
+      ],
+      blockerNotes: [
+        "Requires explicit connector and adapter runtime authorization phases.",
+        "Candidate metadata is non-authorizing and cannot grant connector access."
+      ]
+    }),
+    consumerContractReadinessMatrixRow({
+      rowId: "multiverse.registry-websocket-mcp-task-runtime-boundary",
+      consumerId: "multiverse",
+      consumerName: "Multiverse",
+      touchpointName: "registry/websocket/MCP/task runtime boundary",
+      requiredFutureContracts: [
+        "multiverse.registry-runtime-authorization-contract",
+        "multiverse.websocket-runtime-authorization-contract",
+        "multiverse.mcp-task-runtime-authorization-contract",
+        "ardyn.runtime-boundary-contract"
+      ],
+      currentAllowedBehavior:
+        "Document that registry, websocket, MCP, and task runtime paths remain unavailable.",
+      explicitlyForbiddenBehavior: [
+        "live registry connection",
+        "websocket runtime",
+        "HTTP runtime",
+        "MCP tool exposure",
+        "MCP execution",
+        "task execution"
+      ],
+      blockerNotes: [
+        "Requires explicit registry, websocket, MCP, and task runtime authorization phases.",
+        "Fallow remains advisory only and Fallow Runtime is not used."
+      ]
+    }),
+    consumerContractReadinessMatrixRow({
+      rowId: "multiverse.fabric-coordination-metadata",
+      consumerId: "multiverse",
+      consumerName: "Multiverse",
+      touchpointName: "Fabric coordination metadata",
+      requiredFutureContracts: [
+        "multiverse.fabric-coordination-metadata-contract",
+        "ardyn.fabric-runtime-authorization-contract",
+        "content-fabric.runtime-behavior-authorization-contract"
+      ],
+      currentAllowedBehavior:
+        "Record Fabric coordination references as metadata only.",
+      explicitlyForbiddenBehavior: [
+        "Fabric runtime surface",
+        "content-fabric runtime behavior",
+        "adapter runtime behavior",
+        "websocket/HTTP runtime",
+        "Secure Drop implementation"
+      ],
+      blockerNotes: [
+        "Requires separate Fabric and content-fabric runtime authorization phases.",
+        "Secure Drop remains a future content-fabric capability reference only."
+      ]
+    })
+  ];
+}
+
+function consumerContractReadinessMatrixForbiddenBehavior() {
+  return {
+    commandRuntimeControlEnabled: false,
+    commandExposurePermissionGranted: false,
+    runtimePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    reviewerRoutingPerformed: false,
+    reviewerAssignmentPerformed: false,
+    evaluatorExecutionPerformed: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    connectorGrantProduced: false,
+    connectorIngestionAdded: false,
+    liveRegistryConnectionEnabled: false,
+    webSocketRuntimeEnabled: false,
+    httpRuntimeEnabled: false,
+    taskRuntimeExecutionEnabled: false,
+    taskExecutionEnabled: false,
+    mcpRuntimeExecutionEnabled: false,
+    mcpToolExposureEnabled: false,
+    fabricRuntimeSurfaceEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    adapterRuntimeBehaviorEnabled: false,
+    secureDropImplemented: false,
+    secureDropCryptoImplemented: false,
+    secureDropTransportImplemented: false,
+    secureDropStegoImplemented: false,
+    secureDropSendReceiveImplemented: false,
+    secureDropInboxPollingEnabled: false,
+    fileSelectionEnabled: false,
+    filesystemWatcherEnabled: false,
+    filesystemScanningEnabled: false,
+    secretVaultEnvAccessEnabled: false,
+    st3ggVendored: false,
+    processControlEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    transcriptRuntimeWritePerformed: false,
+    auditRuntimeWritePerformed: false
+  };
+}
+
+function consumerContractReadinessMatrixSummary(rows) {
+  return {
+    consumerContractReadinessMatrixKind:
+      CONSUMER_CONTRACT_READINESS_MATRIX_KIND,
+    consumerContractReadinessMatrixMode: "review-only",
+    sourceTargetConsumerPlanningMetadataAccepted: true,
+    targetConsumerIds: ["locus", "multiverse"],
+    targetConsumerCount: 2,
+    rowCount: rows.length,
+    locusRowCount: rows.filter(({ consumerId }) => consumerId === "locus")
+      .length,
+    multiverseRowCount: rows.filter(
+      ({ consumerId }) => consumerId === "multiverse"
+    ).length,
+    locusStatusControlSurfaceDisplayCovered: true,
+    locusProcessToolCapabilityMetadataCovered: true,
+    locusVisibleReviewArtifactsCovered: true,
+    locusFutureSecureDropComposeInboxConsumerSurfaceCovered: true,
+    locusCommandControlRuntimeBoundaryCovered: true,
+    multiverseWorldProjectOrchestrationMetadataCovered: true,
+    multiverseVisibleAiCapabilityMetadataCovered: true,
+    multiverseTaskCapabilityWrapperMetadataCovered: true,
+    multiverseReviewOnlyCitizenAdapterCandidateMetadataCovered: true,
+    multiverseRegistryWebSocketMcpTaskRuntimeBoundaryCovered: true,
+    multiverseFabricCoordinationMetadataCovered: true,
+    metadataOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    runtimeAuthorizationGranted: false,
+    commandAuthorizationGranted: false,
+    connectorAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    webSocketRuntimeAuthorizationGranted: false,
+    mcpRuntimeAuthorizationGranted: false,
+    taskRuntimeAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false
+  };
+}
+
+function consumerContractReadinessMatrixSourceSummary(sourceState, sourceDigest) {
+  return {
+    schema: sourceState.schema,
+    stateKind: sourceState.stateKind,
+    stateMode: sourceState.stateMode,
+    reviewedAt: sourceState.reviewedAt,
+    stateDigest: sourceDigest,
+    targetConsumerPlanningMetadataOnly: true,
+    firstClassTargetConsumerIds: sourceState.targetConsumerIds,
+    locusFirstClassTargetConsumer: true,
+    multiverseFirstClassTargetConsumer: true,
+    secureDropFutureContentFabricCapabilityReferenceOnly: true,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function consumerContractReadinessMatrixStateFromSource(
+  sourceState,
+  reviewedAt,
+  sourceDigest
+) {
+  const rows = consumerContractReadinessMatrixRows();
+
+  return {
+    schema: CONSUMER_CONTRACT_READINESS_MATRIX_STATE_SCHEMA,
+    schemaVersion: CONSUMER_CONTRACT_READINESS_MATRIX_VERSION,
+    stateKind: "consumer-contract-readiness-matrix-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourceTargetConsumerPlanningMetadata:
+      consumerContractReadinessMatrixSourceSummary(sourceState, sourceDigest),
+    matrixRows: rows,
+    matrixSummary: consumerContractReadinessMatrixSummary(rows),
+    targetConsumerIds: ["locus", "multiverse"],
+    consumerContractReadinessMatrixOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    consumerContractReadinessMatrixIsReviewerRouting: false,
+    consumerContractReadinessMatrixIsReviewerAssignment: false,
+    consumerContractReadinessMatrixIsEvaluatorExecution: false,
+    consumerContractReadinessMatrixIsEvaluatorResult: false,
+    consumerContractReadinessMatrixIsApprovalDecision: false,
+    consumerContractReadinessMatrixIsApprovalGrant: false,
+    ...consumerContractReadinessMatrixForbiddenBehavior(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function consumerContractReadinessMatrixAcceptedOutput({
+  accepted,
+  sourceStates,
+  reviewedAt,
+  sourceDigest
+}) {
+  if (!accepted) {
+    return {
+      consumerContractReadinessMatrix: null,
+      sourceTargetConsumerPlanningMetadataSummary: null
+    };
+  }
+
+  const sourceState = sourceStates[0];
+
+  return {
+    consumerContractReadinessMatrix:
+      consumerContractReadinessMatrixStateFromSource(
+        sourceState,
+        reviewedAt,
+        sourceDigest
+      ),
+    sourceTargetConsumerPlanningMetadataSummary:
+      consumerContractReadinessMatrixSourceSummary(sourceState, sourceDigest)
+  };
+}
+
+function consumerContractReadinessMatrixRejectionReasons({
+  accepted,
+  classification
+}) {
+  if (accepted) {
+    return [
+      "consumer_contract_readiness_matrix_is_review_only",
+      "locus_and_multiverse_touchpoints_mapped_to_future_contracts",
+      "runtime_command_connector_fabric_websocket_mcp_task_secure_drop_authorizations_false",
+      "secure_drop_is_future_content_fabric_capability_reference_only",
+      "fallow_runtime_not_used",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    classification,
+    "consumer_contract_readiness_matrix_not_produced",
+    "runtime_command_connector_fabric_websocket_mcp_task_secure_drop_authorizations_false",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function consumerContractReadinessMatrixResult({
+  reviewedAt,
+  classification,
+  accepted,
+  consumerContractReadinessMatrix,
+  sourceTargetConsumerPlanningMetadataSummary
+}) {
+  return {
+    schema: CONSUMER_CONTRACT_READINESS_MATRIX_SCHEMA,
+    schemaVersion: CONSUMER_CONTRACT_READINESS_MATRIX_VERSION,
+    consumerContractReadinessMatrixKind:
+      CONSUMER_CONTRACT_READINESS_MATRIX_KIND,
+    consumerContractReadinessMatrixMode: "review-only",
+    reviewedAt,
+    classification,
+    sourceTargetConsumerPlanningMetadataAccepted: accepted,
+    consumerContractReadinessMatrixProduced: accepted,
+    consumerContractReadinessMatrix,
+    sourceTargetConsumerPlanningMetadataSummary,
+    matrixSummary: accepted ? consumerContractReadinessMatrix.matrixSummary : null,
+    matrixRows: accepted ? consumerContractReadinessMatrix.matrixRows : [],
+    targetConsumerIds: accepted
+      ? consumerContractReadinessMatrix.targetConsumerIds
+      : [],
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    consumerContractReadinessMatrixOnly: true,
+    consumerContractReadinessMatrixIsReviewerRouting: false,
+    consumerContractReadinessMatrixIsReviewerAssignment: false,
+    consumerContractReadinessMatrixIsEvaluatorExecution: false,
+    consumerContractReadinessMatrixIsEvaluatorResult: false,
+    consumerContractReadinessMatrixIsApprovalDecision: false,
+    consumerContractReadinessMatrixIsApprovalGrant: false,
+    ...consumerContractReadinessMatrixForbiddenBehavior(),
+    rejectionReasons:
+      consumerContractReadinessMatrixRejectionReasons({
+        accepted,
+        classification
+      }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createConsumerContractReadinessMatrixForReview(input = {}) {
+  const inputRecord = consumerContractReadinessMatrixInputRecord(input);
+  const reviewedAt = consumerContractReadinessMatrixReviewedAt(inputRecord);
+  const sourceStates = consumerContractReadinessMatrixEntries(inputRecord);
+  const sourceDigest = consumerContractReadinessMatrixSourceDigest(inputRecord);
+  const classification = consumerContractReadinessMatrixInputClassification({
+    inputRecord,
+    sourceStates,
+    sourceDigest
+  });
+  const accepted =
+    classification ===
+    VALID_CONSUMER_CONTRACT_READINESS_MATRIX_CLASSIFICATION;
+  const {
+    consumerContractReadinessMatrix,
+    sourceTargetConsumerPlanningMetadataSummary
+  } = consumerContractReadinessMatrixAcceptedOutput({
+    accepted,
+    sourceStates,
+    reviewedAt,
+    sourceDigest
+  });
+
+  return consumerContractReadinessMatrixResult({
+    reviewedAt,
+    classification,
+    accepted,
+    consumerContractReadinessMatrix,
+    sourceTargetConsumerPlanningMetadataSummary
   });
 }
 

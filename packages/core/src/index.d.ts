@@ -252,6 +252,11 @@ export const TARGET_CONSUMER_PLANNING_METADATA_SCHEMA:
 export const TARGET_CONSUMER_PLANNING_METADATA_VERSION: "0.1.0";
 export const TARGET_CONSUMER_PLANNING_METADATA_KIND:
   "target-consumer-planning-metadata";
+export const CONSUMER_CONTRACT_READINESS_MATRIX_SCHEMA:
+  "ardyn.phase-5.46.consumer-contract-readiness-matrix-result";
+export const CONSUMER_CONTRACT_READINESS_MATRIX_VERSION: "0.1.0";
+export const CONSUMER_CONTRACT_READINESS_MATRIX_KIND:
+  "consumer-contract-readiness-matrix";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -5352,6 +5357,198 @@ export interface TargetConsumerPlanningMetadataResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export type ConsumerContractReadinessMatrixClassification =
+  | "missing_consumer_contract_readiness_matrix_input_rejected"
+  | "malformed_consumer_contract_readiness_matrix_input_rejected"
+  | "empty_consumer_contract_readiness_matrix_input_rejected"
+  | "duplicate_invalid_consumer_contract_readiness_matrix_input_rejected"
+  | "mismatched_source_digest_consumer_contract_readiness_matrix_input_rejected"
+  | "reviewer_routing_looking_consumer_contract_readiness_matrix_input_rejected"
+  | "reviewer_assignment_looking_consumer_contract_readiness_matrix_input_rejected"
+  | "evaluator_execution_looking_consumer_contract_readiness_matrix_input_rejected"
+  | "evaluator_result_looking_consumer_contract_readiness_matrix_input_rejected"
+  | "approval_decision_looking_consumer_contract_readiness_matrix_input_rejected"
+  | "grant_looking_consumer_contract_readiness_matrix_input_rejected"
+  | "runtime_permission_looking_consumer_contract_readiness_matrix_input_rejected"
+  | "command_exposure_looking_consumer_contract_readiness_matrix_input_rejected"
+  | "runtime_effect_true_consumer_contract_readiness_matrix_input_rejected"
+  | "process_flag_true_consumer_contract_readiness_matrix_input_rejected"
+  | "execution_signal_looking_consumer_contract_readiness_matrix_input_rejected"
+  | "valid_consumer_contract_readiness_matrix_runtime_still_blocked";
+
+export interface ConsumerContractReadinessMatrixRow {
+  rowId: string;
+  consumerId: "locus" | "multiverse";
+  consumerName: "Locus" | "Multiverse";
+  touchpointName: string;
+  readinessState: "future-contract-required-runtime-blocked";
+  requiredFutureContracts: string[];
+  currentAllowedBehavior: string;
+  explicitlyForbiddenBehavior: string[];
+  authorizationFlags: {
+    runtimeAuthorizationGranted: false;
+    commandAuthorizationGranted: false;
+    connectorAuthorizationGranted: false;
+    fabricRuntimeAuthorizationGranted: false;
+    webSocketRuntimeAuthorizationGranted: false;
+    httpRuntimeAuthorizationGranted: false;
+    mcpRuntimeAuthorizationGranted: false;
+    mcpToolExposureAuthorizationGranted: false;
+    taskRuntimeAuthorizationGranted: false;
+    secureDropAuthorizationGranted: false;
+    approvalGrantProduced: false;
+    documentaryMetadataVisible: true;
+  };
+  blockerNotes: string[];
+}
+
+export interface ConsumerContractReadinessMatrixState {
+  schema: "ardyn.phase-5.46.consumer-contract-readiness-matrix-state";
+  schemaVersion: "0.1.0";
+  stateKind: "consumer-contract-readiness-matrix-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourceTargetConsumerPlanningMetadata: {
+    schema: "ardyn.phase-5.45.target-consumer-planning-metadata-state";
+    stateKind: "target-consumer-planning-metadata-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    targetConsumerPlanningMetadataOnly: true;
+    firstClassTargetConsumerIds: ["locus", "multiverse"];
+    locusFirstClassTargetConsumer: true;
+    multiverseFirstClassTargetConsumer: true;
+    secureDropFutureContentFabricCapabilityReferenceOnly: true;
+    runtimeEffectAllFalse: true;
+  };
+  matrixRows: ConsumerContractReadinessMatrixRow[];
+  matrixSummary: Record<string, boolean | number | string | string[]>;
+  targetConsumerIds: ["locus", "multiverse"];
+  consumerContractReadinessMatrixOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  consumerContractReadinessMatrixIsReviewerRouting: false;
+  consumerContractReadinessMatrixIsReviewerAssignment: false;
+  consumerContractReadinessMatrixIsEvaluatorExecution: false;
+  consumerContractReadinessMatrixIsEvaluatorResult: false;
+  consumerContractReadinessMatrixIsApprovalDecision: false;
+  consumerContractReadinessMatrixIsApprovalGrant: false;
+  commandRuntimeControlEnabled: false;
+  commandExposurePermissionGranted: false;
+  runtimePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  reviewerRoutingPerformed: false;
+  reviewerAssignmentPerformed: false;
+  evaluatorExecutionPerformed: false;
+  evaluatorResultProduced: false;
+  approvalDecisionProduced: false;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  connectorGrantProduced: false;
+  connectorIngestionAdded: false;
+  liveRegistryConnectionEnabled: false;
+  webSocketRuntimeEnabled: false;
+  httpRuntimeEnabled: false;
+  taskRuntimeExecutionEnabled: false;
+  taskExecutionEnabled: false;
+  mcpRuntimeExecutionEnabled: false;
+  mcpToolExposureEnabled: false;
+  fabricRuntimeSurfaceEnabled: false;
+  contentFabricRuntimeBehaviorEnabled: false;
+  adapterRuntimeBehaviorEnabled: false;
+  secureDropImplemented: false;
+  secureDropCryptoImplemented: false;
+  secureDropTransportImplemented: false;
+  secureDropStegoImplemented: false;
+  secureDropSendReceiveImplemented: false;
+  secureDropInboxPollingEnabled: false;
+  fileSelectionEnabled: false;
+  filesystemWatcherEnabled: false;
+  filesystemScanningEnabled: false;
+  secretVaultEnvAccessEnabled: false;
+  st3ggVendored: false;
+  processControlEnabled: false;
+  liveStdinLoopEnabled: false;
+  runtimeStdoutWriterEnabled: false;
+  runtimeStderrWriterEnabled: false;
+  transcriptRuntimeWritePerformed: false;
+  auditRuntimeWritePerformed: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ConsumerContractReadinessMatrixResult {
+  schema: "ardyn.phase-5.46.consumer-contract-readiness-matrix-result";
+  schemaVersion: "0.1.0";
+  consumerContractReadinessMatrixKind: "consumer-contract-readiness-matrix";
+  consumerContractReadinessMatrixMode: "review-only";
+  reviewedAt: string;
+  classification: ConsumerContractReadinessMatrixClassification;
+  sourceTargetConsumerPlanningMetadataAccepted: boolean;
+  consumerContractReadinessMatrixProduced: boolean;
+  consumerContractReadinessMatrix: ConsumerContractReadinessMatrixState | null;
+  sourceTargetConsumerPlanningMetadataSummary:
+    | ConsumerContractReadinessMatrixState["sourceTargetConsumerPlanningMetadata"]
+    | null;
+  matrixSummary: ConsumerContractReadinessMatrixState["matrixSummary"] | null;
+  matrixRows: ConsumerContractReadinessMatrixRow[];
+  targetConsumerIds: Array<"locus" | "multiverse">;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  consumerContractReadinessMatrixOnly: true;
+  consumerContractReadinessMatrixIsReviewerRouting: false;
+  consumerContractReadinessMatrixIsReviewerAssignment: false;
+  consumerContractReadinessMatrixIsEvaluatorExecution: false;
+  consumerContractReadinessMatrixIsEvaluatorResult: false;
+  consumerContractReadinessMatrixIsApprovalDecision: false;
+  consumerContractReadinessMatrixIsApprovalGrant: false;
+  commandRuntimeControlEnabled: false;
+  commandExposurePermissionGranted: false;
+  runtimePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  reviewerRoutingPerformed: false;
+  reviewerAssignmentPerformed: false;
+  evaluatorExecutionPerformed: false;
+  evaluatorResultProduced: false;
+  approvalDecisionProduced: false;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  connectorGrantProduced: false;
+  connectorIngestionAdded: false;
+  liveRegistryConnectionEnabled: false;
+  webSocketRuntimeEnabled: false;
+  httpRuntimeEnabled: false;
+  taskRuntimeExecutionEnabled: false;
+  taskExecutionEnabled: false;
+  mcpRuntimeExecutionEnabled: false;
+  mcpToolExposureEnabled: false;
+  fabricRuntimeSurfaceEnabled: false;
+  contentFabricRuntimeBehaviorEnabled: false;
+  adapterRuntimeBehaviorEnabled: false;
+  secureDropImplemented: false;
+  secureDropCryptoImplemented: false;
+  secureDropTransportImplemented: false;
+  secureDropStegoImplemented: false;
+  secureDropSendReceiveImplemented: false;
+  secureDropInboxPollingEnabled: false;
+  fileSelectionEnabled: false;
+  filesystemWatcherEnabled: false;
+  filesystemScanningEnabled: false;
+  secretVaultEnvAccessEnabled: false;
+  st3ggVendored: false;
+  processControlEnabled: false;
+  liveStdinLoopEnabled: false;
+  runtimeStdoutWriterEnabled: false;
+  runtimeStderrWriterEnabled: false;
+  transcriptRuntimeWritePerformed: false;
+  auditRuntimeWritePerformed: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -5682,6 +5879,11 @@ export function createTargetConsumerPlanningMetadataForReview(input?: {
   sourceConsolidationMetadataCheckpointDigest?: string;
   consolidationMetadataCheckpointEntries?: unknown[];
 }): TargetConsumerPlanningMetadataResult;
+export function createConsumerContractReadinessMatrixForReview(input?: {
+  reviewedAt?: string;
+  sourceTargetConsumerPlanningMetadataDigest?: string;
+  targetConsumerPlanningMetadataEntries?: unknown[];
+}): ConsumerContractReadinessMatrixResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
