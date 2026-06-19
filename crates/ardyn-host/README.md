@@ -1083,6 +1083,23 @@ Runtime remains disabled, `stdio_runtime` remains private, and no Rust source
 changes are made. See
 `docs/phase-5-42-review-only-handoff-metadata-consolidation-layer.md`.
 
+Phase 5.43 adds no Rust-host runtime implementation. It records a
+machine-readable review-only consolidation checkpoint handoff in TypeScript
+core, consumes the Phase 5.42 handoff metadata consolidation layer, and carries
+installed cleanup/hardening toolkit validation evidence as metadata only. No
+reviewer routing, reviewer assignment, filesystem watcher, external source
+lookup, secrets/env ingestion, evaluator execution command, evaluator result
+command, approval decision, approval grant, runtime permission, command exposure
+permission, authoritative approval evaluator, host-policy runtime enforcement,
+runtime I/O, process control, rollback/kill-switch behavior, positive runtime
+smoke execution, runtime entrypoint, live stdin loop, runtime stdout/stderr
+writer, process spawning, process supervision, runtime transcript/audit write,
+adapter/Fabric behavior, WebSocket/HTTP surface, cleanup-tool installation,
+MegaLinter run, broad Trunk rewrite, or Fallow Runtime use is introduced.
+Runtime remains disabled, `stdio_runtime` remains private, and no Rust source
+changes are made. See
+`docs/phase-5-43-review-only-consolidation-checkpoint-handoff.md`.
+
 Future live stdio work must make the Rust host the owner of process-level
 stdout/stderr policy, buffering, flushing, backpressure, partial-write
 handling, process exit semantics, redaction enforcement, transcript
