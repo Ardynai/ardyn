@@ -247,6 +247,11 @@ export const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_SCHEMA:
 export const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_VERSION: "0.1.0";
 export const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_KIND:
   "review-only-consolidation-metadata-checkpoint";
+export const TARGET_CONSUMER_PLANNING_METADATA_SCHEMA:
+  "ardyn.phase-5.45.target-consumer-planning-metadata-result";
+export const TARGET_CONSUMER_PLANNING_METADATA_VERSION: "0.1.0";
+export const TARGET_CONSUMER_PLANNING_METADATA_KIND:
+  "target-consumer-planning-metadata";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -1982,6 +1987,24 @@ export type ReviewOnlyConsolidationMetadataCheckpointClassification =
   | "unsafe_review_only_consolidation_metadata_checkpoint_input_rejected"
   | "execution_signal_looking_review_only_consolidation_metadata_checkpoint_input_rejected"
   | "valid_review_only_consolidation_metadata_checkpoint_runtime_still_blocked";
+export type TargetConsumerPlanningMetadataClassification =
+  | "missing_target_consumer_planning_metadata_input_rejected"
+  | "malformed_target_consumer_planning_metadata_input_rejected"
+  | "mismatched_source_digest_target_consumer_planning_metadata_input_rejected"
+  | "empty_target_consumer_planning_metadata_input_rejected"
+  | "duplicate_invalid_target_consumer_planning_metadata_input_rejected"
+  | "grant_looking_target_consumer_planning_metadata_input_rejected"
+  | "approval_decision_looking_target_consumer_planning_metadata_input_rejected"
+  | "evaluator_result_looking_target_consumer_planning_metadata_input_rejected"
+  | "evaluator_execution_looking_target_consumer_planning_metadata_input_rejected"
+  | "reviewer_routing_looking_target_consumer_planning_metadata_input_rejected"
+  | "reviewer_assignment_looking_target_consumer_planning_metadata_input_rejected"
+  | "runtime_permission_looking_target_consumer_planning_metadata_input_rejected"
+  | "command_exposure_looking_target_consumer_planning_metadata_input_rejected"
+  | "runtime_effect_true_target_consumer_planning_metadata_input_rejected"
+  | "process_flag_true_target_consumer_planning_metadata_input_rejected"
+  | "execution_signal_looking_target_consumer_planning_metadata_input_rejected"
+  | "valid_target_consumer_planning_metadata_runtime_still_blocked";
 
 export interface ReviewOnlyApprovalPrerequisiteRecordStatus {
   status: ReviewOnlyApprovalPrerequisiteStatus;
@@ -5142,6 +5165,193 @@ export interface ReviewOnlyConsolidationMetadataCheckpointResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export interface TargetConsumerPlanningMetadataState {
+  schema: "ardyn.phase-5.45.target-consumer-planning-metadata-state";
+  schemaVersion: "0.1.0";
+  stateKind: "target-consumer-planning-metadata-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourceConsolidationMetadataCheckpoint: {
+    schema: "ardyn.phase-5.44.review-only-consolidation-metadata-checkpoint-state";
+    stateKind: "review-only-consolidation-metadata-checkpoint-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    consolidationMetadataCheckpointMetadataOnly: true;
+    consolidationMetadataCheckpointIsReviewerRouting: false;
+    consolidationMetadataCheckpointIsReviewerAssignment: false;
+    consolidationMetadataCheckpointIsEvaluatorExecution: false;
+    consolidationMetadataCheckpointIsEvaluatorResult: false;
+    consolidationMetadataCheckpointIsApprovalDecision: false;
+    consolidationMetadataCheckpointIsApprovalGrant: false;
+    runtimeEffectAllFalse: true;
+  };
+  primaryHarnessLayer: {
+    product: "Ardyn";
+    layerKind: "primary-harness-framework-wrapper-layer";
+    repoFamilyScope: "ardyn-repo-family";
+    primaryHarnessForRepoFamily: true;
+    firstClassTargetConsumers: ["locus", "multiverse"];
+    planningMetadataOnly: true;
+    runtimeBlocked: true;
+    secureDropConsumerOnlyAfterExplicitAuthorization: true;
+  };
+  targetConsumers: Array<{
+    consumerId: "locus" | "multiverse";
+    consumerName: "Locus" | "Multiverse";
+    firstClassTargetConsumer: true;
+    consumerRole: string;
+    contractCoverage: string[];
+    nonAuthorizingBoundary: Record<string, false>;
+  } & Record<string, unknown>>;
+  secureDropFutureCapability: {
+    capabilityName: "Secure Drop";
+    canonicalCapability: "content-fabric.secure-drop";
+    canonicalCapabilityOwner: "content-fabric";
+    phaseStatus: "future-canonical-content-fabric-capability-reference-only";
+    ardynMayConsumeAfterExplicitAuthorization: true;
+    ardynConsumesNow: false;
+    cryptoImplemented: false;
+    transportImplemented: false;
+    stegoImplemented: false;
+    sendReceiveImplemented: false;
+    composeRuntimeImplemented: false;
+    inboxPollingImplemented: false;
+    fileSelectionImplemented: false;
+    filesystemScanningImplemented: false;
+    connectorIngestionImplemented: false;
+    secretVaultEnvAccessImplemented: false;
+    st3ggVendored: false;
+    contentFabricRuntimeBehaviorEnabled: false;
+  };
+  targetConsumerPlanningSummary: Record<string, boolean | number | string | string[]>;
+  targetConsumerIds: ["locus", "multiverse"];
+  targetConsumerPlanningMetadataOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  targetConsumerPlanningMetadataIsReviewerRouting: false;
+  targetConsumerPlanningMetadataIsReviewerAssignment: false;
+  targetConsumerPlanningMetadataIsEvaluatorExecution: false;
+  targetConsumerPlanningMetadataIsEvaluatorResult: false;
+  targetConsumerPlanningMetadataIsApprovalDecision: false;
+  targetConsumerPlanningMetadataIsApprovalGrant: false;
+  commandRuntimeControlEnabled: false;
+  commandExposurePermissionGranted: false;
+  runtimePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  reviewerRoutingPerformed: false;
+  reviewerAssignmentPerformed: false;
+  evaluatorExecutionPerformed: false;
+  evaluatorResultProduced: false;
+  approvalDecisionProduced: false;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  connectorGrantProduced: false;
+  connectorIngestionAdded: false;
+  liveRegistryConnectionEnabled: false;
+  webSocketRuntimeEnabled: false;
+  httpRuntimeEnabled: false;
+  taskRuntimeExecutionEnabled: false;
+  mcpRuntimeExecutionEnabled: false;
+  fabricRuntimeSurfaceEnabled: false;
+  contentFabricRuntimeBehaviorEnabled: false;
+  adapterRuntimeBehaviorEnabled: false;
+  secureDropImplemented: false;
+  secureDropCryptoImplemented: false;
+  secureDropTransportImplemented: false;
+  secureDropStegoImplemented: false;
+  secureDropSendReceiveImplemented: false;
+  secureDropInboxPollingEnabled: false;
+  fileSelectionEnabled: false;
+  filesystemWatcherEnabled: false;
+  filesystemScanningEnabled: false;
+  secretVaultEnvAccessEnabled: false;
+  st3ggVendored: false;
+  processControlEnabled: false;
+  liveStdinLoopEnabled: false;
+  runtimeStdoutWriterEnabled: false;
+  runtimeStderrWriterEnabled: false;
+  transcriptRuntimeWritePerformed: false;
+  auditRuntimeWritePerformed: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface TargetConsumerPlanningMetadataResult {
+  schema: "ardyn.phase-5.45.target-consumer-planning-metadata-result";
+  schemaVersion: "0.1.0";
+  targetConsumerPlanningMetadataKind: "target-consumer-planning-metadata";
+  targetConsumerPlanningMetadataMode: "review-only";
+  reviewedAt: string;
+  classification: TargetConsumerPlanningMetadataClassification;
+  sourceConsolidationMetadataCheckpointAccepted: boolean;
+  targetConsumerPlanningMetadataProduced: boolean;
+  targetConsumerPlanningMetadata: TargetConsumerPlanningMetadataState | null;
+  sourceConsolidationMetadataCheckpointSummary:
+    | TargetConsumerPlanningMetadataState["sourceConsolidationMetadataCheckpoint"]
+    | null;
+  targetConsumerPlanningSummary:
+    | TargetConsumerPlanningMetadataState["targetConsumerPlanningSummary"]
+    | null;
+  targetConsumers: TargetConsumerPlanningMetadataState["targetConsumers"];
+  targetConsumerIds: Array<"locus" | "multiverse">;
+  secureDropFutureCapability:
+    | TargetConsumerPlanningMetadataState["secureDropFutureCapability"]
+    | null;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  targetConsumerPlanningMetadataOnly: true;
+  targetConsumerPlanningMetadataIsReviewerRouting: false;
+  targetConsumerPlanningMetadataIsReviewerAssignment: false;
+  targetConsumerPlanningMetadataIsEvaluatorExecution: false;
+  targetConsumerPlanningMetadataIsEvaluatorResult: false;
+  targetConsumerPlanningMetadataIsApprovalDecision: false;
+  targetConsumerPlanningMetadataIsApprovalGrant: false;
+  commandRuntimeControlEnabled: false;
+  commandExposurePermissionGranted: false;
+  runtimePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  reviewerRoutingPerformed: false;
+  reviewerAssignmentPerformed: false;
+  evaluatorExecutionPerformed: false;
+  evaluatorResultProduced: false;
+  approvalDecisionProduced: false;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  connectorGrantProduced: false;
+  connectorIngestionAdded: false;
+  liveRegistryConnectionEnabled: false;
+  webSocketRuntimeEnabled: false;
+  httpRuntimeEnabled: false;
+  taskRuntimeExecutionEnabled: false;
+  mcpRuntimeExecutionEnabled: false;
+  fabricRuntimeSurfaceEnabled: false;
+  contentFabricRuntimeBehaviorEnabled: false;
+  adapterRuntimeBehaviorEnabled: false;
+  secureDropImplemented: false;
+  secureDropCryptoImplemented: false;
+  secureDropTransportImplemented: false;
+  secureDropStegoImplemented: false;
+  secureDropSendReceiveImplemented: false;
+  secureDropInboxPollingEnabled: false;
+  fileSelectionEnabled: false;
+  filesystemWatcherEnabled: false;
+  filesystemScanningEnabled: false;
+  secretVaultEnvAccessEnabled: false;
+  st3ggVendored: false;
+  processControlEnabled: false;
+  liveStdinLoopEnabled: false;
+  runtimeStdoutWriterEnabled: false;
+  runtimeStderrWriterEnabled: false;
+  transcriptRuntimeWritePerformed: false;
+  auditRuntimeWritePerformed: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -5467,6 +5677,11 @@ export function createReviewOnlyConsolidationMetadataCheckpointForReview(input?:
   sourceConsolidationCheckpointHandoffDigest?: string;
   consolidationCheckpointHandoffEntries?: unknown[];
 }): ReviewOnlyConsolidationMetadataCheckpointResult;
+export function createTargetConsumerPlanningMetadataForReview(input?: {
+  reviewedAt?: string;
+  sourceConsolidationMetadataCheckpointDigest?: string;
+  consolidationMetadataCheckpointEntries?: unknown[];
+}): TargetConsumerPlanningMetadataResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

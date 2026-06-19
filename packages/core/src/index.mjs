@@ -227,6 +227,11 @@ export const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_SCHEMA =
 export const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_VERSION = "0.1.0";
 export const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_KIND =
   "review-only-consolidation-metadata-checkpoint";
+export const TARGET_CONSUMER_PLANNING_METADATA_SCHEMA =
+  "ardyn.phase-5.45.target-consumer-planning-metadata-result";
+export const TARGET_CONSUMER_PLANNING_METADATA_VERSION = "0.1.0";
+export const TARGET_CONSUMER_PLANNING_METADATA_KIND =
+  "target-consumer-planning-metadata";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -27468,6 +27473,815 @@ export function createReviewOnlyConsolidationMetadataCheckpointForReview(
     accepted,
     consolidationMetadataCheckpoint,
     consolidationCheckpointHandoffSummary
+  });
+}
+
+const TARGET_CONSUMER_PLANNING_METADATA_STATE_SCHEMA =
+  "ardyn.phase-5.45.target-consumer-planning-metadata-state";
+const VALID_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION =
+  "valid_target_consumer_planning_metadata_runtime_still_blocked";
+const MALFORMED_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION =
+  "malformed_target_consumer_planning_metadata_input_rejected";
+const MISMATCHED_SOURCE_DIGEST_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION =
+  "mismatched_source_digest_target_consumer_planning_metadata_input_rejected";
+
+const TARGET_CONSUMER_PLANNING_METADATA_SOURCE_LITERAL_FIELDS = Object.freeze([
+  ["schema", REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_STATE_SCHEMA],
+  ["schemaVersion", REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_VERSION],
+  ["stateKind", "review-only-consolidation-metadata-checkpoint-state"],
+  ["stateMode", "review-only"],
+  ["sourceConsolidationCheckpointHandoffAccepted", true],
+  ["consolidationMetadataCheckpointMetadataOnly", true]
+]);
+
+const TARGET_CONSUMER_PLANNING_METADATA_SOURCE_FALSE_FIELDS = Object.freeze([
+  "consolidationMetadataCheckpointIsReviewerRouting",
+  "consolidationMetadataCheckpointIsReviewerAssignment",
+  "consolidationMetadataCheckpointIsEvaluatorExecution",
+  "consolidationMetadataCheckpointIsEvaluatorResult",
+  "consolidationMetadataCheckpointIsApprovalDecision",
+  "consolidationMetadataCheckpointIsApprovalGrant",
+  "reviewerRoutingPerformed",
+  "reviewerRoutingEnabled",
+  "reviewerAssignmentPerformed",
+  "reviewerAssignmentEnabled",
+  "evaluatorResultProduced",
+  "evaluatorResultPersisted",
+  "approvalDecisionProduced",
+  "approvalDecisionPersisted",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "runtimePermissionGranted",
+  "commandExposurePermissionGranted",
+  "runtimeCommandExposureEnabled",
+  "runtimeExecutionEnabled",
+  "evaluatorExecutionRequested",
+  "evaluatorExecutionStarted",
+  "evaluatorExecutionEnabled",
+  "evaluatorExecuted"
+]);
+
+const TARGET_CONSUMER_PLANNING_METADATA_SOURCE_NULL_FIELDS = Object.freeze([
+  "reviewerRouteId",
+  "reviewerAssignmentId",
+  "reviewerId",
+  "evaluatorResultId",
+  "approvalDecisionId",
+  "approvalGrantId"
+]);
+
+const TARGET_CONSUMER_PLANNING_METADATA_REVIEWER_ROUTING_TRUE_FIELDS =
+  Object.freeze([
+    "targetConsumerPlanningMetadataIsReviewerRouting",
+    "reviewerRoutingPerformed",
+    "reviewerRoutingEnabled"
+  ]);
+const TARGET_CONSUMER_PLANNING_METADATA_REVIEWER_ASSIGNMENT_TRUE_FIELDS =
+  Object.freeze([
+    "targetConsumerPlanningMetadataIsReviewerAssignment",
+    "reviewerAssignmentPerformed",
+    "reviewerAssignmentEnabled"
+  ]);
+const TARGET_CONSUMER_PLANNING_METADATA_EVALUATOR_EXECUTION_TRUE_FIELDS =
+  Object.freeze([
+    "targetConsumerPlanningMetadataIsEvaluatorExecution",
+    "evaluatorExecutionPerformed",
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecuted"
+  ]);
+const TARGET_CONSUMER_PLANNING_METADATA_EVALUATOR_RESULT_TRUE_FIELDS =
+  Object.freeze([
+    "targetConsumerPlanningMetadataIsEvaluatorResult",
+    "evaluatorResultProduced",
+    "evaluatorResultPersisted"
+  ]);
+const TARGET_CONSUMER_PLANNING_METADATA_APPROVAL_DECISION_TRUE_FIELDS =
+  Object.freeze([
+    "targetConsumerPlanningMetadataIsApprovalDecision",
+    "approvalDecisionProduced",
+    "approvalDecisionPersisted"
+  ]);
+const TARGET_CONSUMER_PLANNING_METADATA_GRANT_TRUE_FIELDS = Object.freeze([
+  "targetConsumerPlanningMetadataIsApprovalGrant",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "connectorGrantProduced",
+  "connectorPermissionGranted",
+  "connectorAccessGranted"
+]);
+const TARGET_CONSUMER_PLANNING_METADATA_RUNTIME_PERMISSION_TRUE_FIELDS =
+  Object.freeze([
+    "runtimePermissionGranted",
+    "runtimeEnablementApproved",
+    "canEnableRuntime"
+  ]);
+const TARGET_CONSUMER_PLANNING_METADATA_COMMAND_EXPOSURE_TRUE_FIELDS =
+  Object.freeze([
+    "commandExposurePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "commandControlEnabled"
+  ]);
+const TARGET_CONSUMER_PLANNING_METADATA_PROCESS_TRUE_FIELDS = Object.freeze([
+  "processControlEnabled",
+  "processSpawnEnabled",
+  "processTerminationEnabled",
+  "runtimeSupervisionEnabled"
+]);
+const TARGET_CONSUMER_PLANNING_METADATA_UNSAFE_RUNTIME_TRUE_FIELDS =
+  Object.freeze([
+    "runtimeEnabled",
+    "runtimeStarted",
+    "runtimeReady",
+    "runtimeCommandEnabled",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "runtimeExecuted",
+    "liveRegistryConnectionEnabled",
+    "webSocketRuntimeEnabled",
+    "httpRuntimeEnabled",
+    "taskExecutionEnabled",
+    "mcpExecutionEnabled",
+    "fabricRuntimeSurfaceEnabled",
+    "contentFabricRuntimeBehaviorEnabled",
+    "adapterRuntimeBehaviorEnabled",
+    "filesystemWatcherEnabled",
+    "externalSourceLookupEnabled",
+    "fileSelectionEnabled",
+    "filesystemScanningEnabled",
+    "connectorIngestionAdded",
+    "secretVaultEnvAccessEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "st3ggVendored",
+    "transcriptRuntimeWritePerformed",
+    "auditRuntimeWritePerformed",
+    "runtimeStdoutWriterEnabled",
+    "runtimeStderrWriterEnabled",
+    "liveStdinLoopEnabled"
+  ]);
+
+function targetConsumerPlanningMetadataInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function targetConsumerPlanningMetadataReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function targetConsumerPlanningMetadataInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt))
+  );
+}
+
+function targetConsumerPlanningMetadataEntries(inputRecord) {
+  return inputRecord === null
+    ? undefined
+    : inputRecord.consolidationMetadataCheckpointEntries;
+}
+
+function targetConsumerPlanningMetadataSourceDigest(inputRecord) {
+  return inputRecord === null
+    ? undefined
+    : inputRecord.sourceConsolidationMetadataCheckpointDigest;
+}
+
+function targetConsumerPlanningMetadataDigestMissing(inputRecord) {
+  return (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(
+      inputRecord,
+      "sourceConsolidationMetadataCheckpointDigest"
+    )
+  );
+}
+
+function targetConsumerPlanningMetadataSourceDigestMatches(
+  sourceStates,
+  sourceDigest
+) {
+  return (
+    Array.isArray(sourceStates) &&
+    sourceStates.length === 1 &&
+    isPlainObjectRecord(sourceStates[0]) &&
+    sourceDigest === reviewArtifactHandoffDigest(sourceStates[0])
+  );
+}
+
+function targetConsumerPlanningMetadataSourceValid(sourceState) {
+  return (
+    isPlainObjectRecord(sourceState) &&
+    isUtcIsoTimestampWithMilliseconds(sourceState.reviewedAt) &&
+    reviewOnlyInspectionHandoffMetadataBoundaryFieldsEqual(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_SOURCE_LITERAL_FIELDS
+    ) &&
+    TARGET_CONSUMER_PLANNING_METADATA_SOURCE_FALSE_FIELDS.every(
+      (field) => sourceState[field] === false
+    ) &&
+    TARGET_CONSUMER_PLANNING_METADATA_SOURCE_NULL_FIELDS.every(
+      (field) => sourceState[field] === null
+    ) &&
+    isPlainObjectRecord(sourceState.sourceConsolidationCheckpointHandoff) &&
+    isPlainObjectRecord(sourceState.consolidationMetadataCheckpointSummary) &&
+    isPlainObjectRecord(sourceState.cleanupHardeningToolkitEvidence) &&
+    reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse(
+      sourceState.runtimeEffect
+    )
+  );
+}
+
+function targetConsumerPlanningMetadataKeyTruePresent(sourceState, fields) {
+  return reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(
+    sourceState,
+    fields
+  );
+}
+
+function targetConsumerPlanningMetadataUnsafeRuntimeSignal(sourceState) {
+  return (
+    targetConsumerPlanningMetadataKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_UNSAFE_RUNTIME_TRUE_FIELDS
+    ) ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_PROCESS_TRUE_FIELDS
+    )
+  );
+}
+
+function targetConsumerPlanningMetadataSingleClassification(sourceState) {
+  if (
+    targetConsumerPlanningMetadataKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_GRANT_TRUE_FIELDS
+    )
+  ) {
+    return "grant_looking_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (
+    targetConsumerPlanningMetadataKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_APPROVAL_DECISION_TRUE_FIELDS
+    )
+  ) {
+    return "approval_decision_looking_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (
+    targetConsumerPlanningMetadataKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_EVALUATOR_RESULT_TRUE_FIELDS
+    )
+  ) {
+    return "evaluator_result_looking_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (
+    targetConsumerPlanningMetadataKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_EVALUATOR_EXECUTION_TRUE_FIELDS
+    )
+  ) {
+    return "evaluator_execution_looking_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (
+    targetConsumerPlanningMetadataKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_REVIEWER_ROUTING_TRUE_FIELDS
+    )
+  ) {
+    return "reviewer_routing_looking_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (
+    targetConsumerPlanningMetadataKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_REVIEWER_ASSIGNMENT_TRUE_FIELDS
+    )
+  ) {
+    return "reviewer_assignment_looking_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (
+    targetConsumerPlanningMetadataKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_RUNTIME_PERMISSION_TRUE_FIELDS
+    )
+  ) {
+    return "runtime_permission_looking_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (
+    targetConsumerPlanningMetadataKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_COMMAND_EXPOSURE_TRUE_FIELDS
+    )
+  ) {
+    return "command_exposure_looking_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (
+    isPlainObjectRecord(sourceState) &&
+    isPlainObjectRecord(sourceState.runtimeEffect) &&
+    !reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse(
+      sourceState.runtimeEffect
+    )
+  ) {
+    return "runtime_effect_true_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (
+    targetConsumerPlanningMetadataKeyTruePresent(
+      sourceState,
+      TARGET_CONSUMER_PLANNING_METADATA_PROCESS_TRUE_FIELDS
+    )
+  ) {
+    return "process_flag_true_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (targetConsumerPlanningMetadataUnsafeRuntimeSignal(sourceState)) {
+    return "execution_signal_looking_target_consumer_planning_metadata_input_rejected";
+  }
+
+  return targetConsumerPlanningMetadataSourceValid(sourceState)
+    ? VALID_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION
+    : MALFORMED_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION;
+}
+
+function targetConsumerPlanningMetadataInputRejection(sourceStates) {
+  if (sourceStates === undefined) {
+    return "missing_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (!Array.isArray(sourceStates)) {
+    return MALFORMED_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION;
+  }
+
+  if (sourceStates.length === 0) {
+    return "empty_target_consumer_planning_metadata_input_rejected";
+  }
+
+  if (sourceStates.some((entry) => !isPlainObjectRecord(entry))) {
+    return MALFORMED_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION;
+  }
+
+  return sourceStates.length > 1
+    ? "duplicate_invalid_target_consumer_planning_metadata_input_rejected"
+    : undefined;
+}
+
+function targetConsumerPlanningMetadataInputClassification({
+  inputRecord,
+  sourceStates,
+  sourceDigest
+}) {
+  if (targetConsumerPlanningMetadataInputMalformed(inputRecord)) {
+    return MALFORMED_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION;
+  }
+
+  const inputRejection = targetConsumerPlanningMetadataInputRejection(sourceStates);
+
+  if (inputRejection !== undefined) {
+    return inputRejection;
+  }
+
+  if (
+    targetConsumerPlanningMetadataDigestMissing(inputRecord) ||
+    !reviewOnlyMetadataHandoffCheckpointDigestString(sourceDigest)
+  ) {
+    return MALFORMED_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION;
+  }
+
+  if (
+    !targetConsumerPlanningMetadataSourceDigestMatches(sourceStates, sourceDigest)
+  ) {
+    return MISMATCHED_SOURCE_DIGEST_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION;
+  }
+
+  return targetConsumerPlanningMetadataSingleClassification(sourceStates[0]);
+}
+
+function targetConsumerPlanningMetadataPrimaryHarnessLayer() {
+  return {
+    product: "Ardyn",
+    layerKind: "primary-harness-framework-wrapper-layer",
+    repoFamilyScope: "ardyn-repo-family",
+    primaryHarnessForRepoFamily: true,
+    firstClassTargetConsumers: ["locus", "multiverse"],
+    planningMetadataOnly: true,
+    runtimeBlocked: true,
+    secureDropConsumerOnlyAfterExplicitAuthorization: true
+  };
+}
+
+function targetConsumerPlanningMetadataLocusConsumer() {
+  return {
+    consumerId: "locus",
+    consumerName: "Locus",
+    firstClassTargetConsumer: true,
+    consumerRole: "status-control-surface-and-review-artifact-consumer",
+    contractCoverage: [
+      "status-control-surface-contracts",
+      "process-tool-capability-metadata",
+      "locus-visible-review-artifacts",
+      "future-secure-drop-compose-consumer-contract-reference",
+      "future-secure-drop-inbox-consumer-contract-reference"
+    ],
+    statusControlSurfaceContracts: {
+      statusMetadataVisible: true,
+      controlSurfaceMetadataVisible: true,
+      commandControlEnabled: false,
+      runtimeControlEnabled: false
+    },
+    processToolCapabilityMetadata: {
+      processMetadataVisible: true,
+      toolCapabilityMetadataVisible: true,
+      processControlEnabled: false,
+      toolExecutionEnabled: false
+    },
+    reviewArtifacts: {
+      locusVisibleReviewArtifacts: true,
+      reviewArtifactConsumerOnly: true,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false
+    },
+    secureDropFutureContractReferences: {
+      canonicalCapabilityOwner: "content-fabric",
+      capabilityStatus: "future-content-fabric-capability-reference-only",
+      composeContractReference:
+        "future-content-fabric.secure-drop.compose-consumer-contract",
+      inboxConsumerContractReference:
+        "future-content-fabric.secure-drop.inbox-consumer-contract",
+      ardynConsumesNow: false
+    },
+    nonAuthorizingBoundary: {
+      commandRuntimeControlEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimePermissionGranted: false,
+      commandExposurePermissionGranted: false,
+      connectorGrantProduced: false
+    }
+  };
+}
+
+function targetConsumerPlanningMetadataMultiverseConsumer() {
+  return {
+    consumerId: "multiverse",
+    consumerName: "Multiverse",
+    firstClassTargetConsumer: true,
+    consumerRole: "world-project-orchestration-and-wrapper-contract-consumer",
+    contractCoverage: [
+      "world-project-orchestration-contracts",
+      "visible-ai-capability-metadata",
+      "task-capability-wrapper-contracts",
+      "review-only-citizen-adapter-candidate-metadata",
+      "fabric-coordination-metadata"
+    ],
+    worldProjectOrchestrationContracts: {
+      worldMetadataVisible: true,
+      projectOrchestrationMetadataVisible: true,
+      liveRegistryConnectionEnabled: false,
+      liveTaskExecutionEnabled: false
+    },
+    visibleAiCapabilityMetadata: {
+      aiCapabilityMetadataVisible: true,
+      modelRuntimeEnabled: false,
+      evaluatorExecutionEnabled: false
+    },
+    taskCapabilityWrapperContracts: {
+      taskWrapperMetadataVisible: true,
+      capabilityWrapperMetadataVisible: true,
+      taskExecutionEnabled: false,
+      mcpExecutionEnabled: false
+    },
+    citizenAdapterCandidateMetadata: {
+      reviewOnlyCandidateMetadataVisible: true,
+      citizenAdapterCandidateMetadataOnly: true,
+      adapterRuntimeBehaviorEnabled: false,
+      connectorIngestionAdded: false
+    },
+    fabricCoordinationMetadata: {
+      fabricCoordinationMetadataVisible: true,
+      fabricRuntimeSurfaceEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      webSocketHttpSurfaceEnabled: false
+    },
+    nonAuthorizingBoundary: {
+      liveRegistryExecutionEnabled: false,
+      webSocketRuntimeEnabled: false,
+      taskRuntimeExecutionEnabled: false,
+      mcpRuntimeExecutionEnabled: false,
+      connectorGrantProduced: false
+    }
+  };
+}
+
+function targetConsumerPlanningMetadataSecureDropFutureCapability() {
+  return {
+    capabilityName: "Secure Drop",
+    canonicalCapability: "content-fabric.secure-drop",
+    canonicalCapabilityOwner: "content-fabric",
+    phaseStatus: "future-canonical-content-fabric-capability-reference-only",
+    ardynMayConsumeAfterExplicitAuthorization: true,
+    ardynConsumesNow: false,
+    cryptoImplemented: false,
+    transportImplemented: false,
+    stegoImplemented: false,
+    sendReceiveImplemented: false,
+    composeRuntimeImplemented: false,
+    inboxPollingImplemented: false,
+    fileSelectionImplemented: false,
+    filesystemScanningImplemented: false,
+    connectorIngestionImplemented: false,
+    secretVaultEnvAccessImplemented: false,
+    st3ggVendored: false,
+    contentFabricRuntimeBehaviorEnabled: false
+  };
+}
+
+function targetConsumerPlanningMetadataForbiddenBehavior() {
+  return {
+    commandRuntimeControlEnabled: false,
+    commandExposurePermissionGranted: false,
+    runtimePermissionGranted: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    reviewerRoutingPerformed: false,
+    reviewerAssignmentPerformed: false,
+    evaluatorExecutionPerformed: false,
+    evaluatorResultProduced: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    connectorGrantProduced: false,
+    connectorIngestionAdded: false,
+    liveRegistryConnectionEnabled: false,
+    webSocketRuntimeEnabled: false,
+    httpRuntimeEnabled: false,
+    taskRuntimeExecutionEnabled: false,
+    mcpRuntimeExecutionEnabled: false,
+    fabricRuntimeSurfaceEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    adapterRuntimeBehaviorEnabled: false,
+    secureDropImplemented: false,
+    secureDropCryptoImplemented: false,
+    secureDropTransportImplemented: false,
+    secureDropStegoImplemented: false,
+    secureDropSendReceiveImplemented: false,
+    secureDropInboxPollingEnabled: false,
+    fileSelectionEnabled: false,
+    filesystemWatcherEnabled: false,
+    filesystemScanningEnabled: false,
+    secretVaultEnvAccessEnabled: false,
+    st3ggVendored: false,
+    processControlEnabled: false,
+    liveStdinLoopEnabled: false,
+    runtimeStdoutWriterEnabled: false,
+    runtimeStderrWriterEnabled: false,
+    transcriptRuntimeWritePerformed: false,
+    auditRuntimeWritePerformed: false
+  };
+}
+
+function targetConsumerPlanningMetadataSummary() {
+  return {
+    targetConsumerPlanningMetadataKind: TARGET_CONSUMER_PLANNING_METADATA_KIND,
+    targetConsumerPlanningMetadataMode: "review-only",
+    primaryHarnessFrameworkWrapperLayer: true,
+    firstClassTargetConsumerIds: ["locus", "multiverse"],
+    targetConsumerCount: 2,
+    locusFirstClassTargetConsumer: true,
+    multiverseFirstClassTargetConsumer: true,
+    locusStatusControlSurfaceContractsCovered: true,
+    locusProcessToolCapabilityMetadataCovered: true,
+    locusVisibleReviewArtifactsCovered: true,
+    locusSecureDropFutureComposeInboxReferencesCovered: true,
+    multiverseWorldProjectOrchestrationContractsCovered: true,
+    multiverseVisibleAiCapabilityMetadataCovered: true,
+    multiverseTaskCapabilityWrapperContractsCovered: true,
+    multiverseReviewOnlyCitizenAdapterCandidateMetadataCovered: true,
+    multiverseFabricCoordinationMetadataCovered: true,
+    secureDropFutureContentFabricCapabilityReferenceOnly: true,
+    metadataOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    commandRuntimeControlEnabled: false,
+    runtimeExecutionEnabled: false,
+    connectorGrantProduced: false,
+    fabricRuntimeSurfaceEnabled: false,
+    contentFabricRuntimeBehaviorEnabled: false,
+    secureDropImplemented: false
+  };
+}
+
+function targetConsumerPlanningMetadataSourceSummary(sourceState, sourceDigest) {
+  return {
+    schema: sourceState.schema,
+    stateKind: sourceState.stateKind,
+    stateMode: sourceState.stateMode,
+    reviewedAt: sourceState.reviewedAt,
+    stateDigest: sourceDigest,
+    consolidationMetadataCheckpointMetadataOnly: true,
+    consolidationMetadataCheckpointIsReviewerRouting: false,
+    consolidationMetadataCheckpointIsReviewerAssignment: false,
+    consolidationMetadataCheckpointIsEvaluatorExecution: false,
+    consolidationMetadataCheckpointIsEvaluatorResult: false,
+    consolidationMetadataCheckpointIsApprovalDecision: false,
+    consolidationMetadataCheckpointIsApprovalGrant: false,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function targetConsumerPlanningMetadataStateFromSource(
+  sourceState,
+  reviewedAt,
+  sourceDigest
+) {
+  const targetConsumers = [
+    targetConsumerPlanningMetadataLocusConsumer(),
+    targetConsumerPlanningMetadataMultiverseConsumer()
+  ];
+
+  return {
+    schema: TARGET_CONSUMER_PLANNING_METADATA_STATE_SCHEMA,
+    schemaVersion: TARGET_CONSUMER_PLANNING_METADATA_VERSION,
+    stateKind: "target-consumer-planning-metadata-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourceConsolidationMetadataCheckpoint:
+      targetConsumerPlanningMetadataSourceSummary(sourceState, sourceDigest),
+    primaryHarnessLayer: targetConsumerPlanningMetadataPrimaryHarnessLayer(),
+    targetConsumers,
+    secureDropFutureCapability:
+      targetConsumerPlanningMetadataSecureDropFutureCapability(),
+    targetConsumerPlanningSummary: targetConsumerPlanningMetadataSummary(),
+    targetConsumerIds: targetConsumers.map(({ consumerId }) => consumerId),
+    targetConsumerPlanningMetadataOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    targetConsumerPlanningMetadataIsReviewerRouting: false,
+    targetConsumerPlanningMetadataIsReviewerAssignment: false,
+    targetConsumerPlanningMetadataIsEvaluatorExecution: false,
+    targetConsumerPlanningMetadataIsEvaluatorResult: false,
+    targetConsumerPlanningMetadataIsApprovalDecision: false,
+    targetConsumerPlanningMetadataIsApprovalGrant: false,
+    ...targetConsumerPlanningMetadataForbiddenBehavior(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function targetConsumerPlanningMetadataAcceptedOutput({
+  accepted,
+  sourceStates,
+  reviewedAt,
+  sourceDigest
+}) {
+  if (!accepted) {
+    return {
+      targetConsumerPlanningMetadata: null,
+      sourceConsolidationMetadataCheckpointSummary: null
+    };
+  }
+
+  const sourceState = sourceStates[0];
+
+  return {
+    targetConsumerPlanningMetadata:
+      targetConsumerPlanningMetadataStateFromSource(
+        sourceState,
+        reviewedAt,
+        sourceDigest
+      ),
+    sourceConsolidationMetadataCheckpointSummary:
+      targetConsumerPlanningMetadataSourceSummary(sourceState, sourceDigest)
+  };
+}
+
+function targetConsumerPlanningMetadataRejectionReasons({
+  accepted,
+  classification
+}) {
+  if (accepted) {
+    return [
+      "target_consumer_planning_metadata_is_review_only",
+      "locus_and_multiverse_recorded_as_first_class_target_consumers",
+      "secure_drop_is_future_content_fabric_capability_reference_only",
+      "command_runtime_control_not_implemented",
+      "connector_grants_not_implemented",
+      "fabric_runtime_not_implemented",
+      "secure_drop_runtime_not_implemented",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    classification,
+    "target_consumer_planning_metadata_not_produced",
+    "command_runtime_control_not_implemented",
+    "connector_grants_not_implemented",
+    "fabric_runtime_not_implemented",
+    "secure_drop_runtime_not_implemented",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function targetConsumerPlanningMetadataResult({
+  reviewedAt,
+  classification,
+  accepted,
+  targetConsumerPlanningMetadata,
+  sourceConsolidationMetadataCheckpointSummary
+}) {
+  return {
+    schema: TARGET_CONSUMER_PLANNING_METADATA_SCHEMA,
+    schemaVersion: TARGET_CONSUMER_PLANNING_METADATA_VERSION,
+    targetConsumerPlanningMetadataKind: TARGET_CONSUMER_PLANNING_METADATA_KIND,
+    targetConsumerPlanningMetadataMode: "review-only",
+    reviewedAt,
+    classification,
+    sourceConsolidationMetadataCheckpointAccepted: accepted,
+    targetConsumerPlanningMetadataProduced: accepted,
+    targetConsumerPlanningMetadata,
+    sourceConsolidationMetadataCheckpointSummary,
+    targetConsumerPlanningSummary: accepted
+      ? targetConsumerPlanningMetadata.targetConsumerPlanningSummary
+      : null,
+    targetConsumers: accepted ? targetConsumerPlanningMetadata.targetConsumers : [],
+    targetConsumerIds: accepted ? targetConsumerPlanningMetadata.targetConsumerIds : [],
+    secureDropFutureCapability: accepted
+      ? targetConsumerPlanningMetadata.secureDropFutureCapability
+      : null,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    targetConsumerPlanningMetadataOnly: true,
+    targetConsumerPlanningMetadataIsReviewerRouting: false,
+    targetConsumerPlanningMetadataIsReviewerAssignment: false,
+    targetConsumerPlanningMetadataIsEvaluatorExecution: false,
+    targetConsumerPlanningMetadataIsEvaluatorResult: false,
+    targetConsumerPlanningMetadataIsApprovalDecision: false,
+    targetConsumerPlanningMetadataIsApprovalGrant: false,
+    ...targetConsumerPlanningMetadataForbiddenBehavior(),
+    rejectionReasons:
+      targetConsumerPlanningMetadataRejectionReasons({
+        accepted,
+        classification
+      }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createTargetConsumerPlanningMetadataForReview(input = {}) {
+  const inputRecord = targetConsumerPlanningMetadataInputRecord(input);
+  const reviewedAt = targetConsumerPlanningMetadataReviewedAt(inputRecord);
+  const sourceStates = targetConsumerPlanningMetadataEntries(inputRecord);
+  const sourceDigest = targetConsumerPlanningMetadataSourceDigest(inputRecord);
+  const classification = targetConsumerPlanningMetadataInputClassification({
+    inputRecord,
+    sourceStates,
+    sourceDigest
+  });
+  const accepted =
+    classification === VALID_TARGET_CONSUMER_PLANNING_METADATA_CLASSIFICATION;
+  const {
+    targetConsumerPlanningMetadata,
+    sourceConsolidationMetadataCheckpointSummary
+  } = targetConsumerPlanningMetadataAcceptedOutput({
+    accepted,
+    sourceStates,
+    reviewedAt,
+    sourceDigest
+  });
+
+  return targetConsumerPlanningMetadataResult({
+    reviewedAt,
+    classification,
+    accepted,
+    targetConsumerPlanningMetadata,
+    sourceConsolidationMetadataCheckpointSummary
   });
 }
 

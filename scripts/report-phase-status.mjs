@@ -249,6 +249,9 @@ const phase544ReviewOnlyConsolidationMetadataCheckpointMetadata =
   await readJson(
     "tests/fixtures/host-policy/phase5-44/review-only-consolidation-metadata-checkpoint.json"
   );
+const phase545TargetConsumerPlanningMetadata = await readJson(
+  "tests/fixtures/host-policy/phase5-45/target-consumer-planning-metadata.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -296,10 +299,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.44A",
-    name: "Focused prototype-pollution hardening",
+    id: "5.45",
+    name: "Locus and Multiverse target consumer planning metadata",
     executionPosture:
-      "focused-prototype-pollution-hardening runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-external-system-integration no-connector-ingestion"
+      "target-consumer-planning-metadata runtime-disabled no-new-runtime-capability no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-connector-grant no-fabric-runtime no-secure-drop-runtime"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -380,18 +383,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.44A prototype-pollution hardening status report.",
+        "Render this deterministic local Phase 5.45 target-consumer planning metadata status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.44A status report.",
+      purpose: "Run focused tests for this local Phase 5.45 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Verify the Phase 5.44A prototype-pollution finding is removed without dependency or config changes.",
+        "Run Semgrep as evidence only for Phase 5.45 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-45-target-consumer-planning-metadata.test.mjs",
+      purpose:
+        "Run focused Phase 5.45 Locus/Multiverse target-consumer planning metadata and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -18401,6 +18411,326 @@ const report = {
       noRustSourceChange: true
     }
   },
+  phase545TargetConsumerPlanningMetadataInventory: {
+    statusLayer: {
+      document: "docs/phase-5-45-target-consumer-planning-metadata.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-45/target-consumer-planning-metadata.json",
+      sourceConsolidationMetadataCheckpointDocument:
+        "docs/phase-5-44-review-only-consolidation-metadata-checkpoint.md",
+      sourceConsolidationMetadataCheckpointFixture:
+        "tests/fixtures/host-policy/phase5-44/review-only-consolidation-metadata-checkpoint.json",
+      precedingPhase: "5.44A",
+      sourceMetadataPhase: "5.44",
+      layerId: "target-consumer-planning-metadata",
+      scope:
+        "phase-5-target-consumer-planning-metadata-locus-multiverse-runtime-disabled",
+      ...phase545TargetConsumerPlanningMetadata.targetConsumerPlanningSummary,
+      targetConsumerIds: phase545TargetConsumerPlanningMetadata.targetConsumerIds,
+      locusFirstClassTargetConsumer: true,
+      multiverseFirstClassTargetConsumer: true,
+      secureDropFutureContentFabricCapabilityReferenceOnly: true,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeExecuted: false,
+      commandRuntimeControlEnabled: false,
+      connectorGrantProduced: false,
+      connectorIngestionAdded: false,
+      liveRegistryConnectionEnabled: false,
+      webSocketRuntimeEnabled: false,
+      httpRuntimeEnabled: false,
+      taskRuntimeExecutionEnabled: false,
+      mcpRuntimeExecutionEnabled: false,
+      fabricRuntimeSurfaceEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      adapterRuntimeBehaviorEnabled: false,
+      secureDropImplemented: false,
+      secureDropCryptoImplemented: false,
+      secureDropTransportImplemented: false,
+      secureDropStegoImplemented: false,
+      secureDropSendReceiveImplemented: false,
+      secureDropInboxPollingEnabled: false,
+      fileSelectionEnabled: false,
+      filesystemWatcherEnabled: false,
+      filesystemScanningEnabled: false,
+      secretVaultEnvAccessEnabled: false,
+      st3ggVendored: false,
+      processControlEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      transcriptRuntimeWritePerformed: false,
+      auditRuntimeWritePerformed: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      fabricSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-45-target-consumer-planning-metadata.md",
+        "Records Ardyn as the primary harness/framework/wrapper layer with Locus and Multiverse as first-class target consumers while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-44-review-only-consolidation-metadata-checkpoint.md",
+        "Provides the Phase 5.45 source consolidation metadata checkpoint state."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-44-review-only-consolidation-metadata-checkpoint.md",
+      "docs/phase-5-45-target-consumer-planning-metadata.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-45/target-consumer-planning-metadata.json",
+        "Records deterministic Locus and Multiverse target-consumer planning metadata with command, connector, Fabric, and Secure Drop runtime behavior disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-45-target-consumer-planning-metadata.test.mjs",
+        "Pins the Phase 5.45 helper, fixture shape, Locus and Multiverse target-consumer metadata, Secure Drop future content-fabric boundary, blocked commands, and source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.45 status inventory, docs cross-links, fixture inventory, and runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-45-target-consumer-planning-metadata.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-45/target-consumer-planning-metadata.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-45-target-consumer-planning-metadata.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      fabricSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      fileSelectionAddedByThisPhase: false,
+      filesystemScanningAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      connectorIngestionAddedByThisPhase: false,
+      connectorGrantProducedByThisPhase: false,
+      secureDropImplementedByThisPhase: false,
+      secureDropCryptoImplementedByThisPhase: false,
+      secureDropTransportImplementedByThisPhase: false,
+      secureDropStegoImplementedByThisPhase: false,
+      secureDropSendReceiveImplementedByThisPhase: false,
+      secureDropInboxPollingEnabledByThisPhase: false,
+      st3ggVendoredByThisPhase: false,
+      liveRegistryConnectionAddedByThisPhase: false,
+      webSocketHttpSurfaceAddedByThisPhase: false,
+      taskRuntimeAddedByThisPhase: false,
+      mcpRuntimeAddedByThisPhase: false,
+      fabricRuntimeSurfaceAddedByThisPhase: false,
+      contentFabricRuntimeBehaviorAddedByThisPhase: false,
+      reviewerRoutingPerformedByThisPhase: false,
+      reviewerAssignmentPerformedByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      reportRunsChecks: false,
+      separateRuntimeEnablementApprovalRequired: true,
+      separateSecureDropAuthorizationPhaseRequired: true,
+      separateFabricRuntimeAuthorizationPhaseRequired: true
+    },
+    sourceConsolidationMetadataCheckpointSummary:
+      phase545TargetConsumerPlanningMetadata
+        .sourceConsolidationMetadataCheckpointSummary,
+    targetConsumerPlanningSummary:
+      phase545TargetConsumerPlanningMetadata.targetConsumerPlanningSummary,
+    targetConsumerPlanningMetadata:
+      phase545TargetConsumerPlanningMetadata.targetConsumerPlanningMetadata,
+    targetConsumers: phase545TargetConsumerPlanningMetadata.targetConsumers,
+    secureDropFutureCapability:
+      phase545TargetConsumerPlanningMetadata.secureDropFutureCapability,
+    blockedRuntimeEffect: phase545TargetConsumerPlanningMetadata.runtimeEffect,
+    serveRuntimeBlockedBehavior: {
+      commandRecognized: true,
+      defaultBlocked: true,
+      dryRunBlocked: true,
+      dryRunBypassesBlock: false,
+      stdout: "",
+      stderrIncludes: "runtime unavailable",
+      exitCode: 1
+    },
+    forbiddenBehavior: {
+      commandRuntimeControlEnabled:
+        phase545TargetConsumerPlanningMetadata.commandRuntimeControlEnabled,
+      commandExposurePermissionGranted:
+        phase545TargetConsumerPlanningMetadata.commandExposurePermissionGranted,
+      runtimePermissionGranted:
+        phase545TargetConsumerPlanningMetadata.runtimePermissionGranted,
+      runtimeCommandExposureEnabled:
+        phase545TargetConsumerPlanningMetadata.runtimeCommandExposureEnabled,
+      runtimeExecutionEnabled:
+        phase545TargetConsumerPlanningMetadata.runtimeExecutionEnabled,
+      reviewerRoutingPerformed:
+        phase545TargetConsumerPlanningMetadata.reviewerRoutingPerformed,
+      reviewerAssignmentPerformed:
+        phase545TargetConsumerPlanningMetadata.reviewerAssignmentPerformed,
+      evaluatorExecutionPerformed:
+        phase545TargetConsumerPlanningMetadata.evaluatorExecutionPerformed,
+      evaluatorResultProduced:
+        phase545TargetConsumerPlanningMetadata.evaluatorResultProduced,
+      approvalDecisionProduced:
+        phase545TargetConsumerPlanningMetadata.approvalDecisionProduced,
+      approvalGrantProduced:
+        phase545TargetConsumerPlanningMetadata.approvalGrantProduced,
+      approvalGrantPersisted:
+        phase545TargetConsumerPlanningMetadata.approvalGrantPersisted,
+      connectorGrantProduced:
+        phase545TargetConsumerPlanningMetadata.connectorGrantProduced,
+      connectorIngestionAdded:
+        phase545TargetConsumerPlanningMetadata.connectorIngestionAdded,
+      liveRegistryConnectionEnabled:
+        phase545TargetConsumerPlanningMetadata.liveRegistryConnectionEnabled,
+      webSocketRuntimeEnabled:
+        phase545TargetConsumerPlanningMetadata.webSocketRuntimeEnabled,
+      httpRuntimeEnabled:
+        phase545TargetConsumerPlanningMetadata.httpRuntimeEnabled,
+      taskRuntimeExecutionEnabled:
+        phase545TargetConsumerPlanningMetadata.taskRuntimeExecutionEnabled,
+      mcpRuntimeExecutionEnabled:
+        phase545TargetConsumerPlanningMetadata.mcpRuntimeExecutionEnabled,
+      fabricRuntimeSurfaceEnabled:
+        phase545TargetConsumerPlanningMetadata.fabricRuntimeSurfaceEnabled,
+      contentFabricRuntimeBehaviorEnabled:
+        phase545TargetConsumerPlanningMetadata.contentFabricRuntimeBehaviorEnabled,
+      adapterRuntimeBehaviorEnabled:
+        phase545TargetConsumerPlanningMetadata.adapterRuntimeBehaviorEnabled,
+      secureDropImplemented:
+        phase545TargetConsumerPlanningMetadata.secureDropImplemented,
+      secureDropCryptoImplemented:
+        phase545TargetConsumerPlanningMetadata.secureDropCryptoImplemented,
+      secureDropTransportImplemented:
+        phase545TargetConsumerPlanningMetadata.secureDropTransportImplemented,
+      secureDropStegoImplemented:
+        phase545TargetConsumerPlanningMetadata.secureDropStegoImplemented,
+      secureDropSendReceiveImplemented:
+        phase545TargetConsumerPlanningMetadata.secureDropSendReceiveImplemented,
+      secureDropInboxPollingEnabled:
+        phase545TargetConsumerPlanningMetadata.secureDropInboxPollingEnabled,
+      fileSelectionEnabled:
+        phase545TargetConsumerPlanningMetadata.fileSelectionEnabled,
+      filesystemWatcherEnabled:
+        phase545TargetConsumerPlanningMetadata.filesystemWatcherEnabled,
+      filesystemScanningEnabled:
+        phase545TargetConsumerPlanningMetadata.filesystemScanningEnabled,
+      secretVaultEnvAccessEnabled:
+        phase545TargetConsumerPlanningMetadata.secretVaultEnvAccessEnabled,
+      st3ggVendored: phase545TargetConsumerPlanningMetadata.st3ggVendored,
+      processControlEnabled:
+        phase545TargetConsumerPlanningMetadata.processControlEnabled,
+      liveStdinLoopEnabled:
+        phase545TargetConsumerPlanningMetadata.liveStdinLoopEnabled,
+      runtimeStdoutWriterEnabled:
+        phase545TargetConsumerPlanningMetadata.runtimeStdoutWriterEnabled,
+      runtimeStderrWriterEnabled:
+        phase545TargetConsumerPlanningMetadata.runtimeStderrWriterEnabled,
+      transcriptRuntimeWritePerformed:
+        phase545TargetConsumerPlanningMetadata.transcriptRuntimeWritePerformed,
+      auditRuntimeWritePerformed:
+        phase545TargetConsumerPlanningMetadata.auditRuntimeWritePerformed
+    },
+    validationCommands: [
+      "node --test tests/phase5-45-target-consumer-planning-metadata.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check",
+      "fallow health --score --hotspots --targets --format json",
+      "fallow audit --format json"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      targetConsumerPlanningMetadataRecorded: true,
+      targetConsumerPlanningMetadataReviewOnly: true,
+      targetConsumerPlanningMetadataAuthoritative: false,
+      targetConsumerPlanningMetadataProduced: true,
+      primaryHarnessFrameworkWrapperLayer: true,
+      locusFirstClassTargetConsumer: true,
+      multiverseFirstClassTargetConsumer: true,
+      secureDropFutureContentFabricCapabilityReferenceOnly: true,
+      runtimeBlocked: true,
+      commandRuntimeControlEnabled: false,
+      commandExposurePermissionGranted: false,
+      runtimePermissionGranted: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorExecutionPerformed: false,
+      evaluatorResultProduced: false,
+      approvalDecisionProduced: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      connectorGrantProduced: false,
+      connectorIngestionAdded: false,
+      liveRegistryConnectionEnabled: false,
+      webSocketRuntimeEnabled: false,
+      httpRuntimeEnabled: false,
+      taskRuntimeExecutionEnabled: false,
+      mcpRuntimeExecutionEnabled: false,
+      fabricRuntimeSurfaceEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      adapterRuntimeBehaviorEnabled: false,
+      secureDropImplemented: false,
+      secureDropCryptoImplemented: false,
+      secureDropTransportImplemented: false,
+      secureDropStegoImplemented: false,
+      secureDropSendReceiveImplemented: false,
+      secureDropInboxPollingEnabled: false,
+      fileSelectionEnabled: false,
+      filesystemWatcherEnabled: false,
+      filesystemScanningEnabled: false,
+      secretVaultEnvAccessEnabled: false,
+      st3ggVendored: false,
+      processControlEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      transcriptRuntimeWritePerformed: false,
+      auditRuntimeWritePerformed: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFabricSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -18480,6 +18810,7 @@ const report = {
     phase543ReviewOnlyConsolidationCheckpointHandoff: true,
     phase544ReviewOnlyConsolidationMetadataCheckpoint: true,
     phase544APrototypePollutionHardening: true,
+    phase545TargetConsumerPlanningMetadata: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -20689,6 +21020,58 @@ const report = {
       phase544AdapterRuntimeBehaviorEnabled: false,
       phase544ContentFabricRuntimeBehaviorEnabled: false,
       phase544WebSocketHttpSurfaceEnabled: false,
+      phase545TargetConsumerPlanningMetadataRecorded: true,
+      phase545TargetConsumerPlanningMetadataReviewOnly: true,
+      phase545TargetConsumerPlanningMetadataProduced: true,
+      phase545PrimaryHarnessFrameworkWrapperLayer: true,
+      phase545LocusFirstClassTargetConsumer: true,
+      phase545MultiverseFirstClassTargetConsumer: true,
+      phase545SecureDropFutureContentFabricCapabilityReferenceOnly: true,
+      phase545ServeRuntimeStillDefaultBlocked: true,
+      phase545TargetConsumerPlanningMetadataAuthoritative: false,
+      phase545CommandRuntimeControlEnabled: false,
+      phase545RuntimePermissionGranted: false,
+      phase545CommandExposurePermissionGranted: false,
+      phase545RuntimeCommandExposureEnabled: false,
+      phase545RuntimeExecutionEnabled: false,
+      phase545ReviewerRoutingPerformed: false,
+      phase545ReviewerAssignmentPerformed: false,
+      phase545EvaluatorExecutionPerformed: false,
+      phase545EvaluatorResultProduced: false,
+      phase545ApprovalDecisionProduced: false,
+      phase545ApprovalGrantProduced: false,
+      phase545ApprovalGrantPersisted: false,
+      phase545ConnectorGrantProduced: false,
+      phase545ConnectorIngestionAdded: false,
+      phase545LiveRegistryConnectionEnabled: false,
+      phase545WebSocketRuntimeEnabled: false,
+      phase545HttpRuntimeEnabled: false,
+      phase545TaskRuntimeExecutionEnabled: false,
+      phase545McpRuntimeExecutionEnabled: false,
+      phase545FabricRuntimeSurfaceEnabled: false,
+      phase545ContentFabricRuntimeBehaviorEnabled: false,
+      phase545AdapterRuntimeBehaviorEnabled: false,
+      phase545SecureDropImplemented: false,
+      phase545SecureDropCryptoImplemented: false,
+      phase545SecureDropTransportImplemented: false,
+      phase545SecureDropStegoImplemented: false,
+      phase545SecureDropSendReceiveImplemented: false,
+      phase545SecureDropInboxPollingEnabled: false,
+      phase545FileSelectionEnabled: false,
+      phase545FilesystemWatcherEnabled: false,
+      phase545FilesystemScanningEnabled: false,
+      phase545SecretVaultEnvAccessEnabled: false,
+      phase545St3ggVendored: false,
+      phase545ProcessControlEnabled: false,
+      phase545LiveStdinLoopEnabled: false,
+      phase545RuntimeStdoutWriterEnabled: false,
+      phase545RuntimeStderrWriterEnabled: false,
+      phase545RuntimeTranscriptWritePerformed: false,
+      phase545RuntimeAuditWritePerformed: false,
+      phase545DryRunBypassesBlock: false,
+      phase545CliSourceChanged: false,
+      phase545RustSourceChanged: false,
+      phase545FabricSourceChanged: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,

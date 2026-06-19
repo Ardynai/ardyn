@@ -1,0 +1,494 @@
+{
+  "schema": "ardyn.phase-5.45.target-consumer-planning-metadata-result",
+  "schemaVersion": "0.1.0",
+  "targetConsumerPlanningMetadataKind": "target-consumer-planning-metadata",
+  "targetConsumerPlanningMetadataMode": "review-only",
+  "reviewedAt": "2026-06-19T00:00:00.000Z",
+  "classification": "valid_target_consumer_planning_metadata_runtime_still_blocked",
+  "sourceConsolidationMetadataCheckpointAccepted": true,
+  "targetConsumerPlanningMetadataProduced": true,
+  "targetConsumerPlanningMetadata": {
+    "schema": "ardyn.phase-5.45.target-consumer-planning-metadata-state",
+    "schemaVersion": "0.1.0",
+    "stateKind": "target-consumer-planning-metadata-state",
+    "stateMode": "review-only",
+    "reviewedAt": "2026-06-19T00:00:00.000Z",
+    "sourceConsolidationMetadataCheckpoint": {
+      "schema": "ardyn.phase-5.44.review-only-consolidation-metadata-checkpoint-state",
+      "stateKind": "review-only-consolidation-metadata-checkpoint-state",
+      "stateMode": "review-only",
+      "reviewedAt": "2026-06-18T00:00:00.000Z",
+      "stateDigest": "sha256:a4af1b5b5b8dafe0cba84f510fceedb2fe0071016d8f874c703ea09968b20c87",
+      "consolidationMetadataCheckpointMetadataOnly": true,
+      "consolidationMetadataCheckpointIsReviewerRouting": false,
+      "consolidationMetadataCheckpointIsReviewerAssignment": false,
+      "consolidationMetadataCheckpointIsEvaluatorExecution": false,
+      "consolidationMetadataCheckpointIsEvaluatorResult": false,
+      "consolidationMetadataCheckpointIsApprovalDecision": false,
+      "consolidationMetadataCheckpointIsApprovalGrant": false,
+      "runtimeEffectAllFalse": true
+    },
+    "primaryHarnessLayer": {
+      "product": "Ardyn",
+      "layerKind": "primary-harness-framework-wrapper-layer",
+      "repoFamilyScope": "ardyn-repo-family",
+      "primaryHarnessForRepoFamily": true,
+      "firstClassTargetConsumers": [
+        "locus",
+        "multiverse"
+      ],
+      "planningMetadataOnly": true,
+      "runtimeBlocked": true,
+      "secureDropConsumerOnlyAfterExplicitAuthorization": true
+    },
+    "targetConsumers": [
+      {
+        "consumerId": "locus",
+        "consumerName": "Locus",
+        "firstClassTargetConsumer": true,
+        "consumerRole": "status-control-surface-and-review-artifact-consumer",
+        "contractCoverage": [
+          "status-control-surface-contracts",
+          "process-tool-capability-metadata",
+          "locus-visible-review-artifacts",
+          "future-secure-drop-compose-consumer-contract-reference",
+          "future-secure-drop-inbox-consumer-contract-reference"
+        ],
+        "statusControlSurfaceContracts": {
+          "statusMetadataVisible": true,
+          "controlSurfaceMetadataVisible": true,
+          "commandControlEnabled": false,
+          "runtimeControlEnabled": false
+        },
+        "processToolCapabilityMetadata": {
+          "processMetadataVisible": true,
+          "toolCapabilityMetadataVisible": true,
+          "processControlEnabled": false,
+          "toolExecutionEnabled": false
+        },
+        "reviewArtifacts": {
+          "locusVisibleReviewArtifacts": true,
+          "reviewArtifactConsumerOnly": true,
+          "reviewerRoutingPerformed": false,
+          "reviewerAssignmentPerformed": false
+        },
+        "secureDropFutureContractReferences": {
+          "canonicalCapabilityOwner": "content-fabric",
+          "capabilityStatus": "future-content-fabric-capability-reference-only",
+          "composeContractReference": "future-content-fabric.secure-drop.compose-consumer-contract",
+          "inboxConsumerContractReference": "future-content-fabric.secure-drop.inbox-consumer-contract",
+          "ardynConsumesNow": false
+        },
+        "nonAuthorizingBoundary": {
+          "commandRuntimeControlEnabled": false,
+          "runtimeExecutionEnabled": false,
+          "runtimePermissionGranted": false,
+          "commandExposurePermissionGranted": false,
+          "connectorGrantProduced": false
+        }
+      },
+      {
+        "consumerId": "multiverse",
+        "consumerName": "Multiverse",
+        "firstClassTargetConsumer": true,
+        "consumerRole": "world-project-orchestration-and-wrapper-contract-consumer",
+        "contractCoverage": [
+          "world-project-orchestration-contracts",
+          "visible-ai-capability-metadata",
+          "task-capability-wrapper-contracts",
+          "review-only-citizen-adapter-candidate-metadata",
+          "fabric-coordination-metadata"
+        ],
+        "worldProjectOrchestrationContracts": {
+          "worldMetadataVisible": true,
+          "projectOrchestrationMetadataVisible": true,
+          "liveRegistryConnectionEnabled": false,
+          "liveTaskExecutionEnabled": false
+        },
+        "visibleAiCapabilityMetadata": {
+          "aiCapabilityMetadataVisible": true,
+          "modelRuntimeEnabled": false,
+          "evaluatorExecutionEnabled": false
+        },
+        "taskCapabilityWrapperContracts": {
+          "taskWrapperMetadataVisible": true,
+          "capabilityWrapperMetadataVisible": true,
+          "taskExecutionEnabled": false,
+          "mcpExecutionEnabled": false
+        },
+        "citizenAdapterCandidateMetadata": {
+          "reviewOnlyCandidateMetadataVisible": true,
+          "citizenAdapterCandidateMetadataOnly": true,
+          "adapterRuntimeBehaviorEnabled": false,
+          "connectorIngestionAdded": false
+        },
+        "fabricCoordinationMetadata": {
+          "fabricCoordinationMetadataVisible": true,
+          "fabricRuntimeSurfaceEnabled": false,
+          "contentFabricRuntimeBehaviorEnabled": false,
+          "webSocketHttpSurfaceEnabled": false
+        },
+        "nonAuthorizingBoundary": {
+          "liveRegistryExecutionEnabled": false,
+          "webSocketRuntimeEnabled": false,
+          "taskRuntimeExecutionEnabled": false,
+          "mcpRuntimeExecutionEnabled": false,
+          "connectorGrantProduced": false
+        }
+      }
+    ],
+    "secureDropFutureCapability": {
+      "capabilityName": "Secure Drop",
+      "canonicalCapability": "content-fabric.secure-drop",
+      "canonicalCapabilityOwner": "content-fabric",
+      "phaseStatus": "future-canonical-content-fabric-capability-reference-only",
+      "ardynMayConsumeAfterExplicitAuthorization": true,
+      "ardynConsumesNow": false,
+      "cryptoImplemented": false,
+      "transportImplemented": false,
+      "stegoImplemented": false,
+      "sendReceiveImplemented": false,
+      "composeRuntimeImplemented": false,
+      "inboxPollingImplemented": false,
+      "fileSelectionImplemented": false,
+      "filesystemScanningImplemented": false,
+      "connectorIngestionImplemented": false,
+      "secretVaultEnvAccessImplemented": false,
+      "st3ggVendored": false,
+      "contentFabricRuntimeBehaviorEnabled": false
+    },
+    "targetConsumerPlanningSummary": {
+      "targetConsumerPlanningMetadataKind": "target-consumer-planning-metadata",
+      "targetConsumerPlanningMetadataMode": "review-only",
+      "primaryHarnessFrameworkWrapperLayer": true,
+      "firstClassTargetConsumerIds": [
+        "locus",
+        "multiverse"
+      ],
+      "targetConsumerCount": 2,
+      "locusFirstClassTargetConsumer": true,
+      "multiverseFirstClassTargetConsumer": true,
+      "locusStatusControlSurfaceContractsCovered": true,
+      "locusProcessToolCapabilityMetadataCovered": true,
+      "locusVisibleReviewArtifactsCovered": true,
+      "locusSecureDropFutureComposeInboxReferencesCovered": true,
+      "multiverseWorldProjectOrchestrationContractsCovered": true,
+      "multiverseVisibleAiCapabilityMetadataCovered": true,
+      "multiverseTaskCapabilityWrapperContractsCovered": true,
+      "multiverseReviewOnlyCitizenAdapterCandidateMetadataCovered": true,
+      "multiverseFabricCoordinationMetadataCovered": true,
+      "secureDropFutureContentFabricCapabilityReferenceOnly": true,
+      "metadataOnly": true,
+      "reviewOnly": true,
+      "authoritative": false,
+      "commandRuntimeControlEnabled": false,
+      "runtimeExecutionEnabled": false,
+      "connectorGrantProduced": false,
+      "fabricRuntimeSurfaceEnabled": false,
+      "contentFabricRuntimeBehaviorEnabled": false,
+      "secureDropImplemented": false
+    },
+    "targetConsumerIds": [
+      "locus",
+      "multiverse"
+    ],
+    "targetConsumerPlanningMetadataOnly": true,
+    "reviewOnly": true,
+    "authoritative": false,
+    "reviewArtifactOnly": true,
+    "targetConsumerPlanningMetadataIsReviewerRouting": false,
+    "targetConsumerPlanningMetadataIsReviewerAssignment": false,
+    "targetConsumerPlanningMetadataIsEvaluatorExecution": false,
+    "targetConsumerPlanningMetadataIsEvaluatorResult": false,
+    "targetConsumerPlanningMetadataIsApprovalDecision": false,
+    "targetConsumerPlanningMetadataIsApprovalGrant": false,
+    "commandRuntimeControlEnabled": false,
+    "commandExposurePermissionGranted": false,
+    "runtimePermissionGranted": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "reviewerRoutingPerformed": false,
+    "reviewerAssignmentPerformed": false,
+    "evaluatorExecutionPerformed": false,
+    "evaluatorResultProduced": false,
+    "approvalDecisionProduced": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "connectorGrantProduced": false,
+    "connectorIngestionAdded": false,
+    "liveRegistryConnectionEnabled": false,
+    "webSocketRuntimeEnabled": false,
+    "httpRuntimeEnabled": false,
+    "taskRuntimeExecutionEnabled": false,
+    "mcpRuntimeExecutionEnabled": false,
+    "fabricRuntimeSurfaceEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "secureDropImplemented": false,
+    "secureDropCryptoImplemented": false,
+    "secureDropTransportImplemented": false,
+    "secureDropStegoImplemented": false,
+    "secureDropSendReceiveImplemented": false,
+    "secureDropInboxPollingEnabled": false,
+    "fileSelectionEnabled": false,
+    "filesystemWatcherEnabled": false,
+    "filesystemScanningEnabled": false,
+    "secretVaultEnvAccessEnabled": false,
+    "st3ggVendored": false,
+    "processControlEnabled": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "transcriptRuntimeWritePerformed": false,
+    "auditRuntimeWritePerformed": false,
+    "runtimeEffect": {
+      "runtimeEnabled": false,
+      "runtimeStarted": false,
+      "runtimeReady": false,
+      "runtimeCommandEnabled": false,
+      "runtimeCommandExposureEnabled": false,
+      "runtimeExecutionEnabled": false,
+      "runtimeExecuted": false,
+      "approvalGrantProduced": false,
+      "approvalGrantPersisted": false,
+      "approvalEvaluatorAuthoritative": false
+    }
+  },
+  "sourceConsolidationMetadataCheckpointSummary": {
+    "schema": "ardyn.phase-5.44.review-only-consolidation-metadata-checkpoint-state",
+    "stateKind": "review-only-consolidation-metadata-checkpoint-state",
+    "stateMode": "review-only",
+    "reviewedAt": "2026-06-18T00:00:00.000Z",
+    "stateDigest": "sha256:a4af1b5b5b8dafe0cba84f510fceedb2fe0071016d8f874c703ea09968b20c87",
+    "consolidationMetadataCheckpointMetadataOnly": true,
+    "consolidationMetadataCheckpointIsReviewerRouting": false,
+    "consolidationMetadataCheckpointIsReviewerAssignment": false,
+    "consolidationMetadataCheckpointIsEvaluatorExecution": false,
+    "consolidationMetadataCheckpointIsEvaluatorResult": false,
+    "consolidationMetadataCheckpointIsApprovalDecision": false,
+    "consolidationMetadataCheckpointIsApprovalGrant": false,
+    "runtimeEffectAllFalse": true
+  },
+  "targetConsumerPlanningSummary": {
+    "targetConsumerPlanningMetadataKind": "target-consumer-planning-metadata",
+    "targetConsumerPlanningMetadataMode": "review-only",
+    "primaryHarnessFrameworkWrapperLayer": true,
+    "firstClassTargetConsumerIds": [
+      "locus",
+      "multiverse"
+    ],
+    "targetConsumerCount": 2,
+    "locusFirstClassTargetConsumer": true,
+    "multiverseFirstClassTargetConsumer": true,
+    "locusStatusControlSurfaceContractsCovered": true,
+    "locusProcessToolCapabilityMetadataCovered": true,
+    "locusVisibleReviewArtifactsCovered": true,
+    "locusSecureDropFutureComposeInboxReferencesCovered": true,
+    "multiverseWorldProjectOrchestrationContractsCovered": true,
+    "multiverseVisibleAiCapabilityMetadataCovered": true,
+    "multiverseTaskCapabilityWrapperContractsCovered": true,
+    "multiverseReviewOnlyCitizenAdapterCandidateMetadataCovered": true,
+    "multiverseFabricCoordinationMetadataCovered": true,
+    "secureDropFutureContentFabricCapabilityReferenceOnly": true,
+    "metadataOnly": true,
+    "reviewOnly": true,
+    "authoritative": false,
+    "commandRuntimeControlEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "connectorGrantProduced": false,
+    "fabricRuntimeSurfaceEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "secureDropImplemented": false
+  },
+  "targetConsumers": [
+    {
+      "consumerId": "locus",
+      "consumerName": "Locus",
+      "firstClassTargetConsumer": true,
+      "consumerRole": "status-control-surface-and-review-artifact-consumer",
+      "contractCoverage": [
+        "status-control-surface-contracts",
+        "process-tool-capability-metadata",
+        "locus-visible-review-artifacts",
+        "future-secure-drop-compose-consumer-contract-reference",
+        "future-secure-drop-inbox-consumer-contract-reference"
+      ],
+      "statusControlSurfaceContracts": {
+        "statusMetadataVisible": true,
+        "controlSurfaceMetadataVisible": true,
+        "commandControlEnabled": false,
+        "runtimeControlEnabled": false
+      },
+      "processToolCapabilityMetadata": {
+        "processMetadataVisible": true,
+        "toolCapabilityMetadataVisible": true,
+        "processControlEnabled": false,
+        "toolExecutionEnabled": false
+      },
+      "reviewArtifacts": {
+        "locusVisibleReviewArtifacts": true,
+        "reviewArtifactConsumerOnly": true,
+        "reviewerRoutingPerformed": false,
+        "reviewerAssignmentPerformed": false
+      },
+      "secureDropFutureContractReferences": {
+        "canonicalCapabilityOwner": "content-fabric",
+        "capabilityStatus": "future-content-fabric-capability-reference-only",
+        "composeContractReference": "future-content-fabric.secure-drop.compose-consumer-contract",
+        "inboxConsumerContractReference": "future-content-fabric.secure-drop.inbox-consumer-contract",
+        "ardynConsumesNow": false
+      },
+      "nonAuthorizingBoundary": {
+        "commandRuntimeControlEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimePermissionGranted": false,
+        "commandExposurePermissionGranted": false,
+        "connectorGrantProduced": false
+      }
+    },
+    {
+      "consumerId": "multiverse",
+      "consumerName": "Multiverse",
+      "firstClassTargetConsumer": true,
+      "consumerRole": "world-project-orchestration-and-wrapper-contract-consumer",
+      "contractCoverage": [
+        "world-project-orchestration-contracts",
+        "visible-ai-capability-metadata",
+        "task-capability-wrapper-contracts",
+        "review-only-citizen-adapter-candidate-metadata",
+        "fabric-coordination-metadata"
+      ],
+      "worldProjectOrchestrationContracts": {
+        "worldMetadataVisible": true,
+        "projectOrchestrationMetadataVisible": true,
+        "liveRegistryConnectionEnabled": false,
+        "liveTaskExecutionEnabled": false
+      },
+      "visibleAiCapabilityMetadata": {
+        "aiCapabilityMetadataVisible": true,
+        "modelRuntimeEnabled": false,
+        "evaluatorExecutionEnabled": false
+      },
+      "taskCapabilityWrapperContracts": {
+        "taskWrapperMetadataVisible": true,
+        "capabilityWrapperMetadataVisible": true,
+        "taskExecutionEnabled": false,
+        "mcpExecutionEnabled": false
+      },
+      "citizenAdapterCandidateMetadata": {
+        "reviewOnlyCandidateMetadataVisible": true,
+        "citizenAdapterCandidateMetadataOnly": true,
+        "adapterRuntimeBehaviorEnabled": false,
+        "connectorIngestionAdded": false
+      },
+      "fabricCoordinationMetadata": {
+        "fabricCoordinationMetadataVisible": true,
+        "fabricRuntimeSurfaceEnabled": false,
+        "contentFabricRuntimeBehaviorEnabled": false,
+        "webSocketHttpSurfaceEnabled": false
+      },
+      "nonAuthorizingBoundary": {
+        "liveRegistryExecutionEnabled": false,
+        "webSocketRuntimeEnabled": false,
+        "taskRuntimeExecutionEnabled": false,
+        "mcpRuntimeExecutionEnabled": false,
+        "connectorGrantProduced": false
+      }
+    }
+  ],
+  "targetConsumerIds": [
+    "locus",
+    "multiverse"
+  ],
+  "secureDropFutureCapability": {
+    "capabilityName": "Secure Drop",
+    "canonicalCapability": "content-fabric.secure-drop",
+    "canonicalCapabilityOwner": "content-fabric",
+    "phaseStatus": "future-canonical-content-fabric-capability-reference-only",
+    "ardynMayConsumeAfterExplicitAuthorization": true,
+    "ardynConsumesNow": false,
+    "cryptoImplemented": false,
+    "transportImplemented": false,
+    "stegoImplemented": false,
+    "sendReceiveImplemented": false,
+    "composeRuntimeImplemented": false,
+    "inboxPollingImplemented": false,
+    "fileSelectionImplemented": false,
+    "filesystemScanningImplemented": false,
+    "connectorIngestionImplemented": false,
+    "secretVaultEnvAccessImplemented": false,
+    "st3ggVendored": false,
+    "contentFabricRuntimeBehaviorEnabled": false
+  },
+  "reviewOnly": true,
+  "authoritative": false,
+  "reviewArtifactOnly": true,
+  "targetConsumerPlanningMetadataOnly": true,
+  "targetConsumerPlanningMetadataIsReviewerRouting": false,
+  "targetConsumerPlanningMetadataIsReviewerAssignment": false,
+  "targetConsumerPlanningMetadataIsEvaluatorExecution": false,
+  "targetConsumerPlanningMetadataIsEvaluatorResult": false,
+  "targetConsumerPlanningMetadataIsApprovalDecision": false,
+  "targetConsumerPlanningMetadataIsApprovalGrant": false,
+  "commandRuntimeControlEnabled": false,
+  "commandExposurePermissionGranted": false,
+  "runtimePermissionGranted": false,
+  "runtimeCommandExposureEnabled": false,
+  "runtimeExecutionEnabled": false,
+  "reviewerRoutingPerformed": false,
+  "reviewerAssignmentPerformed": false,
+  "evaluatorExecutionPerformed": false,
+  "evaluatorResultProduced": false,
+  "approvalDecisionProduced": false,
+  "approvalGrantProduced": false,
+  "approvalGrantPersisted": false,
+  "connectorGrantProduced": false,
+  "connectorIngestionAdded": false,
+  "liveRegistryConnectionEnabled": false,
+  "webSocketRuntimeEnabled": false,
+  "httpRuntimeEnabled": false,
+  "taskRuntimeExecutionEnabled": false,
+  "mcpRuntimeExecutionEnabled": false,
+  "fabricRuntimeSurfaceEnabled": false,
+  "contentFabricRuntimeBehaviorEnabled": false,
+  "adapterRuntimeBehaviorEnabled": false,
+  "secureDropImplemented": false,
+  "secureDropCryptoImplemented": false,
+  "secureDropTransportImplemented": false,
+  "secureDropStegoImplemented": false,
+  "secureDropSendReceiveImplemented": false,
+  "secureDropInboxPollingEnabled": false,
+  "fileSelectionEnabled": false,
+  "filesystemWatcherEnabled": false,
+  "filesystemScanningEnabled": false,
+  "secretVaultEnvAccessEnabled": false,
+  "st3ggVendored": false,
+  "processControlEnabled": false,
+  "liveStdinLoopEnabled": false,
+  "runtimeStdoutWriterEnabled": false,
+  "runtimeStderrWriterEnabled": false,
+  "transcriptRuntimeWritePerformed": false,
+  "auditRuntimeWritePerformed": false,
+  "rejectionReasons": [
+    "target_consumer_planning_metadata_is_review_only",
+    "locus_and_multiverse_recorded_as_first_class_target_consumers",
+    "secure_drop_is_future_content_fabric_capability_reference_only",
+    "command_runtime_control_not_implemented",
+    "connector_grants_not_implemented",
+    "fabric_runtime_not_implemented",
+    "secure_drop_runtime_not_implemented",
+    "runtime_enablement_still_blocked"
+  ],
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalEvaluatorAuthoritative": false
+  }
+}

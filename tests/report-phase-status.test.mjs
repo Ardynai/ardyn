@@ -3718,6 +3718,74 @@ const phase544SafetyFlagNames = [
   ...phase544ExpectedTrueSafetyFlagNames,
   ...phase544ExpectedFalseSafetyFlagNames
 ];
+const phase545DocFiles = [
+  "docs/phase-5-45-target-consumer-planning-metadata.md",
+  "docs/phase-5-44-review-only-consolidation-metadata-checkpoint.md"
+];
+const phase545CrossLinks = [
+  "docs/phase-5-44-review-only-consolidation-metadata-checkpoint.md",
+  "docs/phase-5-45-target-consumer-planning-metadata.md"
+];
+const phase545ExpectedTrueSafetyFlagNames = [
+  "phase545TargetConsumerPlanningMetadataRecorded",
+  "phase545TargetConsumerPlanningMetadataReviewOnly",
+  "phase545TargetConsumerPlanningMetadataProduced",
+  "phase545PrimaryHarnessFrameworkWrapperLayer",
+  "phase545LocusFirstClassTargetConsumer",
+  "phase545MultiverseFirstClassTargetConsumer",
+  "phase545SecureDropFutureContentFabricCapabilityReferenceOnly",
+  "phase545ServeRuntimeStillDefaultBlocked"
+];
+const phase545ExpectedFalseSafetyFlagNames = [
+  "phase545TargetConsumerPlanningMetadataAuthoritative",
+  "phase545CommandRuntimeControlEnabled",
+  "phase545RuntimePermissionGranted",
+  "phase545CommandExposurePermissionGranted",
+  "phase545RuntimeCommandExposureEnabled",
+  "phase545RuntimeExecutionEnabled",
+  "phase545ReviewerRoutingPerformed",
+  "phase545ReviewerAssignmentPerformed",
+  "phase545EvaluatorExecutionPerformed",
+  "phase545EvaluatorResultProduced",
+  "phase545ApprovalDecisionProduced",
+  "phase545ApprovalGrantProduced",
+  "phase545ApprovalGrantPersisted",
+  "phase545ConnectorGrantProduced",
+  "phase545ConnectorIngestionAdded",
+  "phase545LiveRegistryConnectionEnabled",
+  "phase545WebSocketRuntimeEnabled",
+  "phase545HttpRuntimeEnabled",
+  "phase545TaskRuntimeExecutionEnabled",
+  "phase545McpRuntimeExecutionEnabled",
+  "phase545FabricRuntimeSurfaceEnabled",
+  "phase545ContentFabricRuntimeBehaviorEnabled",
+  "phase545AdapterRuntimeBehaviorEnabled",
+  "phase545SecureDropImplemented",
+  "phase545SecureDropCryptoImplemented",
+  "phase545SecureDropTransportImplemented",
+  "phase545SecureDropStegoImplemented",
+  "phase545SecureDropSendReceiveImplemented",
+  "phase545SecureDropInboxPollingEnabled",
+  "phase545FileSelectionEnabled",
+  "phase545FilesystemWatcherEnabled",
+  "phase545FilesystemScanningEnabled",
+  "phase545SecretVaultEnvAccessEnabled",
+  "phase545St3ggVendored",
+  "phase545ProcessControlEnabled",
+  "phase545LiveStdinLoopEnabled",
+  "phase545RuntimeStdoutWriterEnabled",
+  "phase545RuntimeStderrWriterEnabled",
+  "phase545RuntimeTranscriptWritePerformed",
+  "phase545RuntimeAuditWritePerformed",
+  "phase545DryRunBypassesBlock",
+  "phase545CliSourceChanged",
+  "phase545RustSourceChanged",
+  "phase545FabricSourceChanged"
+];
+const phase545SafetyFlagNames = [
+  ...phase545ExpectedTrueSafetyFlagNames,
+  ...phase545ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -3852,15 +3920,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.44A prototype-pollution hardening docs/status metadata and does not claim to run checks", async () => {
+test("phase status report is Phase 5.45 target-consumer planning metadata and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.44A",
-    name: "Focused prototype-pollution hardening",
+    id: "5.45",
+    name: "Locus and Multiverse target consumer planning metadata",
     executionPosture:
-      "focused-prototype-pollution-hardening runtime-disabled no-new-runtime-capability no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-external-system-integration no-connector-ingestion"
+      "target-consumer-planning-metadata runtime-disabled no-new-runtime-capability no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-connector-grant no-fabric-runtime no-secure-drop-runtime"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -3923,15 +3991,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.44A prototype-pollution hardening status report."
+    "Render this deterministic local Phase 5.45 target-consumer planning metadata status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.44A status report."
+    "Run focused tests for this local Phase 5.45 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Verify the Phase 5.44A prototype-pollution finding is removed without dependency or config changes."
+    "Run Semgrep as evidence only for Phase 5.45 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-45-target-consumer-planning-metadata.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.45 Locus/Multiverse target-consumer planning metadata and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -19316,6 +19390,158 @@ test("report inventories Phase 5.44A as focused prototype-pollution hardening", 
   assert.equal(report.safetyPosture.phase544APrototypePollutionHardening, true);
 });
 
+test("report inventories Phase 5.45 as Locus/Multiverse target-consumer planning metadata", async () => {
+  const report = await runReport();
+  const inventory = report.phase545TargetConsumerPlanningMetadataInventory;
+  const consumers = new Map(
+    inventory.targetConsumers.map((consumer) => [consumer.consumerId, consumer])
+  );
+  const locus = consumers.get("locus");
+  const multiverse = consumers.get("multiverse");
+
+  assert.equal(inventory.statusLayer.layerId, "target-consumer-planning-metadata");
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase545DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase545CrossLinks);
+  assert.deepEqual(inventory.statusLayer.targetConsumerIds, [
+    "locus",
+    "multiverse"
+  ]);
+  assert.equal(inventory.statusLayer.primaryHarnessFrameworkWrapperLayer, true);
+  assert.equal(inventory.statusLayer.locusFirstClassTargetConsumer, true);
+  assert.equal(inventory.statusLayer.multiverseFirstClassTargetConsumer, true);
+  assert.equal(
+    inventory.statusLayer.secureDropFutureContentFabricCapabilityReferenceOnly,
+    true
+  );
+  assert.equal(inventory.statusLayer.commandRuntimeControlEnabled, false);
+  assert.equal(inventory.statusLayer.connectorGrantProduced, false);
+  assert.equal(inventory.statusLayer.fabricRuntimeSurfaceEnabled, false);
+  assert.equal(inventory.statusLayer.contentFabricRuntimeBehaviorEnabled, false);
+  assert.equal(inventory.statusLayer.secureDropImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropCryptoImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropTransportImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropStegoImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropSendReceiveImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropInboxPollingEnabled, false);
+  assert.equal(inventory.statusLayer.fileSelectionEnabled, false);
+  assert.equal(inventory.statusLayer.filesystemScanningEnabled, false);
+  assert.equal(inventory.statusLayer.secretVaultEnvAccessEnabled, false);
+  assert.equal(inventory.statusLayer.st3ggVendored, false);
+  assert.equal(inventory.statusLayer.cliSourceChanged, false);
+  assert.equal(inventory.statusLayer.rustSourceChanged, false);
+  assert.equal(inventory.statusLayer.fabricSourceChanged, false);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-45/target-consumer-planning-metadata.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/phase5-45-target-consumer-planning-metadata.test.mjs",
+        "present"
+      ],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.equal(
+    inventory.sourceConsolidationMetadataCheckpointSummary.schema,
+    "ardyn.phase-5.44.review-only-consolidation-metadata-checkpoint-state"
+  );
+  assert.equal(
+    inventory.targetConsumerPlanningMetadata.schema,
+    "ardyn.phase-5.45.target-consumer-planning-metadata-state"
+  );
+  assert.deepEqual(inventory.targetConsumerPlanningMetadata.targetConsumerIds, [
+    "locus",
+    "multiverse"
+  ]);
+  assert.equal(locus.firstClassTargetConsumer, true);
+  assert.equal(locus.statusControlSurfaceContracts.commandControlEnabled, false);
+  assert.equal(locus.statusControlSurfaceContracts.runtimeControlEnabled, false);
+  assert.equal(locus.processToolCapabilityMetadata.processControlEnabled, false);
+  assert.equal(locus.processToolCapabilityMetadata.toolExecutionEnabled, false);
+  assert.equal(locus.reviewArtifacts.locusVisibleReviewArtifacts, true);
+  assert.equal(
+    locus.secureDropFutureContractReferences.canonicalCapabilityOwner,
+    "content-fabric"
+  );
+  assert.equal(locus.secureDropFutureContractReferences.ardynConsumesNow, false);
+  assertAllFalse(locus.nonAuthorizingBoundary);
+  assert.equal(multiverse.firstClassTargetConsumer, true);
+  assert.equal(
+    multiverse.worldProjectOrchestrationContracts.liveRegistryConnectionEnabled,
+    false
+  );
+  assert.equal(multiverse.visibleAiCapabilityMetadata.evaluatorExecutionEnabled, false);
+  assert.equal(multiverse.taskCapabilityWrapperContracts.taskExecutionEnabled, false);
+  assert.equal(multiverse.taskCapabilityWrapperContracts.mcpExecutionEnabled, false);
+  assert.equal(
+    multiverse.citizenAdapterCandidateMetadata.adapterRuntimeBehaviorEnabled,
+    false
+  );
+  assert.equal(
+    multiverse.fabricCoordinationMetadata.fabricRuntimeSurfaceEnabled,
+    false
+  );
+  assert.equal(
+    multiverse.fabricCoordinationMetadata.contentFabricRuntimeBehaviorEnabled,
+    false
+  );
+  assertAllFalse(multiverse.nonAuthorizingBoundary);
+  assert.equal(
+    inventory.secureDropFutureCapability.canonicalCapability,
+    "content-fabric.secure-drop"
+  );
+  assert.equal(inventory.secureDropFutureCapability.ardynConsumesNow, false);
+  assert.equal(inventory.secureDropFutureCapability.cryptoImplemented, false);
+  assert.equal(inventory.secureDropFutureCapability.transportImplemented, false);
+  assert.equal(inventory.secureDropFutureCapability.stegoImplemented, false);
+  assert.equal(inventory.secureDropFutureCapability.sendReceiveImplemented, false);
+  assert.equal(inventory.secureDropFutureCapability.inboxPollingImplemented, false);
+  assert.equal(inventory.secureDropFutureCapability.fileSelectionImplemented, false);
+  assert.equal(
+    inventory.secureDropFutureCapability.filesystemScanningImplemented,
+    false
+  );
+  assert.equal(
+    inventory.secureDropFutureCapability.connectorIngestionImplemented,
+    false
+  );
+  assert.equal(inventory.secureDropFutureCapability.secretVaultEnvAccessImplemented, false);
+  assert.equal(inventory.secureDropFutureCapability.st3ggVendored, false);
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assertAllFalse(inventory.forbiddenBehavior);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.defaultBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBypassesBlock, false);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-45-target-consumer-planning-metadata.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, [
+    "semgrep --config auto ."
+  ]);
+  assert.equal(report.safetyPosture.phase545TargetConsumerPlanningMetadata, true);
+  assertSafetyFlags(report, phase545ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase545ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -20220,7 +20446,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase541SafetyFlagNames,
     ...phase542SafetyFlagNames,
     ...phase543SafetyFlagNames,
-    ...phase544SafetyFlagNames
+    ...phase544SafetyFlagNames,
+    ...phase545SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -20277,6 +20504,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase543ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase544ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase544ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase545ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase545ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });
