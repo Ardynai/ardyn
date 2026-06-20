@@ -277,6 +277,11 @@ export const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_SCHEMA:
 export const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_VERSION: "0.1.0";
 export const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_KIND:
   "consumer-display-fixture-schema-boundary";
+export const CONSUMER_DISPLAY_FIXTURE_EXAMPLE_PACK_SCHEMA:
+  "ardyn.phase-5.51.consumer-display-fixture-example-pack-result";
+export const CONSUMER_DISPLAY_FIXTURE_EXAMPLE_PACK_VERSION: "0.1.0";
+export const CONSUMER_DISPLAY_FIXTURE_EXAMPLE_PACK_KIND:
+  "consumer-display-fixture-example-pack";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -6109,6 +6114,98 @@ export interface ConsumerDisplayFixtureSchemaBoundaryResult {
   [key: string]: unknown;
 }
 
+export type ConsumerDisplayFixtureExamplePackClassification =
+  | "valid_consumer_display_fixture_example_pack_runtime_still_blocked"
+  | "malformed_consumer_display_fixture_example_pack_input_rejected"
+  | "missing_required_consumer_display_fixture_example_rejected"
+  | "unknown_consumer_name_consumer_display_fixture_example_rejected"
+  | "unknown_display_intent_consumer_display_fixture_example_rejected"
+  | "interactive_actionable_intent_consumer_display_fixture_example_rejected"
+  | "authorization_flags_enabled_consumer_display_fixture_example_rejected"
+  | "nested_unsafe_flags_consumer_display_fixture_example_rejected"
+  | "hidden_command_runtime_semantics_consumer_display_fixture_example_rejected"
+  | "secure_drop_implementation_semantics_consumer_display_fixture_example_rejected"
+  | "websocket_http_fabric_mcp_task_execution_semantics_consumer_display_fixture_example_rejected";
+
+export interface ConsumerDisplayFixtureExamplePayload {
+  payloadKind: string;
+  primaryStatus: string;
+  secondaryStatus: string;
+  staticTextRows: string[];
+  statusTokens: string[];
+  colorIndependentIndicator: string;
+  motionPolicy: string;
+  hiddenActionPolicy: string;
+}
+
+export interface ConsumerDisplayFixtureExampleEntry
+  extends ConsumerDisplayFixtureSchemaBoundaryEntry {
+  exampleKind: "consumer-display-fixture-example";
+  exampleScenario: string;
+  phase550SchemaBoundaryFixtureId: string;
+  accessibilityNotes: ConsumerDisplayFixtureAccessibilityFields;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  displayFixtureExamplePayload: ConsumerDisplayFixtureExamplePayload;
+  conformsToPhase550Boundary: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ConsumerDisplayFixtureExamplePackState {
+  schema: "ardyn.phase-5.51.consumer-display-fixture-example-pack-state";
+  schemaVersion: "0.1.0";
+  stateKind: "consumer-display-fixture-example-pack-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  phase550SubagentAuditTrailReconciliation: Record<string, boolean | string>;
+  fixtureExamples: ConsumerDisplayFixtureExampleEntry[];
+  examplePackSummary: Record<string, boolean | number | string | string[]>;
+  phase550BoundaryConformance: Record<string, boolean | string>;
+  invalidExampleCasePolicy: Record<string, boolean>;
+  topDisplayFixtureExampleGaps: string[];
+  recommendedNextPhase: string;
+  consumerDisplayFixtureExamplePackOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  renderingCodeImplemented: false;
+  externalLookupsEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface ConsumerDisplayFixtureExamplePackResult {
+  schema: "ardyn.phase-5.51.consumer-display-fixture-example-pack-result";
+  schemaVersion: "0.1.0";
+  consumerDisplayFixtureExamplePackKind: "consumer-display-fixture-example-pack";
+  consumerDisplayFixtureExamplePackMode: "review-only";
+  reviewedAt: string;
+  classification: ConsumerDisplayFixtureExamplePackClassification;
+  consumerDisplayFixtureExamplePackProduced: boolean;
+  consumerDisplayFixtureExamplePack: ConsumerDisplayFixtureExamplePackState | null;
+  examplePackSummary:
+    | ConsumerDisplayFixtureExamplePackState["examplePackSummary"]
+    | null;
+  phase550BoundaryConformance:
+    | ConsumerDisplayFixtureExamplePackState["phase550BoundaryConformance"]
+    | null;
+  fixtureExamples: ConsumerDisplayFixtureExampleEntry[];
+  invalidExampleCasePolicy: Record<string, boolean>;
+  topDisplayFixtureExampleGaps: string[];
+  recommendedNextPhase: string | null;
+  consumerDisplayFixtureExamplePackOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  renderingCodeImplemented: false;
+  externalLookupsEnabled: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -6459,6 +6556,10 @@ export function createConsumerDisplayFixtureSchemaBoundaryForReview(input?: {
   reviewedAt?: string;
   fixtureEntries?: unknown[];
 }): ConsumerDisplayFixtureSchemaBoundaryResult;
+export function createConsumerDisplayFixtureExamplePackForReview(input?: {
+  reviewedAt?: string;
+  fixtureExamples?: unknown[];
+}): ConsumerDisplayFixtureExamplePackResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
