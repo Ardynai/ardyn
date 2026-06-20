@@ -257,6 +257,11 @@ export const CONSUMER_CONTRACT_READINESS_MATRIX_SCHEMA:
 export const CONSUMER_CONTRACT_READINESS_MATRIX_VERSION: "0.1.0";
 export const CONSUMER_CONTRACT_READINESS_MATRIX_KIND:
   "consumer-contract-readiness-matrix";
+export const CONSUMER_CONTRACT_GAP_INDEX_SCHEMA:
+  "ardyn.phase-5.47.consumer-contract-gap-index-result";
+export const CONSUMER_CONTRACT_GAP_INDEX_VERSION: "0.1.0";
+export const CONSUMER_CONTRACT_GAP_INDEX_KIND:
+  "consumer-contract-gap-index";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -5549,6 +5554,242 @@ export interface ConsumerContractReadinessMatrixResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export type ConsumerContractGapIndexClassification =
+  | "missing_consumer_contract_gap_index_input_rejected"
+  | "malformed_consumer_contract_gap_index_input_rejected"
+  | "empty_consumer_contract_gap_index_input_rejected"
+  | "duplicate_invalid_consumer_contract_gap_index_input_rejected"
+  | "mismatched_source_digest_consumer_contract_gap_index_input_rejected"
+  | "reviewer_routing_looking_consumer_contract_gap_index_input_rejected"
+  | "reviewer_assignment_looking_consumer_contract_gap_index_input_rejected"
+  | "evaluator_execution_looking_consumer_contract_gap_index_input_rejected"
+  | "evaluator_result_looking_consumer_contract_gap_index_input_rejected"
+  | "approval_decision_looking_consumer_contract_gap_index_input_rejected"
+  | "grant_looking_consumer_contract_gap_index_input_rejected"
+  | "runtime_permission_looking_consumer_contract_gap_index_input_rejected"
+  | "command_exposure_looking_consumer_contract_gap_index_input_rejected"
+  | "runtime_effect_true_consumer_contract_gap_index_input_rejected"
+  | "process_flag_true_consumer_contract_gap_index_input_rejected"
+  | "execution_signal_looking_consumer_contract_gap_index_input_rejected"
+  | "valid_consumer_contract_gap_index_runtime_still_blocked";
+
+export interface ConsumerContractGapIndexEntry {
+  consumerName: "Locus" | "Multiverse";
+  consumerId: "locus" | "multiverse";
+  gapId: string;
+  sourceReadinessMatrixTouchpoint: string;
+  sourceReadinessMatrixRowId: string;
+  proposedFuturePhaseFamily: string;
+  requiredPrerequisiteContracts: string[];
+  allowedCurrentBehavior: string;
+  forbiddenCurrentBehavior: string[];
+  authorizationStatusFlags: {
+    runtimeAuthorizationGranted: false;
+    commandAuthorizationGranted: false;
+    connectorAuthorizationGranted: false;
+    fabricRuntimeAuthorizationGranted: false;
+    webSocketRuntimeAuthorizationGranted: false;
+    httpRuntimeAuthorizationGranted: false;
+    mcpRuntimeAuthorizationGranted: false;
+    mcpToolExposureAuthorizationGranted: false;
+    taskRuntimeAuthorizationGranted: false;
+    secureDropAuthorizationGranted: false;
+    reviewerRoutingAuthorizationGranted: false;
+    evaluatorExecutionAuthorizationGranted: false;
+    approvalDecisionAuthorizationGranted: false;
+    approvalGrantProduced: false;
+  };
+  blockerNotes: string[];
+  planningMetadataEvidence: {
+    planningMetadataOnly: true;
+    reviewOnly: true;
+    authoritative: false;
+    sourcePhase: "5.46";
+    sourceReadinessMatrixRowId: string;
+    sourceReadinessMatrixStateKind: "consumer-contract-readiness-matrix-state";
+    sourceReadinessMatrixRuntimeEffectAllFalse: true;
+    runtimeEffectAllFalse: true;
+    noCommandRuntimeControl: true;
+    noConnectorGrant: true;
+    noFabricRuntime: true;
+    noWebsocketRuntime: true;
+    noMcpRuntime: true;
+    noTaskRuntime: true;
+    noSecureDropRuntime: true;
+  };
+}
+
+export interface ConsumerContractGapIndexGroup {
+  consumerId: "locus" | "multiverse";
+  consumerName: "Locus" | "Multiverse";
+  futureAuthorizationCandidateBuckets: string[];
+  gapIds: string[];
+  runtimeAuthorizationGranted: false;
+  commandAuthorizationGranted: false;
+  connectorAuthorizationGranted: false;
+  fabricRuntimeAuthorizationGranted?: false;
+  webSocketRuntimeAuthorizationGranted?: false;
+  mcpRuntimeAuthorizationGranted?: false;
+  taskRuntimeAuthorizationGranted?: false;
+  secureDropAuthorizationGranted?: false;
+}
+
+export interface ConsumerContractGapIndexState {
+  schema: "ardyn.phase-5.47.consumer-contract-gap-index-state";
+  schemaVersion: "0.1.0";
+  stateKind: "consumer-contract-gap-index-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourceConsumerContractReadinessMatrix: {
+    schema: "ardyn.phase-5.46.consumer-contract-readiness-matrix-state";
+    stateKind: "consumer-contract-readiness-matrix-state";
+    stateMode: "review-only";
+    reviewedAt: string;
+    stateDigest: string;
+    consumerContractReadinessMatrixOnly: true;
+    targetConsumerIds: ["locus", "multiverse"];
+    matrixRowCount: 11;
+    locusRowCount: 5;
+    multiverseRowCount: 6;
+    secureDropFutureContentFabricCapabilityReferenceOnly: true;
+    runtimeEffectAllFalse: true;
+  };
+  gapEntries: ConsumerContractGapIndexEntry[];
+  gapGroups: ConsumerContractGapIndexGroup[];
+  gapIndexSummary: Record<string, boolean | number | string | string[]>;
+  targetConsumerIds: ["locus", "multiverse"];
+  consumerContractGapIndexOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  consumerContractGapIndexIsReviewerRouting: false;
+  consumerContractGapIndexIsReviewerAssignment: false;
+  consumerContractGapIndexIsEvaluatorExecution: false;
+  consumerContractGapIndexIsEvaluatorResult: false;
+  consumerContractGapIndexIsApprovalDecision: false;
+  consumerContractGapIndexIsApprovalGrant: false;
+  commandRuntimeControlEnabled: false;
+  commandExposurePermissionGranted: false;
+  runtimePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  reviewerRoutingPerformed: false;
+  reviewerAssignmentPerformed: false;
+  evaluatorExecutionPerformed: false;
+  evaluatorResultProduced: false;
+  approvalDecisionProduced: false;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  connectorGrantProduced: false;
+  connectorIngestionAdded: false;
+  liveRegistryConnectionEnabled: false;
+  webSocketRuntimeEnabled: false;
+  httpRuntimeEnabled: false;
+  taskRuntimeExecutionEnabled: false;
+  taskExecutionEnabled: false;
+  mcpRuntimeExecutionEnabled: false;
+  mcpExecutionEnabled: false;
+  mcpToolExposureEnabled: false;
+  fabricRuntimeSurfaceEnabled: false;
+  contentFabricRuntimeBehaviorEnabled: false;
+  adapterRuntimeBehaviorEnabled: false;
+  secureDropImplemented: false;
+  secureDropCryptoImplemented: false;
+  secureDropTransportImplemented: false;
+  secureDropStegoImplemented: false;
+  secureDropSendReceiveImplemented: false;
+  secureDropInboxPollingEnabled: false;
+  fileSelectionEnabled: false;
+  filesystemWatcherEnabled: false;
+  filesystemScanningEnabled: false;
+  secretVaultEnvAccessEnabled: false;
+  st3ggVendored: false;
+  processControlEnabled: false;
+  liveStdinLoopEnabled: false;
+  runtimeStdoutWriterEnabled: false;
+  runtimeStderrWriterEnabled: false;
+  transcriptRuntimeWritePerformed: false;
+  auditRuntimeWritePerformed: false;
+  httpRuntimeSurfaceEnabled: false;
+  webSocketHttpSurfaceEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ConsumerContractGapIndexResult {
+  schema: "ardyn.phase-5.47.consumer-contract-gap-index-result";
+  schemaVersion: "0.1.0";
+  consumerContractGapIndexKind: "consumer-contract-gap-index";
+  consumerContractGapIndexMode: "review-only";
+  reviewedAt: string;
+  classification: ConsumerContractGapIndexClassification;
+  sourceConsumerContractReadinessMatrixAccepted: boolean;
+  consumerContractGapIndexProduced: boolean;
+  consumerContractGapIndex: ConsumerContractGapIndexState | null;
+  sourceConsumerContractReadinessMatrixSummary:
+    | ConsumerContractGapIndexState["sourceConsumerContractReadinessMatrix"]
+    | null;
+  gapIndexSummary: ConsumerContractGapIndexState["gapIndexSummary"] | null;
+  gapEntries: ConsumerContractGapIndexEntry[];
+  gapGroups: ConsumerContractGapIndexGroup[];
+  targetConsumerIds: Array<"locus" | "multiverse">;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  consumerContractGapIndexOnly: true;
+  consumerContractGapIndexIsReviewerRouting: false;
+  consumerContractGapIndexIsReviewerAssignment: false;
+  consumerContractGapIndexIsEvaluatorExecution: false;
+  consumerContractGapIndexIsEvaluatorResult: false;
+  consumerContractGapIndexIsApprovalDecision: false;
+  consumerContractGapIndexIsApprovalGrant: false;
+  commandRuntimeControlEnabled: false;
+  commandExposurePermissionGranted: false;
+  runtimePermissionGranted: false;
+  runtimeCommandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  reviewerRoutingPerformed: false;
+  reviewerAssignmentPerformed: false;
+  evaluatorExecutionPerformed: false;
+  evaluatorResultProduced: false;
+  approvalDecisionProduced: false;
+  approvalGrantProduced: false;
+  approvalGrantPersisted: false;
+  connectorGrantProduced: false;
+  connectorIngestionAdded: false;
+  liveRegistryConnectionEnabled: false;
+  webSocketRuntimeEnabled: false;
+  httpRuntimeEnabled: false;
+  taskRuntimeExecutionEnabled: false;
+  taskExecutionEnabled: false;
+  mcpRuntimeExecutionEnabled: false;
+  mcpExecutionEnabled: false;
+  mcpToolExposureEnabled: false;
+  fabricRuntimeSurfaceEnabled: false;
+  contentFabricRuntimeBehaviorEnabled: false;
+  adapterRuntimeBehaviorEnabled: false;
+  secureDropImplemented: false;
+  secureDropCryptoImplemented: false;
+  secureDropTransportImplemented: false;
+  secureDropStegoImplemented: false;
+  secureDropSendReceiveImplemented: false;
+  secureDropInboxPollingEnabled: false;
+  fileSelectionEnabled: false;
+  filesystemWatcherEnabled: false;
+  filesystemScanningEnabled: false;
+  secretVaultEnvAccessEnabled: false;
+  st3ggVendored: false;
+  processControlEnabled: false;
+  liveStdinLoopEnabled: false;
+  runtimeStdoutWriterEnabled: false;
+  runtimeStderrWriterEnabled: false;
+  transcriptRuntimeWritePerformed: false;
+  auditRuntimeWritePerformed: false;
+  httpRuntimeSurfaceEnabled: false;
+  webSocketHttpSurfaceEnabled: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -5884,6 +6125,11 @@ export function createConsumerContractReadinessMatrixForReview(input?: {
   sourceTargetConsumerPlanningMetadataDigest?: string;
   targetConsumerPlanningMetadataEntries?: unknown[];
 }): ConsumerContractReadinessMatrixResult;
+export function createConsumerContractGapIndexForReview(input?: {
+  reviewedAt?: string;
+  sourceConsumerContractReadinessMatrixDigest?: string;
+  consumerContractReadinessMatrixEntries?: unknown[];
+}): ConsumerContractGapIndexResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

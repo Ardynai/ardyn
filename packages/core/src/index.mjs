@@ -237,6 +237,11 @@ export const CONSUMER_CONTRACT_READINESS_MATRIX_SCHEMA =
 export const CONSUMER_CONTRACT_READINESS_MATRIX_VERSION = "0.1.0";
 export const CONSUMER_CONTRACT_READINESS_MATRIX_KIND =
   "consumer-contract-readiness-matrix";
+export const CONSUMER_CONTRACT_GAP_INDEX_SCHEMA =
+  "ardyn.phase-5.47.consumer-contract-gap-index-result";
+export const CONSUMER_CONTRACT_GAP_INDEX_VERSION = "0.1.0";
+export const CONSUMER_CONTRACT_GAP_INDEX_KIND =
+  "consumer-contract-gap-index";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -29321,6 +29326,911 @@ export function createConsumerContractReadinessMatrixForReview(input = {}) {
     accepted,
     consumerContractReadinessMatrix,
     sourceTargetConsumerPlanningMetadataSummary
+  });
+}
+
+const CONSUMER_CONTRACT_GAP_INDEX_STATE_SCHEMA =
+  "ardyn.phase-5.47.consumer-contract-gap-index-state";
+const VALID_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION =
+  "valid_consumer_contract_gap_index_runtime_still_blocked";
+const MALFORMED_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION =
+  "malformed_consumer_contract_gap_index_input_rejected";
+const MISMATCHED_SOURCE_DIGEST_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION =
+  "mismatched_source_digest_consumer_contract_gap_index_input_rejected";
+
+const CONSUMER_CONTRACT_GAP_INDEX_SOURCE_LITERAL_FIELDS = Object.freeze([
+  ["schema", CONSUMER_CONTRACT_READINESS_MATRIX_STATE_SCHEMA],
+  ["schemaVersion", CONSUMER_CONTRACT_READINESS_MATRIX_VERSION],
+  ["stateKind", "consumer-contract-readiness-matrix-state"],
+  ["stateMode", "review-only"],
+  ["consumerContractReadinessMatrixOnly", true],
+  ["reviewOnly", true],
+  ["authoritative", false],
+  ["reviewArtifactOnly", true]
+]);
+
+const CONSUMER_CONTRACT_GAP_INDEX_SOURCE_FALSE_FIELDS = Object.freeze([
+  "consumerContractReadinessMatrixIsReviewerRouting",
+  "consumerContractReadinessMatrixIsReviewerAssignment",
+  "consumerContractReadinessMatrixIsEvaluatorExecution",
+  "consumerContractReadinessMatrixIsEvaluatorResult",
+  "consumerContractReadinessMatrixIsApprovalDecision",
+  "consumerContractReadinessMatrixIsApprovalGrant",
+  ...Object.keys(consumerContractReadinessMatrixForbiddenBehavior())
+]);
+
+const CONSUMER_CONTRACT_GAP_INDEX_REVIEWER_ROUTING_TRUE_FIELDS =
+  Object.freeze([
+    "consumerContractGapIndexIsReviewerRouting",
+    "reviewerRoutingPerformed",
+    "reviewerRoutingEnabled"
+  ]);
+const CONSUMER_CONTRACT_GAP_INDEX_REVIEWER_ASSIGNMENT_TRUE_FIELDS =
+  Object.freeze([
+    "consumerContractGapIndexIsReviewerAssignment",
+    "reviewerAssignmentPerformed",
+    "reviewerAssignmentEnabled"
+  ]);
+const CONSUMER_CONTRACT_GAP_INDEX_EVALUATOR_EXECUTION_TRUE_FIELDS =
+  Object.freeze([
+    "consumerContractGapIndexIsEvaluatorExecution",
+    "evaluatorExecutionPerformed",
+    "evaluatorExecutionRequested",
+    "evaluatorExecutionStarted",
+    "evaluatorExecutionEnabled",
+    "evaluatorExecuted"
+  ]);
+const CONSUMER_CONTRACT_GAP_INDEX_EVALUATOR_RESULT_TRUE_FIELDS =
+  Object.freeze([
+    "consumerContractGapIndexIsEvaluatorResult",
+    "evaluatorResultProduced",
+    "evaluatorResultPersisted"
+  ]);
+const CONSUMER_CONTRACT_GAP_INDEX_APPROVAL_DECISION_TRUE_FIELDS =
+  Object.freeze([
+    "consumerContractGapIndexIsApprovalDecision",
+    "approvalDecisionProduced",
+    "approvalDecisionPersisted"
+  ]);
+const CONSUMER_CONTRACT_GAP_INDEX_GRANT_TRUE_FIELDS = Object.freeze([
+  "consumerContractGapIndexIsApprovalGrant",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "connectorGrantProduced",
+  "connectorPermissionGranted",
+  "connectorAccessGranted"
+]);
+const CONSUMER_CONTRACT_GAP_INDEX_RUNTIME_PERMISSION_TRUE_FIELDS =
+  Object.freeze([
+    "runtimePermissionGranted",
+    "runtimeEnablementApproved",
+    "canEnableRuntime"
+  ]);
+const CONSUMER_CONTRACT_GAP_INDEX_COMMAND_EXPOSURE_TRUE_FIELDS =
+  Object.freeze([
+    "commandExposurePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "commandControlEnabled"
+  ]);
+const CONSUMER_CONTRACT_GAP_INDEX_PROCESS_TRUE_FIELDS = Object.freeze([
+  "processControlEnabled",
+  "processSpawnEnabled",
+  "processTerminationEnabled",
+  "runtimeSupervisionEnabled"
+]);
+const CONSUMER_CONTRACT_GAP_INDEX_UNSAFE_RUNTIME_TRUE_FIELDS = Object.freeze([
+  "runtimeEnabled",
+  "runtimeStarted",
+  "runtimeReady",
+  "runtimeCommandEnabled",
+  "runtimeCommandExposureEnabled",
+  "runtimeExecutionEnabled",
+  "runtimeExecuted",
+  "liveRegistryConnectionEnabled",
+  "webSocketRuntimeEnabled",
+  "httpRuntimeEnabled",
+  "taskRuntimeExecutionEnabled",
+  "taskExecutionEnabled",
+  "mcpRuntimeExecutionEnabled",
+  "mcpExecutionEnabled",
+  "mcpToolExposureEnabled",
+  "fabricRuntimeSurfaceEnabled",
+  "contentFabricRuntimeBehaviorEnabled",
+  "adapterRuntimeBehaviorEnabled",
+  "filesystemWatcherEnabled",
+  "externalSourceLookupEnabled",
+  "fileSelectionEnabled",
+  "filesystemScanningEnabled",
+  "connectorIngestionAdded",
+  "secretVaultEnvAccessEnabled",
+  "secureDropImplemented",
+  "secureDropCryptoImplemented",
+  "secureDropTransportImplemented",
+  "secureDropStegoImplemented",
+  "secureDropSendReceiveImplemented",
+  "secureDropInboxPollingEnabled",
+  "st3ggVendored",
+  "transcriptRuntimeWritePerformed",
+  "auditRuntimeWritePerformed",
+  "runtimeStdoutWriterEnabled",
+  "runtimeStderrWriterEnabled",
+  "liveStdinLoopEnabled"
+]);
+
+const CONSUMER_CONTRACT_GAP_INDEX_REQUIRED_ROW_IDS = Object.freeze([
+  "locus.status-control-surface-display",
+  "locus.process-tool-capability-metadata",
+  "locus.visible-review-artifacts",
+  "locus.future-secure-drop-compose-inbox-surface",
+  "locus.command-control-runtime-boundary",
+  "multiverse.world-project-orchestration-metadata",
+  "multiverse.visible-ai-capability-metadata",
+  "multiverse.task-capability-wrapper-metadata",
+  "multiverse.review-only-citizen-adapter-candidate-metadata",
+  "multiverse.registry-websocket-mcp-task-runtime-boundary",
+  "multiverse.fabric-coordination-metadata"
+]);
+
+const CONSUMER_CONTRACT_GAP_INDEX_ENTRY_PLAN = Object.freeze([
+  {
+    sourceRowId: "locus.status-control-surface-display",
+    consumerId: "locus",
+    consumerName: "Locus",
+    gapId: "locus.status-control-surface-display-contract-gap",
+    proposedFuturePhaseFamily: "locus-status-control-display-authorization"
+  },
+  {
+    sourceRowId: "locus.process-tool-capability-metadata",
+    consumerId: "locus",
+    consumerName: "Locus",
+    gapId: "locus.process-tool-capability-metadata-contract-gap",
+    proposedFuturePhaseFamily:
+      "locus-process-tool-capability-metadata-authorization"
+  },
+  {
+    sourceRowId: "locus.visible-review-artifacts",
+    consumerId: "locus",
+    consumerName: "Locus",
+    gapId: "locus.visible-review-artifact-contract-gap",
+    proposedFuturePhaseFamily: "locus-visible-review-artifact-authorization"
+  },
+  {
+    sourceRowId: "locus.future-secure-drop-compose-inbox-surface",
+    consumerId: "locus",
+    consumerName: "Locus",
+    gapId: "locus.future-secure-drop-compose-inbox-consumer-contract-gap",
+    proposedFuturePhaseFamily:
+      "locus-future-secure-drop-consumer-authorization"
+  },
+  {
+    sourceRowId: "locus.command-control-runtime-boundary",
+    consumerId: "locus",
+    consumerName: "Locus",
+    gapId: "locus.command-control-runtime-authorization-boundary-gap",
+    proposedFuturePhaseFamily:
+      "locus-command-control-runtime-authorization-boundary"
+  },
+  {
+    sourceRowId: "multiverse.world-project-orchestration-metadata",
+    consumerId: "multiverse",
+    consumerName: "Multiverse",
+    gapId: "multiverse.world-project-orchestration-metadata-contract-gap",
+    proposedFuturePhaseFamily:
+      "multiverse-world-project-orchestration-metadata-authorization"
+  },
+  {
+    sourceRowId: "multiverse.visible-ai-capability-metadata",
+    consumerId: "multiverse",
+    consumerName: "Multiverse",
+    gapId: "multiverse.visible-ai-capability-metadata-contract-gap",
+    proposedFuturePhaseFamily:
+      "multiverse-visible-ai-capability-metadata-authorization"
+  },
+  {
+    sourceRowId: "multiverse.task-capability-wrapper-metadata",
+    consumerId: "multiverse",
+    consumerName: "Multiverse",
+    gapId: "multiverse.task-capability-wrapper-metadata-contract-gap",
+    proposedFuturePhaseFamily:
+      "multiverse-task-capability-wrapper-metadata-authorization"
+  },
+  {
+    sourceRowId: "multiverse.review-only-citizen-adapter-candidate-metadata",
+    consumerId: "multiverse",
+    consumerName: "Multiverse",
+    gapId: "multiverse.review-only-citizen-adapter-candidate-contract-gap",
+    proposedFuturePhaseFamily:
+      "multiverse-citizen-adapter-candidate-review-authorization"
+  },
+  {
+    sourceRowId: "multiverse.fabric-coordination-metadata",
+    consumerId: "multiverse",
+    consumerName: "Multiverse",
+    gapId: "multiverse.fabric-coordination-metadata-contract-gap",
+    proposedFuturePhaseFamily:
+      "multiverse-fabric-coordination-metadata-authorization"
+  },
+  {
+    sourceRowId: "multiverse.registry-websocket-mcp-task-runtime-boundary",
+    consumerId: "multiverse",
+    consumerName: "Multiverse",
+    gapId: "multiverse.registry-websocket-mcp-task-runtime-authorization-boundary-gap",
+    proposedFuturePhaseFamily:
+      "multiverse-registry-websocket-mcp-task-runtime-authorization-boundary"
+  }
+]);
+
+function consumerContractGapIndexInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function consumerContractGapIndexReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function consumerContractGapIndexInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt))
+  );
+}
+
+function consumerContractGapIndexEntries(inputRecord) {
+  return inputRecord === null
+    ? undefined
+    : inputRecord.consumerContractReadinessMatrixEntries;
+}
+
+function consumerContractGapIndexSourceDigest(inputRecord) {
+  return inputRecord === null
+    ? undefined
+    : inputRecord.sourceConsumerContractReadinessMatrixDigest;
+}
+
+function consumerContractGapIndexDigestMissing(inputRecord) {
+  return (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(
+      inputRecord,
+      "sourceConsumerContractReadinessMatrixDigest"
+    )
+  );
+}
+
+function consumerContractGapIndexSourceDigestMatches(
+  sourceStates,
+  sourceDigest
+) {
+  return (
+    Array.isArray(sourceStates) &&
+    sourceStates.length === 1 &&
+    isPlainObjectRecord(sourceStates[0]) &&
+    sourceDigest === reviewArtifactHandoffDigest(sourceStates[0])
+  );
+}
+
+function consumerContractGapIndexSourceRowById(sourceState, rowId) {
+  return Array.isArray(sourceState.matrixRows)
+    ? sourceState.matrixRows.find((row) => row.rowId === rowId)
+    : undefined;
+}
+
+function consumerContractGapIndexSourceRowValid(row, rowId) {
+  const plan = CONSUMER_CONTRACT_GAP_INDEX_ENTRY_PLAN.find(
+    (entryPlan) => entryPlan.sourceRowId === rowId
+  );
+
+  return (
+    isPlainObjectRecord(plan) &&
+    isPlainObjectRecord(row) &&
+    row.rowId === rowId &&
+    row.consumerId === plan.consumerId &&
+    row.consumerName === plan.consumerName &&
+    typeof row.touchpointName === "string" &&
+    row.touchpointName.length > 0 &&
+    row.readinessState === "future-contract-required-runtime-blocked" &&
+    Array.isArray(row.requiredFutureContracts) &&
+    row.requiredFutureContracts.length >= 3 &&
+    row.requiredFutureContracts.every((contract) => typeof contract === "string") &&
+    typeof row.currentAllowedBehavior === "string" &&
+    row.currentAllowedBehavior.length > 0 &&
+    Array.isArray(row.explicitlyForbiddenBehavior) &&
+    row.explicitlyForbiddenBehavior.length >= 5 &&
+    row.explicitlyForbiddenBehavior.every(
+      (behavior) => typeof behavior === "string"
+    ) &&
+    Array.isArray(row.blockerNotes) &&
+    row.blockerNotes.length >= 2 &&
+    row.blockerNotes.every((note) => typeof note === "string") &&
+    isPlainObjectRecord(row.authorizationFlags) &&
+    row.authorizationFlags.documentaryMetadataVisible === true &&
+    Object.entries(row.authorizationFlags).every(([field, value]) =>
+      field === "documentaryMetadataVisible" ? value === true : value === false
+    )
+  );
+}
+
+function consumerContractGapIndexSourceValid(sourceState) {
+  return (
+    isPlainObjectRecord(sourceState) &&
+    isUtcIsoTimestampWithMilliseconds(sourceState.reviewedAt) &&
+    reviewOnlyInspectionHandoffMetadataBoundaryFieldsEqual(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_SOURCE_LITERAL_FIELDS
+    ) &&
+    CONSUMER_CONTRACT_GAP_INDEX_SOURCE_FALSE_FIELDS.every(
+      (field) => sourceState[field] === false
+    ) &&
+    Array.isArray(sourceState.targetConsumerIds) &&
+    sourceState.targetConsumerIds.length === 2 &&
+    sourceState.targetConsumerIds[0] === "locus" &&
+    sourceState.targetConsumerIds[1] === "multiverse" &&
+    Array.isArray(sourceState.matrixRows) &&
+    sourceState.matrixRows.length ===
+      CONSUMER_CONTRACT_GAP_INDEX_REQUIRED_ROW_IDS.length &&
+    CONSUMER_CONTRACT_GAP_INDEX_REQUIRED_ROW_IDS.every(
+      (rowId, index) =>
+        sourceState.matrixRows[index]?.rowId === rowId &&
+        consumerContractGapIndexSourceRowValid(sourceState.matrixRows[index], rowId)
+    ) &&
+    isPlainObjectRecord(sourceState.matrixSummary) &&
+    sourceState.matrixSummary.rowCount === 11 &&
+    sourceState.matrixSummary.locusRowCount === 5 &&
+    sourceState.matrixSummary.multiverseRowCount === 6 &&
+    sourceState.matrixSummary.locusStatusControlSurfaceDisplayCovered === true &&
+    sourceState.matrixSummary.locusProcessToolCapabilityMetadataCovered === true &&
+    sourceState.matrixSummary.locusVisibleReviewArtifactsCovered === true &&
+    sourceState.matrixSummary
+      .locusFutureSecureDropComposeInboxConsumerSurfaceCovered === true &&
+    sourceState.matrixSummary.locusCommandControlRuntimeBoundaryCovered === true &&
+    sourceState.matrixSummary
+      .multiverseWorldProjectOrchestrationMetadataCovered === true &&
+    sourceState.matrixSummary.multiverseVisibleAiCapabilityMetadataCovered ===
+      true &&
+    sourceState.matrixSummary.multiverseTaskCapabilityWrapperMetadataCovered ===
+      true &&
+    sourceState.matrixSummary
+      .multiverseReviewOnlyCitizenAdapterCandidateMetadataCovered === true &&
+    sourceState.matrixSummary
+      .multiverseRegistryWebSocketMcpTaskRuntimeBoundaryCovered === true &&
+    sourceState.matrixSummary.multiverseFabricCoordinationMetadataCovered ===
+      true &&
+    sourceState.matrixSummary.metadataOnly === true &&
+    sourceState.matrixSummary.reviewOnly === true &&
+    sourceState.matrixSummary.authoritative === false &&
+    sourceState.matrixSummary.runtimeAuthorizationGranted === false &&
+    sourceState.matrixSummary.commandAuthorizationGranted === false &&
+    sourceState.matrixSummary.connectorAuthorizationGranted === false &&
+    sourceState.matrixSummary.fabricRuntimeAuthorizationGranted === false &&
+    sourceState.matrixSummary.webSocketRuntimeAuthorizationGranted === false &&
+    sourceState.matrixSummary.mcpRuntimeAuthorizationGranted === false &&
+    sourceState.matrixSummary.taskRuntimeAuthorizationGranted === false &&
+    sourceState.matrixSummary.secureDropAuthorizationGranted === false &&
+    isPlainObjectRecord(sourceState.sourceTargetConsumerPlanningMetadata) &&
+    sourceState.sourceTargetConsumerPlanningMetadata
+      .secureDropFutureContentFabricCapabilityReferenceOnly === true &&
+    sourceState.sourceTargetConsumerPlanningMetadata.runtimeEffectAllFalse ===
+      true &&
+    reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse(
+      sourceState.runtimeEffect
+    )
+  );
+}
+
+function consumerContractGapIndexKeyTruePresent(sourceState, fields) {
+  return reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(
+    sourceState,
+    fields
+  );
+}
+
+function consumerContractGapIndexUnsafeRuntimeSignal(sourceState) {
+  return (
+    consumerContractGapIndexKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_UNSAFE_RUNTIME_TRUE_FIELDS
+    ) ||
+    reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_PROCESS_TRUE_FIELDS
+    )
+  );
+}
+
+function consumerContractGapIndexSingleClassification(sourceState) {
+  if (
+    consumerContractGapIndexKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_GRANT_TRUE_FIELDS
+    )
+  ) {
+    return "grant_looking_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (
+    consumerContractGapIndexKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_APPROVAL_DECISION_TRUE_FIELDS
+    )
+  ) {
+    return "approval_decision_looking_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (
+    consumerContractGapIndexKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_EVALUATOR_RESULT_TRUE_FIELDS
+    )
+  ) {
+    return "evaluator_result_looking_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (
+    consumerContractGapIndexKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_EVALUATOR_EXECUTION_TRUE_FIELDS
+    )
+  ) {
+    return "evaluator_execution_looking_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (
+    consumerContractGapIndexKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_REVIEWER_ROUTING_TRUE_FIELDS
+    )
+  ) {
+    return "reviewer_routing_looking_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (
+    consumerContractGapIndexKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_REVIEWER_ASSIGNMENT_TRUE_FIELDS
+    )
+  ) {
+    return "reviewer_assignment_looking_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (
+    consumerContractGapIndexKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_RUNTIME_PERMISSION_TRUE_FIELDS
+    )
+  ) {
+    return "runtime_permission_looking_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (
+    consumerContractGapIndexKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_COMMAND_EXPOSURE_TRUE_FIELDS
+    )
+  ) {
+    return "command_exposure_looking_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (
+    isPlainObjectRecord(sourceState) &&
+    isPlainObjectRecord(sourceState.runtimeEffect) &&
+    !reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse(
+      sourceState.runtimeEffect
+    )
+  ) {
+    return "runtime_effect_true_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (
+    consumerContractGapIndexKeyTruePresent(
+      sourceState,
+      CONSUMER_CONTRACT_GAP_INDEX_PROCESS_TRUE_FIELDS
+    )
+  ) {
+    return "process_flag_true_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (consumerContractGapIndexUnsafeRuntimeSignal(sourceState)) {
+    return "execution_signal_looking_consumer_contract_gap_index_input_rejected";
+  }
+
+  return consumerContractGapIndexSourceValid(sourceState)
+    ? VALID_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION
+    : MALFORMED_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION;
+}
+
+function consumerContractGapIndexInputRejection(sourceStates) {
+  if (sourceStates === undefined) {
+    return "missing_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (!Array.isArray(sourceStates)) {
+    return MALFORMED_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION;
+  }
+
+  if (sourceStates.length === 0) {
+    return "empty_consumer_contract_gap_index_input_rejected";
+  }
+
+  if (sourceStates.some((entry) => !isPlainObjectRecord(entry))) {
+    return MALFORMED_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION;
+  }
+
+  return sourceStates.length > 1
+    ? "duplicate_invalid_consumer_contract_gap_index_input_rejected"
+    : undefined;
+}
+
+function consumerContractGapIndexInputClassification({
+  inputRecord,
+  sourceStates,
+  sourceDigest
+}) {
+  if (consumerContractGapIndexInputMalformed(inputRecord)) {
+    return MALFORMED_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION;
+  }
+
+  const inputRejection = consumerContractGapIndexInputRejection(sourceStates);
+
+  if (inputRejection !== undefined) {
+    return inputRejection;
+  }
+
+  if (
+    consumerContractGapIndexDigestMissing(inputRecord) ||
+    !reviewOnlyMetadataHandoffCheckpointDigestString(sourceDigest)
+  ) {
+    return MALFORMED_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION;
+  }
+
+  if (!consumerContractGapIndexSourceDigestMatches(sourceStates, sourceDigest)) {
+    return MISMATCHED_SOURCE_DIGEST_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION;
+  }
+
+  return consumerContractGapIndexSingleClassification(sourceStates[0]);
+}
+
+function consumerContractGapIndexAuthorizationStatusFlags() {
+  return {
+    runtimeAuthorizationGranted: false,
+    commandAuthorizationGranted: false,
+    connectorAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    webSocketRuntimeAuthorizationGranted: false,
+    httpRuntimeAuthorizationGranted: false,
+    mcpRuntimeAuthorizationGranted: false,
+    mcpToolExposureAuthorizationGranted: false,
+    taskRuntimeAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false,
+    reviewerRoutingAuthorizationGranted: false,
+    evaluatorExecutionAuthorizationGranted: false,
+    approvalDecisionAuthorizationGranted: false,
+    approvalGrantProduced: false
+  };
+}
+
+function consumerContractGapIndexEntry(sourceState, plan) {
+  const sourceRow = consumerContractGapIndexSourceRowById(
+    sourceState,
+    plan.sourceRowId
+  );
+
+  return {
+    consumerName: plan.consumerName,
+    consumerId: plan.consumerId,
+    gapId: plan.gapId,
+    sourceReadinessMatrixTouchpoint: sourceRow.touchpointName,
+    sourceReadinessMatrixRowId: sourceRow.rowId,
+    proposedFuturePhaseFamily: plan.proposedFuturePhaseFamily,
+    requiredPrerequisiteContracts: [...sourceRow.requiredFutureContracts],
+    allowedCurrentBehavior: sourceRow.currentAllowedBehavior,
+    forbiddenCurrentBehavior: [...sourceRow.explicitlyForbiddenBehavior],
+    authorizationStatusFlags: consumerContractGapIndexAuthorizationStatusFlags(),
+    blockerNotes: [...sourceRow.blockerNotes],
+    planningMetadataEvidence: {
+      planningMetadataOnly: true,
+      reviewOnly: true,
+      authoritative: false,
+      sourcePhase: "5.46",
+      sourceReadinessMatrixRowId: sourceRow.rowId,
+      sourceReadinessMatrixStateKind: sourceState.stateKind,
+      sourceReadinessMatrixRuntimeEffectAllFalse: true,
+      runtimeEffectAllFalse: true,
+      noCommandRuntimeControl: true,
+      noConnectorGrant: true,
+      noFabricRuntime: true,
+      noWebsocketRuntime: true,
+      noMcpRuntime: true,
+      noTaskRuntime: true,
+      noSecureDropRuntime: true
+    }
+  };
+}
+
+function consumerContractGapIndexEntriesFromSource(sourceState) {
+  return CONSUMER_CONTRACT_GAP_INDEX_ENTRY_PLAN.map((plan) =>
+    consumerContractGapIndexEntry(sourceState, plan)
+  );
+}
+
+function consumerContractGapIndexGroups(entries) {
+  return [
+    {
+      consumerId: "locus",
+      consumerName: "Locus",
+      futureAuthorizationCandidateBuckets: [
+        "status/control-surface display contract",
+        "process/tool capability metadata contract",
+        "Locus-visible review artifact contract",
+        "future Secure Drop compose/inbox consumer contract",
+        "command/control runtime authorization boundary"
+      ],
+      gapIds: entries
+        .filter((entry) => entry.consumerId === "locus")
+        .map((entry) => entry.gapId),
+      runtimeAuthorizationGranted: false,
+      commandAuthorizationGranted: false,
+      connectorAuthorizationGranted: false,
+      secureDropAuthorizationGranted: false
+    },
+    {
+      consumerId: "multiverse",
+      consumerName: "Multiverse",
+      futureAuthorizationCandidateBuckets: [
+        "world/project orchestration metadata contract",
+        "visible AI capability metadata contract",
+        "task/capability wrapper metadata contract",
+        "review-only citizen/adapter candidate contract",
+        "Fabric coordination metadata contract",
+        "registry/websocket/MCP/task runtime authorization boundary"
+      ],
+      gapIds: entries
+        .filter((entry) => entry.consumerId === "multiverse")
+        .map((entry) => entry.gapId),
+      runtimeAuthorizationGranted: false,
+      commandAuthorizationGranted: false,
+      connectorAuthorizationGranted: false,
+      fabricRuntimeAuthorizationGranted: false,
+      webSocketRuntimeAuthorizationGranted: false,
+      mcpRuntimeAuthorizationGranted: false,
+      taskRuntimeAuthorizationGranted: false
+    }
+  ];
+}
+
+function consumerContractGapIndexForbiddenBehavior() {
+  return {
+    ...consumerContractReadinessMatrixForbiddenBehavior(),
+    mcpExecutionEnabled: false,
+    httpRuntimeSurfaceEnabled: false,
+    webSocketHttpSurfaceEnabled: false
+  };
+}
+
+function consumerContractGapIndexSummary(entries) {
+  return {
+    consumerContractGapIndexKind: CONSUMER_CONTRACT_GAP_INDEX_KIND,
+    consumerContractGapIndexMode: "review-only",
+    sourceConsumerContractReadinessMatrixAccepted: true,
+    targetConsumerIds: ["locus", "multiverse"],
+    targetConsumerCount: 2,
+    gapEntryCount: entries.length,
+    locusGapCount: entries.filter(({ consumerId }) => consumerId === "locus")
+      .length,
+    multiverseGapCount: entries.filter(
+      ({ consumerId }) => consumerId === "multiverse"
+    ).length,
+    locusStatusControlSurfaceDisplayContractGapCovered: true,
+    locusProcessToolCapabilityMetadataContractGapCovered: true,
+    locusVisibleReviewArtifactContractGapCovered: true,
+    locusFutureSecureDropComposeInboxConsumerContractGapCovered: true,
+    locusCommandControlRuntimeAuthorizationBoundaryGapCovered: true,
+    multiverseWorldProjectOrchestrationMetadataContractGapCovered: true,
+    multiverseVisibleAiCapabilityMetadataContractGapCovered: true,
+    multiverseTaskCapabilityWrapperMetadataContractGapCovered: true,
+    multiverseReviewOnlyCitizenAdapterCandidateContractGapCovered: true,
+    multiverseFabricCoordinationMetadataContractGapCovered: true,
+    multiverseRegistryWebSocketMcpTaskRuntimeAuthorizationBoundaryGapCovered:
+      true,
+    metadataOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    runtimeAuthorizationGranted: false,
+    commandAuthorizationGranted: false,
+    connectorAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    webSocketRuntimeAuthorizationGranted: false,
+    httpRuntimeAuthorizationGranted: false,
+    mcpRuntimeAuthorizationGranted: false,
+    mcpToolExposureAuthorizationGranted: false,
+    taskRuntimeAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false
+  };
+}
+
+function consumerContractGapIndexSourceSummary(sourceState, sourceDigest) {
+  return {
+    schema: sourceState.schema,
+    stateKind: sourceState.stateKind,
+    stateMode: sourceState.stateMode,
+    reviewedAt: sourceState.reviewedAt,
+    stateDigest: sourceDigest,
+    consumerContractReadinessMatrixOnly: true,
+    targetConsumerIds: sourceState.targetConsumerIds,
+    matrixRowCount: sourceState.matrixRows.length,
+    locusRowCount: sourceState.matrixSummary.locusRowCount,
+    multiverseRowCount: sourceState.matrixSummary.multiverseRowCount,
+    secureDropFutureContentFabricCapabilityReferenceOnly: true,
+    runtimeEffectAllFalse: true
+  };
+}
+
+function consumerContractGapIndexStateFromSource(
+  sourceState,
+  reviewedAt,
+  sourceDigest
+) {
+  const gapEntries = consumerContractGapIndexEntriesFromSource(sourceState);
+  const gapGroups = consumerContractGapIndexGroups(gapEntries);
+
+  return {
+    schema: CONSUMER_CONTRACT_GAP_INDEX_STATE_SCHEMA,
+    schemaVersion: CONSUMER_CONTRACT_GAP_INDEX_VERSION,
+    stateKind: "consumer-contract-gap-index-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourceConsumerContractReadinessMatrix: consumerContractGapIndexSourceSummary(
+      sourceState,
+      sourceDigest
+    ),
+    gapEntries,
+    gapGroups,
+    gapIndexSummary: consumerContractGapIndexSummary(gapEntries),
+    targetConsumerIds: ["locus", "multiverse"],
+    consumerContractGapIndexOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    consumerContractGapIndexIsReviewerRouting: false,
+    consumerContractGapIndexIsReviewerAssignment: false,
+    consumerContractGapIndexIsEvaluatorExecution: false,
+    consumerContractGapIndexIsEvaluatorResult: false,
+    consumerContractGapIndexIsApprovalDecision: false,
+    consumerContractGapIndexIsApprovalGrant: false,
+    ...consumerContractGapIndexForbiddenBehavior(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function consumerContractGapIndexAcceptedOutput({
+  accepted,
+  sourceStates,
+  reviewedAt,
+  sourceDigest
+}) {
+  if (!accepted) {
+    return {
+      consumerContractGapIndex: null,
+      sourceConsumerContractReadinessMatrixSummary: null
+    };
+  }
+
+  const sourceState = sourceStates[0];
+
+  return {
+    consumerContractGapIndex: consumerContractGapIndexStateFromSource(
+      sourceState,
+      reviewedAt,
+      sourceDigest
+    ),
+    sourceConsumerContractReadinessMatrixSummary:
+      consumerContractGapIndexSourceSummary(sourceState, sourceDigest)
+  };
+}
+
+function consumerContractGapIndexRejectionReasons({
+  accepted,
+  classification
+}) {
+  if (accepted) {
+    return [
+      "consumer_contract_gap_index_is_review_only",
+      "locus_and_multiverse_gaps_grouped_for_future_authorization_planning",
+      "runtime_command_connector_fabric_websocket_mcp_task_secure_drop_authorizations_false",
+      "secure_drop_is_future_content_fabric_capability_reference_only",
+      "fallow_runtime_not_used",
+      "runtime_enablement_still_blocked"
+    ];
+  }
+
+  return [
+    classification,
+    "consumer_contract_gap_index_not_produced",
+    "runtime_command_connector_fabric_websocket_mcp_task_secure_drop_authorizations_false",
+    "runtime_enablement_still_blocked"
+  ];
+}
+
+function consumerContractGapIndexResult({
+  reviewedAt,
+  classification,
+  accepted,
+  consumerContractGapIndex,
+  sourceConsumerContractReadinessMatrixSummary
+}) {
+  return {
+    schema: CONSUMER_CONTRACT_GAP_INDEX_SCHEMA,
+    schemaVersion: CONSUMER_CONTRACT_GAP_INDEX_VERSION,
+    consumerContractGapIndexKind: CONSUMER_CONTRACT_GAP_INDEX_KIND,
+    consumerContractGapIndexMode: "review-only",
+    reviewedAt,
+    classification,
+    sourceConsumerContractReadinessMatrixAccepted: accepted,
+    consumerContractGapIndexProduced: accepted,
+    consumerContractGapIndex,
+    sourceConsumerContractReadinessMatrixSummary,
+    gapIndexSummary: accepted ? consumerContractGapIndex.gapIndexSummary : null,
+    gapEntries: accepted ? consumerContractGapIndex.gapEntries : [],
+    gapGroups: accepted ? consumerContractGapIndex.gapGroups : [],
+    targetConsumerIds: accepted ? consumerContractGapIndex.targetConsumerIds : [],
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    consumerContractGapIndexOnly: true,
+    consumerContractGapIndexIsReviewerRouting: false,
+    consumerContractGapIndexIsReviewerAssignment: false,
+    consumerContractGapIndexIsEvaluatorExecution: false,
+    consumerContractGapIndexIsEvaluatorResult: false,
+    consumerContractGapIndexIsApprovalDecision: false,
+    consumerContractGapIndexIsApprovalGrant: false,
+    ...consumerContractGapIndexForbiddenBehavior(),
+    rejectionReasons:
+      consumerContractGapIndexRejectionReasons({
+        accepted,
+        classification
+      }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createConsumerContractGapIndexForReview(input = {}) {
+  const inputRecord = consumerContractGapIndexInputRecord(input);
+  const reviewedAt = consumerContractGapIndexReviewedAt(inputRecord);
+  const sourceStates = consumerContractGapIndexEntries(inputRecord);
+  const sourceDigest = consumerContractGapIndexSourceDigest(inputRecord);
+  const classification = consumerContractGapIndexInputClassification({
+    inputRecord,
+    sourceStates,
+    sourceDigest
+  });
+  const accepted =
+    classification === VALID_CONSUMER_CONTRACT_GAP_INDEX_CLASSIFICATION;
+  const {
+    consumerContractGapIndex,
+    sourceConsumerContractReadinessMatrixSummary
+  } = consumerContractGapIndexAcceptedOutput({
+    accepted,
+    sourceStates,
+    reviewedAt,
+    sourceDigest
+  });
+
+  return consumerContractGapIndexResult({
+    reviewedAt,
+    classification,
+    accepted,
+    consumerContractGapIndex,
+    sourceConsumerContractReadinessMatrixSummary
   });
 }
 

@@ -3856,6 +3856,77 @@ const phase546SafetyFlagNames = [
   ...phase546ExpectedTrueSafetyFlagNames,
   ...phase546ExpectedFalseSafetyFlagNames
 ];
+const phase547DocFiles = [
+  "docs/phase-5-47-consumer-contract-gap-index.md",
+  "docs/phase-5-46-consumer-contract-readiness-matrix.md"
+];
+const phase547CrossLinks = [
+  "docs/phase-5-46-consumer-contract-readiness-matrix.md",
+  "docs/phase-5-47-consumer-contract-gap-index.md"
+];
+const phase547ExpectedTrueSafetyFlagNames = [
+  "phase547ConsumerContractGapIndexRecorded",
+  "phase547ConsumerContractGapIndexReviewOnly",
+  "phase547ConsumerContractGapIndexProduced",
+  "phase547LocusGapBucketsCovered",
+  "phase547MultiverseGapBucketsCovered",
+  "phase547SecureDropFutureContentFabricCapabilityReferenceOnly",
+  "phase547ServeRuntimeStillDefaultBlocked"
+];
+const phase547ExpectedFalseSafetyFlagNames = [
+  "phase547FallowRuntimeUsed",
+  "phase547ConsumerContractGapIndexAuthoritative",
+  "phase547CommandRuntimeControlEnabled",
+  "phase547RuntimePermissionGranted",
+  "phase547CommandExposurePermissionGranted",
+  "phase547RuntimeCommandExposureEnabled",
+  "phase547RuntimeExecutionEnabled",
+  "phase547ReviewerRoutingPerformed",
+  "phase547ReviewerAssignmentPerformed",
+  "phase547EvaluatorExecutionPerformed",
+  "phase547EvaluatorResultProduced",
+  "phase547ApprovalDecisionProduced",
+  "phase547ApprovalGrantProduced",
+  "phase547ApprovalGrantPersisted",
+  "phase547ConnectorGrantProduced",
+  "phase547ConnectorIngestionAdded",
+  "phase547LiveRegistryConnectionEnabled",
+  "phase547WebSocketRuntimeEnabled",
+  "phase547HttpRuntimeEnabled",
+  "phase547TaskRuntimeExecutionEnabled",
+  "phase547TaskExecutionEnabled",
+  "phase547McpRuntimeExecutionEnabled",
+  "phase547McpExecutionEnabled",
+  "phase547McpToolExposureEnabled",
+  "phase547FabricRuntimeSurfaceEnabled",
+  "phase547ContentFabricRuntimeBehaviorEnabled",
+  "phase547AdapterRuntimeBehaviorEnabled",
+  "phase547SecureDropImplemented",
+  "phase547SecureDropCryptoImplemented",
+  "phase547SecureDropTransportImplemented",
+  "phase547SecureDropStegoImplemented",
+  "phase547SecureDropSendReceiveImplemented",
+  "phase547SecureDropInboxPollingEnabled",
+  "phase547FileSelectionEnabled",
+  "phase547FilesystemWatcherEnabled",
+  "phase547FilesystemScanningEnabled",
+  "phase547SecretVaultEnvAccessEnabled",
+  "phase547St3ggVendored",
+  "phase547ProcessControlEnabled",
+  "phase547LiveStdinLoopEnabled",
+  "phase547RuntimeStdoutWriterEnabled",
+  "phase547RuntimeStderrWriterEnabled",
+  "phase547RuntimeTranscriptWritePerformed",
+  "phase547RuntimeAuditWritePerformed",
+  "phase547DryRunBypassesBlock",
+  "phase547CliSourceChanged",
+  "phase547RustSourceChanged",
+  "phase547FabricSourceChanged"
+];
+const phase547SafetyFlagNames = [
+  ...phase547ExpectedTrueSafetyFlagNames,
+  ...phase547ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -3990,15 +4061,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.46 consumer contract readiness matrix and does not claim to run checks", async () => {
+test("phase status report is Phase 5.47 consumer contract gap index and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.46",
-    name: "Locus and Multiverse consumer contract readiness matrix",
+    id: "5.47",
+    name: "Locus and Multiverse consumer contract gap index",
     executionPosture:
-      "consumer-contract-readiness-matrix runtime-disabled no-new-runtime-capability no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-connector-grant no-fabric-runtime no-websocket-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime"
+      "consumer-contract-gap-index runtime-disabled no-new-runtime-capability no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-connector-grant no-fabric-runtime no-websocket-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -4061,15 +4132,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.46 consumer contract readiness matrix status report."
+    "Render this deterministic local Phase 5.47 consumer contract gap index status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.46 status report."
+    "Run focused tests for this local Phase 5.47 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.46 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.47 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-47-consumer-contract-gap-index.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.47 Locus/Multiverse consumer contract gap index and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -19761,6 +19838,170 @@ test("report inventories Phase 5.46 as Locus/Multiverse consumer contract readin
   assertSafetyFlags(report, phase546ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.47 as Locus/Multiverse consumer contract gap index", async () => {
+  const report = await runReport();
+  const inventory = report.phase547ConsumerContractGapIndexInventory;
+  const entries = new Map(inventory.gapEntries.map((entry) => [entry.gapId, entry]));
+  const groups = new Map(
+    inventory.gapGroups.map((group) => [group.consumerId, group])
+  );
+
+  assert.equal(inventory.statusLayer.layerId, "consumer-contract-gap-index");
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase547DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase547CrossLinks);
+  assert.deepEqual(inventory.statusLayer.targetConsumerIds, [
+    "locus",
+    "multiverse"
+  ]);
+  assert.equal(inventory.statusLayer.gapEntryCount, 11);
+  assert.equal(inventory.statusLayer.locusGapCount, 5);
+  assert.equal(inventory.statusLayer.multiverseGapCount, 6);
+  assert.equal(inventory.statusLayer.locusGapBucketsCovered, true);
+  assert.equal(inventory.statusLayer.multiverseGapBucketsCovered, true);
+  assert.equal(
+    inventory.statusLayer.secureDropFutureContentFabricCapabilityReferenceOnly,
+    true
+  );
+  assert.equal(inventory.statusLayer.commandRuntimeControlEnabled, false);
+  assert.equal(inventory.statusLayer.connectorGrantProduced, false);
+  assert.equal(inventory.statusLayer.webSocketRuntimeEnabled, false);
+  assert.equal(inventory.statusLayer.httpRuntimeEnabled, false);
+  assert.equal(inventory.statusLayer.taskRuntimeExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.taskExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.mcpRuntimeExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.mcpExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.mcpToolExposureEnabled, false);
+  assert.equal(inventory.statusLayer.fabricRuntimeSurfaceEnabled, false);
+  assert.equal(inventory.statusLayer.contentFabricRuntimeBehaviorEnabled, false);
+  assert.equal(inventory.statusLayer.secureDropImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropCryptoImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropTransportImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropStegoImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropSendReceiveImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropInboxPollingEnabled, false);
+  assert.equal(inventory.statusLayer.fileSelectionEnabled, false);
+  assert.equal(inventory.statusLayer.filesystemScanningEnabled, false);
+  assert.equal(inventory.statusLayer.secretVaultEnvAccessEnabled, false);
+  assert.equal(inventory.statusLayer.st3ggVendored, false);
+  assert.equal(inventory.statusLayer.fallowRuntimeUsed, false);
+  assert.equal(inventory.statusLayer.cliSourceChanged, false);
+  assert.equal(inventory.statusLayer.rustSourceChanged, false);
+  assert.equal(inventory.statusLayer.fabricSourceChanged, false);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-47/consumer-contract-gap-index.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase5-47-consumer-contract-gap-index.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.equal(inventory.ownershipBoundary.mcpToolExposureAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fallowRuntimeUsedByThisPhase, false);
+  assert.equal(
+    inventory.sourceConsumerContractReadinessMatrixSummary.schema,
+    "ardyn.phase-5.46.consumer-contract-readiness-matrix-state"
+  );
+  assert.equal(
+    inventory.consumerContractGapIndex.schema,
+    "ardyn.phase-5.47.consumer-contract-gap-index-state"
+  );
+  assert.deepEqual(inventory.consumerContractGapIndex.targetConsumerIds, [
+    "locus",
+    "multiverse"
+  ]);
+  assert.deepEqual([...entries.keys()], [
+    "locus.status-control-surface-display-contract-gap",
+    "locus.process-tool-capability-metadata-contract-gap",
+    "locus.visible-review-artifact-contract-gap",
+    "locus.future-secure-drop-compose-inbox-consumer-contract-gap",
+    "locus.command-control-runtime-authorization-boundary-gap",
+    "multiverse.world-project-orchestration-metadata-contract-gap",
+    "multiverse.visible-ai-capability-metadata-contract-gap",
+    "multiverse.task-capability-wrapper-metadata-contract-gap",
+    "multiverse.review-only-citizen-adapter-candidate-contract-gap",
+    "multiverse.fabric-coordination-metadata-contract-gap",
+    "multiverse.registry-websocket-mcp-task-runtime-authorization-boundary-gap"
+  ]);
+  assert.deepEqual(groups.get("locus").futureAuthorizationCandidateBuckets, [
+    "status/control-surface display contract",
+    "process/tool capability metadata contract",
+    "Locus-visible review artifact contract",
+    "future Secure Drop compose/inbox consumer contract",
+    "command/control runtime authorization boundary"
+  ]);
+  assert.deepEqual(groups.get("multiverse").futureAuthorizationCandidateBuckets, [
+    "world/project orchestration metadata contract",
+    "visible AI capability metadata contract",
+    "task/capability wrapper metadata contract",
+    "review-only citizen/adapter candidate contract",
+    "Fabric coordination metadata contract",
+    "registry/websocket/MCP/task runtime authorization boundary"
+  ]);
+  for (const entry of entries.values()) {
+    assert.equal(entry.planningMetadataEvidence.planningMetadataOnly, true);
+    assert.equal(entry.planningMetadataEvidence.reviewOnly, true);
+    assert.equal(entry.planningMetadataEvidence.authoritative, false);
+    assert.equal(entry.planningMetadataEvidence.sourcePhase, "5.46");
+    assert.equal(entry.planningMetadataEvidence.runtimeEffectAllFalse, true);
+    assert.equal(entry.planningMetadataEvidence.noSecureDropRuntime, true);
+    assert.ok(entry.requiredPrerequisiteContracts.length >= 3);
+    assert.ok(entry.forbiddenCurrentBehavior.length >= 5);
+    for (const [key, value] of Object.entries(entry.authorizationStatusFlags)) {
+      assert.equal(value, false, `${entry.gapId}.${key}`);
+    }
+  }
+  assert.ok(
+    entries
+      .get("locus.future-secure-drop-compose-inbox-consumer-contract-gap")
+      .requiredPrerequisiteContracts.includes(
+        "content-fabric.secure-drop.compose-consumer-contract"
+      )
+  );
+  assert.ok(
+    entries
+      .get("multiverse.registry-websocket-mcp-task-runtime-authorization-boundary-gap")
+      .forbiddenCurrentBehavior.includes("MCP tool exposure")
+  );
+  assert.ok(
+    entries
+      .get("multiverse.fabric-coordination-metadata-contract-gap")
+      .forbiddenCurrentBehavior.includes("Fabric runtime surface")
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assertAllFalse(inventory.forbiddenBehavior);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.defaultBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBypassesBlock, false);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-47-consumer-contract-gap-index.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, [
+    "semgrep --config auto ."
+  ]);
+  assert.equal(report.safetyPosture.phase547ConsumerContractGapIndex, true);
+  assertSafetyFlags(report, phase547ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase547ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -20667,7 +20908,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase543SafetyFlagNames,
     ...phase544SafetyFlagNames,
     ...phase545SafetyFlagNames,
-    ...phase546SafetyFlagNames
+    ...phase546SafetyFlagNames,
+    ...phase547SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -20728,6 +20970,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase545ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase546ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase546ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase547ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase547ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

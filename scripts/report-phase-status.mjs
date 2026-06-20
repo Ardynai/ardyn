@@ -255,6 +255,9 @@ const phase545TargetConsumerPlanningMetadata = await readJson(
 const phase546ConsumerContractReadinessMatrix = await readJson(
   "tests/fixtures/host-policy/phase5-46/consumer-contract-readiness-matrix.json"
 );
+const phase547ConsumerContractGapIndex = await readJson(
+  "tests/fixtures/host-policy/phase5-47/consumer-contract-gap-index.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -302,10 +305,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.46",
-    name: "Locus and Multiverse consumer contract readiness matrix",
+    id: "5.47",
+    name: "Locus and Multiverse consumer contract gap index",
     executionPosture:
-      "consumer-contract-readiness-matrix runtime-disabled no-new-runtime-capability no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-connector-grant no-fabric-runtime no-websocket-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime"
+      "consumer-contract-gap-index runtime-disabled no-new-runtime-capability no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-connector-grant no-fabric-runtime no-websocket-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -386,18 +389,24 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.46 consumer contract readiness matrix status report.",
+        "Render this deterministic local Phase 5.47 consumer contract gap index status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.46 status report.",
+      purpose: "Run focused tests for this local Phase 5.47 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.46 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.47 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command: "node --test tests/phase5-47-consumer-contract-gap-index.test.mjs",
+      purpose:
+        "Run focused Phase 5.47 Locus/Multiverse consumer contract gap index and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -19070,6 +19079,340 @@ const report = {
       noFabricSourceChange: true
     }
   },
+  phase547ConsumerContractGapIndexInventory: {
+    statusLayer: {
+      document: "docs/phase-5-47-consumer-contract-gap-index.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-47/consumer-contract-gap-index.json",
+      sourceConsumerContractReadinessMatrixDocument:
+        "docs/phase-5-46-consumer-contract-readiness-matrix.md",
+      sourceConsumerContractReadinessMatrixFixture:
+        "tests/fixtures/host-policy/phase5-46/consumer-contract-readiness-matrix.json",
+      precedingPhase: "5.46",
+      sourceMetadataPhase: "5.46",
+      layerId: "consumer-contract-gap-index",
+      scope:
+        "phase-5-consumer-contract-gap-index-locus-multiverse-runtime-disabled",
+      ...phase547ConsumerContractGapIndex.gapIndexSummary,
+      targetConsumerIds: phase547ConsumerContractGapIndex.targetConsumerIds,
+      locusGapBucketsCovered: true,
+      multiverseGapBucketsCovered: true,
+      secureDropFutureContentFabricCapabilityReferenceOnly: true,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeExecuted: false,
+      commandRuntimeControlEnabled: false,
+      connectorGrantProduced: false,
+      connectorIngestionAdded: false,
+      liveRegistryConnectionEnabled: false,
+      webSocketRuntimeEnabled: false,
+      httpRuntimeEnabled: false,
+      taskRuntimeExecutionEnabled: false,
+      taskExecutionEnabled: false,
+      mcpRuntimeExecutionEnabled: false,
+      mcpExecutionEnabled: false,
+      mcpToolExposureEnabled: false,
+      fabricRuntimeSurfaceEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      adapterRuntimeBehaviorEnabled: false,
+      secureDropImplemented: false,
+      secureDropCryptoImplemented: false,
+      secureDropTransportImplemented: false,
+      secureDropStegoImplemented: false,
+      secureDropSendReceiveImplemented: false,
+      secureDropInboxPollingEnabled: false,
+      fileSelectionEnabled: false,
+      filesystemWatcherEnabled: false,
+      filesystemScanningEnabled: false,
+      secretVaultEnvAccessEnabled: false,
+      st3ggVendored: false,
+      processControlEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      transcriptRuntimeWritePerformed: false,
+      auditRuntimeWritePerformed: false,
+      fallowRuntimeUsed: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      fabricSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-47-consumer-contract-gap-index.md",
+        "Records deterministic Locus and Multiverse future authorization gap buckets while runtime remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-46-consumer-contract-readiness-matrix.md",
+        "Provides the Phase 5.47 source readiness matrix rows and blockers."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-46-consumer-contract-readiness-matrix.md",
+      "docs/phase-5-47-consumer-contract-gap-index.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-47/consumer-contract-gap-index.json",
+        "Records deterministic Locus and Multiverse gap-index entries with command, connector, Fabric, websocket, MCP, task, and Secure Drop runtime behavior disabled."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-47-consumer-contract-gap-index.test.mjs",
+        "Pins the Phase 5.47 helper, fixture shape, gap buckets, authorization flags, blocked commands, and source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.47 status inventory, docs cross-links, fixture inventory, and runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-47-consumer-contract-gap-index.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-47/consumer-contract-gap-index.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-47-consumer-contract-gap-index.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      cliSourceChangedByThisPhase: false,
+      appsCliIndexChangedByThisPhase: false,
+      rustSourceChangedByThisPhase: false,
+      fabricSourceChangedByThisPhase: false,
+      filesystemWatcherAddedByThisPhase: false,
+      fileSelectionAddedByThisPhase: false,
+      filesystemScanningAddedByThisPhase: false,
+      externalSourceLookupAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      connectorIngestionAddedByThisPhase: false,
+      connectorGrantProducedByThisPhase: false,
+      secureDropImplementedByThisPhase: false,
+      secureDropCryptoImplementedByThisPhase: false,
+      secureDropTransportImplementedByThisPhase: false,
+      secureDropStegoImplementedByThisPhase: false,
+      secureDropSendReceiveImplementedByThisPhase: false,
+      secureDropInboxPollingEnabledByThisPhase: false,
+      st3ggVendoredByThisPhase: false,
+      liveRegistryConnectionAddedByThisPhase: false,
+      webSocketHttpSurfaceAddedByThisPhase: false,
+      taskRuntimeAddedByThisPhase: false,
+      mcpRuntimeAddedByThisPhase: false,
+      mcpToolExposureAddedByThisPhase: false,
+      fabricRuntimeSurfaceAddedByThisPhase: false,
+      contentFabricRuntimeBehaviorAddedByThisPhase: false,
+      reviewerRoutingPerformedByThisPhase: false,
+      reviewerAssignmentPerformedByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      reportRunsChecks: false,
+      separateRuntimeEnablementApprovalRequired: true,
+      separateSecureDropAuthorizationPhaseRequired: true,
+      separateFabricRuntimeAuthorizationPhaseRequired: true,
+      separateWebsocketMcpTaskRuntimeAuthorizationRequired: true
+    },
+    sourceConsumerContractReadinessMatrixSummary:
+      phase547ConsumerContractGapIndex
+        .sourceConsumerContractReadinessMatrixSummary,
+    gapIndexSummary: phase547ConsumerContractGapIndex.gapIndexSummary,
+    consumerContractGapIndex:
+      phase547ConsumerContractGapIndex.consumerContractGapIndex,
+    gapEntries: phase547ConsumerContractGapIndex.gapEntries,
+    gapGroups: phase547ConsumerContractGapIndex.gapGroups,
+    blockedRuntimeEffect: phase547ConsumerContractGapIndex.runtimeEffect,
+    serveRuntimeBlockedBehavior: {
+      commandRecognized: true,
+      defaultBlocked: true,
+      dryRunBlocked: true,
+      dryRunBypassesBlock: false,
+      stdout: "",
+      stderrIncludes: "runtime unavailable",
+      exitCode: 1
+    },
+    forbiddenBehavior: {
+      commandRuntimeControlEnabled:
+        phase547ConsumerContractGapIndex.commandRuntimeControlEnabled,
+      commandExposurePermissionGranted:
+        phase547ConsumerContractGapIndex.commandExposurePermissionGranted,
+      runtimePermissionGranted:
+        phase547ConsumerContractGapIndex.runtimePermissionGranted,
+      runtimeCommandExposureEnabled:
+        phase547ConsumerContractGapIndex.runtimeCommandExposureEnabled,
+      runtimeExecutionEnabled:
+        phase547ConsumerContractGapIndex.runtimeExecutionEnabled,
+      reviewerRoutingPerformed:
+        phase547ConsumerContractGapIndex.reviewerRoutingPerformed,
+      reviewerAssignmentPerformed:
+        phase547ConsumerContractGapIndex.reviewerAssignmentPerformed,
+      evaluatorExecutionPerformed:
+        phase547ConsumerContractGapIndex.evaluatorExecutionPerformed,
+      evaluatorResultProduced:
+        phase547ConsumerContractGapIndex.evaluatorResultProduced,
+      approvalDecisionProduced:
+        phase547ConsumerContractGapIndex.approvalDecisionProduced,
+      approvalGrantProduced:
+        phase547ConsumerContractGapIndex.approvalGrantProduced,
+      approvalGrantPersisted:
+        phase547ConsumerContractGapIndex.approvalGrantPersisted,
+      connectorGrantProduced:
+        phase547ConsumerContractGapIndex.connectorGrantProduced,
+      connectorIngestionAdded:
+        phase547ConsumerContractGapIndex.connectorIngestionAdded,
+      liveRegistryConnectionEnabled:
+        phase547ConsumerContractGapIndex.liveRegistryConnectionEnabled,
+      webSocketRuntimeEnabled:
+        phase547ConsumerContractGapIndex.webSocketRuntimeEnabled,
+      httpRuntimeEnabled: phase547ConsumerContractGapIndex.httpRuntimeEnabled,
+      taskRuntimeExecutionEnabled:
+        phase547ConsumerContractGapIndex.taskRuntimeExecutionEnabled,
+      taskExecutionEnabled: phase547ConsumerContractGapIndex.taskExecutionEnabled,
+      mcpRuntimeExecutionEnabled:
+        phase547ConsumerContractGapIndex.mcpRuntimeExecutionEnabled,
+      mcpExecutionEnabled: phase547ConsumerContractGapIndex.mcpExecutionEnabled,
+      mcpToolExposureEnabled:
+        phase547ConsumerContractGapIndex.mcpToolExposureEnabled,
+      fabricRuntimeSurfaceEnabled:
+        phase547ConsumerContractGapIndex.fabricRuntimeSurfaceEnabled,
+      contentFabricRuntimeBehaviorEnabled:
+        phase547ConsumerContractGapIndex.contentFabricRuntimeBehaviorEnabled,
+      adapterRuntimeBehaviorEnabled:
+        phase547ConsumerContractGapIndex.adapterRuntimeBehaviorEnabled,
+      secureDropImplemented:
+        phase547ConsumerContractGapIndex.secureDropImplemented,
+      secureDropCryptoImplemented:
+        phase547ConsumerContractGapIndex.secureDropCryptoImplemented,
+      secureDropTransportImplemented:
+        phase547ConsumerContractGapIndex.secureDropTransportImplemented,
+      secureDropStegoImplemented:
+        phase547ConsumerContractGapIndex.secureDropStegoImplemented,
+      secureDropSendReceiveImplemented:
+        phase547ConsumerContractGapIndex.secureDropSendReceiveImplemented,
+      secureDropInboxPollingEnabled:
+        phase547ConsumerContractGapIndex.secureDropInboxPollingEnabled,
+      fileSelectionEnabled: phase547ConsumerContractGapIndex.fileSelectionEnabled,
+      filesystemWatcherEnabled:
+        phase547ConsumerContractGapIndex.filesystemWatcherEnabled,
+      filesystemScanningEnabled:
+        phase547ConsumerContractGapIndex.filesystemScanningEnabled,
+      secretVaultEnvAccessEnabled:
+        phase547ConsumerContractGapIndex.secretVaultEnvAccessEnabled,
+      st3ggVendored: phase547ConsumerContractGapIndex.st3ggVendored,
+      processControlEnabled:
+        phase547ConsumerContractGapIndex.processControlEnabled,
+      liveStdinLoopEnabled:
+        phase547ConsumerContractGapIndex.liveStdinLoopEnabled,
+      runtimeStdoutWriterEnabled:
+        phase547ConsumerContractGapIndex.runtimeStdoutWriterEnabled,
+      runtimeStderrWriterEnabled:
+        phase547ConsumerContractGapIndex.runtimeStderrWriterEnabled,
+      transcriptRuntimeWritePerformed:
+        phase547ConsumerContractGapIndex.transcriptRuntimeWritePerformed,
+      auditRuntimeWritePerformed:
+        phase547ConsumerContractGapIndex.auditRuntimeWritePerformed,
+      httpRuntimeSurfaceEnabled:
+        phase547ConsumerContractGapIndex.httpRuntimeSurfaceEnabled,
+      webSocketHttpSurfaceEnabled:
+        phase547ConsumerContractGapIndex.webSocketHttpSurfaceEnabled
+    },
+    validationCommands: [
+      "node --test tests/phase5-47-consumer-contract-gap-index.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check",
+      "fallow health --score --hotspots --targets --format json",
+      "fallow audit --format json"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      consumerContractGapIndexRecorded: true,
+      consumerContractGapIndexReviewOnly: true,
+      consumerContractGapIndexAuthoritative: false,
+      consumerContractGapIndexProduced: true,
+      locusGapBucketsCovered: true,
+      multiverseGapBucketsCovered: true,
+      secureDropFutureContentFabricCapabilityReferenceOnly: true,
+      runtimeBlocked: true,
+      commandRuntimeControlEnabled: false,
+      commandExposurePermissionGranted: false,
+      runtimePermissionGranted: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      reviewerRoutingPerformed: false,
+      reviewerAssignmentPerformed: false,
+      evaluatorExecutionPerformed: false,
+      evaluatorResultProduced: false,
+      approvalDecisionProduced: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      connectorGrantProduced: false,
+      connectorIngestionAdded: false,
+      liveRegistryConnectionEnabled: false,
+      webSocketRuntimeEnabled: false,
+      httpRuntimeEnabled: false,
+      taskRuntimeExecutionEnabled: false,
+      taskExecutionEnabled: false,
+      mcpRuntimeExecutionEnabled: false,
+      mcpExecutionEnabled: false,
+      mcpToolExposureEnabled: false,
+      fabricRuntimeSurfaceEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      adapterRuntimeBehaviorEnabled: false,
+      secureDropImplemented: false,
+      secureDropCryptoImplemented: false,
+      secureDropTransportImplemented: false,
+      secureDropStegoImplemented: false,
+      secureDropSendReceiveImplemented: false,
+      secureDropInboxPollingEnabled: false,
+      fileSelectionEnabled: false,
+      filesystemWatcherEnabled: false,
+      filesystemScanningEnabled: false,
+      secretVaultEnvAccessEnabled: false,
+      st3ggVendored: false,
+      processControlEnabled: false,
+      liveStdinLoopEnabled: false,
+      runtimeStdoutWriterEnabled: false,
+      runtimeStderrWriterEnabled: false,
+      transcriptRuntimeWritePerformed: false,
+      auditRuntimeWritePerformed: false,
+      fallowRuntimeUsed: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFabricSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -19151,6 +19494,7 @@ const report = {
     phase544APrototypePollutionHardening: true,
     phase545TargetConsumerPlanningMetadata: true,
     phase546ConsumerContractReadinessMatrix: true,
+    phase547ConsumerContractGapIndex: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -21466,6 +21810,61 @@ const report = {
       phase546CliSourceChanged: false,
       phase546RustSourceChanged: false,
       phase546FabricSourceChanged: false,
+      phase547ConsumerContractGapIndexRecorded: true,
+      phase547ConsumerContractGapIndexReviewOnly: true,
+      phase547ConsumerContractGapIndexProduced: true,
+      phase547LocusGapBucketsCovered: true,
+      phase547MultiverseGapBucketsCovered: true,
+      phase547SecureDropFutureContentFabricCapabilityReferenceOnly: true,
+      phase547ServeRuntimeStillDefaultBlocked: true,
+      phase547FallowRuntimeUsed: false,
+      phase547ConsumerContractGapIndexAuthoritative: false,
+      phase547CommandRuntimeControlEnabled: false,
+      phase547RuntimePermissionGranted: false,
+      phase547CommandExposurePermissionGranted: false,
+      phase547RuntimeCommandExposureEnabled: false,
+      phase547RuntimeExecutionEnabled: false,
+      phase547ReviewerRoutingPerformed: false,
+      phase547ReviewerAssignmentPerformed: false,
+      phase547EvaluatorExecutionPerformed: false,
+      phase547EvaluatorResultProduced: false,
+      phase547ApprovalDecisionProduced: false,
+      phase547ApprovalGrantProduced: false,
+      phase547ApprovalGrantPersisted: false,
+      phase547ConnectorGrantProduced: false,
+      phase547ConnectorIngestionAdded: false,
+      phase547LiveRegistryConnectionEnabled: false,
+      phase547WebSocketRuntimeEnabled: false,
+      phase547HttpRuntimeEnabled: false,
+      phase547TaskRuntimeExecutionEnabled: false,
+      phase547TaskExecutionEnabled: false,
+      phase547McpRuntimeExecutionEnabled: false,
+      phase547McpExecutionEnabled: false,
+      phase547McpToolExposureEnabled: false,
+      phase547FabricRuntimeSurfaceEnabled: false,
+      phase547ContentFabricRuntimeBehaviorEnabled: false,
+      phase547AdapterRuntimeBehaviorEnabled: false,
+      phase547SecureDropImplemented: false,
+      phase547SecureDropCryptoImplemented: false,
+      phase547SecureDropTransportImplemented: false,
+      phase547SecureDropStegoImplemented: false,
+      phase547SecureDropSendReceiveImplemented: false,
+      phase547SecureDropInboxPollingEnabled: false,
+      phase547FileSelectionEnabled: false,
+      phase547FilesystemWatcherEnabled: false,
+      phase547FilesystemScanningEnabled: false,
+      phase547SecretVaultEnvAccessEnabled: false,
+      phase547St3ggVendored: false,
+      phase547ProcessControlEnabled: false,
+      phase547LiveStdinLoopEnabled: false,
+      phase547RuntimeStdoutWriterEnabled: false,
+      phase547RuntimeStderrWriterEnabled: false,
+      phase547RuntimeTranscriptWritePerformed: false,
+      phase547RuntimeAuditWritePerformed: false,
+      phase547DryRunBypassesBlock: false,
+      phase547CliSourceChanged: false,
+      phase547RustSourceChanged: false,
+      phase547FabricSourceChanged: false,
       freshExternalReviewRan: true,
       freshDevinReviewRan: false,
       freshJulesReviewRan: true,
