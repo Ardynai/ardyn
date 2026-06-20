@@ -3927,6 +3927,91 @@ const phase547SafetyFlagNames = [
   ...phase547ExpectedTrueSafetyFlagNames,
   ...phase547ExpectedFalseSafetyFlagNames
 ];
+const phase548DocFiles = [
+  "docs/phase-5-48-production-readiness-coverage-matrix.md",
+  "docs/phase-5-47-consumer-contract-gap-index.md"
+];
+const phase548CrossLinks = [
+  "docs/phase-5-47-consumer-contract-gap-index.md",
+  "docs/phase-5-48-production-readiness-coverage-matrix.md"
+];
+const phase548ExpectedTrueSafetyFlagNames = [
+  "phase548ProductionReadinessCoverageMatrixRecorded",
+  "phase548ProductionReadinessCoverageMatrixReviewOnly",
+  "phase548ProductionReadinessCoverageMatrixProduced",
+  "phase548AllProductionReadinessAreasCovered",
+  "phase548SecretsManagementBlockedCovered",
+  "phase548SystemDiscoveryMetadataOnly",
+  "phase548SecureDropFutureContentFabricCapabilityReferenceOnly",
+  "phase548ServeRuntimeStillDefaultBlocked"
+];
+const phase548ExpectedFalseSafetyFlagNames = [
+  "phase548FallowRuntimeUsed",
+  "phase548ProductionReadinessCoverageMatrixAuthoritative",
+  "phase548ProductionInfrastructureImplemented",
+  "phase548FrontendImplemented",
+  "phase548BackendApiRuntimeImplemented",
+  "phase548DatabaseStorageRuntimeWritesImplemented",
+  "phase548AuthPermissionRuntimeImplemented",
+  "phase548HostingDeploymentImplemented",
+  "phase548CloudComputeImplemented",
+  "phase548CommandRuntimeControlEnabled",
+  "phase548RuntimePermissionGranted",
+  "phase548CommandExposurePermissionGranted",
+  "phase548RuntimeCommandExposureEnabled",
+  "phase548RuntimeExecutionEnabled",
+  "phase548ReviewerRoutingPerformed",
+  "phase548ReviewerAssignmentPerformed",
+  "phase548EvaluatorExecutionPerformed",
+  "phase548EvaluatorResultProduced",
+  "phase548ApprovalDecisionProduced",
+  "phase548ApprovalGrantProduced",
+  "phase548ApprovalGrantPersisted",
+  "phase548ConnectorGrantProduced",
+  "phase548ConnectorIngestionAdded",
+  "phase548LiveRegistryConnectionEnabled",
+  "phase548WebSocketRuntimeEnabled",
+  "phase548HttpRuntimeEnabled",
+  "phase548TaskRuntimeExecutionEnabled",
+  "phase548TaskExecutionEnabled",
+  "phase548McpRuntimeExecutionEnabled",
+  "phase548McpExecutionEnabled",
+  "phase548McpToolExposureEnabled",
+  "phase548FabricRuntimeSurfaceEnabled",
+  "phase548ContentFabricRuntimeBehaviorEnabled",
+  "phase548AdapterRuntimeBehaviorEnabled",
+  "phase548SecureDropImplemented",
+  "phase548SecureDropCryptoImplemented",
+  "phase548SecureDropTransportImplemented",
+  "phase548SecureDropStegoImplemented",
+  "phase548SecureDropSendReceiveImplemented",
+  "phase548SecureDropInboxPollingEnabled",
+  "phase548FileSelectionEnabled",
+  "phase548FilesystemWatcherEnabled",
+  "phase548FilesystemScanningEnabled",
+  "phase548SecretVaultEnvAccessEnabled",
+  "phase548St3ggVendored",
+  "phase548ProcessControlEnabled",
+  "phase548LiveStdinLoopEnabled",
+  "phase548RuntimeStdoutWriterEnabled",
+  "phase548RuntimeStderrWriterEnabled",
+  "phase548RuntimeTranscriptWritePerformed",
+  "phase548RuntimeAuditWritePerformed",
+  "phase548DatabaseStorageRuntimeWritesEnabled",
+  "phase548SecretsRuntimeIngestionEnabled",
+  "phase548ServiceDiscoveryEnabled",
+  "phase548LiveServiceRegistryConnectionEnabled",
+  "phase548ScheduleEnforcementEnabled",
+  "phase548BackgroundPollingEnabled",
+  "phase548DryRunBypassesBlock",
+  "phase548CliSourceChanged",
+  "phase548RustSourceChanged",
+  "phase548FabricSourceChanged"
+];
+const phase548SafetyFlagNames = [
+  ...phase548ExpectedTrueSafetyFlagNames,
+  ...phase548ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -4061,15 +4146,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.47 consumer contract gap index and does not claim to run checks", async () => {
+test("phase status report is Phase 5.48 production-readiness coverage matrix and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.47",
-    name: "Locus and Multiverse consumer contract gap index",
+    id: "5.48",
+    name: "Review-only production-readiness coverage matrix",
     executionPosture:
-      "consumer-contract-gap-index runtime-disabled no-new-runtime-capability no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-connector-grant no-fabric-runtime no-websocket-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime"
+      "production-readiness-coverage-matrix runtime-disabled metadata-only no-production-infrastructure no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -4132,15 +4217,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.47 consumer contract gap index status report."
+    "Render this deterministic local Phase 5.48 production-readiness coverage matrix status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.47 status report."
+    "Run focused tests for this local Phase 5.48 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.47 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.48 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-48-production-readiness-coverage-matrix.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.48 production-readiness coverage matrix and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -20002,6 +20093,180 @@ test("report inventories Phase 5.47 as Locus/Multiverse consumer contract gap in
   assertSafetyFlags(report, phase547ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.48 as review-only production-readiness coverage matrix", async () => {
+  const report = await runReport();
+  const inventory = report.phase548ProductionReadinessCoverageMatrixInventory;
+  const rows = new Map(inventory.matrixRows.map((row) => [row.areaNumber, row]));
+
+  assert.equal(inventory.statusLayer.layerId, "production-readiness-coverage-matrix");
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase548DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase548CrossLinks);
+  assert.equal(inventory.statusLayer.areaCount, 19);
+  assert.equal(inventory.statusLayer.covered, 3);
+  assert.equal(inventory.statusLayer.partial, 7);
+  assert.equal(inventory.statusLayer.missing, 0);
+  assert.equal(inventory.statusLayer.deferred, 9);
+  assert.equal(inventory.statusLayer.notApplicable, 0);
+  assert.deepEqual(inventory.statusLayer.areaNames, [
+    "Front-End Development / WCAG / browser state",
+    "API & Backend Logic",
+    "Database & Storage",
+    "Auth & Permissions",
+    "Hosting & Deployment",
+    "Cloud & Compute",
+    "CI/CD & Version Control",
+    "Security & RLS",
+    "Rate Limiting",
+    "Caching & CDN",
+    "Load Balancing & Scaling",
+    "Error Tracking & Logs",
+    "Availability & Recovery",
+    "Infrastructure Management & Compliance",
+    "Testing Frameworks",
+    "Operations & Reliability",
+    "Maintenance & Governance",
+    "Secrets Management",
+    "System Discovery / service registry / schedule enforcement"
+  ]);
+  assert.equal(inventory.statusLayer.productionInfrastructureImplemented, false);
+  assert.equal(inventory.statusLayer.frontendImplemented, false);
+  assert.equal(inventory.statusLayer.backendApiRuntimeImplemented, false);
+  assert.equal(
+    inventory.statusLayer.databaseStorageRuntimeWritesImplemented,
+    false
+  );
+  assert.equal(inventory.statusLayer.hostingDeploymentImplemented, false);
+  assert.equal(inventory.statusLayer.cloudComputeImplemented, false);
+  assert.equal(inventory.statusLayer.systemDiscoveryMetadataOnly, true);
+  assert.equal(
+    inventory.statusLayer.secureDropFutureContentFabricCapabilityReferenceOnly,
+    true
+  );
+  assert.equal(inventory.statusLayer.commandRuntimeControlEnabled, false);
+  assert.equal(inventory.statusLayer.databaseStorageRuntimeWritesEnabled, false);
+  assert.equal(inventory.statusLayer.secretsRuntimeIngestionEnabled, false);
+  assert.equal(inventory.statusLayer.connectorGrantProduced, false);
+  assert.equal(inventory.statusLayer.connectorIngestionAdded, false);
+  assert.equal(inventory.statusLayer.webSocketRuntimeEnabled, false);
+  assert.equal(inventory.statusLayer.httpRuntimeEnabled, false);
+  assert.equal(inventory.statusLayer.taskRuntimeExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.taskExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.mcpRuntimeExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.mcpExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.mcpToolExposureEnabled, false);
+  assert.equal(inventory.statusLayer.fabricRuntimeSurfaceEnabled, false);
+  assert.equal(inventory.statusLayer.contentFabricRuntimeBehaviorEnabled, false);
+  assert.equal(inventory.statusLayer.secureDropImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropCryptoImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropTransportImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropStegoImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropSendReceiveImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropInboxPollingEnabled, false);
+  assert.equal(inventory.statusLayer.fileSelectionEnabled, false);
+  assert.equal(inventory.statusLayer.filesystemScanningEnabled, false);
+  assert.equal(inventory.statusLayer.secretVaultEnvAccessEnabled, false);
+  assert.equal(inventory.statusLayer.serviceDiscoveryEnabled, false);
+  assert.equal(inventory.statusLayer.liveServiceRegistryConnectionEnabled, false);
+  assert.equal(inventory.statusLayer.scheduleEnforcementEnabled, false);
+  assert.equal(inventory.statusLayer.backgroundPollingEnabled, false);
+  assert.equal(inventory.statusLayer.fallowRuntimeUsed, false);
+  assert.equal(inventory.statusLayer.cliSourceChanged, false);
+  assert.equal(inventory.statusLayer.rustSourceChanged, false);
+  assert.equal(inventory.statusLayer.fabricSourceChanged, false);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/phase5-48-production-readiness-coverage-matrix.test.mjs",
+        "present"
+      ],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.equal(
+    inventory.ownershipBoundary.databaseStorageRuntimeWritesAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.secretsEnvIngestionAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.connectorGrantProducedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.secureDropImplementedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.webSocketHttpSurfaceAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.mcpToolExposureAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.serviceDiscoveryAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.scheduleEnforcementAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.backgroundPollingAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fallowRuntimeUsedByThisPhase, false);
+  assert.equal(
+    inventory.productionReadinessCoverageMatrix.schema,
+    "ardyn.phase-5.48.production-readiness-coverage-matrix-state"
+  );
+  assert.deepEqual([...rows.keys()], Array.from({ length: 19 }, (_, index) => index + 1));
+  assert.equal(rows.get(1).currentStatus, "deferred");
+  assert.equal(rows.get(2).productionRuntimeRequirements.liveRuntimeRequired, true);
+  assert.equal(rows.get(3).productionRuntimeRequirements.databaseStorageRequired, true);
+  assert.equal(rows.get(8).productionRuntimeRequirements.databaseStorageRequired, true);
+  assert.equal(rows.get(15).currentStatus, "covered");
+  assert.equal(rows.get(18).currentStatus, "covered");
+  assert.equal(rows.get(18).productionRuntimeRequirements.secretsRequired, true);
+  assert.equal(rows.get(18).productionRuntimeRequirements.secureDropRequired, true);
+  assert.equal(
+    rows.get(19).productionRuntimeRequirements.serviceDiscoveryScheduleRequired,
+    true
+  );
+  for (const row of rows.values()) {
+    assert.equal(row.nonAuthorizingProof, true);
+    assert.ok(row.currentEvidenceInRepo.length > 0);
+    assert.ok(row.productionGap.length > 0);
+    assert.ok(row.authorizationPrerequisiteNotes.length >= 2);
+    for (const [key, value] of Object.entries(row.authorizationStatusFlags)) {
+      assert.equal(value, false, `${row.areaName}.${key}`);
+    }
+  }
+  assert.ok(
+    inventory.topProductionReadinessGaps.some((gap) =>
+      gap.includes("No DB/storage substrate")
+    )
+  );
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.49-consumer-display-accessibility-contract-map"
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assertAllFalse(inventory.forbiddenBehavior);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.defaultBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBlocked, true);
+  assert.equal(inventory.serveRuntimeBlockedBehavior.dryRunBypassesBlock, false);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-48-production-readiness-coverage-matrix.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, [
+    "semgrep --config auto ."
+  ]);
+  assert.equal(report.safetyPosture.phase548ProductionReadinessCoverageMatrix, true);
+  assertSafetyFlags(report, phase548ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase548ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -20909,7 +21174,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase544SafetyFlagNames,
     ...phase545SafetyFlagNames,
     ...phase546SafetyFlagNames,
-    ...phase547SafetyFlagNames
+    ...phase547SafetyFlagNames,
+    ...phase548SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -20972,6 +21238,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase546ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase547ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase547ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase548ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase548ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

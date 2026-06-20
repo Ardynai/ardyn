@@ -262,6 +262,11 @@ export const CONSUMER_CONTRACT_GAP_INDEX_SCHEMA:
 export const CONSUMER_CONTRACT_GAP_INDEX_VERSION: "0.1.0";
 export const CONSUMER_CONTRACT_GAP_INDEX_KIND:
   "consumer-contract-gap-index";
+export const PRODUCTION_READINESS_COVERAGE_MATRIX_SCHEMA:
+  "ardyn.phase-5.48.production-readiness-coverage-matrix-result";
+export const PRODUCTION_READINESS_COVERAGE_MATRIX_VERSION: "0.1.0";
+export const PRODUCTION_READINESS_COVERAGE_MATRIX_KIND:
+  "production-readiness-coverage-matrix";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -5790,6 +5795,119 @@ export interface ConsumerContractGapIndexResult {
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
 }
 
+export type ProductionReadinessCoverageStatus =
+  | "covered"
+  | "partial"
+  | "missing"
+  | "deferred"
+  | "not_applicable";
+
+export type ProductionReadinessCoverageMatrixClassification =
+  | "malformed_production_readiness_coverage_matrix_input_rejected"
+  | "reviewer_routing_looking_production_readiness_coverage_matrix_input_rejected"
+  | "reviewer_assignment_looking_production_readiness_coverage_matrix_input_rejected"
+  | "evaluator_execution_looking_production_readiness_coverage_matrix_input_rejected"
+  | "evaluator_result_looking_production_readiness_coverage_matrix_input_rejected"
+  | "approval_decision_looking_production_readiness_coverage_matrix_input_rejected"
+  | "grant_looking_production_readiness_coverage_matrix_input_rejected"
+  | "runtime_permission_looking_production_readiness_coverage_matrix_input_rejected"
+  | "command_exposure_looking_production_readiness_coverage_matrix_input_rejected"
+  | "runtime_effect_true_production_readiness_coverage_matrix_input_rejected"
+  | "process_flag_true_production_readiness_coverage_matrix_input_rejected"
+  | "execution_signal_looking_production_readiness_coverage_matrix_input_rejected"
+  | "valid_production_readiness_coverage_matrix_runtime_still_blocked";
+
+export interface ProductionReadinessCoverageRuntimeRequirements {
+  liveRuntimeRequired: boolean;
+  databaseStorageRequired: boolean;
+  secretsRequired: boolean;
+  externalServicesRequired: boolean;
+  networkServerRequired: boolean;
+  connectorRequired: boolean;
+  fabricRequired: boolean;
+  webSocketHttpRequired: boolean;
+  mcpTaskExecutionRequired: boolean;
+  secureDropRequired: boolean;
+  filesystemProcessControlRequired: boolean;
+  serviceDiscoveryScheduleRequired: boolean;
+}
+
+export interface ProductionReadinessCoverageMatrixRow {
+  areaNumber: number;
+  areaName: string;
+  ardynSpecificInterpretation: string;
+  currentStatus: ProductionReadinessCoverageStatus;
+  currentEvidenceInRepo: string[];
+  productionGap: string;
+  futurePhaseCandidate: string;
+  authorizationPrerequisiteNotes: string[];
+  productionRuntimeRequirements: ProductionReadinessCoverageRuntimeRequirements;
+  authorizationStatusFlags: Record<string, false>;
+  currentAllowedBehavior: string;
+  explicitlyForbiddenCurrentBehavior: string[];
+  nonAuthorizingProof: true;
+}
+
+export interface ProductionReadinessCoverageMatrixState {
+  schema: "ardyn.phase-5.48.production-readiness-coverage-matrix-state";
+  schemaVersion: "0.1.0";
+  stateKind: "production-readiness-coverage-matrix-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourceRole: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  matrixRows: ProductionReadinessCoverageMatrixRow[];
+  matrixSummary: Record<string, boolean | number | string | string[]>;
+  topProductionReadinessGaps: string[];
+  recommendedNextPhase: string;
+  productionReadinessCoverageMatrixOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  productionInfrastructureImplemented: false;
+  productionReadinessCoverageMatrixIsReviewerRouting: false;
+  productionReadinessCoverageMatrixIsReviewerAssignment: false;
+  productionReadinessCoverageMatrixIsEvaluatorExecution: false;
+  productionReadinessCoverageMatrixIsEvaluatorResult: false;
+  productionReadinessCoverageMatrixIsApprovalDecision: false;
+  productionReadinessCoverageMatrixIsApprovalGrant: false;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface ProductionReadinessCoverageMatrixResult {
+  schema: "ardyn.phase-5.48.production-readiness-coverage-matrix-result";
+  schemaVersion: "0.1.0";
+  productionReadinessCoverageMatrixKind: "production-readiness-coverage-matrix";
+  productionReadinessCoverageMatrixMode: "review-only";
+  reviewedAt: string;
+  classification: ProductionReadinessCoverageMatrixClassification;
+  productionReadinessCoverageMatrixProduced: boolean;
+  productionReadinessCoverageMatrix:
+    | ProductionReadinessCoverageMatrixState
+    | null;
+  matrixSummary: ProductionReadinessCoverageMatrixState["matrixSummary"] | null;
+  matrixRows: ProductionReadinessCoverageMatrixRow[];
+  topProductionReadinessGaps: string[];
+  recommendedNextPhase: string | null;
+  productionReadinessCoverageMatrixOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  productionInfrastructureImplemented: false;
+  productionReadinessCoverageMatrixIsReviewerRouting: false;
+  productionReadinessCoverageMatrixIsReviewerAssignment: false;
+  productionReadinessCoverageMatrixIsEvaluatorExecution: false;
+  productionReadinessCoverageMatrixIsEvaluatorResult: false;
+  productionReadinessCoverageMatrixIsApprovalDecision: false;
+  productionReadinessCoverageMatrixIsApprovalGrant: false;
+  nonAuthorizingProof: true;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -6130,6 +6248,9 @@ export function createConsumerContractGapIndexForReview(input?: {
   sourceConsumerContractReadinessMatrixDigest?: string;
   consumerContractReadinessMatrixEntries?: unknown[];
 }): ConsumerContractGapIndexResult;
+export function createProductionReadinessCoverageMatrixForReview(input?: {
+  reviewedAt?: string;
+}): ProductionReadinessCoverageMatrixResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
