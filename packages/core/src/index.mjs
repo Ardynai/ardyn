@@ -252,6 +252,11 @@ export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_SCHEMA =
 export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_VERSION = "0.1.0";
 export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_KIND =
   "consumer-display-accessibility-contract-map";
+export const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_SCHEMA =
+  "ardyn.phase-5.50.consumer-display-fixture-schema-boundary-result";
+export const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_VERSION = "0.1.0";
+export const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_KIND =
+  "consumer-display-fixture-schema-boundary";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -32314,6 +32319,612 @@ export function createConsumerDisplayAccessibilityContractMapForReview(
     classification,
     accepted,
     consumerDisplayAccessibilityContractMap
+  });
+}
+
+const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_STATE_SCHEMA =
+  "ardyn.phase-5.50.consumer-display-fixture-schema-boundary-state";
+const VALID_CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_CLASSIFICATION =
+  "valid_consumer_display_fixture_schema_boundary_runtime_still_blocked";
+const MALFORMED_CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_CLASSIFICATION =
+  "malformed_consumer_display_fixture_schema_boundary_input_rejected";
+const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_DISPLAY_INTENT =
+  "metadata_only";
+
+const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_REQUIRED_FIELDS =
+  Object.freeze([
+    "fixtureId",
+    "consumerName",
+    "displaySurfaceId",
+    "sourceArdynArtifactType",
+    "displayIntent",
+    "readableLabel",
+    "shortDescription",
+    "longDescription",
+    "statusSeverityVocabulary",
+    "accessibilityFields",
+    "allowedDisplayBehavior",
+    "forbiddenDisplayBehavior",
+    "requiredFutureContractBeforeInteractivity",
+    "blockedAuthorizationFlags",
+    "recursiveUnsafeInputFlags",
+    "nonAuthorizingProof"
+  ]);
+
+const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_REQUIRED_ACCESSIBILITY_FIELDS =
+  Object.freeze([
+    "keyboardScreenReaderDisplayNotes",
+    "colorIndependentStatusIndicatorRequired",
+    "reducedMotionDefaultStaticDisplayRequired",
+    "noAutoExecutionNoHiddenActionSemantics",
+    "colorOnlyStatusForbidden",
+    "motionRequiredForStatusForbidden"
+  ]);
+
+const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_HIDDEN_SEMANTIC_FIELDS =
+  Object.freeze([
+    "hiddenActionSemanticsEnabled",
+    "hiddenCommandSemanticsEnabled",
+    "hiddenRuntimeSemanticsEnabled",
+    "commandRuntimeControlEnabled",
+    "controlPanelActionEnabled",
+    "autoExecutionEnabled",
+    "clickToRunEnabled",
+    "actionableControlEnabled",
+    "interactiveControlEnabled"
+  ]);
+
+const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_SECURE_DROP_FIELDS =
+  Object.freeze([
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "secureDropComposeEnabled",
+    "secureDropInboxEnabled",
+    "fileSelectionEnabled",
+    "filesystemScanningEnabled",
+    "st3ggVendored"
+  ]);
+
+const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_RUNTIME_SURFACE_FIELDS =
+  Object.freeze([
+    "webSocketRuntimeEnabled",
+    "httpRuntimeEnabled",
+    "webSocketHttpSurfaceEnabled",
+    "fabricRuntimeSurfaceEnabled",
+    "contentFabricRuntimeBehaviorEnabled",
+    "mcpRuntimeExecutionEnabled",
+    "mcpExecutionEnabled",
+    "mcpToolExposureEnabled",
+    "taskRuntimeExecutionEnabled",
+    "taskExecutionEnabled",
+    "adapterRuntimeBehaviorEnabled"
+  ]);
+
+function consumerDisplayFixtureSchemaBoundaryInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function consumerDisplayFixtureSchemaBoundaryReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function consumerDisplayFixtureSchemaBoundaryInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "fixtureEntries") &&
+      !Array.isArray(inputRecord.fixtureEntries))
+  );
+}
+
+function consumerDisplayFixtureSchemaBoundaryInputEntries(inputRecord) {
+  return Array.isArray(inputRecord?.fixtureEntries)
+    ? inputRecord.fixtureEntries
+    : null;
+}
+
+function consumerDisplayFixtureSchemaBoundaryEntryMissingRequiredField(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_REQUIRED_FIELDS.some(
+    (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+  );
+}
+
+function consumerDisplayFixtureSchemaBoundaryAccessibilityMalformed(fields) {
+  if (!isPlainObjectRecord(fields)) {
+    return true;
+  }
+
+  return CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_REQUIRED_ACCESSIBILITY_FIELDS.some(
+    (field) => !Object.prototype.hasOwnProperty.call(fields, field)
+  );
+}
+
+function consumerDisplayFixtureSchemaBoundaryEntryMalformed(entry) {
+  return (
+    consumerDisplayFixtureSchemaBoundaryEntryMissingRequiredField(entry) ||
+    typeof entry.fixtureId !== "string" ||
+    entry.fixtureId.length === 0 ||
+    typeof entry.displaySurfaceId !== "string" ||
+    entry.displaySurfaceId.length === 0 ||
+    typeof entry.sourceArdynArtifactType !== "string" ||
+    entry.sourceArdynArtifactType.length === 0 ||
+    typeof entry.readableLabel !== "string" ||
+    entry.readableLabel.length === 0 ||
+    typeof entry.shortDescription !== "string" ||
+    entry.shortDescription.length === 0 ||
+    typeof entry.longDescription !== "string" ||
+    entry.longDescription.length === 0 ||
+    !Array.isArray(entry.statusSeverityVocabulary) ||
+    entry.statusSeverityVocabulary.length < 4 ||
+    consumerDisplayFixtureSchemaBoundaryAccessibilityMalformed(
+      entry.accessibilityFields
+    ) ||
+    typeof entry.allowedDisplayBehavior !== "string" ||
+    entry.allowedDisplayBehavior.length === 0 ||
+    !Array.isArray(entry.forbiddenDisplayBehavior) ||
+    entry.forbiddenDisplayBehavior.length < 6 ||
+    typeof entry.requiredFutureContractBeforeInteractivity !== "string" ||
+    entry.requiredFutureContractBeforeInteractivity.length === 0 ||
+    !isPlainObjectRecord(entry.blockedAuthorizationFlags) ||
+    !isPlainObjectRecord(entry.recursiveUnsafeInputFlags) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+  entries,
+  predicate
+) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function consumerDisplayFixtureSchemaBoundaryAuthorizationFlagEnabled(entry) {
+  return consumerDisplayAccessibilityContractMapContainsTrue(
+    entry?.blockedAuthorizationFlags
+  );
+}
+
+function consumerDisplayFixtureSchemaBoundaryRecursiveUnsafeFlagEnabled(entry) {
+  return (
+    consumerDisplayAccessibilityContractMapContainsTrue(
+      entry?.recursiveUnsafeInputFlags
+    ) ||
+    CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_UNSAFE_FIELD_GROUPS.some(
+      ({ fields }) =>
+        consumerDisplayAccessibilityContractMapFieldTruePresent(entry, fields)
+    ) ||
+    consumerDisplayAccessibilityContractMapContainsTrue(entry?.runtimeEffect)
+  );
+}
+
+function consumerDisplayFixtureSchemaBoundaryInputClassification(inputRecord) {
+  if (consumerDisplayFixtureSchemaBoundaryInputMalformed(inputRecord)) {
+    return MALFORMED_CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_CLASSIFICATION;
+  }
+
+  const entries = consumerDisplayFixtureSchemaBoundaryInputEntries(inputRecord);
+
+  if (
+    consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+      entries,
+      consumerDisplayFixtureSchemaBoundaryEntryMissingRequiredField
+    )
+  ) {
+    return "missing_required_consumer_display_fixture_schema_boundary_entry_rejected";
+  }
+
+  if (
+    consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+      entries,
+      (entry) => entry.consumerName !== "Locus" && entry.consumerName !== "Multiverse"
+    )
+  ) {
+    return "unknown_consumer_name_consumer_display_fixture_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+      entries,
+      (entry) =>
+        ["interactive", "actionable", "runtime_action", "command_action"].includes(
+          entry.displayIntent
+        )
+    )
+  ) {
+    return "interactive_actionable_intent_consumer_display_fixture_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+      entries,
+      (entry) =>
+        entry.displayIntent !==
+        CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_DISPLAY_INTENT
+    )
+  ) {
+    return "unknown_display_intent_consumer_display_fixture_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+      entries,
+      consumerDisplayFixtureSchemaBoundaryEntryMalformed
+    )
+  ) {
+    return MALFORMED_CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_CLASSIFICATION;
+  }
+
+  if (
+    consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+      entries,
+      consumerDisplayFixtureSchemaBoundaryAuthorizationFlagEnabled
+    )
+  ) {
+    return "authorization_flags_enabled_consumer_display_fixture_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+      entries,
+      (entry) =>
+        consumerDisplayAccessibilityContractMapFieldTruePresent(
+          entry,
+          CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_HIDDEN_SEMANTIC_FIELDS
+        )
+    )
+  ) {
+    return "hidden_command_runtime_semantics_consumer_display_fixture_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+      entries,
+      (entry) =>
+        consumerDisplayAccessibilityContractMapFieldTruePresent(
+          entry,
+          CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_SECURE_DROP_FIELDS
+        )
+    )
+  ) {
+    return "secure_drop_implementation_semantics_consumer_display_fixture_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+      entries,
+      (entry) =>
+        consumerDisplayAccessibilityContractMapFieldTruePresent(
+          entry,
+          CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_RUNTIME_SURFACE_FIELDS
+        )
+    )
+  ) {
+    return "websocket_http_fabric_mcp_task_execution_semantics_consumer_display_fixture_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerDisplayFixtureSchemaBoundaryContainsFixtureIssue(
+      entries,
+      consumerDisplayFixtureSchemaBoundaryRecursiveUnsafeFlagEnabled
+    ) ||
+    consumerDisplayFixtureSchemaBoundaryRecursiveUnsafeFlagEnabled(inputRecord)
+  ) {
+    return "nested_unsafe_flags_consumer_display_fixture_schema_boundary_input_rejected";
+  }
+
+  return VALID_CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_CLASSIFICATION;
+}
+
+function consumerDisplayFixtureSchemaBoundaryRecursiveUnsafeInputFlags() {
+  return {
+    unsafeInputFlagsPresent: false,
+    nestedUnsafeFlagTruePresent: false,
+    nestedAuthorizationFlagTruePresent: false,
+    hiddenCommandRuntimeSemanticsPresent: false,
+    secureDropImplementationSemanticsPresent: false,
+    websocketHttpFabricMcpTaskExecutionSemanticsPresent: false
+  };
+}
+
+function consumerDisplayFixtureSchemaBoundaryEntry(contractEntry) {
+  const {
+    readableLabel,
+    shortDescription,
+    longDescription,
+    severityStatusVocabulary,
+    keyboardScreenReaderDisplayNotes
+  } = contractEntry.accessibilityRequirementNotes;
+
+  return {
+    fixtureId: `phase5-50.${contractEntry.displaySurfaceId}.display-fixture`,
+    consumerName: contractEntry.consumerName,
+    displaySurfaceId: contractEntry.displaySurfaceId,
+    sourceArdynArtifactType: contractEntry.sourceArdynArtifactType,
+    displayIntent: CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_DISPLAY_INTENT,
+    readableLabel,
+    shortDescription,
+    longDescription,
+    statusSeverityVocabulary: severityStatusVocabulary,
+    accessibilityFields: {
+      keyboardScreenReaderDisplayNotes,
+      colorIndependentStatusIndicatorRequired: true,
+      reducedMotionDefaultStaticDisplayRequired: true,
+      noAutoExecutionNoHiddenActionSemantics: true,
+      colorOnlyStatusForbidden: true,
+      motionRequiredForStatusForbidden: true
+    },
+    allowedDisplayBehavior: contractEntry.allowedDisplayBehavior,
+    forbiddenDisplayBehavior: contractEntry.forbiddenDisplayBehavior,
+    requiredFutureContractBeforeInteractivity:
+      contractEntry.requiredFutureContractBeforeInteractivity,
+    blockedAuthorizationFlags: consumerDisplayAccessibilityAuthorizationFlags(),
+    recursiveUnsafeInputFlags:
+      consumerDisplayFixtureSchemaBoundaryRecursiveUnsafeInputFlags(),
+    nonAuthorizingProof: true
+  };
+}
+
+function consumerDisplayFixtureSchemaBoundaryEntries() {
+  return consumerDisplayAccessibilityEntries().map(
+    consumerDisplayFixtureSchemaBoundaryEntry
+  );
+}
+
+function consumerDisplayFixtureSchemaBoundarySummary(entries) {
+  const locusFixtureCount = entries.filter(
+    ({ consumerName }) => consumerName === "Locus"
+  ).length;
+  const multiverseFixtureCount = entries.filter(
+    ({ consumerName }) => consumerName === "Multiverse"
+  ).length;
+
+  return {
+    schemaBoundaryKind: CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_KIND,
+    schemaBoundaryMode: "review-only",
+    fixtureCount: entries.length,
+    consumerNames: ["Locus", "Multiverse"],
+    locusFixtureCount,
+    multiverseFixtureCount,
+    displayIntent: CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_DISPLAY_INTENT,
+    metadataOnlyDisplayIntentForAllFixtures: entries.every(
+      ({ displayIntent }) =>
+        displayIntent === CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_DISPLAY_INTENT
+    ),
+    requiredFieldsPresentForAllFixtures: entries.every(
+      (entry) =>
+        !consumerDisplayFixtureSchemaBoundaryEntryMissingRequiredField(entry)
+    ),
+    accessibilityFieldsPresentForAllFixtures: entries.every(
+      ({ accessibilityFields }) =>
+        !consumerDisplayFixtureSchemaBoundaryAccessibilityMalformed(
+          accessibilityFields
+        )
+    ),
+    statusSeverityVocabularyPresentForAllFixtures: entries.every(
+      ({ statusSeverityVocabulary }) => statusSeverityVocabulary.length >= 4
+    ),
+    colorIndependentStatusIndicatorRequiredForAllFixtures: entries.every(
+      ({ accessibilityFields }) =>
+        accessibilityFields.colorIndependentStatusIndicatorRequired === true &&
+        accessibilityFields.colorOnlyStatusForbidden === true
+    ),
+    reducedMotionDefaultStaticRequiredForAllFixtures: entries.every(
+      ({ accessibilityFields }) =>
+        accessibilityFields.reducedMotionDefaultStaticDisplayRequired === true &&
+        accessibilityFields.motionRequiredForStatusForbidden === true
+    ),
+    noAutoExecutionNoHiddenActionSemanticsForAllFixtures: entries.every(
+      ({ accessibilityFields }) =>
+        accessibilityFields.noAutoExecutionNoHiddenActionSemantics === true
+    ),
+    allBlockedAuthorizationFlagsFalse: entries.every(
+      ({ blockedAuthorizationFlags }) =>
+        Object.values(blockedAuthorizationFlags).every((value) => value === false)
+    ),
+    allRecursiveUnsafeInputFlagsFalse: entries.every(
+      ({ recursiveUnsafeInputFlags }) =>
+        Object.values(recursiveUnsafeInputFlags).every(
+          (value) => value === false
+        )
+    ),
+    allFixturesNonAuthorizing: entries.every(
+      ({ nonAuthorizingProof }) => nonAuthorizingProof === true
+    ),
+    locusSecureDropPlaceholdersMetadataOnly: true,
+    multiverseRegistryWebsocketMcpTaskBlockedIndicatorsCovered: true,
+    uiFrontendBrowserCodeImplemented: false,
+    renderingCodeImplemented: false,
+    browserRuntimeEnabled: false,
+    consumerRuntimeIntegrationAdded: false,
+    interactiveControlEnabled: false,
+    hiddenActionSemanticsEnabled: false,
+    autoExecutionEnabled: false,
+    runtimeExecutionEnabled: false,
+    commandRuntimeControlEnabled: false,
+    databaseStorageRuntimeWritesEnabled: false,
+    secretsRuntimeIngestionEnabled: false,
+    connectorGrantProduced: false,
+    fabricRuntimeSurfaceEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    mcpToolExposureEnabled: false,
+    taskExecutionEnabled: false,
+    secureDropImplemented: false,
+    serviceDiscoveryEnabled: false,
+    scheduleEnforcementEnabled: false,
+    backgroundPollingEnabled: false
+  };
+}
+
+function consumerDisplayFixtureSchemaBoundaryValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownConsumerNamesFailClosed: true,
+    unknownDisplayIntentFailsClosed: true,
+    interactiveActionableIntentFailsClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    nestedUnsafeInputFlagsFailClosed: true,
+    hiddenCommandRuntimeSemanticsFailClosed: true,
+    secureDropImplementationSemanticsFailClosed: true,
+    websocketHttpFabricMcpTaskExecutionSemanticsFailClosed: true,
+    malformedFixtureEntriesFailClosed: true,
+    validationPerformsRendering: false,
+    validationStartsRuntime: false,
+    validationWritesDbStorage: false,
+    validationReadsSecrets: false,
+    validationCallsExternalConsumers: false
+  };
+}
+
+function consumerDisplayFixtureSchemaBoundaryGaps() {
+  return [
+    "The boundary defines fixture schema requirements, but no Locus or Multiverse UI fixture files are implemented by Ardyn.",
+    "No browser, rendering, WCAG automation, or visual regression harness exists in Ardyn.",
+    "No consumer-owned fixture conformance runner, interactive approval contract, or command/runtime control contract exists.",
+    "Secure Drop and Multiverse registry/websocket/MCP/task fixture semantics remain metadata-only blocked indicators."
+  ];
+}
+
+function consumerDisplayFixtureSchemaBoundaryState(reviewedAt) {
+  const fixtureEntries = consumerDisplayFixtureSchemaBoundaryEntries();
+
+  return {
+    schema: CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_STATE_SCHEMA,
+    schemaVersion: CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_VERSION,
+    stateKind: "consumer-display-fixture-schema-boundary-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      precedingPhase: "5.49",
+      precedingArtifact:
+        "tests/fixtures/host-policy/phase5-49/consumer-display-accessibility-contract-map.json",
+      phase549ConsumerDisplayAccessibilityContractMapReferenceOnly: true,
+      ardynOwnsConsumerUi: false
+    },
+    displayFixtureEntries: fixtureEntries,
+    schemaBoundarySummary:
+      consumerDisplayFixtureSchemaBoundarySummary(fixtureEntries),
+    invalidFixtureCasePolicy:
+      consumerDisplayFixtureSchemaBoundaryValidationRules(),
+    topDisplayFixtureSchemaGaps:
+      consumerDisplayFixtureSchemaBoundaryGaps(),
+    recommendedNextPhase:
+      "phase-5.51-consumer-display-fixture-example-pack",
+    consumerDisplayFixtureSchemaBoundaryOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    nonAuthorizingProof: true,
+    ...consumerDisplayAccessibilityForbiddenBehavior(),
+    renderingCodeImplemented: false,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function consumerDisplayFixtureSchemaBoundaryRejectionReasons({
+  accepted,
+  classification
+}) {
+  const reasons = [
+    "consumer_display_fixture_schema_boundary_is_review_only",
+    "display_fixture_entries_are_metadata_only",
+    "ardyn_does_not_implement_ui_frontend_browser_or_rendering",
+    "ui_rendering_runtime_command_db_storage_secrets_connector_fabric_websocket_http_mcp_task_secure_drop_authorizations_false",
+    "recursive_unsafe_input_flags_fail_closed",
+    "fallow_runtime_not_used",
+    "runtime_enablement_still_blocked"
+  ];
+
+  return accepted
+    ? reasons
+    : [
+        ...reasons,
+        `input_classification_${classification}`,
+        "consumer_display_fixture_schema_boundary_not_produced"
+      ];
+}
+
+function consumerDisplayFixtureSchemaBoundaryResult({
+  reviewedAt,
+  classification,
+  accepted,
+  consumerDisplayFixtureSchemaBoundary
+}) {
+  return {
+    schema: CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_SCHEMA,
+    schemaVersion: CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_VERSION,
+    consumerDisplayFixtureSchemaBoundaryKind:
+      CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_KIND,
+    consumerDisplayFixtureSchemaBoundaryMode: "review-only",
+    reviewedAt,
+    classification,
+    consumerDisplayFixtureSchemaBoundaryProduced: accepted,
+    consumerDisplayFixtureSchemaBoundary,
+    schemaBoundarySummary: accepted
+      ? consumerDisplayFixtureSchemaBoundary.schemaBoundarySummary
+      : null,
+    displayFixtureEntries: accepted
+      ? consumerDisplayFixtureSchemaBoundary.displayFixtureEntries
+      : [],
+    invalidFixtureCasePolicy: accepted
+      ? consumerDisplayFixtureSchemaBoundary.invalidFixtureCasePolicy
+      : consumerDisplayFixtureSchemaBoundaryValidationRules(),
+    topDisplayFixtureSchemaGaps: accepted
+      ? consumerDisplayFixtureSchemaBoundary.topDisplayFixtureSchemaGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? consumerDisplayFixtureSchemaBoundary.recommendedNextPhase
+      : null,
+    consumerDisplayFixtureSchemaBoundaryOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    nonAuthorizingProof: true,
+    ...consumerDisplayAccessibilityForbiddenBehavior(),
+    renderingCodeImplemented: false,
+    rejectionReasons: consumerDisplayFixtureSchemaBoundaryRejectionReasons({
+      accepted,
+      classification
+    }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createConsumerDisplayFixtureSchemaBoundaryForReview(input = {}) {
+  const inputRecord = consumerDisplayFixtureSchemaBoundaryInputRecord(input);
+  const reviewedAt =
+    consumerDisplayFixtureSchemaBoundaryReviewedAt(inputRecord);
+  const classification =
+    consumerDisplayFixtureSchemaBoundaryInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_CLASSIFICATION;
+  const consumerDisplayFixtureSchemaBoundary = accepted
+    ? consumerDisplayFixtureSchemaBoundaryState(reviewedAt)
+    : null;
+
+  return consumerDisplayFixtureSchemaBoundaryResult({
+    reviewedAt,
+    classification,
+    accepted,
+    consumerDisplayFixtureSchemaBoundary
   });
 }
 

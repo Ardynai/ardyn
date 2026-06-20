@@ -272,6 +272,11 @@ export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_SCHEMA:
 export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_VERSION: "0.1.0";
 export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_KIND:
   "consumer-display-accessibility-contract-map";
+export const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_SCHEMA:
+  "ardyn.phase-5.50.consumer-display-fixture-schema-boundary-result";
+export const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_VERSION: "0.1.0";
+export const CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_KIND:
+  "consumer-display-fixture-schema-boundary";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -6003,6 +6008,107 @@ export interface ConsumerDisplayAccessibilityContractMapResult {
   [key: string]: unknown;
 }
 
+export type ConsumerDisplayFixtureSchemaBoundaryClassification =
+  | "valid_consumer_display_fixture_schema_boundary_runtime_still_blocked"
+  | "malformed_consumer_display_fixture_schema_boundary_input_rejected"
+  | "missing_required_consumer_display_fixture_schema_boundary_entry_rejected"
+  | "unknown_consumer_name_consumer_display_fixture_schema_boundary_input_rejected"
+  | "unknown_display_intent_consumer_display_fixture_schema_boundary_input_rejected"
+  | "interactive_actionable_intent_consumer_display_fixture_schema_boundary_input_rejected"
+  | "authorization_flags_enabled_consumer_display_fixture_schema_boundary_input_rejected"
+  | "nested_unsafe_flags_consumer_display_fixture_schema_boundary_input_rejected"
+  | "hidden_command_runtime_semantics_consumer_display_fixture_schema_boundary_input_rejected"
+  | "secure_drop_implementation_semantics_consumer_display_fixture_schema_boundary_input_rejected"
+  | "websocket_http_fabric_mcp_task_execution_semantics_consumer_display_fixture_schema_boundary_input_rejected";
+
+export interface ConsumerDisplayFixtureAccessibilityFields {
+  keyboardScreenReaderDisplayNotes: string;
+  colorIndependentStatusIndicatorRequired: true;
+  reducedMotionDefaultStaticDisplayRequired: true;
+  noAutoExecutionNoHiddenActionSemantics: true;
+  colorOnlyStatusForbidden: true;
+  motionRequiredForStatusForbidden: true;
+}
+
+export interface ConsumerDisplayFixtureRecursiveUnsafeInputFlags {
+  unsafeInputFlagsPresent: false;
+  nestedUnsafeFlagTruePresent: false;
+  nestedAuthorizationFlagTruePresent: false;
+  hiddenCommandRuntimeSemanticsPresent: false;
+  secureDropImplementationSemanticsPresent: false;
+  websocketHttpFabricMcpTaskExecutionSemanticsPresent: false;
+}
+
+export interface ConsumerDisplayFixtureSchemaBoundaryEntry {
+  fixtureId: string;
+  consumerName: "Locus" | "Multiverse";
+  displaySurfaceId: string;
+  sourceArdynArtifactType: string;
+  displayIntent: "metadata_only";
+  readableLabel: string;
+  shortDescription: string;
+  longDescription: string;
+  statusSeverityVocabulary: string[];
+  accessibilityFields: ConsumerDisplayFixtureAccessibilityFields;
+  allowedDisplayBehavior: string;
+  forbiddenDisplayBehavior: string[];
+  requiredFutureContractBeforeInteractivity: string;
+  blockedAuthorizationFlags: Record<string, false>;
+  recursiveUnsafeInputFlags: ConsumerDisplayFixtureRecursiveUnsafeInputFlags;
+  nonAuthorizingProof: true;
+}
+
+export interface ConsumerDisplayFixtureSchemaBoundaryState {
+  schema: "ardyn.phase-5.50.consumer-display-fixture-schema-boundary-state";
+  schemaVersion: "0.1.0";
+  stateKind: "consumer-display-fixture-schema-boundary-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  displayFixtureEntries: ConsumerDisplayFixtureSchemaBoundaryEntry[];
+  schemaBoundarySummary: Record<string, boolean | number | string | string[]>;
+  invalidFixtureCasePolicy: Record<string, boolean>;
+  topDisplayFixtureSchemaGaps: string[];
+  recommendedNextPhase: string;
+  consumerDisplayFixtureSchemaBoundaryOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  renderingCodeImplemented: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface ConsumerDisplayFixtureSchemaBoundaryResult {
+  schema: "ardyn.phase-5.50.consumer-display-fixture-schema-boundary-result";
+  schemaVersion: "0.1.0";
+  consumerDisplayFixtureSchemaBoundaryKind: "consumer-display-fixture-schema-boundary";
+  consumerDisplayFixtureSchemaBoundaryMode: "review-only";
+  reviewedAt: string;
+  classification: ConsumerDisplayFixtureSchemaBoundaryClassification;
+  consumerDisplayFixtureSchemaBoundaryProduced: boolean;
+  consumerDisplayFixtureSchemaBoundary:
+    | ConsumerDisplayFixtureSchemaBoundaryState
+    | null;
+  schemaBoundarySummary:
+    | ConsumerDisplayFixtureSchemaBoundaryState["schemaBoundarySummary"]
+    | null;
+  displayFixtureEntries: ConsumerDisplayFixtureSchemaBoundaryEntry[];
+  invalidFixtureCasePolicy: Record<string, boolean>;
+  topDisplayFixtureSchemaGaps: string[];
+  recommendedNextPhase: string | null;
+  consumerDisplayFixtureSchemaBoundaryOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  renderingCodeImplemented: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -6349,6 +6455,10 @@ export function createProductionReadinessCoverageMatrixForReview(input?: {
 export function createConsumerDisplayAccessibilityContractMapForReview(input?: {
   reviewedAt?: string;
 }): ConsumerDisplayAccessibilityContractMapResult;
+export function createConsumerDisplayFixtureSchemaBoundaryForReview(input?: {
+  reviewedAt?: string;
+  fixtureEntries?: unknown[];
+}): ConsumerDisplayFixtureSchemaBoundaryResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
