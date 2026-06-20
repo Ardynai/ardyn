@@ -279,6 +279,12 @@ export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_VERSION =
   "0.1.0";
 export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_KIND =
   "consumer-owned-display-conformance-runner-test-plan";
+export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_SCHEMA =
+  "ardyn.phase-5.55.consumer-owned-display-conformance-runner-result-schema-boundary-result";
+export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_VERSION =
+  "0.1.0";
+export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_KIND =
+  "consumer-owned-display-conformance-runner-result-schema-boundary";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -36542,6 +36548,1289 @@ export function createConsumerOwnedDisplayConformanceRunnerTestPlanForReview(
     classification,
     accepted,
     consumerOwnedDisplayConformanceRunnerTestPlan
+  });
+}
+
+const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_STATE_SCHEMA =
+  "ardyn.phase-5.55.consumer-owned-display-conformance-runner-result-schema-boundary-state";
+const VALID_CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_CLASSIFICATION =
+  "valid_consumer_owned_display_conformance_runner_result_schema_boundary_runtime_still_blocked";
+const MALFORMED_CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_CLASSIFICATION =
+  "malformed_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_INTENT =
+  "metadata_only";
+
+const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_REQUIRED_FIELDS =
+  Object.freeze([
+    "resultSchemaId",
+    "consumerName",
+    "displaySurfaceId",
+    "sourceArdynArtifactType",
+    "resultSchemaIntent",
+    "referencedPhase550SchemaBoundaryId",
+    "referencedPhase551FixtureId",
+    "referencedPhase551FixtureGroup",
+    "referencedPhase552HandoffId",
+    "referencedPhase553RunnerRequirementId",
+    "referencedPhase554TestPlanId",
+    "futureConsumerOwnedResultResponsibility",
+    "allowedResultFields",
+    "forbiddenResultFields",
+    "deterministicOrderingHashExpectations",
+    "accessibilityWcagResultNotes",
+    "requiredFutureContractBeforeExecutableResultProduction",
+    "explicitBlockedAuthorizationFlags",
+    "unsafeRunnerResultProducerImportExportTestHarnessRuntimeFlags",
+    "consumerTargetOnly",
+    "runnerImplementedByArdyn",
+    "resultProducerImplementedByArdyn",
+    "resultCollectorImplementedByArdyn",
+    "testHarnessImplementedByArdyn",
+    "importExportCommandImplemented",
+    "browserRenderingHarnessImplemented",
+    "packageExportImplemented",
+    "consumerSideCiImplemented",
+    "fixtureDiscoveryRuntimeImplemented",
+    "consumerRepoModifiedByArdyn",
+    "nonAuthorizingProof"
+  ]);
+
+const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_UNSAFE_FIELDS =
+  Object.freeze([
+    ...CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_UNSAFE_FIELDS,
+    "resultProducerEnabled",
+    "resultProducerImplementedByArdyn",
+    "resultCollectorEnabled",
+    "resultCollectorImplementedByArdyn",
+    "resultProductionEnabled",
+    "resultCollectionEnabled",
+    "resultEmissionEnabled",
+    "resultWriteEnabled",
+    "resultExportEnabled",
+    "resultImportEnabled",
+    "resultStorageWritesEnabled",
+    "conformanceResultProducerImplemented",
+    "conformanceResultCollectorImplemented",
+    "consumerResultProducerImplemented",
+    "consumerResultCollectorImplemented",
+    "resultSchemaExecutionEnabled"
+  ]);
+
+const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_IMPLEMENTATION_FIELDS =
+  Object.freeze([
+    ...CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_IMPLEMENTATION_FIELDS,
+    "resultProducerEnabled",
+    "resultProducerImplementedByArdyn",
+    "resultCollectorEnabled",
+    "resultCollectorImplementedByArdyn",
+    "resultProductionEnabled",
+    "resultCollectionEnabled",
+    "resultEmissionEnabled",
+    "resultWriteEnabled",
+    "resultExportEnabled",
+    "resultImportEnabled",
+    "resultStorageWritesEnabled",
+    "conformanceResultProducerImplemented",
+    "conformanceResultCollectorImplemented",
+    "consumerResultProducerImplemented",
+    "consumerResultCollectorImplemented",
+    "resultSchemaExecutionEnabled"
+  ]);
+
+const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_HIDDEN_FIELDS =
+  Object.freeze([
+    ...CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_HIDDEN_FIELDS,
+    "hiddenResultProducerSemanticsEnabled",
+    "hiddenResultCollectorSemanticsEnabled",
+    "hiddenResultProductionSemanticsEnabled",
+    "hiddenResultCollectionSemanticsEnabled",
+    "hiddenResultWriteSemanticsEnabled",
+    "hiddenResultRuntimeSemanticsEnabled"
+  ]);
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInputRecord(
+  input
+) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryReviewedAt(
+  inputRecord
+) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInputMalformed(
+  inputRecord
+) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "resultSchemaEntries") &&
+      !Array.isArray(inputRecord.resultSchemaEntries))
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInputEntries(
+  inputRecord
+) {
+  return Array.isArray(inputRecord?.resultSchemaEntries)
+    ? inputRecord.resultSchemaEntries
+    : null;
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryMissingRequiredField(
+  entry
+) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_REQUIRED_FIELDS.some(
+    (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryDeterminismMalformed(
+  expectations
+) {
+  return (
+    !isPlainObjectRecord(expectations) ||
+    expectations.deterministicResultSchemaIdsRequired !== true ||
+    expectations.deterministicOrderingRequired !== true ||
+    expectations.deterministicAllowedResultFieldOrderingRequired !== true ||
+    expectations.deterministicForbiddenResultFieldOrderingRequired !== true ||
+    expectations.deterministicHashInputOrderingRequired !== true ||
+    expectations.noClockNetworkRandomnessAllowed !== true ||
+    expectations.consumerOwnedResultOutputMustBeReviewOnly !== true ||
+    expectations.hashDoesNotAuthorizeRuntime !== true
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryMalformed(
+  entry
+) {
+  return (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryMissingRequiredField(
+      entry
+    ) ||
+    typeof entry.resultSchemaId !== "string" ||
+    entry.resultSchemaId.length === 0 ||
+    typeof entry.displaySurfaceId !== "string" ||
+    entry.displaySurfaceId.length === 0 ||
+    typeof entry.sourceArdynArtifactType !== "string" ||
+    entry.sourceArdynArtifactType.length === 0 ||
+    entry.resultSchemaIntent !==
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_INTENT ||
+    typeof entry.referencedPhase550SchemaBoundaryId !== "string" ||
+    entry.referencedPhase550SchemaBoundaryId.length === 0 ||
+    typeof entry.referencedPhase551FixtureId !== "string" ||
+    entry.referencedPhase551FixtureId.length === 0 ||
+    typeof entry.referencedPhase551FixtureGroup !== "string" ||
+    entry.referencedPhase551FixtureGroup.length === 0 ||
+    typeof entry.referencedPhase552HandoffId !== "string" ||
+    entry.referencedPhase552HandoffId.length === 0 ||
+    typeof entry.referencedPhase553RunnerRequirementId !== "string" ||
+    entry.referencedPhase553RunnerRequirementId.length === 0 ||
+    typeof entry.referencedPhase554TestPlanId !== "string" ||
+    entry.referencedPhase554TestPlanId.length === 0 ||
+    typeof entry.futureConsumerOwnedResultResponsibility !== "string" ||
+    entry.futureConsumerOwnedResultResponsibility.length === 0 ||
+    !Array.isArray(entry.allowedResultFields) ||
+    entry.allowedResultFields.length < 8 ||
+    entry.allowedResultFields.some((field) => typeof field !== "string") ||
+    !Array.isArray(entry.forbiddenResultFields) ||
+    entry.forbiddenResultFields.length < 10 ||
+    entry.forbiddenResultFields.some((field) => typeof field !== "string") ||
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryDeterminismMalformed(
+      entry.deterministicOrderingHashExpectations
+    ) ||
+    consumerDisplayFixtureSchemaBoundaryAccessibilityMalformed(
+      entry.accessibilityWcagResultNotes
+    ) ||
+    typeof entry.requiredFutureContractBeforeExecutableResultProduction !==
+      "string" ||
+    entry.requiredFutureContractBeforeExecutableResultProduction.length === 0 ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(
+      entry.unsafeRunnerResultProducerImportExportTestHarnessRuntimeFlags
+    ) ||
+    entry.consumerTargetOnly !== true ||
+    entry.runnerImplementedByArdyn !== false ||
+    entry.resultProducerImplementedByArdyn !== false ||
+    entry.resultCollectorImplementedByArdyn !== false ||
+    entry.testHarnessImplementedByArdyn !== false ||
+    entry.importExportCommandImplemented !== false ||
+    entry.browserRenderingHarnessImplemented !== false ||
+    entry.packageExportImplemented !== false ||
+    entry.consumerSideCiImplemented !== false ||
+    entry.fixtureDiscoveryRuntimeImplemented !== false ||
+    entry.consumerRepoModifiedByArdyn !== false ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+  entries,
+  predicate
+) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryAuthorizationFlagEnabled(
+  entry
+) {
+  return (
+    consumerDisplayAccessibilityContractMapContainsTrue(
+      entry?.explicitBlockedAuthorizationFlags
+    ) ||
+    consumerDisplayAccessibilityContractMapContainsTrue(
+      entry?.blockedAuthorizationFlags
+    ) ||
+    consumerDisplayAccessibilityContractMapContainsTrue(entry?.authorizationFlags)
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryUnsafeFlagEnabled(
+  entry
+) {
+  return (
+    consumerDisplayAccessibilityContractMapContainsTrue(
+      entry?.unsafeRunnerResultProducerImportExportTestHarnessRuntimeFlags
+    ) ||
+    consumerDisplayAccessibilityContractMapFieldTruePresent(
+      entry,
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_UNSAFE_FIELDS
+    )
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryTopLevelFieldTruePresent(
+  entry,
+  fields
+) {
+  return (
+    isPlainObjectRecord(entry) &&
+    fields.some((field) => entry[field] === true)
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryRecursiveUnsafeFlagEnabled(
+  entry
+) {
+  return (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryUnsafeFlagEnabled(
+      entry
+    ) ||
+    CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_UNSAFE_FIELD_GROUPS.some(
+      ({ fields }) =>
+        consumerDisplayAccessibilityContractMapFieldTruePresent(entry, fields)
+    ) ||
+    consumerDisplayAccessibilityContractMapContainsTrue(entry?.runtimeEffect)
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryReferenceValid(
+  entry
+) {
+  const testPlan = consumerOwnedDisplayConformanceRunnerTestPlanEntries().find(
+    ({ testPlanId }) => testPlanId === entry?.referencedPhase554TestPlanId
+  );
+
+  return (
+    testPlan !== undefined &&
+    testPlan.referencedPhase550SchemaBoundaryId ===
+      entry.referencedPhase550SchemaBoundaryId &&
+    testPlan.referencedPhase551FixtureId ===
+      entry.referencedPhase551FixtureId &&
+    testPlan.referencedPhase551FixtureGroup ===
+      entry.referencedPhase551FixtureGroup &&
+    testPlan.referencedPhase552HandoffId ===
+      entry.referencedPhase552HandoffId &&
+    testPlan.referencedPhase553RunnerRequirementId ===
+      entry.referencedPhase553RunnerRequirementId &&
+    testPlan.consumerName === entry.consumerName &&
+    testPlan.displaySurfaceId === entry.displaySurfaceId &&
+    testPlan.sourceArdynArtifactType === entry.sourceArdynArtifactType
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryEntriesCanonical(
+  entries
+) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryEntries())
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInputClassification(
+  inputRecord
+) {
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInputMalformed(
+      inputRecord
+    )
+  ) {
+    return MALFORMED_CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_CLASSIFICATION;
+  }
+
+  const entries =
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInputEntries(
+      inputRecord
+    );
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryMissingRequiredField
+    )
+  ) {
+    return "missing_required_consumer_owned_display_conformance_runner_result_schema_boundary_entry_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      (entry) => entry.consumerName !== "Locus" && entry.consumerName !== "Multiverse"
+    )
+  ) {
+    return "unknown_consumer_name_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      (entry) =>
+        [
+          "interactive",
+          "actionable",
+          "runtime_action",
+          "command_action",
+          "result_producer",
+          "result_collector",
+          "test_harness",
+          "executable_runner",
+          "executable_result"
+        ].includes(entry.resultSchemaIntent)
+    )
+  ) {
+    return "interactive_actionable_intent_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      (entry) =>
+        entry.resultSchemaIntent !==
+        CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_INTENT
+    )
+  ) {
+    return "unknown_result_schema_intent_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      (entry) =>
+        consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryTopLevelFieldTruePresent(
+          entry,
+          CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_IMPLEMENTATION_FIELDS
+        )
+    ) ||
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryTopLevelFieldTruePresent(
+      inputRecord,
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_IMPLEMENTATION_FIELDS
+    )
+  ) {
+    return "runner_result_producer_import_export_test_harness_implementation_semantics_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryMalformed
+    )
+  ) {
+    return MALFORMED_CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_CLASSIFICATION;
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryAuthorizationFlagEnabled
+    )
+  ) {
+    return "authorization_flags_enabled_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_runner_result_producer_import_export_test_harness_runtime_flags_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      (entry) =>
+        consumerDisplayAccessibilityContractMapFieldTruePresent(
+          entry,
+          CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_HIDDEN_FIELDS
+        )
+    )
+  ) {
+    return "hidden_runner_result_producer_import_export_test_harness_runtime_semantics_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerDisplayAccessibilityContractMapFieldTruePresent(
+      inputRecord,
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_HIDDEN_FIELDS
+    )
+  ) {
+    return "hidden_runner_result_producer_import_export_test_harness_runtime_semantics_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      (entry) =>
+        consumerDisplayAccessibilityContractMapFieldTruePresent(
+          entry,
+          CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_SECURE_DROP_FIELDS
+        )
+    )
+  ) {
+    return "secure_drop_implementation_semantics_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      (entry) =>
+        consumerDisplayAccessibilityContractMapFieldTruePresent(
+          entry,
+          CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_RUNTIME_SURFACE_FIELDS
+        )
+    )
+  ) {
+    return "websocket_http_fabric_mcp_task_execution_semantics_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      (entry) =>
+        !consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryReferenceValid(
+          entry
+        )
+    )
+  ) {
+    return "unknown_reference_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryContainsEntryIssue(
+      entries,
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryRecursiveUnsafeFlagEnabled
+    ) ||
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryRecursiveUnsafeFlagEnabled(
+      inputRecord
+    )
+  ) {
+    return "nested_unsafe_flags_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  if (
+    !consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryEntriesCanonical(
+      entries
+    )
+  ) {
+    return "noncanonical_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+  }
+
+  return VALID_CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_CLASSIFICATION;
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryUnsafeFlags() {
+  return {
+    runnerEnabled: false,
+    runnerImplementedByArdyn: false,
+    runnerExecutesFixtures: false,
+    resultProducerEnabled: false,
+    resultProducerImplementedByArdyn: false,
+    resultCollectorEnabled: false,
+    resultCollectorImplementedByArdyn: false,
+    resultProductionEnabled: false,
+    resultCollectionEnabled: false,
+    resultEmissionEnabled: false,
+    resultWriteEnabled: false,
+    resultExportEnabled: false,
+    resultImportEnabled: false,
+    resultStorageWritesEnabled: false,
+    testHarnessEnabled: false,
+    testHarnessImplementedByArdyn: false,
+    testHarnessExecutionEnabled: false,
+    executableTestHarnessImplemented: false,
+    consumerTestRunnerImplemented: false,
+    testPlanExecutionEnabled: false,
+    fixtureImportEnabled: false,
+    fixtureExportEnabled: false,
+    importExportCommandImplemented: false,
+    packageExportImplemented: false,
+    consumerSideCiImplemented: false,
+    fixtureDiscoveryRuntimeImplemented: false,
+    liveRegistryAccessEnabled: false,
+    externalLookupEnabled: false,
+    filesystemScanningEnabled: false,
+    processControlEnabled: false,
+    browserWcagAutomationImplemented: false,
+    visualRegressionHarnessImplemented: false,
+    screenReaderAutomationImplemented: false,
+    hiddenRunnerSemanticsEnabled: false,
+    hiddenResultProducerSemanticsEnabled: false,
+    hiddenResultCollectorSemanticsEnabled: false,
+    hiddenTestHarnessSemanticsEnabled: false,
+    hiddenImportSemanticsEnabled: false,
+    hiddenExportSemanticsEnabled: false,
+    hiddenRuntimeSemanticsEnabled: false
+  };
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryDefinitions() {
+  return [
+    {
+      testPlanId:
+        "phase5-54.locus.status-control-panel-fixture-conformance.test-plan",
+      resultSchemaId:
+        "phase5-55.locus.status-control-panel-conformance.result-schema",
+      responsibility:
+        "Future Locus-owned result producers may emit status/control panel conformance results only after a separate executable result-production contract exists."
+    },
+    {
+      testPlanId:
+        "phase5-54.locus.review-artifact-panel-fixture-conformance.test-plan",
+      resultSchemaId:
+        "phase5-55.locus.review-artifact-panel-conformance.result-schema",
+      responsibility:
+        "Future Locus-owned result producers may emit review artifact panel conformance results only after a separate executable result-production contract exists."
+    },
+    {
+      testPlanId:
+        "phase5-54.locus.capability-metadata-panel-fixture-conformance.test-plan",
+      resultSchemaId:
+        "phase5-55.locus.capability-metadata-panel-conformance.result-schema",
+      responsibility:
+        "Future Locus-owned result producers may emit capability metadata panel conformance results only after a separate executable result-production contract exists."
+    },
+    {
+      testPlanId:
+        "phase5-54.locus.blocked-runtime-command-indicator-conformance.test-plan",
+      resultSchemaId:
+        "phase5-55.locus.blocked-runtime-command-indicator-conformance.result-schema",
+      responsibility:
+        "Future Locus-owned result producers may emit blocked runtime/command indicator conformance results only after a separate executable result-production contract exists."
+    },
+    {
+      testPlanId:
+        "phase5-54.locus.future-secure-drop-compose-inbox-placeholder-indicator-conformance.test-plan",
+      resultSchemaId:
+        "phase5-55.locus.future-secure-drop-compose-inbox-placeholder-conformance.result-schema",
+      responsibility:
+        "Future Locus-owned result producers may emit Secure Drop placeholder conformance results only after a separate executable result-production contract exists and without implying Secure Drop implementation."
+    },
+    {
+      testPlanId:
+        "phase5-54.locus.accessibility-wcag-display-expectations.test-plan",
+      resultSchemaId:
+        "phase5-55.locus.accessibility-wcag-display-expectation.result-schema",
+      responsibility:
+        "Future Locus-owned result producers may emit accessibility/WCAG display expectation results only after a separate executable result-production contract exists."
+    },
+    {
+      testPlanId:
+        "phase5-54.multiverse.world-project-status-card-conformance.test-plan",
+      resultSchemaId:
+        "phase5-55.multiverse.world-project-status-card-conformance.result-schema",
+      responsibility:
+        "Future Multiverse-owned result producers may emit world/project status card conformance results only after a separate executable result-production contract exists."
+    },
+    {
+      testPlanId:
+        "phase5-54.multiverse.visible-ai-capability-badge-conformance.test-plan",
+      resultSchemaId:
+        "phase5-55.multiverse.visible-ai-capability-badge-conformance.result-schema",
+      responsibility:
+        "Future Multiverse-owned result producers may emit visible AI capability badge conformance results only after a separate executable result-production contract exists."
+    },
+    {
+      testPlanId:
+        "phase5-54.multiverse.task-capability-wrapper-status-card-conformance.test-plan",
+      resultSchemaId:
+        "phase5-55.multiverse.task-capability-wrapper-status-card-conformance.result-schema",
+      responsibility:
+        "Future Multiverse-owned result producers may emit task/capability wrapper status card conformance results only after a separate executable result-production contract exists."
+    },
+    {
+      testPlanId:
+        "phase5-54.multiverse.citizen-adapter-candidate-badge-conformance.test-plan",
+      resultSchemaId:
+        "phase5-55.multiverse.citizen-adapter-candidate-badge-conformance.result-schema",
+      responsibility:
+        "Future Multiverse-owned result producers may emit citizen/adapter candidate badge conformance results only after a separate executable result-production contract exists."
+    },
+    {
+      testPlanId:
+        "phase5-54.multiverse.registry-websocket-mcp-task-blocked-indicator-conformance.test-plan",
+      resultSchemaId:
+        "phase5-55.multiverse.registry-websocket-mcp-task-blocked-indicator-conformance.result-schema",
+      responsibility:
+        "Future Multiverse-owned result producers may emit registry/websocket/MCP/task blocked indicator conformance results only after a separate executable result-production contract exists."
+    },
+    {
+      testPlanId:
+        "phase5-54.multiverse.accessibility-wcag-display-expectations.test-plan",
+      resultSchemaId:
+        "phase5-55.multiverse.accessibility-wcag-display-expectation.result-schema",
+      responsibility:
+        "Future Multiverse-owned result producers may emit accessibility/WCAG display expectation results only after a separate executable result-production contract exists."
+    }
+  ];
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryAllowedResultFields(
+  resultSchemaId
+) {
+  return [
+    "schema",
+    "schemaVersion",
+    "resultSchemaId",
+    "consumerName",
+    "displaySurfaceId",
+    "referencedPhase551FixtureId",
+    "referencedPhase554TestPlanId",
+    "conformanceStatus",
+    "assertionResults",
+    "accessibilityWcagResultNotes",
+    "deterministicInputDigest",
+    "runtimeBlockedFlags",
+    "nonAuthorizingProof",
+    `resultSchemaBoundary:${resultSchemaId}`
+  ];
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryForbiddenResultFields() {
+  return [
+    "runnerCommand",
+    "execute",
+    "resultProducerCommand",
+    "resultCollectorCommand",
+    "testHarnessCommand",
+    "approvalDecision",
+    "approvalGrant",
+    "connectorGrant",
+    "secret",
+    "vault",
+    "env",
+    "runtimeStdout",
+    "runtimeStderr",
+    "databaseWrite",
+    "storageWrite",
+    "filesystemPath",
+    "processId",
+    "networkEndpoint",
+    "secureDropPayload"
+  ];
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryEntry(
+  definition
+) {
+  const testPlan = consumerOwnedDisplayConformanceRunnerTestPlanEntries().find(
+    ({ testPlanId }) => testPlanId === definition.testPlanId
+  );
+
+  return {
+    resultSchemaId: definition.resultSchemaId,
+    consumerName: testPlan.consumerName,
+    displaySurfaceId: testPlan.displaySurfaceId,
+    sourceArdynArtifactType: testPlan.sourceArdynArtifactType,
+    resultSchemaIntent:
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_INTENT,
+    referencedPhase550SchemaBoundaryId:
+      testPlan.referencedPhase550SchemaBoundaryId,
+    referencedPhase551FixtureId: testPlan.referencedPhase551FixtureId,
+    referencedPhase551FixtureGroup: testPlan.referencedPhase551FixtureGroup,
+    referencedPhase552HandoffId: testPlan.referencedPhase552HandoffId,
+    referencedPhase553RunnerRequirementId:
+      testPlan.referencedPhase553RunnerRequirementId,
+    referencedPhase554TestPlanId: testPlan.testPlanId,
+    futureConsumerOwnedResultResponsibility: definition.responsibility,
+    allowedResultFields:
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryAllowedResultFields(
+        definition.resultSchemaId
+      ),
+    forbiddenResultFields:
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryForbiddenResultFields(),
+    deterministicOrderingHashExpectations: {
+      deterministicResultSchemaIdsRequired: true,
+      deterministicOrderingRequired: true,
+      deterministicAllowedResultFieldOrderingRequired: true,
+      deterministicForbiddenResultFieldOrderingRequired: true,
+      deterministicHashInputOrderingRequired: true,
+      noClockNetworkRandomnessAllowed: true,
+      consumerOwnedResultOutputMustBeReviewOnly: true,
+      hashDoesNotAuthorizeRuntime: true
+    },
+    accessibilityWcagResultNotes: {
+      ...testPlan.accessibilityWcagAssertionNotes,
+      resultAccessibilityScope:
+        "future-consumer-owned-result-accessibility-contract-required-before-certification",
+      resultMustRemainReadableWithoutColorOrMotion: true,
+      resultMustExposeScreenReaderSafeStatus: true,
+      resultMustNotExposeHiddenActionSemantics: true
+    },
+    requiredFutureContractBeforeExecutableResultProduction:
+      "A separate consumer-owned executable result-production contract must exist before Locus or Multiverse can produce, collect, import, export, package, publish, run CI for, or render conformance results.",
+    explicitBlockedAuthorizationFlags:
+      consumerDisplayAccessibilityAuthorizationFlags(),
+    unsafeRunnerResultProducerImportExportTestHarnessRuntimeFlags:
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryUnsafeFlags(),
+    consumerTargetOnly: true,
+    runnerImplementedByArdyn: false,
+    resultProducerImplementedByArdyn: false,
+    resultCollectorImplementedByArdyn: false,
+    testHarnessImplementedByArdyn: false,
+    importExportCommandImplemented: false,
+    browserRenderingHarnessImplemented: false,
+    packageExportImplemented: false,
+    consumerSideCiImplemented: false,
+    fixtureDiscoveryRuntimeImplemented: false,
+    consumerRepoModifiedByArdyn: false,
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryEntries() {
+  return consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryDefinitions().map(
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryEntry
+  );
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundarySummary(
+  entries
+) {
+  const locusResultSchemaEntryCount = entries.filter(
+    ({ consumerName }) => consumerName === "Locus"
+  ).length;
+  const multiverseResultSchemaEntryCount = entries.filter(
+    ({ consumerName }) => consumerName === "Multiverse"
+  ).length;
+
+  return {
+    resultSchemaBoundaryKind:
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_KIND,
+    resultSchemaBoundaryMode: "review-only",
+    resultSchemaEntryCount: entries.length,
+    consumerNames: ["Locus", "Multiverse"],
+    locusResultSchemaEntryCount,
+    multiverseResultSchemaEntryCount,
+    resultSchemaIntent:
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_INTENT,
+    deterministicResultSchemaIds: entries.map(
+      ({ resultSchemaId }) => resultSchemaId
+    ),
+    referencedPhase550SchemaBoundaryIds: entries.map(
+      ({ referencedPhase550SchemaBoundaryId }) =>
+        referencedPhase550SchemaBoundaryId
+    ),
+    referencedPhase551FixtureIds: entries.map(
+      ({ referencedPhase551FixtureId }) => referencedPhase551FixtureId
+    ),
+    referencedPhase551FixtureGroups: entries.map(
+      ({ referencedPhase551FixtureGroup }) => referencedPhase551FixtureGroup
+    ),
+    referencedPhase552HandoffIds: entries.map(
+      ({ referencedPhase552HandoffId }) => referencedPhase552HandoffId
+    ),
+    referencedPhase553RunnerRequirementIds: entries.map(
+      ({ referencedPhase553RunnerRequirementId }) =>
+        referencedPhase553RunnerRequirementId
+    ),
+    referencedPhase554TestPlanIds: entries.map(
+      ({ referencedPhase554TestPlanId }) => referencedPhase554TestPlanId
+    ),
+    referencesPhase550SchemaBoundary: entries.every(
+      ({ referencedPhase550SchemaBoundaryId }) =>
+        referencedPhase550SchemaBoundaryId.startsWith("phase5-50.")
+    ),
+    referencesPhase551ExamplePack: entries.every(
+      ({ referencedPhase551FixtureId }) =>
+        referencedPhase551FixtureId.startsWith("phase5-51.")
+    ),
+    referencesPhase552ConformanceHandoff: entries.every(
+      ({ referencedPhase552HandoffId }) =>
+        referencedPhase552HandoffId.startsWith("phase5-52.")
+    ),
+    referencesPhase553RunnerRequirements: entries.every(
+      ({ referencedPhase553RunnerRequirementId }) =>
+        referencedPhase553RunnerRequirementId.startsWith("phase5-53.")
+    ),
+    referencesPhase554TestPlan: entries.every(
+      ({ referencedPhase554TestPlanId }) =>
+        referencedPhase554TestPlanId.startsWith("phase5-54.")
+    ),
+    locusAndMultiverseConsumerTargetsOnly: entries.every(
+      ({ consumerTargetOnly }) => consumerTargetOnly === true
+    ),
+    consumerRepoModifiedByArdyn: false,
+    runnerImplementedByArdyn: false,
+    resultProducerImplementedByArdyn: false,
+    resultCollectorImplementedByArdyn: false,
+    testHarnessImplementedByArdyn: false,
+    importExportCommandImplemented: false,
+    packageExportImplemented: false,
+    consumerSideCiImplemented: false,
+    fixtureDiscoveryRuntimeImplemented: false,
+    browserRenderingHarnessImplemented: false,
+    browserWcagAutomationImplemented: false,
+    visualRegressionHarnessImplemented: false,
+    screenReaderAutomationImplemented: false,
+    uiFrontendBrowserRenderingImplemented: false,
+    allBlockedAuthorizationFlagsFalse: entries.every(
+      ({ explicitBlockedAuthorizationFlags }) =>
+        Object.values(explicitBlockedAuthorizationFlags).every(
+          (value) => value === false
+        )
+    ),
+    allUnsafeRunnerResultProducerImportExportTestHarnessRuntimeFlagsFalse:
+      entries.every(
+        ({ unsafeRunnerResultProducerImportExportTestHarnessRuntimeFlags }) =>
+          Object.values(
+            unsafeRunnerResultProducerImportExportTestHarnessRuntimeFlags
+          ).every((value) => value === false)
+      ),
+    allRuntimeEffectsFalse: entries.every(({ runtimeEffect }) =>
+      Object.values(runtimeEffect).every((value) => value === false)
+    ),
+    allEntriesNonAuthorizing: entries.every(
+      ({ nonAuthorizingProof }) => nonAuthorizingProof === true
+    ),
+    validationImplementsRunner: false,
+    validationImplementsResultProducer: false,
+    validationImplementsResultCollector: false,
+    validationImplementsTestHarness: false,
+    validationImplementsImportExportCommands: false,
+    validationImplementsPackageExport: false,
+    validationImplementsConsumerSideCi: false,
+    validationImplementsFixtureDiscoveryRuntime: false,
+    validationPerformsRendering: false,
+    validationRunsBrowserWcagAutomation: false,
+    validationCallsExternalConsumers: false,
+    validationPerformsExternalLookups: false,
+    validationScansFilesystem: false,
+    validationControlsProcesses: false,
+    runtimeExecutionEnabled: false,
+    commandRuntimeControlEnabled: false,
+    databaseStorageRuntimeWritesEnabled: false,
+    secretsRuntimeIngestionEnabled: false,
+    connectorGrantProduced: false,
+    fabricRuntimeSurfaceEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    mcpToolExposureEnabled: false,
+    taskExecutionEnabled: false,
+    secureDropImplemented: false,
+    serviceDiscoveryEnabled: false,
+    scheduleEnforcementEnabled: false,
+    backgroundPollingEnabled: false,
+    filesystemScanningEnabled: false,
+    processControlEnabled: false
+  };
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryValidationRules() {
+  return {
+    referencesPhase550SchemaBoundaryRequired: true,
+    referencesPhase551ExamplePackRequired: true,
+    referencesPhase552ConformanceHandoffRequired: true,
+    referencesPhase553RunnerRequirementsRequired: true,
+    referencesPhase554TestPlanRequired: true,
+    missingRequiredFieldsFailClosed: true,
+    unknownConsumerNamesFailClosed: true,
+    unknownResultSchemaIntentFailsClosed: true,
+    interactiveActionableIntentFailsClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    unsafeRunnerResultProducerImportExportTestHarnessRuntimeFlagsFailClosed: true,
+    nestedUnsafeInputFlagsFailClosed: true,
+    hiddenRunnerResultProducerImportExportTestHarnessRuntimeSemanticsFailClosed:
+      true,
+    secureDropImplementationSemanticsFailClosed: true,
+    websocketHttpFabricMcpTaskExecutionSemanticsFailClosed: true,
+    unknownReferencesFailClosed: true,
+    runnerResultProducerImportExportTestHarnessImplementationSemanticsFailClosed:
+      true,
+    canonicalResultSchemaEntriesRequired: true,
+    malformedResultSchemaEntriesFailClosed: true,
+    validationImplementsRunner: false,
+    validationImplementsResultProducer: false,
+    validationImplementsResultCollector: false,
+    validationImplementsTestHarness: false,
+    validationImplementsImportExportCommands: false,
+    validationImplementsPackageExport: false,
+    validationImplementsConsumerSideCi: false,
+    validationImplementsFixtureDiscoveryRuntime: false,
+    validationPerformsRendering: false,
+    validationRunsBrowserWcagAutomation: false,
+    validationCallsExternalConsumers: false,
+    validationPerformsExternalLookups: false,
+    validationScansFilesystem: false,
+    validationControlsProcesses: false
+  };
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryGaps() {
+  return [
+    "The result schema boundary is static metadata only; no Locus or Multiverse consumer-owned result producer, collector, runner, or test harness exists in Ardyn.",
+    "No fixture import/export command, package export, consumer-side CI implementation, result package, or fixture discovery runtime exists.",
+    "No browser, rendering, WCAG automation, visual regression, or screen-reader QA harness exists in Ardyn.",
+    "No consumer repository integration exists; Locus and Multiverse remain target consumers only.",
+    "Secure Drop, registry, websocket/http, Fabric, MCP, task execution, service discovery, scheduling, filesystem, process, and external lookup behavior remain blocked."
+  ];
+}
+
+function phase554SubagentAuditTrailReconciliation() {
+  return {
+    finalReportActualReviewer:
+      "019ee530-5f95-7ac1-b80d-2967f33f462e / Raman",
+    localSessionFooterMismatchReported:
+      "Feynman / James",
+    evidence:
+      "Phase 5.54 final report named 019ee530-5f95-7ac1-b80d-2967f33f462e / Raman as the actual reviewer; the user reported the local/session footer showed Feynman / James.",
+    phase555ReviewerConstraint:
+      "exactly-one-codex-5.5-read-only-reviewer"
+  };
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState(
+  reviewedAt
+) {
+  const resultSchemaEntries =
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryEntries();
+
+  return {
+    schema:
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_STATE_SCHEMA,
+    schemaVersion:
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_VERSION,
+    stateKind:
+      "consumer-owned-display-conformance-runner-result-schema-boundary-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      precedingSchemaBoundaryPhase: "5.50",
+      precedingSchemaBoundaryArtifact:
+        "tests/fixtures/host-policy/phase5-50/consumer-display-fixture-schema-boundary.json",
+      precedingExamplePackPhase: "5.51",
+      precedingExamplePackArtifact:
+        "tests/fixtures/host-policy/phase5-51/consumer-display-fixture-example-pack.json",
+      precedingConformanceHandoffPhase: "5.52",
+      precedingConformanceHandoffArtifact:
+        "tests/fixtures/host-policy/phase5-52/consumer-display-fixture-conformance-handoff.json",
+      precedingRunnerRequirementsPhase: "5.53",
+      precedingRunnerRequirementsArtifact:
+        "tests/fixtures/host-policy/phase5-53/consumer-owned-display-conformance-runner-requirements.json",
+      precedingTestPlanPhase: "5.54",
+      precedingTestPlanArtifact:
+        "tests/fixtures/host-policy/phase5-54/consumer-owned-display-conformance-runner-test-plan.json",
+      phase550ConsumerDisplayFixtureSchemaBoundaryReferenceOnly: true,
+      phase551ConsumerDisplayFixtureExamplePackReferenceOnly: true,
+      phase552ConsumerDisplayFixtureConformanceHandoffReferenceOnly: true,
+      phase553ConsumerOwnedDisplayConformanceRunnerRequirementsReferenceOnly: true,
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlanReferenceOnly: true,
+      ardynOwnsConsumerUi: false,
+      consumerRunnerImplementedByArdyn: false,
+      resultProducerImplementedByArdyn: false,
+      resultCollectorImplementedByArdyn: false,
+      testHarnessImplementedByArdyn: false,
+      importExportCommandImplementedByArdyn: false,
+      packageExportImplementedByArdyn: false,
+      consumerSideCiImplementedByArdyn: false,
+      consumerRepoModifiedByArdyn: false
+    },
+    phase554SubagentAuditTrailReconciliation:
+      phase554SubagentAuditTrailReconciliation(),
+    resultSchemaEntries,
+    resultSchemaBoundarySummary:
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundarySummary(
+        resultSchemaEntries
+      ),
+    phase550SchemaBoundaryReference: {
+      sourceBoundarySchema: CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_SCHEMA,
+      sourceBoundaryFixture:
+        "tests/fixtures/host-policy/phase5-50/consumer-display-fixture-schema-boundary.json",
+      validationHelper:
+        "createConsumerDisplayFixtureSchemaBoundaryForReview",
+      referencedByResultSchemaBoundary: true,
+      validationStartsRuntime: false,
+      validationPerformsRendering: false,
+      validationCallsConsumers: false
+    },
+    phase551ExamplePackReference: {
+      sourceExamplePackSchema: CONSUMER_DISPLAY_FIXTURE_EXAMPLE_PACK_SCHEMA,
+      sourceExamplePackFixture:
+        "tests/fixtures/host-policy/phase5-51/consumer-display-fixture-example-pack.json",
+      validationHelper:
+        "createConsumerDisplayFixtureExamplePackForReview",
+      referencedByResultSchemaBoundary: true,
+      validationStartsRuntime: false,
+      validationPerformsRendering: false,
+      validationCallsConsumers: false
+    },
+    phase552ConformanceHandoffReference: {
+      sourceHandoffSchema: CONSUMER_DISPLAY_FIXTURE_CONFORMANCE_HANDOFF_SCHEMA,
+      sourceHandoffFixture:
+        "tests/fixtures/host-policy/phase5-52/consumer-display-fixture-conformance-handoff.json",
+      validationHelper:
+        "createConsumerDisplayFixtureConformanceHandoffForReview",
+      referencedByResultSchemaBoundary: true,
+      validationStartsRuntime: false,
+      validationPerformsRendering: false,
+      validationCallsConsumers: false
+    },
+    phase553RunnerRequirementsReference: {
+      sourceRunnerRequirementsSchema:
+        CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_REQUIREMENTS_SCHEMA,
+      sourceRunnerRequirementsFixture:
+        "tests/fixtures/host-policy/phase5-53/consumer-owned-display-conformance-runner-requirements.json",
+      validationHelper:
+        "createConsumerOwnedDisplayConformanceRunnerRequirementsForReview",
+      referencedByResultSchemaBoundary: true,
+      validationStartsRuntime: false,
+      validationPerformsRendering: false,
+      validationCallsConsumers: false
+    },
+    phase554TestPlanReference: {
+      sourceTestPlanSchema:
+        CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_SCHEMA,
+      sourceTestPlanFixture:
+        "tests/fixtures/host-policy/phase5-54/consumer-owned-display-conformance-runner-test-plan.json",
+      validationHelper:
+        "createConsumerOwnedDisplayConformanceRunnerTestPlanForReview",
+      referencedByResultSchemaBoundary: true,
+      validationStartsRuntime: false,
+      validationPerformsRendering: false,
+      validationCallsConsumers: false
+    },
+    invalidResultSchemaCasePolicy:
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryValidationRules(),
+    topDisplayConformanceRunnerResultSchemaGaps:
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryGaps(),
+    recommendedNextPhase:
+      "phase-5.56-consumer-owned-display-conformance-result-handoff",
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    nonAuthorizingProof: true,
+    ...consumerDisplayAccessibilityForbiddenBehavior(),
+    renderingCodeImplemented: false,
+    browserRenderingHarnessImplemented: false,
+    runnerImplementedByArdyn: false,
+    resultProducerImplementedByArdyn: false,
+    resultCollectorImplementedByArdyn: false,
+    testHarnessImplementedByArdyn: false,
+    consumerOwnedRunnerImplemented: false,
+    consumerConformanceRunnerImplemented: false,
+    fixtureImportCommandImplemented: false,
+    fixtureExportCommandImplemented: false,
+    fixtureImportExportCommandsImplemented: false,
+    importExportCommandImplemented: false,
+    packageExportImplemented: false,
+    consumerSideCiImplemented: false,
+    fixtureDiscoveryRuntimeImplemented: false,
+    consumerRepoModifiedByArdyn: false,
+    browserWcagAutomationImplemented: false,
+    visualRegressionHarnessImplemented: false,
+    screenReaderAutomationImplemented: false,
+    externalLookupsEnabled: false,
+    filesystemScanningEnabled: false,
+    processControlEnabled: false,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryRejectionReasons({
+  accepted,
+  classification
+}) {
+  const reasons = [
+    "consumer_owned_display_conformance_runner_result_schema_boundary_is_review_only",
+    "result_schema_entries_are_metadata_only",
+    "references_phase_5_50_schema_boundary",
+    "references_phase_5_51_example_pack",
+    "references_phase_5_52_conformance_handoff",
+    "references_phase_5_53_runner_requirements",
+    "references_phase_5_54_test_plan",
+    "ardyn_does_not_implement_runner_result_producer_result_collector_test_harness_import_export_package_export_ci_ui_browser_rendering_or_consumer_repo_changes",
+    "runtime_command_db_storage_secrets_connector_fabric_websocket_http_mcp_task_secure_drop_service_discovery_schedule_filesystem_process_authorizations_false",
+    "unsafe_runner_result_producer_import_export_test_harness_runtime_flags_fail_closed",
+    "fallow_runtime_not_used",
+    "runtime_enablement_still_blocked"
+  ];
+
+  return accepted
+    ? reasons
+    : [
+        ...reasons,
+        `input_classification_${classification}`,
+        "consumer_owned_display_conformance_runner_result_schema_boundary_not_produced"
+      ];
+}
+
+function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryResult({
+  reviewedAt,
+  classification,
+  accepted,
+  consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+}) {
+  return {
+    schema:
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_SCHEMA,
+    schemaVersion:
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_VERSION,
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryKind:
+      CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_KIND,
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryMode:
+      "review-only",
+    reviewedAt,
+    classification,
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryProduced: accepted,
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundary,
+    resultSchemaBoundarySummary: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .resultSchemaBoundarySummary
+      : null,
+    phase550SchemaBoundaryReference: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .phase550SchemaBoundaryReference
+      : null,
+    phase551ExamplePackReference: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .phase551ExamplePackReference
+      : null,
+    phase552ConformanceHandoffReference: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .phase552ConformanceHandoffReference
+      : null,
+    phase553RunnerRequirementsReference: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .phase553RunnerRequirementsReference
+      : null,
+    phase554TestPlanReference: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .phase554TestPlanReference
+      : null,
+    phase554SubagentAuditTrailReconciliation: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .phase554SubagentAuditTrailReconciliation
+      : null,
+    resultSchemaEntries: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .resultSchemaEntries
+      : [],
+    invalidResultSchemaCasePolicy: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .invalidResultSchemaCasePolicy
+      : consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryValidationRules(),
+    topDisplayConformanceRunnerResultSchemaGaps: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .topDisplayConformanceRunnerResultSchemaGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
+          .recommendedNextPhase
+      : null,
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    nonAuthorizingProof: true,
+    ...consumerDisplayAccessibilityForbiddenBehavior(),
+    renderingCodeImplemented: false,
+    browserRenderingHarnessImplemented: false,
+    runnerImplementedByArdyn: false,
+    resultProducerImplementedByArdyn: false,
+    resultCollectorImplementedByArdyn: false,
+    testHarnessImplementedByArdyn: false,
+    consumerOwnedRunnerImplemented: false,
+    consumerConformanceRunnerImplemented: false,
+    fixtureImportCommandImplemented: false,
+    fixtureExportCommandImplemented: false,
+    fixtureImportExportCommandsImplemented: false,
+    importExportCommandImplemented: false,
+    packageExportImplemented: false,
+    consumerSideCiImplemented: false,
+    fixtureDiscoveryRuntimeImplemented: false,
+    consumerRepoModifiedByArdyn: false,
+    browserWcagAutomationImplemented: false,
+    visualRegressionHarnessImplemented: false,
+    screenReaderAutomationImplemented: false,
+    externalLookupsEnabled: false,
+    filesystemScanningEnabled: false,
+    processControlEnabled: false,
+    rejectionReasons:
+      consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryRejectionReasons({
+        accepted,
+        classification
+      }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryForReview(
+  input = {}
+) {
+  const inputRecord =
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInputRecord(input);
+  const reviewedAt =
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryReviewedAt(
+      inputRecord
+    );
+  const classification =
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInputClassification(
+      inputRecord
+    );
+  const accepted =
+    classification ===
+    VALID_CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_CLASSIFICATION;
+  const consumerOwnedDisplayConformanceRunnerResultSchemaBoundary = accepted
+    ? consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState(reviewedAt)
+    : null;
+
+  return consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryResult({
+    reviewedAt,
+    classification,
+    accepted,
+    consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
   });
 }
 

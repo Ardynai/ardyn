@@ -299,6 +299,12 @@ export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_VERSION:
   "0.1.0";
 export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_KIND:
   "consumer-owned-display-conformance-runner-test-plan";
+export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_SCHEMA:
+  "ardyn.phase-5.55.consumer-owned-display-conformance-runner-result-schema-boundary-result";
+export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_VERSION:
+  "0.1.0";
+export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_RESULT_SCHEMA_BOUNDARY_KIND:
+  "consumer-owned-display-conformance-runner-result-schema-boundary";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -6724,6 +6730,210 @@ export interface ConsumerOwnedDisplayConformanceRunnerTestPlanResult {
   [key: string]: unknown;
 }
 
+export type ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryClassification =
+  | "valid_consumer_owned_display_conformance_runner_result_schema_boundary_runtime_still_blocked"
+  | "malformed_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "missing_required_consumer_owned_display_conformance_runner_result_schema_boundary_entry_rejected"
+  | "unknown_consumer_name_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "unknown_result_schema_intent_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "interactive_actionable_intent_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "authorization_flags_enabled_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "unsafe_runner_result_producer_import_export_test_harness_runtime_flags_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "hidden_runner_result_producer_import_export_test_harness_runtime_semantics_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "secure_drop_implementation_semantics_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "websocket_http_fabric_mcp_task_execution_semantics_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "unknown_reference_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "nested_unsafe_flags_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "noncanonical_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected"
+  | "runner_result_producer_import_export_test_harness_implementation_semantics_consumer_owned_display_conformance_runner_result_schema_boundary_input_rejected";
+
+export interface ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryUnsafeFlags
+  extends ConsumerOwnedDisplayConformanceRunnerTestPlanUnsafeFlags {
+  resultProducerEnabled: false;
+  resultProducerImplementedByArdyn: false;
+  resultCollectorEnabled: false;
+  resultCollectorImplementedByArdyn: false;
+  resultProductionEnabled: false;
+  resultCollectionEnabled: false;
+  resultEmissionEnabled: false;
+  resultWriteEnabled: false;
+  resultExportEnabled: false;
+  resultImportEnabled: false;
+  resultStorageWritesEnabled: false;
+  conformanceResultProducerImplemented: false;
+  conformanceResultCollectorImplemented: false;
+  consumerResultProducerImplemented: false;
+  consumerResultCollectorImplemented: false;
+  resultSchemaExecutionEnabled: false;
+  hiddenResultProducerSemanticsEnabled: false;
+  hiddenResultCollectorSemanticsEnabled: false;
+}
+
+export interface ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryEntry {
+  resultSchemaId: string;
+  consumerName: "Locus" | "Multiverse";
+  displaySurfaceId: string;
+  sourceArdynArtifactType: string;
+  resultSchemaIntent: "metadata_only";
+  referencedPhase550SchemaBoundaryId: string;
+  referencedPhase551FixtureId: string;
+  referencedPhase551FixtureGroup: string;
+  referencedPhase552HandoffId: string;
+  referencedPhase553RunnerRequirementId: string;
+  referencedPhase554TestPlanId: string;
+  futureConsumerOwnedResultResponsibility: string;
+  allowedResultFields: string[];
+  forbiddenResultFields: string[];
+  deterministicOrderingHashExpectations: {
+    deterministicResultSchemaIdsRequired: true;
+    deterministicOrderingRequired: true;
+    deterministicAllowedResultFieldOrderingRequired: true;
+    deterministicForbiddenResultFieldOrderingRequired: true;
+    deterministicHashInputOrderingRequired: true;
+    noClockNetworkRandomnessAllowed: true;
+    consumerOwnedResultOutputMustBeReviewOnly: true;
+    hashDoesNotAuthorizeRuntime: true;
+  };
+  accessibilityWcagResultNotes:
+    ConsumerDisplayFixtureAccessibilityFields &
+      Record<string, boolean | string>;
+  requiredFutureContractBeforeExecutableResultProduction: string;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeRunnerResultProducerImportExportTestHarnessRuntimeFlags:
+    ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryUnsafeFlags;
+  consumerTargetOnly: true;
+  runnerImplementedByArdyn: false;
+  resultProducerImplementedByArdyn: false;
+  resultCollectorImplementedByArdyn: false;
+  testHarnessImplementedByArdyn: false;
+  importExportCommandImplemented: false;
+  browserRenderingHarnessImplemented: false;
+  packageExportImplemented: false;
+  consumerSideCiImplemented: false;
+  fixtureDiscoveryRuntimeImplemented: false;
+  consumerRepoModifiedByArdyn: false;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState {
+  schema: "ardyn.phase-5.55.consumer-owned-display-conformance-runner-result-schema-boundary-state";
+  schemaVersion: "0.1.0";
+  stateKind: "consumer-owned-display-conformance-runner-result-schema-boundary-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  phase554SubagentAuditTrailReconciliation: Record<string, string>;
+  resultSchemaEntries: ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryEntry[];
+  resultSchemaBoundarySummary: Record<string, boolean | number | string | string[]>;
+  phase550SchemaBoundaryReference: Record<string, boolean | string>;
+  phase551ExamplePackReference: Record<string, boolean | string>;
+  phase552ConformanceHandoffReference: Record<string, boolean | string>;
+  phase553RunnerRequirementsReference: Record<string, boolean | string>;
+  phase554TestPlanReference: Record<string, boolean | string>;
+  invalidResultSchemaCasePolicy: Record<string, boolean>;
+  topDisplayConformanceRunnerResultSchemaGaps: string[];
+  recommendedNextPhase: string;
+  consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  renderingCodeImplemented: false;
+  browserRenderingHarnessImplemented: false;
+  runnerImplementedByArdyn: false;
+  resultProducerImplementedByArdyn: false;
+  resultCollectorImplementedByArdyn: false;
+  testHarnessImplementedByArdyn: false;
+  consumerOwnedRunnerImplemented: false;
+  consumerConformanceRunnerImplemented: false;
+  fixtureImportCommandImplemented: false;
+  fixtureExportCommandImplemented: false;
+  fixtureImportExportCommandsImplemented: false;
+  importExportCommandImplemented: false;
+  packageExportImplemented: false;
+  consumerSideCiImplemented: false;
+  fixtureDiscoveryRuntimeImplemented: false;
+  consumerRepoModifiedByArdyn: false;
+  browserWcagAutomationImplemented: false;
+  visualRegressionHarnessImplemented: false;
+  screenReaderAutomationImplemented: false;
+  externalLookupsEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryResult {
+  schema: "ardyn.phase-5.55.consumer-owned-display-conformance-runner-result-schema-boundary-result";
+  schemaVersion: "0.1.0";
+  consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryKind:
+    "consumer-owned-display-conformance-runner-result-schema-boundary";
+  consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryMode: "review-only";
+  reviewedAt: string;
+  classification: ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryClassification;
+  consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryProduced: boolean;
+  consumerOwnedDisplayConformanceRunnerResultSchemaBoundary:
+    | ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState
+    | null;
+  resultSchemaBoundarySummary:
+    | ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState["resultSchemaBoundarySummary"]
+    | null;
+  phase550SchemaBoundaryReference:
+    | ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState["phase550SchemaBoundaryReference"]
+    | null;
+  phase551ExamplePackReference:
+    | ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState["phase551ExamplePackReference"]
+    | null;
+  phase552ConformanceHandoffReference:
+    | ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState["phase552ConformanceHandoffReference"]
+    | null;
+  phase553RunnerRequirementsReference:
+    | ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState["phase553RunnerRequirementsReference"]
+    | null;
+  phase554TestPlanReference:
+    | ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState["phase554TestPlanReference"]
+    | null;
+  phase554SubagentAuditTrailReconciliation:
+    | ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryState["phase554SubagentAuditTrailReconciliation"]
+    | null;
+  resultSchemaEntries: ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryEntry[];
+  invalidResultSchemaCasePolicy: Record<string, boolean>;
+  topDisplayConformanceRunnerResultSchemaGaps: string[];
+  recommendedNextPhase: string | null;
+  consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  renderingCodeImplemented: false;
+  browserRenderingHarnessImplemented: false;
+  runnerImplementedByArdyn: false;
+  resultProducerImplementedByArdyn: false;
+  resultCollectorImplementedByArdyn: false;
+  testHarnessImplementedByArdyn: false;
+  consumerOwnedRunnerImplemented: false;
+  consumerConformanceRunnerImplemented: false;
+  fixtureImportCommandImplemented: false;
+  fixtureExportCommandImplemented: false;
+  fixtureImportExportCommandsImplemented: false;
+  importExportCommandImplemented: false;
+  packageExportImplemented: false;
+  consumerSideCiImplemented: false;
+  fixtureDiscoveryRuntimeImplemented: false;
+  consumerRepoModifiedByArdyn: false;
+  browserWcagAutomationImplemented: false;
+  visualRegressionHarnessImplemented: false;
+  screenReaderAutomationImplemented: false;
+  externalLookupsEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -7090,6 +7300,10 @@ export function createConsumerOwnedDisplayConformanceRunnerTestPlanForReview(inp
   reviewedAt?: string;
   testPlanEntries?: unknown[];
 }): ConsumerOwnedDisplayConformanceRunnerTestPlanResult;
+export function createConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryForReview(input?: {
+  reviewedAt?: string;
+  resultSchemaEntries?: unknown[];
+}): ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

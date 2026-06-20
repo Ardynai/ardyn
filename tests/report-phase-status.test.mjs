@@ -4638,6 +4638,132 @@ const phase554SafetyFlagNames = [
   ...phase554ExpectedTrueSafetyFlagNames,
   ...phase554ExpectedFalseSafetyFlagNames
 ];
+const phase555DocFiles = [
+  "docs/phase-5-55-consumer-owned-display-conformance-runner-result-schema-boundary.md",
+  "docs/phase-5-54-consumer-owned-display-conformance-runner-test-plan.md",
+  "docs/phase-5-53-consumer-owned-display-conformance-runner-requirements.md",
+  "docs/phase-5-52-consumer-display-fixture-conformance-handoff.md",
+  "docs/phase-5-51-consumer-display-fixture-example-pack.md",
+  "docs/phase-5-50-consumer-display-fixture-schema-boundary.md"
+];
+const phase555CrossLinks = [
+  "docs/phase-5-50-consumer-display-fixture-schema-boundary.md",
+  "docs/phase-5-51-consumer-display-fixture-example-pack.md",
+  "docs/phase-5-52-consumer-display-fixture-conformance-handoff.md",
+  "docs/phase-5-53-consumer-owned-display-conformance-runner-requirements.md",
+  "docs/phase-5-54-consumer-owned-display-conformance-runner-test-plan.md",
+  "docs/phase-5-55-consumer-owned-display-conformance-runner-result-schema-boundary.md"
+];
+const phase555ExpectedTrueSafetyFlagNames = [
+  "phase555ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryRecorded",
+  "phase555ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryReviewOnly",
+  "phase555ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryProduced",
+  "phase555ResultSchemaEntriesRecorded",
+  "phase555LocusResultSchemaEntriesCovered",
+  "phase555MultiverseResultSchemaEntriesCovered",
+  "phase555ReferencesPhase550SchemaBoundary",
+  "phase555ReferencesPhase551ExamplePack",
+  "phase555ReferencesPhase552ConformanceHandoff",
+  "phase555ReferencesPhase553RunnerRequirements",
+  "phase555ReferencesPhase554TestPlan",
+  "phase555LocusAndMultiverseConsumerTargetsOnly",
+  "phase555AllBlockedAuthorizationFlagsFalse",
+  "phase555AllUnsafeRunnerResultProducerImportExportTestHarnessRuntimeFlagsFalse",
+  "phase555AllRuntimeEffectsFalse",
+  "phase555AllEntriesNonAuthorizing",
+  "phase555InvalidResultSchemaCasesFailClosed",
+  "phase555UnsafeRunnerResultProducerImportExportTestHarnessRuntimeFlagsFailClosed",
+  "phase555HiddenRunnerResultProducerImportExportTestHarnessRuntimeSemanticsFailClosed",
+  "phase555ServeRuntimeStillDefaultBlocked"
+];
+const phase555ExpectedFalseSafetyFlagNames = [
+  "phase555FallowRuntimeUsed",
+  "phase555ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryAuthoritative",
+  "phase555UiFrontendBrowserCodeImplemented",
+  "phase555UiFrontendBrowserRenderingImplemented",
+  "phase555ConsumerUiImplemented",
+  "phase555DisplaySurfaceImplemented",
+  "phase555RenderingCodeImplemented",
+  "phase555BrowserRenderingHarnessImplemented",
+  "phase555BrowserWcagAutomationImplemented",
+  "phase555VisualRegressionHarnessImplemented",
+  "phase555ScreenReaderAutomationImplemented",
+  "phase555BrowserRuntimeEnabled",
+  "phase555InteractiveControlEnabled",
+  "phase555HiddenActionSemanticsEnabled",
+  "phase555AutoExecutionEnabled",
+  "phase555RunnerImplementedByArdyn",
+  "phase555ResultProducerImplementedByArdyn",
+  "phase555ResultCollectorImplementedByArdyn",
+  "phase555TestHarnessImplementedByArdyn",
+  "phase555ConsumerOwnedRunnerImplemented",
+  "phase555ConsumerConformanceRunnerImplemented",
+  "phase555FixtureImportCommandImplemented",
+  "phase555FixtureExportCommandImplemented",
+  "phase555FixtureImportExportCommandsImplemented",
+  "phase555ImportExportCommandImplemented",
+  "phase555PackageExportImplemented",
+  "phase555ConsumerSideCiImplemented",
+  "phase555FixtureDiscoveryRuntimeImplemented",
+  "phase555ConsumerRepoModifiedByArdyn",
+  "phase555CommandRuntimeControlEnabled",
+  "phase555RuntimePermissionGranted",
+  "phase555CommandExposurePermissionGranted",
+  "phase555RuntimeCommandExposureEnabled",
+  "phase555RuntimeExecutionEnabled",
+  "phase555ReviewerRoutingPerformed",
+  "phase555ReviewerAssignmentPerformed",
+  "phase555EvaluatorExecutionPerformed",
+  "phase555EvaluatorResultProduced",
+  "phase555ApprovalDecisionProduced",
+  "phase555ApprovalGrantProduced",
+  "phase555ApprovalGrantPersisted",
+  "phase555ConnectorGrantProduced",
+  "phase555ConnectorIngestionAdded",
+  "phase555LiveRegistryConnectionEnabled",
+  "phase555WebSocketRuntimeEnabled",
+  "phase555HttpRuntimeEnabled",
+  "phase555TaskRuntimeExecutionEnabled",
+  "phase555TaskExecutionEnabled",
+  "phase555McpRuntimeExecutionEnabled",
+  "phase555McpExecutionEnabled",
+  "phase555McpToolExposureEnabled",
+  "phase555FabricRuntimeSurfaceEnabled",
+  "phase555ContentFabricRuntimeBehaviorEnabled",
+  "phase555AdapterRuntimeBehaviorEnabled",
+  "phase555SecureDropImplemented",
+  "phase555SecureDropCryptoImplemented",
+  "phase555SecureDropTransportImplemented",
+  "phase555SecureDropStegoImplemented",
+  "phase555SecureDropSendReceiveImplemented",
+  "phase555SecureDropInboxPollingEnabled",
+  "phase555FileSelectionEnabled",
+  "phase555FilesystemWatcherEnabled",
+  "phase555FilesystemScanningEnabled",
+  "phase555SecretVaultEnvAccessEnabled",
+  "phase555St3ggVendored",
+  "phase555ProcessControlEnabled",
+  "phase555LiveStdinLoopEnabled",
+  "phase555RuntimeStdoutWriterEnabled",
+  "phase555RuntimeStderrWriterEnabled",
+  "phase555RuntimeTranscriptWritePerformed",
+  "phase555RuntimeAuditWritePerformed",
+  "phase555DatabaseStorageRuntimeWritesEnabled",
+  "phase555SecretsRuntimeIngestionEnabled",
+  "phase555ServiceDiscoveryEnabled",
+  "phase555LiveServiceRegistryConnectionEnabled",
+  "phase555ScheduleEnforcementEnabled",
+  "phase555BackgroundPollingEnabled",
+  "phase555ExternalLookupsEnabled",
+  "phase555DryRunBypassesBlock",
+  "phase555CliSourceChanged",
+  "phase555RustSourceChanged",
+  "phase555FabricSourceChanged"
+];
+const phase555SafetyFlagNames = [
+  ...phase555ExpectedTrueSafetyFlagNames,
+  ...phase555ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -4772,16 +4898,16 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.54 consumer-owned display conformance runner test plan and does not claim to run checks", async () => {
+test("phase status report is Phase 5.55 consumer-owned display conformance runner result schema boundary and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.54",
+    id: "5.55",
     name:
-      "Review-only consumer-owned display conformance runner test plan",
+      "Review-only consumer-owned display conformance runner result schema boundary",
     executionPosture:
-      "consumer-owned-display-conformance-runner-test-plan runtime-disabled metadata-only no-runner no-test-harness no-fixture-import-export-commands no-package-export no-consumer-side-ci no-fixture-discovery-runtime no-consumer-repo-change no-ui-frontend-browser-rendering-code no-browser-rendering-wcag-automation no-command-runtime-control no-interactive-control no-hidden-action-semantics no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-external-lookups"
+      "consumer-owned-display-conformance-runner-result-schema-boundary runtime-disabled metadata-only no-runner no-result-producer no-result-collector no-test-harness no-fixture-import-export-commands no-package-export no-consumer-side-ci no-fixture-discovery-runtime no-consumer-repo-change no-ui-frontend-browser-rendering-code no-browser-rendering-wcag-automation no-command-runtime-control no-interactive-control no-hidden-action-semantics no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-external-lookups"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -4844,15 +4970,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.54 consumer-owned display conformance runner test plan status report."
+    "Render this deterministic local Phase 5.55 consumer-owned display conformance runner result schema boundary status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.54 status report."
+    "Run focused tests for this local Phase 5.55 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.54 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.55 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-55-consumer-owned-display-conformance-runner-result-schema-boundary.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.55 consumer-owned display conformance runner result schema boundary and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -22364,6 +22496,192 @@ test("report inventories Phase 5.54 as review-only consumer-owned display confor
   assertSafetyFlags(report, phase554ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.55 consumer-owned display conformance runner result schema boundary", async () => {
+  const report = await runReport();
+  const inventory =
+    report
+      .phase555ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInventory;
+
+  assert.equal(
+    inventory.statusLayer.layerId,
+    "consumer-owned-display-conformance-runner-result-schema-boundary"
+  );
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.55.consumer-owned-display-conformance-runner-result-schema-boundary-result"
+  );
+  assert.equal(inventory.statusLayer.schemaVersion, "0.1.0");
+  assert.equal(
+    inventory.statusLayer.kind,
+    "consumer-owned-display-conformance-runner-result-schema-boundary"
+  );
+  assert.equal(inventory.statusLayer.mode, "review-only");
+  assert.equal(
+    inventory.statusLayer.classification,
+    "valid_consumer_owned_display_conformance_runner_result_schema_boundary_runtime_still_blocked"
+  );
+  assert.equal(inventory.statusLayer.resultSchemaEntryCount, 12);
+  assert.equal(inventory.statusLayer.locusResultSchemaEntryCount, 6);
+  assert.equal(inventory.statusLayer.multiverseResultSchemaEntryCount, 6);
+  assert.deepEqual(inventory.statusLayer.consumerNames, [
+    "Locus",
+    "Multiverse"
+  ]);
+  assert.deepEqual(inventory.docs.map(({ path, status }) => [path, status]), [
+    ...phase555DocFiles.map((path) => [path, "present"])
+  ]);
+  assert.deepEqual(inventory.crossLinks, phase555CrossLinks);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-55/consumer-owned-display-conformance-runner-result-schema-boundary.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    [
+      "tests/phase5-55-consumer-owned-display-conformance-runner-result-schema-boundary.test.mjs",
+      "present"
+    ],
+    ["tests/report-phase-status.test.mjs", "present"]
+  ]);
+  assert.deepEqual(
+    inventory.ownershipBoundary.cliRuntimeSourceFilesChanged,
+    []
+  );
+  assert.deepEqual(
+    inventory.ownershipBoundary.rustRuntimeSourceFilesChanged,
+    []
+  );
+  assert.deepEqual(
+    inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged,
+    []
+  );
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.equal(
+    inventory.ownershipBoundary.resultProducerAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.resultCollectorAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.resultSchemaBoundarySummary.resultSchemaEntryCount, 12);
+  assert.equal(inventory.resultSchemaBoundarySummary.referencesPhase550SchemaBoundary, true);
+  assert.equal(inventory.resultSchemaBoundarySummary.referencesPhase551ExamplePack, true);
+  assert.equal(inventory.resultSchemaBoundarySummary.referencesPhase552ConformanceHandoff, true);
+  assert.equal(inventory.resultSchemaBoundarySummary.referencesPhase553RunnerRequirements, true);
+  assert.equal(inventory.resultSchemaBoundarySummary.referencesPhase554TestPlan, true);
+  assert.equal(
+    inventory.phase550SchemaBoundaryReference.sourceBoundarySchema,
+    "ardyn.phase-5.50.consumer-display-fixture-schema-boundary-result"
+  );
+  assert.equal(
+    inventory.phase551ExamplePackReference.sourceExamplePackSchema,
+    "ardyn.phase-5.51.consumer-display-fixture-example-pack-result"
+  );
+  assert.equal(
+    inventory.phase552ConformanceHandoffReference.sourceHandoffSchema,
+    "ardyn.phase-5.52.consumer-display-fixture-conformance-handoff-result"
+  );
+  assert.equal(
+    inventory.phase553RunnerRequirementsReference.sourceRunnerRequirementsSchema,
+    "ardyn.phase-5.53.consumer-owned-display-conformance-runner-requirements-result"
+  );
+  assert.equal(
+    inventory.phase554TestPlanReference.sourceTestPlanSchema,
+    "ardyn.phase-5.54.consumer-owned-display-conformance-runner-test-plan-result"
+  );
+  assert.equal(
+    inventory.phase554SubagentAuditTrailReconciliation.finalReportActualReviewer,
+    "019ee530-5f95-7ac1-b80d-2967f33f462e / Raman"
+  );
+  assert.equal(
+    inventory.phase554SubagentAuditTrailReconciliation.localSessionFooterMismatchReported,
+    "Feynman / James"
+  );
+  assert.equal(inventory.resultSchemaEntries.length, 12);
+  assert.equal(
+    inventory.resultSchemaEntries[0].resultSchemaId,
+    "phase5-55.locus.status-control-panel-conformance.result-schema"
+  );
+  assert.equal(
+    inventory.resultSchemaEntries.at(-1).resultSchemaId,
+    "phase5-55.multiverse.accessibility-wcag-display-expectation.result-schema"
+  );
+
+  for (const entry of inventory.resultSchemaEntries) {
+    assert.ok(["Locus", "Multiverse"].includes(entry.consumerName));
+    assert.match(entry.resultSchemaId, /^phase5-55\./);
+    assert.match(entry.referencedPhase550SchemaBoundaryId, /^phase5-50\./);
+    assert.match(entry.referencedPhase551FixtureId, /^phase5-51\./);
+    assert.match(entry.referencedPhase552HandoffId, /^phase5-52\./);
+    assert.match(entry.referencedPhase553RunnerRequirementId, /^phase5-53\./);
+    assert.match(entry.referencedPhase554TestPlanId, /^phase5-54\./);
+    assert.equal(entry.resultSchemaIntent, "metadata_only");
+    assert.ok(entry.allowedResultFields.includes("conformanceStatus"));
+    assert.ok(entry.allowedResultFields.includes("assertionResults"));
+    assert.ok(entry.forbiddenResultFields.includes("resultProducerCommand"));
+    assert.ok(entry.forbiddenResultFields.includes("resultCollectorCommand"));
+    assert.equal(
+      entry.deterministicOrderingHashExpectations.deterministicResultSchemaIdsRequired,
+      true
+    );
+    assert.equal(
+      entry.deterministicOrderingHashExpectations.hashDoesNotAuthorizeRuntime,
+      true
+    );
+    assert.equal(
+      entry.accessibilityWcagResultNotes.colorIndependentStatusIndicatorRequired,
+      true
+    );
+    assert.equal(
+      entry.accessibilityWcagResultNotes.resultMustNotExposeHiddenActionSemantics,
+      true
+    );
+    assertAllFalse(entry.explicitBlockedAuthorizationFlags);
+    assertAllFalse(
+      entry.unsafeRunnerResultProducerImportExportTestHarnessRuntimeFlags
+    );
+    assertAllFalse(entry.runtimeEffect);
+  }
+
+  assert.ok(
+    inventory.topDisplayConformanceRunnerResultSchemaGaps.some((gap) =>
+      gap.includes("no Locus or Multiverse consumer-owned result producer")
+    )
+  );
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.56-consumer-owned-display-conformance-result-handoff"
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assertAllFalse(inventory.forbiddenBehavior);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-55-consumer-owned-display-conformance-runner-result-schema-boundary.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-54-consumer-owned-display-conformance-runner-test-plan.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, [
+    "semgrep --config auto ."
+  ]);
+  assert.equal(
+    report.safetyPosture
+      .phase555ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundary,
+    true
+  );
+  assertSafetyFlags(report, phase555ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase555ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -23278,7 +23596,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase551SafetyFlagNames,
     ...phase552SafetyFlagNames,
     ...phase553SafetyFlagNames,
-    ...phase554SafetyFlagNames
+    ...phase554SafetyFlagNames,
+    ...phase555SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -23355,6 +23674,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase553ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase554ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase554ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase555ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase555ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });
