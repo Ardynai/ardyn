@@ -276,6 +276,9 @@ const phase552ConsumerDisplayFixtureConformanceHandoff = await readJson(
 const phase553ConsumerOwnedDisplayConformanceRunnerRequirements = await readJson(
   "tests/fixtures/host-policy/phase5-53/consumer-owned-display-conformance-runner-requirements.json"
 );
+const phase554ConsumerOwnedDisplayConformanceRunnerTestPlan = await readJson(
+  "tests/fixtures/host-policy/phase5-54/consumer-owned-display-conformance-runner-test-plan.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -323,11 +326,11 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.53",
+    id: "5.54",
     name:
-      "Review-only consumer-owned display conformance runner requirements",
+      "Review-only consumer-owned display conformance runner test plan",
     executionPosture:
-      "consumer-owned-display-conformance-runner-requirements runtime-disabled metadata-only no-runner no-fixture-import-export-commands no-package-export no-consumer-side-ci no-fixture-discovery-runtime no-consumer-repo-change no-ui-frontend-browser-rendering-code no-command-runtime-control no-interactive-control no-hidden-action-semantics no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-external-lookups"
+      "consumer-owned-display-conformance-runner-test-plan runtime-disabled metadata-only no-runner no-test-harness no-fixture-import-export-commands no-package-export no-consumer-side-ci no-fixture-discovery-runtime no-consumer-repo-change no-ui-frontend-browser-rendering-code no-browser-rendering-wcag-automation no-command-runtime-control no-interactive-control no-hidden-action-semantics no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-external-lookups"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -408,18 +411,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.53 consumer-owned display conformance runner requirements status report.",
+        "Render this deterministic local Phase 5.54 consumer-owned display conformance runner test plan status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.53 status report.",
+      purpose: "Run focused tests for this local Phase 5.54 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.53 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.54 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-54-consumer-owned-display-conformance-runner-test-plan.test.mjs",
+      purpose:
+        "Run focused Phase 5.54 consumer-owned display conformance runner test plan and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -21556,6 +21566,476 @@ const report = {
       noFabricSourceChange: true
     }
   },
+  phase554ConsumerOwnedDisplayConformanceRunnerTestPlanInventory: {
+    statusLayer: {
+      layerId: "consumer-owned-display-conformance-runner-test-plan",
+      schema: phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.schema,
+      schemaVersion:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.schemaVersion,
+      kind:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+          .consumerOwnedDisplayConformanceRunnerTestPlanKind,
+      mode:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+          .consumerOwnedDisplayConformanceRunnerTestPlanMode,
+      classification:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.classification,
+      testPlanEntryCount:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .testPlanEntryCount,
+      locusTestPlanEntryCount:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .locusTestPlanEntryCount,
+      multiverseTestPlanEntryCount:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .multiverseTestPlanEntryCount,
+      consumerNames:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .consumerNames,
+      testPlanIds:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .deterministicTestPlanIds,
+      displaySurfaceIds:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanEntries.map(
+          ({ displaySurfaceId }) => displaySurfaceId
+        ),
+      referencedPhase551FixtureIds:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .referencedPhase551FixtureIds,
+      referencedPhase552HandoffIds:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .referencedPhase552HandoffIds,
+      referencedPhase553RunnerRequirementIds:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .referencedPhase553RunnerRequirementIds,
+      referencesPhase550SchemaBoundary:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .referencesPhase550SchemaBoundary,
+      referencesPhase551ExamplePack:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .referencesPhase551ExamplePack,
+      referencesPhase552ConformanceHandoff:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .referencesPhase552ConformanceHandoff,
+      referencesPhase553RunnerRequirements:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .referencesPhase553RunnerRequirements,
+      locusAndMultiverseConsumerTargetsOnly:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .locusAndMultiverseConsumerTargetsOnly,
+      allBlockedAuthorizationFlagsFalse:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .allBlockedAuthorizationFlagsFalse,
+      allUnsafeRunnerImportExportTestHarnessRuntimeFlagsFalse:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .allUnsafeRunnerImportExportTestHarnessRuntimeFlagsFalse,
+      allRuntimeEffectsFalse:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .allRuntimeEffectsFalse,
+      allEntriesNonAuthorizing:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary
+          .allEntriesNonAuthorizing,
+      invalidTestPlanCasesFailClosed: true,
+      unsafeRunnerImportExportTestHarnessRuntimeFlagsFailClosed:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+          .invalidTestPlanCasePolicy
+          .unsafeRunnerImportExportTestHarnessRuntimeFlagsFailClosed,
+      hiddenRunnerImportExportTestHarnessRuntimeSemanticsFailClosed:
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+          .invalidTestPlanCasePolicy
+          .hiddenRunnerImportExportTestHarnessRuntimeSemanticsFailClosed,
+      consumerTargetsOnly: true,
+      runnerImplementedByArdyn: false,
+      testHarnessImplementedByArdyn: false,
+      consumerOwnedRunnerImplemented: false,
+      consumerConformanceRunnerImplemented: false,
+      fixtureImportCommandImplemented: false,
+      fixtureExportCommandImplemented: false,
+      fixtureImportExportCommandsImplemented: false,
+      importExportCommandImplemented: false,
+      packageExportImplemented: false,
+      consumerSideCiImplemented: false,
+      fixtureDiscoveryRuntimeImplemented: false,
+      consumerRepoModifiedByArdyn: false,
+      uiFrontendBrowserCodeImplemented: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      consumerUiImplemented: false,
+      displaySurfaceImplemented: false,
+      renderingCodeImplemented: false,
+      browserRenderingHarnessImplemented: false,
+      browserWcagAutomationImplemented: false,
+      visualRegressionHarnessImplemented: false,
+      screenReaderAutomationImplemented: false,
+      browserRuntimeEnabled: false,
+      interactiveControlEnabled: false,
+      hiddenActionSemanticsEnabled: false,
+      commandRuntimeControlEnabled: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      connectorGrantProduced: false,
+      connectorIngestionAdded: false,
+      webSocketRuntimeEnabled: false,
+      httpRuntimeEnabled: false,
+      taskRuntimeExecutionEnabled: false,
+      mcpToolExposureEnabled: false,
+      fabricRuntimeSurfaceEnabled: false,
+      secureDropImplemented: false,
+      secureDropInboxPollingEnabled: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      backgroundPollingEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      externalLookupsEnabled: false,
+      fallowRuntimeUsed: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      fabricSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-54-consumer-owned-display-conformance-runner-test-plan.md",
+        "Records deterministic review-only test-plan metadata for future Locus and Multiverse owned display conformance runners while runner, test harness, import/export, UI, browser/rendering, package export, consumer-side CI, fixture discovery runtime, consumer repo changes, runtime, command, storage, secrets, connector, Fabric, websocket/http, MCP/task, Secure Drop, service discovery, scheduling, filesystem/process control, and external lookups remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-53-consumer-owned-display-conformance-runner-requirements.md",
+        "Provides the preceding consumer-owned display conformance runner requirements referenced by Phase 5.54."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-52-consumer-display-fixture-conformance-handoff.md",
+        "Provides the preceding consumer display fixture conformance handoff referenced by Phase 5.54."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-51-consumer-display-fixture-example-pack.md",
+        "Provides the preceding consumer display fixture example pack referenced by Phase 5.54."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-50-consumer-display-fixture-schema-boundary.md",
+        "Provides the preceding consumer display fixture schema boundary referenced by Phase 5.54."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-50-consumer-display-fixture-schema-boundary.md",
+      "docs/phase-5-51-consumer-display-fixture-example-pack.md",
+      "docs/phase-5-52-consumer-display-fixture-conformance-handoff.md",
+      "docs/phase-5-53-consumer-owned-display-conformance-runner-requirements.md",
+      "docs/phase-5-54-consumer-owned-display-conformance-runner-test-plan.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-54/consumer-owned-display-conformance-runner-test-plan.json",
+        "Records twelve metadata-only future consumer-owned test-plan entries with Phase 5.50 schema references, Phase 5.51 fixture references, Phase 5.52 handoff references, Phase 5.53 runner requirement references, accessibility/WCAG assertion notes, fixture determinism expectations, false authorization flags, false unsafe runner/import/export/test-harness/runtime flags, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-54-consumer-owned-display-conformance-runner-test-plan.test.mjs",
+        "Pins the Phase 5.54 helper, fixture shape, Phase 5.50/5.51/5.52/5.53 references, fail-closed unsafe runner/import/export/test-harness/runtime cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.54 status inventory, docs cross-links, fixture inventory, and runner/test-harness/import/export/rendering/runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-54-consumer-owned-display-conformance-runner-test-plan.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-54/consumer-owned-display-conformance-runner-test-plan.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-54-consumer-owned-display-conformance-runner-test-plan.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      uiFrontendBrowserCodeAddedByThisPhase: false,
+      consumerUiImplementedByThisPhase: false,
+      renderingCodeAddedByThisPhase: false,
+      browserRenderingHarnessAddedByThisPhase: false,
+      browserWcagAutomationAddedByThisPhase: false,
+      visualRegressionHarnessAddedByThisPhase: false,
+      screenReaderAutomationAddedByThisPhase: false,
+      browserRuntimeAddedByThisPhase: false,
+      runnerAddedByThisPhase: false,
+      testHarnessAddedByThisPhase: false,
+      fixtureImportCommandAddedByThisPhase: false,
+      fixtureExportCommandAddedByThisPhase: false,
+      importExportCommandAddedByThisPhase: false,
+      packageExportAddedByThisPhase: false,
+      consumerSideCiAddedByThisPhase: false,
+      fixtureDiscoveryRuntimeAddedByThisPhase: false,
+      consumerRepoModifiedByThisPhase: false,
+      consumerConformanceRunnerAddedByThisPhase: false,
+      interactiveControlAddedByThisPhase: false,
+      hiddenActionSemanticsAddedByThisPhase: false,
+      hiddenRunnerSemanticsAddedByThisPhase: false,
+      hiddenTestHarnessSemanticsAddedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      databaseStorageRuntimeWritesAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      connectorIngestionAddedByThisPhase: false,
+      connectorGrantProducedByThisPhase: false,
+      secureDropImplementedByThisPhase: false,
+      secureDropCryptoImplementedByThisPhase: false,
+      secureDropTransportImplementedByThisPhase: false,
+      secureDropStegoImplementedByThisPhase: false,
+      secureDropSendReceiveImplementedByThisPhase: false,
+      secureDropInboxPollingEnabledByThisPhase: false,
+      st3ggVendoredByThisPhase: false,
+      liveRegistryConnectionAddedByThisPhase: false,
+      webSocketHttpSurfaceAddedByThisPhase: false,
+      taskRuntimeAddedByThisPhase: false,
+      taskExecutionAddedByThisPhase: false,
+      mcpRuntimeAddedByThisPhase: false,
+      mcpToolExposureAddedByThisPhase: false,
+      fabricRuntimeSurfaceAddedByThisPhase: false,
+      contentFabricRuntimeBehaviorAddedByThisPhase: false,
+      serviceDiscoveryAddedByThisPhase: false,
+      scheduleEnforcementAddedByThisPhase: false,
+      backgroundPollingAddedByThisPhase: false,
+      externalLookupAddedByThisPhase: false,
+      filesystemProcessControlAddedByThisPhase: false,
+      reviewerRoutingPerformedByThisPhase: false,
+      reviewerAssignmentPerformedByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateConsumerOwnedRunnerImplementationPhaseRequired: true,
+      separateTestHarnessAuthorizationPhaseRequired: true,
+      separateImportExportCommandAuthorizationPhaseRequired: true,
+      separatePackageExportPhaseRequired: true,
+      separateConsumerSideCiPhaseRequired: true,
+      separateFixtureDiscoveryRuntimeAuthorizationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true,
+      separateConnectorAuthorizationPhaseRequired: true,
+      separateSecureDropAuthorizationPhaseRequired: true,
+      separateFabricRuntimeAuthorizationPhaseRequired: true,
+      separateWebSocketHttpMcpTaskRuntimeAuthorizationRequired: true,
+      separateServiceDiscoveryScheduleAuthorizationRequired: true
+    },
+    testPlanSummary:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanSummary,
+    consumerOwnedDisplayConformanceRunnerTestPlan:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+        .consumerOwnedDisplayConformanceRunnerTestPlan,
+    phase550SchemaBoundaryReference:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+        .phase550SchemaBoundaryReference,
+    phase551ExamplePackReference:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+        .phase551ExamplePackReference,
+    phase552ConformanceHandoffReference:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+        .phase552ConformanceHandoffReference,
+    phase553RunnerRequirementsReference:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+        .phase553RunnerRequirementsReference,
+    testPlanEntries:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.testPlanEntries,
+    invalidTestPlanCasePolicy:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+        .invalidTestPlanCasePolicy,
+    topDisplayConformanceRunnerTestPlanGaps:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan
+        .topDisplayConformanceRunnerTestPlanGaps,
+    recommendedNextPhase:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.runtimeEffect,
+    forbiddenBehavior: Object.fromEntries(
+      [
+        "uiFrontendBrowserCodeImplemented",
+        "consumerUiImplemented",
+        "displaySurfaceImplemented",
+        "renderingCodeImplemented",
+        "browserRenderingHarnessImplemented",
+        "runnerImplementedByArdyn",
+        "testHarnessImplementedByArdyn",
+        "consumerOwnedRunnerImplemented",
+        "consumerConformanceRunnerImplemented",
+        "fixtureImportCommandImplemented",
+        "fixtureExportCommandImplemented",
+        "fixtureImportExportCommandsImplemented",
+        "importExportCommandImplemented",
+        "packageExportImplemented",
+        "consumerSideCiImplemented",
+        "fixtureDiscoveryRuntimeImplemented",
+        "consumerRepoModifiedByArdyn",
+        "browserWcagAutomationImplemented",
+        "visualRegressionHarnessImplemented",
+        "screenReaderAutomationImplemented",
+        "browserRuntimeEnabled",
+        "interactiveControlEnabled",
+        "hiddenActionSemanticsEnabled",
+        "autoExecutionEnabled",
+        "commandRuntimeControlEnabled",
+        "commandExposurePermissionGranted",
+        "runtimePermissionGranted",
+        "runtimeCommandExposureEnabled",
+        "runtimeExecutionEnabled",
+        "reviewerRoutingPerformed",
+        "reviewerAssignmentPerformed",
+        "evaluatorExecutionPerformed",
+        "evaluatorResultProduced",
+        "approvalDecisionProduced",
+        "approvalGrantProduced",
+        "approvalGrantPersisted",
+        "connectorGrantProduced",
+        "connectorIngestionAdded",
+        "liveRegistryConnectionEnabled",
+        "webSocketRuntimeEnabled",
+        "httpRuntimeEnabled",
+        "taskRuntimeExecutionEnabled",
+        "taskExecutionEnabled",
+        "mcpRuntimeExecutionEnabled",
+        "mcpExecutionEnabled",
+        "mcpToolExposureEnabled",
+        "fabricRuntimeSurfaceEnabled",
+        "contentFabricRuntimeBehaviorEnabled",
+        "adapterRuntimeBehaviorEnabled",
+        "secureDropImplemented",
+        "secureDropCryptoImplemented",
+        "secureDropTransportImplemented",
+        "secureDropStegoImplemented",
+        "secureDropSendReceiveImplemented",
+        "secureDropInboxPollingEnabled",
+        "fileSelectionEnabled",
+        "filesystemWatcherEnabled",
+        "filesystemScanningEnabled",
+        "secretVaultEnvAccessEnabled",
+        "st3ggVendored",
+        "processControlEnabled",
+        "liveStdinLoopEnabled",
+        "runtimeStdoutWriterEnabled",
+        "runtimeStderrWriterEnabled",
+        "transcriptRuntimeWritePerformed",
+        "auditRuntimeWritePerformed",
+        "databaseStorageRuntimeWritesEnabled",
+        "runtimeDatabaseWriteEnabled",
+        "storageRuntimeWriteEnabled",
+        "secretsRuntimeIngestionEnabled",
+        "externalServicesEnabled",
+        "networkServerEnabled",
+        "serviceDiscoveryEnabled",
+        "liveServiceRegistryConnectionEnabled",
+        "scheduleEnforcementEnabled",
+        "backgroundPollingEnabled",
+        "externalLookupsEnabled"
+      ].map((field) => [
+        field,
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan[field]
+      ])
+    ),
+    validationCommands: [
+      "node --test tests/phase5-54-consumer-owned-display-conformance-runner-test-plan.test.mjs",
+      "node --test tests/phase5-53-consumer-owned-display-conformance-runner-requirements.test.mjs",
+      "node --test tests/phase5-52-consumer-display-fixture-conformance-handoff.test.mjs",
+      "node --test tests/phase5-51-consumer-display-fixture-example-pack.test.mjs",
+      "node --test tests/phase5-50-consumer-display-fixture-schema-boundary.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      consumerOwnedDisplayConformanceRunnerTestPlanRecorded: true,
+      consumerOwnedDisplayConformanceRunnerTestPlanReviewOnly: true,
+      consumerOwnedDisplayConformanceRunnerTestPlanAuthoritative: false,
+      consumerOwnedDisplayConformanceRunnerTestPlanProduced: true,
+      testPlanEntriesRecorded: true,
+      locusTestPlanEntriesCovered: true,
+      multiverseTestPlanEntriesCovered: true,
+      referencesPhase550SchemaBoundary: true,
+      referencesPhase551ExamplePack: true,
+      referencesPhase552ConformanceHandoff: true,
+      referencesPhase553RunnerRequirements: true,
+      locusAndMultiverseConsumerTargetsOnly: true,
+      allBlockedAuthorizationFlagsFalse: true,
+      allUnsafeRunnerImportExportTestHarnessRuntimeFlagsFalse: true,
+      allRuntimeEffectsFalse: true,
+      allEntriesNonAuthorizing: true,
+      invalidTestPlanCasesFailClosed: true,
+      unsafeRunnerImportExportTestHarnessRuntimeFlagsFailClosed: true,
+      hiddenRunnerImportExportTestHarnessRuntimeSemanticsFailClosed: true,
+      runnerImplementedByArdyn: false,
+      testHarnessImplementedByArdyn: false,
+      consumerOwnedRunnerImplemented: false,
+      consumerConformanceRunnerImplemented: false,
+      fixtureImportExportCommandsImplemented: false,
+      importExportCommandImplemented: false,
+      packageExportImplemented: false,
+      consumerSideCiImplemented: false,
+      fixtureDiscoveryRuntimeImplemented: false,
+      consumerRepoModifiedByArdyn: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      uiFrontendBrowserCodeImplemented: false,
+      renderingCodeImplemented: false,
+      browserRenderingHarnessImplemented: false,
+      browserWcagAutomationImplemented: false,
+      visualRegressionHarnessImplemented: false,
+      screenReaderAutomationImplemented: false,
+      consumerUiImplemented: false,
+      browserRuntimeEnabled: false,
+      interactiveControlEnabled: false,
+      hiddenActionSemanticsEnabled: false,
+      runtimeBlocked: true,
+      commandRuntimeControlEnabled: false,
+      commandExposurePermissionGranted: false,
+      runtimePermissionGranted: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      connectorGrantProduced: false,
+      fabricRuntimeSurfaceEnabled: false,
+      webSocketRuntimeEnabled: false,
+      httpRuntimeEnabled: false,
+      taskRuntimeExecutionEnabled: false,
+      taskExecutionEnabled: false,
+      mcpRuntimeExecutionEnabled: false,
+      mcpExecutionEnabled: false,
+      mcpToolExposureEnabled: false,
+      secureDropImplemented: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      backgroundPollingEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      externalLookupsEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFabricSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -21644,6 +22124,7 @@ const report = {
     phase551ConsumerDisplayFixtureExamplePack: true,
     phase552ConsumerDisplayFixtureConformanceHandoff: true,
     phase553ConsumerOwnedDisplayConformanceRunnerRequirements: true,
+    phase554ConsumerOwnedDisplayConformanceRunnerTestPlan: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -24502,6 +24983,105 @@ const report = {
       phase553CliSourceChanged: false,
       phase553RustSourceChanged: false,
       phase553FabricSourceChanged: false,
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlanRecorded: true,
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlanReviewOnly: true,
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlanProduced: true,
+      phase554TestPlanEntriesRecorded: true,
+      phase554LocusTestPlanEntriesCovered: true,
+      phase554MultiverseTestPlanEntriesCovered: true,
+      phase554ReferencesPhase550SchemaBoundary: true,
+      phase554ReferencesPhase551ExamplePack: true,
+      phase554ReferencesPhase552ConformanceHandoff: true,
+      phase554ReferencesPhase553RunnerRequirements: true,
+      phase554LocusAndMultiverseConsumerTargetsOnly: true,
+      phase554AllBlockedAuthorizationFlagsFalse: true,
+      phase554AllUnsafeRunnerImportExportTestHarnessRuntimeFlagsFalse: true,
+      phase554AllRuntimeEffectsFalse: true,
+      phase554AllEntriesNonAuthorizing: true,
+      phase554InvalidTestPlanCasesFailClosed: true,
+      phase554UnsafeRunnerImportExportTestHarnessRuntimeFlagsFailClosed: true,
+      phase554HiddenRunnerImportExportTestHarnessRuntimeSemanticsFailClosed: true,
+      phase554ServeRuntimeStillDefaultBlocked: true,
+      phase554FallowRuntimeUsed: false,
+      phase554ConsumerOwnedDisplayConformanceRunnerTestPlanAuthoritative: false,
+      phase554UiFrontendBrowserCodeImplemented: false,
+      phase554UiFrontendBrowserRenderingImplemented: false,
+      phase554ConsumerUiImplemented: false,
+      phase554DisplaySurfaceImplemented: false,
+      phase554RenderingCodeImplemented: false,
+      phase554BrowserRenderingHarnessImplemented: false,
+      phase554BrowserWcagAutomationImplemented: false,
+      phase554VisualRegressionHarnessImplemented: false,
+      phase554ScreenReaderAutomationImplemented: false,
+      phase554BrowserRuntimeEnabled: false,
+      phase554InteractiveControlEnabled: false,
+      phase554HiddenActionSemanticsEnabled: false,
+      phase554AutoExecutionEnabled: false,
+      phase554RunnerImplementedByArdyn: false,
+      phase554TestHarnessImplementedByArdyn: false,
+      phase554ConsumerOwnedRunnerImplemented: false,
+      phase554ConsumerConformanceRunnerImplemented: false,
+      phase554FixtureImportCommandImplemented: false,
+      phase554FixtureExportCommandImplemented: false,
+      phase554FixtureImportExportCommandsImplemented: false,
+      phase554ImportExportCommandImplemented: false,
+      phase554PackageExportImplemented: false,
+      phase554ConsumerSideCiImplemented: false,
+      phase554FixtureDiscoveryRuntimeImplemented: false,
+      phase554ConsumerRepoModifiedByArdyn: false,
+      phase554CommandRuntimeControlEnabled: false,
+      phase554RuntimePermissionGranted: false,
+      phase554CommandExposurePermissionGranted: false,
+      phase554RuntimeCommandExposureEnabled: false,
+      phase554RuntimeExecutionEnabled: false,
+      phase554ReviewerRoutingPerformed: false,
+      phase554ReviewerAssignmentPerformed: false,
+      phase554EvaluatorExecutionPerformed: false,
+      phase554EvaluatorResultProduced: false,
+      phase554ApprovalDecisionProduced: false,
+      phase554ApprovalGrantProduced: false,
+      phase554ApprovalGrantPersisted: false,
+      phase554ConnectorGrantProduced: false,
+      phase554ConnectorIngestionAdded: false,
+      phase554LiveRegistryConnectionEnabled: false,
+      phase554WebSocketRuntimeEnabled: false,
+      phase554HttpRuntimeEnabled: false,
+      phase554TaskRuntimeExecutionEnabled: false,
+      phase554TaskExecutionEnabled: false,
+      phase554McpRuntimeExecutionEnabled: false,
+      phase554McpExecutionEnabled: false,
+      phase554McpToolExposureEnabled: false,
+      phase554FabricRuntimeSurfaceEnabled: false,
+      phase554ContentFabricRuntimeBehaviorEnabled: false,
+      phase554AdapterRuntimeBehaviorEnabled: false,
+      phase554SecureDropImplemented: false,
+      phase554SecureDropCryptoImplemented: false,
+      phase554SecureDropTransportImplemented: false,
+      phase554SecureDropStegoImplemented: false,
+      phase554SecureDropSendReceiveImplemented: false,
+      phase554SecureDropInboxPollingEnabled: false,
+      phase554FileSelectionEnabled: false,
+      phase554FilesystemWatcherEnabled: false,
+      phase554FilesystemScanningEnabled: false,
+      phase554SecretVaultEnvAccessEnabled: false,
+      phase554St3ggVendored: false,
+      phase554ProcessControlEnabled: false,
+      phase554LiveStdinLoopEnabled: false,
+      phase554RuntimeStdoutWriterEnabled: false,
+      phase554RuntimeStderrWriterEnabled: false,
+      phase554RuntimeTranscriptWritePerformed: false,
+      phase554RuntimeAuditWritePerformed: false,
+      phase554DatabaseStorageRuntimeWritesEnabled: false,
+      phase554SecretsRuntimeIngestionEnabled: false,
+      phase554ServiceDiscoveryEnabled: false,
+      phase554LiveServiceRegistryConnectionEnabled: false,
+      phase554ScheduleEnforcementEnabled: false,
+      phase554BackgroundPollingEnabled: false,
+      phase554ExternalLookupsEnabled: false,
+      phase554DryRunBypassesBlock: false,
+      phase554CliSourceChanged: false,
+      phase554RustSourceChanged: false,
+      phase554FabricSourceChanged: false,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,

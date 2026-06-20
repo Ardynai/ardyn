@@ -293,6 +293,12 @@ export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_REQUIREMENTS_VERSION:
   "0.1.0";
 export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_REQUIREMENTS_KIND:
   "consumer-owned-display-conformance-runner-requirements";
+export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_SCHEMA:
+  "ardyn.phase-5.54.consumer-owned-display-conformance-runner-test-plan-result";
+export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_VERSION:
+  "0.1.0";
+export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_KIND:
+  "consumer-owned-display-conformance-runner-test-plan";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -6521,6 +6527,203 @@ export interface ConsumerOwnedDisplayConformanceRunnerRequirementsResult {
   [key: string]: unknown;
 }
 
+export type ConsumerOwnedDisplayConformanceRunnerTestPlanClassification =
+  | "valid_consumer_owned_display_conformance_runner_test_plan_runtime_still_blocked"
+  | "malformed_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "missing_required_consumer_owned_display_conformance_runner_test_plan_entry_rejected"
+  | "unknown_consumer_name_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "unknown_test_plan_intent_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "interactive_actionable_intent_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "authorization_flags_enabled_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "unsafe_runner_import_export_test_harness_runtime_flags_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "hidden_runner_import_export_test_harness_runtime_semantics_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "secure_drop_implementation_semantics_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "websocket_http_fabric_mcp_task_execution_semantics_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "unknown_reference_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "nested_unsafe_flags_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "noncanonical_consumer_owned_display_conformance_runner_test_plan_input_rejected"
+  | "runner_test_harness_import_export_implementation_semantics_consumer_owned_display_conformance_runner_test_plan_input_rejected";
+
+export interface ConsumerOwnedDisplayConformanceRunnerTestPlanUnsafeFlags {
+  runnerEnabled: false;
+  runnerImplementedByArdyn: false;
+  runnerExecutesFixtures: false;
+  testHarnessEnabled: false;
+  testHarnessImplementedByArdyn: false;
+  testHarnessExecutionEnabled: false;
+  executableTestHarnessImplemented: false;
+  consumerTestRunnerImplemented: false;
+  testPlanExecutionEnabled: false;
+  fixtureImportEnabled: false;
+  fixtureExportEnabled: false;
+  importExportCommandImplemented: false;
+  packageExportImplemented: false;
+  consumerSideCiImplemented: false;
+  fixtureDiscoveryRuntimeImplemented: false;
+  liveRegistryAccessEnabled: false;
+  externalLookupEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  browserWcagAutomationImplemented: false;
+  visualRegressionHarnessImplemented: false;
+  screenReaderAutomationImplemented: false;
+  hiddenRunnerSemanticsEnabled: false;
+  hiddenTestHarnessSemanticsEnabled: false;
+  hiddenImportSemanticsEnabled: false;
+  hiddenExportSemanticsEnabled: false;
+  hiddenRuntimeSemanticsEnabled: false;
+}
+
+export interface ConsumerOwnedDisplayConformanceRunnerTestPlanEntry {
+  testPlanId: string;
+  consumerName: "Locus" | "Multiverse";
+  displaySurfaceId: string;
+  sourceArdynArtifactType: string;
+  testPlanIntent: "metadata_only";
+  referencedPhase550SchemaBoundaryId: string;
+  referencedPhase551FixtureId: string;
+  referencedPhase551FixtureGroup: string;
+  referencedPhase552HandoffId: string;
+  referencedPhase553RunnerRequirementId: string;
+  futureConsumerOwnedTestResponsibility: string;
+  expectedAssertions: string[];
+  allowedFutureTestBehavior: string;
+  forbiddenCurrentArdynBehavior: string[];
+  accessibilityWcagAssertionNotes:
+    ConsumerDisplayFixtureAccessibilityFields &
+      Record<string, boolean | string>;
+  fixtureDeterminismExpectations: {
+    deterministicFixtureIdsRequired: true;
+    deterministicOrderingRequired: true;
+    deterministicStatusVocabularyRequired: true;
+    deterministicTestPlanIdsRequired: true;
+    deterministicExpectedAssertionsRequired: true;
+    noClockNetworkRandomnessAllowed: true;
+    consumerOwnedTestOutputMustBeReviewOnly: true;
+  };
+  requiredFutureContractBeforeExecutableRunner: string;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeRunnerImportExportTestHarnessRuntimeFlags:
+    ConsumerOwnedDisplayConformanceRunnerTestPlanUnsafeFlags;
+  consumerTargetOnly: true;
+  runnerImplementedByArdyn: false;
+  testHarnessImplementedByArdyn: false;
+  importExportCommandImplemented: false;
+  browserRenderingHarnessImplemented: false;
+  packageExportImplemented: false;
+  consumerSideCiImplemented: false;
+  fixtureDiscoveryRuntimeImplemented: false;
+  consumerRepoModifiedByArdyn: false;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ConsumerOwnedDisplayConformanceRunnerTestPlanState {
+  schema: "ardyn.phase-5.54.consumer-owned-display-conformance-runner-test-plan-state";
+  schemaVersion: "0.1.0";
+  stateKind: "consumer-owned-display-conformance-runner-test-plan-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  testPlanEntries: ConsumerOwnedDisplayConformanceRunnerTestPlanEntry[];
+  testPlanSummary: Record<string, boolean | number | string | string[]>;
+  phase550SchemaBoundaryReference: Record<string, boolean | string>;
+  phase551ExamplePackReference: Record<string, boolean | string>;
+  phase552ConformanceHandoffReference: Record<string, boolean | string>;
+  phase553RunnerRequirementsReference: Record<string, boolean | string>;
+  invalidTestPlanCasePolicy: Record<string, boolean>;
+  topDisplayConformanceRunnerTestPlanGaps: string[];
+  recommendedNextPhase: string;
+  consumerOwnedDisplayConformanceRunnerTestPlanOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  renderingCodeImplemented: false;
+  browserRenderingHarnessImplemented: false;
+  runnerImplementedByArdyn: false;
+  testHarnessImplementedByArdyn: false;
+  consumerOwnedRunnerImplemented: false;
+  consumerConformanceRunnerImplemented: false;
+  fixtureImportCommandImplemented: false;
+  fixtureExportCommandImplemented: false;
+  fixtureImportExportCommandsImplemented: false;
+  importExportCommandImplemented: false;
+  packageExportImplemented: false;
+  consumerSideCiImplemented: false;
+  fixtureDiscoveryRuntimeImplemented: false;
+  consumerRepoModifiedByArdyn: false;
+  browserWcagAutomationImplemented: false;
+  visualRegressionHarnessImplemented: false;
+  screenReaderAutomationImplemented: false;
+  externalLookupsEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface ConsumerOwnedDisplayConformanceRunnerTestPlanResult {
+  schema: "ardyn.phase-5.54.consumer-owned-display-conformance-runner-test-plan-result";
+  schemaVersion: "0.1.0";
+  consumerOwnedDisplayConformanceRunnerTestPlanKind:
+    "consumer-owned-display-conformance-runner-test-plan";
+  consumerOwnedDisplayConformanceRunnerTestPlanMode: "review-only";
+  reviewedAt: string;
+  classification: ConsumerOwnedDisplayConformanceRunnerTestPlanClassification;
+  consumerOwnedDisplayConformanceRunnerTestPlanProduced: boolean;
+  consumerOwnedDisplayConformanceRunnerTestPlan:
+    | ConsumerOwnedDisplayConformanceRunnerTestPlanState
+    | null;
+  testPlanSummary:
+    | ConsumerOwnedDisplayConformanceRunnerTestPlanState["testPlanSummary"]
+    | null;
+  phase550SchemaBoundaryReference:
+    | ConsumerOwnedDisplayConformanceRunnerTestPlanState["phase550SchemaBoundaryReference"]
+    | null;
+  phase551ExamplePackReference:
+    | ConsumerOwnedDisplayConformanceRunnerTestPlanState["phase551ExamplePackReference"]
+    | null;
+  phase552ConformanceHandoffReference:
+    | ConsumerOwnedDisplayConformanceRunnerTestPlanState["phase552ConformanceHandoffReference"]
+    | null;
+  phase553RunnerRequirementsReference:
+    | ConsumerOwnedDisplayConformanceRunnerTestPlanState["phase553RunnerRequirementsReference"]
+    | null;
+  testPlanEntries: ConsumerOwnedDisplayConformanceRunnerTestPlanEntry[];
+  invalidTestPlanCasePolicy: Record<string, boolean>;
+  topDisplayConformanceRunnerTestPlanGaps: string[];
+  recommendedNextPhase: string | null;
+  consumerOwnedDisplayConformanceRunnerTestPlanOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  renderingCodeImplemented: false;
+  browserRenderingHarnessImplemented: false;
+  runnerImplementedByArdyn: false;
+  testHarnessImplementedByArdyn: false;
+  consumerOwnedRunnerImplemented: false;
+  consumerConformanceRunnerImplemented: false;
+  fixtureImportCommandImplemented: false;
+  fixtureExportCommandImplemented: false;
+  fixtureImportExportCommandsImplemented: false;
+  importExportCommandImplemented: false;
+  packageExportImplemented: false;
+  consumerSideCiImplemented: false;
+  fixtureDiscoveryRuntimeImplemented: false;
+  consumerRepoModifiedByArdyn: false;
+  browserWcagAutomationImplemented: false;
+  visualRegressionHarnessImplemented: false;
+  screenReaderAutomationImplemented: false;
+  externalLookupsEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -6883,6 +7086,10 @@ export function createConsumerOwnedDisplayConformanceRunnerRequirementsForReview
   reviewedAt?: string;
   requirementEntries?: unknown[];
 }): ConsumerOwnedDisplayConformanceRunnerRequirementsResult;
+export function createConsumerOwnedDisplayConformanceRunnerTestPlanForReview(input?: {
+  reviewedAt?: string;
+  testPlanEntries?: unknown[];
+}): ConsumerOwnedDisplayConformanceRunnerTestPlanResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
