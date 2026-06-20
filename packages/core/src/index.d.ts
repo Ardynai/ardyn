@@ -282,6 +282,11 @@ export const CONSUMER_DISPLAY_FIXTURE_EXAMPLE_PACK_SCHEMA:
 export const CONSUMER_DISPLAY_FIXTURE_EXAMPLE_PACK_VERSION: "0.1.0";
 export const CONSUMER_DISPLAY_FIXTURE_EXAMPLE_PACK_KIND:
   "consumer-display-fixture-example-pack";
+export const CONSUMER_DISPLAY_FIXTURE_CONFORMANCE_HANDOFF_SCHEMA:
+  "ardyn.phase-5.52.consumer-display-fixture-conformance-handoff-result";
+export const CONSUMER_DISPLAY_FIXTURE_CONFORMANCE_HANDOFF_VERSION: "0.1.0";
+export const CONSUMER_DISPLAY_FIXTURE_CONFORMANCE_HANDOFF_KIND:
+  "consumer-display-fixture-conformance-handoff";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -6206,6 +6211,137 @@ export interface ConsumerDisplayFixtureExamplePackResult {
   [key: string]: unknown;
 }
 
+export type ConsumerDisplayFixtureConformanceHandoffClassification =
+  | "valid_consumer_display_fixture_conformance_handoff_runtime_still_blocked"
+  | "malformed_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "missing_required_consumer_display_fixture_conformance_handoff_entry_rejected"
+  | "unknown_consumer_name_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "unknown_display_intent_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "interactive_actionable_intent_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "authorization_flags_enabled_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "unsafe_import_execution_flags_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "hidden_import_execution_runtime_semantics_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "secure_drop_implementation_semantics_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "websocket_http_fabric_mcp_task_execution_semantics_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "unknown_reference_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "nested_unsafe_flags_consumer_display_fixture_conformance_handoff_input_rejected"
+  | "consumer_runner_import_export_implementation_semantics_consumer_display_fixture_conformance_handoff_input_rejected";
+
+export interface ConsumerDisplayFixtureConformanceHandoffUnsafeImportExecutionFlags {
+  fixtureImportEnabled: false;
+  fixtureExportEnabled: false;
+  fixtureImportCommandImplemented: false;
+  fixtureExportCommandImplemented: false;
+  importToolImplemented: false;
+  exportToolImplemented: false;
+  consumerConformanceRunnerImplemented: false;
+  consumerConformanceRunnerEnabled: false;
+  consumerRunnerExecutionEnabled: false;
+  browserRenderingHarnessImplemented: false;
+  hiddenImportSemanticsEnabled: false;
+  hiddenExecutionSemanticsEnabled: false;
+  hiddenRuntimeImportSemanticsEnabled: false;
+  externalLookupEnabled: false;
+}
+
+export interface ConsumerDisplayFixtureConformanceHandoffEntry {
+  handoffId: string;
+  consumerName: "Locus" | "Multiverse";
+  displaySurfaceId: string;
+  sourceArdynArtifactType: string;
+  handoffIntent: "metadata_only";
+  referencedPhase550SchemaBoundaryId: string;
+  referencedPhase551FixtureId: string;
+  referencedFixtureGroup: string;
+  expectedConsumerSideValidationResponsibility: string;
+  allowedConsumerBehavior: string;
+  forbiddenConsumerBehavior: string[];
+  accessibilityConformanceExpectations: ConsumerDisplayFixtureAccessibilityFields;
+  requiredFutureContractBeforeInteractivity: string;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeImportExecutionFlags: ConsumerDisplayFixtureConformanceHandoffUnsafeImportExecutionFlags;
+  consumerTargetOnly: true;
+  consumerOwnedRunnerImplemented: false;
+  fixtureImportCommandImplemented: false;
+  fixtureExportCommandImplemented: false;
+  browserRenderingHarnessImplemented: false;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+}
+
+export interface ConsumerDisplayFixtureConformanceHandoffState {
+  schema: "ardyn.phase-5.52.consumer-display-fixture-conformance-handoff-state";
+  schemaVersion: "0.1.0";
+  stateKind: "consumer-display-fixture-conformance-handoff-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  handoffEntries: ConsumerDisplayFixtureConformanceHandoffEntry[];
+  handoffSummary: Record<string, boolean | number | string | string[]>;
+  phase550SchemaBoundaryReference: Record<string, boolean | string>;
+  phase551ExamplePackReference: Record<string, boolean | string>;
+  invalidHandoffCasePolicy: Record<string, boolean>;
+  topDisplayConformanceGaps: string[];
+  recommendedNextPhase: string;
+  consumerDisplayFixtureConformanceHandoffOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  renderingCodeImplemented: false;
+  browserRenderingHarnessImplemented: false;
+  fixtureImportCommandImplemented: false;
+  fixtureExportCommandImplemented: false;
+  fixtureImportExportCommandsImplemented: false;
+  consumerOwnedRunnerImplemented: false;
+  consumerConformanceRunnerImplemented: false;
+  externalLookupsEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface ConsumerDisplayFixtureConformanceHandoffResult {
+  schema: "ardyn.phase-5.52.consumer-display-fixture-conformance-handoff-result";
+  schemaVersion: "0.1.0";
+  consumerDisplayFixtureConformanceHandoffKind: "consumer-display-fixture-conformance-handoff";
+  consumerDisplayFixtureConformanceHandoffMode: "review-only";
+  reviewedAt: string;
+  classification: ConsumerDisplayFixtureConformanceHandoffClassification;
+  consumerDisplayFixtureConformanceHandoffProduced: boolean;
+  consumerDisplayFixtureConformanceHandoff:
+    | ConsumerDisplayFixtureConformanceHandoffState
+    | null;
+  handoffSummary:
+    | ConsumerDisplayFixtureConformanceHandoffState["handoffSummary"]
+    | null;
+  phase550SchemaBoundaryReference:
+    | ConsumerDisplayFixtureConformanceHandoffState["phase550SchemaBoundaryReference"]
+    | null;
+  phase551ExamplePackReference:
+    | ConsumerDisplayFixtureConformanceHandoffState["phase551ExamplePackReference"]
+    | null;
+  handoffEntries: ConsumerDisplayFixtureConformanceHandoffEntry[];
+  invalidHandoffCasePolicy: Record<string, boolean>;
+  topDisplayConformanceGaps: string[];
+  recommendedNextPhase: string | null;
+  consumerDisplayFixtureConformanceHandoffOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  renderingCodeImplemented: false;
+  browserRenderingHarnessImplemented: false;
+  fixtureImportCommandImplemented: false;
+  fixtureExportCommandImplemented: false;
+  fixtureImportExportCommandsImplemented: false;
+  consumerOwnedRunnerImplemented: false;
+  consumerConformanceRunnerImplemented: false;
+  externalLookupsEnabled: false;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -6560,6 +6696,10 @@ export function createConsumerDisplayFixtureExamplePackForReview(input?: {
   reviewedAt?: string;
   fixtureExamples?: unknown[];
 }): ConsumerDisplayFixtureExamplePackResult;
+export function createConsumerDisplayFixtureConformanceHandoffForReview(input?: {
+  reviewedAt?: string;
+  handoffEntries?: unknown[];
+}): ConsumerDisplayFixtureConformanceHandoffResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
