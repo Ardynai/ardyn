@@ -4012,6 +4012,95 @@ const phase548SafetyFlagNames = [
   ...phase548ExpectedTrueSafetyFlagNames,
   ...phase548ExpectedFalseSafetyFlagNames
 ];
+const phase549DocFiles = [
+  "docs/phase-5-49-consumer-display-accessibility-contract-map.md",
+  "docs/phase-5-48-production-readiness-coverage-matrix.md"
+];
+const phase549CrossLinks = [
+  "docs/phase-5-48-production-readiness-coverage-matrix.md",
+  "docs/phase-5-49-consumer-display-accessibility-contract-map.md"
+];
+const phase549ExpectedTrueSafetyFlagNames = [
+  "phase549ConsumerDisplayAccessibilityContractMapRecorded",
+  "phase549ConsumerDisplayAccessibilityContractMapReviewOnly",
+  "phase549ConsumerDisplayAccessibilityContractMapProduced",
+  "phase549LocusDisplaySurfacesCovered",
+  "phase549MultiverseDisplaySurfacesCovered",
+  "phase549AccessibilityRequirementFieldsCovered",
+  "phase549ColorIndependentStatusIndicatorRequiredForAllEntries",
+  "phase549ReducedMotionDefaultStaticRequiredForAllEntries",
+  "phase549NoAutoExecutionNoHiddenActionSemanticsForAllEntries",
+  "phase549LocusSecureDropPlaceholdersMetadataOnly",
+  "phase549MultiverseRegistryWebsocketMcpTaskBlockedIndicatorsCovered",
+  "phase549ServeRuntimeStillDefaultBlocked"
+];
+const phase549ExpectedFalseSafetyFlagNames = [
+  "phase549FallowRuntimeUsed",
+  "phase549ConsumerDisplayAccessibilityContractMapAuthoritative",
+  "phase549UiFrontendBrowserCodeImplemented",
+  "phase549ConsumerUiImplemented",
+  "phase549DisplaySurfaceImplemented",
+  "phase549BrowserRuntimeEnabled",
+  "phase549InteractiveControlEnabled",
+  "phase549HiddenActionSemanticsEnabled",
+  "phase549AutoExecutionEnabled",
+  "phase549CommandRuntimeControlEnabled",
+  "phase549RuntimePermissionGranted",
+  "phase549CommandExposurePermissionGranted",
+  "phase549RuntimeCommandExposureEnabled",
+  "phase549RuntimeExecutionEnabled",
+  "phase549ReviewerRoutingPerformed",
+  "phase549ReviewerAssignmentPerformed",
+  "phase549EvaluatorExecutionPerformed",
+  "phase549EvaluatorResultProduced",
+  "phase549ApprovalDecisionProduced",
+  "phase549ApprovalGrantProduced",
+  "phase549ApprovalGrantPersisted",
+  "phase549ConnectorGrantProduced",
+  "phase549ConnectorIngestionAdded",
+  "phase549LiveRegistryConnectionEnabled",
+  "phase549WebSocketRuntimeEnabled",
+  "phase549HttpRuntimeEnabled",
+  "phase549TaskRuntimeExecutionEnabled",
+  "phase549TaskExecutionEnabled",
+  "phase549McpRuntimeExecutionEnabled",
+  "phase549McpExecutionEnabled",
+  "phase549McpToolExposureEnabled",
+  "phase549FabricRuntimeSurfaceEnabled",
+  "phase549ContentFabricRuntimeBehaviorEnabled",
+  "phase549AdapterRuntimeBehaviorEnabled",
+  "phase549SecureDropImplemented",
+  "phase549SecureDropCryptoImplemented",
+  "phase549SecureDropTransportImplemented",
+  "phase549SecureDropStegoImplemented",
+  "phase549SecureDropSendReceiveImplemented",
+  "phase549SecureDropInboxPollingEnabled",
+  "phase549FileSelectionEnabled",
+  "phase549FilesystemWatcherEnabled",
+  "phase549FilesystemScanningEnabled",
+  "phase549SecretVaultEnvAccessEnabled",
+  "phase549St3ggVendored",
+  "phase549ProcessControlEnabled",
+  "phase549LiveStdinLoopEnabled",
+  "phase549RuntimeStdoutWriterEnabled",
+  "phase549RuntimeStderrWriterEnabled",
+  "phase549RuntimeTranscriptWritePerformed",
+  "phase549RuntimeAuditWritePerformed",
+  "phase549DatabaseStorageRuntimeWritesEnabled",
+  "phase549SecretsRuntimeIngestionEnabled",
+  "phase549ServiceDiscoveryEnabled",
+  "phase549LiveServiceRegistryConnectionEnabled",
+  "phase549ScheduleEnforcementEnabled",
+  "phase549BackgroundPollingEnabled",
+  "phase549DryRunBypassesBlock",
+  "phase549CliSourceChanged",
+  "phase549RustSourceChanged",
+  "phase549FabricSourceChanged"
+];
+const phase549SafetyFlagNames = [
+  ...phase549ExpectedTrueSafetyFlagNames,
+  ...phase549ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -4146,15 +4235,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.48 production-readiness coverage matrix and does not claim to run checks", async () => {
+test("phase status report is Phase 5.49 consumer display/accessibility contract map and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.48",
-    name: "Review-only production-readiness coverage matrix",
+    id: "5.49",
+    name: "Review-only consumer display/accessibility contract map",
     executionPosture:
-      "production-readiness-coverage-matrix runtime-disabled metadata-only no-production-infrastructure no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling"
+      "consumer-display-accessibility-contract-map runtime-disabled metadata-only no-ui-frontend-browser-code no-command-runtime-control no-interactive-control no-hidden-action-semantics no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -4217,15 +4306,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.48 production-readiness coverage matrix status report."
+    "Render this deterministic local Phase 5.49 consumer display/accessibility contract map status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.48 status report."
+    "Run focused tests for this local Phase 5.49 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.48 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.49 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-49-consumer-display-accessibility-contract-map.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.49 consumer display/accessibility contract map and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -8236,7 +8331,7 @@ test("report inventories Phase 4.1J fixture-backed Rust stdio boundary coverage 
   assert.equal(report.safetyPosture.fixtureBackedStdioBoundaries, true);
   assert.equal(report.safetyPosture.flags.phase41JRuntimeImplemented, false);
   assert.equal(report.safetyPosture.flags.phase41JRuntimeReady, false);
-  assert.equal(report.safetyPosture.flags.freshExternalReviewRan, true);
+  assert.equal(report.safetyPosture.flags.freshExternalReviewRan, false);
 });
 
 test("report inventories Phase 4.1K public Rust stdio runtime contract gates while runtime stays blocked", async () => {
@@ -8366,7 +8461,7 @@ test("report inventories Phase 4.1K public Rust stdio runtime contract gates whi
   assert.equal(report.safetyPosture.flags.phase41KRuntimeImplemented, false);
   assert.equal(report.safetyPosture.flags.phase41KRuntimeReady, false);
   assert.equal(report.safetyPosture.flags.phase41KRuntimeContractGateEnabled, false);
-  assert.equal(report.safetyPosture.flags.freshExternalReviewRan, true);
+  assert.equal(report.safetyPosture.flags.freshExternalReviewRan, false);
   assert.equal(report.safetyPosture.flags.freshDevinReviewRan, false);
 });
 
@@ -8533,7 +8628,7 @@ test("report inventories Phase 4.1L runtime implementation readiness while runti
     report.safetyPosture.flags.phase41LRuntimeImplementationReadinessCommandEnabled,
     false
   );
-  assert.equal(report.safetyPosture.flags.freshExternalReviewRan, true);
+  assert.equal(report.safetyPosture.flags.freshExternalReviewRan, false);
   assert.equal(report.safetyPosture.flags.freshDevinReviewRan, false);
 });
 
@@ -9262,7 +9357,7 @@ test("report inventories Phase 4.2D Jules disposition and Phase 5 handoff while 
   assert.equal(report.safetyPosture.flags.phase51RuntimeEnabled, false);
   assert.equal(report.safetyPosture.flags.phase51RuntimeCommandEnabled, false);
   assert.equal(report.safetyPosture.flags.phase51ApprovalCommandEnabled, false);
-  assert.equal(report.safetyPosture.flags.freshJulesReviewRan, true);
+  assert.equal(report.safetyPosture.flags.freshJulesReviewRan, false);
 });
 
 test("report inventories Phase 5.1 as approval to proceed with future implementation only", async () => {
@@ -20267,6 +20362,180 @@ test("report inventories Phase 5.48 as review-only production-readiness coverage
   assertSafetyFlags(report, phase548ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.49 as review-only consumer display/accessibility contract map", async () => {
+  const report = await runReport();
+  const inventory = report.phase549ConsumerDisplayAccessibilityContractMapInventory;
+  const entries = new Map(
+    inventory.displayContractEntries.map((entry) => [entry.displaySurfaceId, entry])
+  );
+
+  assert.equal(inventory.statusLayer.layerId, "consumer-display-accessibility-contract-map");
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    phase549DocFiles.map((path) => [path, "present"])
+  );
+  assert.deepEqual(inventory.crossLinks, phase549CrossLinks);
+  assert.equal(inventory.statusLayer.entryCount, 10);
+  assert.equal(inventory.statusLayer.locusDisplaySurfaceCount, 5);
+  assert.equal(inventory.statusLayer.multiverseDisplaySurfaceCount, 5);
+  assert.deepEqual(inventory.statusLayer.consumerNames, ["Locus", "Multiverse"]);
+  assert.deepEqual(inventory.statusLayer.displaySurfaceIds, [
+    "locus.status-control-panels",
+    "locus.review-artifact-panels",
+    "locus.capability-metadata-panels",
+    "locus.blocked-command-runtime-indicators",
+    "locus.future-secure-drop-compose-inbox-indicators",
+    "multiverse.world-project-orchestration-status-cards",
+    "multiverse.visible-ai-capability-badges",
+    "multiverse.task-capability-wrapper-status-cards",
+    "multiverse.citizen-adapter-candidate-badges",
+    "multiverse.registry-websocket-mcp-task-runtime-blocked-indicators"
+  ]);
+  assert.equal(inventory.statusLayer.accessibilityRequirementFieldsCovered, true);
+  assert.equal(
+    inventory.statusLayer.colorIndependentStatusIndicatorRequiredForAllEntries,
+    true
+  );
+  assert.equal(
+    inventory.statusLayer.reducedMotionDefaultStaticRequiredForAllEntries,
+    true
+  );
+  assert.equal(
+    inventory.statusLayer.noAutoExecutionNoHiddenActionSemanticsForAllEntries,
+    true
+  );
+  assert.equal(inventory.statusLayer.uiFrontendBrowserCodeImplemented, false);
+  assert.equal(inventory.statusLayer.consumerUiImplemented, false);
+  assert.equal(inventory.statusLayer.displaySurfaceImplemented, false);
+  assert.equal(inventory.statusLayer.browserRuntimeEnabled, false);
+  assert.equal(inventory.statusLayer.interactiveControlEnabled, false);
+  assert.equal(inventory.statusLayer.hiddenActionSemanticsEnabled, false);
+  assert.equal(inventory.statusLayer.commandRuntimeControlEnabled, false);
+  assert.equal(inventory.statusLayer.databaseStorageRuntimeWritesEnabled, false);
+  assert.equal(inventory.statusLayer.secretsRuntimeIngestionEnabled, false);
+  assert.equal(inventory.statusLayer.connectorGrantProduced, false);
+  assert.equal(inventory.statusLayer.connectorIngestionAdded, false);
+  assert.equal(inventory.statusLayer.webSocketRuntimeEnabled, false);
+  assert.equal(inventory.statusLayer.httpRuntimeEnabled, false);
+  assert.equal(inventory.statusLayer.taskRuntimeExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.mcpToolExposureEnabled, false);
+  assert.equal(inventory.statusLayer.fabricRuntimeSurfaceEnabled, false);
+  assert.equal(inventory.statusLayer.secureDropImplemented, false);
+  assert.equal(inventory.statusLayer.secureDropInboxPollingEnabled, false);
+  assert.equal(inventory.statusLayer.serviceDiscoveryEnabled, false);
+  assert.equal(inventory.statusLayer.scheduleEnforcementEnabled, false);
+  assert.equal(inventory.statusLayer.backgroundPollingEnabled, false);
+  assert.equal(inventory.statusLayer.fallowRuntimeUsed, false);
+  assert.equal(inventory.statusLayer.cliSourceChanged, false);
+  assert.equal(inventory.statusLayer.rustSourceChanged, false);
+  assert.equal(inventory.statusLayer.fabricSourceChanged, false);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-49/consumer-display-accessibility-contract-map.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/phase5-49-consumer-display-accessibility-contract-map.test.mjs",
+        "present"
+      ],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.equal(inventory.ownershipBoundary.uiFrontendBrowserCodeAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.consumerUiImplementedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.browserRuntimeAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.interactiveControlAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.commandExposurePermissionGrantedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.databaseStorageRuntimeWritesAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.secretsEnvIngestionAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.connectorGrantProducedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.secureDropImplementedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.webSocketHttpSurfaceAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.mcpToolExposureAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.serviceDiscoveryAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.scheduleEnforcementAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.backgroundPollingAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fallowRuntimeUsedByThisPhase, false);
+  assert.equal(
+    inventory.consumerDisplayAccessibilityContractMap.schema,
+    "ardyn.phase-5.49.consumer-display-accessibility-contract-map-state"
+  );
+  assert.equal(entries.get("locus.status-control-panels").consumerName, "Locus");
+  assert.equal(
+    entries.get("locus.future-secure-drop-compose-inbox-indicators").consumerName,
+    "Locus"
+  );
+  assert.equal(
+    entries.get("multiverse.registry-websocket-mcp-task-runtime-blocked-indicators")
+      .consumerName,
+    "Multiverse"
+  );
+  for (const entry of entries.values()) {
+    assert.equal(entry.nonAuthorizingProof, true);
+    assert.ok(entry.allowedDisplayBehavior.length > 0);
+    assert.ok(entry.forbiddenDisplayBehavior.length >= 6);
+    assert.ok(entry.requiredFutureContractBeforeInteractivity.length > 0);
+    assert.equal(
+      entry.accessibilityRequirementNotes.colorIndependentStatusIndicatorRequired,
+      true
+    );
+    assert.equal(
+      entry.accessibilityRequirementNotes.reducedMotionDefaultStaticDisplayRequired,
+      true
+    );
+    assert.equal(
+      entry.accessibilityRequirementNotes.noAutoExecutionNoHiddenActionSemantics,
+      true
+    );
+    assert.ok(entry.accessibilityRequirementNotes.readableLabel.length > 0);
+    assert.ok(entry.accessibilityRequirementNotes.shortDescription.length > 0);
+    assert.ok(entry.accessibilityRequirementNotes.longDescription.length > 0);
+    assert.ok(entry.accessibilityRequirementNotes.severityStatusVocabulary.length >= 4);
+    assert.ok(
+      entry.accessibilityRequirementNotes.keyboardScreenReaderDisplayNotes.length > 0
+    );
+    assertAllFalse(entry.authorizationFlags);
+  }
+  assert.ok(
+    inventory.topDisplayAccessibilityGaps.some((gap) =>
+      gap.includes("consumer-owned UI fixtures")
+    )
+  );
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.50-consumer-display-fixture-schema-boundary"
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assertAllFalse(inventory.forbiddenBehavior);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-49-consumer-display-accessibility-contract-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, [
+    "semgrep --config auto ."
+  ]);
+  assert.equal(
+    report.safetyPosture.phase549ConsumerDisplayAccessibilityContractMap,
+    true
+  );
+  assertSafetyFlags(report, phase549ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase549ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -21137,9 +21406,9 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     phase518AdapterRuntimeBehaviorEnabled: false,
     phase518ContentFabricRuntimeBehaviorEnabled: false,
     phase518WebSocketHttpSurfaceEnabled: false,
-    freshExternalReviewRan: true,
+    freshExternalReviewRan: false,
     freshDevinReviewRan: false,
-    freshJulesReviewRan: true,
+    freshJulesReviewRan: false,
     externalCiRan: false
   };
 
@@ -21175,7 +21444,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase545SafetyFlagNames,
     ...phase546SafetyFlagNames,
     ...phase547SafetyFlagNames,
-    ...phase548SafetyFlagNames
+    ...phase548SafetyFlagNames,
+    ...phase549SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -21240,6 +21510,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase547ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase548ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase548ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase549ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase549ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

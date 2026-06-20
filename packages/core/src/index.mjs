@@ -247,6 +247,11 @@ export const PRODUCTION_READINESS_COVERAGE_MATRIX_SCHEMA =
 export const PRODUCTION_READINESS_COVERAGE_MATRIX_VERSION = "0.1.0";
 export const PRODUCTION_READINESS_COVERAGE_MATRIX_KIND =
   "production-readiness-coverage-matrix";
+export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_SCHEMA =
+  "ardyn.phase-5.49.consumer-display-accessibility-contract-map-result";
+export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_VERSION = "0.1.0";
+export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_KIND =
+  "consumer-display-accessibility-contract-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -31442,6 +31447,873 @@ export function createProductionReadinessCoverageMatrixForReview(input = {}) {
     classification,
     accepted,
     productionReadinessCoverageMatrix
+  });
+}
+
+const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.49.consumer-display-accessibility-contract-map-state";
+const VALID_CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_CLASSIFICATION =
+  "valid_consumer_display_accessibility_contract_map_runtime_still_blocked";
+const MALFORMED_CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_CLASSIFICATION =
+  "malformed_consumer_display_accessibility_contract_map_input_rejected";
+
+const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_UNSAFE_FIELD_GROUPS =
+  Object.freeze([
+    Object.freeze({
+      classification:
+        "grant_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "approvalGrantProduced",
+        "approvalGrantPersisted",
+        "connectorGrantProduced",
+        "runtimeGrantProduced",
+        "displayControlGrantProduced"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "approval_decision_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "approvalDecisionProduced",
+        "approvalDecisionPersisted",
+        "displayApprovalDecisionProduced"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "evaluator_result_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "evaluatorResultProduced",
+        "displayEvaluatorResultProduced"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "evaluator_execution_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "evaluatorExecutionPerformed",
+        "evaluatorExecuted",
+        "displayEvaluatorExecutionPerformed"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "reviewer_routing_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "reviewerRoutingPerformed",
+        "reviewerRoutingEnabled",
+        "displayReviewerRoutingPerformed"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "reviewer_assignment_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "reviewerAssignmentPerformed",
+        "reviewerAssignmentEnabled",
+        "displayReviewerAssignmentPerformed"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "ui_interactivity_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "uiInteractivityAuthorized",
+        "interactiveControlEnabled",
+        "displaySurfaceImplemented",
+        "consumerUiImplemented",
+        "browserRuntimeEnabled",
+        "hiddenActionSemanticsEnabled",
+        "autoExecutionEnabled"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "runtime_permission_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "runtimePermissionGranted",
+        "runtimeAuthorized",
+        "frontendRuntimeAuthorized",
+        "browserRuntimeAuthorized"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "command_exposure_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "commandExposurePermissionGranted",
+        "commandRuntimeControlEnabled",
+        "runtimeCommandExposureEnabled",
+        "controlPanelActionEnabled"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "database_storage_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "databaseStorageRuntimeWritesEnabled",
+        "runtimeDatabaseWriteEnabled",
+        "storageRuntimeWriteEnabled",
+        "transcriptRuntimeWritePerformed",
+        "auditRuntimeWritePerformed"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "secrets_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "secretsRuntimeIngestionEnabled",
+        "secretVaultEnvAccessEnabled",
+        "secretsAuthorized"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "connector_fabric_network_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "connectorIngestionAdded",
+        "connectorAccessGranted",
+        "connectorAuthorizationGranted",
+        "fabricRuntimeSurfaceEnabled",
+        "contentFabricRuntimeBehaviorEnabled",
+        "adapterRuntimeBehaviorEnabled",
+        "webSocketRuntimeEnabled",
+        "httpRuntimeEnabled",
+        "webSocketHttpSurfaceEnabled",
+        "networkServerEnabled",
+        "liveRegistryConnectionEnabled"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "secure_drop_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "secureDropImplemented",
+        "secureDropCryptoImplemented",
+        "secureDropTransportImplemented",
+        "secureDropStegoImplemented",
+        "secureDropSendReceiveImplemented",
+        "secureDropInboxPollingEnabled",
+        "fileSelectionEnabled",
+        "filesystemScanningEnabled",
+        "st3ggVendored"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "mcp_task_service_discovery_schedule_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "mcpRuntimeExecutionEnabled",
+        "mcpExecutionEnabled",
+        "mcpToolExposureEnabled",
+        "taskRuntimeExecutionEnabled",
+        "taskExecutionEnabled",
+        "serviceDiscoveryEnabled",
+        "liveServiceRegistryConnectionEnabled",
+        "scheduleEnforcementEnabled",
+        "backgroundPollingEnabled"
+      ])
+    }),
+    Object.freeze({
+      classification:
+        "process_control_looking_consumer_display_accessibility_contract_map_input_rejected",
+      fields: Object.freeze([
+        "processControlEnabled",
+        "filesystemProcessControlEnabled",
+        "filesystemWatcherEnabled",
+        "liveStdinLoopEnabled",
+        "runtimeStdoutWriterEnabled",
+        "runtimeStderrWriterEnabled"
+      ])
+    })
+  ]);
+
+function consumerDisplayAccessibilityContractMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function consumerDisplayAccessibilityContractMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function consumerDisplayAccessibilityContractMapInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt))
+  );
+}
+
+function consumerDisplayAccessibilityContractMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some((entry) =>
+      consumerDisplayAccessibilityContractMapContainsTrue(entry)
+    );
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some((entry) =>
+      consumerDisplayAccessibilityContractMapContainsTrue(entry)
+    );
+  }
+
+  return false;
+}
+
+function consumerDisplayAccessibilityContractMapKeyTruePresent(
+  inputRecord,
+  fields
+) {
+  if (inputRecord === null || !isPlainObjectRecord(inputRecord)) {
+    return false;
+  }
+
+  return consumerDisplayAccessibilityContractMapFieldTruePresent(
+    inputRecord,
+    fields
+  );
+}
+
+function consumerDisplayAccessibilityContractMapFieldTruePresent(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((entry) =>
+      consumerDisplayAccessibilityContractMapFieldTruePresent(entry, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, entry] of Object.entries(value)) {
+    if (fields.includes(key) && entry === true) {
+      return true;
+    }
+
+    if (consumerDisplayAccessibilityContractMapFieldTruePresent(entry, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function consumerDisplayAccessibilityContractMapInputClassification(inputRecord) {
+  if (consumerDisplayAccessibilityContractMapInputMalformed(inputRecord)) {
+    return MALFORMED_CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_CLASSIFICATION;
+  }
+
+  for (const group of CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_UNSAFE_FIELD_GROUPS) {
+    if (
+      consumerDisplayAccessibilityContractMapKeyTruePresent(
+        inputRecord,
+        group.fields
+      )
+    ) {
+      return group.classification;
+    }
+  }
+
+  if (
+    consumerDisplayAccessibilityContractMapContainsTrue(
+      inputRecord.runtimeEffect
+    ) ||
+    consumerDisplayAccessibilityContractMapContainsTrue(
+      inputRecord.authorizationFlags
+    )
+  ) {
+    return "runtime_effect_true_consumer_display_accessibility_contract_map_input_rejected";
+  }
+
+  return VALID_CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_CLASSIFICATION;
+}
+
+function consumerDisplayAccessibilityAuthorizationFlags() {
+  return {
+    uiInteractivityAuthorized: false,
+    frontendRuntimeAuthorized: false,
+    browserRuntimeAuthorized: false,
+    runtimeAuthorized: false,
+    commandControlAuthorized: false,
+    databaseStorageAuthorized: false,
+    secretsAuthorized: false,
+    connectorGrantAuthorized: false,
+    fabricRuntimeAuthorized: false,
+    webSocketHttpAuthorized: false,
+    mcpTaskRuntimeAuthorized: false,
+    secureDropRuntimeAuthorized: false,
+    serviceDiscoveryScheduleAuthorized: false,
+    reviewerRoutingAuthorized: false,
+    reviewerAssignmentAuthorized: false,
+    evaluatorExecutionAuthorized: false,
+    approvalDecisionAuthorized: false,
+    approvalGrantAuthorized: false,
+    filesystemProcessControlAuthorized: false
+  };
+}
+
+function consumerDisplayAccessibilityForbiddenBehavior() {
+  return {
+    ...productionReadinessCoverageMatrixForbiddenBehavior(),
+    uiFrontendBrowserCodeImplemented: false,
+    consumerUiImplemented: false,
+    displaySurfaceImplemented: false,
+    browserRuntimeEnabled: false,
+    interactiveControlEnabled: false,
+    hiddenActionSemanticsEnabled: false,
+    autoExecutionEnabled: false,
+    colorOnlyStatusIndicatorAllowed: false,
+    motionRequiredForStatusUnderstanding: false,
+    accessibilityComplianceCertified: false,
+    locusRuntimeDependencyAdded: false,
+    multiverseRuntimeDependencyAdded: false,
+    consumerRuntimeIntegrationAdded: false
+  };
+}
+
+function consumerDisplayAccessibilityEntry({
+  consumerName,
+  displaySurfaceId,
+  sourceArdynArtifactType,
+  readableLabel,
+  shortDescription,
+  longDescription,
+  severityStatusVocabulary,
+  keyboardScreenReaderDisplayNotes,
+  allowedDisplayBehavior,
+  forbiddenDisplayBehavior,
+  requiredFutureContractBeforeInteractivity
+}) {
+  return {
+    consumerName,
+    displaySurfaceId,
+    sourceArdynArtifactType,
+    allowedDisplayBehavior,
+    forbiddenDisplayBehavior,
+    accessibilityRequirementNotes: {
+      readableLabel,
+      shortDescription,
+      longDescription,
+      severityStatusVocabulary,
+      keyboardScreenReaderDisplayNotes,
+      colorIndependentStatusIndicatorRequired: true,
+      reducedMotionDefaultStaticDisplayRequired: true,
+      noAutoExecutionNoHiddenActionSemantics: true
+    },
+    requiredFutureContractBeforeInteractivity,
+    authorizationFlags: consumerDisplayAccessibilityAuthorizationFlags(),
+    nonAuthorizingProof: true
+  };
+}
+
+function consumerDisplayAccessibilityEntries() {
+  return [
+    consumerDisplayAccessibilityEntry({
+      consumerName: "Locus",
+      displaySurfaceId: "locus.status-control-panels",
+      sourceArdynArtifactType: "phase-status-report",
+      readableLabel: "Ardyn status and control readiness",
+      shortDescription: "Shows review-only Ardyn status without controls.",
+      longDescription:
+        "Locus may display Ardyn phase status, blocked runtime state, and readiness summaries as static review metadata only.",
+      severityStatusVocabulary: [
+        "review_only",
+        "runtime_blocked",
+        "needs_future_contract",
+        "not_authorized"
+      ],
+      keyboardScreenReaderDisplayNotes:
+        "Expose status text and blocked reason as readable static content; do not attach keyboard activation to blocked controls.",
+      allowedDisplayBehavior:
+        "Render phase status, current posture, and blocked runtime state as read-only labels.",
+      forbiddenDisplayBehavior: [
+        "start runtime",
+        "enable controls",
+        "route reviewer",
+        "assign reviewer",
+        "persist approval",
+        "trigger command"
+      ],
+      requiredFutureContractBeforeInteractivity:
+        "A future Locus control-surface contract plus explicit Ardyn command/runtime authorization."
+    }),
+    consumerDisplayAccessibilityEntry({
+      consumerName: "Locus",
+      displaySurfaceId: "locus.review-artifact-panels",
+      sourceArdynArtifactType: "review-artifact metadata",
+      readableLabel: "Review artifact summary",
+      shortDescription: "Displays review artifacts as non-authorizing evidence.",
+      longDescription:
+        "Locus may show review artifact summaries, classifications, and rejection reasons without treating them as approvals or grants.",
+      severityStatusVocabulary: [
+        "accepted_for_review",
+        "rejected",
+        "malformed",
+        "non_authorizing"
+      ],
+      keyboardScreenReaderDisplayNotes:
+        "Keep artifact sections navigable by heading and label every rejection reason as text.",
+      allowedDisplayBehavior:
+        "Render artifact fields, source phase, and non-authorizing proof flags as static evidence.",
+      forbiddenDisplayBehavior: [
+        "approval decision",
+        "approval grant",
+        "evaluator execution",
+        "reviewer assignment",
+        "runtime permission",
+        "audit runtime write"
+      ],
+      requiredFutureContractBeforeInteractivity:
+        "A future human review workflow contract with separate approval-decision and grant phases."
+    }),
+    consumerDisplayAccessibilityEntry({
+      consumerName: "Locus",
+      displaySurfaceId: "locus.capability-metadata-panels",
+      sourceArdynArtifactType: "capability metadata",
+      readableLabel: "Capability metadata",
+      shortDescription: "Shows capability descriptions without invoking tools.",
+      longDescription:
+        "Locus may display Ardyn capability names, tags, scopes, and blocked authorization state without adapter calls or tool execution.",
+      severityStatusVocabulary: [
+        "available_as_metadata",
+        "blocked",
+        "approval_required",
+        "not_executable"
+      ],
+      keyboardScreenReaderDisplayNotes:
+        "Expose capability name, status, and blocked reason in the same focus region.",
+      allowedDisplayBehavior:
+        "Render capability metadata, requested scopes, and blocked execution status.",
+      forbiddenDisplayBehavior: [
+        "adapter runtime call",
+        "connector grant",
+        "MCP execution",
+        "task execution",
+        "secret ingestion",
+        "network fetch"
+      ],
+      requiredFutureContractBeforeInteractivity:
+        "A future capability invocation contract with explicit adapter, connector, MCP/task, and secret boundaries."
+    }),
+    consumerDisplayAccessibilityEntry({
+      consumerName: "Locus",
+      displaySurfaceId: "locus.blocked-command-runtime-indicators",
+      sourceArdynArtifactType: "blocked runtime command metadata",
+      readableLabel: "Runtime unavailable",
+      shortDescription: "Shows blocked command/runtime status.",
+      longDescription:
+        "Locus may display that runtime and command exposure are unavailable, including zero-stdout failure expectations.",
+      severityStatusVocabulary: [
+        "runtime_unavailable",
+        "command_blocked",
+        "dry_run_blocked",
+        "not_authorized"
+      ],
+      keyboardScreenReaderDisplayNotes:
+        "Announce unavailable status and reason without presenting the indicator as a button.",
+      allowedDisplayBehavior:
+        "Render blocked command state and static error semantics.",
+      forbiddenDisplayBehavior: [
+        "command exposure",
+        "runtime start",
+        "dry-run bypass",
+        "process spawn",
+        "stdin loop",
+        "stdout runtime writer"
+      ],
+      requiredFutureContractBeforeInteractivity:
+        "A future command-exposure approval and runtime-enable contract."
+    }),
+    consumerDisplayAccessibilityEntry({
+      consumerName: "Locus",
+      displaySurfaceId: "locus.future-secure-drop-compose-inbox-indicators",
+      sourceArdynArtifactType: "future content-fabric secure drop placeholder",
+      readableLabel: "Secure Drop placeholder",
+      shortDescription: "Shows future compose/inbox status as metadata only.",
+      longDescription:
+        "Locus may display future Secure Drop compose and inbox placeholders only as unavailable content-fabric capability references.",
+      severityStatusVocabulary: [
+        "future_placeholder",
+        "not_implemented",
+        "metadata_only",
+        "blocked"
+      ],
+      keyboardScreenReaderDisplayNotes:
+        "Label compose and inbox placeholders as unavailable; do not expose file picker or send semantics.",
+      allowedDisplayBehavior:
+        "Render unavailable compose/inbox metadata and future-contract notes.",
+      forbiddenDisplayBehavior: [
+        "Secure Drop crypto",
+        "Secure Drop transport",
+        "stego",
+        "send/receive",
+        "inbox polling",
+        "file selection",
+        "filesystem scanning"
+      ],
+      requiredFutureContractBeforeInteractivity:
+        "A future canonical content-fabric Secure Drop contract with separate crypto, transport, inbox, file, connector, and secret authorization."
+    }),
+    consumerDisplayAccessibilityEntry({
+      consumerName: "Multiverse",
+      displaySurfaceId: "multiverse.world-project-orchestration-status-cards",
+      sourceArdynArtifactType: "consumer planning and readiness metadata",
+      readableLabel: "World/project orchestration status",
+      shortDescription: "Shows orchestration readiness without orchestration.",
+      longDescription:
+        "Multiverse may display project/world readiness cards derived from Ardyn metadata without starting tasks, registry connections, or orchestration loops.",
+      severityStatusVocabulary: [
+        "planned",
+        "blocked",
+        "review_only",
+        "requires_future_phase"
+      ],
+      keyboardScreenReaderDisplayNotes:
+        "Keep card status, blocked reason, and future contract in text, independent of color.",
+      allowedDisplayBehavior:
+        "Render world/project readiness status and blocked runtime indicators.",
+      forbiddenDisplayBehavior: [
+        "orchestration loop",
+        "task execution",
+        "registry connection",
+        "background polling",
+        "schedule enforcement",
+        "process control"
+      ],
+      requiredFutureContractBeforeInteractivity:
+        "A future Multiverse orchestration contract with explicit task, registry, schedule, and process-control authorization."
+    }),
+    consumerDisplayAccessibilityEntry({
+      consumerName: "Multiverse",
+      displaySurfaceId: "multiverse.visible-ai-capability-badges",
+      sourceArdynArtifactType: "visible capability badge metadata",
+      readableLabel: "AI capability badge",
+      shortDescription: "Displays capability badge state without tool use.",
+      longDescription:
+        "Multiverse may show visible AI capability badges that distinguish metadata availability from executable capability.",
+      severityStatusVocabulary: [
+        "metadata_available",
+        "blocked",
+        "not_executable",
+        "authorization_required"
+      ],
+      keyboardScreenReaderDisplayNotes:
+        "Badge text must include the status word and not rely on color alone.",
+      allowedDisplayBehavior:
+        "Render visible badges for capability status and authorization blockers.",
+      forbiddenDisplayBehavior: [
+        "tool execution",
+        "MCP tool exposure",
+        "connector grant",
+        "adapter runtime",
+        "secret access",
+        "network request"
+      ],
+      requiredFutureContractBeforeInteractivity:
+        "A future visible capability interaction contract with tool, MCP, connector, and adapter authorization."
+    }),
+    consumerDisplayAccessibilityEntry({
+      consumerName: "Multiverse",
+      displaySurfaceId: "multiverse.task-capability-wrapper-status-cards",
+      sourceArdynArtifactType: "task/capability wrapper metadata",
+      readableLabel: "Task wrapper status",
+      shortDescription: "Shows task wrapper state without task execution.",
+      longDescription:
+        "Multiverse may render task/capability wrapper status cards that show planned, blocked, and authorization-required states only.",
+      severityStatusVocabulary: [
+        "planned_only",
+        "blocked",
+        "not_started",
+        "non_authorizing"
+      ],
+      keyboardScreenReaderDisplayNotes:
+        "Use static region labels for task status; do not hide activation behind card click handlers.",
+      allowedDisplayBehavior:
+        "Render task wrapper metadata and blocked task runtime state.",
+      forbiddenDisplayBehavior: [
+        "task runtime",
+        "MCP execution",
+        "approval grant",
+        "runtime permission",
+        "command exposure",
+        "transcript runtime write"
+      ],
+      requiredFutureContractBeforeInteractivity:
+        "A future task wrapper execution contract with separate MCP/task, approval, transcript, and audit-write authorization."
+    }),
+    consumerDisplayAccessibilityEntry({
+      consumerName: "Multiverse",
+      displaySurfaceId: "multiverse.citizen-adapter-candidate-badges",
+      sourceArdynArtifactType: "adapter candidate metadata",
+      readableLabel: "Citizen/adapter candidate",
+      shortDescription: "Shows candidate adapter status as review metadata.",
+      longDescription:
+        "Multiverse may display citizen and adapter candidate badges without connector discovery, adapter runtime behavior, or registry scanning.",
+      severityStatusVocabulary: [
+        "candidate",
+        "needs_review",
+        "blocked",
+        "not_connected"
+      ],
+      keyboardScreenReaderDisplayNotes:
+        "Expose candidate state and blocked connector reason as text adjacent to the badge.",
+      allowedDisplayBehavior:
+        "Render candidate badge metadata, source artifact type, and blocked connector status.",
+      forbiddenDisplayBehavior: [
+        "connector discovery",
+        "adapter runtime",
+        "service scanning",
+        "registry write",
+        "credential use",
+        "filesystem scanning"
+      ],
+      requiredFutureContractBeforeInteractivity:
+        "A future adapter candidate contract with connector discovery, registry, service-scan, and credential boundaries."
+    }),
+    consumerDisplayAccessibilityEntry({
+      consumerName: "Multiverse",
+      displaySurfaceId:
+        "multiverse.registry-websocket-mcp-task-runtime-blocked-indicators",
+      sourceArdynArtifactType: "registry/websocket/MCP/task blocked metadata",
+      readableLabel: "Registry and task runtime blocked",
+      shortDescription: "Shows registry, websocket, MCP, and task runtime blocks.",
+      longDescription:
+        "Multiverse may display registry, websocket, MCP, and task runtime indicators only as blocked status metadata.",
+      severityStatusVocabulary: [
+        "blocked",
+        "not_connected",
+        "runtime_unavailable",
+        "future_contract_required"
+      ],
+      keyboardScreenReaderDisplayNotes:
+        "Announce each blocked runtime category explicitly and keep the indicator static by default.",
+      allowedDisplayBehavior:
+        "Render blocked registry, websocket, MCP, and task runtime categories.",
+      forbiddenDisplayBehavior: [
+        "live registry connection",
+        "websocket runtime",
+        "HTTP runtime",
+        "MCP tool exposure",
+        "MCP execution",
+        "task execution"
+      ],
+      requiredFutureContractBeforeInteractivity:
+        "A future registry/websocket/MCP/task runtime authorization contract."
+    })
+  ];
+}
+
+function consumerDisplayAccessibilitySummary(entries) {
+  const locusDisplaySurfaceCount = entries.filter(
+    ({ consumerName }) => consumerName === "Locus"
+  ).length;
+  const multiverseDisplaySurfaceCount = entries.filter(
+    ({ consumerName }) => consumerName === "Multiverse"
+  ).length;
+
+  return {
+    contractMapKind: CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_KIND,
+    contractMapMode: "review-only",
+    entryCount: entries.length,
+    consumerNames: ["Locus", "Multiverse"],
+    locusDisplaySurfaceCount,
+    multiverseDisplaySurfaceCount,
+    accessibilityRequirementFieldsCovered: true,
+    readableLabelsPresentForAllEntries: entries.every(
+      ({ accessibilityRequirementNotes }) =>
+        accessibilityRequirementNotes.readableLabel.length > 0
+    ),
+    descriptionsPresentForAllEntries: entries.every(
+      ({ accessibilityRequirementNotes }) =>
+        accessibilityRequirementNotes.shortDescription.length > 0 &&
+        accessibilityRequirementNotes.longDescription.length > 0
+    ),
+    severityStatusVocabularyPresentForAllEntries: entries.every(
+      ({ accessibilityRequirementNotes }) =>
+        accessibilityRequirementNotes.severityStatusVocabulary.length >= 4
+    ),
+    keyboardScreenReaderNotesPresentForAllEntries: entries.every(
+      ({ accessibilityRequirementNotes }) =>
+        accessibilityRequirementNotes.keyboardScreenReaderDisplayNotes.length > 0
+    ),
+    colorIndependentStatusIndicatorRequiredForAllEntries: entries.every(
+      ({ accessibilityRequirementNotes }) =>
+        accessibilityRequirementNotes.colorIndependentStatusIndicatorRequired ===
+        true
+    ),
+    reducedMotionDefaultStaticRequiredForAllEntries: entries.every(
+      ({ accessibilityRequirementNotes }) =>
+        accessibilityRequirementNotes
+          .reducedMotionDefaultStaticDisplayRequired === true
+    ),
+    noAutoExecutionNoHiddenActionSemanticsForAllEntries: entries.every(
+      ({ accessibilityRequirementNotes }) =>
+        accessibilityRequirementNotes.noAutoExecutionNoHiddenActionSemantics ===
+        true
+    ),
+    allAuthorizationFlagsFalse: entries.every(({ authorizationFlags }) =>
+      Object.values(authorizationFlags).every((value) => value === false)
+    ),
+    allEntriesNonAuthorizing: entries.every(
+      ({ nonAuthorizingProof }) => nonAuthorizingProof === true
+    ),
+    locusSecureDropPlaceholdersMetadataOnly: true,
+    multiverseRegistryWebsocketMcpTaskBlockedIndicatorsCovered: true,
+    uiFrontendBrowserCodeImplemented: false,
+    browserRuntimeEnabled: false,
+    consumerRuntimeIntegrationAdded: false,
+    runtimeExecutionEnabled: false,
+    commandRuntimeControlEnabled: false,
+    databaseStorageRuntimeWritesEnabled: false,
+    secretsRuntimeIngestionEnabled: false,
+    connectorGrantProduced: false,
+    fabricRuntimeSurfaceEnabled: false,
+    webSocketHttpSurfaceEnabled: false,
+    mcpToolExposureEnabled: false,
+    taskExecutionEnabled: false,
+    secureDropImplemented: false,
+    serviceDiscoveryEnabled: false,
+    scheduleEnforcementEnabled: false,
+    backgroundPollingEnabled: false
+  };
+}
+
+function consumerDisplayAccessibilityGaps() {
+  return [
+    "No Ardyn-owned frontend, browser UI, WCAG test harness, or consumer display implementation exists.",
+    "Locus and Multiverse display surfaces are mapped as contracts only; consumer-owned UI fixtures and accessibility QA still need future phases.",
+    "Interactive controls, approval actions, command exposure, runtime start, task execution, registry connections, and connector grants remain unauthorized.",
+    "Future Secure Drop compose/inbox and Multiverse registry/websocket/MCP/task indicators are placeholders only."
+  ];
+}
+
+function consumerDisplayAccessibilityState(reviewedAt) {
+  const entries = consumerDisplayAccessibilityEntries();
+
+  return {
+    schema: CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_STATE_SCHEMA,
+    schemaVersion: CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_VERSION,
+    stateKind: "consumer-display-accessibility-contract-map-state",
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase548ProductionReadinessCoverageMatrixIdentifiedFrontendGap: true,
+      ardynRole: "harness-framework-contract-layer",
+      locusAndMultiverseAreConsumers: true,
+      consumerUiImplementedByArdyn: false
+    },
+    displayContractEntries: entries,
+    contractMapSummary: consumerDisplayAccessibilitySummary(entries),
+    topDisplayAccessibilityGaps: consumerDisplayAccessibilityGaps(),
+    recommendedNextPhase:
+      "phase-5.50-consumer-display-fixture-schema-boundary",
+    consumerDisplayAccessibilityContractMapOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    nonAuthorizingProof: true,
+    ...consumerDisplayAccessibilityForbiddenBehavior(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function consumerDisplayAccessibilityRejectionReasons({
+  accepted,
+  classification
+}) {
+  const reasons = [
+    "consumer_display_accessibility_contract_map_is_review_only",
+    "ardyn_does_not_implement_consumer_ui_frontend_or_browser_runtime",
+    "ui_runtime_command_db_storage_secrets_connector_fabric_websocket_http_mcp_task_secure_drop_authorizations_false",
+    "no_auto_execution_no_hidden_action_semantics",
+    "fallow_runtime_not_used",
+    "runtime_enablement_still_blocked"
+  ];
+
+  return accepted
+    ? reasons
+    : [
+        ...reasons,
+        `input_classification_${classification}`
+      ];
+}
+
+function consumerDisplayAccessibilityResult({
+  reviewedAt,
+  classification,
+  accepted,
+  consumerDisplayAccessibilityContractMap
+}) {
+  return {
+    schema: CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_SCHEMA,
+    schemaVersion: CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_VERSION,
+    consumerDisplayAccessibilityContractMapKind:
+      CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_KIND,
+    consumerDisplayAccessibilityContractMapMode: "review-only",
+    reviewedAt,
+    classification,
+    consumerDisplayAccessibilityContractMapProduced: accepted,
+    consumerDisplayAccessibilityContractMap,
+    contractMapSummary: accepted
+      ? consumerDisplayAccessibilityContractMap.contractMapSummary
+      : null,
+    displayContractEntries: accepted
+      ? consumerDisplayAccessibilityContractMap.displayContractEntries
+      : [],
+    topDisplayAccessibilityGaps: accepted
+      ? consumerDisplayAccessibilityContractMap.topDisplayAccessibilityGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? consumerDisplayAccessibilityContractMap.recommendedNextPhase
+      : null,
+    consumerDisplayAccessibilityContractMapOnly: true,
+    reviewOnly: true,
+    authoritative: false,
+    reviewArtifactOnly: true,
+    nonAuthorizingProof: true,
+    ...consumerDisplayAccessibilityForbiddenBehavior(),
+    rejectionReasons: consumerDisplayAccessibilityRejectionReasons({
+      accepted,
+      classification
+    }),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createConsumerDisplayAccessibilityContractMapForReview(
+  input = {}
+) {
+  const inputRecord =
+    consumerDisplayAccessibilityContractMapInputRecord(input);
+  const reviewedAt =
+    consumerDisplayAccessibilityContractMapReviewedAt(inputRecord);
+  const classification =
+    consumerDisplayAccessibilityContractMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_CLASSIFICATION;
+  const consumerDisplayAccessibilityContractMap = accepted
+    ? consumerDisplayAccessibilityState(reviewedAt)
+    : null;
+
+  return consumerDisplayAccessibilityResult({
+    reviewedAt,
+    classification,
+    accepted,
+    consumerDisplayAccessibilityContractMap
   });
 }
 

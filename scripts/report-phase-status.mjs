@@ -261,6 +261,9 @@ const phase547ConsumerContractGapIndex = await readJson(
 const phase548ProductionReadinessCoverageMatrix = await readJson(
   "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json"
 );
+const phase549ConsumerDisplayAccessibilityContractMap = await readJson(
+  "tests/fixtures/host-policy/phase5-49/consumer-display-accessibility-contract-map.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -308,10 +311,10 @@ const phase310CompatibilityClasses = [
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.48",
-    name: "Review-only production-readiness coverage matrix",
+    id: "5.49",
+    name: "Review-only consumer display/accessibility contract map",
     executionPosture:
-      "production-readiness-coverage-matrix runtime-disabled metadata-only no-production-infrastructure no-command-runtime-control no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling"
+      "consumer-display-accessibility-contract-map runtime-disabled metadata-only no-ui-frontend-browser-code no-command-runtime-control no-interactive-control no-hidden-action-semantics no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -392,18 +395,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.48 production-readiness coverage matrix status report.",
+        "Render this deterministic local Phase 5.49 consumer display/accessibility contract map status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.48 status report.",
+      purpose: "Run focused tests for this local Phase 5.49 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.48 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.49 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-49-consumer-display-accessibility-contract-map.test.mjs",
+      purpose:
+        "Run focused Phase 5.49 consumer display/accessibility contract map and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -19760,6 +19770,307 @@ const report = {
       noFabricSourceChange: true
     }
   },
+  phase549ConsumerDisplayAccessibilityContractMapInventory: {
+    statusLayer: {
+      document: "docs/phase-5-49-consumer-display-accessibility-contract-map.md",
+      fixture:
+        "tests/fixtures/host-policy/phase5-49/consumer-display-accessibility-contract-map.json",
+      precedingPhase: "5.48",
+      sourceMetadataPhase: "5.48",
+      layerId: "consumer-display-accessibility-contract-map",
+      scope:
+        "phase-5-consumer-display-accessibility-contract-map-ui-runtime-disabled",
+      ...phase549ConsumerDisplayAccessibilityContractMap.contractMapSummary,
+      displaySurfaceIds:
+        phase549ConsumerDisplayAccessibilityContractMap.displayContractEntries.map(
+          ({ displaySurfaceId }) => displaySurfaceId
+        ),
+      uiFrontendBrowserCodeImplemented: false,
+      consumerUiImplemented: false,
+      displaySurfaceImplemented: false,
+      browserRuntimeEnabled: false,
+      interactiveControlEnabled: false,
+      hiddenActionSemanticsEnabled: false,
+      autoExecutionEnabled: false,
+      commandRuntimeControlEnabled: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      connectorGrantProduced: false,
+      connectorIngestionAdded: false,
+      liveRegistryConnectionEnabled: false,
+      webSocketRuntimeEnabled: false,
+      httpRuntimeEnabled: false,
+      taskRuntimeExecutionEnabled: false,
+      taskExecutionEnabled: false,
+      mcpRuntimeExecutionEnabled: false,
+      mcpExecutionEnabled: false,
+      mcpToolExposureEnabled: false,
+      fabricRuntimeSurfaceEnabled: false,
+      contentFabricRuntimeBehaviorEnabled: false,
+      adapterRuntimeBehaviorEnabled: false,
+      secureDropImplemented: false,
+      secureDropCryptoImplemented: false,
+      secureDropTransportImplemented: false,
+      secureDropStegoImplemented: false,
+      secureDropSendReceiveImplemented: false,
+      secureDropInboxPollingEnabled: false,
+      fileSelectionEnabled: false,
+      filesystemWatcherEnabled: false,
+      filesystemScanningEnabled: false,
+      secretVaultEnvAccessEnabled: false,
+      serviceDiscoveryEnabled: false,
+      liveServiceRegistryConnectionEnabled: false,
+      scheduleEnforcementEnabled: false,
+      backgroundPollingEnabled: false,
+      fallowRuntimeUsed: false,
+      cliSourceChanged: false,
+      rustSourceChanged: false,
+      fabricSourceChanged: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-49-consumer-display-accessibility-contract-map.md",
+        "Records deterministic Locus and Multiverse display/accessibility contract metadata while UI, browser, runtime, command, storage, connector, Fabric, websocket/http, MCP/task, Secure Drop, service discovery, and scheduling remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-48-production-readiness-coverage-matrix.md",
+        "Provides the preceding production-readiness gap context that identified frontend/browser/WCAG readiness as a top gap."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-48-production-readiness-coverage-matrix.md",
+      "docs/phase-5-49-consumer-display-accessibility-contract-map.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-49/consumer-display-accessibility-contract-map.json",
+        "Records ten Locus and Multiverse display surface entries with accessibility notes, future-contract gates, false authorization flags, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-49-consumer-display-accessibility-contract-map.test.mjs",
+        "Pins the Phase 5.49 helper, fixture shape, display surfaces, accessibility fields, false authorization flags, blocked commands, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.49 status inventory, docs cross-links, fixture inventory, and UI/runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-49-consumer-display-accessibility-contract-map.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-49/consumer-display-accessibility-contract-map.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-49-consumer-display-accessibility-contract-map.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      uiFrontendBrowserCodeAddedByThisPhase: false,
+      consumerUiImplementedByThisPhase: false,
+      browserRuntimeAddedByThisPhase: false,
+      interactiveControlAddedByThisPhase: false,
+      hiddenActionSemanticsAddedByThisPhase: false,
+      commandExposurePermissionGrantedByThisPhase: false,
+      runtimePermissionGrantedByThisPhase: false,
+      databaseStorageRuntimeWritesAddedByThisPhase: false,
+      secretsEnvIngestionAddedByThisPhase: false,
+      connectorIngestionAddedByThisPhase: false,
+      connectorGrantProducedByThisPhase: false,
+      secureDropImplementedByThisPhase: false,
+      secureDropCryptoImplementedByThisPhase: false,
+      secureDropTransportImplementedByThisPhase: false,
+      secureDropStegoImplementedByThisPhase: false,
+      secureDropSendReceiveImplementedByThisPhase: false,
+      secureDropInboxPollingEnabledByThisPhase: false,
+      st3ggVendoredByThisPhase: false,
+      liveRegistryConnectionAddedByThisPhase: false,
+      webSocketHttpSurfaceAddedByThisPhase: false,
+      taskRuntimeAddedByThisPhase: false,
+      taskExecutionAddedByThisPhase: false,
+      mcpRuntimeAddedByThisPhase: false,
+      mcpToolExposureAddedByThisPhase: false,
+      fabricRuntimeSurfaceAddedByThisPhase: false,
+      contentFabricRuntimeBehaviorAddedByThisPhase: false,
+      serviceDiscoveryAddedByThisPhase: false,
+      scheduleEnforcementAddedByThisPhase: false,
+      backgroundPollingAddedByThisPhase: false,
+      reviewerRoutingPerformedByThisPhase: false,
+      reviewerAssignmentPerformedByThisPhase: false,
+      evaluatorExecutionPerformedByThisPhase: false,
+      evaluatorResultProducedByThisPhase: false,
+      approvalDecisionProducedByThisPhase: false,
+      approvalGrantProducedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      reportRunsChecks: false,
+      separateConsumerUiImplementationPhaseRequired: true,
+      separateAccessibilityQaPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true,
+      separateConnectorAuthorizationPhaseRequired: true,
+      separateSecureDropAuthorizationPhaseRequired: true,
+      separateFabricRuntimeAuthorizationPhaseRequired: true,
+      separateWebSocketHttpMcpTaskRuntimeAuthorizationRequired: true,
+      separateServiceDiscoveryScheduleAuthorizationRequired: true
+    },
+    contractMapSummary:
+      phase549ConsumerDisplayAccessibilityContractMap.contractMapSummary,
+    consumerDisplayAccessibilityContractMap:
+      phase549ConsumerDisplayAccessibilityContractMap
+        .consumerDisplayAccessibilityContractMap,
+    displayContractEntries:
+      phase549ConsumerDisplayAccessibilityContractMap.displayContractEntries,
+    topDisplayAccessibilityGaps:
+      phase549ConsumerDisplayAccessibilityContractMap
+        .topDisplayAccessibilityGaps,
+    recommendedNextPhase:
+      phase549ConsumerDisplayAccessibilityContractMap.recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase549ConsumerDisplayAccessibilityContractMap.runtimeEffect,
+    forbiddenBehavior: Object.fromEntries(
+      [
+        "uiFrontendBrowserCodeImplemented",
+        "consumerUiImplemented",
+        "displaySurfaceImplemented",
+        "browserRuntimeEnabled",
+        "interactiveControlEnabled",
+        "hiddenActionSemanticsEnabled",
+        "autoExecutionEnabled",
+        "commandRuntimeControlEnabled",
+        "commandExposurePermissionGranted",
+        "runtimePermissionGranted",
+        "runtimeCommandExposureEnabled",
+        "runtimeExecutionEnabled",
+        "reviewerRoutingPerformed",
+        "reviewerAssignmentPerformed",
+        "evaluatorExecutionPerformed",
+        "evaluatorResultProduced",
+        "approvalDecisionProduced",
+        "approvalGrantProduced",
+        "approvalGrantPersisted",
+        "connectorGrantProduced",
+        "connectorIngestionAdded",
+        "liveRegistryConnectionEnabled",
+        "webSocketRuntimeEnabled",
+        "httpRuntimeEnabled",
+        "taskRuntimeExecutionEnabled",
+        "taskExecutionEnabled",
+        "mcpRuntimeExecutionEnabled",
+        "mcpExecutionEnabled",
+        "mcpToolExposureEnabled",
+        "fabricRuntimeSurfaceEnabled",
+        "contentFabricRuntimeBehaviorEnabled",
+        "adapterRuntimeBehaviorEnabled",
+        "secureDropImplemented",
+        "secureDropCryptoImplemented",
+        "secureDropTransportImplemented",
+        "secureDropStegoImplemented",
+        "secureDropSendReceiveImplemented",
+        "secureDropInboxPollingEnabled",
+        "fileSelectionEnabled",
+        "filesystemWatcherEnabled",
+        "filesystemScanningEnabled",
+        "secretVaultEnvAccessEnabled",
+        "st3ggVendored",
+        "processControlEnabled",
+        "liveStdinLoopEnabled",
+        "runtimeStdoutWriterEnabled",
+        "runtimeStderrWriterEnabled",
+        "transcriptRuntimeWritePerformed",
+        "auditRuntimeWritePerformed",
+        "databaseStorageRuntimeWritesEnabled",
+        "runtimeDatabaseWriteEnabled",
+        "storageRuntimeWriteEnabled",
+        "secretsRuntimeIngestionEnabled",
+        "externalServicesEnabled",
+        "networkServerEnabled",
+        "serviceDiscoveryEnabled",
+        "liveServiceRegistryConnectionEnabled",
+        "scheduleEnforcementEnabled",
+        "backgroundPollingEnabled"
+      ].map((field) => [
+        field,
+        phase549ConsumerDisplayAccessibilityContractMap[field]
+      ])
+    ),
+    validationCommands: [
+      "node --test tests/phase5-49-consumer-display-accessibility-contract-map.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      consumerDisplayAccessibilityContractMapRecorded: true,
+      consumerDisplayAccessibilityContractMapReviewOnly: true,
+      consumerDisplayAccessibilityContractMapAuthoritative: false,
+      consumerDisplayAccessibilityContractMapProduced: true,
+      locusDisplaySurfacesCovered: true,
+      multiverseDisplaySurfacesCovered: true,
+      accessibilityRequirementFieldsCovered: true,
+      colorIndependentStatusIndicatorRequiredForAllEntries: true,
+      reducedMotionDefaultStaticRequiredForAllEntries: true,
+      noAutoExecutionNoHiddenActionSemanticsForAllEntries: true,
+      locusSecureDropPlaceholdersMetadataOnly: true,
+      multiverseRegistryWebsocketMcpTaskBlockedIndicatorsCovered: true,
+      uiFrontendBrowserCodeImplemented: false,
+      consumerUiImplemented: false,
+      browserRuntimeEnabled: false,
+      interactiveControlEnabled: false,
+      hiddenActionSemanticsEnabled: false,
+      runtimeBlocked: true,
+      commandRuntimeControlEnabled: false,
+      commandExposurePermissionGranted: false,
+      runtimePermissionGranted: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      connectorGrantProduced: false,
+      fabricRuntimeSurfaceEnabled: false,
+      webSocketRuntimeEnabled: false,
+      httpRuntimeEnabled: false,
+      taskRuntimeExecutionEnabled: false,
+      taskExecutionEnabled: false,
+      mcpRuntimeExecutionEnabled: false,
+      mcpExecutionEnabled: false,
+      mcpToolExposureEnabled: false,
+      secureDropImplemented: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      backgroundPollingEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFabricSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -19843,6 +20154,7 @@ const report = {
     phase546ConsumerContractReadinessMatrix: true,
     phase547ConsumerContractGapIndex: true,
     phase548ProductionReadinessCoverageMatrix: true,
+    phase549ConsumerDisplayAccessibilityContractMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -22282,9 +22594,82 @@ const report = {
       phase548CliSourceChanged: false,
       phase548RustSourceChanged: false,
       phase548FabricSourceChanged: false,
-      freshExternalReviewRan: true,
+      phase549ConsumerDisplayAccessibilityContractMapRecorded: true,
+      phase549ConsumerDisplayAccessibilityContractMapReviewOnly: true,
+      phase549ConsumerDisplayAccessibilityContractMapProduced: true,
+      phase549LocusDisplaySurfacesCovered: true,
+      phase549MultiverseDisplaySurfacesCovered: true,
+      phase549AccessibilityRequirementFieldsCovered: true,
+      phase549ColorIndependentStatusIndicatorRequiredForAllEntries: true,
+      phase549ReducedMotionDefaultStaticRequiredForAllEntries: true,
+      phase549NoAutoExecutionNoHiddenActionSemanticsForAllEntries: true,
+      phase549LocusSecureDropPlaceholdersMetadataOnly: true,
+      phase549MultiverseRegistryWebsocketMcpTaskBlockedIndicatorsCovered: true,
+      phase549ServeRuntimeStillDefaultBlocked: true,
+      phase549FallowRuntimeUsed: false,
+      phase549ConsumerDisplayAccessibilityContractMapAuthoritative: false,
+      phase549UiFrontendBrowserCodeImplemented: false,
+      phase549ConsumerUiImplemented: false,
+      phase549DisplaySurfaceImplemented: false,
+      phase549BrowserRuntimeEnabled: false,
+      phase549InteractiveControlEnabled: false,
+      phase549HiddenActionSemanticsEnabled: false,
+      phase549AutoExecutionEnabled: false,
+      phase549CommandRuntimeControlEnabled: false,
+      phase549RuntimePermissionGranted: false,
+      phase549CommandExposurePermissionGranted: false,
+      phase549RuntimeCommandExposureEnabled: false,
+      phase549RuntimeExecutionEnabled: false,
+      phase549ReviewerRoutingPerformed: false,
+      phase549ReviewerAssignmentPerformed: false,
+      phase549EvaluatorExecutionPerformed: false,
+      phase549EvaluatorResultProduced: false,
+      phase549ApprovalDecisionProduced: false,
+      phase549ApprovalGrantProduced: false,
+      phase549ApprovalGrantPersisted: false,
+      phase549ConnectorGrantProduced: false,
+      phase549ConnectorIngestionAdded: false,
+      phase549LiveRegistryConnectionEnabled: false,
+      phase549WebSocketRuntimeEnabled: false,
+      phase549HttpRuntimeEnabled: false,
+      phase549TaskRuntimeExecutionEnabled: false,
+      phase549TaskExecutionEnabled: false,
+      phase549McpRuntimeExecutionEnabled: false,
+      phase549McpExecutionEnabled: false,
+      phase549McpToolExposureEnabled: false,
+      phase549FabricRuntimeSurfaceEnabled: false,
+      phase549ContentFabricRuntimeBehaviorEnabled: false,
+      phase549AdapterRuntimeBehaviorEnabled: false,
+      phase549SecureDropImplemented: false,
+      phase549SecureDropCryptoImplemented: false,
+      phase549SecureDropTransportImplemented: false,
+      phase549SecureDropStegoImplemented: false,
+      phase549SecureDropSendReceiveImplemented: false,
+      phase549SecureDropInboxPollingEnabled: false,
+      phase549FileSelectionEnabled: false,
+      phase549FilesystemWatcherEnabled: false,
+      phase549FilesystemScanningEnabled: false,
+      phase549SecretVaultEnvAccessEnabled: false,
+      phase549St3ggVendored: false,
+      phase549ProcessControlEnabled: false,
+      phase549LiveStdinLoopEnabled: false,
+      phase549RuntimeStdoutWriterEnabled: false,
+      phase549RuntimeStderrWriterEnabled: false,
+      phase549RuntimeTranscriptWritePerformed: false,
+      phase549RuntimeAuditWritePerformed: false,
+      phase549DatabaseStorageRuntimeWritesEnabled: false,
+      phase549SecretsRuntimeIngestionEnabled: false,
+      phase549ServiceDiscoveryEnabled: false,
+      phase549LiveServiceRegistryConnectionEnabled: false,
+      phase549ScheduleEnforcementEnabled: false,
+      phase549BackgroundPollingEnabled: false,
+      phase549DryRunBypassesBlock: false,
+      phase549CliSourceChanged: false,
+      phase549RustSourceChanged: false,
+      phase549FabricSourceChanged: false,
+      freshExternalReviewRan: false,
       freshDevinReviewRan: false,
-      freshJulesReviewRan: true,
+      freshJulesReviewRan: false,
       externalCiRan: false
     },
     note:

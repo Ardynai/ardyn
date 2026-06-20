@@ -267,6 +267,11 @@ export const PRODUCTION_READINESS_COVERAGE_MATRIX_SCHEMA:
 export const PRODUCTION_READINESS_COVERAGE_MATRIX_VERSION: "0.1.0";
 export const PRODUCTION_READINESS_COVERAGE_MATRIX_KIND:
   "production-readiness-coverage-matrix";
+export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_SCHEMA:
+  "ardyn.phase-5.49.consumer-display-accessibility-contract-map-result";
+export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_VERSION: "0.1.0";
+export const CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_KIND:
+  "consumer-display-accessibility-contract-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -5908,6 +5913,96 @@ export interface ProductionReadinessCoverageMatrixResult {
   [key: string]: unknown;
 }
 
+export type ConsumerDisplayAccessibilityContractMapClassification =
+  | "valid_consumer_display_accessibility_contract_map_runtime_still_blocked"
+  | "malformed_consumer_display_accessibility_contract_map_input_rejected"
+  | "grant_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "approval_decision_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "evaluator_result_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "evaluator_execution_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "reviewer_routing_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "reviewer_assignment_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "ui_interactivity_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "runtime_permission_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "command_exposure_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "database_storage_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "secrets_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "connector_fabric_network_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "secure_drop_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "mcp_task_service_discovery_schedule_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "process_control_looking_consumer_display_accessibility_contract_map_input_rejected"
+  | "runtime_effect_true_consumer_display_accessibility_contract_map_input_rejected";
+
+export interface ConsumerDisplayAccessibilityRequirementNotes {
+  readableLabel: string;
+  shortDescription: string;
+  longDescription: string;
+  severityStatusVocabulary: string[];
+  keyboardScreenReaderDisplayNotes: string;
+  colorIndependentStatusIndicatorRequired: true;
+  reducedMotionDefaultStaticDisplayRequired: true;
+  noAutoExecutionNoHiddenActionSemantics: true;
+}
+
+export interface ConsumerDisplayAccessibilityContractEntry {
+  consumerName: "Locus" | "Multiverse";
+  displaySurfaceId: string;
+  sourceArdynArtifactType: string;
+  allowedDisplayBehavior: string;
+  forbiddenDisplayBehavior: string[];
+  accessibilityRequirementNotes: ConsumerDisplayAccessibilityRequirementNotes;
+  requiredFutureContractBeforeInteractivity: string;
+  authorizationFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+}
+
+export interface ConsumerDisplayAccessibilityContractMapState {
+  schema: "ardyn.phase-5.49.consumer-display-accessibility-contract-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "consumer-display-accessibility-contract-map-state";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  displayContractEntries: ConsumerDisplayAccessibilityContractEntry[];
+  contractMapSummary: Record<string, boolean | number | string | string[]>;
+  topDisplayAccessibilityGaps: string[];
+  recommendedNextPhase: string;
+  consumerDisplayAccessibilityContractMapOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface ConsumerDisplayAccessibilityContractMapResult {
+  schema: "ardyn.phase-5.49.consumer-display-accessibility-contract-map-result";
+  schemaVersion: "0.1.0";
+  consumerDisplayAccessibilityContractMapKind: "consumer-display-accessibility-contract-map";
+  consumerDisplayAccessibilityContractMapMode: "review-only";
+  reviewedAt: string;
+  classification: ConsumerDisplayAccessibilityContractMapClassification;
+  consumerDisplayAccessibilityContractMapProduced: boolean;
+  consumerDisplayAccessibilityContractMap:
+    | ConsumerDisplayAccessibilityContractMapState
+    | null;
+  contractMapSummary:
+    | ConsumerDisplayAccessibilityContractMapState["contractMapSummary"]
+    | null;
+  displayContractEntries: ConsumerDisplayAccessibilityContractEntry[];
+  topDisplayAccessibilityGaps: string[];
+  recommendedNextPhase: string | null;
+  consumerDisplayAccessibilityContractMapOnly: true;
+  reviewOnly: true;
+  authoritative: false;
+  reviewArtifactOnly: true;
+  nonAuthorizingProof: true;
+  rejectionReasons: string[];
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -6251,6 +6346,9 @@ export function createConsumerContractGapIndexForReview(input?: {
 export function createProductionReadinessCoverageMatrixForReview(input?: {
   reviewedAt?: string;
 }): ProductionReadinessCoverageMatrixResult;
+export function createConsumerDisplayAccessibilityContractMapForReview(input?: {
+  reviewedAt?: string;
+}): ConsumerDisplayAccessibilityContractMapResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
