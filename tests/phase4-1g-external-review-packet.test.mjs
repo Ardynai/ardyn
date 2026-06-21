@@ -217,7 +217,7 @@ async function runReport() {
   const { stdout, stderr } = await execFileAsync(process.execPath, [reportScriptPath], {
     cwd: repoRoot,
     encoding: "utf8",
-    maxBuffer: 4 * 1024 * 1024
+    maxBuffer: 8 * 1024 * 1024
   });
 
   assert.equal(stderr, "");

@@ -5036,6 +5036,150 @@ const phase557SafetyFlagNames = [
   ...phase557ExpectedTrueSafetyFlagNames,
   ...phase557ExpectedFalseSafetyFlagNames
 ];
+const phase558DocFiles = [
+  "docs/phase-5-58-consumer-owned-display-conformance-result-review-package-boundary.md",
+  "docs/phase-5-57-consumer-owned-display-conformance-result-review-intake-boundary.md"
+];
+const phase558CrossLinks = [
+  "docs/phase-5-50-consumer-display-fixture-schema-boundary.md",
+  "docs/phase-5-51-consumer-display-fixture-example-pack.md",
+  "docs/phase-5-52-consumer-display-fixture-conformance-handoff.md",
+  "docs/phase-5-53-consumer-owned-display-conformance-runner-requirements.md",
+  "docs/phase-5-54-consumer-owned-display-conformance-runner-test-plan.md",
+  "docs/phase-5-55-consumer-owned-display-conformance-runner-result-schema-boundary.md",
+  "docs/phase-5-56-consumer-owned-display-conformance-result-handoff.md",
+  "docs/phase-5-57-consumer-owned-display-conformance-result-review-intake-boundary.md",
+  "docs/phase-5-58-consumer-owned-display-conformance-result-review-package-boundary.md"
+];
+const phase558ExpectedTrueSafetyFlagNames = [
+  "phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundaryRecorded",
+  "phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundaryReviewOnly",
+  "phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundaryProduced",
+  "phase558ReviewPackageEntriesRecorded",
+  "phase558ReviewPackageMeansMetadataOnlyCandidatePackageShape",
+  "phase558LocusReviewPackageEntriesCovered",
+  "phase558MultiverseReviewPackageEntriesCovered",
+  "phase558ReferencesPhase550SchemaBoundary",
+  "phase558ReferencesPhase551ExamplePack",
+  "phase558ReferencesPhase552ConformanceHandoff",
+  "phase558ReferencesPhase553RunnerRequirements",
+  "phase558ReferencesPhase554TestPlan",
+  "phase558ReferencesPhase555ResultSchemaBoundary",
+  "phase558ReferencesPhase556ResultHandoff",
+  "phase558ReferencesPhase557ReviewIntakeBoundary",
+  "phase558LocusAndMultiverseConsumerTargetsOnly",
+  "phase558AllBlockedAuthorizationFlagsFalse",
+  "phase558AllUnsafePackageImportExportPersistenceRunnerResultProducerResultCollectorValidatorReviewRouterEvaluatorApprovalTestHarnessRuntimeFlagsFalse",
+  "phase558AllRuntimeEffectsFalse",
+  "phase558AllEntriesNonAuthorizing",
+  "phase558InvalidReviewPackageCasesFailClosed",
+  "phase558UnsafePackageImportExportPersistenceRunnerResultProducerResultCollectorValidatorReviewRouterEvaluatorApprovalTestHarnessRuntimeFlagsFailClosed",
+  "phase558HiddenPackageImportExportPersistenceRunnerResultProducerResultCollectorValidatorReviewRouterEvaluatorApprovalTestHarnessRuntimeSemanticsFailClosed",
+  "phase558ServeRuntimeStillDefaultBlocked"
+];
+const phase558ExpectedFalseSafetyFlagNames = [
+  "phase558FallowRuntimeUsed",
+  "phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundaryAuthoritative",
+  "phase558UiFrontendBrowserCodeImplemented",
+  "phase558UiFrontendBrowserRenderingImplemented",
+  "phase558ConsumerUiImplemented",
+  "phase558DisplaySurfaceImplemented",
+  "phase558RenderingCodeImplemented",
+  "phase558BrowserRenderingHarnessImplemented",
+  "phase558BrowserWcagAutomationImplemented",
+  "phase558VisualRegressionHarnessImplemented",
+  "phase558ScreenReaderAutomationImplemented",
+  "phase558BrowserRuntimeEnabled",
+  "phase558InteractiveControlEnabled",
+  "phase558HiddenActionSemanticsEnabled",
+  "phase558AutoExecutionEnabled",
+  "phase558PackageProducedByArdyn",
+  "phase558PackageExportImplemented",
+  "phase558PackageImportImplemented",
+  "phase558PackageWriterImplemented",
+  "phase558PackageReaderImplemented",
+  "phase558PackagePersistenceImplemented",
+  "phase558PackageDiscoveryImplemented",
+  "phase558PackageDistributionImplemented",
+  "phase558RunnerImplementedByArdyn",
+  "phase558ResultProducerImplementedByArdyn",
+  "phase558ResultCollectorImplementedByArdyn",
+  "phase558ResultImporterImplementedByArdyn",
+  "phase558ResultExporterImplementedByArdyn",
+  "phase558ResultValidatorImplementedByArdyn",
+  "phase558ReviewRouterImplementedByArdyn",
+  "phase558EvaluatorImplementedByArdyn",
+  "phase558ApprovalPathImplementedByArdyn",
+  "phase558ApprovalDecisionProducedByArdyn",
+  "phase558ApprovalGrantProducedByArdyn",
+  "phase558TestHarnessImplementedByArdyn",
+  "phase558ConsumerOwnedRunnerImplemented",
+  "phase558ConsumerConformanceRunnerImplemented",
+  "phase558FixtureImportCommandImplemented",
+  "phase558FixtureExportCommandImplemented",
+  "phase558FixtureImportExportCommandsImplemented",
+  "phase558ImportExportCommandImplemented",
+  "phase558ConsumerSideCiImplemented",
+  "phase558FixtureDiscoveryRuntimeImplemented",
+  "phase558ConsumerRepoModifiedByArdyn",
+  "phase558CommandRuntimeControlEnabled",
+  "phase558RuntimePermissionGranted",
+  "phase558CommandExposurePermissionGranted",
+  "phase558RuntimeCommandExposureEnabled",
+  "phase558RuntimeExecutionEnabled",
+  "phase558ReviewerRoutingPerformed",
+  "phase558ReviewerAssignmentPerformed",
+  "phase558EvaluatorExecutionPerformed",
+  "phase558EvaluatorResultProduced",
+  "phase558ApprovalDecisionProduced",
+  "phase558ApprovalGrantProduced",
+  "phase558ApprovalGrantPersisted",
+  "phase558ConnectorGrantProduced",
+  "phase558ConnectorIngestionAdded",
+  "phase558LiveRegistryConnectionEnabled",
+  "phase558WebSocketRuntimeEnabled",
+  "phase558HttpRuntimeEnabled",
+  "phase558TaskRuntimeExecutionEnabled",
+  "phase558TaskExecutionEnabled",
+  "phase558McpRuntimeExecutionEnabled",
+  "phase558McpExecutionEnabled",
+  "phase558McpToolExposureEnabled",
+  "phase558FabricRuntimeSurfaceEnabled",
+  "phase558ContentFabricRuntimeBehaviorEnabled",
+  "phase558AdapterRuntimeBehaviorEnabled",
+  "phase558SecureDropImplemented",
+  "phase558SecureDropCryptoImplemented",
+  "phase558SecureDropTransportImplemented",
+  "phase558SecureDropStegoImplemented",
+  "phase558SecureDropSendReceiveImplemented",
+  "phase558SecureDropInboxPollingEnabled",
+  "phase558FileSelectionEnabled",
+  "phase558FilesystemWatcherEnabled",
+  "phase558FilesystemScanningEnabled",
+  "phase558SecretVaultEnvAccessEnabled",
+  "phase558St3ggVendored",
+  "phase558ProcessControlEnabled",
+  "phase558LiveStdinLoopEnabled",
+  "phase558RuntimeStdoutWriterEnabled",
+  "phase558RuntimeStderrWriterEnabled",
+  "phase558RuntimeTranscriptWritePerformed",
+  "phase558RuntimeAuditWritePerformed",
+  "phase558DatabaseStorageRuntimeWritesEnabled",
+  "phase558SecretsRuntimeIngestionEnabled",
+  "phase558ServiceDiscoveryEnabled",
+  "phase558LiveServiceRegistryConnectionEnabled",
+  "phase558ScheduleEnforcementEnabled",
+  "phase558BackgroundPollingEnabled",
+  "phase558ExternalLookupsEnabled",
+  "phase558DryRunBypassesBlock",
+  "phase558CliSourceChanged",
+  "phase558RustSourceChanged",
+  "phase558FabricSourceChanged"
+];
+const phase558SafetyFlagNames = [
+  ...phase558ExpectedTrueSafetyFlagNames,
+  ...phase558ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -5128,7 +5272,7 @@ async function readJson(url) {
 async function runReport() {
   const { stdout, stderr } = await execFileAsync(process.execPath, [reportScriptPath], {
     cwd: repoRoot,
-    maxBuffer: 4 * 1024 * 1024
+    maxBuffer: 8 * 1024 * 1024
   });
 
   assert.equal(stderr, "");
@@ -5170,16 +5314,16 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.57 consumer-owned display conformance result review intake boundary and does not claim to run checks", async () => {
+test("phase status report is Phase 5.58 consumer-owned display conformance result review package boundary and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.57",
+    id: "5.58",
     name:
-      "Review-only consumer-owned display conformance result review intake boundary",
+      "Review-only consumer-owned display conformance result review package boundary",
     executionPosture:
-      "consumer-owned-display-conformance-result-review-intake-boundary runtime-disabled metadata-only review-intake-candidate-state-only no-runner no-result-producer no-result-collector no-result-importer no-result-exporter no-result-validator no-review-router no-evaluator no-approval-decision no-approval-grant no-test-harness no-result-import-export-commands no-package-export no-consumer-side-ci no-fixture-discovery-runtime no-consumer-repo-change no-ui-frontend-browser-rendering-code no-browser-rendering-wcag-automation no-command-runtime-control no-interactive-control no-hidden-action-semantics no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-external-lookups"
+      "consumer-owned-display-conformance-result-review-package-boundary runtime-disabled metadata-only review-package-candidate-shape-only no-package-export no-package-import no-package-writer no-package-reader no-package-persistence no-package-discovery no-package-distribution no-runner no-result-producer no-result-collector no-result-importer no-result-exporter no-result-validator no-review-router no-evaluator no-approval-decision no-approval-grant no-test-harness no-import-export-commands no-consumer-side-ci no-fixture-discovery-runtime no-consumer-repo-change no-ui-frontend-browser-rendering-code no-browser-rendering-wcag-automation no-command-runtime-control no-interactive-control no-hidden-action-semantics no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-external-lookups"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -5242,15 +5386,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.57 consumer-owned display conformance result review intake boundary status report."
+    "Render this deterministic local Phase 5.58 consumer-owned display conformance result review package boundary status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.57 status report."
+    "Run focused tests for this local Phase 5.58 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.57 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.58 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-58-consumer-owned-display-conformance-result-review-package-boundary.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.58 consumer-owned display conformance result review package boundary and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -23447,6 +23597,362 @@ test("report inventories Phase 5.57 consumer-owned display conformance result re
   assertSafetyFlags(report, phase557ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.58 consumer-owned display conformance result review package boundary", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundaryInventory;
+
+  assert.equal(
+    inventory.statusLayer.layerId,
+    "consumer-owned-display-conformance-result-review-package-boundary"
+  );
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.58.consumer-owned-display-conformance-result-review-package-boundary-result"
+  );
+  assert.equal(inventory.statusLayer.schemaVersion, "0.1.0");
+  assert.equal(
+    inventory.statusLayer.kind,
+    "consumer-owned-display-conformance-result-review-package-boundary"
+  );
+  assert.equal(inventory.statusLayer.mode, "review-only");
+  assert.equal(
+    inventory.statusLayer.classification,
+    "valid_consumer_owned_display_conformance_result_review_package_boundary_runtime_still_blocked"
+  );
+  assert.equal(inventory.statusLayer.reviewPackageEntryCount, 12);
+  assert.equal(inventory.statusLayer.locusReviewPackageEntryCount, 6);
+  assert.equal(inventory.statusLayer.multiverseReviewPackageEntryCount, 6);
+  assert.deepEqual(inventory.statusLayer.consumerNames, [
+    "Locus",
+    "Multiverse"
+  ]);
+  assert.equal(
+    inventory.statusLayer.reviewPackageMeansMetadataOnlyCandidatePackageShape,
+    true
+  );
+  assert.equal(
+    inventory.statusLayer.referencesPhase557ReviewIntakeBoundary,
+    true
+  );
+  assert.deepEqual(inventory.docs.map(({ path, status }) => [path, status]), [
+    ...phase558DocFiles.map((path) => [path, "present"])
+  ]);
+  assert.deepEqual(inventory.crossLinks, phase558CrossLinks);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-58/consumer-owned-display-conformance-result-review-package-boundary.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    [
+      "tests/phase5-58-consumer-owned-display-conformance-result-review-package-boundary.test.mjs",
+      "present"
+    ],
+    ["tests/report-phase-status.test.mjs", "present"]
+  ]);
+  assert.deepEqual(
+    inventory.ownershipBoundary.cliRuntimeSourceFilesChanged,
+    []
+  );
+  assert.deepEqual(
+    inventory.ownershipBoundary.rustRuntimeSourceFilesChanged,
+    []
+  );
+  assert.deepEqual(
+    inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged,
+    []
+  );
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(
+    inventory.ownershipBoundary.contentFabricRepoFilesChanged,
+    []
+  );
+  assert.equal(
+    inventory.ownershipBoundary.packageExportAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.packageImportAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.packageWriterAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.packageReaderAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.packagePersistenceAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.runnerAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.resultProducerAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.resultCollectorAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.resultValidatorAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.reviewRouterAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.evaluatorAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.approvalDecisionProducedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.approvalGrantProducedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.testHarnessAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.importExportCommandAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.consumerSideCiAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.runtimeEnabledByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.fallowRuntimeUsedByThisPhase,
+    false
+  );
+
+  assert.equal(inventory.reviewPackageSummary.reviewPackageEntryCount, 12);
+  assert.equal(
+    inventory.reviewPackageSummary
+      .reviewPackageMeansMetadataOnlyCandidatePackageShape,
+    true
+  );
+  assert.equal(
+    inventory.reviewPackageSummary.referencesPhase550SchemaBoundary,
+    true
+  );
+  assert.equal(
+    inventory.reviewPackageSummary.referencesPhase551ExamplePack,
+    true
+  );
+  assert.equal(
+    inventory.reviewPackageSummary.referencesPhase552ConformanceHandoff,
+    true
+  );
+  assert.equal(
+    inventory.reviewPackageSummary.referencesPhase553RunnerRequirements,
+    true
+  );
+  assert.equal(inventory.reviewPackageSummary.referencesPhase554TestPlan, true);
+  assert.equal(
+    inventory.reviewPackageSummary.referencesPhase555ResultSchemaBoundary,
+    true
+  );
+  assert.equal(
+    inventory.reviewPackageSummary.referencesPhase556ResultHandoff,
+    true
+  );
+  assert.equal(
+    inventory.reviewPackageSummary.referencesPhase557ReviewIntakeBoundary,
+    true
+  );
+  assert.equal(
+    inventory.phase557ReviewIntakeBoundaryReference.sourceReviewIntakeBoundarySchema,
+    "ardyn.phase-5.57.consumer-owned-display-conformance-result-review-intake-boundary-result"
+  );
+  assert.equal(
+    inventory.phase557ReviewIntakeBoundaryReference.validationProducesPackages,
+    false
+  );
+  assert.equal(
+    inventory.phase557ReviewIntakeBoundaryReference.validationImportsExportsPackages,
+    false
+  );
+  assert.equal(
+    inventory.phase557ReviewIntakeBoundaryReference.validationPersistsPackages,
+    false
+  );
+  assert.equal(
+    inventory.phase557ReviewIntakeBoundaryReference.validationValidatesPackages,
+    false
+  );
+  assert.equal(inventory.reviewPackageEntries.length, 12);
+  assert.equal(
+    inventory.reviewPackageEntries[0].packageBoundaryId,
+    "phase5-58.locus.status-control-panel-conformance.result-review-package"
+  );
+  assert.equal(
+    inventory.reviewPackageEntries.at(-1).packageBoundaryId,
+    "phase5-58.multiverse.accessibility-wcag-display-expectation.result-review-package"
+  );
+
+  for (const entry of inventory.reviewPackageEntries) {
+    assert.ok(["Locus", "Multiverse"].includes(entry.consumerName));
+    assert.match(entry.packageBoundaryId, /^phase5-58\./);
+    assert.match(entry.referencedPhase557ReviewIntakeId, /^phase5-57\./);
+    assert.equal(entry.reviewPackageIntent, "metadata_only");
+    assert.equal(entry.reviewPackageCandidateMetadataOnly, true);
+    assert.equal(entry.consumerTargetOnly, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(
+      entry
+        .unsafePackageImportExportPersistenceRunnerResultProducerResultCollectorValidatorReviewRouterEvaluatorApprovalTestHarnessRuntimeFlagsAllFalse,
+      true
+    );
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.packageProducedByArdyn, false);
+    assert.equal(entry.packageExportImplemented, false);
+    assert.equal(entry.packageImportImplemented, false);
+    assert.equal(entry.packageWriterImplemented, false);
+    assert.equal(entry.packageReaderImplemented, false);
+    assert.equal(entry.packagePersistenceImplemented, false);
+    assert.equal(entry.resultValidatorImplementedByArdyn, false);
+    assert.equal(entry.reviewRouterImplementedByArdyn, false);
+    assert.equal(entry.evaluatorImplementedByArdyn, false);
+    assert.equal(entry.approvalDecisionProducedByArdyn, false);
+    assert.equal(entry.approvalGrantProducedByArdyn, false);
+  }
+
+  assert.equal(
+    inventory.invalidReviewPackageCasePolicy.referencesPhase557ReviewIntakeBoundaryRequired,
+    true
+  );
+  assert.equal(
+    inventory.invalidReviewPackageCasePolicy
+      .unsafePackageImportExportPersistenceRunnerResultProducerResultCollectorValidatorReviewRouterEvaluatorApprovalTestHarnessRuntimeFlagsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidReviewPackageCasePolicy
+      .hiddenPackageImportExportPersistenceRunnerResultProducerResultCollectorValidatorReviewRouterEvaluatorApprovalTestHarnessRuntimeSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidReviewPackageCasePolicy
+      .packageImportExportPersistenceRunnerResultProducerResultCollectorValidatorReviewRouterEvaluatorApprovalTestHarnessImplementationSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidReviewPackageCasePolicy.validationImplementsPackageExport,
+    false
+  );
+  assert.equal(
+    inventory.invalidReviewPackageCasePolicy.validationImplementsPackageImport,
+    false
+  );
+  assert.equal(
+    inventory.invalidReviewPackageCasePolicy.validationImplementsPackageWriter,
+    false
+  );
+  assert.equal(
+    inventory.invalidReviewPackageCasePolicy.validationImplementsPackageReader,
+    false
+  );
+  assert.equal(
+    inventory.invalidReviewPackageCasePolicy.validationImplementsPackagePersistence,
+    false
+  );
+  assert.ok(
+    inventory.topDisplayConformanceResultReviewPackageGaps.some((gap) =>
+      gap.includes("no Locus or Multiverse consumer-owned review package producer")
+    )
+  );
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.59-review-only-api-backend-contract-boundary-map"
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-58-consumer-owned-display-conformance-result-review-package-boundary.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-57-consumer-owned-display-conformance-result-review-intake-boundary.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, [
+    "semgrep --config auto ."
+  ]);
+  assert.equal(
+    inventory.safetyPosture.packageExportImplemented,
+    false
+  );
+  assert.equal(
+    inventory.safetyPosture.packageImportImplemented,
+    false
+  );
+  assert.equal(
+    inventory.safetyPosture.packageWriterImplemented,
+    false
+  );
+  assert.equal(
+    inventory.safetyPosture.packageReaderImplemented,
+    false
+  );
+  assert.equal(
+    inventory.safetyPosture.packagePersistenceImplemented,
+    false
+  );
+  assert.equal(
+    inventory.safetyPosture.resultValidatorImplementedByArdyn,
+    false
+  );
+  assert.equal(inventory.safetyPosture.reviewRouterImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.evaluatorImplementedByArdyn, false);
+  assert.equal(
+    inventory.safetyPosture.approvalDecisionProducedByArdyn,
+    false
+  );
+  assert.equal(inventory.safetyPosture.approvalGrantProducedByArdyn, false);
+  assert.equal(inventory.safetyPosture.testHarnessImplementedByArdyn, false);
+  assert.equal(
+    inventory.safetyPosture.uiFrontendBrowserRenderingImplemented,
+    false
+  );
+  assert.equal(inventory.safetyPosture.browserWcagAutomationImplemented, false);
+  assert.equal(inventory.safetyPosture.runtimeExecutionEnabled, false);
+  assert.equal(inventory.safetyPosture.commandRuntimeControlEnabled, false);
+  assert.equal(inventory.safetyPosture.connectorGrantProduced, false);
+  assert.equal(inventory.safetyPosture.fabricRuntimeSurfaceEnabled, false);
+  assert.equal(inventory.safetyPosture.webSocketRuntimeEnabled, false);
+  assert.equal(inventory.safetyPosture.httpRuntimeEnabled, false);
+  assert.equal(inventory.safetyPosture.taskRuntimeExecutionEnabled, false);
+  assert.equal(inventory.safetyPosture.mcpToolExposureEnabled, false);
+  assert.equal(inventory.safetyPosture.secureDropImplemented, false);
+  assert.equal(
+    inventory.safetyPosture.databaseStorageRuntimeWritesEnabled,
+    false
+  );
+  assert.equal(inventory.safetyPosture.secretsRuntimeIngestionEnabled, false);
+  assert.equal(inventory.safetyPosture.serviceDiscoveryEnabled, false);
+  assert.equal(inventory.safetyPosture.scheduleEnforcementEnabled, false);
+  assert.equal(inventory.safetyPosture.filesystemScanningEnabled, false);
+  assert.equal(inventory.safetyPosture.processControlEnabled, false);
+  assert.equal(
+    report.safetyPosture
+      .phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundary,
+    true
+  );
+  assertSafetyFlags(report, phase558ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase558ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -24364,7 +24870,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase554SafetyFlagNames,
     ...phase555SafetyFlagNames,
     ...phase556SafetyFlagNames,
-    ...phase557SafetyFlagNames
+    ...phase557SafetyFlagNames,
+    ...phase558SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -24447,6 +24954,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase556ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase557ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase557ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase558ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase558ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });
