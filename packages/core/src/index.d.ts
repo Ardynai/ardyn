@@ -343,6 +343,12 @@ export const AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_SCHEMA:
 export const AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_VERSION: "0.1.0";
 export const AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_KIND:
   "auth-permissions-contract-boundary-map";
+export const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.63.security-rls-input-sanitization-contract-boundary-map-result";
+export const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_VERSION:
+  "0.1.0";
+export const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_KIND:
+  "security-rls-input-sanitization-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -8674,6 +8680,188 @@ export interface AuthPermissionsContractBoundaryMapResult {
   [key: string]: unknown;
 }
 
+export type SecurityRlsInputSanitizationContractBoundaryFamily =
+  | "input_sanitization_contract"
+  | "schema_validation_contract"
+  | "injection_prevention_contract"
+  | "rls_contract"
+  | "data_isolation_contract"
+  | "permission_enforcement_contract"
+  | "secure_transport_contract"
+  | "content_safety_contract"
+  | "dependency_security_contract"
+  | "secret_exposure_contract"
+  | "audit_integrity_contract"
+  | "encoded_handoff_safety_contract"
+  | "secure_drop_boundary_contract";
+export type SecurityRlsInputSanitizationContractBoundaryRelatedSystem =
+  | "ardyn"
+  | "ardyn-subagent"
+  | "locus"
+  | "multiverse"
+  | "content-fabric"
+  | "repo-family";
+export type SecurityRlsInputSanitizationContractBoundaryStatus =
+  | "metadata_only"
+  | "blocked"
+  | "future_contract_required";
+export type SecurityRlsInputSanitizationContractBoundaryMapClassification =
+  | "valid_security_rls_input_sanitization_contract_boundary_map_runtime_still_blocked"
+  | "malformed_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "missing_required_security_rls_input_sanitization_contract_boundary_entry_rejected"
+  | "unknown_top_level_field_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "unknown_related_system_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "unknown_current_status_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "hidden_backend_api_server_middleware_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "hidden_database_rls_schema_migration_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "hidden_secret_env_vault_access_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "hidden_audit_log_write_tamper_evident_writer_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "unsafe_sanitizer_rls_permission_secure_transport_dependency_audit_log_secret_connector_external_lookup_runtime_flags_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_security_rls_input_sanitization_contract_boundary_map_input_rejected"
+  | "noncanonical_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+
+export interface SecurityRlsInputSanitizationContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily: SecurityRlsInputSanitizationContractBoundaryFamily;
+  relatedSystem: SecurityRlsInputSanitizationContractBoundaryRelatedSystem;
+  currentStatus: SecurityRlsInputSanitizationContractBoundaryStatus;
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  inputSanitizationExpectation: string;
+  injectionPreventionExpectation: string;
+  rlsDataIsolationExpectation: string;
+  permissionEnforcementExpectation: string;
+  dependencySecurityToolingExpectation: string;
+  secureTransportExpectation: string;
+  auditIntegrityExpectation: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  secureDropRoleDescription: string;
+  productionReadinessAreaReference: Record<string, boolean | number | string>;
+  phase559FabricAwareApiBackendReference: Record<string, boolean | string>;
+  phase560EncodedHandoffConformanceReference: Record<string, boolean | string>;
+  phase561DatabaseStorageContractBoundaryReference: Record<string, boolean | string>;
+  phase562AuthPermissionsContractBoundaryReference: Record<string, boolean | string>;
+  securityRlsInputSanitizationBoundaryMetadataOnly: true;
+  noLiveSecurityEnforcementPerformed: true;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeSecurityRlsInputRuntimeFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface SecurityRlsInputSanitizationContractBoundaryMapState {
+  schema: "ardyn.phase-5.63.security-rls-input-sanitization-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "security-rls-input-sanitization-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: SecurityRlsInputSanitizationContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topSecurityRlsAuthDatabaseFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  securityRlsInputSanitizationContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  sanitizerRuntimeImplemented: false;
+  runtimeSanitizerImplemented: false;
+  securityMiddlewareImplemented: false;
+  rlsRuntimeImplemented: false;
+  rlsPolicyImplemented: false;
+  permissionEnforcementRuntimeImplemented: false;
+  secureTransportRuntimeImplemented: false;
+  auditWriterImplemented: false;
+  logWriterImplemented: false;
+  secretVaultEnvAccessEnabled: false;
+  connectorGrantProduced: false;
+  databaseClientImplemented: false;
+  databaseSchemaImplemented: false;
+  databaseMigrationImplemented: false;
+  storageAdapterImplemented: false;
+  cacheEngineImplemented: false;
+  cacheInvalidationRuntimeImplemented: false;
+  transcriptWriterImplemented: false;
+  filesystemWriteEnabled: false;
+  importExportPathImplementedByArdyn: false;
+  packageDistributionImplementedByArdyn: false;
+  persistenceImplementedByArdyn: false;
+  backendRuntimeImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  websocketHttpTransportImplementedByArdyn: false;
+  fabricRuntimeImplementedByArdyn: false;
+  encodedHandoffRuntimeImplementedByArdyn: false;
+  codecImplemented: false;
+  translatorRuntimeImplemented: false;
+  commandExposureEnabled: false;
+  commandRuntimeControlEnabled: false;
+  runtimeExecutionEnabled: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  mcpToolExposureEnabled: false;
+  taskExecutionEnabled: false;
+  secureDropImplemented: false;
+  st3ggVendored: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  backgroundPollingEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  blockedCliBypassEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface SecurityRlsInputSanitizationContractBoundaryMapResult {
+  schema: "ardyn.phase-5.63.security-rls-input-sanitization-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  securityRlsInputSanitizationContractBoundaryMapKind:
+    "security-rls-input-sanitization-contract-boundary-map";
+  securityRlsInputSanitizationContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: SecurityRlsInputSanitizationContractBoundaryMapClassification;
+  securityRlsInputSanitizationContractBoundaryMapProduced: boolean;
+  securityRlsInputSanitizationContractBoundaryMap:
+    | SecurityRlsInputSanitizationContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | SecurityRlsInputSanitizationContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: SecurityRlsInputSanitizationContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topSecurityRlsAuthDatabaseFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  securityRlsInputSanitizationContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -9073,6 +9261,10 @@ export function createAuthPermissionsContractBoundaryMapForReview(input?: {
   reviewedAt?: string;
   boundaryEntries?: unknown[];
 }): AuthPermissionsContractBoundaryMapResult;
+export function createSecurityRlsInputSanitizationContractBoundaryMapForReview(input?: {
+  reviewedAt?: string;
+  boundaryEntries?: unknown[];
+}): SecurityRlsInputSanitizationContractBoundaryMapResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

@@ -323,6 +323,12 @@ export const AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_SCHEMA =
 export const AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_VERSION = "0.1.0";
 export const AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_KIND =
   "auth-permissions-contract-boundary-map";
+export const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.63.security-rls-input-sanitization-contract-boundary-map-result";
+export const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_KIND =
+  "security-rls-input-sanitization-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -48018,6 +48024,1570 @@ export function createAuthPermissionsContractBoundaryMapForReview(input = {}) {
     classification,
     accepted,
     authPermissionsContractBoundaryMap
+  });
+}
+
+const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.63.security-rls-input-sanitization-contract-boundary-map-state";
+const VALID_SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_security_rls_input_sanitization_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_FAMILIES = Object.freeze([
+  "input_sanitization_contract",
+  "schema_validation_contract",
+  "injection_prevention_contract",
+  "rls_contract",
+  "data_isolation_contract",
+  "permission_enforcement_contract",
+  "secure_transport_contract",
+  "content_safety_contract",
+  "dependency_security_contract",
+  "secret_exposure_contract",
+  "audit_integrity_contract",
+  "encoded_handoff_safety_contract",
+  "secure_drop_boundary_contract"
+]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_RELATED_SYSTEMS =
+  Object.freeze([
+    "ardyn",
+    "ardyn-subagent",
+    "locus",
+    "multiverse",
+    "content-fabric",
+    "repo-family"
+  ]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_REQUIRED_FIELDS =
+  Object.freeze([
+    "boundaryId",
+    "boundaryFamily",
+    "relatedSystem",
+    "currentStatus",
+    "allowedCurrentBehavior",
+    "forbiddenCurrentBehavior",
+    "requiredFutureContractBeforeImplementation",
+    "requiredFutureAuthorizationPhaseBeforeRuntime",
+    "inputSanitizationExpectation",
+    "injectionPreventionExpectation",
+    "rlsDataIsolationExpectation",
+    "permissionEnforcementExpectation",
+    "dependencySecurityToolingExpectation",
+    "secureTransportExpectation",
+    "auditIntegrityExpectation",
+    "locusRoleDescription",
+    "multiverseRoleDescription",
+    "fabricRoleDescription",
+    "secureDropRoleDescription",
+    "explicitBlockedAuthorizationFlags",
+    "unsafeSecurityRlsInputRuntimeFlags",
+    "nonAuthorizingProof"
+  ]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_ALLOWED_TOP_LEVEL_FIELDS =
+  Object.freeze(["reviewedAt", "boundaryEntries"]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_UNSAFE_FIELDS = Object.freeze([
+  "sanitizerRuntimeImplemented",
+  "runtimeSanitizerImplemented",
+  "securityMiddlewareImplemented",
+  "backendSecurityMiddlewareImplemented",
+  "schemaValidatorAuthorizesRuntime",
+  "injectionPreventionRuntimeImplemented",
+  "rlsRuntimeImplemented",
+  "rlsPolicyImplemented",
+  "dataIsolationRuntimeImplemented",
+  "permissionEnforcementRuntimeImplemented",
+  "policyEnforcementRuntimeImplemented",
+  "secureTransportRuntimeImplemented",
+  "httpsHstsServerConfigImplemented",
+  "dependencyPatchAutomationEnabled",
+  "dependencySecurityScannerRuntimeEnabled",
+  "liveSecurityScannerEnabled",
+  "auditWriterImplemented",
+  "auditLogWriterImplemented",
+  "logWriterImplemented",
+  "tamperEvidentWriterImplemented",
+  "secretScannerRuntimeEnabled",
+  "connectorScannerRuntimeEnabled",
+  "externalLookupEnabled",
+  "databaseClientImplemented",
+  "databaseSchemaImplemented",
+  "databaseMigrationImplemented",
+  "storageAdapterImplemented",
+  "cacheEngineImplemented",
+  "cacheInvalidationRuntimeImplemented",
+  "transcriptWriterImplemented",
+  "filesystemWriteEnabled",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "backendRuntimeImplementedByArdyn",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "fabricRuntimeImplementedByArdyn",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecImplemented",
+  "translatorRuntimeImplemented",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "databaseStorageRuntimeWritesEnabled",
+  "secretVaultEnvAccessEnabled",
+  "secretsRuntimeIngestionEnabled",
+  "connectorGrantProduced",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "secureDropCryptoImplemented",
+  "secureDropTransportImplemented",
+  "secureDropStegoImplemented",
+  "secureDropSendReceiveImplemented",
+  "secureDropInboxPollingEnabled",
+  "st3ggVendored",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "backgroundPollingEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "uiFrontendBrowserRenderingImplemented",
+  "approvalDecisionProduced",
+  "approvalGrantProduced",
+  "permissionEvaluatorImplemented",
+  "authorizationEvaluatorImplemented",
+  "reportRunsChecks",
+  "blockedCliBypassEnabled"
+]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_AUTHORIZATION_FIELDS =
+  Object.freeze([
+    "runtimeAuthorized",
+    "runtimeAuthorizationGranted",
+    "securityRuntimeAuthorizationGranted",
+    "sanitizerRuntimeAuthorizationGranted",
+    "rlsRuntimeAuthorizationGranted",
+    "permissionEnforcementAuthorizationGranted",
+    "secureTransportAuthorizationGranted",
+    "auditWriterAuthorizationGranted",
+    "secretAccessAuthorizationGranted",
+    "connectorGrantAuthorizationGranted",
+    "fabricRuntimeAuthorizationGranted",
+    "secureDropAuthorizationGranted",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "authorizesRuntime"
+  ]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_BLOCKED_CLI_BYPASS_FIELDS =
+  Object.freeze([
+    "blockedCliBypassEnabled",
+    "dryRunBypassesBlock",
+    "serveRuntimeBypassEnabled",
+    "bypassBlockedCommandBehavior",
+    "blockedCommandOverride"
+  ]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_MIDDLEWARE_FIELDS =
+  Object.freeze([
+    "backendApiMiddleware",
+    "securityMiddleware",
+    "backendSecurityMiddleware",
+    "expressMiddleware",
+    "fastifyPlugin",
+    "apiRequestHandler",
+    "httpServer",
+    "serverMiddleware",
+    "requestValidatorRuntime"
+  ]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_DATABASE_RLS_FIELDS =
+  Object.freeze([
+    "databaseUrl",
+    "databaseDsn",
+    "dbConnectionString",
+    "rlsPolicy",
+    "rlsRule",
+    "rlsEnforcement",
+    "schemaMigration",
+    "migrationCommand",
+    "prismaSchema",
+    "databaseSchema",
+    "storageAdapter"
+  ]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_SECRET_FIELDS = Object.freeze([
+  "secretVaultPath",
+  "envSecretName",
+  "vaultClient",
+  "secretProvider",
+  "secretManager",
+  "dotenvPath",
+  "envFilePath",
+  "apiSecret",
+  "privateKeyPath"
+]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_CONNECTOR_FIELDS =
+  Object.freeze([
+    "connectorGrant",
+    "connectorCredential",
+    "connectorAccessToken",
+    "connectorScanner",
+    "connectorIngestionGrant"
+  ]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_FABRIC_RUNTIME_FIELDS =
+  Object.freeze([
+    "fabricBusTopic",
+    "fabricBrokerUrl",
+    "websocketUrl",
+    "httpEndpoint",
+    "mcpToolName",
+    "mcpServerUrl",
+    "taskExecutor",
+    "taskRunner",
+    "runtimeEndpoint",
+    "adapterRuntime"
+  ]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_SECURE_DROP_FIELDS =
+  Object.freeze([
+    "secureDropPayloadPath",
+    "secureDropKeyring",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "secureDropFileSelection",
+    "st3ggPayload"
+  ]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_ENCODED_HANDOFF_FIELDS =
+  Object.freeze([
+    "codecImplemented",
+    "translatorRuntimeImplemented",
+    "encoderImplemented",
+    "decoderImplemented",
+    "conlangGenerator",
+    "semanticStegoCandidate",
+    "steganographyCandidate",
+    "tokenExploitationCandidate",
+    "covertChannel",
+    "guardrailBypass",
+    "hiddenPayload"
+  ]);
+const SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_AUDIT_LOG_FIELDS =
+  Object.freeze([
+    "auditWriter",
+    "auditLogWriter",
+    "logWriter",
+    "tamperEvidentWriter",
+    "auditLogPath",
+    "appendAuditLog",
+    "transcriptWriter"
+  ]);
+
+function securityRlsInputSanitizationBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function securityRlsInputSanitizationBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function securityRlsInputSanitizationBoundaryMapInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function securityRlsInputSanitizationBoundaryMapInputEntries(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function securityRlsInputSanitizationBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(securityRlsInputSanitizationBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      securityRlsInputSanitizationBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function securityRlsInputSanitizationBoundaryMapHasTrueFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      securityRlsInputSanitizationBoundaryMapHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (
+      securityRlsInputSanitizationBoundaryMapHasTrueFieldDeep(nested, fields)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeSecurityRlsInputRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (
+      securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(
+        nested,
+        fields
+      )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function securityRlsInputSanitizationBoundaryMapContainsEntryIssue(
+  entries,
+  predicate
+) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function securityRlsInputSanitizationBoundaryMapMissingRequiredField(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_REQUIRED_FIELDS.some(
+    (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+  );
+}
+
+function securityRlsInputSanitizationBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.inputSanitizationExpectation !== "string" ||
+    typeof entry.injectionPreventionExpectation !== "string" ||
+    typeof entry.rlsDataIsolationExpectation !== "string" ||
+    typeof entry.permissionEnforcementExpectation !== "string" ||
+    typeof entry.dependencySecurityToolingExpectation !== "string" ||
+    typeof entry.secureTransportExpectation !== "string" ||
+    typeof entry.auditIntegrityExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    typeof entry.secureDropRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(entry.unsafeSecurityRlsInputRuntimeFlags) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function securityRlsInputSanitizationBoundaryMapAuthorizationFlagEnabled(
+  value
+) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function securityRlsInputSanitizationBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.unsafeSecurityRlsInputRuntimeFlags) &&
+      Object.values(value.unsafeSecurityRlsInputRuntimeFlags).some(
+        (flag) => flag !== false
+      )) ||
+    securityRlsInputSanitizationBoundaryMapHasTrueFieldDeep(
+      value,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_UNSAFE_FIELDS
+    )
+  );
+}
+
+function securityRlsInputSanitizationBoundaryMapHasUnknownTopLevelField(
+  inputRecord
+) {
+  if (inputRecord === null) {
+    return false;
+  }
+
+  return Object.keys(inputRecord).some(
+    (field) =>
+      !SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_ALLOWED_TOP_LEVEL_FIELDS.includes(
+        field
+      )
+  );
+}
+
+function securityRlsInputSanitizationBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(securityRlsInputSanitizationBoundaryMapEntries())
+  );
+}
+
+function securityRlsInputSanitizationBoundaryMapInputClassification(
+  inputRecord
+) {
+  if (securityRlsInputSanitizationBoundaryMapInputMalformed(inputRecord)) {
+    return MALFORMED_SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries =
+    securityRlsInputSanitizationBoundaryMapInputEntries(inputRecord);
+
+  if (
+    securityRlsInputSanitizationBoundaryMapContainsEntryIssue(
+      entries,
+      securityRlsInputSanitizationBoundaryMapMissingRequiredField
+    )
+  ) {
+    return "missing_required_security_rls_input_sanitization_contract_boundary_entry_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapContainsEntryIssue(
+      entries,
+      (entry) =>
+        !SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapContainsEntryIssue(
+      entries,
+      (entry) =>
+        !SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_RELATED_SYSTEMS.includes(
+          entry.relatedSystem
+        )
+    )
+  ) {
+    return "unknown_related_system_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapContainsEntryIssue(
+      entries,
+      (entry) =>
+        !SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_STATUSES.includes(
+          entry.currentStatus
+        )
+    )
+  ) {
+    return "unknown_current_status_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapContainsEntryIssue(
+      entries,
+      securityRlsInputSanitizationBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapContainsEntryIssue(
+      entries,
+      securityRlsInputSanitizationBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    securityRlsInputSanitizationBoundaryMapAuthorizationFlagEnabled(inputRecord)
+  ) {
+    return "authorization_flags_enabled_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_MIDDLEWARE_FIELDS
+    )
+  ) {
+    return "hidden_backend_api_server_middleware_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_DATABASE_RLS_FIELDS
+    )
+  ) {
+    return "hidden_database_rls_schema_migration_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_SECRET_FIELDS
+    )
+  ) {
+    return "hidden_secret_env_vault_access_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_CONNECTOR_FIELDS
+    )
+  ) {
+    return "hidden_connector_grant_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_FABRIC_RUNTIME_FIELDS
+    )
+  ) {
+    return "hidden_fabric_websocket_http_mcp_task_runtime_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_SECURE_DROP_FIELDS
+    )
+  ) {
+    return "hidden_secure_drop_implementation_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_ENCODED_HANDOFF_FIELDS
+    )
+  ) {
+    return "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_AUDIT_LOG_FIELDS
+    )
+  ) {
+    return "hidden_audit_log_write_tamper_evident_writer_semantics_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapUnsafeFlagEnabled(inputRecord) ||
+    securityRlsInputSanitizationBoundaryMapContainsEntryIssue(
+      entries,
+      securityRlsInputSanitizationBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_sanitizer_rls_permission_secure_transport_dependency_audit_log_secret_connector_external_lookup_runtime_flags_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapContainsEntryIssue(
+      entries,
+      (entry) =>
+        securityRlsInputSanitizationBoundaryMapContainsTrue(
+          entry?.runtimeEffect
+        )
+    ) ||
+    securityRlsInputSanitizationBoundaryMapContainsTrue(
+      inputRecord?.runtimeEffect
+    )
+  ) {
+    return "nested_unsafe_flags_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    securityRlsInputSanitizationBoundaryMapHasUnknownTopLevelField(inputRecord)
+  ) {
+    return "unknown_top_level_field_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  if (!securityRlsInputSanitizationBoundaryMapCanonical(entries)) {
+    return "noncanonical_security_rls_input_sanitization_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function securityRlsInputSanitizationBoundaryMapForbiddenBehavior() {
+  return [
+    "security middleware",
+    "runtime sanitizer",
+    "schema validator that authorizes runtime",
+    "injection-prevention runtime",
+    "database client",
+    "database schema",
+    "database migration",
+    "RLS rule",
+    "storage adapter",
+    "permission enforcement runtime",
+    "secure transport server config",
+    "https/hsts server",
+    "backend API",
+    "server",
+    "Fabric runtime bus",
+    "websocket/http transport",
+    "MCP tool exposure",
+    "task execution",
+    "connector grant",
+    "connector scanner",
+    "secret/env/vault access",
+    "secret scanner runtime",
+    "dependency patch automation",
+    "live security scanner",
+    "audit writer",
+    "log writer",
+    "tamper-evident writer",
+    "transcript writer",
+    "filesystem write",
+    "import/export command",
+    "package writer",
+    "package reader",
+    "persistence layer",
+    "service discovery",
+    "schedule enforcement",
+    "background polling",
+    "Secure Drop crypto, transport, stego, send/receive, inbox polling, file selection, filesystem scanning, connector ingestion, secret/vault/env access, or ST3GG wrapping",
+    "encoded handoff runtime, codec, translator runtime, encoder, decoder, conlang generator, stego, covert channel, tokenizer exploit, bypass, hidden payload, or transport behavior",
+    "command exposure",
+    "interactive control",
+    "reviewer routing",
+    "evaluator execution",
+    "approval decision",
+    "approval grant",
+    "process control",
+    "stdin loop",
+    "stdout/stderr runtime writer",
+    "UI/frontend/browser/rendering/WCAG automation"
+  ];
+}
+
+function securityRlsInputSanitizationBoundaryMapAuthorizationFlags() {
+  return {
+    sanitizerRuntimeAuthorizationGranted: false,
+    rlsRuntimeAuthorizationGranted: false,
+    securityMiddlewareAuthorizationGranted: false,
+    backendApiServerAuthorizationGranted: false,
+    secureTransportRuntimeAuthorizationGranted: false,
+    auditLogWriterAuthorizationGranted: false,
+    secretAccessAuthorizationGranted: false,
+    connectorGrantAuthorizationGranted: false,
+    databaseStorageAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    websocketHttpRuntimeAuthorizationGranted: false,
+    mcpToolExposureAuthorizationGranted: false,
+    taskExecutionAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false,
+    encodedHandoffRuntimeAuthorizationGranted: false,
+    commandExposureAuthorizationGranted: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    connectorGrantProduced: false,
+    authorizesRuntime: false
+  };
+}
+
+function securityRlsInputSanitizationBoundaryMapUnsafeFlags() {
+  return Object.fromEntries(
+    SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_UNSAFE_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function securityRlsInputSanitizationBoundaryMapCommonNotes() {
+  return {
+    noConsumerRole: "No current runtime role; future consumers may inspect metadata only.",
+    currentAuthorization:
+      "Requires a future security, RLS, input-validation, permission, runtime, command exposure, connector, storage, secrets, audit, and process-control authorization phase before any executable behavior.",
+    secureDropContentFabric:
+      "Secure Drop metadata safety remains a future content-fabric contract; Ardyn records metadata references only and implements no crypto, transport, stego, send/receive, inbox polling, file selection, connector ingestion, secret/vault/env access, or ST3GG wrapping.",
+    fabricMetadataOnly:
+      "Fabric remains a future coordination envelope metadata layer, not a bus, broker, transport, adapter, connector, registry, scheduler, importer, exporter, package distributor, or task executor."
+  };
+}
+
+function securityRlsInputSanitizationBoundaryMapEntry(definition) {
+  return {
+    boundaryId: definition.boundaryId,
+    boundaryFamily: definition.boundaryFamily,
+    relatedSystem: definition.relatedSystem,
+    currentStatus: definition.currentStatus,
+    allowedCurrentBehavior: definition.allowedCurrentBehavior,
+    forbiddenCurrentBehavior:
+      securityRlsInputSanitizationBoundaryMapForbiddenBehavior(),
+    requiredFutureContractBeforeImplementation:
+      definition.requiredFutureContractBeforeImplementation,
+    requiredFutureAuthorizationPhaseBeforeRuntime:
+      definition.requiredFutureAuthorizationPhaseBeforeRuntime,
+    inputSanitizationExpectation: definition.inputSanitizationExpectation,
+    injectionPreventionExpectation: definition.injectionPreventionExpectation,
+    rlsDataIsolationExpectation: definition.rlsDataIsolationExpectation,
+    permissionEnforcementExpectation:
+      definition.permissionEnforcementExpectation,
+    dependencySecurityToolingExpectation:
+      definition.dependencySecurityToolingExpectation,
+    secureTransportExpectation: definition.secureTransportExpectation,
+    auditIntegrityExpectation: definition.auditIntegrityExpectation,
+    locusRoleDescription: definition.locusRoleDescription,
+    multiverseRoleDescription: definition.multiverseRoleDescription,
+    fabricRoleDescription: definition.fabricRoleDescription,
+    secureDropRoleDescription: definition.secureDropRoleDescription,
+    productionReadinessAreaReference: {
+      phase: "5.48",
+      areaNumber: 8,
+      areaName: "Security & RLS",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      sourceStatus: "deferred",
+      representedByPhase563: true,
+      authorizesRuntime: false
+    },
+    phase559FabricAwareApiBackendReference: {
+      phase: "5.59",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      fabricBoundaryReferenced: true,
+      implementsFabricRuntime: false,
+      authorizesRuntime: false
+    },
+    phase560EncodedHandoffConformanceReference: {
+      phase: "5.60",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      encodedHandoffConformanceReferenced: true,
+      implementsEncodedHandoffRuntime: false,
+      authorizesRuntime: false
+    },
+    phase561DatabaseStorageContractBoundaryReference: {
+      phase: "5.61",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      databaseStorageBoundaryReferenced: true,
+      implementsDatabaseStorageRuntime: false,
+      authorizesRuntime: false
+    },
+    phase562AuthPermissionsContractBoundaryReference: {
+      phase: "5.62",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      authPermissionsBoundaryReferenced: true,
+      implementsAuthPermissionsRuntime: false,
+      authorizesRuntime: false
+    },
+    securityRlsInputSanitizationBoundaryMetadataOnly: true,
+    noLiveSecurityEnforcementPerformed: true,
+    explicitBlockedAuthorizationFlags:
+      securityRlsInputSanitizationBoundaryMapAuthorizationFlags(),
+    unsafeSecurityRlsInputRuntimeFlags:
+      securityRlsInputSanitizationBoundaryMapUnsafeFlags(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function securityRlsInputSanitizationBoundaryMapDefinition({
+  boundaryId,
+  boundaryFamily,
+  relatedSystem,
+  currentStatus,
+  subject,
+  inputExpectation,
+  injectionExpectation,
+  rlsExpectation,
+  permissionExpectation,
+  dependencyExpectation,
+  transportExpectation,
+  auditExpectation,
+  locusRole,
+  multiverseRole,
+  fabricRole,
+  secureDropRole
+}) {
+  const notes = securityRlsInputSanitizationBoundaryMapCommonNotes();
+
+  return {
+    boundaryId,
+    boundaryFamily,
+    relatedSystem,
+    currentStatus,
+    allowedCurrentBehavior: [
+      `Describe future ${subject} security boundary metadata.`,
+      "Keep current behavior review-only, metadata-only, non-authorizing, and runtime-blocked."
+    ],
+    requiredFutureContractBeforeImplementation:
+      `A future ${subject} contract must define accepted inputs, denied inputs, display semantics, audit visibility, ownership, failure modes, and explicit no-runtime defaults before implementation.`,
+    requiredFutureAuthorizationPhaseBeforeRuntime: notes.currentAuthorization,
+    inputSanitizationExpectation: inputExpectation,
+    injectionPreventionExpectation: injectionExpectation,
+    rlsDataIsolationExpectation: rlsExpectation,
+    permissionEnforcementExpectation: permissionExpectation,
+    dependencySecurityToolingExpectation: dependencyExpectation,
+    secureTransportExpectation: transportExpectation,
+    auditIntegrityExpectation: auditExpectation,
+    locusRoleDescription: locusRole ?? notes.noConsumerRole,
+    multiverseRoleDescription: multiverseRole ?? notes.noConsumerRole,
+    fabricRoleDescription: fabricRole ?? notes.fabricMetadataOnly,
+    secureDropRoleDescription: secureDropRole ?? "Not applicable."
+  };
+}
+
+function securityRlsInputSanitizationBoundaryMapDefinitions() {
+  const notes = securityRlsInputSanitizationBoundaryMapCommonNotes();
+  const metadataDependency =
+    "Security tooling may be documented and audited as evidence only; no dependency patch automation, live scanner, external lookup, or runtime remediation is enabled.";
+  const noTransport =
+    "Secure transport remains a future contract only; Ardyn does not configure https/hsts, open listeners, or add websocket/http transport.";
+  const auditMetadata =
+    "Audit integrity is a future contract; Ardyn writes no audit logs, transcripts, tamper-evident records, stdout/stderr runtime streams, or persistent files.";
+
+  return [
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.ardyn.manifest_task_review_artifact.input_sanitization_boundary",
+      boundaryFamily: "input_sanitization_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "metadata_only",
+      subject: "manifest, task, and review-artifact input",
+      inputExpectation:
+        "Future manifest, task, and review-artifact inputs must reject executable commands, hidden runtime grants, unsafe paths, and malformed metadata before any display or evaluator handoff.",
+      injectionExpectation:
+        "Future schema and display consumers must treat user-provided strings as inert metadata and never interpolate them into commands, queries, selectors, or code.",
+      rlsExpectation:
+        "No live data or database row exists now; future storage must define tenant, project, and workspace isolation before persistence.",
+      permissionExpectation:
+        "Current validation cannot authorize runtime, approvals, commands, grants, connectors, MCP, or task execution.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.ardyn.encoded_handoff_input.encoded_handoff_safety_boundary",
+      boundaryFamily: "encoded_handoff_safety_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "metadata_only",
+      subject: "encoded handoff input",
+      inputExpectation:
+        "Future encoded handoff metadata must remain visible, auditable, and unable to carry hidden commands, runtime authorization, bypass instructions, stego, covert channels, or tokenizer exploit semantics.",
+      injectionExpectation:
+        "Future encoded handoff handling must reject codec, translator, encoder, decoder, conlang, hidden payload, and transport execution semantics unless a separate runtime authorization phase exists.",
+      rlsExpectation:
+        "No encoded handoff transcript is persisted by Ardyn; future storage must define isolation and retention first.",
+      permissionExpectation:
+        "Encoded content cannot authorize runtime, expose commands, change reportRunsChecks, or bypass blocked CLI behavior.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation:
+        "Future handoff audits must expose raw protocol metadata or an operator-visible digest; Ardyn writes no audit record now."
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.ardyn.display_conformance_fixture.schema_validation_boundary",
+      boundaryFamily: "schema_validation_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "metadata_only",
+      subject: "display and conformance fixture",
+      inputExpectation:
+        "Future display fixtures must fail closed for hidden actions, interactivity, commands, Secure Drop implementation details, runtime flags, and unsafe nested fields.",
+      injectionExpectation:
+        "Future consumers must render fixture text as inert metadata with no hidden action semantics, no browser automation, and no command binding.",
+      rlsExpectation:
+        "Fixture metadata contains no live DB rows; future fixture storage must be isolated before persistence.",
+      permissionExpectation:
+        "Display fixture metadata cannot grant Locus or Multiverse controls.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata,
+      locusRole:
+        "Locus may later display fixture validation status as metadata only.",
+      multiverseRole:
+        "Multiverse may later display fixture validation status as metadata only."
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.repo_family.api_backend_request_validation.schema_validation_boundary",
+      boundaryFamily: "schema_validation_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "API/backend request validation",
+      inputExpectation:
+        "Future API/backend requests need a contract for accepted fields, rejected fields, size limits, canonical ordering, provenance, and explicit blocked defaults before any endpoint exists.",
+      injectionExpectation:
+        "Future request validation must prevent query, command, path, template, prompt, and transport injection before handlers exist.",
+      rlsExpectation:
+        "Future request handling must tie storage access to explicit RLS and app-permission contracts.",
+      permissionExpectation:
+        "Future request handling cannot infer authorization from metadata, headers, fixtures, or Fabric envelopes.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata,
+      fabricRole: notes.fabricMetadataOnly
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.ardyn.database_storage_rls.rls_boundary",
+      boundaryFamily: "rls_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "database/storage/RLS",
+      inputExpectation:
+        "Future DB/storage inputs must be canonical, bounded, and rejected before persistence if isolation, retention, or ownership is unknown.",
+      injectionExpectation:
+        "Future database access must reject SQL, migration, schema, path, and query injection before storage adapters exist.",
+      rlsExpectation:
+        "RLS is a future contract only and requires tenant, project, workspace, subject, and policy ownership before implementation.",
+      permissionExpectation:
+        "Future RLS must compose with Phase 5.62 auth/permissions contracts and cannot authorize runtime from metadata alone.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.repo_family.tenant_project_workspace.data_isolation_boundary",
+      boundaryFamily: "data_isolation_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "tenant, project, and workspace isolation",
+      inputExpectation:
+        "Future isolation metadata must define tenant, project, workspace, actor, and artifact boundaries before live data exists.",
+      injectionExpectation:
+        "Future isolation selectors must not be derived from untrusted strings without validation.",
+      rlsExpectation:
+        "Future RLS and app permissions must reject cross-tenant, cross-project, and cross-workspace access by default.",
+      permissionExpectation:
+        "Future isolation decisions require explicit subject and approval metadata, not display labels.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation:
+        "Future isolation audit trails must be append-safe and tamper-evident only after a separate writer contract."
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.ardyn.auth_permissions_enforcement.permission_enforcement_boundary",
+      boundaryFamily: "permission_enforcement_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      subject: "auth/permissions enforcement",
+      inputExpectation:
+        "Future permission inputs must carry explicit subject, role, scope, denial, consent, revocation, and audit metadata before enforcement.",
+      injectionExpectation:
+        "Future permission checks must reject policy, role, scope, and approval injection.",
+      rlsExpectation:
+        "Future permission enforcement must align with RLS and data-isolation contracts before DB/storage use.",
+      permissionExpectation:
+        "Ardyn currently records approval prerequisites only and implements no role engine, permission evaluator, policy enforcement runtime, approval decision, or approval grant.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.repo_family.fabric_coordination_envelope.content_safety_boundary",
+      boundaryFamily: "content_safety_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "Fabric coordination-envelope safety",
+      inputExpectation:
+        "Future Fabric envelope metadata must reject hidden transport, bus, broker, adapter, connector, registry, scheduler, importer, exporter, package, and task execution semantics.",
+      injectionExpectation:
+        "Future Fabric envelopes must be inert metadata and cannot interpolate envelope values into commands, routes, topics, URLs, or tasks.",
+      rlsExpectation:
+        "Future Fabric-related storage must define isolation before any envelope persistence.",
+      permissionExpectation:
+        "Fabric metadata cannot authorize runtime, approve commands, or grant connector access.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata,
+      locusRole:
+        "Locus may later display Fabric envelope safety metadata only.",
+      multiverseRole:
+        "Multiverse may later display Fabric envelope safety metadata only.",
+      fabricRole: notes.fabricMetadataOnly
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.locus.control_surface_input_safety.input_sanitization_boundary",
+      boundaryFamily: "input_sanitization_contract",
+      relatedSystem: "locus",
+      currentStatus: "future_contract_required",
+      subject: "Locus control-surface input safety",
+      inputExpectation:
+        "Future Locus control-surface inputs must reject hidden actions, command bindings, runtime grants, unsafe selectors, and browser automation semantics.",
+      injectionExpectation:
+        "Future Locus display inputs must remain color-independent, keyboard-visible metadata with no hidden action handlers from Ardyn.",
+      rlsExpectation:
+        "No Locus storage is implemented by Ardyn; future status persistence needs isolation contracts.",
+      permissionExpectation:
+        "Locus controls require consumer-owned permission checks before interactivity.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata,
+      locusRole:
+        "Locus remains a future first-class consumer target only; no Locus repo or runtime is modified."
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.multiverse.citizen_adapter_input_safety.input_sanitization_boundary",
+      boundaryFamily: "input_sanitization_contract",
+      relatedSystem: "multiverse",
+      currentStatus: "future_contract_required",
+      subject: "Multiverse citizen/adapter input safety",
+      inputExpectation:
+        "Future Multiverse citizen and adapter metadata must reject connector grants, task execution, adapter runtime, hidden routes, and unsafe orchestration semantics.",
+      injectionExpectation:
+        "Future citizen and adapter labels must be display metadata, not executable connector or task input.",
+      rlsExpectation:
+        "No Multiverse storage is implemented by Ardyn; future capability and task metadata require isolation contracts.",
+      permissionExpectation:
+        "Future Multiverse permission enforcement must be consumer-owned before adapters become actionable.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata,
+      multiverseRole:
+        "Multiverse remains a future first-class consumer target only; no Multiverse repo or runtime is modified."
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.ardyn.mcp_tool_exposure_safety.injection_prevention_boundary",
+      boundaryFamily: "injection_prevention_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      subject: "MCP/tool exposure safety",
+      inputExpectation:
+        "Future MCP/tool metadata must reject tool names, server URLs, arguments, task runners, and command exposure unless separately authorized.",
+      injectionExpectation:
+        "Future MCP/tool boundaries must prevent prompt, command, argument, route, and adapter injection before any exposure.",
+      rlsExpectation:
+        "Future tool result storage requires RLS and isolation contracts first.",
+      permissionExpectation:
+        "MCP/tool exposure remains blocked and cannot be granted by metadata.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.repo_family.connector_input_safety.injection_prevention_boundary",
+      boundaryFamily: "injection_prevention_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "blocked",
+      subject: "connector input safety",
+      inputExpectation:
+        "Future connector inputs must reject credentials, grants, ingestion URLs, scanner directives, file selection, and filesystem scanning semantics.",
+      injectionExpectation:
+        "Future connector contracts must prevent connector, path, credential, and payload injection before grants exist.",
+      rlsExpectation:
+        "Future connector output storage requires isolation and retention contracts first.",
+      permissionExpectation:
+        "Connector grants remain unavailable and cannot be produced by Ardyn metadata.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata,
+      locusRole:
+        "Locus may later display connector input safety metadata only.",
+      multiverseRole:
+        "Multiverse may later display connector candidate safety metadata only."
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.content_fabric.secure_drop_metadata_safety.secure_drop_boundary",
+      boundaryFamily: "secure_drop_boundary_contract",
+      relatedSystem: "content-fabric",
+      currentStatus: "future_contract_required",
+      subject: "Secure Drop metadata safety",
+      inputExpectation:
+        "Future Secure Drop references in Ardyn must stay metadata-only and reject crypto, transport, stego, send/receive, inbox polling, file selection, filesystem scanning, connector ingestion, secret/vault/env access, and ST3GG wrapping.",
+      injectionExpectation:
+        "Future Secure Drop metadata must not become payload, keyring, DID resolver, transport, or inbox input in Ardyn.",
+      rlsExpectation:
+        "Future Secure Drop metadata storage, if any, must be content-fabric-owned and isolated before persistence.",
+      permissionExpectation:
+        "Secure Drop identity, recipient, keyring, DID, consent, and authorization remain future content-fabric work.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation:
+        "Future Secure Drop audit metadata must avoid secret or payload disclosure and remain content-fabric-owned.",
+      locusRole:
+        "Locus may later display Secure Drop placeholder safety metadata only.",
+      fabricRole:
+        "Fabric may later carry Secure Drop reference metadata only.",
+      secureDropRole: notes.secureDropContentFabric
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.ardyn.secret_env_vault_exposure.secret_exposure_boundary",
+      boundaryFamily: "secret_exposure_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      subject: "secret/env/vault exposure",
+      inputExpectation:
+        "Future secret metadata must reject secret values, env file paths, vault clients, private keys, API secrets, and secret scanner runtime instructions.",
+      injectionExpectation:
+        "Future secret boundaries must prevent secret value interpolation into logs, commands, transport, fixtures, or display text.",
+      rlsExpectation:
+        "Future secret reference storage requires isolation and redaction contracts first.",
+      permissionExpectation:
+        "No current metadata can grant secret/env/vault access.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation:
+        "Future secret audit records must avoid value disclosure and require a separate writer contract."
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.repo_family.dependency_security_scan.dependency_security_boundary",
+      boundaryFamily: "dependency_security_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "metadata_only",
+      subject: "dependency/security scan evidence",
+      inputExpectation:
+        "Dependency scan evidence is advisory metadata only and cannot trigger dependency patch automation, live scanners, external lookup, or runtime remediation.",
+      injectionExpectation:
+        "Future scan-result ingestion must reject executable remediation, package writer, import/export, or CI semantics.",
+      rlsExpectation:
+        "Future scan-result storage needs isolation and retention contracts first.",
+      permissionExpectation:
+        "Security evidence cannot approve runtime, commands, connectors, or package changes.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation:
+        "Future scan evidence audits must identify provenance without writing runtime logs."
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.repo_family.audit_log_integrity.audit_integrity_boundary",
+      boundaryFamily: "audit_integrity_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "audit/log integrity",
+      inputExpectation:
+        "Future audit inputs must reject log-writer, transcript-writer, stdout/stderr writer, tamper-evident writer, filesystem write, and persistence semantics until a writer contract exists.",
+      injectionExpectation:
+        "Future audit fields must prevent log injection, path injection, newline confusion, hidden payloads, and command interpolation.",
+      rlsExpectation:
+        "Future audit persistence requires isolation, retention, deletion, and recovery contracts first.",
+      permissionExpectation:
+        "Audit metadata cannot approve or grant runtime behavior.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation:
+        "Audit integrity is planned as a future contract only; no audit or log writer exists now."
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.repo_family.secure_transport_https_hsts.secure_transport_boundary",
+      boundaryFamily: "secure_transport_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "https/hsts secure transport",
+      inputExpectation:
+        "Future transport metadata must distinguish secure transport requirements from actual server, listener, websocket/http, adapter, gRPC, MQTT, libp2p, or Fabric transport behavior.",
+      injectionExpectation:
+        "Future transport config must reject URL, route, header, certificate path, and proxy injection before implementation.",
+      rlsExpectation:
+        "Transport metadata contains no live data; future logs require isolation first.",
+      permissionExpectation:
+        "Secure transport planning cannot authorize endpoints, commands, connectors, or tasks.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation:
+        "https/hsts remains a future secure transport contract only; no server, listener, certificate, proxy, websocket/http, gRPC, MQTT, or libp2p transport is implemented.",
+      auditExpectation: auditMetadata
+    }),
+    securityRlsInputSanitizationBoundaryMapDefinition({
+      boundaryId:
+        "phase5-63.ardyn_subagent.prompt_output_safety.input_sanitization_boundary",
+      boundaryFamily: "input_sanitization_contract",
+      relatedSystem: "ardyn-subagent",
+      currentStatus: "future_contract_required",
+      subject: "subagent prompt/output safety",
+      inputExpectation:
+        "Future subagent handoff inputs and outputs must reject hidden commands, runtime authorization, process-control instructions, secret references, connector grants, and encoded bypass semantics.",
+      injectionExpectation:
+        "Future subagent metadata must prevent prompt injection from becoming command, tool, MCP, task, or transport execution.",
+      rlsExpectation:
+        "Future subagent transcript or audit storage requires Phase 5.61 storage isolation and retention contracts first.",
+      permissionExpectation:
+        "Subagent metadata cannot inherit operator permissions or issue approval grants.",
+      dependencyExpectation: metadataDependency,
+      transportExpectation: noTransport,
+      auditExpectation: auditMetadata,
+      fabricRole:
+        "Fabric may later carry subagent safety references only as metadata."
+    })
+  ];
+}
+
+function securityRlsInputSanitizationBoundaryMapEntries() {
+  return securityRlsInputSanitizationBoundaryMapDefinitions().map(
+    securityRlsInputSanitizationBoundaryMapEntry
+  );
+}
+
+function securityRlsInputSanitizationBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+
+  return {
+    securityRlsInputSanitizationContractBoundaryMapKind:
+      SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    boundaryIds: entries.map((entry) => entry.boundaryId),
+    boundaryFamilies: [...SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_FAMILIES],
+    relatedSystems: [
+      ...SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_RELATED_SYSTEMS
+    ],
+    currentStatusValues: [
+      ...SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_STATUSES
+    ],
+    countByFamily,
+    countByRelatedSystem,
+    phase548SecurityRlsCoverageItemRepresented: true,
+    phase559FabricAwareApiBackendBoundaryReferenced: true,
+    phase560EncodedHandoffConformanceReferenced: true,
+    phase561DatabaseStorageContractBoundaryReferenced: true,
+    phase562AuthPermissionsContractBoundaryReferenced: true,
+    securityRlsInputSanitizationBoundaryMetadataOnly: true,
+    noLiveSecurityEnforcementPerformed: true,
+    noSanitizerRuntimeImplemented: true,
+    noSecurityMiddlewareImplemented: true,
+    noRlsRuntimeImplemented: true,
+    noPermissionEnforcementRuntime: true,
+    noSecureTransportRuntime: true,
+    noDependencyPatchAutomation: true,
+    noAuditLogWriters: true,
+    noSecretEnvVaultAccess: true,
+    contentFabricCanonicalSecureDropOwnerOnly: true,
+    allBlockedAuthorizationFlagsFalse: true,
+    allUnsafeSecurityRlsInputRuntimeFlagsFalse: true,
+    allRuntimeEffectsFalse: true,
+    allEntriesNonAuthorizing: true
+  };
+}
+
+function securityRlsInputSanitizationBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    unsafeSanitizerRlsPermissionSecureTransportDependencyAuditLogSecretConnectorExternalLookupRuntimeFlagsFailClosed:
+      true,
+    hiddenBackendApiServerMiddlewareSemanticsFailClosed: true,
+    hiddenDatabaseRlsSchemaMigrationSemanticsFailClosed: true,
+    hiddenSecretEnvVaultAccessSemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+      true,
+    hiddenAuditLogWriteTamperEvidentWriterSemanticsFailClosed: true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationImplementsSanitizerRuntime: false,
+    validationImplementsSecurityMiddleware: false,
+    validationImplementsRlsRuntime: false,
+    validationImplementsPermissionEnforcementRuntime: false,
+    validationImplementsSecureTransportRuntime: false,
+    validationRunsDependencyPatchAutomation: false,
+    validationWritesAuditLogs: false,
+    validationWritesRuntimeLogs: false,
+    validationAccessesSecrets: false,
+    validationRunsConnectorScanner: false,
+    validationPerformsExternalLookup: false,
+    validationRunsRuntime: false
+  };
+}
+
+function securityRlsInputSanitizationBoundaryMapGaps() {
+  return [
+    "No security middleware, runtime sanitizer, injection-prevention runtime, RLS runtime, permission enforcement runtime, secure transport runtime, or backend API/server behavior exists in Ardyn.",
+    "Database/storage/RLS, auth/permissions, and Fabric boundaries are referenced as metadata only and still require explicit implementation and runtime authorization contracts.",
+    "Secrets, env files, vaults, connector grants, Secure Drop metadata, encoded handoff content, and audit/log writers remain blocked and cannot be enabled by metadata.",
+    "Dependency and security scan evidence is advisory only; no live scanner, dependency patch automation, external lookup, package write, import/export, or CI behavior is implemented.",
+    "Future UI/display consumers still need consumer-owned sanitization, accessibility, and action-disablement validation before any interactive surface exists."
+  ];
+}
+
+function securityRlsInputSanitizationBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    SECURITY_RLS_INPUT_SANITIZATION_BOUNDARY_UNSAFE_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function securityRlsInputSanitizationBoundaryMapState(reviewedAt) {
+  const boundaryEntries = securityRlsInputSanitizationBoundaryMapEntries();
+
+  return {
+    schema: SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion:
+      SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind: SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase548ProductionReadinessCoverageMatrix:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      phase548SecurityRlsAreaNumber: 8,
+      phase548SecurityRlsStatus: "deferred",
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase560InterAgentEncodedHandoffConformance:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      phase561DatabaseStorageContractBoundary:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      secureDropCanonicalOwner: "content-fabric",
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      securityRlsInputSanitizationBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      securityRlsInputSanitizationBoundaryMapValidationRules(),
+    topSecurityRlsAuthDatabaseFabricApiBackendGaps:
+      securityRlsInputSanitizationBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.64-review-only-rate-limiting-abuse-control-contract-boundary-map",
+    securityRlsInputSanitizationContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...securityRlsInputSanitizationBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function securityRlsInputSanitizationBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  securityRlsInputSanitizationContractBoundaryMap
+}) {
+  return {
+    schema: SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion:
+      SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_VERSION,
+    securityRlsInputSanitizationContractBoundaryMapKind:
+      SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_KIND,
+    securityRlsInputSanitizationContractBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    securityRlsInputSanitizationContractBoundaryMapProduced: accepted,
+    securityRlsInputSanitizationContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? securityRlsInputSanitizationContractBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? securityRlsInputSanitizationContractBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? securityRlsInputSanitizationContractBoundaryMap.invalidBoundaryCasePolicy
+      : securityRlsInputSanitizationBoundaryMapValidationRules(),
+    topSecurityRlsAuthDatabaseFabricApiBackendGaps: accepted
+      ? securityRlsInputSanitizationContractBoundaryMap
+          .topSecurityRlsAuthDatabaseFabricApiBackendGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? securityRlsInputSanitizationContractBoundaryMap.recommendedNextPhase
+      : null,
+    securityRlsInputSanitizationContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...securityRlsInputSanitizationBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            securityRuntimeAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createSecurityRlsInputSanitizationContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord =
+    securityRlsInputSanitizationBoundaryMapInputRecord(input);
+  const reviewedAt =
+    securityRlsInputSanitizationBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    securityRlsInputSanitizationBoundaryMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const securityRlsInputSanitizationContractBoundaryMap = accepted
+    ? securityRlsInputSanitizationBoundaryMapState(reviewedAt)
+    : null;
+
+  return securityRlsInputSanitizationBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    securityRlsInputSanitizationContractBoundaryMap
   });
 }
 

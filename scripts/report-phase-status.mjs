@@ -306,6 +306,9 @@ const phase561DatabaseStorageContractBoundaryMap = await readJson(
 const phase562AuthPermissionsContractBoundaryMap = await readJson(
   "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json"
 );
+const phase563SecurityRlsInputSanitizationContractBoundaryMap = await readJson(
+  "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -823,14 +826,130 @@ const phase562SafetyFlags = {
   phase562FabricSourceChanged: false
 };
 
+const phase563SafetyFlags = {
+  phase563SecurityRlsInputSanitizationContractBoundaryMapRecorded: true,
+  phase563SecurityRlsInputSanitizationContractBoundaryMapReviewOnly: true,
+  phase563SecurityRlsInputSanitizationContractBoundaryMapProduced: true,
+  phase563BoundaryEntriesRecorded: true,
+  phase563Phase548SecurityRlsCoverageItemRepresented: true,
+  phase563Phase559FabricAwareApiBackendBoundaryReferenced: true,
+  phase563Phase560EncodedHandoffConformanceReferenced: true,
+  phase563Phase561DatabaseStorageContractBoundaryReferenced: true,
+  phase563Phase562AuthPermissionsContractBoundaryReferenced: true,
+  phase563SecurityRlsInputSanitizationBoundaryMetadataOnly: true,
+  phase563NoLiveSecurityEnforcementPerformed: true,
+  phase563NoSanitizerRuntimeImplemented: true,
+  phase563NoSecurityMiddlewareImplemented: true,
+  phase563NoRlsRuntimeImplemented: true,
+  phase563NoPermissionEnforcementRuntime: true,
+  phase563NoSecureTransportRuntime: true,
+  phase563NoDependencyPatchAutomation: true,
+  phase563NoAuditLogWriters: true,
+  phase563NoSecretEnvVaultAccess: true,
+  phase563ContentFabricCanonicalSecureDropOwnerOnly: true,
+  phase563AllBlockedAuthorizationFlagsFalse: true,
+  phase563AllUnsafeSecurityRlsInputRuntimeFlagsFalse: true,
+  phase563AllRuntimeEffectsFalse: true,
+  phase563AllEntriesNonAuthorizing: true,
+  phase563InvalidSecurityRlsInputSanitizationBoundaryCasesFailClosed: true,
+  phase563UnknownTopLevelFieldsFailClosed: true,
+  phase563HiddenBackendApiServerMiddlewareSemanticsFailClosed: true,
+  phase563HiddenDatabaseRlsSchemaMigrationSemanticsFailClosed: true,
+  phase563HiddenSecretEnvVaultAccessSemanticsFailClosed: true,
+  phase563HiddenConnectorGrantSemanticsFailClosed: true,
+  phase563HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+  phase563HiddenSecureDropImplementationSemanticsFailClosed: true,
+  phase563HiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+    true,
+  phase563HiddenAuditLogWriteTamperEvidentWriterSemanticsFailClosed: true,
+  phase563ServeRuntimeStillDefaultBlocked: true,
+  phase563FallowRuntimeUsed: false,
+  phase563SecurityRlsInputSanitizationContractBoundaryMapAuthoritative: false,
+  phase563SanitizerRuntimeImplemented: false,
+  phase563RuntimeSanitizerImplemented: false,
+  phase563SecurityMiddlewareImplemented: false,
+  phase563BackendSecurityMiddlewareImplemented: false,
+  phase563SchemaValidatorAuthorizesRuntime: false,
+  phase563InjectionPreventionRuntimeImplemented: false,
+  phase563RlsRuntimeImplemented: false,
+  phase563RlsPolicyImplemented: false,
+  phase563DataIsolationRuntimeImplemented: false,
+  phase563PermissionEnforcementRuntimeImplemented: false,
+  phase563PolicyEnforcementRuntimeImplemented: false,
+  phase563SecureTransportRuntimeImplemented: false,
+  phase563HttpsHstsServerConfigImplemented: false,
+  phase563DependencyPatchAutomationEnabled: false,
+  phase563DependencySecurityScannerRuntimeEnabled: false,
+  phase563LiveSecurityScannerEnabled: false,
+  phase563AuditWriterImplemented: false,
+  phase563AuditLogWriterImplemented: false,
+  phase563LogWriterImplemented: false,
+  phase563TamperEvidentWriterImplemented: false,
+  phase563SecretScannerRuntimeEnabled: false,
+  phase563ConnectorScannerRuntimeEnabled: false,
+  phase563ExternalLookupEnabled: false,
+  phase563DatabaseClientImplemented: false,
+  phase563DatabaseSchemaImplemented: false,
+  phase563DatabaseMigrationImplemented: false,
+  phase563StorageAdapterImplemented: false,
+  phase563CacheEngineImplemented: false,
+  phase563CacheInvalidationRuntimeImplemented: false,
+  phase563TranscriptWriterImplemented: false,
+  phase563FilesystemWriteEnabled: false,
+  phase563ImportExportPathImplementedByArdyn: false,
+  phase563PackageDistributionImplementedByArdyn: false,
+  phase563PersistenceImplementedByArdyn: false,
+  phase563BackendRuntimeImplementedByArdyn: false,
+  phase563ApiEndpointImplementedByArdyn: false,
+  phase563ServerImplementedByArdyn: false,
+  phase563WebsocketHttpTransportImplementedByArdyn: false,
+  phase563FabricRuntimeImplementedByArdyn: false,
+  phase563EncodedHandoffRuntimeImplementedByArdyn: false,
+  phase563CodecImplemented: false,
+  phase563TranslatorRuntimeImplemented: false,
+  phase563CommandExposureEnabled: false,
+  phase563CommandRuntimeControlEnabled: false,
+  phase563RuntimeExecutionEnabled: false,
+  phase563RuntimeAuthorizationEnabled: false,
+  phase563DatabaseStorageRuntimeWritesEnabled: false,
+  phase563SecretVaultEnvAccessEnabled: false,
+  phase563SecretsRuntimeIngestionEnabled: false,
+  phase563ConnectorGrantProduced: false,
+  phase563McpToolExposureEnabled: false,
+  phase563TaskExecutionEnabled: false,
+  phase563SecureDropImplemented: false,
+  phase563SecureDropCryptoImplemented: false,
+  phase563SecureDropTransportImplemented: false,
+  phase563SecureDropStegoImplemented: false,
+  phase563SecureDropSendReceiveImplemented: false,
+  phase563SecureDropInboxPollingEnabled: false,
+  phase563St3ggVendored: false,
+  phase563ServiceDiscoveryEnabled: false,
+  phase563ScheduleEnforcementEnabled: false,
+  phase563BackgroundPollingEnabled: false,
+  phase563FilesystemScanningEnabled: false,
+  phase563ProcessControlEnabled: false,
+  phase563UiFrontendBrowserRenderingImplemented: false,
+  phase563ApprovalDecisionProduced: false,
+  phase563ApprovalGrantProduced: false,
+  phase563PermissionEvaluatorImplemented: false,
+  phase563AuthorizationEvaluatorImplemented: false,
+  phase563ReportRunsChecks: false,
+  phase563BlockedCliBypassEnabled: false,
+  phase563DryRunBypassesBlock: false,
+  phase563CliSourceChanged: false,
+  phase563RustSourceChanged: false,
+  phase563FabricSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.62",
+    id: "5.63",
     name:
-      "Review-only auth/permissions contract boundary map",
+      "Review-only security/RLS/input-sanitization contract boundary map",
     executionPosture:
-      "auth-permissions-contract-boundary-map runtime-disabled metadata-only no-identity-provider no-login-flow no-session-runtime no-token-issuer no-api-key-issuer no-role-engine no-permission-evaluator no-authorization-evaluator no-approval-decision no-approval-grant no-connector-grant no-secret-env-vault-access no-delegation-revocation-runtime no-runtime-authorization no-policy-enforcement no-external-idp no-keyring-did no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-backend-api-server no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
+      "security-rls-input-sanitization-contract-boundary-map runtime-disabled metadata-only no-security-middleware no-runtime-sanitizer no-rls-runtime no-permission-enforcement-runtime no-secure-transport-runtime no-dependency-patch-automation no-audit-log-writer no-secret-env-vault-access no-connector-grant no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-backend-api-server no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -911,18 +1030,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.62 auth/permissions contract boundary map status report.",
+        "Render this deterministic local Phase 5.63 security/RLS/input-sanitization contract boundary map status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.62 status report.",
+      purpose: "Run focused tests for this local Phase 5.63 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.62 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.63 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-63-security-rls-input-sanitization-contract-boundary-map.test.mjs",
+      purpose:
+        "Run focused Phase 5.63 security/RLS/input-sanitization contract boundary map and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -25944,6 +26070,395 @@ const report = {
       noFabricSourceChange: true
     }
   },
+  phase563SecurityRlsInputSanitizationContractBoundaryMapInventory: {
+    statusLayer: {
+      schema: phase563SecurityRlsInputSanitizationContractBoundaryMap.schema,
+      schemaVersion:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap.schemaVersion,
+      kind:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .securityRlsInputSanitizationContractBoundaryMapKind,
+      mode:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .securityRlsInputSanitizationContractBoundaryMapMode,
+      classification:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap.classification,
+      produced:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .securityRlsInputSanitizationContractBoundaryMapProduced,
+      boundaryEntryCount:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.boundaryEntryCount,
+      countByFamily:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.countByFamily,
+      countByRelatedSystem:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.countByRelatedSystem,
+      phase548SecurityRlsCoverageItemRepresented:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.phase548SecurityRlsCoverageItemRepresented,
+      phase559FabricAwareApiBackendBoundaryReferenced:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.phase559FabricAwareApiBackendBoundaryReferenced,
+      phase560EncodedHandoffConformanceReferenced:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.phase560EncodedHandoffConformanceReferenced,
+      phase561DatabaseStorageContractBoundaryReferenced:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.phase561DatabaseStorageContractBoundaryReferenced,
+      phase562AuthPermissionsContractBoundaryReferenced:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.phase562AuthPermissionsContractBoundaryReferenced,
+      securityRlsInputSanitizationBoundaryMetadataOnly:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.securityRlsInputSanitizationBoundaryMetadataOnly,
+      noLiveSecurityEnforcementPerformed:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.noLiveSecurityEnforcementPerformed,
+      noSanitizerRuntimeImplemented:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.noSanitizerRuntimeImplemented,
+      noSecurityMiddlewareImplemented:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.noSecurityMiddlewareImplemented,
+      noRlsRuntimeImplemented:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.noRlsRuntimeImplemented,
+      noPermissionEnforcementRuntime:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.noPermissionEnforcementRuntime,
+      noSecureTransportRuntime:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.noSecureTransportRuntime,
+      noDependencyPatchAutomation:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.noDependencyPatchAutomation,
+      noAuditLogWriters:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.noAuditLogWriters,
+      noSecretEnvVaultAccess:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.noSecretEnvVaultAccess,
+      contentFabricCanonicalSecureDropOwnerOnly:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.contentFabricCanonicalSecureDropOwnerOnly,
+      allBlockedAuthorizationFlagsFalse:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.allBlockedAuthorizationFlagsFalse,
+      allUnsafeSecurityRlsInputRuntimeFlagsFalse:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.allUnsafeSecurityRlsInputRuntimeFlagsFalse,
+      allRuntimeEffectsFalse:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.allRuntimeEffectsFalse,
+      allEntriesNonAuthorizing:
+        phase563SecurityRlsInputSanitizationContractBoundaryMap
+          .boundaryMapSummary.allEntriesNonAuthorizing,
+      reportRunsChecks: false,
+      sanitizerRuntimeImplemented: false,
+      runtimeSanitizerImplemented: false,
+      securityMiddlewareImplemented: false,
+      backendSecurityMiddlewareImplemented: false,
+      schemaValidatorAuthorizesRuntime: false,
+      injectionPreventionRuntimeImplemented: false,
+      rlsRuntimeImplemented: false,
+      rlsPolicyImplemented: false,
+      permissionEnforcementRuntimeImplemented: false,
+      policyEnforcementRuntimeImplemented: false,
+      secureTransportRuntimeImplemented: false,
+      httpsHstsServerConfigImplemented: false,
+      dependencyPatchAutomationEnabled: false,
+      dependencySecurityScannerRuntimeEnabled: false,
+      liveSecurityScannerEnabled: false,
+      auditWriterImplemented: false,
+      auditLogWriterImplemented: false,
+      logWriterImplemented: false,
+      tamperEvidentWriterImplemented: false,
+      secretScannerRuntimeEnabled: false,
+      connectorScannerRuntimeEnabled: false,
+      externalLookupEnabled: false,
+      databaseClientImplemented: false,
+      databaseSchemaImplemented: false,
+      databaseMigrationImplemented: false,
+      storageAdapterImplemented: false,
+      cacheEngineImplemented: false,
+      cacheInvalidationRuntimeImplemented: false,
+      transcriptWriterImplemented: false,
+      filesystemWriteEnabled: false,
+      importExportPathImplementedByArdyn: false,
+      packageDistributionImplementedByArdyn: false,
+      persistenceImplementedByArdyn: false,
+      backendRuntimeImplementedByArdyn: false,
+      apiEndpointImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      websocketHttpTransportImplementedByArdyn: false,
+      fabricRuntimeImplementedByArdyn: false,
+      encodedHandoffRuntimeImplementedByArdyn: false,
+      codecImplemented: false,
+      translatorRuntimeImplemented: false,
+      commandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretVaultEnvAccessEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      connectorGrantProduced: false,
+      mcpToolExposureEnabled: false,
+      taskExecutionEnabled: false,
+      secureDropImplemented: false,
+      st3ggVendored: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      blockedCliBypassEnabled: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+        "Records deterministic review-only security/RLS/input-sanitization contract boundary metadata while sanitizer runtime, RLS runtime, security middleware, backend/API/server, audit/log writers, secrets, connectors, DB/storage, Fabric, Secure Drop, MCP/task, filesystem/process, and UI behavior remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+        "Provides the auth/permissions boundary referenced by Phase 5.63."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-61-database-storage-contract-boundary-map.md",
+        "Provides the database/storage/RLS boundary referenced by Phase 5.63."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+        "Provides the encoded handoff safety boundary referenced by Phase 5.63."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+        "Provides the Fabric-aware API/backend boundary referenced by Phase 5.63."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-48-production-readiness-coverage-matrix.md",
+        "Provides the production-readiness Security & RLS coverage item represented by Phase 5.63."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-48-production-readiness-coverage-matrix.md",
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+      "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+      "docs/phase-5-61-database-storage-contract-boundary-map.md",
+      "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+      "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+        "Records eighteen metadata-only security/RLS/input-sanitization boundary entries with false authorization flags, false unsafe security/RLS/input/runtime flags, false runtime effects, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-63-security-rls-input-sanitization-contract-boundary-map.test.mjs",
+        "Pins the Phase 5.63 helper, deterministic fixture shape, Phase 5.48/5.59/5.60/5.61/5.62 references, fail-closed security/RLS/input cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.63 status inventory, docs cross-links, fixture inventory, and security/RLS/input-sanitization runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-63-security-rls-input-sanitization-contract-boundary-map.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      externalRepoFilesChanged: [],
+      securityMiddlewareAddedByThisPhase: false,
+      sanitizerRuntimeAddedByThisPhase: false,
+      rlsRuntimeAddedByThisPhase: false,
+      rlsPolicyAddedByThisPhase: false,
+      permissionEnforcementRuntimeAddedByThisPhase: false,
+      secureTransportRuntimeAddedByThisPhase: false,
+      dependencyPatchAutomationAddedByThisPhase: false,
+      auditLogWriterAddedByThisPhase: false,
+      secretEnvVaultAccessAddedByThisPhase: false,
+      connectorGrantAddedByThisPhase: false,
+      fabricRuntimeAddedByThisPhase: false,
+      secureDropRuntimeAddedByThisPhase: false,
+      databaseStorageRuntimeAddedByThisPhase: false,
+      encodedHandoffRuntimeAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateSecurityRlsInputContractPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    boundaryMapSummary:
+      phase563SecurityRlsInputSanitizationContractBoundaryMap.boundaryMapSummary,
+    sourcePhaseContext:
+      phase563SecurityRlsInputSanitizationContractBoundaryMap
+        .securityRlsInputSanitizationContractBoundaryMap.sourcePhaseContext,
+    boundaryEntries:
+      phase563SecurityRlsInputSanitizationContractBoundaryMap.boundaryEntries.map(
+        ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          securityRlsInputSanitizationBoundaryMetadataOnly,
+          noLiveSecurityEnforcementPerformed,
+          productionReadinessAreaReference,
+          phase559FabricAwareApiBackendReference,
+          phase560EncodedHandoffConformanceReference,
+          phase561DatabaseStorageContractBoundaryReference,
+          phase562AuthPermissionsContractBoundaryReference,
+          explicitBlockedAuthorizationFlags,
+          unsafeSecurityRlsInputRuntimeFlags,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          securityRlsInputSanitizationBoundaryMetadataOnly,
+          noLiveSecurityEnforcementPerformed,
+          phase548AreaNumber: productionReadinessAreaReference.areaNumber,
+          phase548AuthorizesRuntime:
+            productionReadinessAreaReference.authorizesRuntime,
+          phase559ImplementsFabricRuntime:
+            phase559FabricAwareApiBackendReference.implementsFabricRuntime,
+          phase560ImplementsEncodedHandoffRuntime:
+            phase560EncodedHandoffConformanceReference
+              .implementsEncodedHandoffRuntime,
+          phase561ImplementsDatabaseStorageRuntime:
+            phase561DatabaseStorageContractBoundaryReference
+              .implementsDatabaseStorageRuntime,
+          phase562ImplementsAuthPermissionsRuntime:
+            phase562AuthPermissionsContractBoundaryReference
+              .implementsAuthPermissionsRuntime,
+          explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+            explicitBlockedAuthorizationFlags
+          ).every((value) => value === false),
+          unsafeSecurityRlsInputRuntimeFlagsAllFalse: Object.values(
+            unsafeSecurityRlsInputRuntimeFlags
+          ).every((value) => value === false),
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    invalidBoundaryCasePolicy:
+      phase563SecurityRlsInputSanitizationContractBoundaryMap
+        .invalidBoundaryCasePolicy,
+    topSecurityRlsAuthDatabaseFabricApiBackendGaps:
+      phase563SecurityRlsInputSanitizationContractBoundaryMap
+        .topSecurityRlsAuthDatabaseFabricApiBackendGaps,
+    recommendedNextPhase:
+      phase563SecurityRlsInputSanitizationContractBoundaryMap
+        .recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase563SecurityRlsInputSanitizationContractBoundaryMap.runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-63-security-rls-input-sanitization-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-62-auth-permissions-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-61-database-storage-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-48-production-readiness-coverage-matrix.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      securityRlsInputSanitizationContractBoundaryMapRecorded: true,
+      securityRlsInputSanitizationContractBoundaryMapReviewOnly: true,
+      securityRlsInputSanitizationContractBoundaryMapAuthoritative: false,
+      securityRlsInputSanitizationContractBoundaryMapProduced: true,
+      boundaryEntriesRecorded: true,
+      phase548SecurityRlsCoverageItemRepresented: true,
+      phase559FabricAwareApiBackendBoundaryReferenced: true,
+      phase560EncodedHandoffConformanceReferenced: true,
+      phase561DatabaseStorageContractBoundaryReferenced: true,
+      phase562AuthPermissionsContractBoundaryReferenced: true,
+      securityRlsInputSanitizationBoundaryMetadataOnly: true,
+      noLiveSecurityEnforcementPerformed: true,
+      noSanitizerRuntimeImplemented: true,
+      noSecurityMiddlewareImplemented: true,
+      noRlsRuntimeImplemented: true,
+      noPermissionEnforcementRuntime: true,
+      noSecureTransportRuntime: true,
+      noDependencyPatchAutomation: true,
+      noAuditLogWriters: true,
+      noSecretEnvVaultAccess: true,
+      contentFabricCanonicalSecureDropOwnerOnly: true,
+      allBlockedAuthorizationFlagsFalse: true,
+      allUnsafeSecurityRlsInputRuntimeFlagsFalse: true,
+      allRuntimeEffectsFalse: true,
+      allEntriesNonAuthorizing: true,
+      invalidSecurityRlsInputSanitizationBoundaryCasesFailClosed: true,
+      sanitizerRuntimeImplemented: false,
+      runtimeSanitizerImplemented: false,
+      securityMiddlewareImplemented: false,
+      backendSecurityMiddlewareImplemented: false,
+      rlsRuntimeImplemented: false,
+      rlsPolicyImplemented: false,
+      permissionEnforcementRuntimeImplemented: false,
+      secureTransportRuntimeImplemented: false,
+      dependencyPatchAutomationEnabled: false,
+      auditLogWriterImplemented: false,
+      logWriterImplemented: false,
+      secretVaultEnvAccessEnabled: false,
+      connectorGrantProduced: false,
+      databaseClientImplemented: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      fabricRuntimeImplementedByArdyn: false,
+      encodedHandoffRuntimeImplementedByArdyn: false,
+      commandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      mcpToolExposureEnabled: false,
+      taskExecutionEnabled: false,
+      secureDropImplemented: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      blockedCliBypassEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFabricSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -26041,6 +26556,7 @@ const report = {
     phase560InterAgentEncodedHandoffConformance: true,
     phase561DatabaseStorageContractBoundaryMap: true,
     phase562AuthPermissionsContractBoundaryMap: true,
+    phase563SecurityRlsInputSanitizationContractBoundaryMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -29340,6 +29856,7 @@ const report = {
       ...phase560SafetyFlags,
       ...phase561SafetyFlags,
       ...phase562SafetyFlags,
+      ...phase563SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,
