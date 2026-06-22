@@ -333,6 +333,11 @@ export const INTER_AGENT_ENCODED_HANDOFF_CONFORMANCE_SCHEMA:
 export const INTER_AGENT_ENCODED_HANDOFF_CONFORMANCE_VERSION: "0.1.0";
 export const INTER_AGENT_ENCODED_HANDOFF_CONFORMANCE_KIND:
   "inter-agent-encoded-handoff-conformance";
+export const DATABASE_STORAGE_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.61.database-storage-contract-boundary-map-result";
+export const DATABASE_STORAGE_CONTRACT_BOUNDARY_MAP_VERSION: "0.1.0";
+export const DATABASE_STORAGE_CONTRACT_BOUNDARY_MAP_KIND:
+  "database-storage-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -8191,6 +8196,228 @@ export interface InterAgentEncodedHandoffConformanceResult {
   [key: string]: unknown;
 }
 
+export type DatabaseStorageContractBoundaryMapClassification =
+  | "valid_database_storage_contract_boundary_map_runtime_still_blocked"
+  | "malformed_database_storage_contract_boundary_map_input_rejected"
+  | "missing_required_database_storage_contract_boundary_entry_rejected"
+  | "unknown_top_level_field_database_storage_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_database_storage_contract_boundary_map_input_rejected"
+  | "unknown_related_system_database_storage_contract_boundary_map_input_rejected"
+  | "unknown_current_status_database_storage_contract_boundary_map_input_rejected"
+  | "unknown_data_classification_database_storage_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_database_storage_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_database_storage_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_database_storage_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_database_storage_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_database_storage_contract_boundary_map_input_rejected"
+  | "hidden_database_connection_semantics_database_storage_contract_boundary_map_input_rejected"
+  | "hidden_filesystem_write_semantics_database_storage_contract_boundary_map_input_rejected"
+  | "hidden_transcript_audit_write_semantics_database_storage_contract_boundary_map_input_rejected"
+  | "hidden_cache_invalidation_runtime_semantics_database_storage_contract_boundary_map_input_rejected"
+  | "hidden_migration_schema_change_semantics_database_storage_contract_boundary_map_input_rejected"
+  | "hidden_import_export_package_persistence_semantics_database_storage_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_database_storage_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_database_storage_contract_boundary_map_input_rejected"
+  | "unsafe_database_storage_cache_persistence_write_migration_rls_backup_restore_retention_runtime_flags_database_storage_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_database_storage_contract_boundary_map_input_rejected"
+  | "noncanonical_database_storage_contract_boundary_map_input_rejected";
+
+export type DatabaseStorageContractBoundaryFamily =
+  | "database_contract"
+  | "storage_contract"
+  | "cache_contract"
+  | "invalidation_contract"
+  | "data_isolation_contract"
+  | "transcript_storage_contract"
+  | "audit_storage_contract"
+  | "artifact_storage_contract"
+  | "retention_policy_contract"
+  | "backup_recovery_contract";
+
+export type DatabaseStorageContractBoundaryRelatedSystem =
+  | "ardyn"
+  | "ardyn-subagent"
+  | "locus"
+  | "multiverse"
+  | "content-fabric"
+  | "repo-family";
+
+export type DatabaseStorageContractBoundaryStatus =
+  | "metadata_only"
+  | "blocked"
+  | "future_contract_required";
+
+export type DatabaseStorageContractBoundaryDataClassification =
+  | "no_live_data"
+  | "metadata_only"
+  | "future_transcript_data"
+  | "future_audit_data"
+  | "future_user_content"
+  | "future_secure_drop_metadata";
+
+export interface DatabaseStorageContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily: DatabaseStorageContractBoundaryFamily;
+  relatedSystem: DatabaseStorageContractBoundaryRelatedSystem;
+  currentStatus: DatabaseStorageContractBoundaryStatus;
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  dataClassificationNotes: DatabaseStorageContractBoundaryDataClassification[];
+  dataIsolationExpectation: string;
+  cacheInvalidationExpectation: string;
+  rlsAppPermissionExpectation: string;
+  retentionDeletionExpectation: string;
+  backupRecoveryExpectation: string;
+  transcriptAuditWriteBoundaryNote: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  secureDropRoleDescription: string;
+  productionReadinessAreaReference: Record<string, boolean | number | string>;
+  phase559FabricAwareApiBackendReference: Record<string, boolean | string>;
+  phase560EncodedHandoffConformanceReference: Record<string, boolean | string>;
+  databaseStorageBoundaryMetadataOnly: true;
+  noLiveDataAccessed: true;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeDatabaseStorageRuntimeFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface DatabaseStorageContractBoundaryMapState {
+  schema: "ardyn.phase-5.61.database-storage-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "database-storage-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: DatabaseStorageContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topDatabaseStorageFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  databaseStorageContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  databaseClientImplemented: false;
+  databaseSchemaImplemented: false;
+  databaseMigrationImplemented: false;
+  rlsPolicyImplemented: false;
+  storageAdapterImplemented: false;
+  cacheEngineImplemented: false;
+  cacheInvalidationRuntimeImplemented: false;
+  transcriptWriterImplemented: false;
+  auditWriterImplemented: false;
+  filesystemWriteEnabled: false;
+  backupRestoreImplemented: false;
+  retentionDeletionJobImplemented: false;
+  importExportPathImplementedByArdyn: false;
+  packageDistributionImplementedByArdyn: false;
+  persistenceImplementedByArdyn: false;
+  backendRuntimeImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  websocketHttpTransportImplementedByArdyn: false;
+  fabricRuntimeImplementedByArdyn: false;
+  commandExposureEnabled: false;
+  commandRuntimeControlEnabled: false;
+  runtimeExecutionEnabled: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  connectorGrantProduced: false;
+  mcpToolExposureEnabled: false;
+  taskExecutionEnabled: false;
+  secureDropImplemented: false;
+  st3ggVendored: false;
+  encodedHandoffRuntimeImplementedByArdyn: false;
+  codecImplemented: false;
+  translatorRuntimeImplemented: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  backgroundPollingEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  blockedCliBypassEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface DatabaseStorageContractBoundaryMapResult {
+  schema: "ardyn.phase-5.61.database-storage-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  databaseStorageContractBoundaryMapKind: "database-storage-contract-boundary-map";
+  databaseStorageContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: DatabaseStorageContractBoundaryMapClassification;
+  databaseStorageContractBoundaryMapProduced: boolean;
+  databaseStorageContractBoundaryMap:
+    | DatabaseStorageContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | DatabaseStorageContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: DatabaseStorageContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topDatabaseStorageFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  databaseStorageContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  databaseClientImplemented: false;
+  databaseSchemaImplemented: false;
+  databaseMigrationImplemented: false;
+  rlsPolicyImplemented: false;
+  storageAdapterImplemented: false;
+  cacheEngineImplemented: false;
+  cacheInvalidationRuntimeImplemented: false;
+  transcriptWriterImplemented: false;
+  auditWriterImplemented: false;
+  filesystemWriteEnabled: false;
+  backupRestoreImplemented: false;
+  retentionDeletionJobImplemented: false;
+  importExportPathImplementedByArdyn: false;
+  packageDistributionImplementedByArdyn: false;
+  persistenceImplementedByArdyn: false;
+  backendRuntimeImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  websocketHttpTransportImplementedByArdyn: false;
+  fabricRuntimeImplementedByArdyn: false;
+  commandExposureEnabled: false;
+  commandRuntimeControlEnabled: false;
+  runtimeExecutionEnabled: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  connectorGrantProduced: false;
+  mcpToolExposureEnabled: false;
+  taskExecutionEnabled: false;
+  secureDropImplemented: false;
+  st3ggVendored: false;
+  encodedHandoffRuntimeImplementedByArdyn: false;
+  codecImplemented: false;
+  translatorRuntimeImplemented: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  backgroundPollingEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  blockedCliBypassEnabled: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -8582,6 +8809,10 @@ export function createInterAgentEncodedHandoffConformanceForReview(input?: {
   handoffEntries?: unknown[];
   oneClickOptions?: unknown[];
 }): InterAgentEncodedHandoffConformanceResult;
+export function createDatabaseStorageContractBoundaryMapForReview(input?: {
+  reviewedAt?: string;
+  boundaryEntries?: unknown[];
+}): DatabaseStorageContractBoundaryMapResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
