@@ -338,6 +338,11 @@ export const DATABASE_STORAGE_CONTRACT_BOUNDARY_MAP_SCHEMA:
 export const DATABASE_STORAGE_CONTRACT_BOUNDARY_MAP_VERSION: "0.1.0";
 export const DATABASE_STORAGE_CONTRACT_BOUNDARY_MAP_KIND:
   "database-storage-contract-boundary-map";
+export const AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.62.auth-permissions-contract-boundary-map-result";
+export const AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_VERSION: "0.1.0";
+export const AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_KIND:
+  "auth-permissions-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -8418,6 +8423,257 @@ export interface DatabaseStorageContractBoundaryMapResult {
   [key: string]: unknown;
 }
 
+export type AuthPermissionsContractBoundaryMapClassification =
+  | "valid_auth_permissions_contract_boundary_map_runtime_still_blocked"
+  | "malformed_auth_permissions_contract_boundary_map_input_rejected"
+  | "missing_required_auth_permissions_contract_boundary_entry_rejected"
+  | "unknown_top_level_field_auth_permissions_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_auth_permissions_contract_boundary_map_input_rejected"
+  | "unknown_related_system_auth_permissions_contract_boundary_map_input_rejected"
+  | "unknown_current_status_auth_permissions_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_auth_permissions_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_auth_permissions_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_auth_permissions_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_auth_permissions_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_auth_permissions_contract_boundary_map_input_rejected"
+  | "hidden_login_session_token_api_key_semantics_auth_permissions_contract_boundary_map_input_rejected"
+  | "hidden_permission_evaluator_semantics_auth_permissions_contract_boundary_map_input_rejected"
+  | "hidden_approval_decision_grant_semantics_auth_permissions_contract_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_auth_permissions_contract_boundary_map_input_rejected"
+  | "hidden_runtime_authorization_semantics_auth_permissions_contract_boundary_map_input_rejected"
+  | "hidden_secret_env_vault_access_semantics_auth_permissions_contract_boundary_map_input_rejected"
+  | "hidden_external_identity_provider_integration_semantics_auth_permissions_contract_boundary_map_input_rejected"
+  | "hidden_keyring_did_secure_drop_implementation_semantics_auth_permissions_contract_boundary_map_input_rejected"
+  | "hidden_database_storage_rls_persistence_semantics_auth_permissions_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_auth_permissions_contract_boundary_map_input_rejected"
+  | "unsafe_identity_authentication_authorization_session_token_api_key_role_permission_grant_secret_delegation_revocation_runtime_flags_auth_permissions_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_auth_permissions_contract_boundary_map_input_rejected"
+  | "noncanonical_auth_permissions_contract_boundary_map_input_rejected";
+
+export type AuthPermissionsContractBoundaryFamily =
+  | "identity_contract"
+  | "authentication_contract"
+  | "authorization_contract"
+  | "permission_contract"
+  | "role_contract"
+  | "operator_consent_contract"
+  | "approval_prerequisite_contract"
+  | "runtime_authorization_boundary"
+  | "connector_grant_boundary"
+  | "secret_access_boundary"
+  | "delegation_boundary"
+  | "revocation_boundary"
+  | "audit_subject_boundary";
+
+export type AuthPermissionsContractBoundaryRelatedSystem =
+  | "ardyn"
+  | "ardyn-subagent"
+  | "locus"
+  | "multiverse"
+  | "content-fabric"
+  | "repo-family";
+
+export type AuthPermissionsContractBoundaryStatus =
+  | "metadata_only"
+  | "blocked"
+  | "future_contract_required";
+
+export interface AuthPermissionsContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily: AuthPermissionsContractBoundaryFamily;
+  relatedSystem: AuthPermissionsContractBoundaryRelatedSystem;
+  currentStatus: AuthPermissionsContractBoundaryStatus;
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  identitySubjectNotes: string;
+  rolePermissionExpectation: string;
+  consentApprovalExpectation: string;
+  revocationExpectation: string;
+  auditSubjectExpectation: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  secureDropRoleDescription: string;
+  productionReadinessAreaReference: Record<string, boolean | number | string>;
+  phase559FabricAwareApiBackendReference: Record<string, boolean | string>;
+  phase560EncodedHandoffConformanceReference: Record<string, boolean | string>;
+  phase561DatabaseStorageContractBoundaryReference: Record<string, boolean | string>;
+  authPermissionsBoundaryMetadataOnly: true;
+  noIdentityVerificationPerformed: true;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeAuthPermissionsRuntimeFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface AuthPermissionsContractBoundaryMapState {
+  schema: "ardyn.phase-5.62.auth-permissions-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "auth-permissions-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: AuthPermissionsContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topAuthPermissionsDatabaseStorageFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  authPermissionsContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  identityProviderImplemented: false;
+  authenticationRuntimeImplemented: false;
+  loginFlowImplemented: false;
+  sessionRuntimeImplemented: false;
+  tokenIssuerImplemented: false;
+  apiKeyIssuerImplemented: false;
+  roleEngineImplemented: false;
+  permissionEvaluatorImplemented: false;
+  authorizationEvaluatorImplemented: false;
+  grantProducerImplemented: false;
+  approvalDecisionProduced: false;
+  approvalGrantProduced: false;
+  secretVaultEnvAccessEnabled: false;
+  connectorGrantProduced: false;
+  delegationEngineImplemented: false;
+  revocationEngineImplemented: false;
+  runtimeAuthorizationEnabled: false;
+  policyEnforcementRuntimeImplemented: false;
+  externalIdentityProviderIntegrated: false;
+  keyringDidImplemented: false;
+  databaseClientImplemented: false;
+  databaseSchemaImplemented: false;
+  databaseMigrationImplemented: false;
+  rlsPolicyImplemented: false;
+  storageAdapterImplemented: false;
+  cacheEngineImplemented: false;
+  cacheInvalidationRuntimeImplemented: false;
+  transcriptWriterImplemented: false;
+  auditWriterImplemented: false;
+  filesystemWriteEnabled: false;
+  importExportPathImplementedByArdyn: false;
+  packageDistributionImplementedByArdyn: false;
+  persistenceImplementedByArdyn: false;
+  backendRuntimeImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  websocketHttpTransportImplementedByArdyn: false;
+  fabricRuntimeImplementedByArdyn: false;
+  encodedHandoffRuntimeImplementedByArdyn: false;
+  codecImplemented: false;
+  translatorRuntimeImplemented: false;
+  commandExposureEnabled: false;
+  commandRuntimeControlEnabled: false;
+  runtimeExecutionEnabled: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  mcpToolExposureEnabled: false;
+  taskExecutionEnabled: false;
+  secureDropImplemented: false;
+  st3ggVendored: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  backgroundPollingEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  blockedCliBypassEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface AuthPermissionsContractBoundaryMapResult {
+  schema: "ardyn.phase-5.62.auth-permissions-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  authPermissionsContractBoundaryMapKind: "auth-permissions-contract-boundary-map";
+  authPermissionsContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: AuthPermissionsContractBoundaryMapClassification;
+  authPermissionsContractBoundaryMapProduced: boolean;
+  authPermissionsContractBoundaryMap:
+    | AuthPermissionsContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | AuthPermissionsContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: AuthPermissionsContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topAuthPermissionsDatabaseStorageFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  authPermissionsContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  identityProviderImplemented: false;
+  authenticationRuntimeImplemented: false;
+  loginFlowImplemented: false;
+  sessionRuntimeImplemented: false;
+  tokenIssuerImplemented: false;
+  apiKeyIssuerImplemented: false;
+  roleEngineImplemented: false;
+  permissionEvaluatorImplemented: false;
+  authorizationEvaluatorImplemented: false;
+  grantProducerImplemented: false;
+  approvalDecisionProduced: false;
+  approvalGrantProduced: false;
+  secretVaultEnvAccessEnabled: false;
+  connectorGrantProduced: false;
+  delegationEngineImplemented: false;
+  revocationEngineImplemented: false;
+  runtimeAuthorizationEnabled: false;
+  policyEnforcementRuntimeImplemented: false;
+  externalIdentityProviderIntegrated: false;
+  keyringDidImplemented: false;
+  databaseClientImplemented: false;
+  databaseSchemaImplemented: false;
+  databaseMigrationImplemented: false;
+  rlsPolicyImplemented: false;
+  storageAdapterImplemented: false;
+  cacheEngineImplemented: false;
+  cacheInvalidationRuntimeImplemented: false;
+  transcriptWriterImplemented: false;
+  auditWriterImplemented: false;
+  filesystemWriteEnabled: false;
+  importExportPathImplementedByArdyn: false;
+  packageDistributionImplementedByArdyn: false;
+  persistenceImplementedByArdyn: false;
+  backendRuntimeImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  websocketHttpTransportImplementedByArdyn: false;
+  fabricRuntimeImplementedByArdyn: false;
+  encodedHandoffRuntimeImplementedByArdyn: false;
+  codecImplemented: false;
+  translatorRuntimeImplemented: false;
+  commandExposureEnabled: false;
+  commandRuntimeControlEnabled: false;
+  runtimeExecutionEnabled: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  mcpToolExposureEnabled: false;
+  taskExecutionEnabled: false;
+  secureDropImplemented: false;
+  st3ggVendored: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  backgroundPollingEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  blockedCliBypassEnabled: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -8813,6 +9069,10 @@ export function createDatabaseStorageContractBoundaryMapForReview(input?: {
   reviewedAt?: string;
   boundaryEntries?: unknown[];
 }): DatabaseStorageContractBoundaryMapResult;
+export function createAuthPermissionsContractBoundaryMapForReview(input?: {
+  reviewedAt?: string;
+  boundaryEntries?: unknown[];
+}): AuthPermissionsContractBoundaryMapResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

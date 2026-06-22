@@ -303,6 +303,9 @@ const phase560InterAgentEncodedHandoffConformance = await readJson(
 const phase561DatabaseStorageContractBoundaryMap = await readJson(
   "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json"
 );
+const phase562AuthPermissionsContractBoundaryMap = await readJson(
+  "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -719,14 +722,115 @@ const phase561SafetyFlags = {
   phase561FabricSourceChanged: false
 };
 
+const phase562SafetyFlags = {
+  phase562AuthPermissionsContractBoundaryMapRecorded: true,
+  phase562AuthPermissionsContractBoundaryMapReviewOnly: true,
+  phase562AuthPermissionsContractBoundaryMapProduced: true,
+  phase562BoundaryEntriesRecorded: true,
+  phase562Phase548AuthPermissionsCoverageItemRepresented: true,
+  phase562Phase559FabricAwareApiBackendBoundaryReferenced: true,
+  phase562Phase560EncodedHandoffConformanceReferenced: true,
+  phase562Phase561DatabaseStorageContractBoundaryReferenced: true,
+  phase562AuthPermissionsBoundaryMetadataOnly: true,
+  phase562NoIdentityVerificationPerformed: true,
+  phase562NoLoginSessionTokenApiKeyRuntime: true,
+  phase562NoRolePermissionEvaluatorRuntime: true,
+  phase562NoApprovalDecisionGrantRuntime: true,
+  phase562NoConnectorGrants: true,
+  phase562NoSecretEnvVaultAccess: true,
+  phase562NoDelegationRevocationRuntime: true,
+  phase562ContentFabricCanonicalSecureDropOwnerOnly: true,
+  phase562AllBlockedAuthorizationFlagsFalse: true,
+  phase562AllUnsafeAuthPermissionsRuntimeFlagsFalse: true,
+  phase562AllRuntimeEffectsFalse: true,
+  phase562AllEntriesNonAuthorizing: true,
+  phase562InvalidAuthPermissionsBoundaryCasesFailClosed: true,
+  phase562UnknownTopLevelFieldsFailClosed: true,
+  phase562HiddenLoginSessionTokenApiKeySemanticsFailClosed: true,
+  phase562HiddenPermissionEvaluatorSemanticsFailClosed: true,
+  phase562HiddenApprovalDecisionGrantSemanticsFailClosed: true,
+  phase562HiddenConnectorGrantSemanticsFailClosed: true,
+  phase562HiddenRuntimeAuthorizationSemanticsFailClosed: true,
+  phase562HiddenSecretEnvVaultAccessSemanticsFailClosed: true,
+  phase562HiddenExternalIdentityProviderIntegrationSemanticsFailClosed: true,
+  phase562HiddenKeyringDidSecureDropImplementationSemanticsFailClosed: true,
+  phase562HiddenDatabaseStorageRlsPersistenceSemanticsFailClosed: true,
+  phase562HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+  phase562ServeRuntimeStillDefaultBlocked: true,
+  phase562FallowRuntimeUsed: false,
+  phase562AuthPermissionsContractBoundaryMapAuthoritative: false,
+  phase562IdentityProviderImplemented: false,
+  phase562AuthenticationRuntimeImplemented: false,
+  phase562LoginFlowImplemented: false,
+  phase562SessionRuntimeImplemented: false,
+  phase562TokenIssuerImplemented: false,
+  phase562ApiKeyIssuerImplemented: false,
+  phase562RoleEngineImplemented: false,
+  phase562PermissionEvaluatorImplemented: false,
+  phase562AuthorizationEvaluatorImplemented: false,
+  phase562GrantProducerImplemented: false,
+  phase562ApprovalDecisionProduced: false,
+  phase562ApprovalGrantProduced: false,
+  phase562SecretVaultEnvAccessEnabled: false,
+  phase562ConnectorGrantProduced: false,
+  phase562DelegationEngineImplemented: false,
+  phase562RevocationEngineImplemented: false,
+  phase562RuntimeAuthorizationEnabled: false,
+  phase562PolicyEnforcementRuntimeImplemented: false,
+  phase562ExternalIdentityProviderIntegrated: false,
+  phase562KeyringDidImplemented: false,
+  phase562DatabaseClientImplemented: false,
+  phase562DatabaseSchemaImplemented: false,
+  phase562DatabaseMigrationImplemented: false,
+  phase562RlsPolicyImplemented: false,
+  phase562StorageAdapterImplemented: false,
+  phase562CacheEngineImplemented: false,
+  phase562CacheInvalidationRuntimeImplemented: false,
+  phase562TranscriptWriterImplemented: false,
+  phase562AuditWriterImplemented: false,
+  phase562FilesystemWriteEnabled: false,
+  phase562ImportExportPathImplementedByArdyn: false,
+  phase562PackageDistributionImplementedByArdyn: false,
+  phase562PersistenceImplementedByArdyn: false,
+  phase562BackendRuntimeImplementedByArdyn: false,
+  phase562ApiEndpointImplementedByArdyn: false,
+  phase562ServerImplementedByArdyn: false,
+  phase562WebsocketHttpTransportImplementedByArdyn: false,
+  phase562FabricRuntimeImplementedByArdyn: false,
+  phase562EncodedHandoffRuntimeImplementedByArdyn: false,
+  phase562CodecImplemented: false,
+  phase562TranslatorRuntimeImplemented: false,
+  phase562CommandExposureEnabled: false,
+  phase562CommandRuntimeControlEnabled: false,
+  phase562RuntimeExecutionEnabled: false,
+  phase562DatabaseStorageRuntimeWritesEnabled: false,
+  phase562SecretsRuntimeIngestionEnabled: false,
+  phase562McpToolExposureEnabled: false,
+  phase562TaskExecutionEnabled: false,
+  phase562SecureDropImplemented: false,
+  phase562St3ggVendored: false,
+  phase562ServiceDiscoveryEnabled: false,
+  phase562ScheduleEnforcementEnabled: false,
+  phase562BackgroundPollingEnabled: false,
+  phase562FilesystemScanningEnabled: false,
+  phase562ProcessControlEnabled: false,
+  phase562UiFrontendBrowserRenderingImplemented: false,
+  phase562ReportRunsChecks: false,
+  phase562BlockedCliBypassEnabled: false,
+  phase562DryRunBypassesBlock: false,
+  phase562CliSourceChanged: false,
+  phase562RustSourceChanged: false,
+  phase562FabricSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.61",
+    id: "5.62",
     name:
-      "Review-only database/storage contract boundary map",
+      "Review-only auth/permissions contract boundary map",
     executionPosture:
-      "database-storage-contract-boundary-map runtime-disabled metadata-only no-database-client no-database-schema no-migration no-rls-policy no-storage-adapter no-cache-engine no-cache-invalidation-runtime no-transcript-writer no-audit-writer no-filesystem-write no-backup-restore no-retention-deletion-job no-import-export-path no-package-distribution no-persistence no-backend-api no-server no-fabric-runtime no-websocket-http-transport no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
+      "auth-permissions-contract-boundary-map runtime-disabled metadata-only no-identity-provider no-login-flow no-session-runtime no-token-issuer no-api-key-issuer no-role-engine no-permission-evaluator no-authorization-evaluator no-approval-decision no-approval-grant no-connector-grant no-secret-env-vault-access no-delegation-revocation-runtime no-runtime-authorization no-policy-enforcement no-external-idp no-keyring-did no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-backend-api-server no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -807,18 +911,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.61 database/storage contract boundary map status report.",
+        "Render this deterministic local Phase 5.62 auth/permissions contract boundary map status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.61 status report.",
+      purpose: "Run focused tests for this local Phase 5.62 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.61 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.62 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-62-auth-permissions-contract-boundary-map.test.mjs",
+      purpose:
+        "Run focused Phase 5.62 auth/permissions contract boundary map and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -25439,6 +25550,400 @@ const report = {
       noFabricSourceChange: true
     }
   },
+  phase562AuthPermissionsContractBoundaryMapInventory: {
+    statusLayer: {
+      schema: phase562AuthPermissionsContractBoundaryMap.schema,
+      schemaVersion: phase562AuthPermissionsContractBoundaryMap.schemaVersion,
+      kind:
+        phase562AuthPermissionsContractBoundaryMap
+          .authPermissionsContractBoundaryMapKind,
+      mode:
+        phase562AuthPermissionsContractBoundaryMap
+          .authPermissionsContractBoundaryMapMode,
+      classification:
+        phase562AuthPermissionsContractBoundaryMap.classification,
+      produced:
+        phase562AuthPermissionsContractBoundaryMap
+          .authPermissionsContractBoundaryMapProduced,
+      boundaryEntryCount:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.boundaryEntryCount,
+      countByFamily:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.countByFamily,
+      countByRelatedSystem:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.countByRelatedSystem,
+      phase548AuthPermissionsCoverageItemRepresented:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.phase548AuthPermissionsCoverageItemRepresented,
+      phase559FabricAwareApiBackendBoundaryReferenced:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.phase559FabricAwareApiBackendBoundaryReferenced,
+      phase560EncodedHandoffConformanceReferenced:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.phase560EncodedHandoffConformanceReferenced,
+      phase561DatabaseStorageContractBoundaryReferenced:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.phase561DatabaseStorageContractBoundaryReferenced,
+      authPermissionsBoundaryMetadataOnly:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.authPermissionsBoundaryMetadataOnly,
+      noIdentityVerificationPerformed:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.noIdentityVerificationPerformed,
+      noLoginSessionTokenApiKeyRuntime:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.noLoginSessionTokenApiKeyRuntime,
+      noRolePermissionEvaluatorRuntime:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.noRolePermissionEvaluatorRuntime,
+      noApprovalDecisionGrantRuntime:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.noApprovalDecisionGrantRuntime,
+      noConnectorGrants:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.noConnectorGrants,
+      noSecretEnvVaultAccess:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.noSecretEnvVaultAccess,
+      noDelegationRevocationRuntime:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.noDelegationRevocationRuntime,
+      contentFabricCanonicalSecureDropOwnerOnly:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.contentFabricCanonicalSecureDropOwnerOnly,
+      allBlockedAuthorizationFlagsFalse:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.allBlockedAuthorizationFlagsFalse,
+      allUnsafeAuthPermissionsRuntimeFlagsFalse:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.allUnsafeAuthPermissionsRuntimeFlagsFalse,
+      allRuntimeEffectsFalse:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.allRuntimeEffectsFalse,
+      allEntriesNonAuthorizing:
+        phase562AuthPermissionsContractBoundaryMap
+          .boundaryMapSummary.allEntriesNonAuthorizing,
+      reportRunsChecks: false,
+      identityProviderImplemented: false,
+      authenticationRuntimeImplemented: false,
+      loginFlowImplemented: false,
+      sessionRuntimeImplemented: false,
+      tokenIssuerImplemented: false,
+      apiKeyIssuerImplemented: false,
+      roleEngineImplemented: false,
+      permissionEvaluatorImplemented: false,
+      authorizationEvaluatorImplemented: false,
+      grantProducerImplemented: false,
+      approvalDecisionProduced: false,
+      approvalGrantProduced: false,
+      secretVaultEnvAccessEnabled: false,
+      connectorGrantProduced: false,
+      delegationEngineImplemented: false,
+      revocationEngineImplemented: false,
+      runtimeAuthorizationEnabled: false,
+      policyEnforcementRuntimeImplemented: false,
+      externalIdentityProviderIntegrated: false,
+      keyringDidImplemented: false,
+      databaseClientImplemented: false,
+      databaseSchemaImplemented: false,
+      databaseMigrationImplemented: false,
+      rlsPolicyImplemented: false,
+      storageAdapterImplemented: false,
+      cacheEngineImplemented: false,
+      cacheInvalidationRuntimeImplemented: false,
+      transcriptWriterImplemented: false,
+      auditWriterImplemented: false,
+      filesystemWriteEnabled: false,
+      importExportPathImplementedByArdyn: false,
+      packageDistributionImplementedByArdyn: false,
+      persistenceImplementedByArdyn: false,
+      backendRuntimeImplementedByArdyn: false,
+      apiEndpointImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      websocketHttpTransportImplementedByArdyn: false,
+      fabricRuntimeImplementedByArdyn: false,
+      encodedHandoffRuntimeImplementedByArdyn: false,
+      codecImplemented: false,
+      translatorRuntimeImplemented: false,
+      commandExposureEnabled: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      mcpToolExposureEnabled: false,
+      taskExecutionEnabled: false,
+      secureDropImplemented: false,
+      st3ggVendored: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      blockedCliBypassEnabled: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+        "Records deterministic review-only auth/permissions contract boundary metadata while identity, authentication, authorization, session, token, API-key, role, permission, grant, secret, delegation, revocation, connector, runtime authorization, DB/storage, Fabric, Secure Drop, MCP/task, filesystem/process, and UI behavior remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-61-database-storage-contract-boundary-map.md",
+        "Provides the database/storage boundary referenced by Phase 5.62."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+        "Provides the encoded handoff metadata boundary referenced by Phase 5.62."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+        "Provides the Fabric-aware API/backend boundary referenced by Phase 5.62."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-48-production-readiness-coverage-matrix.md",
+        "Provides the production-readiness Auth & Permissions coverage item represented by Phase 5.62."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-48-production-readiness-coverage-matrix.md",
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+      "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+      "docs/phase-5-61-database-storage-contract-boundary-map.md",
+      "docs/phase-5-62-auth-permissions-contract-boundary-map.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+        "Records eighteen metadata-only auth/permissions boundary entries with false authorization flags, false unsafe auth/permissions/runtime flags, false runtime effects, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-62-auth-permissions-contract-boundary-map.test.mjs",
+        "Pins the Phase 5.62 helper, deterministic fixture shape, Phase 5.48/5.59/5.60/5.61 references, fail-closed auth/permissions cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.62 status inventory, docs cross-links, fixture inventory, and auth/permissions/runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-62-auth-permissions-contract-boundary-map.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      externalRepoFilesChanged: [],
+      identityProviderAddedByThisPhase: false,
+      authenticationRuntimeAddedByThisPhase: false,
+      loginFlowAddedByThisPhase: false,
+      sessionRuntimeAddedByThisPhase: false,
+      tokenIssuerAddedByThisPhase: false,
+      apiKeyIssuerAddedByThisPhase: false,
+      roleEngineAddedByThisPhase: false,
+      permissionEvaluatorAddedByThisPhase: false,
+      authorizationEvaluatorAddedByThisPhase: false,
+      approvalDecisionAddedByThisPhase: false,
+      approvalGrantAddedByThisPhase: false,
+      connectorGrantAddedByThisPhase: false,
+      secretEnvVaultAccessAddedByThisPhase: false,
+      delegationRevocationRuntimeAddedByThisPhase: false,
+      runtimeAuthorizationAddedByThisPhase: false,
+      externalIdentityProviderIntegrationAddedByThisPhase: false,
+      keyringDidAddedByThisPhase: false,
+      fabricRuntimeAddedByThisPhase: false,
+      secureDropRuntimeAddedByThisPhase: false,
+      databaseStorageRuntimeAddedByThisPhase: false,
+      encodedHandoffRuntimeAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateAuthPermissionsContractPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    boundaryMapSummary:
+      phase562AuthPermissionsContractBoundaryMap.boundaryMapSummary,
+    sourcePhaseContext:
+      phase562AuthPermissionsContractBoundaryMap
+        .authPermissionsContractBoundaryMap.sourcePhaseContext,
+    boundaryEntries:
+      phase562AuthPermissionsContractBoundaryMap.boundaryEntries.map(
+        ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          authPermissionsBoundaryMetadataOnly,
+          noIdentityVerificationPerformed,
+          productionReadinessAreaReference,
+          phase559FabricAwareApiBackendReference,
+          phase560EncodedHandoffConformanceReference,
+          phase561DatabaseStorageContractBoundaryReference,
+          explicitBlockedAuthorizationFlags,
+          unsafeAuthPermissionsRuntimeFlags,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          authPermissionsBoundaryMetadataOnly,
+          noIdentityVerificationPerformed,
+          phase548AreaNumber: productionReadinessAreaReference.areaNumber,
+          phase548AuthorizesRuntime:
+            productionReadinessAreaReference.authorizesRuntime,
+          phase559ImplementsFabricRuntime:
+            phase559FabricAwareApiBackendReference.implementsFabricRuntime,
+          phase560ImplementsEncodedHandoffRuntime:
+            phase560EncodedHandoffConformanceReference
+              .implementsEncodedHandoffRuntime,
+          phase561ImplementsDatabaseStorageRuntime:
+            phase561DatabaseStorageContractBoundaryReference
+              .implementsDatabaseStorageRuntime,
+          explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+            explicitBlockedAuthorizationFlags
+          ).every((value) => value === false),
+          unsafeAuthPermissionsRuntimeFlagsAllFalse: Object.values(
+            unsafeAuthPermissionsRuntimeFlags
+          ).every((value) => value === false),
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    invalidBoundaryCasePolicy:
+      phase562AuthPermissionsContractBoundaryMap.invalidBoundaryCasePolicy,
+    topAuthPermissionsDatabaseStorageFabricApiBackendGaps:
+      phase562AuthPermissionsContractBoundaryMap
+        .topAuthPermissionsDatabaseStorageFabricApiBackendGaps,
+    recommendedNextPhase:
+      phase562AuthPermissionsContractBoundaryMap.recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase562AuthPermissionsContractBoundaryMap.runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-62-auth-permissions-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-61-database-storage-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-48-production-readiness-coverage-matrix.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      authPermissionsContractBoundaryMapRecorded: true,
+      authPermissionsContractBoundaryMapReviewOnly: true,
+      authPermissionsContractBoundaryMapAuthoritative: false,
+      authPermissionsContractBoundaryMapProduced: true,
+      boundaryEntriesRecorded: true,
+      phase548AuthPermissionsCoverageItemRepresented: true,
+      phase559FabricAwareApiBackendBoundaryReferenced: true,
+      phase560EncodedHandoffConformanceReferenced: true,
+      phase561DatabaseStorageContractBoundaryReferenced: true,
+      authPermissionsBoundaryMetadataOnly: true,
+      noIdentityVerificationPerformed: true,
+      noLoginSessionTokenApiKeyRuntime: true,
+      noRolePermissionEvaluatorRuntime: true,
+      noApprovalDecisionGrantRuntime: true,
+      noConnectorGrants: true,
+      noSecretEnvVaultAccess: true,
+      noDelegationRevocationRuntime: true,
+      contentFabricCanonicalSecureDropOwnerOnly: true,
+      allBlockedAuthorizationFlagsFalse: true,
+      allUnsafeAuthPermissionsRuntimeFlagsFalse: true,
+      allRuntimeEffectsFalse: true,
+      allEntriesNonAuthorizing: true,
+      invalidAuthPermissionsBoundaryCasesFailClosed: true,
+      identityProviderImplemented: false,
+      authenticationRuntimeImplemented: false,
+      loginFlowImplemented: false,
+      sessionRuntimeImplemented: false,
+      tokenIssuerImplemented: false,
+      apiKeyIssuerImplemented: false,
+      roleEngineImplemented: false,
+      permissionEvaluatorImplemented: false,
+      authorizationEvaluatorImplemented: false,
+      grantProducerImplemented: false,
+      approvalDecisionProduced: false,
+      approvalGrantProduced: false,
+      secretVaultEnvAccessEnabled: false,
+      connectorGrantProduced: false,
+      delegationEngineImplemented: false,
+      revocationEngineImplemented: false,
+      runtimeAuthorizationEnabled: false,
+      policyEnforcementRuntimeImplemented: false,
+      externalIdentityProviderIntegrated: false,
+      keyringDidImplemented: false,
+      databaseClientImplemented: false,
+      databaseSchemaImplemented: false,
+      databaseMigrationImplemented: false,
+      rlsPolicyImplemented: false,
+      storageAdapterImplemented: false,
+      cacheEngineImplemented: false,
+      cacheInvalidationRuntimeImplemented: false,
+      transcriptWriterImplemented: false,
+      auditWriterImplemented: false,
+      filesystemWriteEnabled: false,
+      importExportPathImplementedByArdyn: false,
+      packageDistributionImplementedByArdyn: false,
+      persistenceImplementedByArdyn: false,
+      backendRuntimeImplementedByArdyn: false,
+      apiEndpointImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      websocketHttpTransportImplementedByArdyn: false,
+      fabricRuntimeImplementedByArdyn: false,
+      encodedHandoffRuntimeImplementedByArdyn: false,
+      codecImplemented: false,
+      translatorRuntimeImplemented: false,
+      commandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      mcpToolExposureEnabled: false,
+      taskExecutionEnabled: false,
+      secureDropImplemented: false,
+      st3ggVendored: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      blockedCliBypassEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFabricSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -25535,6 +26040,7 @@ const report = {
     phase559FabricAwareApiBackendContractBoundaryMap: true,
     phase560InterAgentEncodedHandoffConformance: true,
     phase561DatabaseStorageContractBoundaryMap: true,
+    phase562AuthPermissionsContractBoundaryMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -28833,6 +29339,7 @@ const report = {
       ...phase559SafetyFlags,
       ...phase560SafetyFlags,
       ...phase561SafetyFlags,
+      ...phase562SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,
