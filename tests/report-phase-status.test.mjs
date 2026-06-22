@@ -5273,6 +5273,100 @@ const phase559SafetyFlagNames = [
   ...phase559ExpectedTrueSafetyFlagNames,
   ...phase559ExpectedFalseSafetyFlagNames
 ];
+
+const phase560DocFiles = [
+  "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md"
+];
+const phase560CrossLinks = [
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+  "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md"
+];
+const phase560ExpectedTrueSafetyFlagNames = [
+  "phase560InterAgentEncodedHandoffConformanceRecorded",
+  "phase560InterAgentEncodedHandoffConformanceReviewOnly",
+  "phase560InterAgentEncodedHandoffConformanceProduced",
+  "phase560HandoffEntriesRecorded",
+  "phase560OneClickOptionsRecorded",
+  "phase560GlossopetraeArchitectureReferenceOnly",
+  "phase560InterAgentEncodedHandoffMetadataOnly",
+  "phase560DeterministicProtocolSpecIdentityMetadataRecorded",
+  "phase560SharedHandoffConformanceExpectationsRecorded",
+  "phase560LocusMediatedHarnessBridgeMetadataOnly",
+  "phase560FabricCoordinationEnvelopeMetadataOnly",
+  "phase560OperatorPlaintextFinalOutputTranslatorRequirementRecorded",
+  "phase560RawProtocolAuditVisibilityRequired",
+  "phase560FutureProtocolReferencesMetadataOnly",
+  "phase560EncodedContentCannotChangeReportRunsChecks",
+  "phase560EncodedContentCannotAuthorizeRuntime",
+  "phase560EncodedContentCannotExposeCommands",
+  "phase560EncodedContentCannotBypassBlockedCliBehavior",
+  "phase560AllBlockedAuthorizationFlagsFalse",
+  "phase560AllUnsafeEncodedHandoffRuntimeFlagsFalse",
+  "phase560AllRuntimeEffectsFalse",
+  "phase560AllEntriesNonAuthorizing",
+  "phase560InvalidEncodedHandoffCasesFailClosed",
+  "phase560HiddenCodecTranslatorEncoderDecoderConlangExecutionSemanticsFailClosed",
+  "phase560HiddenSteganographyCovertChannelTokenizerExploitGuardrailEvasionBypassSemanticsFailClosed",
+  "phase560HiddenImportExportPackagePersistenceSemanticsFailClosed",
+  "phase560HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed",
+  "phase560SecureDropImplementationSemanticsFailClosed",
+  "phase560ServeRuntimeStillDefaultBlocked"
+];
+const phase560ExpectedFalseSafetyFlagNames = [
+  "phase560FallowRuntimeUsed",
+  "phase560InterAgentEncodedHandoffConformanceAuthoritative",
+  "phase560GlossopetraeCopiedVendoredInstalledImportedIntegrated",
+  "phase560EncodedHandoffRuntimeImplementedByArdyn",
+  "phase560CodecImplemented",
+  "phase560TranslatorRuntimeImplemented",
+  "phase560EncoderImplemented",
+  "phase560DecoderImplemented",
+  "phase560ConlangGeneratorImplemented",
+  "phase560SeedGeneratorImplemented",
+  "phase560ProtocolRuntimeImplemented",
+  "phase560CovertChannelImplemented",
+  "phase560StegoLayerImplemented",
+  "phase560SemanticStegoImplemented",
+  "phase560TokenExploiterImplemented",
+  "phase560GuardrailEvasionImplemented",
+  "phase560BypassPathImplemented",
+  "phase560HiddenPayloadPathImplemented",
+  "phase560TransportImplementedByArdyn",
+  "phase560FabricRuntimeImplementedByArdyn",
+  "phase560BackendRuntimeImplementedByArdyn",
+  "phase560ApiEndpointImplementedByArdyn",
+  "phase560ServerImplementedByArdyn",
+  "phase560ImportExportPathImplementedByArdyn",
+  "phase560PackageDistributionImplementedByArdyn",
+  "phase560PersistenceImplementedByArdyn",
+  "phase560CommandExposureEnabled",
+  "phase560CommandRuntimeControlEnabled",
+  "phase560RuntimeExecutionEnabled",
+  "phase560DatabaseStorageRuntimeWritesEnabled",
+  "phase560SecretsRuntimeIngestionEnabled",
+  "phase560ConnectorGrantProduced",
+  "phase560McpToolExposureEnabled",
+  "phase560TaskExecutionEnabled",
+  "phase560SecureDropImplemented",
+  "phase560St3ggVendored",
+  "phase560ServiceDiscoveryEnabled",
+  "phase560ScheduleEnforcementEnabled",
+  "phase560BackgroundPollingEnabled",
+  "phase560FilesystemScanningEnabled",
+  "phase560ProcessControlEnabled",
+  "phase560UiFrontendBrowserRenderingImplemented",
+  "phase560ReportRunsChecks",
+  "phase560BlockedCliBypassEnabled",
+  "phase560DryRunBypassesBlock",
+  "phase560CliSourceChanged",
+  "phase560RustSourceChanged",
+  "phase560FabricSourceChanged"
+];
+const phase560SafetyFlagNames = [
+  ...phase560ExpectedTrueSafetyFlagNames,
+  ...phase560ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -5407,15 +5501,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.59 Fabric-aware API/backend contract boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.60 inter-agent encoded handoff conformance and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.59",
-    name: "Review-only Fabric-aware API/backend contract boundary map",
+    id: "5.60",
+    name: "Review-only inter-agent encoded handoff conformance",
     executionPosture:
-      "fabric-aware-api-backend-contract-boundary-map runtime-disabled metadata-only fabric-future-coordination-contract-envelope-only no-backend-server no-api-endpoint no-http-server no-websocket-http-transport no-fabric-runtime no-fabric-bus no-fabric-broker no-fabric-transport no-adapter-runtime no-connector-grant no-registry-connection no-task-execution no-import-export-path no-package-distribution no-package-writer no-package-reader no-package-persistence no-result-collector no-result-validator no-review-router no-evaluator no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-mcp-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code no-external-lookups content-fabric-secure-drop-canonical-owner-only"
+      "inter-agent-encoded-handoff-conformance runtime-disabled metadata-only glossopetrae-architecture-reference-only no-glossopetrae-vendoring no-codec-runtime no-translator-runtime no-encoder no-decoder no-conlang-generator no-seed-generator no-protocol-runtime no-stego no-covert-channel no-tokenizer-exploit no-guardrail-bypass no-hidden-payload no-transport no-fabric-runtime no-backend-api no-server no-import-export-path no-package-distribution no-package-persistence no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -5478,15 +5572,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.59 Fabric-aware API/backend contract boundary map status report."
+    "Render this deterministic local Phase 5.60 inter-agent encoded handoff conformance status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.59 status report."
+    "Run focused tests for this local Phase 5.60 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.59 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.60 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.60 inter-agent encoded handoff conformance and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -24349,6 +24449,395 @@ test("report inventories Phase 5.59 Fabric-aware API/backend contract boundary m
   assertSafetyFlags(report, phase559ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.60 inter-agent encoded handoff conformance", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase560InterAgentEncodedHandoffConformanceInventory;
+
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.60.inter-agent-encoded-handoff-conformance-result"
+  );
+  assert.equal(inventory.statusLayer.schemaVersion, "0.1.0");
+  assert.equal(
+    inventory.statusLayer.kind,
+    "inter-agent-encoded-handoff-conformance"
+  );
+  assert.equal(inventory.statusLayer.mode, "review-only");
+  assert.equal(
+    inventory.statusLayer.classification,
+    "valid_inter_agent_encoded_handoff_conformance_runtime_still_blocked"
+  );
+  assert.equal(inventory.statusLayer.produced, true);
+  assert.equal(inventory.statusLayer.handoffEntryCount, 12);
+  assert.equal(inventory.statusLayer.oneClickOptionCount, 7);
+  assert.deepEqual(inventory.statusLayer.countByFamily, {
+    subagent_encoded_handoff: 3,
+    locus_harness_bridge: 3,
+    fabric_coordination_envelope: 2,
+    operator_translation_bridge: 2,
+    handoff_audit_visibility: 1,
+    protocol_reference_layer: 1
+  });
+  assert.deepEqual(inventory.statusLayer.countBySourceActor, {
+    ardyn: 7,
+    "ardyn-subagent": 2,
+    locus: 3,
+    "external-harness": 0,
+    multiverse: 0,
+    "content-fabric": 0
+  });
+  assert.deepEqual(inventory.statusLayer.countByTargetActor, {
+    ardyn: 3,
+    "ardyn-subagent": 2,
+    locus: 2,
+    "external-harness": 2,
+    multiverse: 2,
+    "content-fabric": 1
+  });
+  assert.deepEqual(inventory.statusLayer.countByEncodedHandoffMode, {
+    plaintext: 1,
+    structured_metadata: 7,
+    encoded_candidate_metadata: 2,
+    operator_translation_required: 2
+  });
+  assert.equal(inventory.statusLayer.glossopetraeArchitectureReferenceOnly, true);
+  assert.equal(
+    inventory.statusLayer.glossopetraeCopiedVendoredInstalledImportedIntegrated,
+    false
+  );
+  assert.equal(inventory.statusLayer.interAgentEncodedHandoffMetadataOnly, true);
+  assert.equal(inventory.statusLayer.locusMediatedHarnessBridgeMetadataOnly, true);
+  assert.equal(inventory.statusLayer.fabricCoordinationEnvelopeMetadataOnly, true);
+  assert.equal(
+    inventory.statusLayer
+      .operatorPlaintextFinalOutputTranslatorRequirementRecorded,
+    true
+  );
+  assert.equal(inventory.statusLayer.rawProtocolAuditVisibilityRequired, true);
+  assert.equal(inventory.statusLayer.futureProtocolReferencesMetadataOnly, true);
+  assert.equal(
+    inventory.statusLayer.encodedContentCannotChangeReportRunsChecks,
+    true
+  );
+  assert.equal(inventory.statusLayer.encodedContentCannotAuthorizeRuntime, true);
+  assert.equal(inventory.statusLayer.encodedContentCannotExposeCommands, true);
+  assert.equal(
+    inventory.statusLayer.encodedContentCannotBypassBlockedCliBehavior,
+    true
+  );
+  assert.equal(inventory.statusLayer.allBlockedAuthorizationFlagsFalse, true);
+  assert.equal(
+    inventory.statusLayer.allUnsafeEncodedHandoffRuntimeFlagsFalse,
+    true
+  );
+  assert.equal(inventory.statusLayer.allRuntimeEffectsFalse, true);
+  assert.equal(inventory.statusLayer.allEntriesNonAuthorizing, true);
+  assert.equal(inventory.statusLayer.reportRunsChecks, false);
+  assert.equal(
+    inventory.statusLayer.encodedHandoffRuntimeImplementedByArdyn,
+    false
+  );
+  assert.equal(inventory.statusLayer.codecImplemented, false);
+  assert.equal(inventory.statusLayer.translatorRuntimeImplemented, false);
+  assert.equal(inventory.statusLayer.encoderImplemented, false);
+  assert.equal(inventory.statusLayer.decoderImplemented, false);
+  assert.equal(inventory.statusLayer.conlangGeneratorImplemented, false);
+  assert.equal(inventory.statusLayer.seedGeneratorImplemented, false);
+  assert.equal(inventory.statusLayer.protocolRuntimeImplemented, false);
+  assert.equal(inventory.statusLayer.covertChannelImplemented, false);
+  assert.equal(inventory.statusLayer.stegoLayerImplemented, false);
+  assert.equal(inventory.statusLayer.semanticStegoImplemented, false);
+  assert.equal(inventory.statusLayer.tokenExploiterImplemented, false);
+  assert.equal(inventory.statusLayer.guardrailEvasionImplemented, false);
+  assert.equal(inventory.statusLayer.bypassPathImplemented, false);
+  assert.equal(inventory.statusLayer.hiddenPayloadPathImplemented, false);
+  assert.equal(inventory.statusLayer.transportImplementedByArdyn, false);
+  assert.equal(inventory.statusLayer.fabricRuntimeImplementedByArdyn, false);
+  assert.equal(inventory.statusLayer.backendRuntimeImplementedByArdyn, false);
+  assert.equal(inventory.statusLayer.apiEndpointImplementedByArdyn, false);
+  assert.equal(inventory.statusLayer.serverImplementedByArdyn, false);
+  assert.equal(inventory.statusLayer.importExportPathImplementedByArdyn, false);
+  assert.equal(
+    inventory.statusLayer.packageDistributionImplementedByArdyn,
+    false
+  );
+  assert.equal(inventory.statusLayer.persistenceImplementedByArdyn, false);
+  assert.equal(inventory.statusLayer.commandExposureEnabled, false);
+  assert.equal(
+    inventory.statusLayer.databaseStorageRuntimeWritesEnabled,
+    false
+  );
+  assert.equal(inventory.statusLayer.secretsRuntimeIngestionEnabled, false);
+  assert.equal(inventory.statusLayer.connectorGrantProduced, false);
+  assert.equal(inventory.statusLayer.mcpToolExposureEnabled, false);
+  assert.equal(inventory.statusLayer.taskExecutionEnabled, false);
+  assert.equal(inventory.statusLayer.secureDropImplemented, false);
+  assert.equal(inventory.statusLayer.st3ggVendored, false);
+  assert.equal(inventory.statusLayer.serviceDiscoveryEnabled, false);
+  assert.equal(inventory.statusLayer.scheduleEnforcementEnabled, false);
+  assert.equal(inventory.statusLayer.filesystemScanningEnabled, false);
+  assert.equal(inventory.statusLayer.processControlEnabled, false);
+  assert.equal(inventory.statusLayer.uiFrontendBrowserRenderingImplemented, false);
+  assert.equal(inventory.statusLayer.blockedCliBypassEnabled, false);
+  assert.deepEqual(inventory.docs.map(({ path, status }) => [path, status]), [
+    ...phase560DocFiles.map((path) => [path, "present"])
+  ]);
+  assert.deepEqual(inventory.crossLinks, phase560CrossLinks);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    [
+      "tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      "present"
+    ],
+    ["tests/report-phase-status.test.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.externalRepoFilesChanged, []);
+  assert.equal(inventory.ownershipBoundary.glossopetraeVendoredOrIntegrated, false);
+  assert.equal(
+    inventory.ownershipBoundary.encodedHandoffRuntimeAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.codecAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.translatorRuntimeAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.encoderDecoderAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.conlangGeneratorAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.stegoOrCovertChannelAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.tokenizerExploitOrBypassAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.transportAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fabricRuntimeAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.backendApiServerAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.importExportPathAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.packagePersistenceAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.runtimeEnabledByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fallowRuntimeUsedByThisPhase, false);
+  assert.equal(
+    inventory.sourcePhaseContext.phase559FabricAwareApiBackendContractBoundaryMap,
+    "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json"
+  );
+  assert.equal(inventory.sourcePhaseContext.glossopetraeArchitectureReferenceOnly, true);
+  assert.equal(
+    inventory.sourcePhaseContext.glossopetraeCopiedVendoredInstalledImportedIntegrated,
+    false
+  );
+  assert.equal(inventory.sourcePhaseContext.fabricCoordinationEnvelopeMetadataOnly, true);
+  assert.equal(inventory.sourcePhaseContext.secureDropCanonicalOwner, "content-fabric");
+  assert.equal(inventory.handoffConformanceSummary.handoffEntryCount, 12);
+  assert.equal(inventory.oneClickOptions.length, 7);
+  assert.equal(inventory.handoffEntries.length, 12);
+
+  for (const option of inventory.oneClickOptions) {
+    assert.match(option.optionId, /^phase5-60\.option\./);
+    assert.equal(option.optionIntent, "metadata_only");
+    assert.equal(option.nonExecutable, true);
+    assert.equal(option.changesRuntimeBehavior, false);
+    assert.equal(option.changesReportRunsChecks, false);
+    assert.equal(option.exposesCommands, false);
+    assert.equal(option.authorizesRuntime, false);
+    assert.equal(option.producesApprovalGrant, false);
+    assert.equal(option.connectorGrantProduced, false);
+    assert.equal(option.runtimeEffectAllFalse, true);
+    assert.equal(option.nonAuthorizingProof, true);
+  }
+
+  for (const entry of inventory.handoffEntries) {
+    assert.match(entry.handoffId, /^phase5-60\./);
+    assert.ok(
+      [
+        "subagent_encoded_handoff",
+        "locus_harness_bridge",
+        "fabric_coordination_envelope",
+        "operator_translation_bridge",
+        "handoff_audit_visibility",
+        "protocol_reference_layer"
+      ].includes(entry.handoffFamily)
+    );
+    assert.ok(
+      ["ardyn", "ardyn-subagent", "locus", "external-harness", "multiverse", "content-fabric"].includes(
+        entry.sourceActor
+      )
+    );
+    assert.ok(
+      ["ardyn", "ardyn-subagent", "locus", "external-harness", "multiverse", "content-fabric"].includes(
+        entry.targetActor
+      )
+    );
+    assert.ok(["metadata_only", "future_contract_required"].includes(entry.currentStatus));
+    assert.ok(
+      [
+        "plaintext",
+        "structured_metadata",
+        "encoded_candidate_metadata",
+        "operator_translation_required"
+      ].includes(entry.encodedHandoffMode)
+    );
+    assert.equal(entry.glossopetraeArchitectureReferenceOnly, true);
+    assert.equal(
+      entry.glossopetraeCopiedVendoredInstalledImportedIntegrated,
+      false
+    );
+    assert.equal(entry.futureProtocolReferencesMetadataOnly, true);
+    assert.equal(entry.encodedHandoffConformanceMetadataOnly, true);
+    assert.equal(entry.rawProtocolAuditVisibleOrDigestRequired, true);
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(entry.unsafeEncodedHandoffRuntimeFlagsAllFalse, true);
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+  }
+
+  assert.equal(inventory.invalidHandoffCasePolicy.missingRequiredFieldsFailClosed, true);
+  assert.equal(
+    inventory.invalidHandoffCasePolicy.unknownHandoffFamiliesFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidHandoffCasePolicy.unknownSourceTargetActorsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidHandoffCasePolicy.unknownEncodedHandoffModesFailClosed,
+    true
+  );
+  assert.equal(inventory.invalidHandoffCasePolicy.reportRunsChecksTrueFailClosed, true);
+  assert.equal(
+    inventory.invalidHandoffCasePolicy
+      .hiddenCodecTranslatorEncoderDecoderConlangExecutionSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidHandoffCasePolicy
+      .hiddenSteganographyCovertChannelTokenizerExploitGuardrailEvasionBypassSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidHandoffCasePolicy
+      .hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidHandoffCasePolicy.secureDropImplementationSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidHandoffCasePolicy.validationImplementsEncodedHandoffRuntime,
+    false
+  );
+  assert.equal(inventory.invalidHandoffCasePolicy.validationImplementsCodec, false);
+  assert.equal(
+    inventory.invalidHandoffCasePolicy.validationImplementsTranslatorRuntime,
+    false
+  );
+  assert.equal(
+    inventory.invalidHandoffCasePolicy.validationImplementsFabricRuntime,
+    false
+  );
+  assert.equal(
+    inventory.invalidHandoffCasePolicy.validationImplementsBackendApiServer,
+    false
+  );
+  assert.ok(
+    inventory.topInterAgentHandoffFabricApiBackendGaps.some((gap) =>
+      gap.includes("No encoded handoff protocol schema")
+    )
+  );
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.61-review-only-database-storage-contract-boundary-map"
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, [
+    "semgrep --config auto ."
+  ]);
+  assert.equal(
+    inventory.safetyPosture.encodedHandoffRuntimeImplementedByArdyn,
+    false
+  );
+  assert.equal(inventory.safetyPosture.codecImplemented, false);
+  assert.equal(inventory.safetyPosture.translatorRuntimeImplemented, false);
+  assert.equal(inventory.safetyPosture.encoderImplemented, false);
+  assert.equal(inventory.safetyPosture.decoderImplemented, false);
+  assert.equal(inventory.safetyPosture.conlangGeneratorImplemented, false);
+  assert.equal(inventory.safetyPosture.stegoLayerImplemented, false);
+  assert.equal(inventory.safetyPosture.covertChannelImplemented, false);
+  assert.equal(inventory.safetyPosture.tokenizerExploitImplemented, false);
+  assert.equal(inventory.safetyPosture.guardrailEvasionImplemented, false);
+  assert.equal(inventory.safetyPosture.hiddenPayloadPathImplemented, false);
+  assert.equal(inventory.safetyPosture.transportImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.fabricRuntimeImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.backendRuntimeImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.apiEndpointImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.serverImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.importExportPathImplementedByArdyn, false);
+  assert.equal(
+    inventory.safetyPosture.packageDistributionImplementedByArdyn,
+    false
+  );
+  assert.equal(inventory.safetyPosture.persistenceImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.commandExposureEnabled, false);
+  assert.equal(inventory.safetyPosture.runtimeExecutionEnabled, false);
+  assert.equal(
+    inventory.safetyPosture.databaseStorageRuntimeWritesEnabled,
+    false
+  );
+  assert.equal(inventory.safetyPosture.secretsRuntimeIngestionEnabled, false);
+  assert.equal(inventory.safetyPosture.connectorGrantProduced, false);
+  assert.equal(inventory.safetyPosture.mcpToolExposureEnabled, false);
+  assert.equal(inventory.safetyPosture.taskExecutionEnabled, false);
+  assert.equal(inventory.safetyPosture.secureDropImplemented, false);
+  assert.equal(inventory.safetyPosture.st3ggVendored, false);
+  assert.equal(inventory.safetyPosture.serviceDiscoveryEnabled, false);
+  assert.equal(inventory.safetyPosture.scheduleEnforcementEnabled, false);
+  assert.equal(inventory.safetyPosture.filesystemScanningEnabled, false);
+  assert.equal(inventory.safetyPosture.processControlEnabled, false);
+  assert.equal(
+    inventory.safetyPosture.uiFrontendBrowserRenderingImplemented,
+    false
+  );
+  assert.equal(inventory.safetyPosture.blockedCliBypassEnabled, false);
+  assert.equal(
+    report.safetyPosture.phase560InterAgentEncodedHandoffConformance,
+    true
+  );
+  assertSafetyFlags(report, phase560ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase560ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -25268,7 +25757,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase556SafetyFlagNames,
     ...phase557SafetyFlagNames,
     ...phase558SafetyFlagNames,
-    ...phase559SafetyFlagNames
+    ...phase559SafetyFlagNames,
+    ...phase560SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -25355,6 +25845,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase558ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase559ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase559ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase560ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase560ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

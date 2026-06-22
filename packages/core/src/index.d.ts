@@ -328,6 +328,11 @@ export const FABRIC_AWARE_API_BACKEND_CONTRACT_BOUNDARY_MAP_SCHEMA:
 export const FABRIC_AWARE_API_BACKEND_CONTRACT_BOUNDARY_MAP_VERSION: "0.1.0";
 export const FABRIC_AWARE_API_BACKEND_CONTRACT_BOUNDARY_MAP_KIND:
   "fabric-aware-api-backend-contract-boundary-map";
+export const INTER_AGENT_ENCODED_HANDOFF_CONFORMANCE_SCHEMA:
+  "ardyn.phase-5.60.inter-agent-encoded-handoff-conformance-result";
+export const INTER_AGENT_ENCODED_HANDOFF_CONFORMANCE_VERSION: "0.1.0";
+export const INTER_AGENT_ENCODED_HANDOFF_CONFORMANCE_KIND:
+  "inter-agent-encoded-handoff-conformance";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -7954,6 +7959,238 @@ export interface FabricAwareApiBackendContractBoundaryMapResult {
   [key: string]: unknown;
 }
 
+export type InterAgentEncodedHandoffConformanceClassification =
+  | "valid_inter_agent_encoded_handoff_conformance_runtime_still_blocked"
+  | "malformed_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "missing_required_inter_agent_encoded_handoff_conformance_entry_rejected"
+  | "unknown_handoff_family_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "unknown_source_or_target_actor_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "unknown_encoded_handoff_mode_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "unknown_current_status_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "authorization_flags_enabled_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "report_runs_checks_true_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "runtime_authorization_attempt_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "command_exposure_attempt_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "blocked_cli_bypass_attempt_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "hidden_codec_translator_encoder_decoder_conlang_execution_semantics_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "hidden_steganography_covert_channel_tokenizer_exploit_guardrail_evasion_bypass_semantics_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "hidden_import_export_package_persistence_semantics_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "secure_drop_implementation_semantics_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "unsafe_runtime_command_connector_fabric_websocket_http_mcp_task_secure_drop_service_discovery_schedule_filesystem_process_flags_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "nested_unsafe_flags_inter_agent_encoded_handoff_conformance_input_rejected"
+  | "noncanonical_inter_agent_encoded_handoff_conformance_input_rejected";
+
+export type InterAgentEncodedHandoffFamily =
+  | "subagent_encoded_handoff"
+  | "locus_harness_bridge"
+  | "fabric_coordination_envelope"
+  | "operator_translation_bridge"
+  | "handoff_audit_visibility"
+  | "protocol_reference_layer";
+
+export type InterAgentEncodedHandoffActor =
+  | "ardyn"
+  | "ardyn-subagent"
+  | "locus"
+  | "external-harness"
+  | "multiverse"
+  | "content-fabric";
+
+export type InterAgentEncodedHandoffStatus =
+  | "metadata_only"
+  | "blocked"
+  | "future_contract_required";
+
+export type InterAgentEncodedHandoffMode =
+  | "plaintext"
+  | "structured_metadata"
+  | "encoded_candidate_metadata"
+  | "operator_translation_required";
+
+export interface InterAgentEncodedHandoffOneClickOption {
+  optionId: string;
+  label: string;
+  optionIntent: "metadata_only";
+  allowedFuturePreference: string;
+  forbiddenCurrentBehavior: string[];
+  nonExecutable: true;
+  changesRuntimeBehavior: false;
+  changesReportRunsChecks: false;
+  exposesCommands: false;
+  authorizesRuntime: false;
+  producesApprovalGrant: false;
+  connectorGrantProduced: false;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface InterAgentEncodedHandoffConformanceEntry {
+  handoffId: string;
+  handoffFamily: InterAgentEncodedHandoffFamily;
+  sourceActor: InterAgentEncodedHandoffActor;
+  targetActor: InterAgentEncodedHandoffActor;
+  currentStatus: InterAgentEncodedHandoffStatus;
+  encodedHandoffMode: InterAgentEncodedHandoffMode;
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  translatorFinalOutputRequirement: string;
+  oneClickOperatorOptionMetadata: Record<string, unknown>;
+  rawProtocolAuditVisibilityRequirement: string;
+  locusRoleDescription: string;
+  fabricRoleDescription: string;
+  secureDropRoleDescription: string;
+  glossopetraeArchitectureReferenceOnly: true;
+  glossopetraeCopiedVendoredInstalledImportedIntegrated: false;
+  futureProtocolReferences: string[];
+  futureProtocolReferencesMetadataOnly: true;
+  encodedHandoffConformanceMetadataOnly: true;
+  operatorPlaintextFinalOutputRequired: boolean;
+  rawProtocolAuditVisibleOrDigestRequired: true;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeEncodedHandoffRuntimeFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface InterAgentEncodedHandoffConformanceState {
+  schema: "ardyn.phase-5.60.inter-agent-encoded-handoff-conformance-state";
+  schemaVersion: "0.1.0";
+  stateKind: "inter-agent-encoded-handoff-conformance";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  handoffEntries: InterAgentEncodedHandoffConformanceEntry[];
+  oneClickOptions: InterAgentEncodedHandoffOneClickOption[];
+  handoffConformanceSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidHandoffCasePolicy: Record<string, boolean>;
+  topInterAgentHandoffFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  interAgentEncodedHandoffConformanceOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  encodedHandoffRuntimeImplementedByArdyn: false;
+  codecImplemented: false;
+  translatorRuntimeImplemented: false;
+  encoderImplemented: false;
+  decoderImplemented: false;
+  conlangGeneratorImplemented: false;
+  seedGeneratorImplemented: false;
+  protocolRuntimeImplemented: false;
+  covertChannelImplemented: false;
+  stegoLayerImplemented: false;
+  semanticStegoImplemented: false;
+  tokenExploiterImplemented: false;
+  guardrailEvasionImplemented: false;
+  bypassPathImplemented: false;
+  hiddenPayloadPathImplemented: false;
+  transportImplementedByArdyn: false;
+  fabricRuntimeImplementedByArdyn: false;
+  backendRuntimeImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  importExportPathImplementedByArdyn: false;
+  packageDistributionImplementedByArdyn: false;
+  persistenceImplementedByArdyn: false;
+  commandExposureEnabled: false;
+  commandRuntimeControlEnabled: false;
+  runtimeExecutionEnabled: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  connectorGrantProduced: false;
+  mcpToolExposureEnabled: false;
+  taskExecutionEnabled: false;
+  secureDropImplemented: false;
+  st3ggVendored: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  backgroundPollingEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  blockedCliBypassEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface InterAgentEncodedHandoffConformanceResult {
+  schema: "ardyn.phase-5.60.inter-agent-encoded-handoff-conformance-result";
+  schemaVersion: "0.1.0";
+  interAgentEncodedHandoffConformanceKind:
+    "inter-agent-encoded-handoff-conformance";
+  interAgentEncodedHandoffConformanceMode: "review-only";
+  reviewedAt: string;
+  classification: InterAgentEncodedHandoffConformanceClassification;
+  interAgentEncodedHandoffConformanceProduced: boolean;
+  interAgentEncodedHandoffConformance:
+    | InterAgentEncodedHandoffConformanceState
+    | null;
+  handoffConformanceSummary:
+    | InterAgentEncodedHandoffConformanceState["handoffConformanceSummary"]
+    | null;
+  handoffEntries: InterAgentEncodedHandoffConformanceEntry[];
+  oneClickOptions: InterAgentEncodedHandoffOneClickOption[];
+  invalidHandoffCasePolicy: Record<string, boolean>;
+  topInterAgentHandoffFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  interAgentEncodedHandoffConformanceOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  encodedHandoffRuntimeImplementedByArdyn: false;
+  codecImplemented: false;
+  translatorRuntimeImplemented: false;
+  encoderImplemented: false;
+  decoderImplemented: false;
+  conlangGeneratorImplemented: false;
+  seedGeneratorImplemented: false;
+  protocolRuntimeImplemented: false;
+  covertChannelImplemented: false;
+  stegoLayerImplemented: false;
+  semanticStegoImplemented: false;
+  tokenExploiterImplemented: false;
+  guardrailEvasionImplemented: false;
+  bypassPathImplemented: false;
+  hiddenPayloadPathImplemented: false;
+  transportImplementedByArdyn: false;
+  fabricRuntimeImplementedByArdyn: false;
+  backendRuntimeImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  importExportPathImplementedByArdyn: false;
+  packageDistributionImplementedByArdyn: false;
+  persistenceImplementedByArdyn: false;
+  commandExposureEnabled: false;
+  commandRuntimeControlEnabled: false;
+  runtimeExecutionEnabled: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  connectorGrantProduced: false;
+  mcpToolExposureEnabled: false;
+  taskExecutionEnabled: false;
+  secureDropImplemented: false;
+  st3ggVendored: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  backgroundPollingEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  blockedCliBypassEnabled: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -8340,6 +8577,11 @@ export function createFabricAwareApiBackendContractBoundaryMapForReview(input?: 
   reviewedAt?: string;
   boundaryEntries?: unknown[];
 }): FabricAwareApiBackendContractBoundaryMapResult;
+export function createInterAgentEncodedHandoffConformanceForReview(input?: {
+  reviewedAt?: string;
+  handoffEntries?: unknown[];
+  oneClickOptions?: unknown[];
+}): InterAgentEncodedHandoffConformanceResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

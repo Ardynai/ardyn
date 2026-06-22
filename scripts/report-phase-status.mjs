@@ -297,6 +297,9 @@ const phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundary =
 const phase559FabricAwareApiBackendContractBoundaryMap = await readJson(
   "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json"
 );
+const phase560InterAgentEncodedHandoffConformance = await readJson(
+  "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -552,14 +555,96 @@ const phase559SafetyFlags = {
   phase559FabricSourceChanged: false
 };
 
+const phase560SafetyFlags = {
+  phase560InterAgentEncodedHandoffConformanceRecorded: true,
+  phase560InterAgentEncodedHandoffConformanceReviewOnly: true,
+  phase560InterAgentEncodedHandoffConformanceProduced: true,
+  phase560HandoffEntriesRecorded: true,
+  phase560OneClickOptionsRecorded: true,
+  phase560GlossopetraeArchitectureReferenceOnly: true,
+  phase560InterAgentEncodedHandoffMetadataOnly: true,
+  phase560DeterministicProtocolSpecIdentityMetadataRecorded: true,
+  phase560SharedHandoffConformanceExpectationsRecorded: true,
+  phase560LocusMediatedHarnessBridgeMetadataOnly: true,
+  phase560FabricCoordinationEnvelopeMetadataOnly: true,
+  phase560OperatorPlaintextFinalOutputTranslatorRequirementRecorded: true,
+  phase560RawProtocolAuditVisibilityRequired: true,
+  phase560FutureProtocolReferencesMetadataOnly: true,
+  phase560EncodedContentCannotChangeReportRunsChecks: true,
+  phase560EncodedContentCannotAuthorizeRuntime: true,
+  phase560EncodedContentCannotExposeCommands: true,
+  phase560EncodedContentCannotBypassBlockedCliBehavior: true,
+  phase560AllBlockedAuthorizationFlagsFalse: true,
+  phase560AllUnsafeEncodedHandoffRuntimeFlagsFalse: true,
+  phase560AllRuntimeEffectsFalse: true,
+  phase560AllEntriesNonAuthorizing: true,
+  phase560InvalidEncodedHandoffCasesFailClosed: true,
+  phase560HiddenCodecTranslatorEncoderDecoderConlangExecutionSemanticsFailClosed:
+    true,
+  phase560HiddenSteganographyCovertChannelTokenizerExploitGuardrailEvasionBypassSemanticsFailClosed:
+    true,
+  phase560HiddenImportExportPackagePersistenceSemanticsFailClosed: true,
+  phase560HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+  phase560SecureDropImplementationSemanticsFailClosed: true,
+  phase560ServeRuntimeStillDefaultBlocked: true,
+  phase560FallowRuntimeUsed: false,
+  phase560InterAgentEncodedHandoffConformanceAuthoritative: false,
+  phase560GlossopetraeCopiedVendoredInstalledImportedIntegrated: false,
+  phase560EncodedHandoffRuntimeImplementedByArdyn: false,
+  phase560CodecImplemented: false,
+  phase560TranslatorRuntimeImplemented: false,
+  phase560EncoderImplemented: false,
+  phase560DecoderImplemented: false,
+  phase560ConlangGeneratorImplemented: false,
+  phase560SeedGeneratorImplemented: false,
+  phase560ProtocolRuntimeImplemented: false,
+  phase560CovertChannelImplemented: false,
+  phase560StegoLayerImplemented: false,
+  phase560SemanticStegoImplemented: false,
+  phase560TokenExploiterImplemented: false,
+  phase560GuardrailEvasionImplemented: false,
+  phase560BypassPathImplemented: false,
+  phase560HiddenPayloadPathImplemented: false,
+  phase560TransportImplementedByArdyn: false,
+  phase560FabricRuntimeImplementedByArdyn: false,
+  phase560BackendRuntimeImplementedByArdyn: false,
+  phase560ApiEndpointImplementedByArdyn: false,
+  phase560ServerImplementedByArdyn: false,
+  phase560ImportExportPathImplementedByArdyn: false,
+  phase560PackageDistributionImplementedByArdyn: false,
+  phase560PersistenceImplementedByArdyn: false,
+  phase560CommandExposureEnabled: false,
+  phase560CommandRuntimeControlEnabled: false,
+  phase560RuntimeExecutionEnabled: false,
+  phase560DatabaseStorageRuntimeWritesEnabled: false,
+  phase560SecretsRuntimeIngestionEnabled: false,
+  phase560ConnectorGrantProduced: false,
+  phase560McpToolExposureEnabled: false,
+  phase560TaskExecutionEnabled: false,
+  phase560SecureDropImplemented: false,
+  phase560St3ggVendored: false,
+  phase560ServiceDiscoveryEnabled: false,
+  phase560ScheduleEnforcementEnabled: false,
+  phase560BackgroundPollingEnabled: false,
+  phase560FilesystemScanningEnabled: false,
+  phase560ProcessControlEnabled: false,
+  phase560UiFrontendBrowserRenderingImplemented: false,
+  phase560ReportRunsChecks: false,
+  phase560BlockedCliBypassEnabled: false,
+  phase560DryRunBypassesBlock: false,
+  phase560CliSourceChanged: false,
+  phase560RustSourceChanged: false,
+  phase560FabricSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.59",
+    id: "5.60",
     name:
-      "Review-only Fabric-aware API/backend contract boundary map",
+      "Review-only inter-agent encoded handoff conformance",
     executionPosture:
-      "fabric-aware-api-backend-contract-boundary-map runtime-disabled metadata-only fabric-future-coordination-contract-envelope-only no-backend-server no-api-endpoint no-http-server no-websocket-http-transport no-fabric-runtime no-fabric-bus no-fabric-broker no-fabric-transport no-adapter-runtime no-connector-grant no-registry-connection no-task-execution no-import-export-path no-package-distribution no-package-writer no-package-reader no-package-persistence no-result-collector no-result-validator no-review-router no-evaluator no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-mcp-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code no-external-lookups content-fabric-secure-drop-canonical-owner-only"
+      "inter-agent-encoded-handoff-conformance runtime-disabled metadata-only glossopetrae-architecture-reference-only no-glossopetrae-vendoring no-codec-runtime no-translator-runtime no-encoder no-decoder no-conlang-generator no-seed-generator no-protocol-runtime no-stego no-covert-channel no-tokenizer-exploit no-guardrail-bypass no-hidden-payload no-transport no-fabric-runtime no-backend-api no-server no-import-export-path no-package-distribution no-package-persistence no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -640,18 +725,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.59 Fabric-aware API/backend contract boundary map status report.",
+        "Render this deterministic local Phase 5.60 inter-agent encoded handoff conformance status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.59 status report.",
+      purpose: "Run focused tests for this local Phase 5.60 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.59 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.60 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      purpose:
+        "Run focused Phase 5.60 inter-agent encoded handoff conformance and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -24549,6 +24641,380 @@ const report = {
       noFabricSourceChange: true
     }
   },
+  phase560InterAgentEncodedHandoffConformanceInventory: {
+    statusLayer: {
+      schema: phase560InterAgentEncodedHandoffConformance.schema,
+      schemaVersion: phase560InterAgentEncodedHandoffConformance.schemaVersion,
+      kind:
+        phase560InterAgentEncodedHandoffConformance
+          .interAgentEncodedHandoffConformanceKind,
+      mode:
+        phase560InterAgentEncodedHandoffConformance
+          .interAgentEncodedHandoffConformanceMode,
+      classification:
+        phase560InterAgentEncodedHandoffConformance.classification,
+      produced:
+        phase560InterAgentEncodedHandoffConformance
+          .interAgentEncodedHandoffConformanceProduced,
+      handoffEntryCount:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.handoffEntryCount,
+      oneClickOptionCount:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.oneClickOptionCount,
+      countByFamily:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.countByFamily,
+      countBySourceActor:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.countBySourceActor,
+      countByTargetActor:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.countByTargetActor,
+      countByEncodedHandoffMode:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.countByEncodedHandoffMode,
+      glossopetraeArchitectureReferenceOnly:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.glossopetraeArchitectureReferenceOnly,
+      glossopetraeCopiedVendoredInstalledImportedIntegrated:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary
+          .glossopetraeCopiedVendoredInstalledImportedIntegrated,
+      interAgentEncodedHandoffMetadataOnly:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.interAgentEncodedHandoffMetadataOnly,
+      locusMediatedHarnessBridgeMetadataOnly:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.locusMediatedHarnessBridgeMetadataOnly,
+      fabricCoordinationEnvelopeMetadataOnly:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.fabricCoordinationEnvelopeMetadataOnly,
+      operatorPlaintextFinalOutputTranslatorRequirementRecorded:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary
+          .operatorPlaintextFinalOutputTranslatorRequirementRecorded,
+      rawProtocolAuditVisibilityRequired:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.rawProtocolAuditVisibilityRequired,
+      futureProtocolReferencesMetadataOnly:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.futureProtocolReferencesMetadataOnly,
+      encodedContentCannotChangeReportRunsChecks:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary
+          .encodedContentCannotChangeReportRunsChecks,
+      encodedContentCannotAuthorizeRuntime:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.encodedContentCannotAuthorizeRuntime,
+      encodedContentCannotExposeCommands:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.encodedContentCannotExposeCommands,
+      encodedContentCannotBypassBlockedCliBehavior:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary
+          .encodedContentCannotBypassBlockedCliBehavior,
+      allBlockedAuthorizationFlagsFalse:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.allBlockedAuthorizationFlagsFalse,
+      allUnsafeEncodedHandoffRuntimeFlagsFalse:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.allUnsafeEncodedHandoffRuntimeFlagsFalse,
+      allRuntimeEffectsFalse:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.allRuntimeEffectsFalse,
+      allEntriesNonAuthorizing:
+        phase560InterAgentEncodedHandoffConformance
+          .handoffConformanceSummary.allEntriesNonAuthorizing,
+      reportRunsChecks: false,
+      encodedHandoffRuntimeImplementedByArdyn: false,
+      codecImplemented: false,
+      translatorRuntimeImplemented: false,
+      encoderImplemented: false,
+      decoderImplemented: false,
+      conlangGeneratorImplemented: false,
+      seedGeneratorImplemented: false,
+      protocolRuntimeImplemented: false,
+      covertChannelImplemented: false,
+      stegoLayerImplemented: false,
+      semanticStegoImplemented: false,
+      tokenExploiterImplemented: false,
+      guardrailEvasionImplemented: false,
+      bypassPathImplemented: false,
+      hiddenPayloadPathImplemented: false,
+      transportImplementedByArdyn: false,
+      fabricRuntimeImplementedByArdyn: false,
+      backendRuntimeImplementedByArdyn: false,
+      apiEndpointImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      importExportPathImplementedByArdyn: false,
+      packageDistributionImplementedByArdyn: false,
+      persistenceImplementedByArdyn: false,
+      commandExposureEnabled: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      connectorGrantProduced: false,
+      mcpToolExposureEnabled: false,
+      taskExecutionEnabled: false,
+      secureDropImplemented: false,
+      st3ggVendored: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      blockedCliBypassEnabled: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+        "Records deterministic review-only inter-agent encoded handoff conformance metadata while codec, translator runtime, encoder, decoder, conlang, stego, covert-channel, tokenizer-exploit, bypass, hidden-payload, transport, Fabric, backend/API/server, import/export, package, persistence, runtime, and command behavior remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+        "Provides the Fabric-aware API/backend contract boundary referenced by Phase 5.60."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+      "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+        "Records twelve metadata-only inter-agent encoded handoff conformance entries and seven one-click operator option metadata entries with false authorization flags, false unsafe encoded handoff/runtime flags, false runtime effects, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+        "Pins the Phase 5.60 helper, deterministic fixture shape, GLOSSOPETRAE architecture-reference-only framing, one-click option inertness, fail-closed encoded handoff cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.60 status inventory, docs cross-links, fixture inventory, and encoded handoff/runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      externalRepoFilesChanged: [],
+      glossopetraeVendoredOrIntegrated: false,
+      encodedHandoffRuntimeAddedByThisPhase: false,
+      codecAddedByThisPhase: false,
+      translatorRuntimeAddedByThisPhase: false,
+      encoderDecoderAddedByThisPhase: false,
+      conlangGeneratorAddedByThisPhase: false,
+      stegoOrCovertChannelAddedByThisPhase: false,
+      tokenizerExploitOrBypassAddedByThisPhase: false,
+      transportAddedByThisPhase: false,
+      fabricRuntimeAddedByThisPhase: false,
+      backendApiServerAddedByThisPhase: false,
+      importExportPathAddedByThisPhase: false,
+      packagePersistenceAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateEncodedHandoffContractPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    handoffConformanceSummary:
+      phase560InterAgentEncodedHandoffConformance.handoffConformanceSummary,
+    sourcePhaseContext:
+      phase560InterAgentEncodedHandoffConformance
+        .interAgentEncodedHandoffConformance.sourcePhaseContext,
+    oneClickOptions:
+      phase560InterAgentEncodedHandoffConformance.oneClickOptions.map(
+        ({
+          optionId,
+          optionIntent,
+          nonExecutable,
+          changesRuntimeBehavior,
+          changesReportRunsChecks,
+          exposesCommands,
+          authorizesRuntime,
+          producesApprovalGrant,
+          connectorGrantProduced,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          optionId,
+          optionIntent,
+          nonExecutable,
+          changesRuntimeBehavior,
+          changesReportRunsChecks,
+          exposesCommands,
+          authorizesRuntime,
+          producesApprovalGrant,
+          connectorGrantProduced,
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    handoffEntries:
+      phase560InterAgentEncodedHandoffConformance.handoffEntries.map(
+        ({
+          handoffId,
+          handoffFamily,
+          sourceActor,
+          targetActor,
+          currentStatus,
+          encodedHandoffMode,
+          glossopetraeArchitectureReferenceOnly,
+          glossopetraeCopiedVendoredInstalledImportedIntegrated,
+          futureProtocolReferencesMetadataOnly,
+          encodedHandoffConformanceMetadataOnly,
+          rawProtocolAuditVisibleOrDigestRequired,
+          explicitBlockedAuthorizationFlags,
+          unsafeEncodedHandoffRuntimeFlags,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          handoffId,
+          handoffFamily,
+          sourceActor,
+          targetActor,
+          currentStatus,
+          encodedHandoffMode,
+          glossopetraeArchitectureReferenceOnly,
+          glossopetraeCopiedVendoredInstalledImportedIntegrated,
+          futureProtocolReferencesMetadataOnly,
+          encodedHandoffConformanceMetadataOnly,
+          rawProtocolAuditVisibleOrDigestRequired,
+          explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+            explicitBlockedAuthorizationFlags
+          ).every((value) => value === false),
+          unsafeEncodedHandoffRuntimeFlagsAllFalse: Object.values(
+            unsafeEncodedHandoffRuntimeFlags
+          ).every((value) => value === false),
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    invalidHandoffCasePolicy:
+      phase560InterAgentEncodedHandoffConformance.invalidHandoffCasePolicy,
+    topInterAgentHandoffFabricApiBackendGaps:
+      phase560InterAgentEncodedHandoffConformance
+        .topInterAgentHandoffFabricApiBackendGaps,
+    recommendedNextPhase:
+      phase560InterAgentEncodedHandoffConformance.recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase560InterAgentEncodedHandoffConformance.runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-58-consumer-owned-display-conformance-result-review-package-boundary.test.mjs",
+      "node --test tests/phase5-57-consumer-owned-display-conformance-result-review-intake-boundary.test.mjs",
+      "node --test tests/phase5-56-consumer-owned-display-conformance-result-handoff.test.mjs",
+      "node --test tests/phase5-55-consumer-owned-display-conformance-runner-result-schema-boundary.test.mjs",
+      "node --test tests/phase5-54-consumer-owned-display-conformance-runner-test-plan.test.mjs",
+      "node --test tests/phase5-53-consumer-owned-display-conformance-runner-requirements.test.mjs",
+      "node --test tests/phase5-52-consumer-display-fixture-conformance-handoff.test.mjs",
+      "node --test tests/phase5-51-consumer-display-fixture-example-pack.test.mjs",
+      "node --test tests/phase5-50-consumer-display-fixture-schema-boundary.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      interAgentEncodedHandoffConformanceRecorded: true,
+      interAgentEncodedHandoffConformanceReviewOnly: true,
+      interAgentEncodedHandoffConformanceAuthoritative: false,
+      interAgentEncodedHandoffConformanceProduced: true,
+      handoffEntriesRecorded: true,
+      oneClickOptionsRecorded: true,
+      glossopetraeArchitectureReferenceOnly: true,
+      glossopetraeCopiedVendoredInstalledImportedIntegrated: false,
+      interAgentEncodedHandoffMetadataOnly: true,
+      locusMediatedHarnessBridgeMetadataOnly: true,
+      fabricCoordinationEnvelopeMetadataOnly: true,
+      operatorPlaintextFinalOutputTranslatorRequirementRecorded: true,
+      rawProtocolAuditVisibilityRequired: true,
+      futureProtocolReferencesMetadataOnly: true,
+      encodedContentCannotChangeReportRunsChecks: true,
+      encodedContentCannotAuthorizeRuntime: true,
+      encodedContentCannotExposeCommands: true,
+      encodedContentCannotBypassBlockedCliBehavior: true,
+      allBlockedAuthorizationFlagsFalse: true,
+      allUnsafeEncodedHandoffRuntimeFlagsFalse: true,
+      allRuntimeEffectsFalse: true,
+      allEntriesNonAuthorizing: true,
+      invalidEncodedHandoffCasesFailClosed: true,
+      encodedHandoffRuntimeImplementedByArdyn: false,
+      codecImplemented: false,
+      translatorRuntimeImplemented: false,
+      encoderImplemented: false,
+      decoderImplemented: false,
+      conlangGeneratorImplemented: false,
+      stegoLayerImplemented: false,
+      covertChannelImplemented: false,
+      tokenizerExploitImplemented: false,
+      guardrailEvasionImplemented: false,
+      hiddenPayloadPathImplemented: false,
+      transportImplementedByArdyn: false,
+      fabricRuntimeImplementedByArdyn: false,
+      backendRuntimeImplementedByArdyn: false,
+      apiEndpointImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      importExportPathImplementedByArdyn: false,
+      packageDistributionImplementedByArdyn: false,
+      persistenceImplementedByArdyn: false,
+      commandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      connectorGrantProduced: false,
+      mcpToolExposureEnabled: false,
+      taskExecutionEnabled: false,
+      secureDropImplemented: false,
+      st3ggVendored: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      blockedCliBypassEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFabricSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -24643,6 +25109,7 @@ const report = {
     phase557ConsumerOwnedDisplayConformanceResultReviewIntakeBoundary: true,
     phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundary: true,
     phase559FabricAwareApiBackendContractBoundaryMap: true,
+    phase560InterAgentEncodedHandoffConformance: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -27939,6 +28406,7 @@ const report = {
       phase557FabricSourceChanged: false,
       ...phase558SafetyFlags,
       ...phase559SafetyFlags,
+      ...phase560SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,
