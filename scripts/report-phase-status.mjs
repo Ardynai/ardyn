@@ -309,6 +309,9 @@ const phase562AuthPermissionsContractBoundaryMap = await readJson(
 const phase563SecurityRlsInputSanitizationContractBoundaryMap = await readJson(
   "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json"
 );
+const phase564RateLimitingAbuseControlContractBoundaryMap = await readJson(
+  "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -942,14 +945,137 @@ const phase563SafetyFlags = {
   phase563FabricSourceChanged: false
 };
 
+const phase564SafetyFlags = {
+  phase564RateLimitingAbuseControlContractBoundaryMapRecorded: true,
+  phase564RateLimitingAbuseControlContractBoundaryMapReviewOnly: true,
+  phase564RateLimitingAbuseControlContractBoundaryMapProduced: true,
+  phase564BoundaryEntriesRecorded: true,
+  phase564Phase548RateLimitingCoverageItemRepresented: true,
+  phase564Phase559FabricAwareApiBackendBoundaryReferenced: true,
+  phase564Phase560EncodedHandoffConformanceReferenced: true,
+  phase564Phase561DatabaseStorageContractBoundaryReferenced: true,
+  phase564Phase562AuthPermissionsContractBoundaryReferenced: true,
+  phase564Phase563SecurityRlsInputSanitizationBoundaryReferenced: true,
+  phase564RateLimitingAbuseControlBoundaryMetadataOnly: true,
+  phase564NoLiveTrafficHandlingPerformed: true,
+  phase564NoLimiterRuntimeImplemented: true,
+  phase564NoQuotaEngineImplemented: true,
+  phase564NoThrottleRuntimeImplemented: true,
+  phase564NoAbuseDetectorImplemented: true,
+  phase564NoQueueSchedulerImplemented: true,
+  phase564NoRetryEngineImplemented: true,
+  phase564NoCircuitBreakerImplemented: true,
+  phase564NoIdempotencyStoreImplemented: true,
+  phase564NoBackendApiServerImplemented: true,
+  phase564NoStorageWrites: true,
+  phase564NoConnectorGrants: true,
+  phase564ContentFabricCanonicalSecureDropOwnerOnly: true,
+  phase564AllBlockedAuthorizationFlagsFalse: true,
+  phase564AllUnsafeRateLimitingAbuseControlRuntimeFlagsFalse: true,
+  phase564AllRuntimeEffectsFalse: true,
+  phase564AllEntriesNonAuthorizing: true,
+  phase564InvalidRateLimitingAbuseControlBoundaryCasesFailClosed: true,
+  phase564UnknownTopLevelFieldsFailClosed: true,
+  phase564HiddenRateLimitMiddlewareSemanticsFailClosed: true,
+  phase564HiddenQuotaEngineSemanticsFailClosed: true,
+  phase564HiddenAbuseDetectorRuntimeScannerSemanticsFailClosed: true,
+  phase564HiddenRetryCircuitBreakerExecutionSemanticsFailClosed: true,
+  phase564HiddenIdempotencyPersistenceSemanticsFailClosed: true,
+  phase564HiddenBackendApiServerSemanticsFailClosed: true,
+  phase564HiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+  phase564HiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+  phase564HiddenConnectorGrantSemanticsFailClosed: true,
+  phase564HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+  phase564HiddenSecureDropImplementationSemanticsFailClosed: true,
+  phase564HiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+    true,
+  phase564ServeRuntimeStillDefaultBlocked: true,
+  phase564FallowRuntimeUsed: false,
+  phase564RateLimitingAbuseControlContractBoundaryMapAuthoritative: false,
+  phase564LimiterRuntimeImplemented: false,
+  phase564RateLimiterRuntimeImplemented: false,
+  phase564QuotaEngineImplemented: false,
+  phase564ThrottleRuntimeImplemented: false,
+  phase564AbuseDetectorImplemented: false,
+  phase564AbuseScannerRuntimeEnabled: false,
+  phase564DenialOfServiceProtectionRuntimeImplemented: false,
+  phase564BackpressureRuntimeImplemented: false,
+  phase564RetryEngineImplemented: false,
+  phase564RetryBudgetRuntimeImplemented: false,
+  phase564CircuitBreakerImplemented: false,
+  phase564IdempotencyStoreImplemented: false,
+  phase564RequestCostMeterImplemented: false,
+  phase564CostMeterImplemented: false,
+  phase564QueueImplemented: false,
+  phase564SchedulerImplemented: false,
+  phase564RateLimitMiddlewareImplemented: false,
+  phase564BackendApiServerMiddlewareImplemented: false,
+  phase564StorageWriteQuotaRuntimeImplemented: false,
+  phase564DatabaseClientImplemented: false,
+  phase564DatabaseSchemaImplemented: false,
+  phase564DatabaseMigrationImplemented: false,
+  phase564RlsRuntimeImplemented: false,
+  phase564RlsPolicyImplemented: false,
+  phase564StorageAdapterImplemented: false,
+  phase564CacheEngineImplemented: false,
+  phase564CacheInvalidationRuntimeImplemented: false,
+  phase564TranscriptWriterImplemented: false,
+  phase564AuditWriterImplemented: false,
+  phase564FilesystemWriteEnabled: false,
+  phase564ImportExportPathImplementedByArdyn: false,
+  phase564PackageDistributionImplementedByArdyn: false,
+  phase564PersistenceImplementedByArdyn: false,
+  phase564BackendRuntimeImplementedByArdyn: false,
+  phase564ApiEndpointImplementedByArdyn: false,
+  phase564ServerImplementedByArdyn: false,
+  phase564WebsocketHttpTransportImplementedByArdyn: false,
+  phase564FabricRuntimeImplementedByArdyn: false,
+  phase564EncodedHandoffRuntimeImplementedByArdyn: false,
+  phase564CodecImplemented: false,
+  phase564TranslatorRuntimeImplemented: false,
+  phase564CommandExposureEnabled: false,
+  phase564CommandRuntimeControlEnabled: false,
+  phase564RuntimeExecutionEnabled: false,
+  phase564RuntimeAuthorizationEnabled: false,
+  phase564DatabaseStorageRuntimeWritesEnabled: false,
+  phase564SecretVaultEnvAccessEnabled: false,
+  phase564SecretsRuntimeIngestionEnabled: false,
+  phase564ConnectorGrantProduced: false,
+  phase564McpToolExposureEnabled: false,
+  phase564TaskExecutionEnabled: false,
+  phase564SecureDropImplemented: false,
+  phase564SecureDropCryptoImplemented: false,
+  phase564SecureDropTransportImplemented: false,
+  phase564SecureDropStegoImplemented: false,
+  phase564SecureDropSendReceiveImplemented: false,
+  phase564SecureDropInboxPollingEnabled: false,
+  phase564St3ggVendored: false,
+  phase564ServiceDiscoveryEnabled: false,
+  phase564ScheduleEnforcementEnabled: false,
+  phase564BackgroundPollingEnabled: false,
+  phase564FilesystemScanningEnabled: false,
+  phase564ProcessControlEnabled: false,
+  phase564UiFrontendBrowserRenderingImplemented: false,
+  phase564ApprovalDecisionProduced: false,
+  phase564ApprovalGrantProduced: false,
+  phase564PermissionEvaluatorImplemented: false,
+  phase564AuthorizationEvaluatorImplemented: false,
+  phase564ReportRunsChecks: false,
+  phase564BlockedCliBypassEnabled: false,
+  phase564DryRunBypassesBlock: false,
+  phase564CliSourceChanged: false,
+  phase564RustSourceChanged: false,
+  phase564FabricSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.63",
+    id: "5.64",
     name:
-      "Review-only security/RLS/input-sanitization contract boundary map",
+      "Review-only rate-limiting/abuse-control contract boundary map",
     executionPosture:
-      "security-rls-input-sanitization-contract-boundary-map runtime-disabled metadata-only no-security-middleware no-runtime-sanitizer no-rls-runtime no-permission-enforcement-runtime no-secure-transport-runtime no-dependency-patch-automation no-audit-log-writer no-secret-env-vault-access no-connector-grant no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-backend-api-server no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
+      "rate-limiting-abuse-control-contract-boundary-map runtime-disabled metadata-only no-limiter-runtime no-quota-engine no-throttle-runtime no-abuse-detector no-queue-scheduler no-retry-engine no-circuit-breaker no-idempotency-store no-backend-api-server no-storage-writes no-connector-grant no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-service-discovery no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -1030,18 +1156,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.63 security/RLS/input-sanitization contract boundary map status report.",
+        "Render this deterministic local Phase 5.64 rate-limiting/abuse-control contract boundary map status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.63 status report.",
+      purpose: "Run focused tests for this local Phase 5.64 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.63 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.64 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-64-rate-limiting-abuse-control-contract-boundary-map.test.mjs",
+      purpose:
+        "Run focused Phase 5.64 rate-limiting/abuse-control contract boundary map and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -26459,6 +26592,424 @@ const report = {
       noFabricSourceChange: true
     }
   },
+  phase564RateLimitingAbuseControlContractBoundaryMapInventory: {
+    statusLayer: {
+      schema: phase564RateLimitingAbuseControlContractBoundaryMap.schema,
+      schemaVersion:
+        phase564RateLimitingAbuseControlContractBoundaryMap.schemaVersion,
+      kind:
+        phase564RateLimitingAbuseControlContractBoundaryMap
+          .rateLimitingAbuseControlContractBoundaryMapKind,
+      mode:
+        phase564RateLimitingAbuseControlContractBoundaryMap
+          .rateLimitingAbuseControlContractBoundaryMapMode,
+      classification:
+        phase564RateLimitingAbuseControlContractBoundaryMap.classification,
+      produced:
+        phase564RateLimitingAbuseControlContractBoundaryMap
+          .rateLimitingAbuseControlContractBoundaryMapProduced,
+      boundaryEntryCount:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .boundaryEntryCount,
+      countByFamily:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .countByFamily,
+      countByRelatedSystem:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .countByRelatedSystem,
+      phase548RateLimitingCoverageItemRepresented:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .phase548RateLimitingCoverageItemRepresented,
+      phase559FabricAwareApiBackendBoundaryReferenced:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .phase559FabricAwareApiBackendBoundaryReferenced,
+      phase560EncodedHandoffConformanceReferenced:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .phase560EncodedHandoffConformanceReferenced,
+      phase561DatabaseStorageContractBoundaryReferenced:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .phase561DatabaseStorageContractBoundaryReferenced,
+      phase562AuthPermissionsContractBoundaryReferenced:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .phase562AuthPermissionsContractBoundaryReferenced,
+      phase563SecurityRlsInputSanitizationBoundaryReferenced:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .phase563SecurityRlsInputSanitizationBoundaryReferenced,
+      rateLimitingAbuseControlBoundaryMetadataOnly:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .rateLimitingAbuseControlBoundaryMetadataOnly,
+      noLiveTrafficHandlingPerformed:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noLiveTrafficHandlingPerformed,
+      noLimiterRuntimeImplemented:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noLimiterRuntimeImplemented,
+      noQuotaEngineImplemented:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noQuotaEngineImplemented,
+      noThrottleRuntimeImplemented:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noThrottleRuntimeImplemented,
+      noAbuseDetectorImplemented:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noAbuseDetectorImplemented,
+      noQueueSchedulerImplemented:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noQueueSchedulerImplemented,
+      noRetryEngineImplemented:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noRetryEngineImplemented,
+      noCircuitBreakerImplemented:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noCircuitBreakerImplemented,
+      noIdempotencyStoreImplemented:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noIdempotencyStoreImplemented,
+      noBackendApiServerImplemented:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noBackendApiServerImplemented,
+      noStorageWrites:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noStorageWrites,
+      noConnectorGrants:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .noConnectorGrants,
+      allBlockedAuthorizationFlagsFalse:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .allBlockedAuthorizationFlagsFalse,
+      allUnsafeRateLimitingAbuseControlRuntimeFlagsFalse:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .allUnsafeRateLimitingAbuseControlRuntimeFlagsFalse,
+      allRuntimeEffectsFalse:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .allRuntimeEffectsFalse,
+      allEntriesNonAuthorizing:
+        phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+          .allEntriesNonAuthorizing,
+      reportRunsChecks: false,
+      limiterRuntimeImplemented: false,
+      rateLimiterRuntimeImplemented: false,
+      quotaEngineImplemented: false,
+      throttleRuntimeImplemented: false,
+      abuseDetectorImplemented: false,
+      abuseScannerRuntimeEnabled: false,
+      denialOfServiceProtectionRuntimeImplemented: false,
+      backpressureRuntimeImplemented: false,
+      retryEngineImplemented: false,
+      retryBudgetRuntimeImplemented: false,
+      circuitBreakerImplemented: false,
+      idempotencyStoreImplemented: false,
+      requestCostMeterImplemented: false,
+      costMeterImplemented: false,
+      queueImplemented: false,
+      schedulerImplemented: false,
+      rateLimitMiddlewareImplemented: false,
+      backendApiServerMiddlewareImplemented: false,
+      storageWriteQuotaRuntimeImplemented: false,
+      databaseClientImplemented: false,
+      databaseSchemaImplemented: false,
+      databaseMigrationImplemented: false,
+      rlsRuntimeImplemented: false,
+      rlsPolicyImplemented: false,
+      storageAdapterImplemented: false,
+      cacheEngineImplemented: false,
+      cacheInvalidationRuntimeImplemented: false,
+      transcriptWriterImplemented: false,
+      auditWriterImplemented: false,
+      filesystemWriteEnabled: false,
+      importExportPathImplementedByArdyn: false,
+      packageDistributionImplementedByArdyn: false,
+      persistenceImplementedByArdyn: false,
+      backendRuntimeImplementedByArdyn: false,
+      apiEndpointImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      websocketHttpTransportImplementedByArdyn: false,
+      fabricRuntimeImplementedByArdyn: false,
+      encodedHandoffRuntimeImplementedByArdyn: false,
+      codecImplemented: false,
+      translatorRuntimeImplemented: false,
+      commandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeAuthorizationEnabled: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretVaultEnvAccessEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      connectorGrantProduced: false,
+      mcpToolExposureEnabled: false,
+      taskExecutionEnabled: false,
+      secureDropImplemented: false,
+      secureDropCryptoImplemented: false,
+      secureDropTransportImplemented: false,
+      secureDropStegoImplemented: false,
+      secureDropSendReceiveImplemented: false,
+      secureDropInboxPollingEnabled: false,
+      st3ggVendored: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      blockedCliBypassEnabled: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+        "Records deterministic review-only rate-limiting/abuse-control contract boundary metadata while limiter runtime, quota engine, throttle runtime, abuse detector, queues, schedulers, retry engines, circuit breakers, idempotency stores, backend/API/server, storage writes, connectors, DB/storage/cache/RLS, Fabric, Secure Drop, MCP/task, filesystem/process, and UI behavior remain blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+        "Provides the security/RLS/input-sanitization boundary referenced by Phase 5.64."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+        "Provides the auth/permissions subject boundary referenced by Phase 5.64."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-61-database-storage-contract-boundary-map.md",
+        "Provides the database/storage quota boundary referenced by Phase 5.64."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+        "Provides the encoded handoff abuse boundary referenced by Phase 5.64."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+        "Provides the Fabric-aware API/backend boundary referenced by Phase 5.64."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-48-production-readiness-coverage-matrix.md",
+        "Provides the production-readiness Rate Limiting coverage item represented by Phase 5.64."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-48-production-readiness-coverage-matrix.md",
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+      "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+      "docs/phase-5-61-database-storage-contract-boundary-map.md",
+      "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+      "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+      "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+        "Records sixteen metadata-only rate-limiting/abuse-control boundary entries with false authorization flags, false unsafe rate-limiting/abuse-control/runtime flags, false runtime effects, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-64-rate-limiting-abuse-control-contract-boundary-map.test.mjs",
+        "Pins the Phase 5.64 helper, deterministic fixture shape, Phase 5.48/5.59/5.60/5.61/5.62/5.63 references, fail-closed rate-limiting/abuse-control cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.64 status inventory, docs cross-links, fixture inventory, and rate-limiting/abuse-control runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-64-rate-limiting-abuse-control-contract-boundary-map.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      externalRepoFilesChanged: [],
+      limiterRuntimeAddedByThisPhase: false,
+      quotaEngineAddedByThisPhase: false,
+      throttleRuntimeAddedByThisPhase: false,
+      abuseDetectorAddedByThisPhase: false,
+      queueSchedulerAddedByThisPhase: false,
+      retryEngineAddedByThisPhase: false,
+      circuitBreakerAddedByThisPhase: false,
+      idempotencyStoreAddedByThisPhase: false,
+      backendApiServerAddedByThisPhase: false,
+      storageWriteAddedByThisPhase: false,
+      connectorGrantAddedByThisPhase: false,
+      fabricRuntimeAddedByThisPhase: false,
+      secureDropRuntimeAddedByThisPhase: false,
+      databaseStorageRuntimeAddedByThisPhase: false,
+      encodedHandoffRuntimeAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateRateLimitingAbuseControlContractPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    boundaryMapSummary:
+      phase564RateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary,
+    sourcePhaseContext:
+      phase564RateLimitingAbuseControlContractBoundaryMap
+        .rateLimitingAbuseControlContractBoundaryMap.sourcePhaseContext,
+    boundaryEntries:
+      phase564RateLimitingAbuseControlContractBoundaryMap.boundaryEntries.map(
+        ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          rateLimitingAbuseControlBoundaryMetadataOnly,
+          noLiveTrafficHandlingPerformed,
+          productionReadinessAreaReference,
+          phase559FabricAwareApiBackendReference,
+          phase560InterAgentEncodedHandoffConformanceReference,
+          phase561DatabaseStorageContractBoundaryReference,
+          phase562AuthPermissionsContractBoundaryReference,
+          phase563SecurityRlsInputSanitizationBoundaryReference,
+          explicitBlockedAuthorizationFlags,
+          unsafeRateLimitingAbuseControlRuntimeFlags,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          rateLimitingAbuseControlBoundaryMetadataOnly,
+          noLiveTrafficHandlingPerformed,
+          phase548AreaNumber: productionReadinessAreaReference.areaNumber,
+          phase548AuthorizesRuntime:
+            productionReadinessAreaReference.authorizesRuntime,
+          phase559ImplementsFabricRuntime:
+            phase559FabricAwareApiBackendReference.implementsFabricRuntime,
+          phase560ImplementsEncodedHandoffRuntime:
+            phase560InterAgentEncodedHandoffConformanceReference
+              .implementsEncodedHandoffRuntime,
+          phase561ImplementsDatabaseStorageRuntime:
+            phase561DatabaseStorageContractBoundaryReference
+              .implementsDatabaseStorageRuntime,
+          phase562ImplementsAuthPermissionsRuntime:
+            phase562AuthPermissionsContractBoundaryReference
+              .implementsAuthPermissionsRuntime,
+          phase563ImplementsSecurityRuntime:
+            phase563SecurityRlsInputSanitizationBoundaryReference
+              .implementsSecurityRuntime,
+          explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+            explicitBlockedAuthorizationFlags
+          ).every((value) => value === false),
+          unsafeRateLimitingAbuseControlRuntimeFlagsAllFalse: Object.values(
+            unsafeRateLimitingAbuseControlRuntimeFlags
+          ).every((value) => value === false),
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    invalidBoundaryCasePolicy:
+      phase564RateLimitingAbuseControlContractBoundaryMap
+        .invalidBoundaryCasePolicy,
+    topRateLimitingSecurityAuthDatabaseFabricApiBackendGaps:
+      phase564RateLimitingAbuseControlContractBoundaryMap
+        .topRateLimitingSecurityAuthDatabaseFabricApiBackendGaps,
+    recommendedNextPhase:
+      phase564RateLimitingAbuseControlContractBoundaryMap
+        .recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase564RateLimitingAbuseControlContractBoundaryMap.runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-64-rate-limiting-abuse-control-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-63-security-rls-input-sanitization-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-62-auth-permissions-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-61-database-storage-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-48-production-readiness-coverage-matrix.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      rateLimitingAbuseControlContractBoundaryMapRecorded: true,
+      rateLimitingAbuseControlContractBoundaryMapReviewOnly: true,
+      rateLimitingAbuseControlContractBoundaryMapAuthoritative: false,
+      rateLimitingAbuseControlContractBoundaryMapProduced: true,
+      boundaryEntriesRecorded: true,
+      phase548RateLimitingCoverageItemRepresented: true,
+      phase559FabricAwareApiBackendBoundaryReferenced: true,
+      phase560EncodedHandoffConformanceReferenced: true,
+      phase561DatabaseStorageContractBoundaryReferenced: true,
+      phase562AuthPermissionsContractBoundaryReferenced: true,
+      phase563SecurityRlsInputSanitizationBoundaryReferenced: true,
+      rateLimitingAbuseControlBoundaryMetadataOnly: true,
+      noLiveTrafficHandlingPerformed: true,
+      noLimiterRuntimeImplemented: true,
+      noQuotaEngineImplemented: true,
+      noThrottleRuntimeImplemented: true,
+      noAbuseDetectorImplemented: true,
+      noQueueSchedulerImplemented: true,
+      noRetryEngineImplemented: true,
+      noCircuitBreakerImplemented: true,
+      noIdempotencyStoreImplemented: true,
+      noBackendApiServerImplemented: true,
+      noStorageWrites: true,
+      noConnectorGrants: true,
+      contentFabricCanonicalSecureDropOwnerOnly: true,
+      allBlockedAuthorizationFlagsFalse: true,
+      allUnsafeRateLimitingAbuseControlRuntimeFlagsFalse: true,
+      allRuntimeEffectsFalse: true,
+      allEntriesNonAuthorizing: true,
+      invalidRateLimitingAbuseControlBoundaryCasesFailClosed: true,
+      limiterRuntimeImplemented: false,
+      quotaEngineImplemented: false,
+      throttleRuntimeImplemented: false,
+      abuseDetectorImplemented: false,
+      queueImplemented: false,
+      schedulerImplemented: false,
+      retryEngineImplemented: false,
+      circuitBreakerImplemented: false,
+      idempotencyStoreImplemented: false,
+      backendRuntimeImplementedByArdyn: false,
+      apiEndpointImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      fabricRuntimeImplementedByArdyn: false,
+      encodedHandoffRuntimeImplementedByArdyn: false,
+      commandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      connectorGrantProduced: false,
+      mcpToolExposureEnabled: false,
+      taskExecutionEnabled: false,
+      secureDropImplemented: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      blockedCliBypassEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFabricSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -26557,6 +27108,7 @@ const report = {
     phase561DatabaseStorageContractBoundaryMap: true,
     phase562AuthPermissionsContractBoundaryMap: true,
     phase563SecurityRlsInputSanitizationContractBoundaryMap: true,
+    phase564RateLimitingAbuseControlContractBoundaryMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -29857,6 +30409,7 @@ const report = {
       ...phase561SafetyFlags,
       ...phase562SafetyFlags,
       ...phase563SafetyFlags,
+      ...phase564SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,

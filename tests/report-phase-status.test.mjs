@@ -5720,6 +5720,151 @@ const phase563SafetyFlagNames = [
   ...phase563ExpectedTrueSafetyFlagNames,
   ...phase563ExpectedFalseSafetyFlagNames
 ];
+const phase564DocFiles = [
+  "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+  "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+  "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+  "docs/phase-5-61-database-storage-contract-boundary-map.md",
+  "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+  "docs/phase-5-48-production-readiness-coverage-matrix.md"
+];
+const phase564CrossLinks = [
+  "docs/phase-5-48-production-readiness-coverage-matrix.md",
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+  "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+  "docs/phase-5-61-database-storage-contract-boundary-map.md",
+  "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+  "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+  "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md"
+];
+const phase564ExpectedTrueSafetyFlagNames = [
+  "phase564RateLimitingAbuseControlContractBoundaryMapRecorded",
+  "phase564RateLimitingAbuseControlContractBoundaryMapReviewOnly",
+  "phase564RateLimitingAbuseControlContractBoundaryMapProduced",
+  "phase564BoundaryEntriesRecorded",
+  "phase564Phase548RateLimitingCoverageItemRepresented",
+  "phase564Phase559FabricAwareApiBackendBoundaryReferenced",
+  "phase564Phase560EncodedHandoffConformanceReferenced",
+  "phase564Phase561DatabaseStorageContractBoundaryReferenced",
+  "phase564Phase562AuthPermissionsContractBoundaryReferenced",
+  "phase564Phase563SecurityRlsInputSanitizationBoundaryReferenced",
+  "phase564RateLimitingAbuseControlBoundaryMetadataOnly",
+  "phase564NoLiveTrafficHandlingPerformed",
+  "phase564NoLimiterRuntimeImplemented",
+  "phase564NoQuotaEngineImplemented",
+  "phase564NoThrottleRuntimeImplemented",
+  "phase564NoAbuseDetectorImplemented",
+  "phase564NoQueueSchedulerImplemented",
+  "phase564NoRetryEngineImplemented",
+  "phase564NoCircuitBreakerImplemented",
+  "phase564NoIdempotencyStoreImplemented",
+  "phase564NoBackendApiServerImplemented",
+  "phase564NoStorageWrites",
+  "phase564NoConnectorGrants",
+  "phase564ContentFabricCanonicalSecureDropOwnerOnly",
+  "phase564AllBlockedAuthorizationFlagsFalse",
+  "phase564AllUnsafeRateLimitingAbuseControlRuntimeFlagsFalse",
+  "phase564AllRuntimeEffectsFalse",
+  "phase564AllEntriesNonAuthorizing",
+  "phase564InvalidRateLimitingAbuseControlBoundaryCasesFailClosed",
+  "phase564UnknownTopLevelFieldsFailClosed",
+  "phase564HiddenRateLimitMiddlewareSemanticsFailClosed",
+  "phase564HiddenQuotaEngineSemanticsFailClosed",
+  "phase564HiddenAbuseDetectorRuntimeScannerSemanticsFailClosed",
+  "phase564HiddenRetryCircuitBreakerExecutionSemanticsFailClosed",
+  "phase564HiddenIdempotencyPersistenceSemanticsFailClosed",
+  "phase564HiddenBackendApiServerSemanticsFailClosed",
+  "phase564HiddenDatabaseStorageCacheWriteSemanticsFailClosed",
+  "phase564HiddenAuthSessionTokenApiKeySemanticsFailClosed",
+  "phase564HiddenConnectorGrantSemanticsFailClosed",
+  "phase564HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed",
+  "phase564HiddenSecureDropImplementationSemanticsFailClosed",
+  "phase564HiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed",
+  "phase564ServeRuntimeStillDefaultBlocked"
+];
+const phase564ExpectedFalseSafetyFlagNames = [
+  "phase564FallowRuntimeUsed",
+  "phase564RateLimitingAbuseControlContractBoundaryMapAuthoritative",
+  "phase564LimiterRuntimeImplemented",
+  "phase564RateLimiterRuntimeImplemented",
+  "phase564QuotaEngineImplemented",
+  "phase564ThrottleRuntimeImplemented",
+  "phase564AbuseDetectorImplemented",
+  "phase564AbuseScannerRuntimeEnabled",
+  "phase564DenialOfServiceProtectionRuntimeImplemented",
+  "phase564BackpressureRuntimeImplemented",
+  "phase564RetryEngineImplemented",
+  "phase564RetryBudgetRuntimeImplemented",
+  "phase564CircuitBreakerImplemented",
+  "phase564IdempotencyStoreImplemented",
+  "phase564RequestCostMeterImplemented",
+  "phase564CostMeterImplemented",
+  "phase564QueueImplemented",
+  "phase564SchedulerImplemented",
+  "phase564RateLimitMiddlewareImplemented",
+  "phase564BackendApiServerMiddlewareImplemented",
+  "phase564StorageWriteQuotaRuntimeImplemented",
+  "phase564DatabaseClientImplemented",
+  "phase564DatabaseSchemaImplemented",
+  "phase564DatabaseMigrationImplemented",
+  "phase564RlsRuntimeImplemented",
+  "phase564RlsPolicyImplemented",
+  "phase564StorageAdapterImplemented",
+  "phase564CacheEngineImplemented",
+  "phase564CacheInvalidationRuntimeImplemented",
+  "phase564TranscriptWriterImplemented",
+  "phase564AuditWriterImplemented",
+  "phase564FilesystemWriteEnabled",
+  "phase564ImportExportPathImplementedByArdyn",
+  "phase564PackageDistributionImplementedByArdyn",
+  "phase564PersistenceImplementedByArdyn",
+  "phase564BackendRuntimeImplementedByArdyn",
+  "phase564ApiEndpointImplementedByArdyn",
+  "phase564ServerImplementedByArdyn",
+  "phase564WebsocketHttpTransportImplementedByArdyn",
+  "phase564FabricRuntimeImplementedByArdyn",
+  "phase564EncodedHandoffRuntimeImplementedByArdyn",
+  "phase564CodecImplemented",
+  "phase564TranslatorRuntimeImplemented",
+  "phase564CommandExposureEnabled",
+  "phase564CommandRuntimeControlEnabled",
+  "phase564RuntimeExecutionEnabled",
+  "phase564RuntimeAuthorizationEnabled",
+  "phase564DatabaseStorageRuntimeWritesEnabled",
+  "phase564SecretVaultEnvAccessEnabled",
+  "phase564SecretsRuntimeIngestionEnabled",
+  "phase564ConnectorGrantProduced",
+  "phase564McpToolExposureEnabled",
+  "phase564TaskExecutionEnabled",
+  "phase564SecureDropImplemented",
+  "phase564SecureDropCryptoImplemented",
+  "phase564SecureDropTransportImplemented",
+  "phase564SecureDropStegoImplemented",
+  "phase564SecureDropSendReceiveImplemented",
+  "phase564SecureDropInboxPollingEnabled",
+  "phase564St3ggVendored",
+  "phase564ServiceDiscoveryEnabled",
+  "phase564ScheduleEnforcementEnabled",
+  "phase564BackgroundPollingEnabled",
+  "phase564FilesystemScanningEnabled",
+  "phase564ProcessControlEnabled",
+  "phase564UiFrontendBrowserRenderingImplemented",
+  "phase564ApprovalDecisionProduced",
+  "phase564ApprovalGrantProduced",
+  "phase564PermissionEvaluatorImplemented",
+  "phase564AuthorizationEvaluatorImplemented",
+  "phase564ReportRunsChecks",
+  "phase564BlockedCliBypassEnabled",
+  "phase564DryRunBypassesBlock",
+  "phase564CliSourceChanged",
+  "phase564RustSourceChanged",
+  "phase564FabricSourceChanged"
+];
+const phase564SafetyFlagNames = [
+  ...phase564ExpectedTrueSafetyFlagNames,
+  ...phase564ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -5854,15 +5999,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.63 security/RLS/input-sanitization contract boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.64 rate-limiting/abuse-control contract boundary map and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.63",
-    name: "Review-only security/RLS/input-sanitization contract boundary map",
+    id: "5.64",
+    name: "Review-only rate-limiting/abuse-control contract boundary map",
     executionPosture:
-      "security-rls-input-sanitization-contract-boundary-map runtime-disabled metadata-only no-security-middleware no-runtime-sanitizer no-rls-runtime no-permission-enforcement-runtime no-secure-transport-runtime no-dependency-patch-automation no-audit-log-writer no-secret-env-vault-access no-connector-grant no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-backend-api-server no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
+      "rate-limiting-abuse-control-contract-boundary-map runtime-disabled metadata-only no-limiter-runtime no-quota-engine no-throttle-runtime no-abuse-detector no-queue-scheduler no-retry-engine no-circuit-breaker no-idempotency-store no-backend-api-server no-storage-writes no-connector-grant no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-service-discovery no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -5925,15 +6070,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.63 security/RLS/input-sanitization contract boundary map status report."
+    "Render this deterministic local Phase 5.64 rate-limiting/abuse-control contract boundary map status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.63 status report."
+    "Run focused tests for this local Phase 5.64 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.63 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.64 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-64-rate-limiting-abuse-control-contract-boundary-map.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.64 rate-limiting/abuse-control contract boundary map and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -26343,6 +26494,404 @@ test("report inventories Phase 5.63 security/RLS/input-sanitization contract bou
   assertSafetyFlags(report, phase563ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.64 rate-limiting/abuse-control contract boundary map", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase564RateLimitingAbuseControlContractBoundaryMapInventory;
+
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.64.rate-limiting-abuse-control-contract-boundary-map-result"
+  );
+  assert.equal(inventory.statusLayer.schemaVersion, "0.1.0");
+  assert.equal(
+    inventory.statusLayer.kind,
+    "rate-limiting-abuse-control-contract-boundary-map"
+  );
+  assert.equal(inventory.statusLayer.mode, "review-only");
+  assert.equal(
+    inventory.statusLayer.classification,
+    "valid_rate_limiting_abuse_control_contract_boundary_map_runtime_still_blocked"
+  );
+  assert.equal(inventory.statusLayer.produced, true);
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 16);
+  assert.deepEqual(inventory.statusLayer.countByFamily, {
+    rate_limit_contract: 1,
+    quota_contract: 2,
+    throttle_contract: 3,
+    abuse_detection_contract: 1,
+    denial_of_service_boundary: 1,
+    backpressure_contract: 1,
+    retry_budget_contract: 1,
+    idempotency_contract: 1,
+    request_cost_contract: 1,
+    encoded_handoff_abuse_boundary: 1,
+    fabric_coordination_abuse_boundary: 1,
+    connector_abuse_boundary: 1,
+    secure_drop_abuse_boundary: 1
+  });
+  assert.deepEqual(inventory.statusLayer.countByRelatedSystem, {
+    ardyn: 6,
+    "ardyn-subagent": 1,
+    locus: 1,
+    multiverse: 1,
+    "content-fabric": 1,
+    "repo-family": 6
+  });
+  assert.equal(inventory.statusLayer.phase548RateLimitingCoverageItemRepresented, true);
+  assert.equal(
+    inventory.statusLayer.phase559FabricAwareApiBackendBoundaryReferenced,
+    true
+  );
+  assert.equal(
+    inventory.statusLayer.phase560EncodedHandoffConformanceReferenced,
+    true
+  );
+  assert.equal(
+    inventory.statusLayer.phase561DatabaseStorageContractBoundaryReferenced,
+    true
+  );
+  assert.equal(
+    inventory.statusLayer.phase562AuthPermissionsContractBoundaryReferenced,
+    true
+  );
+  assert.equal(
+    inventory.statusLayer.phase563SecurityRlsInputSanitizationBoundaryReferenced,
+    true
+  );
+  assert.equal(inventory.statusLayer.rateLimitingAbuseControlBoundaryMetadataOnly, true);
+  assert.equal(inventory.statusLayer.noLiveTrafficHandlingPerformed, true);
+  assert.equal(inventory.statusLayer.noLimiterRuntimeImplemented, true);
+  assert.equal(inventory.statusLayer.noQuotaEngineImplemented, true);
+  assert.equal(inventory.statusLayer.noThrottleRuntimeImplemented, true);
+  assert.equal(inventory.statusLayer.noAbuseDetectorImplemented, true);
+  assert.equal(inventory.statusLayer.noQueueSchedulerImplemented, true);
+  assert.equal(inventory.statusLayer.noRetryEngineImplemented, true);
+  assert.equal(inventory.statusLayer.noCircuitBreakerImplemented, true);
+  assert.equal(inventory.statusLayer.noIdempotencyStoreImplemented, true);
+  assert.equal(inventory.statusLayer.noBackendApiServerImplemented, true);
+  assert.equal(inventory.statusLayer.noStorageWrites, true);
+  assert.equal(inventory.statusLayer.noConnectorGrants, true);
+  assert.equal(inventory.statusLayer.allBlockedAuthorizationFlagsFalse, true);
+  assert.equal(
+    inventory.statusLayer.allUnsafeRateLimitingAbuseControlRuntimeFlagsFalse,
+    true
+  );
+  assert.equal(inventory.statusLayer.allRuntimeEffectsFalse, true);
+  assert.equal(inventory.statusLayer.allEntriesNonAuthorizing, true);
+
+  for (const field of [
+    "reportRunsChecks",
+    "limiterRuntimeImplemented",
+    "rateLimiterRuntimeImplemented",
+    "quotaEngineImplemented",
+    "throttleRuntimeImplemented",
+    "abuseDetectorImplemented",
+    "abuseScannerRuntimeEnabled",
+    "denialOfServiceProtectionRuntimeImplemented",
+    "backpressureRuntimeImplemented",
+    "retryEngineImplemented",
+    "retryBudgetRuntimeImplemented",
+    "circuitBreakerImplemented",
+    "idempotencyStoreImplemented",
+    "requestCostMeterImplemented",
+    "costMeterImplemented",
+    "queueImplemented",
+    "schedulerImplemented",
+    "rateLimitMiddlewareImplemented",
+    "backendApiServerMiddlewareImplemented",
+    "storageWriteQuotaRuntimeImplemented",
+    "databaseClientImplemented",
+    "databaseSchemaImplemented",
+    "databaseMigrationImplemented",
+    "rlsRuntimeImplemented",
+    "rlsPolicyImplemented",
+    "storageAdapterImplemented",
+    "cacheEngineImplemented",
+    "cacheInvalidationRuntimeImplemented",
+    "transcriptWriterImplemented",
+    "auditWriterImplemented",
+    "filesystemWriteEnabled",
+    "importExportPathImplementedByArdyn",
+    "packageDistributionImplementedByArdyn",
+    "persistenceImplementedByArdyn",
+    "backendRuntimeImplementedByArdyn",
+    "apiEndpointImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "websocketHttpTransportImplementedByArdyn",
+    "fabricRuntimeImplementedByArdyn",
+    "encodedHandoffRuntimeImplementedByArdyn",
+    "codecImplemented",
+    "translatorRuntimeImplemented",
+    "commandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "runtimeAuthorizationEnabled",
+    "databaseStorageRuntimeWritesEnabled",
+    "secretVaultEnvAccessEnabled",
+    "secretsRuntimeIngestionEnabled",
+    "connectorGrantProduced",
+    "mcpToolExposureEnabled",
+    "taskExecutionEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "st3ggVendored",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "uiFrontendBrowserRenderingImplemented",
+    "blockedCliBypassEnabled"
+  ]) {
+    assert.equal(inventory.statusLayer[field], false, `${field} should be false`);
+  }
+
+  assert.deepEqual(inventory.docs.map(({ path, status }) => [path, status]), [
+    ...phase564DocFiles.map((path) => [path, "present"])
+  ]);
+  assert.deepEqual(inventory.crossLinks, phase564CrossLinks);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    [
+      "tests/phase5-64-rate-limiting-abuse-control-contract-boundary-map.test.mjs",
+      "present"
+    ],
+    ["tests/report-phase-status.test.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.externalRepoFilesChanged, []);
+  assert.equal(inventory.ownershipBoundary.limiterRuntimeAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.quotaEngineAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.throttleRuntimeAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.abuseDetectorAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.queueSchedulerAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.retryEngineAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.circuitBreakerAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.idempotencyStoreAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.backendApiServerAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.storageWriteAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.connectorGrantAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fabricRuntimeAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.secureDropRuntimeAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.databaseStorageRuntimeAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.encodedHandoffRuntimeAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.runtimeEnabledByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fallowRuntimeUsedByThisPhase, false);
+  assert.equal(inventory.sourcePhaseContext.phase548RateLimitingAreaNumber, 9);
+  assert.equal(inventory.sourcePhaseContext.phase548RateLimitingStatus, "deferred");
+  assert.equal(inventory.sourcePhaseContext.secureDropCanonicalOwner, "content-fabric");
+  assert.equal(inventory.boundaryMapSummary.boundaryEntryCount, 16);
+  assert.equal(inventory.boundaryEntries.length, 16);
+
+  for (const entry of inventory.boundaryEntries) {
+    assert.match(entry.boundaryId, /^phase5-64\./);
+    assert.ok(
+      [
+        "rate_limit_contract",
+        "quota_contract",
+        "throttle_contract",
+        "abuse_detection_contract",
+        "denial_of_service_boundary",
+        "backpressure_contract",
+        "retry_budget_contract",
+        "idempotency_contract",
+        "request_cost_contract",
+        "encoded_handoff_abuse_boundary",
+        "fabric_coordination_abuse_boundary",
+        "connector_abuse_boundary",
+        "secure_drop_abuse_boundary"
+      ].includes(entry.boundaryFamily)
+    );
+    assert.ok(
+      ["ardyn", "ardyn-subagent", "locus", "multiverse", "content-fabric", "repo-family"].includes(
+        entry.relatedSystem
+      )
+    );
+    assert.ok(
+      ["metadata_only", "blocked", "future_contract_required"].includes(
+        entry.currentStatus
+      )
+    );
+    assert.equal(entry.rateLimitingAbuseControlBoundaryMetadataOnly, true);
+    assert.equal(entry.noLiveTrafficHandlingPerformed, true);
+    assert.equal(entry.phase548AreaNumber, 9);
+    assert.equal(entry.phase548AuthorizesRuntime, false);
+    assert.equal(entry.phase559ImplementsFabricRuntime, false);
+    assert.equal(entry.phase560ImplementsEncodedHandoffRuntime, false);
+    assert.equal(entry.phase561ImplementsDatabaseStorageRuntime, false);
+    assert.equal(entry.phase562ImplementsAuthPermissionsRuntime, false);
+    assert.equal(entry.phase563ImplementsSecurityRuntime, false);
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(entry.unsafeRateLimitingAbuseControlRuntimeFlagsAllFalse, true);
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+  }
+
+  assert.equal(inventory.invalidBoundaryCasePolicy.missingRequiredFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownTopLevelFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownBoundaryFamiliesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownRelatedSystemsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownCurrentStatusesFailClosed, true);
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.reportRunsChecksTrueFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenRateLimitMiddlewareSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenQuotaEngineSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenAbuseDetectorRuntimeScannerSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenRetryCircuitBreakerExecutionSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenIdempotencyPersistenceSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenBackendApiServerSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenDatabaseStorageCacheWriteSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenAuthSessionTokenApiKeySemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenConnectorGrantSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenSecureDropImplementationSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy
+      .hiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.validationImplementsLimiterRuntime,
+    false
+  );
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationImplementsQuotaEngine, false);
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationImplementsThrottleRuntime, false);
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationRunsAbuseDetector, false);
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationCreatesQueueScheduler, false);
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationRunsRetryEngine, false);
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationRunsCircuitBreaker, false);
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationCreatesIdempotencyStore, false);
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationRunsBackendApiServer, false);
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationWritesStorage, false);
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationGrantsConnectors, false);
+  assert.equal(inventory.invalidBoundaryCasePolicy.validationRunsRuntime, false);
+  assert.ok(
+    inventory.topRateLimitingSecurityAuthDatabaseFabricApiBackendGaps.some((gap) =>
+      gap.includes("No limiter runtime")
+    )
+  );
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.65-review-only-error-tracking-logging-audit-integrity-contract-boundary-map"
+  );
+  assertAllFalse(inventory.blockedRuntimeEffect);
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-64-rate-limiting-abuse-control-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-63-security-rls-input-sanitization-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, [
+    "semgrep --config auto ."
+  ]);
+  assert.equal(
+    inventory.safetyPosture.rateLimitingAbuseControlContractBoundaryMapRecorded,
+    true
+  );
+  assert.equal(
+    inventory.safetyPosture.rateLimitingAbuseControlContractBoundaryMapAuthoritative,
+    false
+  );
+  assert.equal(inventory.safetyPosture.limiterRuntimeImplemented, false);
+  assert.equal(inventory.safetyPosture.quotaEngineImplemented, false);
+  assert.equal(inventory.safetyPosture.throttleRuntimeImplemented, false);
+  assert.equal(inventory.safetyPosture.abuseDetectorImplemented, false);
+  assert.equal(inventory.safetyPosture.queueImplemented, false);
+  assert.equal(inventory.safetyPosture.schedulerImplemented, false);
+  assert.equal(inventory.safetyPosture.retryEngineImplemented, false);
+  assert.equal(inventory.safetyPosture.circuitBreakerImplemented, false);
+  assert.equal(inventory.safetyPosture.idempotencyStoreImplemented, false);
+  assert.equal(inventory.safetyPosture.backendRuntimeImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.apiEndpointImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.serverImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.databaseStorageRuntimeWritesEnabled, false);
+  assert.equal(inventory.safetyPosture.fabricRuntimeImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.encodedHandoffRuntimeImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.commandExposureEnabled, false);
+  assert.equal(inventory.safetyPosture.runtimeExecutionEnabled, false);
+  assert.equal(inventory.safetyPosture.secretsRuntimeIngestionEnabled, false);
+  assert.equal(inventory.safetyPosture.connectorGrantProduced, false);
+  assert.equal(inventory.safetyPosture.mcpToolExposureEnabled, false);
+  assert.equal(inventory.safetyPosture.taskExecutionEnabled, false);
+  assert.equal(inventory.safetyPosture.secureDropImplemented, false);
+  assert.equal(inventory.safetyPosture.serviceDiscoveryEnabled, false);
+  assert.equal(inventory.safetyPosture.scheduleEnforcementEnabled, false);
+  assert.equal(inventory.safetyPosture.filesystemScanningEnabled, false);
+  assert.equal(inventory.safetyPosture.processControlEnabled, false);
+  assert.equal(
+    inventory.safetyPosture.uiFrontendBrowserRenderingImplemented,
+    false
+  );
+  assert.equal(inventory.safetyPosture.blockedCliBypassEnabled, false);
+  assert.equal(
+    report.safetyPosture.phase564RateLimitingAbuseControlContractBoundaryMap,
+    true
+  );
+  assertSafetyFlags(report, phase564ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase564ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -27266,7 +27815,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase560SafetyFlagNames,
     ...phase561SafetyFlagNames,
     ...phase562SafetyFlagNames,
-    ...phase563SafetyFlagNames
+    ...phase563SafetyFlagNames,
+    ...phase564SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -27361,6 +27911,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase562ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase563ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase563ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase564ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase564ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

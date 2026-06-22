@@ -349,6 +349,12 @@ export const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_VERSION:
   "0.1.0";
 export const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_KIND:
   "security-rls-input-sanitization-contract-boundary-map";
+export const RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.64.rate-limiting-abuse-control-contract-boundary-map-result";
+export const RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_VERSION:
+  "0.1.0";
+export const RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_KIND:
+  "rate-limiting-abuse-control-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -8862,6 +8868,175 @@ export interface SecurityRlsInputSanitizationContractBoundaryMapResult {
   [key: string]: unknown;
 }
 
+export type RateLimitingAbuseControlContractBoundaryMapClassification =
+  | "valid_rate_limiting_abuse_control_contract_boundary_map_runtime_still_blocked"
+  | "malformed_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "missing_required_rate_limiting_abuse_control_contract_boundary_entry_rejected"
+  | "unknown_top_level_field_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "unknown_related_system_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "unknown_current_status_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_rate_limit_middleware_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_quota_engine_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_abuse_detector_runtime_scanner_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_retry_circuit_breaker_execution_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_idempotency_persistence_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_backend_api_server_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_database_storage_cache_write_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_auth_session_token_api_key_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "unsafe_limiter_quota_throttle_abuse_queue_scheduler_retry_circuit_breaker_idempotency_cost_backend_storage_runtime_flags_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_rate_limiting_abuse_control_contract_boundary_map_input_rejected"
+  | "noncanonical_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+
+export interface RateLimitingAbuseControlContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "rate_limit_contract"
+    | "quota_contract"
+    | "throttle_contract"
+    | "abuse_detection_contract"
+    | "denial_of_service_boundary"
+    | "backpressure_contract"
+    | "retry_budget_contract"
+    | "idempotency_contract"
+    | "request_cost_contract"
+    | "encoded_handoff_abuse_boundary"
+    | "fabric_coordination_abuse_boundary"
+    | "connector_abuse_boundary"
+    | "secure_drop_abuse_boundary";
+  relatedSystem:
+    | "ardyn"
+    | "ardyn-subagent"
+    | "locus"
+    | "multiverse"
+    | "content-fabric"
+    | "repo-family";
+  currentStatus: "metadata_only" | "blocked" | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  requestIdentityExpectation: string;
+  quotaSubjectExpectation: string;
+  backpressureExpectation: string;
+  retryIdempotencyExpectation: string;
+  abuseSignalExpectation: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  secureDropRoleDescription: string;
+  productionReadinessAreaReference: Record<string, boolean | number | string>;
+  phase559FabricAwareApiBackendReference: Record<string, boolean | string>;
+  phase560InterAgentEncodedHandoffConformanceReference: Record<string, boolean | string>;
+  phase561DatabaseStorageContractBoundaryReference: Record<string, boolean | string>;
+  phase562AuthPermissionsContractBoundaryReference: Record<string, boolean | string>;
+  phase563SecurityRlsInputSanitizationBoundaryReference: Record<string, boolean | string>;
+  rateLimitingAbuseControlBoundaryMetadataOnly: true;
+  noLiveTrafficHandlingPerformed: true;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeRateLimitingAbuseControlRuntimeFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface RateLimitingAbuseControlContractBoundaryMapState {
+  schema: "ardyn.phase-5.64.rate-limiting-abuse-control-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "rate-limiting-abuse-control-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: RateLimitingAbuseControlContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topRateLimitingSecurityAuthDatabaseFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  rateLimitingAbuseControlContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  limiterRuntimeImplemented: false;
+  rateLimiterRuntimeImplemented: false;
+  quotaEngineImplemented: false;
+  throttleRuntimeImplemented: false;
+  abuseDetectorImplemented: false;
+  queueImplemented: false;
+  schedulerImplemented: false;
+  retryEngineImplemented: false;
+  circuitBreakerImplemented: false;
+  idempotencyStoreImplemented: false;
+  requestCostMeterImplemented: false;
+  backendRuntimeImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  databaseClientImplemented: false;
+  storageAdapterImplemented: false;
+  cacheEngineImplemented: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  connectorGrantProduced: false;
+  fabricRuntimeImplementedByArdyn: false;
+  websocketHttpTransportImplementedByArdyn: false;
+  mcpToolExposureEnabled: false;
+  taskExecutionEnabled: false;
+  secureDropImplemented: false;
+  encodedHandoffRuntimeImplementedByArdyn: false;
+  codecImplemented: false;
+  translatorRuntimeImplemented: false;
+  commandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  blockedCliBypassEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface RateLimitingAbuseControlContractBoundaryMapResult {
+  schema: "ardyn.phase-5.64.rate-limiting-abuse-control-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  rateLimitingAbuseControlContractBoundaryMapKind:
+    "rate-limiting-abuse-control-contract-boundary-map";
+  rateLimitingAbuseControlContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: RateLimitingAbuseControlContractBoundaryMapClassification;
+  rateLimitingAbuseControlContractBoundaryMapProduced: boolean;
+  rateLimitingAbuseControlContractBoundaryMap:
+    | RateLimitingAbuseControlContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | RateLimitingAbuseControlContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: RateLimitingAbuseControlContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topRateLimitingSecurityAuthDatabaseFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  rateLimitingAbuseControlContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -9265,6 +9440,10 @@ export function createSecurityRlsInputSanitizationContractBoundaryMapForReview(i
   reviewedAt?: string;
   boundaryEntries?: unknown[];
 }): SecurityRlsInputSanitizationContractBoundaryMapResult;
+export function createRateLimitingAbuseControlContractBoundaryMapForReview(input?: {
+  reviewedAt?: string;
+  boundaryEntries?: unknown[];
+}): RateLimitingAbuseControlContractBoundaryMapResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

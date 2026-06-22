@@ -329,6 +329,12 @@ export const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_VERSION =
   "0.1.0";
 export const SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_KIND =
   "security-rls-input-sanitization-contract-boundary-map";
+export const RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.64.rate-limiting-abuse-control-contract-boundary-map-result";
+export const RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_KIND =
+  "rate-limiting-abuse-control-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -49588,6 +49594,1529 @@ export function createSecurityRlsInputSanitizationContractBoundaryMapForReview(
     classification,
     accepted,
     securityRlsInputSanitizationContractBoundaryMap
+  });
+}
+
+const RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.64.rate-limiting-abuse-control-contract-boundary-map-state";
+const VALID_RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_rate_limiting_abuse_control_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_FAMILIES = Object.freeze([
+  "rate_limit_contract",
+  "quota_contract",
+  "throttle_contract",
+  "abuse_detection_contract",
+  "denial_of_service_boundary",
+  "backpressure_contract",
+  "retry_budget_contract",
+  "idempotency_contract",
+  "request_cost_contract",
+  "encoded_handoff_abuse_boundary",
+  "fabric_coordination_abuse_boundary",
+  "connector_abuse_boundary",
+  "secure_drop_abuse_boundary"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "requestIdentityExpectation",
+  "quotaSubjectExpectation",
+  "backpressureExpectation",
+  "retryIdempotencyExpectation",
+  "abuseSignalExpectation",
+  "locusRoleDescription",
+  "multiverseRoleDescription",
+  "fabricRoleDescription",
+  "secureDropRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeRateLimitingAbuseControlRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_ALLOWED_TOP_LEVEL_FIELDS =
+  Object.freeze(["reviewedAt", "boundaryEntries"]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_UNSAFE_FIELDS = Object.freeze([
+  "limiterRuntimeImplemented",
+  "rateLimiterRuntimeImplemented",
+  "quotaEngineImplemented",
+  "throttleRuntimeImplemented",
+  "abuseDetectorImplemented",
+  "abuseScannerRuntimeEnabled",
+  "denialOfServiceProtectionRuntimeImplemented",
+  "backpressureRuntimeImplemented",
+  "retryEngineImplemented",
+  "retryBudgetRuntimeImplemented",
+  "circuitBreakerImplemented",
+  "idempotencyStoreImplemented",
+  "requestCostMeterImplemented",
+  "costMeterImplemented",
+  "queueImplemented",
+  "schedulerImplemented",
+  "rateLimitMiddlewareImplemented",
+  "backendApiServerMiddlewareImplemented",
+  "storageWriteQuotaRuntimeImplemented",
+  "databaseClientImplemented",
+  "databaseSchemaImplemented",
+  "databaseMigrationImplemented",
+  "rlsRuntimeImplemented",
+  "rlsPolicyImplemented",
+  "storageAdapterImplemented",
+  "cacheEngineImplemented",
+  "cacheInvalidationRuntimeImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "filesystemWriteEnabled",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "backendRuntimeImplementedByArdyn",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "fabricRuntimeImplementedByArdyn",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecImplemented",
+  "translatorRuntimeImplemented",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "databaseStorageRuntimeWritesEnabled",
+  "secretVaultEnvAccessEnabled",
+  "secretsRuntimeIngestionEnabled",
+  "connectorGrantProduced",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "secureDropCryptoImplemented",
+  "secureDropTransportImplemented",
+  "secureDropStegoImplemented",
+  "secureDropSendReceiveImplemented",
+  "secureDropInboxPollingEnabled",
+  "st3ggVendored",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "backgroundPollingEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "uiFrontendBrowserRenderingImplemented",
+  "approvalDecisionProduced",
+  "approvalGrantProduced",
+  "permissionEvaluatorImplemented",
+  "authorizationEvaluatorImplemented",
+  "reportRunsChecks",
+  "blockedCliBypassEnabled"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_AUTHORIZATION_FIELDS =
+  Object.freeze([
+    "runtimeAuthorized",
+    "runtimeAuthorizationGranted",
+    "limiterRuntimeAuthorizationGranted",
+    "quotaEngineAuthorizationGranted",
+    "throttleRuntimeAuthorizationGranted",
+    "abuseDetectorAuthorizationGranted",
+    "queueSchedulerAuthorizationGranted",
+    "retryRuntimeAuthorizationGranted",
+    "circuitBreakerAuthorizationGranted",
+    "idempotencyStoreAuthorizationGranted",
+    "backendApiServerAuthorizationGranted",
+    "storageWriteAuthorizationGranted",
+    "connectorGrantAuthorizationGranted",
+    "fabricRuntimeAuthorizationGranted",
+    "secureDropAuthorizationGranted",
+    "encodedHandoffRuntimeAuthorizationGranted",
+    "commandExposureAuthorizationGranted",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "authorizesRuntime"
+  ]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_BLOCKED_CLI_BYPASS_FIELDS =
+  Object.freeze([
+    "blockedCliBypassEnabled",
+    "dryRunBypassesBlock",
+    "serveRuntimeBypassEnabled",
+    "bypassBlockedCommandBehavior",
+    "blockedCommandOverride"
+  ]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_RATE_LIMIT_FIELDS = Object.freeze([
+  "rateLimitMiddleware",
+  "rateLimiterMiddleware",
+  "limiterMiddleware",
+  "throttleMiddleware",
+  "expressRateLimit",
+  "apiRateLimitHandler",
+  "requestLimiterRuntime"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_QUOTA_FIELDS = Object.freeze([
+  "quotaEngine",
+  "quotaStore",
+  "quotaCounter",
+  "quotaBucket",
+  "quotaToken",
+  "quotaLedger",
+  "quotaDb"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_ABUSE_FIELDS = Object.freeze([
+  "abuseDetector",
+  "abuseScanner",
+  "abuseSignalScanner",
+  "dosDetector",
+  "botDetector",
+  "trafficScanner",
+  "liveTrafficAnalyzer"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_RETRY_FIELDS = Object.freeze([
+  "retryEngine",
+  "retryQueue",
+  "retryScheduler",
+  "circuitBreaker",
+  "breakerState",
+  "backoffScheduler",
+  "resiliencePolicyRuntime"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_IDEMPOTENCY_FIELDS =
+  Object.freeze([
+    "idempotencyStore",
+    "idempotencyKeyStore",
+    "dedupeStore",
+    "requestReplayStore",
+    "idempotencyDatabase",
+    "idempotencyCache"
+  ]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_BACKEND_FIELDS = Object.freeze([
+  "backendApiMiddleware",
+  "apiRequestHandler",
+  "httpServer",
+  "serverMiddleware",
+  "httpEndpoint",
+  "runtimeEndpoint"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_DATABASE_STORAGE_FIELDS =
+  Object.freeze([
+    "databaseUrl",
+    "databaseDsn",
+    "dbConnectionString",
+    "storageAdapter",
+    "cacheEngine",
+    "writeQueue",
+    "persistenceLayer",
+    "filesystemWrite",
+    "auditWriter",
+    "transcriptWriter"
+  ]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_AUTH_FIELDS = Object.freeze([
+  "loginUrl",
+  "sessionCookie",
+  "sessionStore",
+  "sessionToken",
+  "tokenIssuer",
+  "accessToken",
+  "refreshToken",
+  "idToken",
+  "apiKey",
+  "apiKeySecret",
+  "apiKeyIssuer",
+  "bearerToken"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_CONNECTOR_FIELDS = Object.freeze([
+  "connectorGrant",
+  "connectorCredential",
+  "connectorAccessToken",
+  "connectorScanner",
+  "connectorIngestionGrant"
+]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_FABRIC_RUNTIME_FIELDS =
+  Object.freeze([
+    "fabricBusTopic",
+    "fabricBrokerUrl",
+    "websocketUrl",
+    "mcpToolName",
+    "mcpServerUrl",
+    "taskExecutor",
+    "taskRunner",
+    "adapterRuntime"
+  ]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_SECURE_DROP_FIELDS =
+  Object.freeze([
+    "secureDropPayloadPath",
+    "secureDropKeyring",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "secureDropFileSelection",
+    "st3ggPayload"
+  ]);
+const RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_ENCODED_HANDOFF_FIELDS =
+  Object.freeze([
+    "codecImplemented",
+    "translatorRuntimeImplemented",
+    "encoderImplemented",
+    "decoderImplemented",
+    "conlangGenerator",
+    "semanticStegoCandidate",
+    "steganographyCandidate",
+    "tokenExploitationCandidate",
+    "covertChannel",
+    "guardrailBypass",
+    "hiddenPayload"
+  ]);
+
+function rateLimitingAbuseControlBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function rateLimitingAbuseControlBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function rateLimitingAbuseControlBoundaryMapInputMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function rateLimitingAbuseControlBoundaryMapInputEntries(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function rateLimitingAbuseControlBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(rateLimitingAbuseControlBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      rateLimitingAbuseControlBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function rateLimitingAbuseControlBoundaryMapHasTrueFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      rateLimitingAbuseControlBoundaryMapHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (rateLimitingAbuseControlBoundaryMapHasTrueFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeRateLimitingAbuseControlRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (
+      rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(nested, fields)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function rateLimitingAbuseControlBoundaryMapContainsEntryIssue(
+  entries,
+  predicate
+) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function rateLimitingAbuseControlBoundaryMapMissingRequiredField(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_REQUIRED_FIELDS.some(
+    (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+  );
+}
+
+function rateLimitingAbuseControlBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.requestIdentityExpectation !== "string" ||
+    typeof entry.quotaSubjectExpectation !== "string" ||
+    typeof entry.backpressureExpectation !== "string" ||
+    typeof entry.retryIdempotencyExpectation !== "string" ||
+    typeof entry.abuseSignalExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    typeof entry.secureDropRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(entry.unsafeRateLimitingAbuseControlRuntimeFlags) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function rateLimitingAbuseControlBoundaryMapAuthorizationFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function rateLimitingAbuseControlBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.unsafeRateLimitingAbuseControlRuntimeFlags) &&
+      Object.values(value.unsafeRateLimitingAbuseControlRuntimeFlags).some(
+        (flag) => flag !== false
+      )) ||
+    rateLimitingAbuseControlBoundaryMapHasTrueFieldDeep(
+      value,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_UNSAFE_FIELDS
+    )
+  );
+}
+
+function rateLimitingAbuseControlBoundaryMapHasUnknownTopLevelField(
+  inputRecord
+) {
+  if (inputRecord === null) {
+    return false;
+  }
+
+  return Object.keys(inputRecord).some(
+    (field) =>
+      !RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_ALLOWED_TOP_LEVEL_FIELDS.includes(
+        field
+      )
+  );
+}
+
+function rateLimitingAbuseControlBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(rateLimitingAbuseControlBoundaryMapEntries())
+  );
+}
+
+function rateLimitingAbuseControlBoundaryMapInputClassification(inputRecord) {
+  if (rateLimitingAbuseControlBoundaryMapInputMalformed(inputRecord)) {
+    return MALFORMED_RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries =
+    rateLimitingAbuseControlBoundaryMapInputEntries(inputRecord);
+
+  if (
+    rateLimitingAbuseControlBoundaryMapContainsEntryIssue(
+      entries,
+      rateLimitingAbuseControlBoundaryMapMissingRequiredField
+    )
+  ) {
+    return "missing_required_rate_limiting_abuse_control_contract_boundary_entry_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapContainsEntryIssue(
+      entries,
+      (entry) =>
+        !RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapContainsEntryIssue(
+      entries,
+      (entry) =>
+        !RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_RELATED_SYSTEMS.includes(
+          entry.relatedSystem
+        )
+    )
+  ) {
+    return "unknown_related_system_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapContainsEntryIssue(
+      entries,
+      (entry) =>
+        !RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_STATUSES.includes(
+          entry.currentStatus
+        )
+    )
+  ) {
+    return "unknown_current_status_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapContainsEntryIssue(
+      entries,
+      rateLimitingAbuseControlBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapContainsEntryIssue(
+      entries,
+      rateLimitingAbuseControlBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    rateLimitingAbuseControlBoundaryMapAuthorizationFlagEnabled(inputRecord)
+  ) {
+    return "authorization_flags_enabled_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_RATE_LIMIT_FIELDS
+    )
+  ) {
+    return "hidden_rate_limit_middleware_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_QUOTA_FIELDS
+    )
+  ) {
+    return "hidden_quota_engine_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_ABUSE_FIELDS
+    )
+  ) {
+    return "hidden_abuse_detector_runtime_scanner_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_RETRY_FIELDS
+    )
+  ) {
+    return "hidden_retry_circuit_breaker_execution_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_IDEMPOTENCY_FIELDS
+    )
+  ) {
+    return "hidden_idempotency_persistence_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_BACKEND_FIELDS
+    )
+  ) {
+    return "hidden_backend_api_server_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_DATABASE_STORAGE_FIELDS
+    )
+  ) {
+    return "hidden_database_storage_cache_write_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_AUTH_FIELDS
+    )
+  ) {
+    return "hidden_auth_session_token_api_key_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_CONNECTOR_FIELDS
+    )
+  ) {
+    return "hidden_connector_grant_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_FABRIC_RUNTIME_FIELDS
+    )
+  ) {
+    return "hidden_fabric_websocket_http_mcp_task_runtime_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_SECURE_DROP_FIELDS
+    )
+  ) {
+    return "hidden_secure_drop_implementation_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapHasPresentFieldDeep(
+      inputRecord,
+      RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_ENCODED_HANDOFF_FIELDS
+    )
+  ) {
+    return "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapUnsafeFlagEnabled(inputRecord) ||
+    rateLimitingAbuseControlBoundaryMapContainsEntryIssue(
+      entries,
+      rateLimitingAbuseControlBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_limiter_quota_throttle_abuse_queue_scheduler_retry_circuit_breaker_idempotency_cost_backend_storage_runtime_flags_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    rateLimitingAbuseControlBoundaryMapContainsEntryIssue(
+      entries,
+      (entry) =>
+        rateLimitingAbuseControlBoundaryMapContainsTrue(entry?.runtimeEffect)
+    ) ||
+    rateLimitingAbuseControlBoundaryMapContainsTrue(inputRecord?.runtimeEffect)
+  ) {
+    return "nested_unsafe_flags_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (rateLimitingAbuseControlBoundaryMapHasUnknownTopLevelField(inputRecord)) {
+    return "unknown_top_level_field_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  if (!rateLimitingAbuseControlBoundaryMapCanonical(entries)) {
+    return "noncanonical_rate_limiting_abuse_control_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function rateLimitingAbuseControlBoundaryMapForbiddenBehavior() {
+  return [
+    "limiter runtime",
+    "quota engine",
+    "throttle runtime",
+    "abuse detector",
+    "denial-of-service runtime",
+    "queue",
+    "scheduler",
+    "retry engine",
+    "circuit breaker",
+    "idempotency store",
+    "request cost meter",
+    "rate-limit middleware",
+    "backend API",
+    "server",
+    "database client",
+    "storage adapter",
+    "cache engine",
+    "storage write",
+    "RLS rule",
+    "auth/session/token/API-key runtime",
+    "connector grant",
+    "Fabric runtime bus",
+    "websocket/http transport",
+    "MCP tool exposure",
+    "task execution",
+    "service discovery",
+    "schedule enforcement",
+    "background polling",
+    "secret/env/vault access",
+    "filesystem write",
+    "filesystem scanning",
+    "process control",
+    "import/export command",
+    "package writer",
+    "package reader",
+    "persistence layer",
+    "transcript writer",
+    "audit writer",
+    "Secure Drop crypto, transport, stego, send/receive, inbox polling, file selection, filesystem scanning, connector ingestion, secret/vault/env access, or ST3GG wrapping",
+    "encoded handoff runtime, codec, translator runtime, encoder, decoder, conlang generator, stego, covert channel, tokenizer exploit, bypass, hidden payload, or transport behavior",
+    "command exposure",
+    "interactive control",
+    "reviewer routing",
+    "evaluator execution",
+    "approval decision",
+    "approval grant",
+    "stdin loop",
+    "stdout/stderr runtime writer",
+    "UI/frontend/browser/rendering/WCAG automation"
+  ];
+}
+
+function rateLimitingAbuseControlBoundaryMapAuthorizationFlags() {
+  return {
+    limiterRuntimeAuthorizationGranted: false,
+    quotaEngineAuthorizationGranted: false,
+    throttleRuntimeAuthorizationGranted: false,
+    abuseDetectorAuthorizationGranted: false,
+    queueSchedulerAuthorizationGranted: false,
+    retryRuntimeAuthorizationGranted: false,
+    circuitBreakerAuthorizationGranted: false,
+    idempotencyStoreAuthorizationGranted: false,
+    backendApiServerAuthorizationGranted: false,
+    storageWriteAuthorizationGranted: false,
+    connectorGrantAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    websocketHttpRuntimeAuthorizationGranted: false,
+    mcpToolExposureAuthorizationGranted: false,
+    taskExecutionAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false,
+    encodedHandoffRuntimeAuthorizationGranted: false,
+    commandExposureAuthorizationGranted: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    connectorGrantProduced: false,
+    authorizesRuntime: false
+  };
+}
+
+function rateLimitingAbuseControlBoundaryMapUnsafeFlags() {
+  return Object.fromEntries(
+    RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_UNSAFE_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function rateLimitingAbuseControlBoundaryMapCommonNotes() {
+  return {
+    noConsumerRole:
+      "No current runtime role; future consumers may inspect metadata only.",
+    currentAuthorization:
+      "Requires a future rate-limiting, abuse-control, backend, storage, auth, security, runtime, command exposure, connector, Fabric, Secure Drop, MCP/task, filesystem/process-control, and approval authorization phase before any executable behavior.",
+    fabricMetadataOnly:
+      "Fabric remains a future coordination envelope metadata layer, not a bus, broker, transport, adapter, connector, registry, scheduler, importer, exporter, package distributor, limiter, queue, or task executor.",
+    secureDropContentFabric:
+      "Secure Drop abuse-control metadata remains a future content-fabric contract; Ardyn records references only and implements no compose/inbox limiter, crypto, transport, stego, send/receive, inbox polling, file selection, connector ingestion, secret/vault/env access, or ST3GG wrapping."
+  };
+}
+
+function rateLimitingAbuseControlBoundaryMapEntry(definition) {
+  return {
+    boundaryId: definition.boundaryId,
+    boundaryFamily: definition.boundaryFamily,
+    relatedSystem: definition.relatedSystem,
+    currentStatus: definition.currentStatus,
+    allowedCurrentBehavior: definition.allowedCurrentBehavior,
+    forbiddenCurrentBehavior:
+      rateLimitingAbuseControlBoundaryMapForbiddenBehavior(),
+    requiredFutureContractBeforeImplementation:
+      definition.requiredFutureContractBeforeImplementation,
+    requiredFutureAuthorizationPhaseBeforeRuntime:
+      definition.requiredFutureAuthorizationPhaseBeforeRuntime,
+    requestIdentityExpectation: definition.requestIdentityExpectation,
+    quotaSubjectExpectation: definition.quotaSubjectExpectation,
+    backpressureExpectation: definition.backpressureExpectation,
+    retryIdempotencyExpectation: definition.retryIdempotencyExpectation,
+    abuseSignalExpectation: definition.abuseSignalExpectation,
+    locusRoleDescription: definition.locusRoleDescription,
+    multiverseRoleDescription: definition.multiverseRoleDescription,
+    fabricRoleDescription: definition.fabricRoleDescription,
+    secureDropRoleDescription: definition.secureDropRoleDescription,
+    productionReadinessAreaReference: {
+      phase: "5.48",
+      areaNumber: 9,
+      areaName: "Rate Limiting",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      sourceStatus: "deferred",
+      representedByPhase564: true,
+      authorizesRuntime: false
+    },
+    phase559FabricAwareApiBackendReference: {
+      phase: "5.59",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      fabricBoundaryReferenced: true,
+      implementsFabricRuntime: false,
+      authorizesRuntime: false
+    },
+    phase560InterAgentEncodedHandoffConformanceReference: {
+      phase: "5.60",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      encodedHandoffConformanceReferenced: true,
+      implementsEncodedHandoffRuntime: false,
+      authorizesRuntime: false
+    },
+    phase561DatabaseStorageContractBoundaryReference: {
+      phase: "5.61",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      databaseStorageBoundaryReferenced: true,
+      implementsDatabaseStorageRuntime: false,
+      authorizesRuntime: false
+    },
+    phase562AuthPermissionsContractBoundaryReference: {
+      phase: "5.62",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      authPermissionsBoundaryReferenced: true,
+      implementsAuthPermissionsRuntime: false,
+      authorizesRuntime: false
+    },
+    phase563SecurityRlsInputSanitizationBoundaryReference: {
+      phase: "5.63",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      securityRlsInputSanitizationBoundaryReferenced: true,
+      implementsSecurityRuntime: false,
+      authorizesRuntime: false
+    },
+    rateLimitingAbuseControlBoundaryMetadataOnly: true,
+    noLiveTrafficHandlingPerformed: true,
+    explicitBlockedAuthorizationFlags:
+      rateLimitingAbuseControlBoundaryMapAuthorizationFlags(),
+    unsafeRateLimitingAbuseControlRuntimeFlags:
+      rateLimitingAbuseControlBoundaryMapUnsafeFlags(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function rateLimitingAbuseControlBoundaryMapDefinition({
+  boundaryId,
+  boundaryFamily,
+  relatedSystem,
+  currentStatus,
+  subject,
+  requestIdentityExpectation,
+  quotaSubjectExpectation,
+  backpressureExpectation,
+  retryIdempotencyExpectation,
+  abuseSignalExpectation,
+  locusRole,
+  multiverseRole,
+  fabricRole,
+  secureDropRole
+}) {
+  const notes = rateLimitingAbuseControlBoundaryMapCommonNotes();
+
+  return {
+    boundaryId,
+    boundaryFamily,
+    relatedSystem,
+    currentStatus,
+    allowedCurrentBehavior: [
+      `Describe future ${subject} rate-limiting and abuse-control boundary metadata.`,
+      "Keep current behavior review-only, metadata-only, non-authorizing, and runtime-blocked."
+    ],
+    requiredFutureContractBeforeImplementation:
+      `A future ${subject} contract must define request identity, quota subject, backpressure, retry/idempotency, abuse signals, storage boundaries, failure modes, consumer ownership, and explicit no-runtime defaults before implementation.`,
+    requiredFutureAuthorizationPhaseBeforeRuntime: notes.currentAuthorization,
+    requestIdentityExpectation,
+    quotaSubjectExpectation,
+    backpressureExpectation,
+    retryIdempotencyExpectation,
+    abuseSignalExpectation,
+    locusRoleDescription: locusRole ?? notes.noConsumerRole,
+    multiverseRoleDescription: multiverseRole ?? notes.noConsumerRole,
+    fabricRoleDescription: fabricRole ?? notes.fabricMetadataOnly,
+    secureDropRoleDescription: secureDropRole ?? "Not applicable."
+  };
+}
+
+function rateLimitingAbuseControlBoundaryMapDefinitions() {
+  const notes = rateLimitingAbuseControlBoundaryMapCommonNotes();
+  const metadataOnlyIdentity =
+    "Future request identity must be explicit metadata only now; Ardyn performs no login, session, token, API-key, IP, user-agent, connector, or runtime subject inspection.";
+  const metadataOnlyQuota =
+    "Future quota subjects must be defined by a separate auth/storage contract; Ardyn creates no counters, buckets, ledgers, stores, or write paths now.";
+  const noBackpressureRuntime =
+    "Backpressure remains planning metadata only; Ardyn creates no queue, scheduler, worker, breaker, retry loop, timer, polling loop, or live traffic handler.";
+  const noRetryRuntime =
+    "Retry and idempotency remain future contract metadata only; Ardyn creates no retry engine, circuit breaker, idempotency store, replay store, or persistence.";
+  const metadataOnlySignals =
+    "Abuse signals are review metadata only and cannot scan traffic, block requests, emit grants, expose commands, or authorize runtime.";
+
+  return [
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.repo_family.backend_api_request_rate_limit.rate_limit_boundary",
+      boundaryFamily: "rate_limit_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "backend/API request rate-limit",
+      requestIdentityExpectation: metadataOnlyIdentity,
+      quotaSubjectExpectation:
+        "Future backend/API quotas require explicit subject, route, method, scope, and storage ownership before any endpoint exists.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Future backend/API abuse signals must be advisory until a separate server, storage, and enforcement contract is authorized.",
+      fabricRole: notes.fabricMetadataOnly
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.ardyn.cli_command_invocation_abuse.abuse_detection_boundary",
+      boundaryFamily: "abuse_detection_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "metadata_only",
+      subject: "CLI command invocation abuse",
+      requestIdentityExpectation:
+        "Future CLI invocation metadata may describe command identity expectations but cannot add command exposure, process control, stdin loops, or stdout/stderr runtime writers.",
+      quotaSubjectExpectation:
+        "Future CLI quota subjects require a separate command-surface contract; current blocked commands still fail closed.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Current CLI abuse metadata is descriptive only and cannot alter blocked CLI behavior or reportRunsChecks."
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.ardyn.future_runtime_command_throttle.throttle_boundary",
+      boundaryFamily: "throttle_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      subject: "future runtime command throttle",
+      requestIdentityExpectation:
+        "Future runtime command throttles need explicit operator, process, workspace, and approval identity before runtime exists.",
+      quotaSubjectExpectation:
+        "Future command quotas require approval-bound scope and denial defaults; metadata cannot grant execution.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Command throttle signals cannot expose commands, authorize runtime, or bypass default-blocked serve-runtime behavior."
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.ardyn_subagent.encoded_handoff_abuse.encoded_handoff_abuse_boundary",
+      boundaryFamily: "encoded_handoff_abuse_boundary",
+      relatedSystem: "ardyn-subagent",
+      currentStatus: "future_contract_required",
+      subject: "subagent encoded handoff abuse",
+      requestIdentityExpectation:
+        "Future encoded handoff identities require visible source, target, operator translation, and audit metadata; no codec or transport identity exists now.",
+      quotaSubjectExpectation:
+        "Future encoded handoff quota subjects must not be inferred from encoded content, hidden payloads, tokens, or bypass strings.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Encoded handoff abuse metadata must reject stego, covert-channel, tokenizer-exploit, bypass, codec, translator runtime, encoder, decoder, conlang, and hidden-payload semantics.",
+      fabricRole: notes.fabricMetadataOnly
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.repo_family.fabric_coordination_envelope_abuse.fabric_coordination_abuse_boundary",
+      boundaryFamily: "fabric_coordination_abuse_boundary",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "Fabric coordination-envelope abuse",
+      requestIdentityExpectation:
+        "Future Fabric envelope rate metadata needs explicit envelope source, target, family, and operator visibility; no Fabric runtime identity exists now.",
+      quotaSubjectExpectation:
+        "Future Fabric quotas must not create bus topics, broker state, adapter routes, registry entries, package paths, or task queues.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Fabric abuse signals remain metadata only and cannot become a bus, broker, transport, adapter, connector, registry, scheduler, importer, exporter, package distributor, or task executor.",
+      locusRole:
+        "Locus may later display Fabric abuse-control metadata only.",
+      multiverseRole:
+        "Multiverse may later display Fabric abuse-control metadata only.",
+      fabricRole: notes.fabricMetadataOnly
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.locus.control_surface_request_throttle.throttle_boundary",
+      boundaryFamily: "throttle_contract",
+      relatedSystem: "locus",
+      currentStatus: "future_contract_required",
+      subject: "Locus control-surface request throttle",
+      requestIdentityExpectation:
+        "Future Locus control throttles require consumer-owned operator, panel, action, and permission identity before interactivity.",
+      quotaSubjectExpectation:
+        "Future Locus quotas must be consumer-owned and cannot be granted by Ardyn metadata.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Locus abuse indicators may be displayed later as metadata only; Ardyn implements no UI, browser, rendering, or control runtime.",
+      locusRole:
+        "Locus remains a future first-class consumer target only; no Locus repo or runtime is modified."
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.multiverse.citizen_adapter_request_throttle.throttle_boundary",
+      boundaryFamily: "throttle_contract",
+      relatedSystem: "multiverse",
+      currentStatus: "future_contract_required",
+      subject: "Multiverse citizen/adapter request throttle",
+      requestIdentityExpectation:
+        "Future Multiverse throttles require consumer-owned world, project, citizen, adapter, task, and permission identity before requests become actionable.",
+      quotaSubjectExpectation:
+        "Future Multiverse quotas cannot grant adapters, connectors, tasks, or orchestration from Ardyn metadata.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Multiverse abuse indicators may be displayed later as metadata only; Ardyn implements no adapter runtime or task execution.",
+      multiverseRole:
+        "Multiverse remains a future first-class consumer target only; no Multiverse repo or runtime is modified."
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.ardyn.mcp_tool_exposure_abuse.denial_of_service_boundary",
+      boundaryFamily: "denial_of_service_boundary",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      subject: "MCP/tool exposure abuse",
+      requestIdentityExpectation:
+        "Future MCP/tool request identity requires explicit tool, server, operator, permission, and task boundaries before exposure.",
+      quotaSubjectExpectation:
+        "Future MCP/tool quotas cannot be created until tool exposure, task execution, and connector grants are separately authorized.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "MCP/tool abuse metadata cannot expose tools, run tasks, connect to servers, or bypass command blocking."
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.repo_family.connector_grant_abuse.connector_abuse_boundary",
+      boundaryFamily: "connector_abuse_boundary",
+      relatedSystem: "repo-family",
+      currentStatus: "blocked",
+      subject: "connector grant abuse",
+      requestIdentityExpectation:
+        "Future connector abuse boundaries require explicit connector, credential, subject, scope, and revocation identity before grants.",
+      quotaSubjectExpectation:
+        "Future connector quotas must not create credentials, grants, ingestion URLs, scanner directives, or filesystem scans.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Connector abuse metadata cannot grant connectors, read secrets, scan files, or ingest external services.",
+      locusRole:
+        "Locus may later display connector abuse metadata only.",
+      multiverseRole:
+        "Multiverse may later display connector candidate abuse metadata only."
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.content_fabric.secure_drop_compose_inbox_abuse.secure_drop_abuse_boundary",
+      boundaryFamily: "secure_drop_abuse_boundary",
+      relatedSystem: "content-fabric",
+      currentStatus: "future_contract_required",
+      subject: "Secure Drop compose/inbox abuse",
+      requestIdentityExpectation:
+        "Future Secure Drop compose/inbox abuse controls require content-fabric-owned recipient, sender, keyring, DID, consent, and audit identity.",
+      quotaSubjectExpectation:
+        "Future Secure Drop quotas are content-fabric-owned and cannot be implemented, counted, stored, or enforced by Ardyn metadata.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation:
+        "Future Secure Drop retry/idempotency semantics require content-fabric-owned transport and storage contracts first; Ardyn implements none.",
+      abuseSignalExpectation:
+        "Secure Drop abuse metadata must reject crypto, transport, stego, send/receive, inbox polling, file selection, filesystem scanning, connector ingestion, secret/vault/env access, and ST3GG wrapping.",
+      locusRole:
+        "Locus may later display Secure Drop placeholder abuse metadata only.",
+      fabricRole:
+        "Fabric may later carry Secure Drop abuse-control reference metadata only.",
+      secureDropRole: notes.secureDropContentFabric
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.ardyn.storage_write_quota.quota_boundary",
+      boundaryFamily: "quota_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "storage/write quota",
+      requestIdentityExpectation: metadataOnlyIdentity,
+      quotaSubjectExpectation:
+        "Future storage/write quotas require Phase 5.61 database/storage ownership, isolation, retention, backup, and write contracts before any persistence.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Storage quota metadata cannot create database clients, storage adapters, cache engines, transcript writers, audit writers, filesystem writes, or persistence."
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.ardyn.auth_permission_subject_quota.quota_boundary",
+      boundaryFamily: "quota_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "auth/permission subject quota",
+      requestIdentityExpectation:
+        "Future subject quotas require Phase 5.62 identity, role, permission, consent, delegation, revocation, and audit-subject contracts first.",
+      quotaSubjectExpectation: metadataOnlyQuota,
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Auth quota metadata cannot implement login, sessions, tokens, API keys, role engines, permission evaluators, approval decisions, approval grants, or secret access."
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.ardyn.security_input_abuse.request_cost_boundary",
+      boundaryFamily: "request_cost_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "security/input-sanitization abuse cost",
+      requestIdentityExpectation: metadataOnlyIdentity,
+      quotaSubjectExpectation:
+        "Future request-cost metadata must compose with Phase 5.63 input-safety contracts before any cost meter or limiter exists.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Security/input abuse metadata cannot run sanitizers, live scanners, dependency patch automation, audit/log writers, external lookups, or backend middleware."
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.repo_family.retry_budget_planning.retry_budget_boundary",
+      boundaryFamily: "retry_budget_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "retry budget planning",
+      requestIdentityExpectation: metadataOnlyIdentity,
+      quotaSubjectExpectation:
+        "Future retry budgets need explicit request, actor, operation, and failure-mode subjects before retries are executable.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation:
+        "Retry budgets are metadata only; no retry engine, backoff scheduler, circuit breaker, queue, or task runner exists.",
+      abuseSignalExpectation:
+        "Retry budget metadata cannot mask runtime failures, loop tasks, poll services, or generate background traffic.",
+      fabricRole: notes.fabricMetadataOnly
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.repo_family.idempotency_planning.idempotency_boundary",
+      boundaryFamily: "idempotency_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "idempotency planning",
+      requestIdentityExpectation: metadataOnlyIdentity,
+      quotaSubjectExpectation:
+        "Future idempotency subjects require operation keys, replay windows, storage ownership, and privacy contracts before any store.",
+      backpressureExpectation: noBackpressureRuntime,
+      retryIdempotencyExpectation:
+        "Idempotency remains metadata only; Ardyn creates no idempotency key store, dedupe store, replay store, database, cache, or persistence.",
+      abuseSignalExpectation:
+        "Idempotency metadata cannot persist keys, write cache, dedupe commands, or enable request replay."
+    }),
+    rateLimitingAbuseControlBoundaryMapDefinition({
+      boundaryId:
+        "phase5-64.repo_family.backpressure_circuit_breaker_planning.backpressure_boundary",
+      boundaryFamily: "backpressure_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "backpressure and circuit-breaker planning",
+      requestIdentityExpectation: metadataOnlyIdentity,
+      quotaSubjectExpectation:
+        "Future backpressure subjects require explicit service, operation, dependency, queue, and failure-domain contracts.",
+      backpressureExpectation:
+        "Backpressure is metadata only; no breaker state, worker queue, scheduler, polling loop, or live dependency pressure signal exists.",
+      retryIdempotencyExpectation: noRetryRuntime,
+      abuseSignalExpectation:
+        "Circuit-breaker planning metadata cannot open transports, poll services, schedule work, or gate runtime execution."
+    })
+  ];
+}
+
+function rateLimitingAbuseControlBoundaryMapEntries() {
+  return rateLimitingAbuseControlBoundaryMapDefinitions().map(
+    rateLimitingAbuseControlBoundaryMapEntry
+  );
+}
+
+function rateLimitingAbuseControlBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+
+  return {
+    rateLimitingAbuseControlContractBoundaryMapKind:
+      RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    boundaryIds: entries.map((entry) => entry.boundaryId),
+    boundaryFamilies: [...RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_FAMILIES],
+    relatedSystems: [
+      ...RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_RELATED_SYSTEMS
+    ],
+    currentStatusValues: [...RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_STATUSES],
+    countByFamily,
+    countByRelatedSystem,
+    phase548RateLimitingCoverageItemRepresented: true,
+    phase559FabricAwareApiBackendBoundaryReferenced: true,
+    phase560EncodedHandoffConformanceReferenced: true,
+    phase561DatabaseStorageContractBoundaryReferenced: true,
+    phase562AuthPermissionsContractBoundaryReferenced: true,
+    phase563SecurityRlsInputSanitizationBoundaryReferenced: true,
+    rateLimitingAbuseControlBoundaryMetadataOnly: true,
+    noLiveTrafficHandlingPerformed: true,
+    noLimiterRuntimeImplemented: true,
+    noQuotaEngineImplemented: true,
+    noThrottleRuntimeImplemented: true,
+    noAbuseDetectorImplemented: true,
+    noQueueSchedulerImplemented: true,
+    noRetryEngineImplemented: true,
+    noCircuitBreakerImplemented: true,
+    noIdempotencyStoreImplemented: true,
+    noBackendApiServerImplemented: true,
+    noStorageWrites: true,
+    noConnectorGrants: true,
+    contentFabricCanonicalSecureDropOwnerOnly: true,
+    allBlockedAuthorizationFlagsFalse: true,
+    allUnsafeRateLimitingAbuseControlRuntimeFlagsFalse: true,
+    allRuntimeEffectsFalse: true,
+    allEntriesNonAuthorizing: true
+  };
+}
+
+function rateLimitingAbuseControlBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    unsafeLimiterQuotaThrottleAbuseQueueSchedulerRetryCircuitBreakerIdempotencyCostBackendStorageRuntimeFlagsFailClosed:
+      true,
+    hiddenRateLimitMiddlewareSemanticsFailClosed: true,
+    hiddenQuotaEngineSemanticsFailClosed: true,
+    hiddenAbuseDetectorRuntimeScannerSemanticsFailClosed: true,
+    hiddenRetryCircuitBreakerExecutionSemanticsFailClosed: true,
+    hiddenIdempotencyPersistenceSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+      true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationImplementsLimiterRuntime: false,
+    validationImplementsQuotaEngine: false,
+    validationImplementsThrottleRuntime: false,
+    validationRunsAbuseDetector: false,
+    validationCreatesQueueScheduler: false,
+    validationRunsRetryEngine: false,
+    validationRunsCircuitBreaker: false,
+    validationCreatesIdempotencyStore: false,
+    validationRunsBackendApiServer: false,
+    validationWritesStorage: false,
+    validationGrantsConnectors: false,
+    validationRunsRuntime: false
+  };
+}
+
+function rateLimitingAbuseControlBoundaryMapGaps() {
+  return [
+    "No limiter runtime, quota engine, throttle runtime, abuse detector, denial-of-service runtime, queue, scheduler, retry engine, circuit breaker, idempotency store, request cost meter, backend middleware, API, or server exists in Ardyn.",
+    "Database/storage/cache/RLS, auth/permissions subject identity, and security/input-sanitization boundaries are referenced as metadata only and still require explicit future contracts.",
+    "Fabric coordination, encoded handoff, MCP/tool exposure, connector grants, and Secure Drop compose/inbox abuse controls remain future metadata boundaries with no runtime transport, task execution, or service discovery.",
+    "No storage writes, counters, buckets, ledgers, retry state, idempotency persistence, audit/transcript writers, import/export paths, packages, filesystem writes, or background polling are implemented.",
+    "Future consumer displays still need Locus/Multiverse-owned abuse-control UI, accessibility, and action-disablement conformance before any interactive control surface."
+  ];
+}
+
+function rateLimitingAbuseControlBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    RATE_LIMITING_ABUSE_CONTROL_BOUNDARY_UNSAFE_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function rateLimitingAbuseControlBoundaryMapState(reviewedAt) {
+  const boundaryEntries = rateLimitingAbuseControlBoundaryMapEntries();
+
+  return {
+    schema: RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion: RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind: RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase548ProductionReadinessCoverageMatrix:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      phase548RateLimitingAreaNumber: 9,
+      phase548RateLimitingStatus: "deferred",
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase560InterAgentEncodedHandoffConformance:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      phase561DatabaseStorageContractBoundary:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      phase563SecurityRlsInputSanitizationContractBoundary:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      secureDropCanonicalOwner: "content-fabric",
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      rateLimitingAbuseControlBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      rateLimitingAbuseControlBoundaryMapValidationRules(),
+    topRateLimitingSecurityAuthDatabaseFabricApiBackendGaps:
+      rateLimitingAbuseControlBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.65-review-only-error-tracking-logging-audit-integrity-contract-boundary-map",
+    rateLimitingAbuseControlContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...rateLimitingAbuseControlBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function rateLimitingAbuseControlBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  rateLimitingAbuseControlContractBoundaryMap
+}) {
+  return {
+    schema: RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion: RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_VERSION,
+    rateLimitingAbuseControlContractBoundaryMapKind:
+      RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_KIND,
+    rateLimitingAbuseControlContractBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    rateLimitingAbuseControlContractBoundaryMapProduced: accepted,
+    rateLimitingAbuseControlContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? rateLimitingAbuseControlContractBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? rateLimitingAbuseControlContractBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? rateLimitingAbuseControlContractBoundaryMap.invalidBoundaryCasePolicy
+      : rateLimitingAbuseControlBoundaryMapValidationRules(),
+    topRateLimitingSecurityAuthDatabaseFabricApiBackendGaps: accepted
+      ? rateLimitingAbuseControlContractBoundaryMap
+          .topRateLimitingSecurityAuthDatabaseFabricApiBackendGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? rateLimitingAbuseControlContractBoundaryMap.recommendedNextPhase
+      : null,
+    rateLimitingAbuseControlContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...rateLimitingAbuseControlBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            rateLimitingRuntimeAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createRateLimitingAbuseControlContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord = rateLimitingAbuseControlBoundaryMapInputRecord(input);
+  const reviewedAt =
+    rateLimitingAbuseControlBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    rateLimitingAbuseControlBoundaryMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const rateLimitingAbuseControlContractBoundaryMap = accepted
+    ? rateLimitingAbuseControlBoundaryMapState(reviewedAt)
+    : null;
+
+  return rateLimitingAbuseControlBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    rateLimitingAbuseControlContractBoundaryMap
   });
 }
 
