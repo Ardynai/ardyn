@@ -323,6 +323,11 @@ export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RESULT_REVIEW_PACKAGE_BOUNDARY_V
   "0.1.0";
 export const CONSUMER_OWNED_DISPLAY_CONFORMANCE_RESULT_REVIEW_PACKAGE_BOUNDARY_KIND:
   "consumer-owned-display-conformance-result-review-package-boundary";
+export const FABRIC_AWARE_API_BACKEND_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.59.fabric-aware-api-backend-contract-boundary-map-result";
+export const FABRIC_AWARE_API_BACKEND_CONTRACT_BOUNDARY_MAP_VERSION: "0.1.0";
+export const FABRIC_AWARE_API_BACKEND_CONTRACT_BOUNDARY_MAP_KIND:
+  "fabric-aware-api-backend-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -7724,6 +7729,231 @@ export interface ConsumerOwnedDisplayConformanceResultReviewPackageBoundaryResul
   [key: string]: unknown;
 }
 
+export type FabricAwareApiBackendContractBoundaryMapClassification =
+  | "valid_fabric_aware_api_backend_contract_boundary_map_runtime_still_blocked"
+  | "malformed_fabric_aware_api_backend_contract_boundary_map_input_rejected"
+  | "missing_required_fabric_aware_api_backend_contract_boundary_entry_rejected"
+  | "unknown_boundary_family_fabric_aware_api_backend_contract_boundary_map_input_rejected"
+  | "unknown_related_consumer_repo_fabric_aware_api_backend_contract_boundary_map_input_rejected"
+  | "unknown_current_status_fabric_aware_api_backend_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_fabric_aware_api_backend_contract_boundary_map_input_rejected"
+  | "hidden_backend_server_api_fabric_bus_broker_transport_adapter_connector_registry_task_import_export_package_persistence_runtime_semantics_fabric_aware_api_backend_contract_boundary_map_input_rejected"
+  | "secure_drop_implementation_semantics_fabric_aware_api_backend_contract_boundary_map_input_rejected"
+  | "backend_server_api_fabric_bus_broker_transport_adapter_connector_registry_task_import_export_package_persistence_runtime_implementation_semantics_fabric_aware_api_backend_contract_boundary_map_input_rejected"
+  | "unsafe_backend_server_api_fabric_bus_broker_transport_adapter_connector_registry_task_import_export_package_persistence_runtime_flags_fabric_aware_api_backend_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_fabric_aware_api_backend_contract_boundary_map_input_rejected"
+  | "noncanonical_fabric_aware_api_backend_contract_boundary_map_input_rejected";
+
+export type FabricAwareApiBackendContractBoundaryFamily =
+  | "api_contract"
+  | "backend_contract"
+  | "fabric_coordination"
+  | "consumer_boundary";
+
+export type FabricAwareApiBackendContractBoundaryRelatedRepo =
+  | "ardyn"
+  | "locus"
+  | "multiverse"
+  | "content-fabric"
+  | "repo-family";
+
+export type FabricAwareApiBackendContractBoundaryStatus =
+  | "metadata_only"
+  | "blocked"
+  | "future_contract_required";
+
+export interface FabricAwareApiBackendContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily: FabricAwareApiBackendContractBoundaryFamily;
+  relatedConsumerOrRepo: FabricAwareApiBackendContractBoundaryRelatedRepo;
+  currentStatus: FabricAwareApiBackendContractBoundaryStatus;
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  fabricRoleDescription: string;
+  secureDropRoleDescription: string;
+  productionReadinessAreaReference: {
+    phase: "5.48";
+    areaNumber: 2;
+    areaName: "API & Backend Logic";
+    sourceFixture: string;
+    sourceStatus: "deferred";
+    representedByPhase559: true;
+    authorizesRuntime: false;
+  };
+  phase558ReviewPackageBoundaryReference: {
+    phase: "5.58";
+    sourceFixture: string;
+    displayConformanceChainReferenced: true;
+    importsPackages: false;
+    exportsPackages: false;
+    authorizesRuntime: false;
+  };
+  fabricBoundaryMetadataOnly: true;
+  apiBackendBoundaryMetadataOnly: true;
+  locusAndMultiverseConsumerTargetsOnly: boolean;
+  contentFabricCanonicalSecureDropOwnerOnly: boolean;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeBackendServerApiFabricBusBrokerTransportAdapterConnectorRegistryTaskImportExportPackagePersistenceRuntimeFlags:
+    Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface FabricAwareApiBackendContractBoundaryMapState {
+  schema: "ardyn.phase-5.59.fabric-aware-api-backend-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "fabric-aware-api-backend-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: FabricAwareApiBackendContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topApiBackendFabricContractGaps: string[];
+  recommendedNextPhase: string;
+  fabricAwareApiBackendContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  backendRuntimeImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  endpointImplementedByArdyn: false;
+  httpServerImplementedByArdyn: false;
+  websocketHttpTransportImplementedByArdyn: false;
+  fabricRuntimeImplementedByArdyn: false;
+  fabricBusBrokerTransportImplementedByArdyn: false;
+  adapterRuntimeImplementedByArdyn: false;
+  connectorGrantProduced: false;
+  registryConnectionImplementedByArdyn: false;
+  liveRegistryConnectionEnabled: false;
+  taskExecutionImplementedByArdyn: false;
+  taskExecutionEnabled: false;
+  importExportPathImplementedByArdyn: false;
+  packageDistributionImplementedByArdyn: false;
+  packageWriterImplementedByArdyn: false;
+  packageReaderImplementedByArdyn: false;
+  packagePersistenceImplementedByArdyn: false;
+  persistenceImplementedByArdyn: false;
+  resultCollectorImplementedByArdyn: false;
+  resultValidatorImplementedByArdyn: false;
+  reviewRouterImplementedByArdyn: false;
+  evaluatorImplementedByArdyn: false;
+  evaluatorExecutionPerformed: false;
+  approvalPathImplementedByArdyn: false;
+  approvalDecisionProducedByArdyn: false;
+  approvalGrantProducedByArdyn: false;
+  commandExposureEnabled: false;
+  commandRuntimeControlEnabled: false;
+  runtimeExecutionEnabled: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  mcpToolExposureEnabled: false;
+  secureDropImplemented: false;
+  secureDropCryptoImplemented: false;
+  secureDropTransportImplemented: false;
+  secureDropStegoImplemented: false;
+  secureDropSendReceiveImplemented: false;
+  secureDropInboxPollingEnabled: false;
+  fileSelectionEnabled: false;
+  connectorIngestionAdded: false;
+  secretVaultEnvAccessEnabled: false;
+  st3ggVendored: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  backgroundPollingEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  externalLookupsEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface FabricAwareApiBackendContractBoundaryMapResult {
+  schema: "ardyn.phase-5.59.fabric-aware-api-backend-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  fabricAwareApiBackendContractBoundaryMapKind:
+    "fabric-aware-api-backend-contract-boundary-map";
+  fabricAwareApiBackendContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: FabricAwareApiBackendContractBoundaryMapClassification;
+  fabricAwareApiBackendContractBoundaryMapProduced: boolean;
+  fabricAwareApiBackendContractBoundaryMap:
+    | FabricAwareApiBackendContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | FabricAwareApiBackendContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: FabricAwareApiBackendContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topApiBackendFabricContractGaps: string[];
+  recommendedNextPhase: string | null;
+  fabricAwareApiBackendContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  backendRuntimeImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  endpointImplementedByArdyn: false;
+  httpServerImplementedByArdyn: false;
+  websocketHttpTransportImplementedByArdyn: false;
+  fabricRuntimeImplementedByArdyn: false;
+  fabricBusBrokerTransportImplementedByArdyn: false;
+  adapterRuntimeImplementedByArdyn: false;
+  connectorGrantProduced: false;
+  registryConnectionImplementedByArdyn: false;
+  liveRegistryConnectionEnabled: false;
+  taskExecutionImplementedByArdyn: false;
+  taskExecutionEnabled: false;
+  importExportPathImplementedByArdyn: false;
+  packageDistributionImplementedByArdyn: false;
+  packageWriterImplementedByArdyn: false;
+  packageReaderImplementedByArdyn: false;
+  packagePersistenceImplementedByArdyn: false;
+  persistenceImplementedByArdyn: false;
+  resultCollectorImplementedByArdyn: false;
+  resultValidatorImplementedByArdyn: false;
+  reviewRouterImplementedByArdyn: false;
+  evaluatorImplementedByArdyn: false;
+  evaluatorExecutionPerformed: false;
+  approvalPathImplementedByArdyn: false;
+  approvalDecisionProducedByArdyn: false;
+  approvalGrantProducedByArdyn: false;
+  commandExposureEnabled: false;
+  commandRuntimeControlEnabled: false;
+  runtimeExecutionEnabled: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  mcpToolExposureEnabled: false;
+  secureDropImplemented: false;
+  secureDropCryptoImplemented: false;
+  secureDropTransportImplemented: false;
+  secureDropStegoImplemented: false;
+  secureDropSendReceiveImplemented: false;
+  secureDropInboxPollingEnabled: false;
+  fileSelectionEnabled: false;
+  connectorIngestionAdded: false;
+  secretVaultEnvAccessEnabled: false;
+  st3ggVendored: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  backgroundPollingEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  externalLookupsEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -8106,6 +8336,10 @@ export function createConsumerOwnedDisplayConformanceResultReviewPackageBoundary
   reviewedAt?: string;
   reviewPackageEntries?: unknown[];
 }): ConsumerOwnedDisplayConformanceResultReviewPackageBoundaryResult;
+export function createFabricAwareApiBackendContractBoundaryMapForReview(input?: {
+  reviewedAt?: string;
+  boundaryEntries?: unknown[];
+}): FabricAwareApiBackendContractBoundaryMapResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

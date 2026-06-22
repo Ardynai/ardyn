@@ -294,6 +294,9 @@ const phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundary =
   await readJson(
     "tests/fixtures/host-policy/phase5-58/consumer-owned-display-conformance-result-review-package-boundary.json"
   );
+const phase559FabricAwareApiBackendContractBoundaryMap = await readJson(
+  "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -468,14 +471,95 @@ const phase558SafetyFlags = {
   phase558FabricSourceChanged: false
 };
 
+const phase559SafetyFlags = {
+  phase559FabricAwareApiBackendContractBoundaryMapRecorded: true,
+  phase559FabricAwareApiBackendContractBoundaryMapReviewOnly: true,
+  phase559FabricAwareApiBackendContractBoundaryMapProduced: true,
+  phase559BoundaryEntriesRecorded: true,
+  phase559Phase548ApiBackendCoverageItemRepresented: true,
+  phase559Phase558DisplayConformanceReviewPackageBoundaryReferenced: true,
+  phase559FabricFutureCoordinationContractEnvelopeOnly: true,
+  phase559LocusAndMultiverseConsumerTargetsOnly: true,
+  phase559ContentFabricCanonicalSecureDropOwnerOnly: true,
+  phase559AllBlockedAuthorizationFlagsFalse: true,
+  phase559AllUnsafeBackendServerApiFabricBusBrokerTransportAdapterConnectorRegistryTaskImportExportPackagePersistenceRuntimeFlagsFalse:
+    true,
+  phase559AllRuntimeEffectsFalse: true,
+  phase559AllEntriesNonAuthorizing: true,
+  phase559InvalidBoundaryCasesFailClosed: true,
+  phase559UnsafeBackendServerApiFabricBusBrokerTransportAdapterConnectorRegistryTaskImportExportPackagePersistenceRuntimeFlagsFailClosed:
+    true,
+  phase559HiddenBackendServerApiFabricBusBrokerTransportAdapterConnectorRegistryTaskImportExportPackagePersistenceRuntimeSemanticsFailClosed:
+    true,
+  phase559SecureDropImplementationSemanticsFailClosed: true,
+  phase559ServeRuntimeStillDefaultBlocked: true,
+  phase559FallowRuntimeUsed: false,
+  phase559FabricAwareApiBackendContractBoundaryMapAuthoritative: false,
+  phase559BackendRuntimeImplementedByArdyn: false,
+  phase559ServerImplementedByArdyn: false,
+  phase559ApiEndpointImplementedByArdyn: false,
+  phase559EndpointImplementedByArdyn: false,
+  phase559HttpServerImplementedByArdyn: false,
+  phase559WebsocketHttpTransportImplementedByArdyn: false,
+  phase559FabricRuntimeImplementedByArdyn: false,
+  phase559FabricBusBrokerTransportImplementedByArdyn: false,
+  phase559AdapterRuntimeImplementedByArdyn: false,
+  phase559ConnectorGrantProduced: false,
+  phase559RegistryConnectionImplementedByArdyn: false,
+  phase559LiveRegistryConnectionEnabled: false,
+  phase559TaskExecutionImplementedByArdyn: false,
+  phase559TaskExecutionEnabled: false,
+  phase559ImportExportPathImplementedByArdyn: false,
+  phase559PackageDistributionImplementedByArdyn: false,
+  phase559PackageWriterImplementedByArdyn: false,
+  phase559PackageReaderImplementedByArdyn: false,
+  phase559PackagePersistenceImplementedByArdyn: false,
+  phase559PersistenceImplementedByArdyn: false,
+  phase559ResultCollectorImplementedByArdyn: false,
+  phase559ResultValidatorImplementedByArdyn: false,
+  phase559ReviewRouterImplementedByArdyn: false,
+  phase559EvaluatorImplementedByArdyn: false,
+  phase559EvaluatorExecutionPerformed: false,
+  phase559ApprovalPathImplementedByArdyn: false,
+  phase559ApprovalDecisionProducedByArdyn: false,
+  phase559ApprovalGrantProducedByArdyn: false,
+  phase559CommandExposureEnabled: false,
+  phase559CommandRuntimeControlEnabled: false,
+  phase559RuntimeExecutionEnabled: false,
+  phase559DatabaseStorageRuntimeWritesEnabled: false,
+  phase559SecretsRuntimeIngestionEnabled: false,
+  phase559McpToolExposureEnabled: false,
+  phase559SecureDropImplemented: false,
+  phase559SecureDropCryptoImplemented: false,
+  phase559SecureDropTransportImplemented: false,
+  phase559SecureDropStegoImplemented: false,
+  phase559SecureDropSendReceiveImplemented: false,
+  phase559SecureDropInboxPollingEnabled: false,
+  phase559FileSelectionEnabled: false,
+  phase559ConnectorIngestionAdded: false,
+  phase559SecretVaultEnvAccessEnabled: false,
+  phase559St3ggVendored: false,
+  phase559ServiceDiscoveryEnabled: false,
+  phase559ScheduleEnforcementEnabled: false,
+  phase559BackgroundPollingEnabled: false,
+  phase559FilesystemScanningEnabled: false,
+  phase559ProcessControlEnabled: false,
+  phase559ExternalLookupsEnabled: false,
+  phase559UiFrontendBrowserRenderingImplemented: false,
+  phase559DryRunBypassesBlock: false,
+  phase559CliSourceChanged: false,
+  phase559RustSourceChanged: false,
+  phase559FabricSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.58",
+    id: "5.59",
     name:
-      "Review-only consumer-owned display conformance result review package boundary",
+      "Review-only Fabric-aware API/backend contract boundary map",
     executionPosture:
-      "consumer-owned-display-conformance-result-review-package-boundary runtime-disabled metadata-only review-package-candidate-shape-only no-package-export no-package-import no-package-writer no-package-reader no-package-persistence no-package-discovery no-package-distribution no-runner no-result-producer no-result-collector no-result-importer no-result-exporter no-result-validator no-review-router no-evaluator no-approval-decision no-approval-grant no-test-harness no-import-export-commands no-consumer-side-ci no-fixture-discovery-runtime no-consumer-repo-change no-ui-frontend-browser-rendering-code no-browser-rendering-wcag-automation no-command-runtime-control no-interactive-control no-hidden-action-semantics no-reviewer-routing no-reviewer-assignment no-evaluator-execution no-evaluator-result no-runtime-execution no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-connector-grant no-fabric-runtime no-websocket-http-runtime no-mcp-runtime no-task-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-external-lookups"
+      "fabric-aware-api-backend-contract-boundary-map runtime-disabled metadata-only fabric-future-coordination-contract-envelope-only no-backend-server no-api-endpoint no-http-server no-websocket-http-transport no-fabric-runtime no-fabric-bus no-fabric-broker no-fabric-transport no-adapter-runtime no-connector-grant no-registry-connection no-task-execution no-import-export-path no-package-distribution no-package-writer no-package-reader no-package-persistence no-result-collector no-result-validator no-review-router no-evaluator no-approval-decision no-approval-grant no-command-exposure no-db-storage-runtime-writes no-secrets-ingestion no-mcp-runtime no-secure-drop-runtime no-service-discovery no-schedule-enforcement no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code no-external-lookups content-fabric-secure-drop-canonical-owner-only"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -556,18 +640,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.58 consumer-owned display conformance result review package boundary status report.",
+        "Render this deterministic local Phase 5.59 Fabric-aware API/backend contract boundary map status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.58 status report.",
+      purpose: "Run focused tests for this local Phase 5.59 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.58 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.59 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      purpose:
+        "Run focused Phase 5.59 Fabric-aware API/backend contract boundary map and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -24180,6 +24271,284 @@ const report = {
       noFabricSourceChange: true
     }
   },
+  phase559FabricAwareApiBackendContractBoundaryMapInventory: {
+    statusLayer: {
+      schema: phase559FabricAwareApiBackendContractBoundaryMap.schema,
+      schemaVersion:
+        phase559FabricAwareApiBackendContractBoundaryMap.schemaVersion,
+      kind:
+        phase559FabricAwareApiBackendContractBoundaryMap
+          .fabricAwareApiBackendContractBoundaryMapKind,
+      mode:
+        phase559FabricAwareApiBackendContractBoundaryMap
+          .fabricAwareApiBackendContractBoundaryMapMode,
+      classification:
+        phase559FabricAwareApiBackendContractBoundaryMap.classification,
+      produced:
+        phase559FabricAwareApiBackendContractBoundaryMap
+          .fabricAwareApiBackendContractBoundaryMapProduced,
+      boundaryEntryCount:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .boundaryEntryCount,
+      countByFamily:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .countByFamily,
+      countByRepo:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .countByRepo,
+      phase548ApiBackendCoverageItemRepresented:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .phase548ApiBackendCoverageItemRepresented,
+      phase558DisplayConformanceReviewPackageBoundaryReferenced:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .phase558DisplayConformanceReviewPackageBoundaryReferenced,
+      fabricFutureCoordinationContractEnvelopeOnly:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .fabricFutureCoordinationContractEnvelopeOnly,
+      contentFabricCanonicalSecureDropOwnerOnly:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .contentFabricCanonicalSecureDropOwnerOnly,
+      locusAndMultiverseConsumerTargetsOnly:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .locusAndMultiverseConsumerTargetsOnly,
+      allBlockedAuthorizationFlagsFalse:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .allBlockedAuthorizationFlagsFalse,
+      allUnsafeBackendServerApiFabricBusBrokerTransportAdapterConnectorRegistryTaskImportExportPackagePersistenceRuntimeFlagsFalse:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .allUnsafeBackendServerApiFabricBusBrokerTransportAdapterConnectorRegistryTaskImportExportPackagePersistenceRuntimeFlagsFalse,
+      allRuntimeEffectsFalse:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .allRuntimeEffectsFalse,
+      allEntriesNonAuthorizing:
+        phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary
+          .allEntriesNonAuthorizing,
+      backendRuntimeImplementedByArdyn: false,
+      apiEndpointImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      fabricRuntimeImplementedByArdyn: false,
+      fabricBusBrokerTransportImplementedByArdyn: false,
+      websocketHttpTransportImplementedByArdyn: false,
+      adapterRuntimeImplementedByArdyn: false,
+      connectorGrantProduced: false,
+      registryConnectionImplementedByArdyn: false,
+      taskExecutionImplementedByArdyn: false,
+      importExportPathImplementedByArdyn: false,
+      packageDistributionImplementedByArdyn: false,
+      packagePersistenceImplementedByArdyn: false,
+      commandExposureEnabled: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      mcpToolExposureEnabled: false,
+      secureDropImplemented: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      reportRunsChecks: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+        "Records deterministic review-only Fabric-aware API/backend contract boundary metadata while backend/server/API/Fabric/bus/broker/transport/adapter/connector/registry/task/import/export/package/persistence/runtime behavior remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-58-consumer-owned-display-conformance-result-review-package-boundary.md",
+        "Provides the preceding display/conformance review-package boundary referenced by Phase 5.59."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-48-production-readiness-coverage-matrix.md",
+        "Provides the production-readiness area #2 API/backend logic gap represented by Phase 5.59."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-48-production-readiness-coverage-matrix.md",
+      "docs/phase-5-58-consumer-owned-display-conformance-result-review-package-boundary.md",
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+        "Records twelve metadata-only Fabric-aware API/backend boundary entries with Phase 5.48 and Phase 5.58 references, allowed current behavior, forbidden current behavior, future contract prerequisites, false authorization flags, false unsafe backend/server/API/Fabric/bus/broker/transport/adapter/connector/registry/task/import/export/package/persistence/runtime flags, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+        "Pins the Phase 5.59 helper, fixture shape, Phase 5.48/5.58 references, fail-closed backend/server/API/Fabric/bus/broker/transport/adapter/connector/registry/task/import/export/package/persistence/runtime cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.59 status inventory, docs cross-links, fixture inventory, and backend/server/API/Fabric/runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      backendServerAddedByThisPhase: false,
+      apiEndpointAddedByThisPhase: false,
+      httpServerAddedByThisPhase: false,
+      websocketHttpTransportAddedByThisPhase: false,
+      fabricRuntimeAddedByThisPhase: false,
+      fabricBusBrokerTransportAddedByThisPhase: false,
+      adapterRuntimeAddedByThisPhase: false,
+      connectorGrantAddedByThisPhase: false,
+      registryConnectionAddedByThisPhase: false,
+      taskExecutionAddedByThisPhase: false,
+      importExportPathAddedByThisPhase: false,
+      packageDistributionAddedByThisPhase: false,
+      persistenceAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateApiBackendContractPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    boundaryMapSummary:
+      phase559FabricAwareApiBackendContractBoundaryMap.boundaryMapSummary,
+    sourcePhaseContext:
+      phase559FabricAwareApiBackendContractBoundaryMap
+        .fabricAwareApiBackendContractBoundaryMap.sourcePhaseContext,
+    boundaryEntries:
+      phase559FabricAwareApiBackendContractBoundaryMap.boundaryEntries.map(
+        ({
+          boundaryId,
+          boundaryFamily,
+          relatedConsumerOrRepo,
+          currentStatus,
+          fabricBoundaryMetadataOnly,
+          apiBackendBoundaryMetadataOnly,
+          contentFabricCanonicalSecureDropOwnerOnly,
+          locusAndMultiverseConsumerTargetsOnly,
+          explicitBlockedAuthorizationFlags,
+          unsafeBackendServerApiFabricBusBrokerTransportAdapterConnectorRegistryTaskImportExportPackagePersistenceRuntimeFlags,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          boundaryId,
+          boundaryFamily,
+          relatedConsumerOrRepo,
+          currentStatus,
+          fabricBoundaryMetadataOnly,
+          apiBackendBoundaryMetadataOnly,
+          contentFabricCanonicalSecureDropOwnerOnly,
+          locusAndMultiverseConsumerTargetsOnly,
+          explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+            explicitBlockedAuthorizationFlags
+          ).every((value) => value === false),
+          unsafeBackendServerApiFabricBusBrokerTransportAdapterConnectorRegistryTaskImportExportPackagePersistenceRuntimeFlagsAllFalse:
+            Object.values(
+              unsafeBackendServerApiFabricBusBrokerTransportAdapterConnectorRegistryTaskImportExportPackagePersistenceRuntimeFlags
+            ).every((value) => value === false),
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    invalidBoundaryCasePolicy:
+      phase559FabricAwareApiBackendContractBoundaryMap
+        .invalidBoundaryCasePolicy,
+    topApiBackendFabricContractGaps:
+      phase559FabricAwareApiBackendContractBoundaryMap
+        .topApiBackendFabricContractGaps,
+    recommendedNextPhase:
+      phase559FabricAwareApiBackendContractBoundaryMap.recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase559FabricAwareApiBackendContractBoundaryMap.runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-58-consumer-owned-display-conformance-result-review-package-boundary.test.mjs",
+      "node --test tests/phase5-57-consumer-owned-display-conformance-result-review-intake-boundary.test.mjs",
+      "node --test tests/phase5-56-consumer-owned-display-conformance-result-handoff.test.mjs",
+      "node --test tests/phase5-55-consumer-owned-display-conformance-runner-result-schema-boundary.test.mjs",
+      "node --test tests/phase5-54-consumer-owned-display-conformance-runner-test-plan.test.mjs",
+      "node --test tests/phase5-53-consumer-owned-display-conformance-runner-requirements.test.mjs",
+      "node --test tests/phase5-52-consumer-display-fixture-conformance-handoff.test.mjs",
+      "node --test tests/phase5-51-consumer-display-fixture-example-pack.test.mjs",
+      "node --test tests/phase5-50-consumer-display-fixture-schema-boundary.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      fabricAwareApiBackendContractBoundaryMapRecorded: true,
+      fabricAwareApiBackendContractBoundaryMapReviewOnly: true,
+      fabricAwareApiBackendContractBoundaryMapAuthoritative: false,
+      fabricAwareApiBackendContractBoundaryMapProduced: true,
+      boundaryEntriesRecorded: true,
+      phase548ApiBackendCoverageItemRepresented: true,
+      phase558DisplayConformanceReviewPackageBoundaryReferenced: true,
+      fabricFutureCoordinationContractEnvelopeOnly: true,
+      locusAndMultiverseConsumerTargetsOnly: true,
+      contentFabricCanonicalSecureDropOwnerOnly: true,
+      allBlockedAuthorizationFlagsFalse: true,
+      allUnsafeBackendServerApiFabricBusBrokerTransportAdapterConnectorRegistryTaskImportExportPackagePersistenceRuntimeFlagsFalse:
+        true,
+      allRuntimeEffectsFalse: true,
+      allEntriesNonAuthorizing: true,
+      invalidBoundaryCasesFailClosed: true,
+      backendRuntimeImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      apiEndpointImplementedByArdyn: false,
+      fabricRuntimeImplementedByArdyn: false,
+      fabricBusBrokerTransportImplementedByArdyn: false,
+      adapterRuntimeImplementedByArdyn: false,
+      connectorGrantProduced: false,
+      registryConnectionImplementedByArdyn: false,
+      taskExecutionImplementedByArdyn: false,
+      importExportPathImplementedByArdyn: false,
+      packageDistributionImplementedByArdyn: false,
+      persistenceImplementedByArdyn: false,
+      commandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      mcpToolExposureEnabled: false,
+      secureDropImplemented: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFabricSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -24273,6 +24642,7 @@ const report = {
     phase556ConsumerOwnedDisplayConformanceResultHandoff: true,
     phase557ConsumerOwnedDisplayConformanceResultReviewIntakeBoundary: true,
     phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundary: true,
+    phase559FabricAwareApiBackendContractBoundaryMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -27568,6 +27938,7 @@ const report = {
       phase557RustSourceChanged: false,
       phase557FabricSourceChanged: false,
       ...phase558SafetyFlags,
+      ...phase559SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,
