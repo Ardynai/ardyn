@@ -335,6 +335,12 @@ export const RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_VERSION =
   "0.1.0";
 export const RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_KIND =
   "rate-limiting-abuse-control-contract-boundary-map";
+export const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.65.error-tracking-logging-audit-integrity-contract-boundary-map-result";
+export const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_KIND =
+  "error-tracking-logging-audit-integrity-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -51117,6 +51123,1522 @@ export function createRateLimitingAbuseControlContractBoundaryMapForReview(
     classification,
     accepted,
     rateLimitingAbuseControlContractBoundaryMap
+  });
+}
+
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.65.error-tracking-logging-audit-integrity-contract-boundary-map-state";
+const VALID_ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_error_tracking_logging_audit_integrity_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_BOUNDARY_FAMILIES = Object.freeze([
+  "error_tracking_contract",
+  "logging_contract",
+  "audit_integrity_contract",
+  "tamper_evidence_contract",
+  "trace_correlation_contract",
+  "transcript_observability_contract",
+  "redaction_contract",
+  "retention_contract",
+  "external_sink_boundary",
+  "abuse_event_observability_contract",
+  "encoded_handoff_audit_contract",
+  "fabric_observability_contract",
+  "secure_drop_audit_boundary"
+]);
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family"
+]);
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "errorClassificationExpectation",
+  "logEventShapeExpectation",
+  "auditSubjectExpectation",
+  "tamperEvidenceExpectation",
+  "redactionExpectation",
+  "retentionDeletionExpectation",
+  "correlationIdempotencyExpectation",
+  "locusRoleDescription",
+  "multiverseRoleDescription",
+  "fabricRoleDescription",
+  "secureDropRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeErrorLoggingAuditRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_ALLOWED_TOP_LEVEL_FIELDS =
+  Object.freeze(["reviewedAt", "boundaryEntries"]);
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_UNSAFE_FIELDS = Object.freeze([
+  "loggerRuntimeImplemented",
+  "loggingRuntimeImplemented",
+  "logWriterImplemented",
+  "auditWriterImplemented",
+  "auditLogWriterImplemented",
+  "transcriptWriterImplemented",
+  "transcriptRuntimeWriteEnabled",
+  "telemetryClientImplemented",
+  "telemetryExporterImplemented",
+  "errorCollectorImplemented",
+  "externalSinkImplemented",
+  "externalSinkConfigured",
+  "exportPathImplementedByArdyn",
+  "persistencePathImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "redactionRuntimeImplemented",
+  "tamperEvidentWriterImplemented",
+  "digestWriterImplemented",
+  "hashChainWriterImplemented",
+  "traceCollectorImplemented",
+  "alertingRuntimeImplemented",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "databaseSchemaImplemented",
+  "databaseMigrationImplemented",
+  "rlsRuntimeImplemented",
+  "rlsPolicyImplemented",
+  "storageAdapterImplemented",
+  "cacheEngineImplemented",
+  "cacheInvalidationRuntimeImplemented",
+  "filesystemWriteEnabled",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "fabricRuntimeImplementedByArdyn",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecImplemented",
+  "translatorRuntimeImplemented",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "secretVaultEnvAccessEnabled",
+  "secretsRuntimeIngestionEnabled",
+  "connectorGrantProduced",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "secureDropCryptoImplemented",
+  "secureDropTransportImplemented",
+  "secureDropStegoImplemented",
+  "secureDropSendReceiveImplemented",
+  "secureDropInboxPollingEnabled",
+  "st3ggVendored",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "backgroundPollingEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "uiFrontendBrowserRenderingImplemented",
+  "approvalDecisionProduced",
+  "approvalGrantProduced",
+  "permissionEvaluatorImplemented",
+  "authorizationEvaluatorImplemented",
+  "reportRunsChecks",
+  "blockedCliBypassEnabled"
+]);
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_AUTHORIZATION_FIELDS =
+  Object.freeze([
+    "runtimeAuthorized",
+    "runtimeAuthorizationGranted",
+    "loggingRuntimeAuthorizationGranted",
+    "auditWriterAuthorizationGranted",
+    "transcriptWriterAuthorizationGranted",
+    "telemetryClientAuthorizationGranted",
+    "errorCollectorAuthorizationGranted",
+    "externalSinkAuthorizationGranted",
+    "exportPathAuthorizationGranted",
+    "persistencePathAuthorizationGranted",
+    "tamperEvidentWriterAuthorizationGranted",
+    "redactionRuntimeAuthorizationGranted",
+    "traceCollectorAuthorizationGranted",
+    "alertingRuntimeAuthorizationGranted",
+    "backendApiServerAuthorizationGranted",
+    "storageWriteAuthorizationGranted",
+    "connectorGrantAuthorizationGranted",
+    "fabricRuntimeAuthorizationGranted",
+    "secureDropAuthorizationGranted",
+    "encodedHandoffRuntimeAuthorizationGranted",
+    "commandExposureAuthorizationGranted",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "authorizesRuntime"
+  ]);
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_BLOCKED_CLI_BYPASS_FIELDS =
+  Object.freeze([
+    "blockedCliBypassEnabled",
+    "dryRunBypassesBlock",
+    "serveRuntimeBypassEnabled",
+    "bypassBlockedCommandBehavior",
+    "blockedCommandOverride"
+  ]);
+const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_HIDDEN_FIELD_GROUPS =
+  Object.freeze([
+    {
+      classification:
+        "hidden_log_writer_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "loggerRuntime",
+        "logWriter",
+        "loggerTransport",
+        "auditLogger",
+        "pinoLogger",
+        "winstonLogger",
+        "runtimeLogSink"
+      ]
+    },
+    {
+      classification:
+        "hidden_audit_transcript_write_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "auditWriter",
+        "auditLogWriter",
+        "auditSink",
+        "auditStore",
+        "transcriptWriter",
+        "transcriptSink",
+        "runtimeTranscriptStore"
+      ]
+    },
+    {
+      classification:
+        "hidden_telemetry_export_external_sink_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "telemetryClient",
+        "telemetryExporter",
+        "errorCollector",
+        "externalSink",
+        "logDrain",
+        "sentryDsn",
+        "datadogApiKey",
+        "otelCollector",
+        "exporterEndpoint",
+        "alertingClient"
+      ]
+    },
+    {
+      classification:
+        "hidden_tamper_evident_chain_writer_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "tamperEvidentWriter",
+        "hashChainWriter",
+        "digestWriter",
+        "merkleRootWriter",
+        "chainedAuditStore",
+        "signatureWriter"
+      ]
+    },
+    {
+      classification:
+        "hidden_redaction_runtime_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "redactionRuntime",
+        "liveRedactor",
+        "redactPii",
+        "secretScannerRuntime",
+        "runtimeScrubber"
+      ]
+    },
+    {
+      classification:
+        "hidden_backend_api_server_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "backendApiMiddleware",
+        "apiRequestHandler",
+        "httpServer",
+        "serverMiddleware",
+        "httpEndpoint",
+        "runtimeEndpoint"
+      ]
+    },
+    {
+      classification:
+        "hidden_database_storage_cache_write_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "databaseUrl",
+        "databaseDsn",
+        "dbConnectionString",
+        "storageAdapter",
+        "cacheEngine",
+        "writeQueue",
+        "persistenceLayer",
+        "filesystemWrite",
+        "auditWriter",
+        "transcriptWriter"
+      ]
+    },
+    {
+      classification:
+        "hidden_auth_session_token_api_key_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "loginUrl",
+        "sessionCookie",
+        "sessionStore",
+        "sessionToken",
+        "tokenIssuer",
+        "accessToken",
+        "refreshToken",
+        "idToken",
+        "apiKey",
+        "apiKeySecret",
+        "apiKeyIssuer",
+        "bearerToken"
+      ]
+    },
+    {
+      classification:
+        "hidden_connector_grant_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "connectorGrant",
+        "connectorCredential",
+        "connectorAccessToken",
+        "connectorAuditSink",
+        "connectorLogDrain",
+        "connectorIngestionGrant"
+      ]
+    },
+    {
+      classification:
+        "hidden_fabric_websocket_http_mcp_task_runtime_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "fabricBusTopic",
+        "fabricBrokerUrl",
+        "websocketUrl",
+        "mcpToolName",
+        "mcpServerUrl",
+        "taskExecutor",
+        "taskRunner",
+        "adapterRuntime"
+      ]
+    },
+    {
+      classification:
+        "hidden_secure_drop_implementation_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "secureDropPayloadPath",
+        "secureDropKeyring",
+        "secureDropCryptoImplemented",
+        "secureDropTransportImplemented",
+        "secureDropStegoImplemented",
+        "secureDropSendReceiveImplemented",
+        "secureDropInboxPollingEnabled",
+        "secureDropFileSelection",
+        "st3ggPayload"
+      ]
+    },
+    {
+      classification:
+        "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected",
+      fields: [
+        "codecImplemented",
+        "translatorRuntimeImplemented",
+        "encoderImplemented",
+        "decoderImplemented",
+        "conlangGenerator",
+        "semanticStegoCandidate",
+        "steganographyCandidate",
+        "tokenExploitationCandidate",
+        "covertChannel",
+        "guardrailBypass",
+        "hiddenPayload"
+      ]
+    }
+  ]);
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(errorTrackingLoggingAuditIntegrityBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      errorTrackingLoggingAuditIntegrityBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapHasTrueFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      errorTrackingLoggingAuditIntegrityBoundaryMapHasTrueFieldDeep(
+        item,
+        fields
+      )
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (
+      errorTrackingLoggingAuditIntegrityBoundaryMapHasTrueFieldDeep(
+        nested,
+        fields
+      )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapHasPresentFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      errorTrackingLoggingAuditIntegrityBoundaryMapHasPresentFieldDeep(
+        item,
+        fields
+      )
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeErrorLoggingAuditRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (
+      errorTrackingLoggingAuditIntegrityBoundaryMapHasPresentFieldDeep(
+        nested,
+        fields
+      )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapEntryIssue(
+  entries,
+  predicate
+) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.errorClassificationExpectation !== "string" ||
+    typeof entry.logEventShapeExpectation !== "string" ||
+    typeof entry.auditSubjectExpectation !== "string" ||
+    typeof entry.tamperEvidenceExpectation !== "string" ||
+    typeof entry.redactionExpectation !== "string" ||
+    typeof entry.retentionDeletionExpectation !== "string" ||
+    typeof entry.correlationIdempotencyExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    typeof entry.secureDropRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(entry.unsafeErrorLoggingAuditRuntimeFlags) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapAuthorizationFlagEnabled(
+  value
+) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.unsafeErrorLoggingAuditRuntimeFlags) &&
+      Object.values(value.unsafeErrorLoggingAuditRuntimeFlags).some(
+        (flag) => flag !== false
+      )) ||
+    errorTrackingLoggingAuditIntegrityBoundaryMapHasTrueFieldDeep(
+      value,
+      ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_UNSAFE_FIELDS
+    )
+  );
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(errorTrackingLoggingAuditIntegrityBoundaryMapEntries())
+  );
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapInputClassification(
+  inputRecord
+) {
+  if (errorTrackingLoggingAuditIntegrityBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries =
+    errorTrackingLoggingAuditIntegrityBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapEntryIssue(
+      entries,
+      errorTrackingLoggingAuditIntegrityBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_error_tracking_logging_audit_integrity_contract_boundary_entry_rejected";
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_RELATED_SYSTEMS.includes(
+          entry.relatedSystem
+        )
+    )
+  ) {
+    return "unknown_related_system_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_STATUSES.includes(
+          entry.currentStatus
+        )
+    )
+  ) {
+    return "unknown_current_status_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapEntryIssue(
+      entries,
+      errorTrackingLoggingAuditIntegrityBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord[field] === true
+    )
+  ) {
+    return "runtime_authorization_attempt_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapEntryIssue(
+      entries,
+      errorTrackingLoggingAuditIntegrityBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    errorTrackingLoggingAuditIntegrityBoundaryMapAuthorizationFlagEnabled(
+      inputRecord
+    )
+  ) {
+    return "authorization_flags_enabled_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  for (const { classification, fields } of ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_HIDDEN_FIELD_GROUPS) {
+    if (
+      errorTrackingLoggingAuditIntegrityBoundaryMapHasPresentFieldDeep(
+        inputRecord,
+        fields
+      )
+    ) {
+      return classification;
+    }
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapUnsafeFlagEnabled(
+      inputRecord
+    ) ||
+    errorTrackingLoggingAuditIntegrityBoundaryMapEntryIssue(
+      entries,
+      errorTrackingLoggingAuditIntegrityBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_logger_audit_transcript_telemetry_error_external_sink_tamper_redaction_trace_alerting_backend_storage_runtime_flags_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    errorTrackingLoggingAuditIntegrityBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        errorTrackingLoggingAuditIntegrityBoundaryMapContainsTrue(
+          entry?.runtimeEffect
+        )
+    ) ||
+    errorTrackingLoggingAuditIntegrityBoundaryMapContainsTrue(
+      inputRecord?.runtimeEffect
+    )
+  ) {
+    return "nested_unsafe_flags_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord).some(
+      (field) =>
+        !ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_ALLOWED_TOP_LEVEL_FIELDS.includes(
+          field
+        )
+    )
+  ) {
+    return "unknown_top_level_field_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  if (!errorTrackingLoggingAuditIntegrityBoundaryMapCanonical(entries)) {
+    return "noncanonical_error_tracking_logging_audit_integrity_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapForbiddenBehavior() {
+  return [
+    "logger runtime",
+    "log writer",
+    "audit writer",
+    "transcript writer",
+    "error collector",
+    "telemetry client",
+    "external sink",
+    "export path",
+    "persistence path",
+    "redaction runtime",
+    "tamper-evident writer",
+    "digest writer",
+    "trace collector",
+    "alerting runtime",
+    "backend API",
+    "server",
+    "database client",
+    "storage adapter",
+    "cache engine",
+    "storage write",
+    "RLS rule",
+    "auth/session/token/API-key runtime",
+    "connector grant",
+    "Fabric runtime bus",
+    "websocket/http transport",
+    "MCP tool exposure",
+    "task execution",
+    "service discovery",
+    "schedule enforcement",
+    "background polling",
+    "secret/env/vault access",
+    "filesystem write",
+    "filesystem scanning",
+    "process control",
+    "stdin loop",
+    "stdout/stderr runtime writer",
+    "import/export command",
+    "package writer",
+    "package reader",
+    "Secure Drop crypto, transport, stego, send/receive, inbox polling, file selection, filesystem scanning, connector ingestion, secret/vault/env access, or ST3GG wrapping",
+    "encoded handoff runtime, codec, translator runtime, encoder, decoder, conlang generator, stego, covert channel, tokenizer exploit, bypass, hidden payload, or transport behavior",
+    "command exposure",
+    "interactive control",
+    "reviewer routing",
+    "evaluator execution",
+    "approval decision",
+    "approval grant",
+    "UI/frontend/browser/rendering/WCAG automation"
+  ];
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapAuthorizationFlags() {
+  return {
+    loggingRuntimeAuthorizationGranted: false,
+    auditWriterAuthorizationGranted: false,
+    transcriptWriterAuthorizationGranted: false,
+    telemetryClientAuthorizationGranted: false,
+    errorCollectorAuthorizationGranted: false,
+    externalSinkAuthorizationGranted: false,
+    exportPathAuthorizationGranted: false,
+    persistencePathAuthorizationGranted: false,
+    tamperEvidentWriterAuthorizationGranted: false,
+    redactionRuntimeAuthorizationGranted: false,
+    traceCollectorAuthorizationGranted: false,
+    alertingRuntimeAuthorizationGranted: false,
+    backendApiServerAuthorizationGranted: false,
+    storageWriteAuthorizationGranted: false,
+    connectorGrantAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    websocketHttpRuntimeAuthorizationGranted: false,
+    mcpToolExposureAuthorizationGranted: false,
+    taskExecutionAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false,
+    encodedHandoffRuntimeAuthorizationGranted: false,
+    commandExposureAuthorizationGranted: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    connectorGrantProduced: false,
+    authorizesRuntime: false
+  };
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_UNSAFE_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapNotes() {
+  return {
+    noConsumerRole:
+      "No current runtime role; future consumers may inspect metadata only.",
+    currentAuthorization:
+      "Requires a future error-tracking, logging, audit-integrity, backend, storage, auth, security, rate-limiting, runtime, command exposure, connector, Fabric, Secure Drop, MCP/task, filesystem/process-control, and approval authorization phase before any executable behavior.",
+    fabricMetadataOnly:
+      "Fabric remains a future coordination envelope metadata layer, not a bus, broker, transport, adapter, connector, registry, scheduler, importer, exporter, package distributor, observability sink, or task executor.",
+    secureDropContentFabric:
+      "Secure Drop audit metadata remains a future content-fabric contract; Ardyn records references only and implements no Secure Drop crypto, transport, stego, send/receive, inbox polling, file selection, connector ingestion, secret/vault/env access, ST3GG wrapping, audit writer, or result collector."
+  };
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapDefinition(definition) {
+  const notes = errorTrackingLoggingAuditIntegrityBoundaryMapNotes();
+
+  return {
+    ...definition,
+    allowedCurrentBehavior: [
+      `Describe future ${definition.subject} error-tracking, logging, audit-integrity, tamper-evidence, and observability boundary metadata.`,
+      "Keep current behavior review-only, metadata-only, non-authorizing, and runtime-blocked."
+    ],
+    requiredFutureContractBeforeImplementation:
+      `A future ${definition.subject} contract must define error classification, log event shape, audit subject, tamper-evidence, redaction, retention/deletion, correlation/idempotency, storage boundaries, consumer ownership, and explicit no-runtime defaults before implementation.`,
+    requiredFutureAuthorizationPhaseBeforeRuntime: notes.currentAuthorization,
+    locusRoleDescription: definition.locusRole ?? notes.noConsumerRole,
+    multiverseRoleDescription:
+      definition.multiverseRole ?? notes.noConsumerRole,
+    fabricRoleDescription: definition.fabricRole ?? notes.fabricMetadataOnly,
+    secureDropRoleDescription: definition.secureDropRole ?? "Not applicable."
+  };
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapDefinitions() {
+  const notes = errorTrackingLoggingAuditIntegrityBoundaryMapNotes();
+  const classification =
+    "Future error classes must be stable review metadata only; Ardyn emits no runtime exceptions, collectors, alerts, or live telemetry.";
+  const shape =
+    "Future log event shapes must be schema-bound metadata only now; Ardyn writes no logs, audit records, transcripts, telemetry, files, databases, or external sinks.";
+  const subject =
+    "Future audit subjects require explicit identity, permission, consent, and review contracts before any runtime subject is observed.";
+  const tamper =
+    "Tamper-evidence remains planning metadata only; Ardyn creates no digest writer, hash chain, signature writer, Merkle root, or persistence path.";
+  const redaction =
+    "Redaction remains contract metadata only; Ardyn runs no sanitizer, redactor, secret scanner, telemetry scrubber, or external lookup.";
+  const retention =
+    "Retention, deletion, and export remain policy metadata only; Ardyn creates no retention job, deletion job, package export, external sink, or persistence.";
+  const correlation =
+    "Correlation and idempotency remain future contract metadata only; Ardyn creates no trace collector, span, request id store, idempotency store, retry state, or queue.";
+
+  return [
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.repo_family.backend_api_error_tracking.error_tracking_boundary",
+      boundaryFamily: "error_tracking_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "backend/API error tracking",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation:
+        "Future backend/API error events require explicit route, method, status, actor, correlation, redaction, and sink ownership before any endpoint or server exists.",
+      auditSubjectExpectation: subject,
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.ardyn.database_storage_audit_transcript.transcript_observability_boundary",
+      boundaryFamily: "transcript_observability_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "database/storage audit and transcript persistence",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation:
+        "Future transcript/audit subjects require Phase 5.61 storage ownership and Phase 5.62 identity boundaries before any write path.",
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation:
+        "Future transcript/audit retention requires explicit storage, deletion, export, backup, and recovery contracts before persistence.",
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.ardyn.auth_permissions_audit_subject.audit_integrity_boundary",
+      boundaryFamily: "audit_integrity_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "auth/permissions audit subject",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation:
+        "Future audit subjects require Phase 5.62 identity, role, permission, consent, delegation, revocation, and traceability contracts first.",
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.ardyn.security_rls_input_audit_integrity.audit_integrity_boundary",
+      boundaryFamily: "audit_integrity_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "security/RLS/input-sanitization audit integrity",
+      errorClassificationExpectation:
+        "Future security findings must distinguish input, RLS, permission, dependency, and transport categories without running enforcement.",
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation: subject,
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation:
+        "Future security audit redaction must be defined before any log writer; current metadata cannot inspect secrets, env, vaults, payloads, or connectors.",
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.ardyn.rate_limit_abuse_event_observability.abuse_event_boundary",
+      boundaryFamily: "abuse_event_observability_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "rate-limit/abuse event observability",
+      errorClassificationExpectation:
+        "Future abuse events must remain separate from enforcement until Phase 5.64 limiter and quota contracts are separately authorized.",
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation:
+        "Future abuse event subjects require identity, quota, and storage contracts before any limiter state or audit record.",
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.ardyn.cli_runtime_command_error_tracking.error_tracking_boundary",
+      boundaryFamily: "error_tracking_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "metadata_only",
+      subject: "CLI/runtime command error tracking",
+      errorClassificationExpectation:
+        "Current CLI error metadata cannot expose commands, alter blocked command behavior, start runtime, or set reportRunsChecks.",
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation: subject,
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.ardyn.process_stdio_failure_logging.logging_boundary",
+      boundaryFamily: "logging_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      subject: "future process/stdin/stdout/stderr failure logging",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation:
+        "Future process and stdio failure events require a separate runtime host contract; current metadata cannot add stdin loops or stdout/stderr runtime writers.",
+      auditSubjectExpectation: subject,
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.ardyn_subagent.encoded_handoff_raw_audit_visibility.encoded_handoff_audit_boundary",
+      boundaryFamily: "encoded_handoff_audit_contract",
+      relatedSystem: "ardyn-subagent",
+      currentStatus: "future_contract_required",
+      subject: "inter-agent encoded handoff raw/audit visibility",
+      errorClassificationExpectation:
+        "Future encoded handoff audit classes must keep raw protocol visibility metadata separate from codec, translator, stego, covert-channel, tokenizer-exploit, bypass, and hidden-payload runtimes.",
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation:
+        "Future encoded handoff audit subjects require visible source, target, operator translation, and audit metadata; no runtime channel exists now.",
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.repo_family.fabric_coordination_envelope_observability.fabric_observability_boundary",
+      boundaryFamily: "fabric_observability_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "Fabric coordination-envelope observability",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation:
+        "Future Fabric observability events require envelope source, target, family, correlation, and audit metadata without creating a Fabric bus or sink.",
+      auditSubjectExpectation: subject,
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation,
+      locusRole: "Locus may later display Fabric observability metadata only.",
+      multiverseRole:
+        "Multiverse may later display Fabric observability metadata only."
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.locus.status_error_audit_display.redaction_boundary",
+      boundaryFamily: "redaction_contract",
+      relatedSystem: "locus",
+      currentStatus: "future_contract_required",
+      subject: "Locus-visible status/error/audit display",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation:
+        "Future Locus display events require consumer-owned accessible labels, redaction, severity vocabulary, and no hidden action semantics before UI work.",
+      auditSubjectExpectation: subject,
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation:
+        "Locus display redaction remains metadata only; Ardyn implements no UI, browser, rendering, WCAG automation, log writer, or secret scanner.",
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation,
+      locusRole:
+        "Locus remains a future first-class consumer target only; no Locus repo or runtime is modified."
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.multiverse.capability_task_error_status.trace_correlation_boundary",
+      boundaryFamily: "trace_correlation_contract",
+      relatedSystem: "multiverse",
+      currentStatus: "future_contract_required",
+      subject: "Multiverse-visible capability/task error status",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation:
+        "Future Multiverse capability/task status events require consumer-owned world, project, citizen, adapter, task, and correlation metadata before display or orchestration.",
+      auditSubjectExpectation: subject,
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation:
+        "Future Multiverse correlation requires consumer-owned task/capability identifiers; Ardyn creates no task runner, trace collector, queue, or orchestration runtime.",
+      multiverseRole:
+        "Multiverse remains a future first-class consumer target only; no Multiverse repo or runtime is modified."
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.ardyn.mcp_tool_exposure_audit.audit_integrity_boundary",
+      boundaryFamily: "audit_integrity_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      subject: "MCP/tool exposure audit",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation:
+        "Future MCP/tool audit subjects require explicit tool, server, operator, permission, connector, and task boundaries before exposure.",
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.repo_family.connector_grant_audit.audit_integrity_boundary",
+      boundaryFamily: "audit_integrity_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "blocked",
+      subject: "connector-grant audit",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation:
+        "Future connector audits require explicit connector, credential, subject, scope, consent, and revocation metadata before any grant.",
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation:
+        "Connector audit redaction cannot read credentials, secrets, env, vaults, files, or external services in Ardyn.",
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation,
+      locusRole: "Locus may later display connector audit metadata only.",
+      multiverseRole:
+        "Multiverse may later display connector candidate audit metadata only."
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.content_fabric.secure_drop_metadata_audit.secure_drop_audit_boundary",
+      boundaryFamily: "secure_drop_audit_boundary",
+      relatedSystem: "content-fabric",
+      currentStatus: "future_contract_required",
+      subject: "Secure Drop metadata audit",
+      errorClassificationExpectation:
+        "Future Secure Drop metadata audit classes are content-fabric-owned and cannot imply Ardyn Secure Drop implementation.",
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation:
+        "Future Secure Drop audit subjects require content-fabric-owned sender, recipient, keyring, DID, consent, and traceability metadata.",
+      tamperEvidenceExpectation:
+        "Future Secure Drop tamper-evidence is content-fabric-owned; Ardyn creates no digest, chain, signature, or persistence writer.",
+      redactionExpectation:
+        "Secure Drop metadata audit must reject crypto, transport, stego, send/receive, inbox polling, file selection, filesystem scanning, connector ingestion, secret/vault/env access, and ST3GG wrapping.",
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation,
+      locusRole: "Locus may later display Secure Drop audit placeholders only.",
+      fabricRole:
+        "Fabric may later carry Secure Drop audit reference metadata only.",
+      secureDropRole: notes.secureDropContentFabric
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.repo_family.external_sink_export.external_sink_boundary",
+      boundaryFamily: "external_sink_boundary",
+      relatedSystem: "repo-family",
+      currentStatus: "blocked",
+      subject: "external sink/export",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation:
+        "Future external sink payloads require explicit schemas, redaction, retention, export ownership, and authorization; Ardyn creates no sink, exporter, package, or network path.",
+      auditSubjectExpectation: subject,
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.repo_family.retention_deletion_export_policy.retention_boundary",
+      boundaryFamily: "retention_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "retention/deletion/export policy",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation: subject,
+      tamperEvidenceExpectation: tamper,
+      redactionExpectation: redaction,
+      retentionDeletionExpectation:
+        "Future retention/deletion/export requires explicit policy, storage owner, consumer owner, recovery impact, and legal/compliance review before any job or export path.",
+      correlationIdempotencyExpectation: correlation
+    }),
+    errorTrackingLoggingAuditIntegrityBoundaryMapDefinition({
+      boundaryId:
+        "phase5-65.repo_family.tamper_evident_digest_hash_chaining.tamper_evidence_boundary",
+      boundaryFamily: "tamper_evidence_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "tamper-evident digest/hash/chaining planning",
+      errorClassificationExpectation: classification,
+      logEventShapeExpectation: shape,
+      auditSubjectExpectation: subject,
+      tamperEvidenceExpectation:
+        "Future tamper-evident planning may describe digest, hash, chain, signature, and verification metadata only; Ardyn writes no digest, chain, signature, audit log, or storage record.",
+      redactionExpectation: redaction,
+      retentionDeletionExpectation: retention,
+      correlationIdempotencyExpectation: correlation
+    })
+  ];
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapEntry(definition) {
+  const { subject: _subject, locusRole, multiverseRole, fabricRole, secureDropRole, ...entry } = definition;
+
+  return {
+    ...entry,
+    forbiddenCurrentBehavior:
+      errorTrackingLoggingAuditIntegrityBoundaryMapForbiddenBehavior(),
+    productionReadinessAreaReference: {
+      phase: "5.48",
+      areaNumber: 12,
+      areaName: "Error Tracking & Logs",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      sourceStatus: "deferred",
+      representedByPhase565: true,
+      authorizesRuntime: false
+    },
+    phase559FabricAwareApiBackendReference: {
+      phase: "5.59",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      fabricBoundaryReferenced: true,
+      implementsFabricRuntime: false,
+      authorizesRuntime: false
+    },
+    phase560InterAgentEncodedHandoffConformanceReference: {
+      phase: "5.60",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      encodedHandoffConformanceReferenced: true,
+      implementsEncodedHandoffRuntime: false,
+      authorizesRuntime: false
+    },
+    phase561DatabaseStorageContractBoundaryReference: {
+      phase: "5.61",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      databaseStorageBoundaryReferenced: true,
+      implementsDatabaseStorageRuntime: false,
+      authorizesRuntime: false
+    },
+    phase562AuthPermissionsContractBoundaryReference: {
+      phase: "5.62",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      authPermissionsBoundaryReferenced: true,
+      implementsAuthPermissionsRuntime: false,
+      authorizesRuntime: false
+    },
+    phase563SecurityRlsInputSanitizationBoundaryReference: {
+      phase: "5.63",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      securityRlsInputSanitizationBoundaryReferenced: true,
+      implementsSecurityRuntime: false,
+      authorizesRuntime: false
+    },
+    phase564RateLimitingAbuseControlBoundaryReference: {
+      phase: "5.64",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      rateLimitingAbuseControlBoundaryReferenced: true,
+      implementsAbuseRuntime: false,
+      authorizesRuntime: false
+    },
+    errorTrackingLoggingAuditIntegrityBoundaryMetadataOnly: true,
+    noLiveObservabilityPerformed: true,
+    explicitBlockedAuthorizationFlags:
+      errorTrackingLoggingAuditIntegrityBoundaryMapAuthorizationFlags(),
+    unsafeErrorLoggingAuditRuntimeFlags:
+      errorTrackingLoggingAuditIntegrityBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapEntries() {
+  return errorTrackingLoggingAuditIntegrityBoundaryMapDefinitions().map(
+    errorTrackingLoggingAuditIntegrityBoundaryMapEntry
+  );
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+
+  return {
+    errorTrackingLoggingAuditIntegrityContractBoundaryMapKind:
+      ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    boundaryIds: entries.map((entry) => entry.boundaryId),
+    boundaryFamilies: [
+      ...ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_BOUNDARY_FAMILIES
+    ],
+    relatedSystems: [...ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_RELATED_SYSTEMS],
+    currentStatusValues: [...ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_STATUSES],
+    countByFamily,
+    countByRelatedSystem,
+    phase548ErrorTrackingLogsCoverageItemRepresented: true,
+    phase559FabricAwareApiBackendBoundaryReferenced: true,
+    phase560EncodedHandoffConformanceReferenced: true,
+    phase561DatabaseStorageContractBoundaryReferenced: true,
+    phase562AuthPermissionsContractBoundaryReferenced: true,
+    phase563SecurityRlsInputSanitizationBoundaryReferenced: true,
+    phase564RateLimitingAbuseControlBoundaryReferenced: true,
+    errorTrackingLoggingAuditIntegrityBoundaryMetadataOnly: true,
+    noLiveObservabilityPerformed: true,
+    noLoggerRuntimeImplemented: true,
+    noAuditWriterImplemented: true,
+    noTranscriptWriterImplemented: true,
+    noTelemetryClientImplemented: true,
+    noErrorCollectorImplemented: true,
+    noExternalSinkImplemented: true,
+    noTamperEvidentWriterImplemented: true,
+    noRedactionRuntimeImplemented: true,
+    noTraceCollectorImplemented: true,
+    noAlertingRuntimeImplemented: true,
+    noBackendApiServerImplemented: true,
+    noStorageWrites: true,
+    noConnectorGrants: true,
+    contentFabricCanonicalSecureDropOwnerOnly: true,
+    allBlockedAuthorizationFlagsFalse: true,
+    allUnsafeErrorLoggingAuditRuntimeFlagsFalse: true,
+    allRuntimeEffectsFalse: true,
+    allEntriesNonAuthorizing: true
+  };
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    unsafeLoggerAuditTranscriptTelemetryErrorExternalSinkTamperRedactionTraceAlertingBackendStorageRuntimeFlagsFailClosed:
+      true,
+    hiddenLogWriterSemanticsFailClosed: true,
+    hiddenAuditTranscriptWriteSemanticsFailClosed: true,
+    hiddenTelemetryExportExternalSinkSemanticsFailClosed: true,
+    hiddenTamperEvidentChainWriterSemanticsFailClosed: true,
+    hiddenRedactionRuntimeSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+      true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationImplementsLoggerRuntime: false,
+    validationWritesAudit: false,
+    validationWritesTranscript: false,
+    validationRunsTelemetryClient: false,
+    validationRunsErrorCollector: false,
+    validationConfiguresExternalSink: false,
+    validationRunsTamperEvidentWriter: false,
+    validationRunsRedactionRuntime: false,
+    validationRunsTraceCollector: false,
+    validationRunsAlertingRuntime: false,
+    validationRunsBackendApiServer: false,
+    validationWritesStorage: false,
+    validationGrantsConnectors: false,
+    validationRunsRuntime: false
+  };
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapGaps() {
+  return [
+    "No logger runtime, audit writer, transcript writer, telemetry client, error collector, external sink, alerting client, redaction runtime, tamper-evident writer, digest/hash chain writer, trace collector, backend middleware, API, or server exists in Ardyn.",
+    "Database/storage/cache/RLS, auth/permissions subject identity, security/input-sanitization, and rate-limit/abuse-control boundaries are referenced as metadata only and still require explicit future contracts.",
+    "Fabric coordination, encoded handoff, MCP/tool exposure, connector grants, and Secure Drop audit metadata remain future boundaries with no runtime transport, task execution, service discovery, or storage sink.",
+    "No storage writes, transcripts, audit records, logs, traces, spans, alerts, retention jobs, deletion jobs, export paths, packages, filesystem writes, or background polling are implemented.",
+    "Future consumer displays still need Locus/Multiverse-owned error/audit status UI, accessibility, redaction, and action-disablement conformance before any interactive observability surface."
+  ];
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapState(reviewedAt) {
+  const boundaryEntries = errorTrackingLoggingAuditIntegrityBoundaryMapEntries();
+
+  return {
+    schema:
+      ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion:
+      ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind: ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase548ProductionReadinessCoverageMatrix:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      phase548ErrorTrackingLogsAreaNumber: 12,
+      phase548ErrorTrackingLogsStatus: "deferred",
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase560InterAgentEncodedHandoffConformance:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      phase561DatabaseStorageContractBoundary:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      phase563SecurityRlsInputSanitizationContractBoundary:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      phase564RateLimitingAbuseControlContractBoundary:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      secureDropCanonicalOwner: "content-fabric",
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      errorTrackingLoggingAuditIntegrityBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      errorTrackingLoggingAuditIntegrityBoundaryMapValidationRules(),
+    topObservabilityLoggingSecurityRateLimitingAuthDatabaseFabricApiBackendGaps:
+      errorTrackingLoggingAuditIntegrityBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.66-review-only-availability-recovery-contract-boundary-map",
+    errorTrackingLoggingAuditIntegrityContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...errorTrackingLoggingAuditIntegrityBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function errorTrackingLoggingAuditIntegrityBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  errorTrackingLoggingAuditIntegrityContractBoundaryMap
+}) {
+  return {
+    schema: ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion:
+      ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_VERSION,
+    errorTrackingLoggingAuditIntegrityContractBoundaryMapKind:
+      ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_KIND,
+    errorTrackingLoggingAuditIntegrityContractBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    errorTrackingLoggingAuditIntegrityContractBoundaryMapProduced: accepted,
+    errorTrackingLoggingAuditIntegrityContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? errorTrackingLoggingAuditIntegrityContractBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? errorTrackingLoggingAuditIntegrityContractBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? errorTrackingLoggingAuditIntegrityContractBoundaryMap.invalidBoundaryCasePolicy
+      : errorTrackingLoggingAuditIntegrityBoundaryMapValidationRules(),
+    topObservabilityLoggingSecurityRateLimitingAuthDatabaseFabricApiBackendGaps:
+      accepted
+        ? errorTrackingLoggingAuditIntegrityContractBoundaryMap
+            .topObservabilityLoggingSecurityRateLimitingAuthDatabaseFabricApiBackendGaps
+        : [],
+    recommendedNextPhase: accepted
+      ? errorTrackingLoggingAuditIntegrityContractBoundaryMap.recommendedNextPhase
+      : null,
+    errorTrackingLoggingAuditIntegrityContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...errorTrackingLoggingAuditIntegrityBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            loggingRuntimeAuthorized: false,
+            auditWriterAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createErrorTrackingLoggingAuditIntegrityContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord =
+    errorTrackingLoggingAuditIntegrityBoundaryMapInputRecord(input);
+  const reviewedAt =
+    errorTrackingLoggingAuditIntegrityBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    errorTrackingLoggingAuditIntegrityBoundaryMapInputClassification(
+      inputRecord
+    );
+  const accepted =
+    classification ===
+    VALID_ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const errorTrackingLoggingAuditIntegrityContractBoundaryMap = accepted
+    ? errorTrackingLoggingAuditIntegrityBoundaryMapState(reviewedAt)
+    : null;
+
+  return errorTrackingLoggingAuditIntegrityBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    errorTrackingLoggingAuditIntegrityContractBoundaryMap
   });
 }
 
