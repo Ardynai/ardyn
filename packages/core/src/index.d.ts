@@ -361,6 +361,11 @@ export const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_VERSIO
   "0.1.0";
 export const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_KIND:
   "error-tracking-logging-audit-integrity-contract-boundary-map";
+export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.66.availability-recovery-contract-boundary-map-result";
+export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_VERSION: "0.1.0";
+export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_KIND:
+  "availability-recovery-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -9210,6 +9215,174 @@ export interface ErrorTrackingLoggingAuditIntegrityContractBoundaryMapResult {
   [key: string]: unknown;
 }
 
+export type AvailabilityRecoveryContractBoundaryMapClassification =
+  | "valid_availability_recovery_contract_boundary_map_runtime_still_blocked"
+  | "malformed_availability_recovery_contract_boundary_map_input_rejected"
+  | "missing_required_availability_recovery_contract_boundary_entry_rejected"
+  | "unknown_top_level_field_availability_recovery_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_availability_recovery_contract_boundary_map_input_rejected"
+  | "unknown_related_system_availability_recovery_contract_boundary_map_input_rejected"
+  | "unknown_current_status_availability_recovery_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_availability_recovery_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_availability_recovery_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_availability_recovery_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_availability_recovery_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_health_check_runtime_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_monitor_scheduler_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_backup_restore_execution_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_failover_degraded_mode_runtime_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_process_supervision_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_backend_api_server_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_database_storage_cache_write_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_auth_session_token_api_key_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "hidden_logger_audit_transcript_telemetry_external_sink_semantics_availability_recovery_contract_boundary_map_input_rejected"
+  | "unsafe_availability_recovery_health_monitor_scheduler_backup_restore_failover_process_supervisor_backend_storage_runtime_flags_availability_recovery_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_availability_recovery_contract_boundary_map_input_rejected"
+  | "noncanonical_availability_recovery_contract_boundary_map_input_rejected";
+
+export interface AvailabilityRecoveryContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "availability_contract"
+    | "health_check_contract"
+    | "resilience_contract"
+    | "disaster_recovery_contract"
+    | "backup_contract"
+    | "restore_contract"
+    | "rto_rpo_contract"
+    | "failover_contract"
+    | "degraded_mode_contract"
+    | "recovery_drill_contract"
+    | "runtime_unavailability_contract"
+    | "fabric_recovery_boundary"
+    | "secure_drop_recovery_boundary";
+  relatedSystem:
+    | "ardyn"
+    | "ardyn-subagent"
+    | "locus"
+    | "multiverse"
+    | "content-fabric"
+    | "repo-family";
+  currentStatus: "metadata_only" | "blocked" | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  availabilityExpectation: string;
+  degradedModeExpectation: string;
+  healthCheckExpectation: string;
+  backupRestoreExpectation: string;
+  rtoRpoExpectation: string;
+  recoveryDrillExpectation: string;
+  dependencyFailureDomainExpectation: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  secureDropRoleDescription: string;
+  productionReadinessAreaReference: Record<string, boolean | number | string>;
+  phase559FabricAwareApiBackendReference: Record<string, boolean | string>;
+  phase560InterAgentEncodedHandoffConformanceReference: Record<string, boolean | string>;
+  phase561DatabaseStorageContractBoundaryReference: Record<string, boolean | string>;
+  phase562AuthPermissionsContractBoundaryReference: Record<string, boolean | string>;
+  phase563SecurityRlsInputSanitizationBoundaryReference: Record<string, boolean | string>;
+  phase564RateLimitingAbuseControlBoundaryReference: Record<string, boolean | string>;
+  phase565ErrorTrackingLoggingAuditIntegrityBoundaryReference: Record<string, boolean | string>;
+  availabilityRecoveryBoundaryMetadataOnly: true;
+  noLiveAvailabilityRecoveryPerformed: true;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeAvailabilityRecoveryRuntimeFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface AvailabilityRecoveryContractBoundaryMapState {
+  schema: "ardyn.phase-5.66.availability-recovery-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "availability-recovery-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: AvailabilityRecoveryContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topAvailabilityRecoveryObservabilitySecurityRateLimitingAuthDatabaseFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  availabilityRecoveryContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  healthCheckerImplemented: false;
+  healthCheckRuntimeImplemented: false;
+  monitorImplemented: false;
+  schedulerImplemented: false;
+  backupJobImplemented: false;
+  restoreJobImplemented: false;
+  failoverRuntimeImplemented: false;
+  degradedModeRuntimeImplemented: false;
+  recoveryAutomationImplemented: false;
+  processSupervisorImplemented: false;
+  externalServiceIntegrationImplemented: false;
+  backendRuntimeImplementedByArdyn: false;
+  apiEndpointImplementedByArdyn: false;
+  serverImplementedByArdyn: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  fabricRuntimeImplementedByArdyn: false;
+  encodedHandoffRuntimeImplementedByArdyn: false;
+  commandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  secretsRuntimeIngestionEnabled: false;
+  connectorGrantProduced: false;
+  mcpToolExposureEnabled: false;
+  taskExecutionEnabled: false;
+  secureDropImplemented: false;
+  serviceDiscoveryEnabled: false;
+  scheduleEnforcementEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  blockedCliBypassEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface AvailabilityRecoveryContractBoundaryMapResult {
+  schema: "ardyn.phase-5.66.availability-recovery-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  availabilityRecoveryContractBoundaryMapKind:
+    "availability-recovery-contract-boundary-map";
+  availabilityRecoveryContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: AvailabilityRecoveryContractBoundaryMapClassification;
+  availabilityRecoveryContractBoundaryMapProduced: boolean;
+  availabilityRecoveryContractBoundaryMap:
+    | AvailabilityRecoveryContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | AvailabilityRecoveryContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: AvailabilityRecoveryContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topAvailabilityRecoveryObservabilitySecurityRateLimitingAuthDatabaseFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  availabilityRecoveryContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -9621,6 +9794,10 @@ export function createErrorTrackingLoggingAuditIntegrityContractBoundaryMapForRe
   reviewedAt?: string;
   boundaryEntries?: unknown[];
 }): ErrorTrackingLoggingAuditIntegrityContractBoundaryMapResult;
+export function createAvailabilityRecoveryContractBoundaryMapForReview(input?: {
+  reviewedAt?: string;
+  boundaryEntries?: unknown[];
+}): AvailabilityRecoveryContractBoundaryMapResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions

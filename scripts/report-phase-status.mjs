@@ -316,6 +316,9 @@ const phase565ErrorTrackingLoggingAuditIntegrityContractBoundaryMap =
   await readJson(
     "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json"
   );
+const phase566AvailabilityRecoveryContractBoundaryMap = await readJson(
+  "tests/fixtures/host-policy/phase5-66/availability-recovery-contract-boundary-map.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -1198,15 +1201,142 @@ const phase565SafetyFlags = {
   phase565RustSourceChanged: false,
   phase565FabricSourceChanged: false
 };
+const phase566SafetyFlags = {
+  phase566AvailabilityRecoveryContractBoundaryMapRecorded: true,
+  phase566AvailabilityRecoveryContractBoundaryMapReviewOnly: true,
+  phase566AvailabilityRecoveryContractBoundaryMapProduced: true,
+  phase566BoundaryEntriesRecorded: true,
+  phase566Phase548AvailabilityRecoveryCoverageItemRepresented: true,
+  phase566Phase559FabricAwareApiBackendBoundaryReferenced: true,
+  phase566Phase560EncodedHandoffConformanceReferenced: true,
+  phase566Phase561DatabaseStorageContractBoundaryReferenced: true,
+  phase566Phase562AuthPermissionsContractBoundaryReferenced: true,
+  phase566Phase563SecurityRlsInputSanitizationBoundaryReferenced: true,
+  phase566Phase564RateLimitingAbuseControlBoundaryReferenced: true,
+  phase566Phase565ErrorTrackingLoggingAuditIntegrityBoundaryReferenced: true,
+  phase566AvailabilityRecoveryBoundaryMetadataOnly: true,
+  phase566NoLiveAvailabilityRecoveryPerformed: true,
+  phase566NoHealthCheckerRuntimeImplemented: true,
+  phase566NoMonitorSchedulerImplemented: true,
+  phase566NoBackupJobImplemented: true,
+  phase566NoRestoreJobImplemented: true,
+  phase566NoFailoverRuntimeImplemented: true,
+  phase566NoRecoveryAutomationImplemented: true,
+  phase566NoProcessSupervisorImplemented: true,
+  phase566NoBackendApiServerImplemented: true,
+  phase566NoStorageWrites: true,
+  phase566NoConnectorGrants: true,
+  phase566ContentFabricCanonicalSecureDropOwnerOnly: true,
+  phase566AllBlockedAuthorizationFlagsFalse: true,
+  phase566AllUnsafeAvailabilityRecoveryRuntimeFlagsFalse: true,
+  phase566AllRuntimeEffectsFalse: true,
+  phase566AllEntriesNonAuthorizing: true,
+  phase566InvalidAvailabilityRecoveryBoundaryCasesFailClosed: true,
+  phase566UnknownTopLevelFieldsFailClosed: true,
+  phase566HiddenHealthCheckRuntimeSemanticsFailClosed: true,
+  phase566HiddenMonitorSchedulerSemanticsFailClosed: true,
+  phase566HiddenBackupRestoreExecutionSemanticsFailClosed: true,
+  phase566HiddenFailoverDegradedModeRuntimeSemanticsFailClosed: true,
+  phase566HiddenProcessSupervisionSemanticsFailClosed: true,
+  phase566HiddenBackendApiServerSemanticsFailClosed: true,
+  phase566HiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+  phase566HiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+  phase566HiddenConnectorGrantSemanticsFailClosed: true,
+  phase566HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+  phase566HiddenSecureDropImplementationSemanticsFailClosed: true,
+  phase566HiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+    true,
+  phase566HiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed:
+    true,
+  phase566ServeRuntimeStillDefaultBlocked: true,
+  phase566FallowRuntimeUsed: false,
+  phase566AvailabilityRecoveryContractBoundaryMapAuthoritative: false,
+  phase566HealthCheckerImplemented: false,
+  phase566HealthCheckRuntimeImplemented: false,
+  phase566HealthEndpointImplemented: false,
+  phase566MonitorImplemented: false,
+  phase566MonitoringRuntimeImplemented: false,
+  phase566SchedulerImplemented: false,
+  phase566BackupJobImplemented: false,
+  phase566RestoreJobImplemented: false,
+  phase566FailoverRuntimeImplemented: false,
+  phase566DegradedModeRuntimeImplemented: false,
+  phase566RecoveryAutomationImplemented: false,
+  phase566ProcessSupervisorImplemented: false,
+  phase566ProcessSupervisionRuntimeImplemented: false,
+  phase566ExternalServiceIntegrationImplemented: false,
+  phase566PersistencePathImplementedByArdyn: false,
+  phase566PersistenceImplementedByArdyn: false,
+  phase566ServiceDiscoveryEnabled: false,
+  phase566BackgroundPollingEnabled: false,
+  phase566PollingEnabled: false,
+  phase566FilesystemWriteEnabled: false,
+  phase566FilesystemScanningEnabled: false,
+  phase566ProcessControlEnabled: false,
+  phase566BackendRuntimeImplementedByArdyn: false,
+  phase566BackendApiServerMiddlewareImplemented: false,
+  phase566ApiEndpointImplementedByArdyn: false,
+  phase566ServerImplementedByArdyn: false,
+  phase566DatabaseClientImplemented: false,
+  phase566DatabaseStorageRuntimeWritesEnabled: false,
+  phase566DatabaseSchemaImplemented: false,
+  phase566DatabaseMigrationImplemented: false,
+  phase566RlsRuntimeImplemented: false,
+  phase566RlsPolicyImplemented: false,
+  phase566StorageAdapterImplemented: false,
+  phase566CacheEngineImplemented: false,
+  phase566CacheInvalidationRuntimeImplemented: false,
+  phase566TranscriptWriterImplemented: false,
+  phase566AuditWriterImplemented: false,
+  phase566LoggerRuntimeImplemented: false,
+  phase566LogWriterImplemented: false,
+  phase566TelemetryClientImplemented: false,
+  phase566ExternalSinkImplemented: false,
+  phase566ImportExportPathImplementedByArdyn: false,
+  phase566PackageDistributionImplementedByArdyn: false,
+  phase566WebsocketHttpTransportImplementedByArdyn: false,
+  phase566FabricRuntimeImplementedByArdyn: false,
+  phase566EncodedHandoffRuntimeImplementedByArdyn: false,
+  phase566CodecImplemented: false,
+  phase566TranslatorRuntimeImplemented: false,
+  phase566CommandExposureEnabled: false,
+  phase566CommandRuntimeControlEnabled: false,
+  phase566RuntimeExecutionEnabled: false,
+  phase566RuntimeAuthorizationEnabled: false,
+  phase566SecretVaultEnvAccessEnabled: false,
+  phase566SecretsRuntimeIngestionEnabled: false,
+  phase566ConnectorGrantProduced: false,
+  phase566McpToolExposureEnabled: false,
+  phase566TaskExecutionEnabled: false,
+  phase566SecureDropImplemented: false,
+  phase566SecureDropCryptoImplemented: false,
+  phase566SecureDropTransportImplemented: false,
+  phase566SecureDropStegoImplemented: false,
+  phase566SecureDropSendReceiveImplemented: false,
+  phase566SecureDropInboxPollingEnabled: false,
+  phase566St3ggVendored: false,
+  phase566ScheduleEnforcementEnabled: false,
+  phase566UiFrontendBrowserRenderingImplemented: false,
+  phase566ApprovalDecisionProduced: false,
+  phase566ApprovalGrantProduced: false,
+  phase566PermissionEvaluatorImplemented: false,
+  phase566AuthorizationEvaluatorImplemented: false,
+  phase566ReportRunsChecks: false,
+  phase566BlockedCliBypassEnabled: false,
+  phase566DryRunBypassesBlock: false,
+  phase566CliSourceChanged: false,
+  phase566RustSourceChanged: false,
+  phase566FabricSourceChanged: false
+};
 
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.65",
+    id: "5.66",
     name:
-      "Review-only error-tracking/logging/audit-integrity contract boundary map",
+      "Review-only availability/recovery contract boundary map",
     executionPosture:
-      "error-tracking-logging-audit-integrity-contract-boundary-map runtime-disabled metadata-only no-logger-runtime no-log-writer no-audit-writer no-transcript-writer no-telemetry-client no-error-collector no-external-sink no-export-path no-persistence-path no-tamper-evident-writer no-redaction-runtime no-trace-collector no-alerting-runtime no-backend-api-server no-storage-writes no-connector-grant no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-service-discovery no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
+      "availability-recovery-contract-boundary-map runtime-disabled metadata-only no-health-check-runtime no-monitor no-scheduler no-backup-job no-restore-job no-failover-runtime no-degraded-mode-runtime no-recovery-automation no-process-supervisor no-backend-api-server no-storage-writes no-connector-grant no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-logger-runtime no-audit-writer no-telemetry-client no-service-discovery no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -1287,18 +1417,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.65 error-tracking/logging/audit-integrity contract boundary map status report.",
+        "Render this deterministic local Phase 5.66 availability/recovery contract boundary map status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.65 status report.",
+      purpose: "Run focused tests for this local Phase 5.66 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.65 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.66 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-66-availability-recovery-contract-boundary-map.test.mjs",
+      purpose:
+        "Run focused Phase 5.66 availability/recovery contract boundary map and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -27585,6 +27722,420 @@ const report = {
       noFabricSourceChange: true
     }
   },
+  phase566AvailabilityRecoveryContractBoundaryMapInventory: {
+    statusLayer: {
+      schema: phase566AvailabilityRecoveryContractBoundaryMap.schema,
+      schemaVersion: phase566AvailabilityRecoveryContractBoundaryMap.schemaVersion,
+      kind:
+        phase566AvailabilityRecoveryContractBoundaryMap
+          .availabilityRecoveryContractBoundaryMapKind,
+      mode:
+        phase566AvailabilityRecoveryContractBoundaryMap
+          .availabilityRecoveryContractBoundaryMapMode,
+      classification: phase566AvailabilityRecoveryContractBoundaryMap.classification,
+      produced:
+        phase566AvailabilityRecoveryContractBoundaryMap
+          .availabilityRecoveryContractBoundaryMapProduced,
+      boundaryEntryCount:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .boundaryEntryCount,
+      countByFamily:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .countByFamily,
+      countByRelatedSystem:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .countByRelatedSystem,
+      phase548AvailabilityRecoveryCoverageItemRepresented:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .phase548AvailabilityRecoveryCoverageItemRepresented,
+      phase559FabricAwareApiBackendBoundaryReferenced:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .phase559FabricAwareApiBackendBoundaryReferenced,
+      phase560EncodedHandoffConformanceReferenced:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .phase560EncodedHandoffConformanceReferenced,
+      phase561DatabaseStorageContractBoundaryReferenced:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .phase561DatabaseStorageContractBoundaryReferenced,
+      phase562AuthPermissionsContractBoundaryReferenced:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .phase562AuthPermissionsContractBoundaryReferenced,
+      phase563SecurityRlsInputSanitizationBoundaryReferenced:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .phase563SecurityRlsInputSanitizationBoundaryReferenced,
+      phase564RateLimitingAbuseControlBoundaryReferenced:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .phase564RateLimitingAbuseControlBoundaryReferenced,
+      phase565ErrorTrackingLoggingAuditIntegrityBoundaryReferenced:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .phase565ErrorTrackingLoggingAuditIntegrityBoundaryReferenced,
+      availabilityRecoveryBoundaryMetadataOnly:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .availabilityRecoveryBoundaryMetadataOnly,
+      noLiveAvailabilityRecoveryPerformed:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noLiveAvailabilityRecoveryPerformed,
+      noHealthCheckerRuntimeImplemented:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noHealthCheckerRuntimeImplemented,
+      noMonitorSchedulerImplemented:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noMonitorSchedulerImplemented,
+      noBackupJobImplemented:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noBackupJobImplemented,
+      noRestoreJobImplemented:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noRestoreJobImplemented,
+      noFailoverRuntimeImplemented:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noFailoverRuntimeImplemented,
+      noRecoveryAutomationImplemented:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noRecoveryAutomationImplemented,
+      noProcessSupervisorImplemented:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noProcessSupervisorImplemented,
+      noBackendApiServerImplemented:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noBackendApiServerImplemented,
+      noStorageWrites:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noStorageWrites,
+      noConnectorGrants:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .noConnectorGrants,
+      allBlockedAuthorizationFlagsFalse:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .allBlockedAuthorizationFlagsFalse,
+      allUnsafeAvailabilityRecoveryRuntimeFlagsFalse:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .allUnsafeAvailabilityRecoveryRuntimeFlagsFalse,
+      allRuntimeEffectsFalse:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .allRuntimeEffectsFalse,
+      allEntriesNonAuthorizing:
+        phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary
+          .allEntriesNonAuthorizing,
+      reportRunsChecks: false,
+      healthCheckerImplemented: false,
+      healthCheckRuntimeImplemented: false,
+      monitorImplemented: false,
+      schedulerImplemented: false,
+      backupJobImplemented: false,
+      restoreJobImplemented: false,
+      failoverRuntimeImplemented: false,
+      degradedModeRuntimeImplemented: false,
+      recoveryAutomationImplemented: false,
+      processSupervisorImplemented: false,
+      externalServiceIntegrationImplemented: false,
+      backendRuntimeImplementedByArdyn: false,
+      backendApiServerMiddlewareImplemented: false,
+      apiEndpointImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      websocketHttpTransportImplementedByArdyn: false,
+      fabricRuntimeImplementedByArdyn: false,
+      encodedHandoffRuntimeImplementedByArdyn: false,
+      codecImplemented: false,
+      translatorRuntimeImplemented: false,
+      commandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeAuthorizationEnabled: false,
+      secretVaultEnvAccessEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      connectorGrantProduced: false,
+      mcpToolExposureEnabled: false,
+      taskExecutionEnabled: false,
+      secureDropImplemented: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      blockedCliBypassEnabled: false
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-66-availability-recovery-contract-boundary-map.md",
+        "Records deterministic review-only availability, recovery, backup/restore, failover, health-check, RTO/RPO, degraded-mode, recovery-drill, dependency/failure-domain, Fabric recovery, and Secure Drop recovery boundary metadata while runtime behavior remains blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+        "Provides the recovery visibility boundary referenced by Phase 5.66."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+        "Provides the rate-limit/abuse degraded-mode boundary referenced by Phase 5.66."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+        "Provides the security/RLS fail-closed recovery boundary referenced by Phase 5.66."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+        "Provides the auth/permissions recovery and revocation continuity boundary referenced by Phase 5.66."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-61-database-storage-contract-boundary-map.md",
+        "Provides the database/storage backup and restore boundary referenced by Phase 5.66."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+        "Provides the encoded handoff recovery boundary referenced by Phase 5.66."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+        "Provides the Fabric-aware API/backend availability boundary referenced by Phase 5.66."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-48-production-readiness-coverage-matrix.md",
+        "Provides the production-readiness Availability & Recovery coverage item represented by Phase 5.66."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-48-production-readiness-coverage-matrix.md",
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+      "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+      "docs/phase-5-61-database-storage-contract-boundary-map.md",
+      "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+      "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+      "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+      "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+      "docs/phase-5-66-availability-recovery-contract-boundary-map.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-66/availability-recovery-contract-boundary-map.json",
+        "Records nineteen metadata-only availability/recovery boundary entries with false authorization flags, false unsafe recovery/runtime flags, false runtime effects, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-66-availability-recovery-contract-boundary-map.test.mjs",
+        "Pins the Phase 5.66 helper, deterministic fixture shape, Phase 5.48/5.59/5.60/5.61/5.62/5.63/5.64/5.65 references, fail-closed availability/recovery cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.66 status inventory, docs cross-links, fixture inventory, and availability/recovery runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-66-availability-recovery-contract-boundary-map.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-66/availability-recovery-contract-boundary-map.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-66-availability-recovery-contract-boundary-map.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      externalRepoFilesChanged: [],
+      healthCheckerAddedByThisPhase: false,
+      monitorAddedByThisPhase: false,
+      schedulerAddedByThisPhase: false,
+      backupJobAddedByThisPhase: false,
+      restoreJobAddedByThisPhase: false,
+      failoverRuntimeAddedByThisPhase: false,
+      recoveryAutomationAddedByThisPhase: false,
+      processSupervisorAddedByThisPhase: false,
+      backendApiServerAddedByThisPhase: false,
+      storageWriteAddedByThisPhase: false,
+      connectorGrantAddedByThisPhase: false,
+      fabricRuntimeAddedByThisPhase: false,
+      secureDropRuntimeAddedByThisPhase: false,
+      databaseStorageRuntimeAddedByThisPhase: false,
+      encodedHandoffRuntimeAddedByThisPhase: false,
+      loggerRuntimeAddedByThisPhase: false,
+      auditWriterAddedByThisPhase: false,
+      telemetryClientAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateAvailabilityRecoveryRuntimePhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    boundaryMapSummary:
+      phase566AvailabilityRecoveryContractBoundaryMap.boundaryMapSummary,
+    sourcePhaseContext:
+      phase566AvailabilityRecoveryContractBoundaryMap
+        .availabilityRecoveryContractBoundaryMap.sourcePhaseContext,
+    boundaryEntries:
+      phase566AvailabilityRecoveryContractBoundaryMap.boundaryEntries.map(
+        ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          availabilityRecoveryBoundaryMetadataOnly,
+          noLiveAvailabilityRecoveryPerformed,
+          productionReadinessAreaReference,
+          phase559FabricAwareApiBackendReference,
+          phase560InterAgentEncodedHandoffConformanceReference,
+          phase561DatabaseStorageContractBoundaryReference,
+          phase562AuthPermissionsContractBoundaryReference,
+          phase563SecurityRlsInputSanitizationBoundaryReference,
+          phase564RateLimitingAbuseControlBoundaryReference,
+          phase565ErrorTrackingLoggingAuditIntegrityBoundaryReference,
+          explicitBlockedAuthorizationFlags,
+          unsafeAvailabilityRecoveryRuntimeFlags,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          availabilityRecoveryBoundaryMetadataOnly,
+          noLiveAvailabilityRecoveryPerformed,
+          phase548AreaNumber: productionReadinessAreaReference.areaNumber,
+          phase548AuthorizesRuntime:
+            productionReadinessAreaReference.authorizesRuntime,
+          phase559ImplementsFabricRuntime:
+            phase559FabricAwareApiBackendReference.implementsFabricRuntime,
+          phase560ImplementsEncodedHandoffRuntime:
+            phase560InterAgentEncodedHandoffConformanceReference
+              .implementsEncodedHandoffRuntime,
+          phase561ImplementsDatabaseStorageRuntime:
+            phase561DatabaseStorageContractBoundaryReference
+              .implementsDatabaseStorageRuntime,
+          phase562ImplementsAuthPermissionsRuntime:
+            phase562AuthPermissionsContractBoundaryReference
+              .implementsAuthPermissionsRuntime,
+          phase563ImplementsSecurityRuntime:
+            phase563SecurityRlsInputSanitizationBoundaryReference
+              .implementsSecurityRuntime,
+          phase564ImplementsAbuseRuntime:
+            phase564RateLimitingAbuseControlBoundaryReference
+              .implementsAbuseRuntime,
+          phase565ImplementsObservabilityRuntime:
+            phase565ErrorTrackingLoggingAuditIntegrityBoundaryReference
+              .implementsObservabilityRuntime,
+          explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+            explicitBlockedAuthorizationFlags
+          ).every((value) => value === false),
+          unsafeAvailabilityRecoveryRuntimeFlagsAllFalse: Object.values(
+            unsafeAvailabilityRecoveryRuntimeFlags
+          ).every((value) => value === false),
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    invalidBoundaryCasePolicy:
+      phase566AvailabilityRecoveryContractBoundaryMap.invalidBoundaryCasePolicy,
+    topAvailabilityRecoveryObservabilitySecurityRateLimitingAuthDatabaseFabricApiBackendGaps:
+      phase566AvailabilityRecoveryContractBoundaryMap
+        .topAvailabilityRecoveryObservabilitySecurityRateLimitingAuthDatabaseFabricApiBackendGaps,
+    recommendedNextPhase:
+      phase566AvailabilityRecoveryContractBoundaryMap.recommendedNextPhase,
+    blockedRuntimeEffect: phase566AvailabilityRecoveryContractBoundaryMap.runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-66-availability-recovery-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-65-error-tracking-logging-audit-integrity-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-64-rate-limiting-abuse-control-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-63-security-rls-input-sanitization-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-62-auth-permissions-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-61-database-storage-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-48-production-readiness-coverage-matrix.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      availabilityRecoveryContractBoundaryMapRecorded: true,
+      availabilityRecoveryContractBoundaryMapReviewOnly: true,
+      availabilityRecoveryContractBoundaryMapAuthoritative: false,
+      availabilityRecoveryContractBoundaryMapProduced: true,
+      boundaryEntriesRecorded: true,
+      phase548AvailabilityRecoveryCoverageItemRepresented: true,
+      phase559FabricAwareApiBackendBoundaryReferenced: true,
+      phase560EncodedHandoffConformanceReferenced: true,
+      phase561DatabaseStorageContractBoundaryReferenced: true,
+      phase562AuthPermissionsContractBoundaryReferenced: true,
+      phase563SecurityRlsInputSanitizationBoundaryReferenced: true,
+      phase564RateLimitingAbuseControlBoundaryReferenced: true,
+      phase565ErrorTrackingLoggingAuditIntegrityBoundaryReferenced: true,
+      availabilityRecoveryBoundaryMetadataOnly: true,
+      noLiveAvailabilityRecoveryPerformed: true,
+      noHealthCheckerRuntimeImplemented: true,
+      noMonitorSchedulerImplemented: true,
+      noBackupJobImplemented: true,
+      noRestoreJobImplemented: true,
+      noFailoverRuntimeImplemented: true,
+      noRecoveryAutomationImplemented: true,
+      noProcessSupervisorImplemented: true,
+      noBackendApiServerImplemented: true,
+      noStorageWrites: true,
+      noConnectorGrants: true,
+      contentFabricCanonicalSecureDropOwnerOnly: true,
+      allBlockedAuthorizationFlagsFalse: true,
+      allUnsafeAvailabilityRecoveryRuntimeFlagsFalse: true,
+      allRuntimeEffectsFalse: true,
+      allEntriesNonAuthorizing: true,
+      invalidAvailabilityRecoveryBoundaryCasesFailClosed: true,
+      healthCheckerImplemented: false,
+      monitorImplemented: false,
+      schedulerImplemented: false,
+      backupJobImplemented: false,
+      restoreJobImplemented: false,
+      failoverRuntimeImplemented: false,
+      degradedModeRuntimeImplemented: false,
+      recoveryAutomationImplemented: false,
+      processSupervisorImplemented: false,
+      externalServiceIntegrationImplemented: false,
+      backendRuntimeImplementedByArdyn: false,
+      apiEndpointImplementedByArdyn: false,
+      serverImplementedByArdyn: false,
+      databaseStorageRuntimeWritesEnabled: false,
+      fabricRuntimeImplementedByArdyn: false,
+      encodedHandoffRuntimeImplementedByArdyn: false,
+      commandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      secretsRuntimeIngestionEnabled: false,
+      connectorGrantProduced: false,
+      mcpToolExposureEnabled: false,
+      taskExecutionEnabled: false,
+      secureDropImplemented: false,
+      serviceDiscoveryEnabled: false,
+      scheduleEnforcementEnabled: false,
+      filesystemScanningEnabled: false,
+      processControlEnabled: false,
+      uiFrontendBrowserRenderingImplemented: false,
+      blockedCliBypassEnabled: false,
+      serveRuntimeStillDefaultBlocked: true,
+      dryRunBypassesBlock: false,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFabricSourceChange: true
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -27685,6 +28236,7 @@ const report = {
     phase563SecurityRlsInputSanitizationContractBoundaryMap: true,
     phase564RateLimitingAbuseControlContractBoundaryMap: true,
     phase565ErrorTrackingLoggingAuditIntegrityContractBoundaryMap: true,
+    phase566AvailabilityRecoveryContractBoundaryMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -30987,6 +31539,7 @@ const report = {
       ...phase563SafetyFlags,
       ...phase564SafetyFlags,
       ...phase565SafetyFlags,
+      ...phase566SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,

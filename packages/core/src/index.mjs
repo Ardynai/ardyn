@@ -341,6 +341,11 @@ export const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_VERSIO
   "0.1.0";
 export const ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_KIND =
   "error-tracking-logging-audit-integrity-contract-boundary-map";
+export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.66.availability-recovery-contract-boundary-map-result";
+export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_VERSION = "0.1.0";
+export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_KIND =
+  "availability-recovery-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -52639,6 +52644,1512 @@ export function createErrorTrackingLoggingAuditIntegrityContractBoundaryMapForRe
     classification,
     accepted,
     errorTrackingLoggingAuditIntegrityContractBoundaryMap
+  });
+}
+
+const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.66.availability-recovery-contract-boundary-map-state";
+const VALID_AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_availability_recovery_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_availability_recovery_contract_boundary_map_input_rejected";
+
+const AVAILABILITY_RECOVERY_BOUNDARY_FAMILIES = Object.freeze([
+  "availability_contract",
+  "health_check_contract",
+  "resilience_contract",
+  "disaster_recovery_contract",
+  "backup_contract",
+  "restore_contract",
+  "rto_rpo_contract",
+  "failover_contract",
+  "degraded_mode_contract",
+  "recovery_drill_contract",
+  "runtime_unavailability_contract",
+  "fabric_recovery_boundary",
+  "secure_drop_recovery_boundary"
+]);
+const AVAILABILITY_RECOVERY_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family"
+]);
+const AVAILABILITY_RECOVERY_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const AVAILABILITY_RECOVERY_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "availabilityExpectation",
+  "degradedModeExpectation",
+  "healthCheckExpectation",
+  "backupRestoreExpectation",
+  "rtoRpoExpectation",
+  "recoveryDrillExpectation",
+  "dependencyFailureDomainExpectation",
+  "locusRoleDescription",
+  "multiverseRoleDescription",
+  "fabricRoleDescription",
+  "secureDropRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeAvailabilityRecoveryRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const AVAILABILITY_RECOVERY_ALLOWED_TOP_LEVEL_FIELDS = Object.freeze([
+  "reviewedAt",
+  "boundaryEntries"
+]);
+const AVAILABILITY_RECOVERY_UNSAFE_FIELDS = Object.freeze([
+  "healthCheckerImplemented",
+  "healthCheckRuntimeImplemented",
+  "healthEndpointImplemented",
+  "monitorImplemented",
+  "monitoringRuntimeImplemented",
+  "schedulerImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "failoverRuntimeImplemented",
+  "degradedModeRuntimeImplemented",
+  "recoveryAutomationImplemented",
+  "processSupervisorImplemented",
+  "processSupervisionRuntimeImplemented",
+  "externalServiceIntegrationImplemented",
+  "persistencePathImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "serviceDiscoveryEnabled",
+  "backgroundPollingEnabled",
+  "pollingEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "databaseSchemaImplemented",
+  "databaseMigrationImplemented",
+  "rlsRuntimeImplemented",
+  "rlsPolicyImplemented",
+  "storageAdapterImplemented",
+  "cacheEngineImplemented",
+  "cacheInvalidationRuntimeImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "loggerRuntimeImplemented",
+  "logWriterImplemented",
+  "telemetryClientImplemented",
+  "externalSinkImplemented",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "fabricRuntimeImplementedByArdyn",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecImplemented",
+  "translatorRuntimeImplemented",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "secretVaultEnvAccessEnabled",
+  "secretsRuntimeIngestionEnabled",
+  "connectorGrantProduced",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "secureDropCryptoImplemented",
+  "secureDropTransportImplemented",
+  "secureDropStegoImplemented",
+  "secureDropSendReceiveImplemented",
+  "secureDropInboxPollingEnabled",
+  "st3ggVendored",
+  "scheduleEnforcementEnabled",
+  "uiFrontendBrowserRenderingImplemented",
+  "approvalDecisionProduced",
+  "approvalGrantProduced",
+  "permissionEvaluatorImplemented",
+  "authorizationEvaluatorImplemented",
+  "reportRunsChecks",
+  "blockedCliBypassEnabled"
+]);
+const AVAILABILITY_RECOVERY_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "runtimeAuthorizationGranted",
+  "healthCheckRuntimeAuthorizationGranted",
+  "monitorAuthorizationGranted",
+  "schedulerAuthorizationGranted",
+  "backupJobAuthorizationGranted",
+  "restoreJobAuthorizationGranted",
+  "failoverRuntimeAuthorizationGranted",
+  "recoveryAutomationAuthorizationGranted",
+  "processSupervisorAuthorizationGranted",
+  "backendApiServerAuthorizationGranted",
+  "databaseStorageAuthorizationGranted",
+  "connectorGrantAuthorizationGranted",
+  "fabricRuntimeAuthorizationGranted",
+  "websocketHttpRuntimeAuthorizationGranted",
+  "mcpToolExposureAuthorizationGranted",
+  "taskExecutionAuthorizationGranted",
+  "secureDropAuthorizationGranted",
+  "encodedHandoffRuntimeAuthorizationGranted",
+  "loggerAuditRuntimeAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced",
+  "authorizesRuntime"
+]);
+const AVAILABILITY_RECOVERY_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const AVAILABILITY_RECOVERY_BLOCKED_CLI_BYPASS_FIELDS = Object.freeze([
+  "blockedCliBypassEnabled",
+  "dryRunBypassesBlock",
+  "serveRuntimeBypassEnabled",
+  "bypassBlockedCommandBehavior",
+  "blockedCommandOverride"
+]);
+const AVAILABILITY_RECOVERY_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_health_check_runtime_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "healthCheckUrl",
+      "healthEndpoint",
+      "healthChecker",
+      "readinessProbe",
+      "livenessProbe",
+      "uptimeProbe",
+      "syntheticCheck",
+      "statusEndpoint"
+    ]
+  },
+  {
+    classification:
+      "hidden_monitor_scheduler_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "monitor",
+      "monitoringClient",
+      "scheduler",
+      "cronSchedule",
+      "pollingInterval",
+      "backgroundPoller",
+      "watchLoop",
+      "uptimeMonitor"
+    ]
+  },
+  {
+    classification:
+      "hidden_backup_restore_execution_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "backupJob",
+      "backupScheduler",
+      "backupBucket",
+      "snapshotWriter",
+      "restoreJob",
+      "restoreRunner",
+      "restorePath",
+      "recoveryPoint"
+    ]
+  },
+  {
+    classification:
+      "hidden_failover_degraded_mode_runtime_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "failoverController",
+      "failoverRuntime",
+      "degradedModeHandler",
+      "trafficRouter",
+      "standbyRegion",
+      "circuitBreakerRuntime",
+      "recoveryAutomation"
+    ]
+  },
+  {
+    classification:
+      "hidden_process_supervision_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "processSupervisor",
+      "supervisorConfig",
+      "childProcessManager",
+      "restartPolicy",
+      "processHealthLoop"
+    ]
+  },
+  {
+    classification:
+      "hidden_backend_api_server_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "backendApiMiddleware",
+      "apiRequestHandler",
+      "httpServer",
+      "serverMiddleware",
+      "httpEndpoint",
+      "runtimeEndpoint"
+    ]
+  },
+  {
+    classification:
+      "hidden_database_storage_cache_write_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "databaseUrl",
+      "databaseDsn",
+      "dbConnectionString",
+      "storageAdapter",
+      "cacheEngine",
+      "writeQueue",
+      "persistenceLayer",
+      "filesystemWrite",
+      "backupRepository",
+      "restoreRepository"
+    ]
+  },
+  {
+    classification:
+      "hidden_auth_session_token_api_key_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "loginUrl",
+      "sessionCookie",
+      "sessionStore",
+      "sessionToken",
+      "tokenIssuer",
+      "accessToken",
+      "refreshToken",
+      "idToken",
+      "apiKey",
+      "apiKeySecret",
+      "apiKeyIssuer",
+      "bearerToken"
+    ]
+  },
+  {
+    classification:
+      "hidden_connector_grant_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "connectorGrant",
+      "connectorCredential",
+      "connectorAccessToken",
+      "connectorHealthProbe",
+      "connectorRecoveryGrant",
+      "connectorIngestionGrant"
+    ]
+  },
+  {
+    classification:
+      "hidden_fabric_websocket_http_mcp_task_runtime_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "fabricBusTopic",
+      "fabricBrokerUrl",
+      "websocketUrl",
+      "mcpToolName",
+      "mcpServerUrl",
+      "taskExecutor",
+      "taskRunner",
+      "adapterRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_secure_drop_implementation_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "secureDropPayloadPath",
+      "secureDropKeyring",
+      "secureDropCryptoImplemented",
+      "secureDropTransportImplemented",
+      "secureDropStegoImplemented",
+      "secureDropSendReceiveImplemented",
+      "secureDropInboxPollingEnabled",
+      "secureDropFileSelection",
+      "st3ggPayload"
+    ]
+  },
+  {
+    classification:
+      "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "codecImplemented",
+      "translatorRuntimeImplemented",
+      "encoderImplemented",
+      "decoderImplemented",
+      "conlangGenerator",
+      "semanticStegoCandidate",
+      "steganographyCandidate",
+      "tokenExploitationCandidate",
+      "covertChannel",
+      "guardrailBypass",
+      "hiddenPayload"
+    ]
+  },
+  {
+    classification:
+      "hidden_logger_audit_transcript_telemetry_external_sink_semantics_availability_recovery_contract_boundary_map_input_rejected",
+    fields: [
+      "loggerRuntime",
+      "logWriter",
+      "auditWriter",
+      "auditLogWriter",
+      "transcriptWriter",
+      "telemetryClient",
+      "externalSink",
+      "alertingClient",
+      "logDrain"
+    ]
+  }
+]);
+
+function availabilityRecoveryBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function availabilityRecoveryBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function availabilityRecoveryBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(availabilityRecoveryBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(availabilityRecoveryBoundaryMapContainsTrue);
+  }
+
+  return false;
+}
+
+function availabilityRecoveryBoundaryMapHasTrueFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      availabilityRecoveryBoundaryMapHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (availabilityRecoveryBoundaryMapHasTrueFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function availabilityRecoveryBoundaryMapHasPresentFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      availabilityRecoveryBoundaryMapHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeAvailabilityRecoveryRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (availabilityRecoveryBoundaryMapHasPresentFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function availabilityRecoveryBoundaryMapEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function availabilityRecoveryBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function availabilityRecoveryBoundaryMapEntryIssue(entries, predicate) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function availabilityRecoveryBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    AVAILABILITY_RECOVERY_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function availabilityRecoveryBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.availabilityExpectation !== "string" ||
+    typeof entry.degradedModeExpectation !== "string" ||
+    typeof entry.healthCheckExpectation !== "string" ||
+    typeof entry.backupRestoreExpectation !== "string" ||
+    typeof entry.rtoRpoExpectation !== "string" ||
+    typeof entry.recoveryDrillExpectation !== "string" ||
+    typeof entry.dependencyFailureDomainExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    typeof entry.secureDropRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(entry.unsafeAvailabilityRecoveryRuntimeFlags) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function availabilityRecoveryBoundaryMapAuthorizationFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    AVAILABILITY_RECOVERY_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function availabilityRecoveryBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.unsafeAvailabilityRecoveryRuntimeFlags) &&
+      Object.values(value.unsafeAvailabilityRecoveryRuntimeFlags).some(
+        (flag) => flag !== false
+      )) ||
+    availabilityRecoveryBoundaryMapHasTrueFieldDeep(
+      value,
+      AVAILABILITY_RECOVERY_UNSAFE_FIELDS
+    )
+  );
+}
+
+function availabilityRecoveryBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(availabilityRecoveryBoundaryMapEntries())
+  );
+}
+
+function availabilityRecoveryBoundaryMapInputClassification(inputRecord) {
+  if (availabilityRecoveryBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries = availabilityRecoveryBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    availabilityRecoveryBoundaryMapEntryIssue(
+      entries,
+      availabilityRecoveryBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_availability_recovery_contract_boundary_entry_rejected";
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !AVAILABILITY_RECOVERY_BOUNDARY_FAMILIES.includes(entry.boundaryFamily)
+    )
+  ) {
+    return "unknown_boundary_family_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !AVAILABILITY_RECOVERY_RELATED_SYSTEMS.includes(entry.relatedSystem)
+    )
+  ) {
+    return "unknown_related_system_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapEntryIssue(
+      entries,
+      (entry) => !AVAILABILITY_RECOVERY_STATUSES.includes(entry.currentStatus)
+    )
+  ) {
+    return "unknown_current_status_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapEntryIssue(
+      entries,
+      availabilityRecoveryBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    AVAILABILITY_RECOVERY_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord[field] === true
+    )
+  ) {
+    return "runtime_authorization_attempt_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapEntryIssue(
+      entries,
+      availabilityRecoveryBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    availabilityRecoveryBoundaryMapAuthorizationFlagEnabled(inputRecord)
+  ) {
+    return "authorization_flags_enabled_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      AVAILABILITY_RECOVERY_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      AVAILABILITY_RECOVERY_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      AVAILABILITY_RECOVERY_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  for (const { classification, fields } of AVAILABILITY_RECOVERY_HIDDEN_FIELD_GROUPS) {
+    if (availabilityRecoveryBoundaryMapHasPresentFieldDeep(inputRecord, fields)) {
+      return classification;
+    }
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapUnsafeFlagEnabled(inputRecord) ||
+    availabilityRecoveryBoundaryMapEntryIssue(
+      entries,
+      availabilityRecoveryBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_availability_recovery_health_monitor_scheduler_backup_restore_failover_process_supervisor_backend_storage_runtime_flags_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    availabilityRecoveryBoundaryMapEntryIssue(entries, (entry) =>
+      availabilityRecoveryBoundaryMapContainsTrue(entry?.runtimeEffect)
+    ) ||
+    availabilityRecoveryBoundaryMapContainsTrue(inputRecord?.runtimeEffect)
+  ) {
+    return "nested_unsafe_flags_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord).some(
+      (field) => !AVAILABILITY_RECOVERY_ALLOWED_TOP_LEVEL_FIELDS.includes(field)
+    )
+  ) {
+    return "unknown_top_level_field_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  if (!availabilityRecoveryBoundaryMapCanonical(entries)) {
+    return "noncanonical_availability_recovery_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function availabilityRecoveryBoundaryMapForbiddenBehavior() {
+  return [
+    "health-check runtime",
+    "monitor",
+    "scheduler",
+    "backup job",
+    "restore job",
+    "failover runtime",
+    "degraded-mode runtime behavior",
+    "recovery automation",
+    "process supervisor",
+    "external service integration",
+    "service discovery",
+    "background polling",
+    "persistence path",
+    "backend API",
+    "server",
+    "database client",
+    "storage adapter",
+    "cache engine",
+    "storage write",
+    "RLS rule",
+    "migration",
+    "auth/session/token/API-key runtime",
+    "connector grant",
+    "Fabric runtime bus",
+    "websocket/http transport",
+    "MCP tool exposure",
+    "task execution",
+    "logger runtime",
+    "audit writer",
+    "transcript writer",
+    "telemetry client",
+    "external sink",
+    "secret/env/vault access",
+    "filesystem write",
+    "filesystem scanning",
+    "process control",
+    "stdin loop",
+    "stdout/stderr runtime writer",
+    "import/export command",
+    "package writer",
+    "package reader",
+    "Secure Drop crypto, transport, stego, send/receive, inbox polling, file selection, filesystem scanning, connector ingestion, secret/vault/env access, or ST3GG wrapping",
+    "encoded handoff runtime, codec, translator runtime, encoder, decoder, conlang generator, stego, covert channel, tokenizer exploit, bypass, hidden payload, or transport behavior",
+    "command exposure",
+    "interactive control",
+    "reviewer routing",
+    "evaluator execution",
+    "approval decision",
+    "approval grant",
+    "UI/frontend/browser/rendering/WCAG automation"
+  ];
+}
+
+function availabilityRecoveryBoundaryMapAuthorizationFlags() {
+  return {
+    healthCheckRuntimeAuthorizationGranted: false,
+    monitorAuthorizationGranted: false,
+    schedulerAuthorizationGranted: false,
+    backupJobAuthorizationGranted: false,
+    restoreJobAuthorizationGranted: false,
+    failoverRuntimeAuthorizationGranted: false,
+    recoveryAutomationAuthorizationGranted: false,
+    processSupervisorAuthorizationGranted: false,
+    backendApiServerAuthorizationGranted: false,
+    databaseStorageAuthorizationGranted: false,
+    connectorGrantAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    websocketHttpRuntimeAuthorizationGranted: false,
+    mcpToolExposureAuthorizationGranted: false,
+    taskExecutionAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false,
+    encodedHandoffRuntimeAuthorizationGranted: false,
+    loggerAuditRuntimeAuthorizationGranted: false,
+    commandExposureAuthorizationGranted: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    connectorGrantProduced: false,
+    authorizesRuntime: false
+  };
+}
+
+function availabilityRecoveryBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    AVAILABILITY_RECOVERY_UNSAFE_FIELDS.map((field) => [field, false])
+  );
+}
+
+function availabilityRecoveryBoundaryMapNotes() {
+  return {
+    noConsumerRole:
+      "No current runtime role; future consumers may inspect metadata only.",
+    currentAuthorization:
+      "Requires a future availability, resilience, disaster recovery, backup/restore, health-check, failover, RTO/RPO, recovery-drill, backend, storage, auth, security, rate-limiting, observability, runtime, command exposure, connector, Fabric, Secure Drop, MCP/task, filesystem/process-control, and approval authorization phase before any executable behavior.",
+    fabricMetadataOnly:
+      "Fabric remains a future coordination envelope metadata layer, not a bus, broker, transport, adapter, connector, registry, scheduler, monitor, importer, exporter, package distributor, recovery channel, or task executor.",
+    secureDropContentFabric:
+      "Secure Drop recovery metadata remains a future content-fabric contract; Ardyn records references only and implements no Secure Drop crypto, transport, stego, send/receive, inbox polling, file selection, connector ingestion, secret/vault/env access, ST3GG wrapping, restore job, recovery monitor, or result collector."
+  };
+}
+
+function availabilityRecoveryBoundaryMapDefinition(definition) {
+  const notes = availabilityRecoveryBoundaryMapNotes();
+
+  return {
+    ...definition,
+    allowedCurrentBehavior: [
+      `Describe future ${definition.subject} availability and recovery boundary metadata.`,
+      "Keep current behavior review-only, metadata-only, non-authorizing, and runtime-blocked."
+    ],
+    requiredFutureContractBeforeImplementation:
+      `A future ${definition.subject} contract must define availability expectations, degraded-mode semantics, health-check ownership, backup/restore ownership, RTO/RPO targets, recovery-drill evidence, dependency/failure-domain ownership, consumer visibility, and explicit no-runtime defaults before implementation.`,
+    requiredFutureAuthorizationPhaseBeforeRuntime: notes.currentAuthorization,
+    locusRoleDescription: definition.locusRole ?? notes.noConsumerRole,
+    multiverseRoleDescription:
+      definition.multiverseRole ?? notes.noConsumerRole,
+    fabricRoleDescription: definition.fabricRole ?? notes.fabricMetadataOnly,
+    secureDropRoleDescription: definition.secureDropRole ?? "Not applicable."
+  };
+}
+
+function availabilityRecoveryBoundaryMapDefinitions() {
+  const notes = availabilityRecoveryBoundaryMapNotes();
+  const availability =
+    "Availability remains future contract metadata only; Ardyn exposes no uptime monitor, probe, endpoint, transport, service discovery, or runtime status emitter.";
+  const degraded =
+    "Degraded-mode behavior remains future contract metadata only; Ardyn does not route traffic, disable runtime paths, execute tasks, or alter command behavior.";
+  const health =
+    "Health checks remain future contract metadata only; Ardyn starts no health checker, readiness probe, liveness probe, uptime probe, monitor, scheduler, or polling loop.";
+  const backup =
+    "Backup/restore remains future contract metadata only; Ardyn creates no snapshot, backup job, restore job, storage adapter, filesystem write, import/export path, package, or persistence.";
+  const rto =
+    "RTO/RPO remains planning metadata only; Ardyn records no live measurements, service-level objectives, timers, recovery windows, or enforcement.";
+  const drill =
+    "Recovery-drill evidence remains future contract metadata only; Ardyn runs no drill, scheduler, checker, monitor, task executor, or external lookup.";
+  const dependency =
+    "Dependency and failure-domain inventory remains future contract metadata only; Ardyn performs no service discovery, network lookup, connector introspection, filesystem scan, or process inspection.";
+
+  return [
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.repo_family.backend_api_availability.availability_boundary",
+      boundaryFamily: "availability_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "backend/API availability",
+      availabilityExpectation:
+        "Future backend/API availability must define endpoint ownership, dependency ownership, downtime states, and consumer-visible status before any API or server exists.",
+      degradedModeExpectation: degraded,
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation:
+        "Future backend/API availability must list service, queue, storage, auth, Fabric, connector, and consumer failure domains without implementing them."
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.ardyn.database_storage_backup.backup_boundary",
+      boundaryFamily: "backup_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "database/storage backup",
+      availabilityExpectation: availability,
+      degradedModeExpectation: degraded,
+      healthCheckExpectation: health,
+      backupRestoreExpectation:
+        "Future database/storage backup requires Phase 5.61 ownership, schema, retention, encryption, restore-test, and storage-write authorization before any backup job.",
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.ardyn.database_storage_restore.restore_boundary",
+      boundaryFamily: "restore_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "database/storage restore",
+      availabilityExpectation: availability,
+      degradedModeExpectation: degraded,
+      healthCheckExpectation: health,
+      backupRestoreExpectation:
+        "Future database/storage restore requires Phase 5.61 ownership, RLS, auth continuity, audit visibility, restore validation, and explicit rollback authorization before any restore job.",
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.ardyn.auth_permissions_recovery_revocation.resilience_boundary",
+      boundaryFamily: "resilience_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "auth/permissions recovery and revocation continuity",
+      availabilityExpectation:
+        "Future auth recovery must define identity, role, permission, delegation, revocation, and stale-token continuity before any auth runtime.",
+      degradedModeExpectation:
+        "Future degraded auth behavior must fail closed and preserve revocation continuity; Ardyn creates no session, token, API key, or permission evaluator.",
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.ardyn.security_rls_fail_closed_recovery.failover_boundary",
+      boundaryFamily: "failover_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "security/RLS fail-closed recovery",
+      availabilityExpectation:
+        "Future security/RLS recovery must define fail-closed behavior for missing RLS, invalid inputs, unavailable dependencies, and degraded identity before any enforcement.",
+      degradedModeExpectation:
+        "Future security degraded mode must deny unsafe access rather than grant fallback access; Ardyn creates no RLS, sanitizer, policy engine, or storage write.",
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.ardyn.rate_limit_abuse_degraded_mode.degraded_boundary",
+      boundaryFamily: "degraded_mode_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "rate-limit/abuse-control degraded mode",
+      availabilityExpectation:
+        "Future abuse-control availability must define how limiter, quota, queue, backpressure, and abuse signals behave under partial outage before implementation.",
+      degradedModeExpectation:
+        "Future rate-limit degraded mode must not silently disable abuse controls; Ardyn creates no limiter, quota engine, queue, retry engine, circuit breaker, or idempotency store.",
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.ardyn.error_log_audit_recovery_visibility.disaster_recovery_boundary",
+      boundaryFamily: "disaster_recovery_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "error/log/audit recovery visibility",
+      availabilityExpectation:
+        "Future recovery visibility must define error, log, audit, transcript, telemetry, redaction, retention, and tamper-evidence ownership before any writer or sink.",
+      degradedModeExpectation: degraded,
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.ardyn.cli_runtime_unavailable_mode.runtime_unavailability_boundary",
+      boundaryFamily: "runtime_unavailability_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      subject: "CLI/runtime unavailable-mode",
+      availabilityExpectation:
+        "Current CLI/runtime remains unavailable; future availability metadata cannot expose commands, bypass dry-run blocking, or set reportRunsChecks.",
+      degradedModeExpectation:
+        "Unavailable mode remains blocked and emits no runtime status, command side effect, monitor, scheduler, or process control.",
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.ardyn.process_stdio_health_recovery.health_check_boundary",
+      boundaryFamily: "health_check_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      subject: "future process/stdio runtime health and recovery",
+      availabilityExpectation:
+        "Future process/stdio health requires a separate runtime host contract; current metadata cannot spawn, supervise, restart, read stdin, or write stdout/stderr.",
+      degradedModeExpectation: degraded,
+      healthCheckExpectation:
+        "Future process/stdio health checks require explicit ownership for stdin, stdout, stderr, process lifecycle, transcript/audit boundaries, and fail-closed behavior before runtime.",
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.ardyn_subagent.encoded_handoff_recovery.fabric_recovery_boundary",
+      boundaryFamily: "fabric_recovery_boundary",
+      relatedSystem: "ardyn-subagent",
+      currentStatus: "future_contract_required",
+      subject: "inter-agent encoded handoff recovery",
+      availabilityExpectation:
+        "Future encoded handoff recovery must define raw-text preservation, consumer display, fail-closed decoding, and audit visibility without creating any codec or translator runtime.",
+      degradedModeExpectation:
+        "Future encoded handoff degraded mode must preserve review-only handoff metadata and never create stego, covert-channel, tokenizer exploit, bypass, or hidden payload behavior.",
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.repo_family.fabric_coordination_envelope_recovery.fabric_recovery_boundary",
+      boundaryFamily: "fabric_recovery_boundary",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "Fabric coordination-envelope recovery",
+      availabilityExpectation:
+        "Future Fabric envelope recovery must define metadata-only coordination, replay, visibility, and ownership before any bus, broker, websocket/http transport, registry, or task executor.",
+      degradedModeExpectation: degraded,
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency,
+      fabricRole:
+        "Fabric may later carry recovery-envelope metadata only; Ardyn implements no Fabric runtime, bus, broker, adapter, connector, websocket/http transport, registry, scheduler, importer, exporter, or task execution."
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.locus.availability_degraded_recovery_status.degraded_boundary",
+      boundaryFamily: "degraded_mode_contract",
+      relatedSystem: "locus",
+      currentStatus: "future_contract_required",
+      subject: "Locus-visible availability/degraded/recovery status",
+      availabilityExpectation:
+        "Future Locus display may render availability and recovery metadata only after Locus-owned UI contracts; Ardyn creates no UI, browser, frontend, rendering, or accessibility automation.",
+      degradedModeExpectation:
+        "Future Locus degraded display must be consumer-owned and action-disabled until runtime authorization exists.",
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency,
+      locusRole:
+        "Locus may later display availability, degraded, and recovery status metadata only."
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.multiverse.capability_task_availability_status.degraded_boundary",
+      boundaryFamily: "degraded_mode_contract",
+      relatedSystem: "multiverse",
+      currentStatus: "future_contract_required",
+      subject: "Multiverse-visible capability/task availability status",
+      availabilityExpectation:
+        "Future Multiverse display may render capability/task availability metadata only after Multiverse-owned contracts; Ardyn creates no task runtime or connector grant.",
+      degradedModeExpectation:
+        "Future Multiverse degraded status must not imply task execution, connector ingestion, or recovery automation.",
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency,
+      multiverseRole:
+        "Multiverse may later display capability/task availability and degraded status metadata only."
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.ardyn.mcp_tool_exposure_availability.availability_boundary",
+      boundaryFamily: "availability_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      subject: "MCP/tool exposure availability",
+      availabilityExpectation:
+        "Future MCP/tool availability requires explicit exposure, permission, health, failure, and consumer contracts before any MCP server, tool, or task runtime.",
+      degradedModeExpectation:
+        "Future MCP degraded status must not expose a fallback command or task executor; Ardyn keeps MCP/tool exposure blocked.",
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.repo_family.connector_grant_availability.availability_boundary",
+      boundaryFamily: "availability_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "connector-grant availability",
+      availabilityExpectation:
+        "Future connector availability requires explicit grant, revocation, degraded-state, health, recovery, and audit contracts before any connector token or external integration.",
+      degradedModeExpectation:
+        "Future connector degraded mode must fail closed and preserve revocation; Ardyn creates no connector grant, credential, health probe, or external service integration.",
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.content_fabric.secure_drop_metadata_recovery.secure_drop_recovery_boundary",
+      boundaryFamily: "secure_drop_recovery_boundary",
+      relatedSystem: "content-fabric",
+      currentStatus: "future_contract_required",
+      subject: "Secure Drop metadata recovery",
+      availabilityExpectation:
+        "Future Secure Drop recovery metadata is content-fabric-owned and cannot imply Ardyn Secure Drop implementation.",
+      degradedModeExpectation:
+        "Future Secure Drop degraded mode must be content-fabric-owned; Ardyn creates no crypto, transport, stego, send/receive, inbox polling, file selection, connector ingestion, or ST3GG wrapping.",
+      healthCheckExpectation: health,
+      backupRestoreExpectation:
+        "Future Secure Drop backup/restore ownership remains in content-fabric; Ardyn creates no payload storage, recovery job, restore job, keyring access, or filesystem scan.",
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency,
+      locusRole: "Locus may later display Secure Drop recovery placeholders only.",
+      fabricRole:
+        "Fabric may later carry Secure Drop recovery reference metadata only.",
+      secureDropRole: notes.secureDropContentFabric
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.repo_family.recovery_drill_evidence.recovery_drill_boundary",
+      boundaryFamily: "recovery_drill_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "recovery-drill evidence",
+      availabilityExpectation: availability,
+      degradedModeExpectation: degraded,
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation:
+        "Future recovery-drill evidence must define scenario, scope, fixture, proof, owner, cadence, and pass/fail semantics before any scheduler or automation.",
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.repo_family.rto_rpo_planning.rto_rpo_boundary",
+      boundaryFamily: "rto_rpo_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "RTO/RPO planning",
+      availabilityExpectation: availability,
+      degradedModeExpectation: degraded,
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation:
+        "Future RTO/RPO planning must define target, measurement source, dependency scope, storage owner, recovery owner, consumer display, and authorization gate before runtime.",
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation: dependency
+    }),
+    availabilityRecoveryBoundaryMapDefinition({
+      boundaryId:
+        "phase5-66.repo_family.dependency_failure_domain_inventory.resilience_boundary",
+      boundaryFamily: "resilience_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "dependency/failure-domain inventory",
+      availabilityExpectation: availability,
+      degradedModeExpectation: degraded,
+      healthCheckExpectation: health,
+      backupRestoreExpectation: backup,
+      rtoRpoExpectation: rto,
+      recoveryDrillExpectation: drill,
+      dependencyFailureDomainExpectation:
+        "Future dependency/failure-domain inventory must enumerate backend/API, DB/storage/cache, auth, security/RLS, rate-limiting, observability, Fabric, connector, MCP/task, Secure Drop, process, filesystem, and consumer-display owners without service discovery or polling."
+    })
+  ];
+}
+
+function availabilityRecoveryBoundaryMapEntry(definition) {
+  const {
+    subject: _subject,
+    locusRole,
+    multiverseRole,
+    fabricRole,
+    secureDropRole,
+    ...entry
+  } = definition;
+
+  return {
+    ...entry,
+    forbiddenCurrentBehavior: availabilityRecoveryBoundaryMapForbiddenBehavior(),
+    productionReadinessAreaReference: {
+      phase: "5.48",
+      areaNumber: 13,
+      areaName: "Availability & Recovery",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      sourceStatus: "deferred",
+      representedByPhase566: true,
+      authorizesRuntime: false
+    },
+    phase559FabricAwareApiBackendReference: {
+      phase: "5.59",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      fabricBoundaryReferenced: true,
+      implementsFabricRuntime: false,
+      authorizesRuntime: false
+    },
+    phase560InterAgentEncodedHandoffConformanceReference: {
+      phase: "5.60",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      encodedHandoffConformanceReferenced: true,
+      implementsEncodedHandoffRuntime: false,
+      authorizesRuntime: false
+    },
+    phase561DatabaseStorageContractBoundaryReference: {
+      phase: "5.61",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      databaseStorageBoundaryReferenced: true,
+      implementsDatabaseStorageRuntime: false,
+      authorizesRuntime: false
+    },
+    phase562AuthPermissionsContractBoundaryReference: {
+      phase: "5.62",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      authPermissionsBoundaryReferenced: true,
+      implementsAuthPermissionsRuntime: false,
+      authorizesRuntime: false
+    },
+    phase563SecurityRlsInputSanitizationBoundaryReference: {
+      phase: "5.63",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      securityRlsInputSanitizationBoundaryReferenced: true,
+      implementsSecurityRuntime: false,
+      authorizesRuntime: false
+    },
+    phase564RateLimitingAbuseControlBoundaryReference: {
+      phase: "5.64",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      rateLimitingAbuseControlBoundaryReferenced: true,
+      implementsAbuseRuntime: false,
+      authorizesRuntime: false
+    },
+    phase565ErrorTrackingLoggingAuditIntegrityBoundaryReference: {
+      phase: "5.65",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      errorTrackingLoggingAuditIntegrityBoundaryReferenced: true,
+      implementsObservabilityRuntime: false,
+      authorizesRuntime: false
+    },
+    availabilityRecoveryBoundaryMetadataOnly: true,
+    noLiveAvailabilityRecoveryPerformed: true,
+    explicitBlockedAuthorizationFlags:
+      availabilityRecoveryBoundaryMapAuthorizationFlags(),
+    unsafeAvailabilityRecoveryRuntimeFlags:
+      availabilityRecoveryBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function availabilityRecoveryBoundaryMapEntries() {
+  return availabilityRecoveryBoundaryMapDefinitions().map(
+    availabilityRecoveryBoundaryMapEntry
+  );
+}
+
+function availabilityRecoveryBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    AVAILABILITY_RECOVERY_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    AVAILABILITY_RECOVERY_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+
+  return {
+    availabilityRecoveryContractBoundaryMapKind:
+      AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    boundaryIds: entries.map((entry) => entry.boundaryId),
+    boundaryFamilies: [...AVAILABILITY_RECOVERY_BOUNDARY_FAMILIES],
+    relatedSystems: [...AVAILABILITY_RECOVERY_RELATED_SYSTEMS],
+    currentStatusValues: [...AVAILABILITY_RECOVERY_STATUSES],
+    countByFamily,
+    countByRelatedSystem,
+    phase548AvailabilityRecoveryCoverageItemRepresented: true,
+    phase559FabricAwareApiBackendBoundaryReferenced: true,
+    phase560EncodedHandoffConformanceReferenced: true,
+    phase561DatabaseStorageContractBoundaryReferenced: true,
+    phase562AuthPermissionsContractBoundaryReferenced: true,
+    phase563SecurityRlsInputSanitizationBoundaryReferenced: true,
+    phase564RateLimitingAbuseControlBoundaryReferenced: true,
+    phase565ErrorTrackingLoggingAuditIntegrityBoundaryReferenced: true,
+    availabilityRecoveryBoundaryMetadataOnly: true,
+    noLiveAvailabilityRecoveryPerformed: true,
+    noHealthCheckerRuntimeImplemented: true,
+    noMonitorSchedulerImplemented: true,
+    noBackupJobImplemented: true,
+    noRestoreJobImplemented: true,
+    noFailoverRuntimeImplemented: true,
+    noRecoveryAutomationImplemented: true,
+    noProcessSupervisorImplemented: true,
+    noBackendApiServerImplemented: true,
+    noStorageWrites: true,
+    noConnectorGrants: true,
+    contentFabricCanonicalSecureDropOwnerOnly: true,
+    allBlockedAuthorizationFlagsFalse: true,
+    allUnsafeAvailabilityRecoveryRuntimeFlagsFalse: true,
+    allRuntimeEffectsFalse: true,
+    allEntriesNonAuthorizing: true
+  };
+}
+
+function availabilityRecoveryBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    unsafeAvailabilityRecoveryHealthMonitorSchedulerBackupRestoreFailoverProcessSupervisorBackendStorageRuntimeFlagsFailClosed:
+      true,
+    hiddenHealthCheckRuntimeSemanticsFailClosed: true,
+    hiddenMonitorSchedulerSemanticsFailClosed: true,
+    hiddenBackupRestoreExecutionSemanticsFailClosed: true,
+    hiddenFailoverDegradedModeRuntimeSemanticsFailClosed: true,
+    hiddenProcessSupervisionSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+      true,
+    hiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed: true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationRunsHealthChecker: false,
+    validationRunsMonitor: false,
+    validationRunsScheduler: false,
+    validationRunsBackupJob: false,
+    validationRunsRestoreJob: false,
+    validationRunsFailoverRuntime: false,
+    validationRunsRecoveryAutomation: false,
+    validationRunsProcessSupervisor: false,
+    validationRunsBackendApiServer: false,
+    validationWritesStorage: false,
+    validationGrantsConnectors: false,
+    validationRunsRuntime: false
+  };
+}
+
+function availabilityRecoveryBoundaryMapGaps() {
+  return [
+    "No health checker, monitor, scheduler, backup job, restore job, failover runtime, degraded-mode runtime behavior, recovery automation, process supervisor, service discovery, or polling loop exists in Ardyn.",
+    "Database/storage/cache/RLS, auth/permissions continuity, security fail-closed recovery, rate-limit degraded behavior, and error/log/audit recovery visibility remain metadata-only future contracts.",
+    "Fabric coordination, encoded handoff, MCP/tool exposure, connector grants, and Secure Drop recovery metadata remain future boundaries with no runtime transport, task execution, service discovery, or storage sink.",
+    "No backend/API/server behavior, storage writes, transcripts, audit records, logs, traces, retention jobs, export paths, packages, filesystem writes, or external integrations are implemented.",
+    "Future consumer displays still need Locus/Multiverse-owned availability, degraded, recovery, RTO/RPO, and drill-evidence UI contracts before any interactive surface."
+  ];
+}
+
+function availabilityRecoveryBoundaryMapState(reviewedAt) {
+  const boundaryEntries = availabilityRecoveryBoundaryMapEntries();
+
+  return {
+    schema: AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion: AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind: AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase548ProductionReadinessCoverageMatrix:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      phase548AvailabilityRecoveryAreaNumber: 13,
+      phase548AvailabilityRecoveryStatus: "deferred",
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase560InterAgentEncodedHandoffConformance:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      phase561DatabaseStorageContractBoundary:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      phase563SecurityRlsInputSanitizationContractBoundary:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      phase564RateLimitingAbuseControlContractBoundary:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      phase565ErrorTrackingLoggingAuditIntegrityContractBoundary:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      secureDropCanonicalOwner: "content-fabric",
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary: availabilityRecoveryBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy: availabilityRecoveryBoundaryMapValidationRules(),
+    topAvailabilityRecoveryObservabilitySecurityRateLimitingAuthDatabaseFabricApiBackendGaps:
+      availabilityRecoveryBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.67-review-only-infrastructure-compliance-data-retention-contract-boundary-map",
+    availabilityRecoveryContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...availabilityRecoveryBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function availabilityRecoveryBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  availabilityRecoveryContractBoundaryMap
+}) {
+  return {
+    schema: AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion: AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_VERSION,
+    availabilityRecoveryContractBoundaryMapKind:
+      AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_KIND,
+    availabilityRecoveryContractBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    availabilityRecoveryContractBoundaryMapProduced: accepted,
+    availabilityRecoveryContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? availabilityRecoveryContractBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? availabilityRecoveryContractBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? availabilityRecoveryContractBoundaryMap.invalidBoundaryCasePolicy
+      : availabilityRecoveryBoundaryMapValidationRules(),
+    topAvailabilityRecoveryObservabilitySecurityRateLimitingAuthDatabaseFabricApiBackendGaps:
+      accepted
+        ? availabilityRecoveryContractBoundaryMap
+            .topAvailabilityRecoveryObservabilitySecurityRateLimitingAuthDatabaseFabricApiBackendGaps
+        : [],
+    recommendedNextPhase: accepted
+      ? availabilityRecoveryContractBoundaryMap.recommendedNextPhase
+      : null,
+    availabilityRecoveryContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...availabilityRecoveryBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            healthCheckRuntimeAuthorized: false,
+            backupRestoreRuntimeAuthorized: false,
+            failoverRuntimeAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createAvailabilityRecoveryContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord = availabilityRecoveryBoundaryMapInputRecord(input);
+  const reviewedAt = availabilityRecoveryBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    availabilityRecoveryBoundaryMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const availabilityRecoveryContractBoundaryMap = accepted
+    ? availabilityRecoveryBoundaryMapState(reviewedAt)
+    : null;
+
+  return availabilityRecoveryBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    availabilityRecoveryContractBoundaryMap
   });
 }
 
