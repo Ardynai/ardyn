@@ -6168,6 +6168,191 @@ const phase566SafetyFlagNames = [
   ...phase566ExpectedTrueSafetyFlagNames,
   ...phase566ExpectedFalseSafetyFlagNames
 ];
+const phase567DocFiles = [
+  "docs/phase-5-67-infrastructure-compliance-data-retention-contract-boundary-map.md",
+  "docs/phase-5-66-availability-recovery-contract-boundary-map.md",
+  "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+  "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+  "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+  "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+  "docs/phase-5-61-database-storage-contract-boundary-map.md",
+  "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+  "docs/phase-5-48-production-readiness-coverage-matrix.md"
+];
+const phase567CrossLinks = [
+  "docs/phase-5-48-production-readiness-coverage-matrix.md",
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+  "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+  "docs/phase-5-61-database-storage-contract-boundary-map.md",
+  "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+  "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+  "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+  "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+  "docs/phase-5-66-availability-recovery-contract-boundary-map.md",
+  "docs/phase-5-67-infrastructure-compliance-data-retention-contract-boundary-map.md"
+];
+const phase567ExpectedTrueSafetyFlagNames = [
+  "phase567InfrastructureComplianceDataRetentionContractBoundaryMapRecorded",
+  "phase567InfrastructureComplianceDataRetentionContractBoundaryMapReviewOnly",
+  "phase567InfrastructureComplianceDataRetentionContractBoundaryMapProduced",
+  "phase567BoundaryEntriesRecorded",
+  "phase567Phase548InfrastructureManagementComplianceCoverageItemRepresented",
+  "phase567Phase559FabricAwareApiBackendBoundaryReferenced",
+  "phase567Phase560EncodedHandoffConformanceReferenced",
+  "phase567Phase561DatabaseStorageContractBoundaryReferenced",
+  "phase567Phase562AuthPermissionsContractBoundaryReferenced",
+  "phase567Phase563SecurityRlsInputSanitizationBoundaryReferenced",
+  "phase567Phase564RateLimitingAbuseControlBoundaryReferenced",
+  "phase567Phase565ErrorTrackingLoggingAuditIntegrityBoundaryReferenced",
+  "phase567Phase566AvailabilityRecoveryBoundaryReferenced",
+  "phase567InfrastructureComplianceDataRetentionBoundaryMetadataOnly",
+  "phase567NoLiveInfrastructureComplianceDataRetentionPerformed",
+  "phase567NoInfrastructureAutomationImplemented",
+  "phase567NoDeploymentAutomationImplemented",
+  "phase567NoCloudProvisioningImplemented",
+  "phase567NoComplianceAutomationImplemented",
+  "phase567NoComplianceEnforcementImplemented",
+  "phase567NoComplianceCertificationClaimed",
+  "phase567NoPiiProcessingImplemented",
+  "phase567NoRetentionDeletionExportJobsImplemented",
+  "phase567NoVendorExternalServiceIntegration",
+  "phase567NoExternalServiceLookup",
+  "phase567NoSecretsAccess",
+  "phase567NoPolicyEngineImplemented",
+  "phase567NoBackendApiServerImplemented",
+  "phase567NoStorageWrites",
+  "phase567NoConnectorGrants",
+  "phase567NoSecureDropImplementation",
+  "phase567NoFabricRuntime",
+  "phase567NoHealthBackupRestoreFailoverRuntime",
+  "phase567ContentFabricCanonicalSecureDropOwnerOnly",
+  "phase567NoLiveRegulatoryComplianceCertificationClaimed",
+  "phase567AllBlockedAuthorizationFlagsFalse",
+  "phase567AllUnsafeInfrastructureComplianceDataRetentionRuntimeFlagsFalse",
+  "phase567AllRuntimeEffectsFalse",
+  "phase567AllEntriesNonAuthorizing",
+  "phase567InvalidInfrastructureComplianceDataRetentionBoundaryCasesFailClosed",
+  "phase567UnknownTopLevelFieldsFailClosed",
+  "phase567HiddenInfrastructureAutomationSemanticsFailClosed",
+  "phase567HiddenDeploymentCloudProvisioningSemanticsFailClosed",
+  "phase567HiddenComplianceCertificationEnforcementSemanticsFailClosed",
+  "phase567HiddenPiiCollectionProcessingSemanticsFailClosed",
+  "phase567HiddenRetentionDeletionExportExecutionSemanticsFailClosed",
+  "phase567HiddenVendorExternalServiceIntegrationSemanticsFailClosed",
+  "phase567HiddenSecretEnvVaultAccessSemanticsFailClosed",
+  "phase567HiddenBackendApiServerSemanticsFailClosed",
+  "phase567HiddenDatabaseStorageCacheWriteSemanticsFailClosed",
+  "phase567HiddenAuthSessionTokenApiKeySemanticsFailClosed",
+  "phase567HiddenConnectorGrantSemanticsFailClosed",
+  "phase567HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed",
+  "phase567HiddenSecureDropImplementationSemanticsFailClosed",
+  "phase567HiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed",
+  "phase567HiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed",
+  "phase567HiddenHealthBackupRestoreFailoverSchedulerProcessSupervisorSemanticsFailClosed",
+  "phase567ServeRuntimeStillDefaultBlocked"
+];
+const phase567ExpectedFalseSafetyFlagNames = [
+  "phase567FallowRuntimeUsed",
+  "phase567InfrastructureComplianceDataRetentionContractBoundaryMapAuthoritative",
+  "phase567InfrastructureAutomationImplemented",
+  "phase567DeploymentAutomationImplemented",
+  "phase567CloudProvisioningImplemented",
+  "phase567EnvironmentManagerImplemented",
+  "phase567ComplianceAutomationImplemented",
+  "phase567ComplianceEnforcementImplemented",
+  "phase567ComplianceCertificationClaimed",
+  "phase567GdprComplianceClaimed",
+  "phase567CcpaComplianceClaimed",
+  "phase567Soc2ComplianceClaimed",
+  "phase567PiiProcessingImplemented",
+  "phase567PiiCollectionImplemented",
+  "phase567DataRetentionJobImplemented",
+  "phase567DataDeletionJobImplemented",
+  "phase567DataExportJobImplemented",
+  "phase567PolicyEngineImplemented",
+  "phase567RuntimeGovernanceImplemented",
+  "phase567VendorIntegrationImplemented",
+  "phase567ExternalServiceLookupEnabled",
+  "phase567SecretVaultEnvAccessEnabled",
+  "phase567SecretsRuntimeIngestionEnabled",
+  "phase567BackendRuntimeImplementedByArdyn",
+  "phase567BackendApiServerMiddlewareImplemented",
+  "phase567ApiEndpointImplementedByArdyn",
+  "phase567ServerImplementedByArdyn",
+  "phase567DatabaseClientImplemented",
+  "phase567DatabaseStorageRuntimeWritesEnabled",
+  "phase567DatabaseSchemaImplemented",
+  "phase567DatabaseMigrationImplemented",
+  "phase567RlsRuntimeImplemented",
+  "phase567RlsPolicyImplemented",
+  "phase567StorageAdapterImplemented",
+  "phase567CacheEngineImplemented",
+  "phase567CacheInvalidationRuntimeImplemented",
+  "phase567TranscriptWriterImplemented",
+  "phase567AuditWriterImplemented",
+  "phase567LoggerRuntimeImplemented",
+  "phase567LogWriterImplemented",
+  "phase567TelemetryClientImplemented",
+  "phase567ExternalSinkImplemented",
+  "phase567ImportExportPathImplementedByArdyn",
+  "phase567PackageDistributionImplementedByArdyn",
+  "phase567PersistencePathImplementedByArdyn",
+  "phase567PersistenceImplementedByArdyn",
+  "phase567WebsocketHttpTransportImplementedByArdyn",
+  "phase567FabricRuntimeImplementedByArdyn",
+  "phase567EncodedHandoffRuntimeImplementedByArdyn",
+  "phase567CodecImplemented",
+  "phase567TranslatorRuntimeImplemented",
+  "phase567CommandExposureEnabled",
+  "phase567CommandRuntimeControlEnabled",
+  "phase567RuntimeExecutionEnabled",
+  "phase567RuntimeAuthorizationEnabled",
+  "phase567ConnectorGrantProduced",
+  "phase567McpToolExposureEnabled",
+  "phase567TaskExecutionEnabled",
+  "phase567SecureDropImplemented",
+  "phase567SecureDropCryptoImplemented",
+  "phase567SecureDropTransportImplemented",
+  "phase567SecureDropStegoImplemented",
+  "phase567SecureDropSendReceiveImplemented",
+  "phase567SecureDropInboxPollingEnabled",
+  "phase567St3ggVendored",
+  "phase567ServiceDiscoveryEnabled",
+  "phase567ScheduleEnforcementEnabled",
+  "phase567SchedulerImplemented",
+  "phase567BackgroundPollingEnabled",
+  "phase567PollingEnabled",
+  "phase567FilesystemWriteEnabled",
+  "phase567FilesystemScanningEnabled",
+  "phase567ProcessControlEnabled",
+  "phase567UiFrontendBrowserRenderingImplemented",
+  "phase567HealthCheckerImplemented",
+  "phase567HealthCheckRuntimeImplemented",
+  "phase567MonitorImplemented",
+  "phase567MonitoringRuntimeImplemented",
+  "phase567BackupJobImplemented",
+  "phase567RestoreJobImplemented",
+  "phase567FailoverRuntimeImplemented",
+  "phase567DegradedModeRuntimeImplemented",
+  "phase567RecoveryAutomationImplemented",
+  "phase567ProcessSupervisorImplemented",
+  "phase567ProcessSupervisionRuntimeImplemented",
+  "phase567ApprovalDecisionProduced",
+  "phase567ApprovalGrantProduced",
+  "phase567PermissionEvaluatorImplemented",
+  "phase567AuthorizationEvaluatorImplemented",
+  "phase567ReportRunsChecks",
+  "phase567BlockedCliBypassEnabled",
+  "phase567DryRunBypassesBlock",
+  "phase567CliSourceChanged",
+  "phase567RustSourceChanged",
+  "phase567FabricSourceChanged"
+];
+const phase567SafetyFlagNames = [
+  ...phase567ExpectedTrueSafetyFlagNames,
+  ...phase567ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -6302,15 +6487,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.66 availability/recovery contract boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.67 infrastructure/compliance/data-retention contract boundary map and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.66",
-    name: "Review-only availability/recovery contract boundary map",
+    id: "5.67",
+    name: "Review-only infrastructure/compliance/data-retention contract boundary map",
     executionPosture:
-      "availability-recovery-contract-boundary-map runtime-disabled metadata-only no-health-check-runtime no-monitor no-scheduler no-backup-job no-restore-job no-failover-runtime no-degraded-mode-runtime no-recovery-automation no-process-supervisor no-backend-api-server no-storage-writes no-connector-grant no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-logger-runtime no-audit-writer no-telemetry-client no-service-discovery no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code"
+      "infrastructure-compliance-data-retention-contract-boundary-map runtime-disabled metadata-only no-infrastructure-automation no-deployment-automation no-cloud-provisioning no-compliance-enforcement no-pii-processing no-retention-job no-deletion-job no-export-job no-vendor-integration no-external-service-lookup no-secrets-access no-policy-engine no-backend-api-server no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-logger-runtime no-audit-writer no-telemetry-client no-health-check-runtime no-backup-job no-restore-job no-failover-runtime no-service-discovery no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code no-regulatory-certification-claim"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -6373,15 +6558,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.66 availability/recovery contract boundary map status report."
+    "Render this deterministic local Phase 5.67 infrastructure/compliance/data-retention contract boundary map status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.66 status report."
+    "Run focused tests for this local Phase 5.67 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.66 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.67 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-67-infrastructure-compliance-data-retention-contract-boundary-map.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.67 infrastructure/compliance/data-retention contract boundary map and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -27864,6 +28055,402 @@ test("report inventories Phase 5.66 availability/recovery contract boundary map"
   assertSafetyFlags(report, phase566ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.67 infrastructure/compliance/data-retention contract boundary map", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase567InfrastructureComplianceDataRetentionContractBoundaryMapInventory;
+
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.67.infrastructure-compliance-data-retention-contract-boundary-map-result"
+  );
+  assert.equal(inventory.statusLayer.schemaVersion, "0.1.0");
+  assert.equal(
+    inventory.statusLayer.kind,
+    "infrastructure-compliance-data-retention-contract-boundary-map"
+  );
+  assert.equal(inventory.statusLayer.mode, "review-only");
+  assert.equal(
+    inventory.statusLayer.classification,
+    "valid_infrastructure_compliance_data_retention_contract_boundary_map_runtime_still_blocked"
+  );
+  assert.equal(inventory.statusLayer.produced, true);
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 24);
+  assert.deepEqual(inventory.statusLayer.countByFamily, {
+    infrastructure_management_contract: 1,
+    deployment_governance_contract: 2,
+    environment_boundary_contract: 2,
+    compliance_readiness_contract: 4,
+    pii_boundary_contract: 1,
+    data_retention_contract: 1,
+    data_deletion_contract: 1,
+    data_export_contract: 1,
+    policy_governance_contract: 7,
+    data_processing_inventory_contract: 1,
+    vendor_external_service_boundary: 1,
+    secure_drop_compliance_boundary: 1,
+    fabric_compliance_boundary: 1
+  });
+  assert.deepEqual(inventory.statusLayer.countByRelatedSystem, {
+    ardyn: 12,
+    "ardyn-subagent": 1,
+    locus: 1,
+    multiverse: 1,
+    "content-fabric": 1,
+    "repo-family": 8
+  });
+
+  for (const field of [
+    "phase548InfrastructureManagementComplianceCoverageItemRepresented",
+    "phase559FabricAwareApiBackendBoundaryReferenced",
+    "phase560EncodedHandoffConformanceReferenced",
+    "phase561DatabaseStorageContractBoundaryReferenced",
+    "phase562AuthPermissionsContractBoundaryReferenced",
+    "phase563SecurityRlsInputSanitizationBoundaryReferenced",
+    "phase564RateLimitingAbuseControlBoundaryReferenced",
+    "phase565ErrorTrackingLoggingAuditIntegrityBoundaryReferenced",
+    "phase566AvailabilityRecoveryBoundaryReferenced",
+    "infrastructureComplianceDataRetentionBoundaryMetadataOnly",
+    "noLiveInfrastructureComplianceDataRetentionPerformed",
+    "noInfrastructureAutomationImplemented",
+    "noDeploymentAutomationImplemented",
+    "noCloudProvisioningImplemented",
+    "noComplianceAutomationImplemented",
+    "noComplianceEnforcementImplemented",
+    "noComplianceCertificationClaimed",
+    "noPiiProcessingImplemented",
+    "noRetentionDeletionExportJobsImplemented",
+    "noVendorExternalServiceIntegration",
+    "noSecretsAccess",
+    "noPolicyEngineImplemented",
+    "noBackendApiServerImplemented",
+    "noStorageWrites",
+    "noConnectorGrants",
+    "noSecureDropImplementation",
+    "noFabricRuntime",
+    "noHealthBackupRestoreFailoverRuntime",
+    "contentFabricCanonicalSecureDropOwnerOnly",
+    "allBlockedAuthorizationFlagsFalse",
+    "allUnsafeInfrastructureComplianceDataRetentionRuntimeFlagsFalse",
+    "allRuntimeEffectsFalse",
+    "allEntriesNonAuthorizing"
+  ]) {
+    assert.equal(inventory.statusLayer[field], true, `${field} should be true`);
+  }
+
+  for (const field of [
+    "reportRunsChecks",
+    "infrastructureAutomationImplemented",
+    "deploymentAutomationImplemented",
+    "cloudProvisioningImplemented",
+    "complianceEnforcementImplemented",
+    "complianceCertificationClaimed",
+    "piiProcessingImplemented",
+    "dataRetentionJobImplemented",
+    "dataDeletionJobImplemented",
+    "dataExportJobImplemented",
+    "policyEngineImplemented",
+    "vendorIntegrationImplemented",
+    "externalServiceLookupEnabled",
+    "secretVaultEnvAccessEnabled",
+    "backendRuntimeImplementedByArdyn",
+    "backendApiServerMiddlewareImplemented",
+    "apiEndpointImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "databaseStorageRuntimeWritesEnabled",
+    "websocketHttpTransportImplementedByArdyn",
+    "fabricRuntimeImplementedByArdyn",
+    "encodedHandoffRuntimeImplementedByArdyn",
+    "codecImplemented",
+    "translatorRuntimeImplemented",
+    "commandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "runtimeAuthorizationEnabled",
+    "connectorGrantProduced",
+    "mcpToolExposureEnabled",
+    "taskExecutionEnabled",
+    "secureDropImplemented",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "healthCheckRuntimeImplemented",
+    "backupJobImplemented",
+    "restoreJobImplemented",
+    "failoverRuntimeImplemented",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "uiFrontendBrowserRenderingImplemented",
+    "blockedCliBypassEnabled"
+  ]) {
+    assert.equal(inventory.statusLayer[field], false, `${field} should be false`);
+  }
+
+  assert.deepEqual(inventory.docs.map(({ path, status }) => [path, status]), [
+    ...phase567DocFiles.map((path) => [path, "present"])
+  ]);
+  assert.deepEqual(inventory.crossLinks, phase567CrossLinks);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-67/infrastructure-compliance-data-retention-contract-boundary-map.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    [
+      "tests/phase5-67-infrastructure-compliance-data-retention-contract-boundary-map.test.mjs",
+      "present"
+    ],
+    ["tests/report-phase-status.test.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.externalRepoFilesChanged, []);
+  assert.equal(
+    inventory.ownershipBoundary.infrastructureAutomationAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.deploymentAutomationAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.cloudProvisioningAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.complianceAutomationAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.complianceEnforcementAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.piiProcessingAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.retentionJobAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.deletionJobAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.exportJobAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.policyEngineAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.vendorIntegrationAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.externalServiceLookupAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.secretsAccessAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.backendApiServerAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.storageWriteAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.connectorGrantAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fabricRuntimeAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.secureDropRuntimeAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.databaseStorageRuntimeAddedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.ownershipBoundary.encodedHandoffRuntimeAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.loggerRuntimeAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.auditWriterAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.telemetryClientAddedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.healthCheckRuntimeAddedByThisPhase,
+    false
+  );
+  assert.equal(inventory.ownershipBoundary.backupJobAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.restoreJobAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.failoverRuntimeAddedByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.runtimeEnabledByThisPhase, false);
+  assert.equal(inventory.ownershipBoundary.fallowRuntimeUsedByThisPhase, false);
+  assert.equal(
+    inventory.ownershipBoundary.liveRegulatoryComplianceClaimedByThisPhase,
+    false
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.phase548InfrastructureManagementComplianceAreaNumber,
+    14
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.phase548InfrastructureManagementComplianceStatus,
+    "deferred"
+  );
+  assert.equal(inventory.sourcePhaseContext.secureDropCanonicalOwner, "content-fabric");
+  assert.equal(inventory.sourcePhaseContext.complianceCertificationClaimed, false);
+  assert.equal(inventory.boundaryMapSummary.boundaryEntryCount, 24);
+  assert.equal(inventory.boundaryEntries.length, 24);
+
+  for (const entry of inventory.boundaryEntries) {
+    assert.match(entry.boundaryId, /^phase5-67\./);
+    assert.ok(
+      [
+        "infrastructure_management_contract",
+        "deployment_governance_contract",
+        "environment_boundary_contract",
+        "compliance_readiness_contract",
+        "pii_boundary_contract",
+        "data_retention_contract",
+        "data_deletion_contract",
+        "data_export_contract",
+        "policy_governance_contract",
+        "data_processing_inventory_contract",
+        "vendor_external_service_boundary",
+        "secure_drop_compliance_boundary",
+        "fabric_compliance_boundary"
+      ].includes(entry.boundaryFamily)
+    );
+    assert.ok(
+      ["ardyn", "ardyn-subagent", "locus", "multiverse", "content-fabric", "repo-family"].includes(
+        entry.relatedSystem
+      )
+    );
+    assert.ok(
+      ["metadata_only", "blocked", "future_contract_required"].includes(
+        entry.currentStatus
+      )
+    );
+    assert.equal(
+      entry.infrastructureComplianceDataRetentionBoundaryMetadataOnly,
+      true
+    );
+    assert.equal(entry.noLiveInfrastructureComplianceDataRetentionPerformed, true);
+    assert.equal(entry.phase548AreaNumber, 14);
+    assert.equal(entry.phase548AuthorizesRuntime, false);
+    assert.equal(entry.phase559ImplementsFabricRuntime, false);
+    assert.equal(entry.phase560ImplementsEncodedHandoffRuntime, false);
+    assert.equal(entry.phase561ImplementsDatabaseStorageRuntime, false);
+    assert.equal(entry.phase562ImplementsAuthPermissionsRuntime, false);
+    assert.equal(entry.phase563ImplementsSecurityRuntime, false);
+    assert.equal(entry.phase564ImplementsAbuseRuntime, false);
+    assert.equal(entry.phase565ImplementsObservabilityRuntime, false);
+    assert.equal(entry.phase566ImplementsAvailabilityRecoveryRuntime, false);
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(
+      entry.unsafeInfrastructureComplianceDataRetentionRuntimeFlagsAllFalse,
+      true
+    );
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+  }
+
+  assert.equal(inventory.invalidBoundaryCasePolicy.missingRequiredFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownTopLevelFieldsFailClosed, true);
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenInfrastructureAutomationSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenDeploymentCloudProvisioningSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy
+      .hiddenComplianceCertificationEnforcementSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenPiiCollectionProcessingSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy
+      .hiddenRetentionDeletionExportExecutionSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy
+      .hiddenVendorExternalServiceIntegrationSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenSecretEnvVaultAccessSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenBackendApiServerSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenDatabaseStorageCacheWriteSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenSecureDropImplementationSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy
+      .hiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy
+      .hiddenHealthBackupRestoreFailoverSchedulerProcessSupervisorSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.68-review-only-testing-frameworks-quality-gates-contract-boundary-map"
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-67-infrastructure-compliance-data-retention-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, ["semgrep --config auto ."]);
+  assert.equal(inventory.safetyPosture.infrastructureAutomationImplemented, false);
+  assert.equal(inventory.safetyPosture.deploymentAutomationImplemented, false);
+  assert.equal(inventory.safetyPosture.cloudProvisioningImplemented, false);
+  assert.equal(inventory.safetyPosture.complianceEnforcementImplemented, false);
+  assert.equal(inventory.safetyPosture.complianceCertificationClaimed, false);
+  assert.equal(inventory.safetyPosture.piiProcessingImplemented, false);
+  assert.equal(inventory.safetyPosture.dataRetentionJobImplemented, false);
+  assert.equal(inventory.safetyPosture.dataDeletionJobImplemented, false);
+  assert.equal(inventory.safetyPosture.dataExportJobImplemented, false);
+  assert.equal(inventory.safetyPosture.policyEngineImplemented, false);
+  assert.equal(inventory.safetyPosture.vendorIntegrationImplemented, false);
+  assert.equal(inventory.safetyPosture.externalServiceLookupEnabled, false);
+  assert.equal(inventory.safetyPosture.secretVaultEnvAccessEnabled, false);
+  assert.equal(inventory.safetyPosture.backendRuntimeImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.databaseStorageRuntimeWritesEnabled, false);
+  assert.equal(inventory.safetyPosture.fabricRuntimeImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.encodedHandoffRuntimeImplementedByArdyn, false);
+  assert.equal(inventory.safetyPosture.commandExposureEnabled, false);
+  assert.equal(inventory.safetyPosture.runtimeExecutionEnabled, false);
+  assert.equal(inventory.safetyPosture.connectorGrantProduced, false);
+  assert.equal(inventory.safetyPosture.mcpToolExposureEnabled, false);
+  assert.equal(inventory.safetyPosture.taskExecutionEnabled, false);
+  assert.equal(inventory.safetyPosture.secureDropImplemented, false);
+  assert.equal(inventory.safetyPosture.healthCheckRuntimeImplemented, false);
+  assert.equal(inventory.safetyPosture.backupJobImplemented, false);
+  assert.equal(inventory.safetyPosture.restoreJobImplemented, false);
+  assert.equal(inventory.safetyPosture.failoverRuntimeImplemented, false);
+  assert.equal(inventory.safetyPosture.serviceDiscoveryEnabled, false);
+  assert.equal(inventory.safetyPosture.scheduleEnforcementEnabled, false);
+  assert.equal(inventory.safetyPosture.filesystemScanningEnabled, false);
+  assert.equal(inventory.safetyPosture.processControlEnabled, false);
+  assert.equal(
+    inventory.safetyPosture.uiFrontendBrowserRenderingImplemented,
+    false
+  );
+  assert.equal(inventory.safetyPosture.blockedCliBypassEnabled, false);
+  assert.equal(
+    report.safetyPosture.phase567InfrastructureComplianceDataRetentionContractBoundaryMap,
+    true
+  );
+  assertSafetyFlags(report, phase567ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase567ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -28790,7 +29377,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase563SafetyFlagNames,
     ...phase564SafetyFlagNames,
     ...phase565SafetyFlagNames,
-    ...phase566SafetyFlagNames
+    ...phase566SafetyFlagNames,
+    ...phase567SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -28891,6 +29479,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase565ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase566ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase566ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase567ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase567ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

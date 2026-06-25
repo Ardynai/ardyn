@@ -346,6 +346,12 @@ export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_SCHEMA =
 export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_VERSION = "0.1.0";
 export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_KIND =
   "availability-recovery-contract-boundary-map";
+export const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.67.infrastructure-compliance-data-retention-contract-boundary-map-result";
+export const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_KIND =
+  "infrastructure-compliance-data-retention-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -54150,6 +54156,1772 @@ export function createAvailabilityRecoveryContractBoundaryMapForReview(
     classification,
     accepted,
     availabilityRecoveryContractBoundaryMap
+  });
+}
+
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.67.infrastructure-compliance-data-retention-contract-boundary-map-state";
+const VALID_INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_infrastructure_compliance_data_retention_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_BOUNDARY_FAMILIES = Object.freeze([
+  "infrastructure_management_contract",
+  "deployment_governance_contract",
+  "environment_boundary_contract",
+  "compliance_readiness_contract",
+  "pii_boundary_contract",
+  "data_retention_contract",
+  "data_deletion_contract",
+  "data_export_contract",
+  "policy_governance_contract",
+  "data_processing_inventory_contract",
+  "vendor_external_service_boundary",
+  "secure_drop_compliance_boundary",
+  "fabric_compliance_boundary"
+]);
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family"
+]);
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "infrastructureOwnershipExpectation",
+  "environmentSeparationExpectation",
+  "piiDataClassificationExpectation",
+  "retentionDeletionExportExpectation",
+  "compliancePostureNotes",
+  "vendorExternalServiceExpectation",
+  "policyGovernanceExpectation",
+  "locusRoleDescription",
+  "multiverseRoleDescription",
+  "fabricRoleDescription",
+  "secureDropRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeInfrastructureComplianceDataRetentionRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_ALLOWED_TOP_LEVEL_FIELDS =
+  Object.freeze(["reviewedAt", "boundaryEntries"]);
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_UNSAFE_FIELDS = Object.freeze([
+  "infrastructureAutomationImplemented",
+  "deploymentAutomationImplemented",
+  "cloudProvisioningImplemented",
+  "environmentManagerImplemented",
+  "complianceAutomationImplemented",
+  "complianceEnforcementImplemented",
+  "complianceCertificationClaimed",
+  "gdprComplianceClaimed",
+  "ccpaComplianceClaimed",
+  "soc2ComplianceClaimed",
+  "piiProcessingImplemented",
+  "piiCollectionImplemented",
+  "dataRetentionJobImplemented",
+  "dataDeletionJobImplemented",
+  "dataExportJobImplemented",
+  "policyEngineImplemented",
+  "runtimeGovernanceImplemented",
+  "vendorIntegrationImplemented",
+  "externalServiceLookupEnabled",
+  "secretVaultEnvAccessEnabled",
+  "secretsRuntimeIngestionEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "databaseSchemaImplemented",
+  "databaseMigrationImplemented",
+  "rlsRuntimeImplemented",
+  "rlsPolicyImplemented",
+  "storageAdapterImplemented",
+  "cacheEngineImplemented",
+  "cacheInvalidationRuntimeImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "loggerRuntimeImplemented",
+  "logWriterImplemented",
+  "telemetryClientImplemented",
+  "externalSinkImplemented",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistencePathImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "fabricRuntimeImplementedByArdyn",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecImplemented",
+  "translatorRuntimeImplemented",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "connectorGrantProduced",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "secureDropCryptoImplemented",
+  "secureDropTransportImplemented",
+  "secureDropStegoImplemented",
+  "secureDropSendReceiveImplemented",
+  "secureDropInboxPollingEnabled",
+  "st3ggVendored",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "schedulerImplemented",
+  "backgroundPollingEnabled",
+  "pollingEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "uiFrontendBrowserRenderingImplemented",
+  "healthCheckerImplemented",
+  "healthCheckRuntimeImplemented",
+  "monitorImplemented",
+  "monitoringRuntimeImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "failoverRuntimeImplemented",
+  "degradedModeRuntimeImplemented",
+  "recoveryAutomationImplemented",
+  "processSupervisorImplemented",
+  "processSupervisionRuntimeImplemented",
+  "approvalDecisionProduced",
+  "approvalGrantProduced",
+  "permissionEvaluatorImplemented",
+  "authorizationEvaluatorImplemented",
+  "reportRunsChecks",
+  "blockedCliBypassEnabled"
+]);
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_AUTHORIZATION_FIELDS =
+  Object.freeze([
+    "runtimeAuthorized",
+    "runtimeAuthorizationGranted",
+    "infrastructureAutomationAuthorizationGranted",
+    "deploymentAutomationAuthorizationGranted",
+    "cloudProvisioningAuthorizationGranted",
+    "complianceEnforcementAuthorizationGranted",
+    "piiProcessingAuthorizationGranted",
+    "retentionJobAuthorizationGranted",
+    "deletionJobAuthorizationGranted",
+    "exportJobAuthorizationGranted",
+    "policyEngineAuthorizationGranted",
+    "vendorIntegrationAuthorizationGranted",
+    "externalServiceAuthorizationGranted",
+    "secretsAccessAuthorizationGranted",
+    "backendApiServerAuthorizationGranted",
+    "databaseStorageAuthorizationGranted",
+    "connectorGrantAuthorizationGranted",
+    "fabricRuntimeAuthorizationGranted",
+    "websocketHttpRuntimeAuthorizationGranted",
+    "mcpToolExposureAuthorizationGranted",
+    "taskExecutionAuthorizationGranted",
+    "secureDropAuthorizationGranted",
+    "encodedHandoffRuntimeAuthorizationGranted",
+    "loggerAuditRuntimeAuthorizationGranted",
+    "healthBackupRestoreFailoverRuntimeAuthorizationGranted",
+    "commandExposureAuthorizationGranted",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "authorizesRuntime"
+  ]);
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_BLOCKED_CLI_BYPASS_FIELDS =
+  Object.freeze([
+    "blockedCliBypassEnabled",
+    "dryRunBypassesBlock",
+    "serveRuntimeBypassEnabled",
+    "bypassBlockedCommandBehavior",
+    "blockedCommandOverride"
+  ]);
+const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_HIDDEN_FIELD_GROUPS =
+  Object.freeze([
+    {
+      classification:
+        "hidden_infrastructure_automation_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "terraformPlan",
+        "pulumiStack",
+        "cloudFormationTemplate",
+        "infrastructureRunner",
+        "provisioningScript",
+        "environmentManager",
+        "deploymentTarget"
+      ]
+    },
+    {
+      classification:
+        "hidden_deployment_cloud_provisioning_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "deployCommand",
+        "deploymentPipeline",
+        "cloudProvider",
+        "cloudAccountId",
+        "regionFailoverPolicy",
+        "containerRegistry",
+        "serviceAccount",
+        "releaseController"
+      ]
+    },
+    {
+      classification:
+        "hidden_compliance_certification_enforcement_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "certificationStatus",
+        "gdprCompliant",
+        "ccpaCompliant",
+        "soc2Certified",
+        "complianceEnforcer",
+        "controlRuntime",
+        "evidenceCollector",
+        "policyEngineRuntime"
+      ]
+    },
+    {
+      classification:
+        "hidden_pii_collection_processing_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "piiCollector",
+        "piiProcessor",
+        "userEmail",
+        "operatorIdentityToken",
+        "subjectIdentifier",
+        "consentRecord",
+        "personalDataStore",
+        "dataSubjectRuntime"
+      ]
+    },
+    {
+      classification:
+        "hidden_retention_deletion_export_execution_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "retentionScheduler",
+        "retentionJob",
+        "deletionJob",
+        "erasureRunner",
+        "exportJob",
+        "exportPath",
+        "dataPackageWriter",
+        "purgeCommand"
+      ]
+    },
+    {
+      classification:
+        "hidden_vendor_external_service_integration_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "vendorClient",
+        "externalServiceClient",
+        "webhookUrl",
+        "saasEndpoint",
+        "connectorGrant",
+        "connectorCredential",
+        "connectorAccessToken",
+        "externalLookup"
+      ]
+    },
+    {
+      classification:
+        "hidden_secret_env_vault_access_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "secretName",
+        "secretValue",
+        "envVar",
+        "vaultPath",
+        "vaultToken",
+        "keyringPath",
+        "apiKey",
+        "apiKeySecret"
+      ]
+    },
+    {
+      classification:
+        "hidden_backend_api_server_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "backendApiMiddleware",
+        "apiRequestHandler",
+        "httpServer",
+        "serverMiddleware",
+        "httpEndpoint",
+        "runtimeEndpoint"
+      ]
+    },
+    {
+      classification:
+        "hidden_database_storage_cache_write_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "databaseUrl",
+        "databaseDsn",
+        "dbConnectionString",
+        "storageAdapter",
+        "cacheEngine",
+        "writeQueue",
+        "persistenceLayer",
+        "filesystemWrite"
+      ]
+    },
+    {
+      classification:
+        "hidden_auth_session_token_api_key_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "loginUrl",
+        "sessionCookie",
+        "sessionStore",
+        "sessionToken",
+        "tokenIssuer",
+        "accessToken",
+        "refreshToken",
+        "idToken",
+        "bearerToken"
+      ]
+    },
+    {
+      classification:
+        "hidden_connector_grant_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "connectorGrant",
+        "connectorCredential",
+        "connectorAccessToken",
+        "connectorIngestionGrant",
+        "connectorComplianceGrant",
+        "vendorGrant"
+      ]
+    },
+    {
+      classification:
+        "hidden_fabric_websocket_http_mcp_task_runtime_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "fabricBusTopic",
+        "fabricBrokerUrl",
+        "websocketUrl",
+        "mcpToolName",
+        "mcpServerUrl",
+        "taskExecutor",
+        "taskRunner",
+        "adapterRuntime"
+      ]
+    },
+    {
+      classification:
+        "hidden_secure_drop_implementation_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "secureDropPayloadPath",
+        "secureDropKeyring",
+        "secureDropCryptoImplemented",
+        "secureDropTransportImplemented",
+        "secureDropStegoImplemented",
+        "secureDropSendReceiveImplemented",
+        "secureDropInboxPollingEnabled",
+        "secureDropFileSelection",
+        "st3ggPayload"
+      ]
+    },
+    {
+      classification:
+        "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "codecImplemented",
+        "translatorRuntimeImplemented",
+        "encoderImplemented",
+        "decoderImplemented",
+        "conlangGenerator",
+        "semanticStegoCandidate",
+        "steganographyCandidate",
+        "tokenExploitationCandidate",
+        "covertChannel",
+        "guardrailBypass",
+        "hiddenPayload"
+      ]
+    },
+    {
+      classification:
+        "hidden_logger_audit_transcript_telemetry_external_sink_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "loggerRuntime",
+        "logWriter",
+        "auditWriter",
+        "auditLogWriter",
+        "transcriptWriter",
+        "telemetryClient",
+        "externalSink",
+        "alertingClient",
+        "logDrain"
+      ]
+    },
+    {
+      classification:
+        "hidden_health_backup_restore_failover_scheduler_process_supervisor_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected",
+      fields: [
+        "healthChecker",
+        "monitoringClient",
+        "scheduler",
+        "cronSchedule",
+        "backupJob",
+        "restoreJob",
+        "failoverRuntime",
+        "processSupervisor",
+        "recoveryAutomation"
+      ]
+    }
+  ]);
+
+function infrastructureComplianceDataRetentionBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(infrastructureComplianceDataRetentionBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      infrastructureComplianceDataRetentionBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapHasTrueFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      infrastructureComplianceDataRetentionBoundaryMapHasTrueFieldDeep(
+        item,
+        fields
+      )
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (
+      infrastructureComplianceDataRetentionBoundaryMapHasTrueFieldDeep(
+        nested,
+        fields
+      )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapHasPresentFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      infrastructureComplianceDataRetentionBoundaryMapHasPresentFieldDeep(
+        item,
+        fields
+      )
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeInfrastructureComplianceDataRetentionRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (
+      infrastructureComplianceDataRetentionBoundaryMapHasPresentFieldDeep(
+        nested,
+        fields
+      )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapEntriesInput(
+  inputRecord
+) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapEntryIssue(
+  entries,
+  predicate
+) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.infrastructureOwnershipExpectation !== "string" ||
+    typeof entry.environmentSeparationExpectation !== "string" ||
+    typeof entry.piiDataClassificationExpectation !== "string" ||
+    typeof entry.retentionDeletionExportExpectation !== "string" ||
+    typeof entry.compliancePostureNotes !== "string" ||
+    typeof entry.vendorExternalServiceExpectation !== "string" ||
+    typeof entry.policyGovernanceExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    typeof entry.secureDropRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(
+      entry.unsafeInfrastructureComplianceDataRetentionRuntimeFlags
+    ) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapAuthorizationFlagEnabled(
+  value
+) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapUnsafeFlagEnabled(
+  value
+) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(
+      value.unsafeInfrastructureComplianceDataRetentionRuntimeFlags
+    ) &&
+      Object.values(
+        value.unsafeInfrastructureComplianceDataRetentionRuntimeFlags
+      ).some((flag) => flag !== false)) ||
+    infrastructureComplianceDataRetentionBoundaryMapHasTrueFieldDeep(
+      value,
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_UNSAFE_FIELDS
+    )
+  );
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(infrastructureComplianceDataRetentionBoundaryMapEntries())
+  );
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapInputClassification(
+  inputRecord
+) {
+  if (infrastructureComplianceDataRetentionBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries =
+    infrastructureComplianceDataRetentionBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapEntryIssue(
+      entries,
+      infrastructureComplianceDataRetentionBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_infrastructure_compliance_data_retention_contract_boundary_entry_rejected";
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_RELATED_SYSTEMS.includes(
+          entry.relatedSystem
+        )
+    )
+  ) {
+    return "unknown_related_system_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_STATUSES.includes(
+          entry.currentStatus
+        )
+    )
+  ) {
+    return "unknown_current_status_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapEntryIssue(
+      entries,
+      infrastructureComplianceDataRetentionBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord[field] === true
+    )
+  ) {
+    return "runtime_authorization_attempt_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapEntryIssue(
+      entries,
+      infrastructureComplianceDataRetentionBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    infrastructureComplianceDataRetentionBoundaryMapAuthorizationFlagEnabled(
+      inputRecord
+    )
+  ) {
+    return "authorization_flags_enabled_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  for (const { classification, fields } of INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_HIDDEN_FIELD_GROUPS) {
+    if (
+      infrastructureComplianceDataRetentionBoundaryMapHasPresentFieldDeep(
+        inputRecord,
+        fields
+      )
+    ) {
+      return classification;
+    }
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapUnsafeFlagEnabled(
+      inputRecord
+    ) ||
+    infrastructureComplianceDataRetentionBoundaryMapEntryIssue(
+      entries,
+      infrastructureComplianceDataRetentionBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_infrastructure_compliance_data_retention_runtime_flags_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    infrastructureComplianceDataRetentionBoundaryMapEntryIssue(entries, (entry) =>
+      infrastructureComplianceDataRetentionBoundaryMapContainsTrue(
+        entry?.runtimeEffect
+      )
+    ) ||
+    infrastructureComplianceDataRetentionBoundaryMapContainsTrue(
+      inputRecord?.runtimeEffect
+    )
+  ) {
+    return "nested_unsafe_flags_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord).some(
+      (field) =>
+        !INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_ALLOWED_TOP_LEVEL_FIELDS.includes(
+          field
+        )
+    )
+  ) {
+    return "unknown_top_level_field_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  if (!infrastructureComplianceDataRetentionBoundaryMapCanonical(entries)) {
+    return "noncanonical_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapForbiddenBehavior() {
+  return [
+    "infrastructure automation",
+    "deployment automation",
+    "cloud provisioning",
+    "environment manager",
+    "compliance automation",
+    "compliance enforcement",
+    "PII collection or processing",
+    "retention job",
+    "deletion job",
+    "export job",
+    "policy engine",
+    "vendor integration",
+    "external service lookup",
+    "secret/env/vault access",
+    "backend API",
+    "server",
+    "database client",
+    "storage adapter",
+    "cache engine",
+    "storage write",
+    "RLS rule",
+    "migration",
+    "auth/session/token/API-key runtime",
+    "connector grant",
+    "Fabric runtime bus",
+    "websocket/http transport",
+    "MCP tool exposure",
+    "task execution",
+    "logger runtime",
+    "audit writer",
+    "transcript writer",
+    "telemetry client",
+    "external sink",
+    "health checker",
+    "monitor",
+    "scheduler",
+    "backup job",
+    "restore job",
+    "failover runtime",
+    "recovery automation",
+    "process supervisor",
+    "service discovery",
+    "background polling",
+    "filesystem write",
+    "filesystem scanning",
+    "process control",
+    "stdin loop",
+    "stdout/stderr runtime writer",
+    "import/export command",
+    "package writer",
+    "package reader",
+    "Secure Drop crypto, transport, stego, send/receive, inbox polling, file selection, filesystem scanning, connector ingestion, secret/vault/env access, or ST3GG wrapping",
+    "encoded handoff runtime, codec, translator runtime, encoder, decoder, conlang generator, stego, covert channel, tokenizer exploit, bypass, hidden payload, or transport behavior",
+    "command exposure",
+    "interactive control",
+    "reviewer routing",
+    "evaluator execution",
+    "approval decision",
+    "approval grant",
+    "UI/frontend/browser/rendering/WCAG automation"
+  ];
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapAuthorizationFlags() {
+  return {
+    infrastructureAutomationAuthorizationGranted: false,
+    deploymentAutomationAuthorizationGranted: false,
+    cloudProvisioningAuthorizationGranted: false,
+    complianceEnforcementAuthorizationGranted: false,
+    piiProcessingAuthorizationGranted: false,
+    retentionJobAuthorizationGranted: false,
+    deletionJobAuthorizationGranted: false,
+    exportJobAuthorizationGranted: false,
+    policyEngineAuthorizationGranted: false,
+    vendorIntegrationAuthorizationGranted: false,
+    externalServiceAuthorizationGranted: false,
+    secretsAccessAuthorizationGranted: false,
+    backendApiServerAuthorizationGranted: false,
+    databaseStorageAuthorizationGranted: false,
+    connectorGrantAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    websocketHttpRuntimeAuthorizationGranted: false,
+    mcpToolExposureAuthorizationGranted: false,
+    taskExecutionAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false,
+    encodedHandoffRuntimeAuthorizationGranted: false,
+    loggerAuditRuntimeAuthorizationGranted: false,
+    healthBackupRestoreFailoverRuntimeAuthorizationGranted: false,
+    commandExposureAuthorizationGranted: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    connectorGrantProduced: false,
+    authorizesRuntime: false
+  };
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_UNSAFE_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapNotes() {
+  return {
+    noConsumerRole:
+      "No current runtime role; future consumers may inspect metadata only.",
+    currentAuthorization:
+      "Requires a future infrastructure, deployment, environment, compliance, PII, data-retention, deletion/export, policy-governance, vendor, secrets, backend, storage, auth, security, rate-limiting, observability, availability/recovery, runtime, command exposure, connector, Fabric, Secure Drop, MCP/task, filesystem/process-control, and approval authorization phase before any executable behavior.",
+    complianceEvidenceOnly:
+      "Compliance posture remains future evidence planning only; Ardyn claims no GDPR, CCPA, SOC2, or similar compliance or certification and runs no compliance enforcement.",
+    fabricMetadataOnly:
+      "Fabric remains a future coordination envelope metadata layer, not a bus, broker, transport, adapter, connector, registry, scheduler, monitor, compliance enforcer, importer, exporter, package distributor, recovery channel, or task executor.",
+    secureDropContentFabric:
+      "Secure Drop compliance metadata remains a future content-fabric contract; Ardyn records references only and implements no Secure Drop crypto, transport, stego, send/receive, inbox polling, file selection, connector ingestion, secret/vault/env access, ST3GG wrapping, retention/deletion/export job, or compliance runtime."
+  };
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapDefinition(definition) {
+  const notes = infrastructureComplianceDataRetentionBoundaryMapNotes();
+
+  return {
+    ...definition,
+    allowedCurrentBehavior: [
+      `Describe future ${definition.subject} infrastructure, compliance, and data-retention boundary metadata.`,
+      "Keep current behavior review-only, metadata-only, non-authorizing, and runtime-blocked."
+    ],
+    requiredFutureContractBeforeImplementation:
+      `A future ${definition.subject} contract must define ownership, environment separation, data classification, retention/deletion/export policy, compliance evidence boundaries, vendor/service ownership, policy governance, consumer visibility, and explicit no-runtime defaults before implementation.`,
+    requiredFutureAuthorizationPhaseBeforeRuntime: notes.currentAuthorization,
+    locusRoleDescription: definition.locusRole ?? notes.noConsumerRole,
+    multiverseRoleDescription:
+      definition.multiverseRole ?? notes.noConsumerRole,
+    fabricRoleDescription: definition.fabricRole ?? notes.fabricMetadataOnly,
+    secureDropRoleDescription: definition.secureDropRole ?? "Not applicable."
+  };
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapDefinitions() {
+  const notes = infrastructureComplianceDataRetentionBoundaryMapNotes();
+  const infrastructure =
+    "Infrastructure ownership remains future contract metadata only; Ardyn provisions no cloud, account, container, environment, service, network, secret, database, storage, cache, or process resource.";
+  const environment =
+    "Environment separation remains future contract metadata only; Ardyn creates no local/dev/staging/production manager, deployment target, secret resolver, or runtime switch.";
+  const pii =
+    "PII and data classification remains future contract metadata only; Ardyn collects, stores, processes, exports, deletes, or classifies no live personal data.";
+  const retention =
+    "Retention, deletion, and export remain future policy metadata only; Ardyn runs no retention job, erasure job, export job, package writer, storage writer, or filesystem scan.";
+  const vendor =
+    "Vendor and external-service posture remains future contract metadata only; Ardyn creates no connector grant, external client, webhook, lookup, integration, or data-processing agreement runtime.";
+  const policy =
+    "Policy governance remains future contract metadata only; Ardyn creates no policy engine, enforcement hook, compliance automation, reviewer routing, approval grant, or runtime governance.";
+
+  return [
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.repo_family.infrastructure_ownership.infrastructure_management_boundary",
+      boundaryFamily: "infrastructure_management_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "repo-family infrastructure ownership",
+      infrastructureOwnershipExpectation:
+        "Future repo-family infrastructure ownership must name resource owners, deployment owners, account boundaries, environment owners, data owners, and support escalation paths before any provisioning.",
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.repo_family.deployment_environment_separation.deployment_governance_boundary",
+      boundaryFamily: "deployment_governance_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "deployment and environment separation",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation:
+        "Future deployment governance must separate local, dev, staging, production, credentials, service accounts, audit evidence, rollback ownership, and approvals before deployment automation.",
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.local_dev_staging_production_environment.environment_boundary",
+      boundaryFamily: "environment_boundary_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "local/dev/staging/production environment boundary",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation:
+        "Future Ardyn environments must define local-only review behavior, dev/staging/production ownership, credential isolation, fixture provenance, and blocked runtime defaults before any environment manager.",
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.repo_family.compliance_readiness_posture.compliance_readiness_boundary",
+      boundaryFamily: "compliance_readiness_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "metadata_only",
+      subject: "compliance-readiness posture",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes:
+        "Future compliance readiness may define evidence needs for GDPR, CCPA, SOC2, and similar regimes, but this metadata claims no certification, control operation, or enforcement.",
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.repo_family.gdpr_ccpa_soc2_evidence_planning.compliance_readiness_boundary",
+      boundaryFamily: "compliance_readiness_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "GDPR/CCPA/SOC2 evidence planning",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation:
+        "Future GDPR, CCPA, SOC2, and similar evidence planning must identify personal data categories, data subjects, processors, sub-processors, consent, access, erasure, portability, and audit evidence before processing.",
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes:
+        "This boundary is evidence planning only and explicitly does not assert GDPR, CCPA, SOC2, or similar certification or compliance.",
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.pii_classification_transcripts_audit_identity_secure_drop_user_content.pii_boundary",
+      boundaryFamily: "pii_boundary_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject:
+        "PII classification for transcripts, audit logs, operator identity, Secure Drop metadata, and user content",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation:
+        "Future PII classification must cover transcripts, audit logs, operator identity, Secure Drop metadata, user content, consent, retention class, minimization, redaction, and access boundaries before any processing.",
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy,
+      secureDropRole: notes.secureDropContentFabric
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.data_processing_inventory.data_processing_inventory_boundary",
+      boundaryFamily: "data_processing_inventory_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "data processing inventory",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation:
+        "Future data processing inventory must list data categories, sources, sinks, processors, owners, legal basis, retention class, deletion/export obligations, and external-service boundaries before runtime.",
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.retention_policy.phase561_phase565.data_retention_boundary",
+      boundaryFamily: "data_retention_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "retention policy from Phases 5.61 and 5.65",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation:
+        "Future retention policy must bind database/storage ownership from Phase 5.61 and log/audit/transcript integrity from Phase 5.65 before any retention job or storage write.",
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.deletion_policy.phase561_phase565.data_deletion_boundary",
+      boundaryFamily: "data_deletion_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "deletion policy from Phases 5.61 and 5.65",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation:
+        "Future deletion policy must define subject scope, authorization, storage ownership, audit preservation, fail-closed semantics, and proof boundaries before any deletion or erasure job.",
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.export_policy.phase561_phase565.data_export_boundary",
+      boundaryFamily: "data_export_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "export policy from Phases 5.61 and 5.65",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation:
+        "Future export policy must define portability scope, packaging format, approval, audit proof, storage ownership, and redaction before any export job, import/export path, or package writer.",
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.repo_family.backup_recovery_compliance_evidence.phase566.policy_governance_boundary",
+      boundaryFamily: "policy_governance_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "backup/recovery compliance evidence from Phase 5.66",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes:
+        "Future backup/recovery compliance evidence must align with Phase 5.66 RTO/RPO, drill, restore-test, retention, and audit boundaries without running backup, restore, or failover automation.",
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.auth_permission_subject_consent_traceability.phase562.policy_governance_boundary",
+      boundaryFamily: "policy_governance_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "auth/permission subject and consent traceability from Phase 5.62",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation:
+        "Future subject and consent traceability must define identity, role, delegation, consent, revocation, and audit evidence before any auth/session/token/API-key runtime.",
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.security_rls_input_sanitization_compliance.phase563.policy_governance_boundary",
+      boundaryFamily: "policy_governance_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "security/RLS/input-sanitization compliance from Phase 5.63",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes:
+        "Future security/RLS/input-sanitization compliance evidence must prove fail-closed behavior before any database, RLS, sanitizer, storage write, migration, or policy engine.",
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.rate_limit_abuse_evidence.phase564.policy_governance_boundary",
+      boundaryFamily: "policy_governance_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "rate-limit/abuse evidence from Phase 5.64",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation:
+        "Future abuse evidence must define data minimization, retention, false-positive handling, appeal/override governance, and audit scope before any limiter or abuse-control runtime.",
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.error_log_audit_integrity_evidence.phase565.policy_governance_boundary",
+      boundaryFamily: "policy_governance_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "error/log/audit integrity evidence from Phase 5.65",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation:
+        "Future log/audit evidence must define personal data minimization, transcript scope, redaction, retention, deletion exceptions, and external-sink ownership before any logger or audit writer.",
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.repo_family.fabric_coordination_envelope_compliance.fabric_compliance_boundary",
+      boundaryFamily: "fabric_compliance_boundary",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "Fabric coordination-envelope compliance",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation:
+        "Future Fabric compliance must classify coordination envelopes, payload references, task metadata, connector references, audit traces, and consumer-visible status before any Fabric runtime.",
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy,
+      fabricRole:
+        "Fabric may later carry compliance reference metadata only; Ardyn creates no Fabric bus, websocket/http transport, MCP/task runtime, broker, adapter, or external sink."
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.locus.compliance_status_visibility.compliance_readiness_boundary",
+      boundaryFamily: "compliance_readiness_contract",
+      relatedSystem: "locus",
+      currentStatus: "future_contract_required",
+      subject: "Locus-visible compliance and status boundary",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes:
+        "Future Locus-visible status may display evidence metadata only after a consumer-owned UI contract; Ardyn creates no UI, browser, frontend, rendering, or WCAG automation.",
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy,
+      locusRole:
+        "Locus may later display compliance/status metadata only after Locus-owned authorization and UI contracts."
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.multiverse.capability_task_compliance_status.compliance_readiness_boundary",
+      boundaryFamily: "compliance_readiness_contract",
+      relatedSystem: "multiverse",
+      currentStatus: "future_contract_required",
+      subject: "Multiverse-visible capability/task compliance status boundary",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes:
+        "Future Multiverse-visible capability/task compliance status may display metadata only after Multiverse-owned task and UI contracts; Ardyn executes no task.",
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy,
+      multiverseRole:
+        "Multiverse may later display capability/task compliance metadata only after Multiverse-owned authorization, task, and UI contracts."
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.mcp_tool_exposure_compliance.deployment_governance_boundary",
+      boundaryFamily: "deployment_governance_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "MCP/tool exposure compliance",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation:
+        "Future MCP/tool exposure compliance must define environment, capability, audit, retention, consent, and command-exposure gates before any tool or MCP server is exposed.",
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.repo_family.connector_vendor_external_service_compliance.vendor_boundary",
+      boundaryFamily: "vendor_external_service_boundary",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "connector/vendor external-service compliance",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation:
+        "Future connector/vendor compliance must classify data sent to vendors, legal basis, processor role, retention, deletion, export, and revocation before any connector grant or external lookup.",
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation:
+        "Future vendor/external-service boundaries require a contract, DPA posture, data processing inventory, authorization, revocation, and audit evidence before any integration.",
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.content_fabric.secure_drop_compliance.secure_drop_compliance_boundary",
+      boundaryFamily: "secure_drop_compliance_boundary",
+      relatedSystem: "content-fabric",
+      currentStatus: "future_contract_required",
+      subject: "Secure Drop compliance",
+      infrastructureOwnershipExpectation:
+        "Secure Drop compliance implementation ownership remains canonical in content-fabric; Ardyn records only metadata references.",
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation:
+        "Future Secure Drop compliance must classify metadata, payload references, sender/recipient identity, retention, deletion, export, and evidence ownership in content-fabric before implementation.",
+      retentionDeletionExportExpectation:
+        "Future Secure Drop retention/deletion/export remains content-fabric-owned; Ardyn creates no storage, inbox polling, file selection, transport, crypto, stego, ST3GG, or connector ingestion.",
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy,
+      fabricRole:
+        "Fabric may later carry Secure Drop compliance reference metadata only.",
+      secureDropRole: notes.secureDropContentFabric
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn.secrets_env_vault_governance.environment_boundary",
+      boundaryFamily: "environment_boundary_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      subject: "secrets/env/vault governance",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation:
+        "Future secrets/env/vault governance must separate local/dev/staging/production secrets, rotation, access, audit, and break-glass ownership before any secret/env/vault read.",
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.repo_family.license_provenance_dependency_compliance_evidence.policy_governance_boundary",
+      boundaryFamily: "policy_governance_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      subject: "license/provenance/dependency compliance evidence",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation: pii,
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes:
+        "Future license/provenance/dependency evidence must define SBOM, dependency provenance, license review, vulnerability triage, package ownership, and audit scope without packaging or external lookups.",
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    }),
+    infrastructureComplianceDataRetentionBoundaryMapDefinition({
+      boundaryId:
+        "phase5-67.ardyn_subagent.encoded_handoff_compliance.phase560.policy_governance_boundary",
+      boundaryFamily: "policy_governance_contract",
+      relatedSystem: "ardyn-subagent",
+      currentStatus: "future_contract_required",
+      subject: "inter-agent encoded handoff compliance from Phase 5.60",
+      infrastructureOwnershipExpectation: infrastructure,
+      environmentSeparationExpectation: environment,
+      piiDataClassificationExpectation:
+        "Future encoded handoff compliance must define metadata classification, auditability, covert-channel exclusions, retention, and review boundaries before any codec, translator, encoder, decoder, stego, tokenizer exploit, bypass, or transport.",
+      retentionDeletionExportExpectation: retention,
+      compliancePostureNotes: notes.complianceEvidenceOnly,
+      vendorExternalServiceExpectation: vendor,
+      policyGovernanceExpectation: policy
+    })
+  ];
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapEntry(definition) {
+  const {
+    subject: _subject,
+    locusRole,
+    multiverseRole,
+    fabricRole,
+    secureDropRole,
+    ...entry
+  } = definition;
+
+  return {
+    ...entry,
+    forbiddenCurrentBehavior:
+      infrastructureComplianceDataRetentionBoundaryMapForbiddenBehavior(),
+    productionReadinessAreaReference: {
+      phase: "5.48",
+      areaNumber: 14,
+      areaName: "Infrastructure Management & Compliance",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      sourceStatus: "deferred",
+      representedByPhase567: true,
+      authorizesRuntime: false
+    },
+    phase559FabricAwareApiBackendReference: {
+      phase: "5.59",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      fabricBoundaryReferenced: true,
+      implementsFabricRuntime: false,
+      authorizesRuntime: false
+    },
+    phase560InterAgentEncodedHandoffConformanceReference: {
+      phase: "5.60",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      encodedHandoffConformanceReferenced: true,
+      implementsEncodedHandoffRuntime: false,
+      authorizesRuntime: false
+    },
+    phase561DatabaseStorageContractBoundaryReference: {
+      phase: "5.61",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      databaseStorageBoundaryReferenced: true,
+      implementsDatabaseStorageRuntime: false,
+      authorizesRuntime: false
+    },
+    phase562AuthPermissionsContractBoundaryReference: {
+      phase: "5.62",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      authPermissionsBoundaryReferenced: true,
+      implementsAuthPermissionsRuntime: false,
+      authorizesRuntime: false
+    },
+    phase563SecurityRlsInputSanitizationBoundaryReference: {
+      phase: "5.63",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      securityRlsInputSanitizationBoundaryReferenced: true,
+      implementsSecurityRuntime: false,
+      authorizesRuntime: false
+    },
+    phase564RateLimitingAbuseControlBoundaryReference: {
+      phase: "5.64",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      rateLimitingAbuseControlBoundaryReferenced: true,
+      implementsAbuseRuntime: false,
+      authorizesRuntime: false
+    },
+    phase565ErrorTrackingLoggingAuditIntegrityBoundaryReference: {
+      phase: "5.65",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      errorTrackingLoggingAuditIntegrityBoundaryReferenced: true,
+      implementsObservabilityRuntime: false,
+      authorizesRuntime: false
+    },
+    phase566AvailabilityRecoveryBoundaryReference: {
+      phase: "5.66",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-66/availability-recovery-contract-boundary-map.json",
+      availabilityRecoveryBoundaryReferenced: true,
+      implementsAvailabilityRecoveryRuntime: false,
+      authorizesRuntime: false
+    },
+    infrastructureComplianceDataRetentionBoundaryMetadataOnly: true,
+    noLiveInfrastructureComplianceDataRetentionPerformed: true,
+    explicitBlockedAuthorizationFlags:
+      infrastructureComplianceDataRetentionBoundaryMapAuthorizationFlags(),
+    unsafeInfrastructureComplianceDataRetentionRuntimeFlags:
+      infrastructureComplianceDataRetentionBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapEntries() {
+  return infrastructureComplianceDataRetentionBoundaryMapDefinitions().map(
+    infrastructureComplianceDataRetentionBoundaryMapEntry
+  );
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+
+  return {
+    infrastructureComplianceDataRetentionContractBoundaryMapKind:
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    boundaryIds: entries.map((entry) => entry.boundaryId),
+    boundaryFamilies: [
+      ...INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_BOUNDARY_FAMILIES
+    ],
+    relatedSystems: [
+      ...INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_RELATED_SYSTEMS
+    ],
+    currentStatusValues: [...INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_STATUSES],
+    countByFamily,
+    countByRelatedSystem,
+    phase548InfrastructureManagementComplianceCoverageItemRepresented: true,
+    phase559FabricAwareApiBackendBoundaryReferenced: true,
+    phase560EncodedHandoffConformanceReferenced: true,
+    phase561DatabaseStorageContractBoundaryReferenced: true,
+    phase562AuthPermissionsContractBoundaryReferenced: true,
+    phase563SecurityRlsInputSanitizationBoundaryReferenced: true,
+    phase564RateLimitingAbuseControlBoundaryReferenced: true,
+    phase565ErrorTrackingLoggingAuditIntegrityBoundaryReferenced: true,
+    phase566AvailabilityRecoveryBoundaryReferenced: true,
+    infrastructureComplianceDataRetentionBoundaryMetadataOnly: true,
+    noLiveInfrastructureComplianceDataRetentionPerformed: true,
+    noInfrastructureAutomationImplemented: true,
+    noDeploymentAutomationImplemented: true,
+    noCloudProvisioningImplemented: true,
+    noComplianceAutomationImplemented: true,
+    noComplianceEnforcementImplemented: true,
+    noComplianceCertificationClaimed: true,
+    noPiiProcessingImplemented: true,
+    noRetentionDeletionExportJobsImplemented: true,
+    noVendorExternalServiceIntegration: true,
+    noSecretsAccess: true,
+    noPolicyEngineImplemented: true,
+    noBackendApiServerImplemented: true,
+    noStorageWrites: true,
+    noConnectorGrants: true,
+    noSecureDropImplementation: true,
+    noFabricRuntime: true,
+    noHealthBackupRestoreFailoverRuntime: true,
+    contentFabricCanonicalSecureDropOwnerOnly: true,
+    allBlockedAuthorizationFlagsFalse: true,
+    allUnsafeInfrastructureComplianceDataRetentionRuntimeFlagsFalse: true,
+    allRuntimeEffectsFalse: true,
+    allEntriesNonAuthorizing: true
+  };
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    unsafeInfrastructureComplianceDataRetentionRuntimeFlagsFailClosed: true,
+    hiddenInfrastructureAutomationSemanticsFailClosed: true,
+    hiddenDeploymentCloudProvisioningSemanticsFailClosed: true,
+    hiddenComplianceCertificationEnforcementSemanticsFailClosed: true,
+    hiddenPiiCollectionProcessingSemanticsFailClosed: true,
+    hiddenRetentionDeletionExportExecutionSemanticsFailClosed: true,
+    hiddenVendorExternalServiceIntegrationSemanticsFailClosed: true,
+    hiddenSecretEnvVaultAccessSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+      true,
+    hiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed: true,
+    hiddenHealthBackupRestoreFailoverSchedulerProcessSupervisorSemanticsFailClosed:
+      true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationRunsInfrastructureAutomation: false,
+    validationRunsDeploymentAutomation: false,
+    validationRunsCloudProvisioning: false,
+    validationRunsComplianceEnforcement: false,
+    validationProcessesPii: false,
+    validationRunsRetentionDeletionExportJobs: false,
+    validationRunsPolicyEngine: false,
+    validationAccessesSecrets: false,
+    validationRunsVendorIntegration: false,
+    validationRunsBackendApiServer: false,
+    validationWritesStorage: false,
+    validationGrantsConnectors: false,
+    validationRunsHealthBackupRestoreFailover: false,
+    validationRunsRuntime: false
+  };
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapGaps() {
+  return [
+    "No infrastructure automation, deployment automation, cloud provisioning, environment manager, policy engine, compliance automation, compliance enforcement, or runtime governance exists in Ardyn.",
+    "No PII collection, PII processing, data processing inventory runtime, retention job, deletion job, export job, package writer, import/export path, storage write, database client, storage adapter, cache engine, RLS rule, or migration exists in Ardyn.",
+    "GDPR, CCPA, SOC2, and similar regimes remain future evidence-planning boundaries only; Ardyn claims no certification, no compliance status, and no live control operation.",
+    "Fabric coordination, encoded handoff, MCP/tool exposure, connector/vendor grants, Secure Drop compliance, and external-service processing remain future contracts with no runtime transport, task execution, lookup, service discovery, or storage sink.",
+    "Future Locus/Multiverse displays still need consumer-owned infrastructure, compliance, availability, observability, auth, database, Fabric, and API/backend status contracts before any UI or task surface."
+  ];
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapState(reviewedAt) {
+  const boundaryEntries =
+    infrastructureComplianceDataRetentionBoundaryMapEntries();
+
+  return {
+    schema:
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion:
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind:
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase548ProductionReadinessCoverageMatrix:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      phase548InfrastructureManagementComplianceAreaNumber: 14,
+      phase548InfrastructureManagementComplianceStatus: "deferred",
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase560InterAgentEncodedHandoffConformance:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      phase561DatabaseStorageContractBoundary:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      phase563SecurityRlsInputSanitizationContractBoundary:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      phase564RateLimitingAbuseControlContractBoundary:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      phase565ErrorTrackingLoggingAuditIntegrityContractBoundary:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      phase566AvailabilityRecoveryContractBoundary:
+        "tests/fixtures/host-policy/phase5-66/availability-recovery-contract-boundary-map.json",
+      secureDropCanonicalOwner: "content-fabric",
+      complianceCertificationClaimed: false,
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      infrastructureComplianceDataRetentionBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      infrastructureComplianceDataRetentionBoundaryMapValidationRules(),
+    topInfrastructureComplianceAvailabilityObservabilitySecurityAuthDatabaseFabricApiBackendGaps:
+      infrastructureComplianceDataRetentionBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.68-review-only-testing-frameworks-quality-gates-contract-boundary-map",
+    infrastructureComplianceDataRetentionContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...infrastructureComplianceDataRetentionBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function infrastructureComplianceDataRetentionBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  infrastructureComplianceDataRetentionContractBoundaryMap
+}) {
+  return {
+    schema:
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion:
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_VERSION,
+    infrastructureComplianceDataRetentionContractBoundaryMapKind:
+      INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_KIND,
+    infrastructureComplianceDataRetentionContractBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    infrastructureComplianceDataRetentionContractBoundaryMapProduced: accepted,
+    infrastructureComplianceDataRetentionContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? infrastructureComplianceDataRetentionContractBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? infrastructureComplianceDataRetentionContractBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? infrastructureComplianceDataRetentionContractBoundaryMap.invalidBoundaryCasePolicy
+      : infrastructureComplianceDataRetentionBoundaryMapValidationRules(),
+    topInfrastructureComplianceAvailabilityObservabilitySecurityAuthDatabaseFabricApiBackendGaps:
+      accepted
+        ? infrastructureComplianceDataRetentionContractBoundaryMap
+            .topInfrastructureComplianceAvailabilityObservabilitySecurityAuthDatabaseFabricApiBackendGaps
+        : [],
+    recommendedNextPhase: accepted
+      ? infrastructureComplianceDataRetentionContractBoundaryMap.recommendedNextPhase
+      : null,
+    infrastructureComplianceDataRetentionContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...infrastructureComplianceDataRetentionBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            infrastructureAutomationAuthorized: false,
+            deploymentAutomationAuthorized: false,
+            complianceEnforcementAuthorized: false,
+            piiProcessingAuthorized: false,
+            retentionDeletionExportJobsAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createInfrastructureComplianceDataRetentionContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord =
+    infrastructureComplianceDataRetentionBoundaryMapInputRecord(input);
+  const reviewedAt =
+    infrastructureComplianceDataRetentionBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    infrastructureComplianceDataRetentionBoundaryMapInputClassification(
+      inputRecord
+    );
+  const accepted =
+    classification ===
+    VALID_INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const infrastructureComplianceDataRetentionContractBoundaryMap = accepted
+    ? infrastructureComplianceDataRetentionBoundaryMapState(reviewedAt)
+    : null;
+
+  return infrastructureComplianceDataRetentionBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    infrastructureComplianceDataRetentionContractBoundaryMap
   });
 }
 

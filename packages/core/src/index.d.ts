@@ -366,6 +366,12 @@ export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_SCHEMA:
 export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_VERSION: "0.1.0";
 export const AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_KIND:
   "availability-recovery-contract-boundary-map";
+export const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.67.infrastructure-compliance-data-retention-contract-boundary-map-result";
+export const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_VERSION:
+  "0.1.0";
+export const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_KIND:
+  "infrastructure-compliance-data-retention-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -9383,6 +9389,180 @@ export interface AvailabilityRecoveryContractBoundaryMapResult {
   [key: string]: unknown;
 }
 
+export type InfrastructureComplianceDataRetentionContractBoundaryMapClassification =
+  | "valid_infrastructure_compliance_data_retention_contract_boundary_map_runtime_still_blocked"
+  | "malformed_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "missing_required_infrastructure_compliance_data_retention_contract_boundary_entry_rejected"
+  | "unknown_top_level_field_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "unknown_related_system_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "unknown_current_status_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_infrastructure_automation_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_deployment_cloud_provisioning_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_compliance_certification_enforcement_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_pii_collection_processing_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_retention_deletion_export_execution_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_vendor_external_service_integration_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_secret_env_vault_access_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_backend_api_server_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_database_storage_cache_write_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_auth_session_token_api_key_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_logger_audit_transcript_telemetry_external_sink_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "hidden_health_backup_restore_failover_scheduler_process_supervisor_semantics_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "unsafe_infrastructure_compliance_data_retention_runtime_flags_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected"
+  | "noncanonical_infrastructure_compliance_data_retention_contract_boundary_map_input_rejected";
+
+export interface InfrastructureComplianceDataRetentionContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "infrastructure_management_contract"
+    | "deployment_governance_contract"
+    | "environment_boundary_contract"
+    | "compliance_readiness_contract"
+    | "pii_boundary_contract"
+    | "data_retention_contract"
+    | "data_deletion_contract"
+    | "data_export_contract"
+    | "policy_governance_contract"
+    | "data_processing_inventory_contract"
+    | "vendor_external_service_boundary"
+    | "secure_drop_compliance_boundary"
+    | "fabric_compliance_boundary";
+  relatedSystem:
+    | "ardyn"
+    | "ardyn-subagent"
+    | "locus"
+    | "multiverse"
+    | "content-fabric"
+    | "repo-family";
+  currentStatus: "metadata_only" | "blocked" | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  infrastructureOwnershipExpectation: string;
+  environmentSeparationExpectation: string;
+  piiDataClassificationExpectation: string;
+  retentionDeletionExportExpectation: string;
+  compliancePostureNotes: string;
+  vendorExternalServiceExpectation: string;
+  policyGovernanceExpectation: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  secureDropRoleDescription: string;
+  productionReadinessAreaReference: Record<string, boolean | number | string>;
+  phase559FabricAwareApiBackendReference: Record<string, boolean | string>;
+  phase560InterAgentEncodedHandoffConformanceReference: Record<string, boolean | string>;
+  phase561DatabaseStorageContractBoundaryReference: Record<string, boolean | string>;
+  phase562AuthPermissionsContractBoundaryReference: Record<string, boolean | string>;
+  phase563SecurityRlsInputSanitizationBoundaryReference: Record<string, boolean | string>;
+  phase564RateLimitingAbuseControlBoundaryReference: Record<string, boolean | string>;
+  phase565ErrorTrackingLoggingAuditIntegrityBoundaryReference: Record<string, boolean | string>;
+  phase566AvailabilityRecoveryBoundaryReference: Record<string, boolean | string>;
+  infrastructureComplianceDataRetentionBoundaryMetadataOnly: true;
+  noLiveInfrastructureComplianceDataRetentionPerformed: true;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeInfrastructureComplianceDataRetentionRuntimeFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface InfrastructureComplianceDataRetentionContractBoundaryMapState {
+  schema: "ardyn.phase-5.67.infrastructure-compliance-data-retention-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "infrastructure-compliance-data-retention-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: InfrastructureComplianceDataRetentionContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topInfrastructureComplianceAvailabilityObservabilitySecurityAuthDatabaseFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  infrastructureComplianceDataRetentionContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  infrastructureAutomationImplemented: false;
+  deploymentAutomationImplemented: false;
+  cloudProvisioningImplemented: false;
+  complianceEnforcementImplemented: false;
+  complianceCertificationClaimed: false;
+  piiProcessingImplemented: false;
+  dataRetentionJobImplemented: false;
+  dataDeletionJobImplemented: false;
+  dataExportJobImplemented: false;
+  policyEngineImplemented: false;
+  vendorIntegrationImplemented: false;
+  externalServiceLookupEnabled: false;
+  secretVaultEnvAccessEnabled: false;
+  backendRuntimeImplementedByArdyn: false;
+  databaseStorageRuntimeWritesEnabled: false;
+  fabricRuntimeImplementedByArdyn: false;
+  encodedHandoffRuntimeImplementedByArdyn: false;
+  commandExposureEnabled: false;
+  runtimeExecutionEnabled: false;
+  connectorGrantProduced: false;
+  mcpToolExposureEnabled: false;
+  taskExecutionEnabled: false;
+  secureDropImplemented: false;
+  healthCheckRuntimeImplemented: false;
+  backupJobImplemented: false;
+  restoreJobImplemented: false;
+  failoverRuntimeImplemented: false;
+  serviceDiscoveryEnabled: false;
+  filesystemScanningEnabled: false;
+  processControlEnabled: false;
+  uiFrontendBrowserRenderingImplemented: false;
+  blockedCliBypassEnabled: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface InfrastructureComplianceDataRetentionContractBoundaryMapResult {
+  schema: "ardyn.phase-5.67.infrastructure-compliance-data-retention-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  infrastructureComplianceDataRetentionContractBoundaryMapKind:
+    "infrastructure-compliance-data-retention-contract-boundary-map";
+  infrastructureComplianceDataRetentionContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: InfrastructureComplianceDataRetentionContractBoundaryMapClassification;
+  infrastructureComplianceDataRetentionContractBoundaryMapProduced: boolean;
+  infrastructureComplianceDataRetentionContractBoundaryMap:
+    | InfrastructureComplianceDataRetentionContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | InfrastructureComplianceDataRetentionContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: InfrastructureComplianceDataRetentionContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topInfrastructureComplianceAvailabilityObservabilitySecurityAuthDatabaseFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  infrastructureComplianceDataRetentionContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
@@ -9798,6 +9978,10 @@ export function createAvailabilityRecoveryContractBoundaryMapForReview(input?: {
   reviewedAt?: string;
   boundaryEntries?: unknown[];
 }): AvailabilityRecoveryContractBoundaryMapResult;
+export function createInfrastructureComplianceDataRetentionContractBoundaryMapForReview(input?: {
+  reviewedAt?: string;
+  boundaryEntries?: unknown[];
+}): InfrastructureComplianceDataRetentionContractBoundaryMapResult;
 export function createApprovalReviewArtifact(
   source: TaskPlan | PlannerTrace,
   options?: ApprovalReviewArtifactOptions
