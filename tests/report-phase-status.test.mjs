@@ -6353,6 +6353,180 @@ const phase567SafetyFlagNames = [
   ...phase567ExpectedTrueSafetyFlagNames,
   ...phase567ExpectedFalseSafetyFlagNames
 ];
+const phase568DocFiles = [
+  "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md",
+  "docs/phase-5-67-infrastructure-compliance-data-retention-contract-boundary-map.md"
+];
+const phase568CrossLinks = [
+  "docs/phase-5-67-infrastructure-compliance-data-retention-contract-boundary-map.md",
+  "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md"
+];
+const phase568ExpectedTrueSafetyFlagNames = [
+  "phase568AgentModeProfileSkillhubCapabilityBoundaryMapRecorded",
+  "phase568AgentModeProfileSkillhubCapabilityBoundaryMapReviewOnly",
+  "phase568AgentModeProfileSkillhubCapabilityBoundaryMapProduced",
+  "phase568BoundaryEntriesRecorded",
+  "phase568HermesReferenceOnly",
+  "phase568CuaDriverReferenceOnly",
+  "phase568PromptGuideCategoryOnly",
+  "phase568NoHermesInstallVendorCopyImportMigrationIntegration",
+  "phase568NoCuaDriverInstallExecutionMcpStdioManifestDiscoveryBackendStartToolDispatchUpdate",
+  "phase568NoComputerUseRuntime",
+  "phase568NoDesktopControl",
+  "phase568NoBrowserControl",
+  "phase568NoScreenshotCaptureRuntime",
+  "phase568NoOcrRuntime",
+  "phase568NoAccessibilityTreeRuntime",
+  "phase568NoSomIndexRuntime",
+  "phase568NoOsWindowEnumeration",
+  "phase568NoInputAutomationRuntime",
+  "phase568NoActionApprovalRuntime",
+  "phase568NoBackgroundSubagentRuntime",
+  "phase568NoProfilePersonalitySessionContextSkillLoaderRuntime",
+  "phase568NoSkillhubInstallRuntime",
+  "phase568NoSecurityScannerRuntime",
+  "phase568NoMcpPluginProviderToolInventoryScannerRuntime",
+  "phase568NoGatewayMessagingRuntime",
+  "phase568NoScheduledAutomationRuntime",
+  "phase568NoTerminalBackendRuntime",
+  "phase568NoModelRouterFusionJudgeFrontDeskRuntime",
+  "phase568NoAcpA2aRuntime",
+  "phase568NoLocusIntegration",
+  "phase568NoExternalHarnessIntegration",
+  "phase568NoBackendApiServerStorageCacheRlsMigrationRuntime",
+  "phase568NoFabricWebsocketHttpMcpTaskRuntime",
+  "phase568NoSecureDropRuntime",
+  "phase568NoEncodedHandoffRuntime",
+  "phase568NoLoggerAuditTelemetryHealthInfrastructureRuntime",
+  "phase568NoCommandExposure",
+  "phase568NoBlockedCliBypass",
+  "phase568AllBlockedAuthorizationFlagsFalse",
+  "phase568AllUnsafeAgentModeCapabilityRuntimeFlagsFalse",
+  "phase568AllRuntimeEffectsFalse",
+  "phase568AllEntriesNonAuthorizing",
+  "phase568InvalidAgentModeProfileSkillhubCapabilityBoundaryCasesFailClosed",
+  "phase568MissingRequiredFieldsFailClosed",
+  "phase568UnknownTopLevelFieldsFailClosed",
+  "phase568UnknownBoundaryFamiliesFailClosed",
+  "phase568UnknownRelatedSystemsFailClosed",
+  "phase568UnknownCurrentStatusesFailClosed",
+  "phase568HiddenCuaDriverExecutionSemanticsFailClosed",
+  "phase568HiddenComputerUseSemanticsFailClosed",
+  "phase568HiddenInputAutomationSemanticsFailClosed",
+  "phase568HiddenActionApprovalSemanticsFailClosed",
+  "phase568HiddenMultimodalReturnSemanticsFailClosed",
+  "phase568HiddenTelemetryDriverUpdateSemanticsFailClosed",
+  "phase568HiddenBackgroundSubagentExecutionSemanticsFailClosed",
+  "phase568HiddenConversationConcurrencySemanticsFailClosed",
+  "phase568HiddenProfilePersonalitySessionContextLoadingSemanticsFailClosed",
+  "phase568HiddenSkillLoadingInstallScanInventorySemanticsFailClosed",
+  "phase568HiddenGatewayScheduledTerminalSemanticsFailClosed",
+  "phase568HiddenModelRoutingFusionJudgeFrontDeskSemanticsFailClosed",
+  "phase568HiddenAcpA2aAdapterRegistrySemanticsFailClosed",
+  "phase568HiddenBackendApiServerStorageAuthConnectorSemanticsFailClosed",
+  "phase568HiddenFabricSecureDropEncodedHandoffRuntimeSemanticsFailClosed",
+  "phase568HiddenLoggerAuditTelemetryHealthInfrastructureSemanticsFailClosed",
+  "phase568ServeRuntimeStillDefaultBlocked"
+];
+const phase568ExpectedFalseSafetyFlagNames = [
+  "phase568AgentModeProfileSkillhubCapabilityBoundaryMapAuthoritative",
+  "phase568FallowRuntimeUsed",
+  "phase568ReportRunsChecks",
+  "phase568RuntimeExecutionEnabled",
+  "phase568RuntimeAuthorizationEnabled",
+  "phase568CommandExposureEnabled",
+  "phase568CommandRuntimeControlEnabled",
+  "phase568BlockedCliBypassEnabled",
+  "phase568DryRunBypassesBlock",
+  "phase568CuaDriverRuntimeEnabled",
+  "phase568CuaDriverBinaryExecutionEnabled",
+  "phase568CuaDriverInstallCommandEnabled",
+  "phase568CuaDriverUpdateCommandEnabled",
+  "phase568CuaDriverMcpStdioInvocationEnabled",
+  "phase568CuaDriverManifestDiscoveryRuntimeEnabled",
+  "phase568ComputerUseRuntimeEnabled",
+  "phase568DesktopControlEnabled",
+  "phase568BrowserControlEnabled",
+  "phase568ScreenshotCaptureRuntimeEnabled",
+  "phase568OcrEnabled",
+  "phase568AccessibilityTreeAccessEnabled",
+  "phase568SomIndexRuntimeEnabled",
+  "phase568OsWindowEnumerationEnabled",
+  "phase568InputAutomationRuntimeEnabled",
+  "phase568AlwaysApproveEnabled",
+  "phase568SessionApproveEnabled",
+  "phase568TelemetryOptInEnabled",
+  "phase568BackgroundWorkerEnabled",
+  "phase568SubagentDaemonEnabled",
+  "phase568ProfileLoaderEnabled",
+  "phase568PersonalityLoaderEnabled",
+  "phase568SessionLoaderEnabled",
+  "phase568ContextFileLoaderEnabled",
+  "phase568SkillLoaderEnabled",
+  "phase568SkillhubInstallerEnabled",
+  "phase568SecurityScannerRuntimeEnabled",
+  "phase568McpScannerEnabled",
+  "phase568PluginScannerEnabled",
+  "phase568ProviderScannerEnabled",
+  "phase568ToolInventoryScannerEnabled",
+  "phase568GatewayRuntimeEnabled",
+  "phase568ScheduledAutomationRuntimeEnabled",
+  "phase568TerminalBackendRuntimeEnabled",
+  "phase568ModelRouterEnabled",
+  "phase568FusionRuntimeEnabled",
+  "phase568JudgeRuntimeEnabled",
+  "phase568FrontDeskModelRuntimeEnabled",
+  "phase568QueueEnabled",
+  "phase568SchedulerImplemented",
+  "phase568AsyncExecutorEnabled",
+  "phase568AcpA2aRuntimeEnabled",
+  "phase568LocusIntegrationEnabled",
+  "phase568ExternalHarnessIntegrationEnabled",
+  "phase568BackendRuntimeImplementedByArdyn",
+  "phase568BackendApiServerMiddlewareImplemented",
+  "phase568ApiEndpointImplementedByArdyn",
+  "phase568ServerImplementedByArdyn",
+  "phase568DatabaseClientImplemented",
+  "phase568DatabaseStorageRuntimeWritesEnabled",
+  "phase568CacheEngineImplemented",
+  "phase568RlsRuntimeImplemented",
+  "phase568DatabaseMigrationImplemented",
+  "phase568TranscriptWriterImplemented",
+  "phase568AuditWriterImplemented",
+  "phase568ImportExportPathImplementedByArdyn",
+  "phase568PackageDistributionImplementedByArdyn",
+  "phase568PersistenceImplementedByArdyn",
+  "phase568FabricRuntimeImplementedByArdyn",
+  "phase568WebsocketHttpTransportImplementedByArdyn",
+  "phase568McpToolExposureEnabled",
+  "phase568TaskExecutionEnabled",
+  "phase568SecureDropImplemented",
+  "phase568EncodedHandoffRuntimeImplementedByArdyn",
+  "phase568LoggerRuntimeImplemented",
+  "phase568AuditWriterRuntimeImplemented",
+  "phase568TelemetryClientImplemented",
+  "phase568HealthCheckRuntimeImplemented",
+  "phase568BackupJobImplemented",
+  "phase568RestoreJobImplemented",
+  "phase568FailoverRuntimeImplemented",
+  "phase568InfrastructureAutomationImplemented",
+  "phase568DeploymentAutomationImplemented",
+  "phase568ComplianceEnforcementImplemented",
+  "phase568PiiProcessingImplemented",
+  "phase568ServiceDiscoveryEnabled",
+  "phase568ScheduleEnforcementEnabled",
+  "phase568FilesystemWriteEnabled",
+  "phase568FilesystemScanningEnabled",
+  "phase568ProcessControlEnabled",
+  "phase568UiFrontendBrowserRenderingImplemented",
+  "phase568CliSourceChanged",
+  "phase568RustSourceChanged",
+  "phase568FabricSourceChanged"
+];
+const phase568SafetyFlagNames = [
+  ...phase568ExpectedTrueSafetyFlagNames,
+  ...phase568ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -6487,15 +6661,15 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.67 infrastructure/compliance/data-retention contract boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.68 Hermes/CUA agent mode-profile-skillhub capability boundary map and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.67",
-    name: "Review-only infrastructure/compliance/data-retention contract boundary map",
+    id: "5.68",
+    name: "Review-only Hermes/CUA agent mode-profile-skillhub capability boundary map",
     executionPosture:
-      "infrastructure-compliance-data-retention-contract-boundary-map runtime-disabled metadata-only no-infrastructure-automation no-deployment-automation no-cloud-provisioning no-compliance-enforcement no-pii-processing no-retention-job no-deletion-job no-export-job no-vendor-integration no-external-service-lookup no-secrets-access no-policy-engine no-backend-api-server no-database-storage-cache-rls-migration no-transcript-audit-write no-import-export-package-persistence no-fabric-runtime no-websocket-http-transport no-mcp-runtime no-task-execution no-secure-drop-runtime no-st3gg-vendoring no-encoded-handoff-runtime no-codec-runtime no-translator-runtime no-logger-runtime no-audit-writer no-telemetry-client no-health-check-runtime no-backup-job no-restore-job no-failover-runtime no-service-discovery no-background-polling no-filesystem-process-control no-ui-frontend-browser-rendering-code no-regulatory-certification-claim"
+      "agent-mode-profile-skillhub-capability-boundary-map runtime-disabled metadata-only no-hermes-install-vendor-copy-import-migration-integration no-cua-driver-install-execution-mcp-stdio-manifest-discovery-backend-start-tool-dispatch-update no-computer-use-runtime no-desktop-control no-browser-control no-screenshot-capture-runtime no-ocr-runtime no-accessibility-tree-runtime no-som-index-runtime no-os-window-enumeration no-input-automation no-action-approval-runtime no-background-subagent-runtime no-profile-personality-session-context-skill-loader no-skillhub-install no-security-scan-runtime no-mcp-plugin-provider-tool-inventory-scanner no-gateway-runtime no-scheduled-automation no-terminal-backend-runtime no-model-router no-fusion-runtime no-judge-runtime no-front-desk-model-runtime no-acp-a2a-runtime no-locus-integration no-external-harness-integration no-backend-api-server-storage-cache-rls-migration no-fabric-websocket-http-mcp-task-runtime no-secure-drop-runtime no-encoded-handoff-runtime no-logger-audit-telemetry-health-infrastructure-runtime no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -6558,15 +6732,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.67 infrastructure/compliance/data-retention contract boundary map status report."
+    "Render this deterministic local Phase 5.68 Hermes/CUA agent mode-profile-skillhub capability boundary map status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.67 status report."
+    "Run focused tests for this local Phase 5.68 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.67 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.68 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-68-agent-mode-profile-skillhub-capability-boundary-map.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.68 Hermes/CUA agent mode-profile-skillhub capability boundary map and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -28451,6 +28631,264 @@ test("report inventories Phase 5.67 infrastructure/compliance/data-retention con
   assertSafetyFlags(report, phase567ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.68 agent mode/profile/skillhub capability boundary map", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase568AgentModeProfileSkillhubCapabilityBoundaryMapInventory;
+
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.68.agent-mode-profile-skillhub-capability-boundary-map-result"
+  );
+  assert.equal(inventory.statusLayer.schemaVersion, "0.1.0");
+  assert.equal(
+    inventory.statusLayer.kind,
+    "agent-mode-profile-skillhub-capability-boundary-map"
+  );
+  assert.equal(inventory.statusLayer.mode, "review-only");
+  assert.equal(
+    inventory.statusLayer.classification,
+    "valid_agent_mode_profile_skillhub_capability_boundary_map_runtime_still_blocked"
+  );
+  assert.equal(inventory.statusLayer.produced, true);
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 47);
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 47);
+
+  for (const family of [
+    "agent_mode_contract",
+    "profile_contract",
+    "personality_session_contract",
+    "subagent_background_contract",
+    "conversation_continuity_contract",
+    "front_desk_model_contract",
+    "computer_use_contract",
+    "cua_driver_contract",
+    "cua_driver_mcp_stdio_contract",
+    "cua_driver_manifest_contract",
+    "computer_use_doctor_contract",
+    "desktop_control_contract",
+    "browser_control_contract",
+    "screenshot_capture_contract",
+    "accessibility_tree_contract",
+    "som_index_contract",
+    "safe_action_contract",
+    "mutating_action_approval_contract",
+    "blocked_key_combo_contract",
+    "dangerous_type_pattern_contract",
+    "multimodal_tool_return_contract",
+    "telemetry_opt_in_contract",
+    "driver_update_provenance_contract",
+    "terminal_backend_contract",
+    "toolset_contract",
+    "skill_loading_contract",
+    "skillhub_install_contract",
+    "skill_security_scan_contract",
+    "skill_inventory_contract",
+    "mcp_inventory_contract",
+    "plugin_inventory_contract",
+    "provider_inventory_contract",
+    "tool_adapter_visibility_contract",
+    "gateway_messaging_contract",
+    "scheduled_automation_contract",
+    "context_file_contract",
+    "memory_profile_contract",
+    "acp_adapter_registry_contract",
+    "a2a_handoff_contract",
+    "diffusion_mode_contract",
+    "sakana_style_mode_contract",
+    "fusion_judge_mode_contract",
+    "prompt_skill_resolution_contract",
+    "control_plane_visibility_contract"
+  ]) {
+    assert.ok(inventory.statusLayer.countByFamily[family] >= 1, family);
+  }
+
+  for (const system of [
+    "ardyn",
+    "ardyn-subagent",
+    "locus",
+    "multiverse",
+    "content-fabric",
+    "repo-family",
+    "external-harness",
+    "hermes-reference",
+    "cua-driver-reference"
+  ]) {
+    assert.ok(inventory.statusLayer.countByRelatedSystem[system] >= 1, system);
+  }
+
+  for (const field of [
+    "hermesReferenceOnly",
+    "cuaDriverReferenceOnly",
+    "fainirPromptGuideCategoryOnly",
+    "noHermesInstallVendorCopyImportMigrationIntegration",
+    "noCuaDriverInstallExecutionMcpStdioManifestDiscoveryBackendStartToolDispatchUpdate",
+    "noComputerUseRuntime",
+    "noDesktopControl",
+    "noBrowserControl",
+    "noScreenshotCaptureRuntime",
+    "noOcrRuntime",
+    "noAccessibilityTreeRuntime",
+    "noSomIndexRuntime",
+    "noOsWindowEnumeration",
+    "noInputAutomationRuntime",
+    "noActionApprovalRuntime",
+    "noBackgroundSubagentRuntime",
+    "noProfilePersonalitySessionContextSkillLoaderRuntime",
+    "noSkillhubInstallRuntime",
+    "noSecurityScannerRuntime",
+    "noMcpPluginProviderToolInventoryScannerRuntime",
+    "noGatewayMessagingRuntime",
+    "noScheduledAutomationRuntime",
+    "noTerminalBackendRuntime",
+    "noModelRouterFusionJudgeFrontDeskRuntime",
+    "noAcpA2aRuntime",
+    "noLocusIntegration",
+    "noExternalHarnessIntegration",
+    "noBackendApiServerStorageCacheRlsMigrationRuntime",
+    "noFabricWebsocketHttpMcpTaskRuntime",
+    "noSecureDropRuntime",
+    "noEncodedHandoffRuntime",
+    "noLoggerAuditTelemetryHealthInfrastructureRuntime",
+    "noCommandExposure",
+    "noBlockedCliBypass",
+    "allBlockedAuthorizationFlagsFalse",
+    "allUnsafeAgentModeCapabilityRuntimeFlagsFalse",
+    "allRuntimeEffectsFalse",
+    "allEntriesNonAuthorizing"
+  ]) {
+    assert.equal(inventory.statusLayer[field], true, `${field} should be true`);
+  }
+
+  for (const field of [
+    "reportRunsChecks",
+    "runtimeExecutionEnabled",
+    "commandExposureEnabled",
+    "blockedCliBypassEnabled"
+  ]) {
+    assert.equal(inventory.statusLayer[field], false, `${field} should be false`);
+  }
+
+  assert.deepEqual(inventory.docs.map(({ path, status }) => [path, status]), [
+    ...phase568DocFiles.map((path) => [path, "present"])
+  ]);
+  assert.deepEqual(inventory.crossLinks, phase568CrossLinks);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-68/agent-mode-profile-skillhub-capability-boundary-map.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    [
+      "tests/phase5-68-agent-mode-profile-skillhub-capability-boundary-map.test.mjs",
+      "present"
+    ],
+    ["tests/report-phase-status.test.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.hermesRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.cuaDriverFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.externalRepoFilesChanged, []);
+
+  for (const [key, value] of Object.entries(inventory.ownershipBoundary)) {
+    if (key.endsWith("ByThisPhase") || key.endsWith("AddedByThisPhase")) {
+      assert.equal(value, false, key);
+    }
+  }
+
+  assert.equal(inventory.sourcePhaseContext.hermesReferenceOnly, true);
+  assert.equal(inventory.sourcePhaseContext.cuaDriverReferenceOnly, true);
+  assert.equal(inventory.sourcePhaseContext.promptGuideCategoryOnly, true);
+  assert.equal(inventory.sourcePhaseContext.externalCodeImported, false);
+  assert.equal(inventory.sourcePhaseContext.externalCodeVendored, false);
+  assert.equal(inventory.sourcePhaseContext.externalRepoModified, false);
+  assert.equal(inventory.sourcePhaseContext.runtimeStillBlocked, true);
+  assert.equal(inventory.boundaryMapSummary.boundaryEntryCount, 47);
+  assert.equal(inventory.boundaryEntries.length, 47);
+
+  for (const entry of inventory.boundaryEntries) {
+    assert.match(entry.boundaryId, /^phase5-68\./);
+    assert.equal(
+      entry.agentModeProfileSkillhubCapabilityBoundaryMetadataOnly,
+      true
+    );
+    assert.equal(
+      entry.noLiveAgentModeProfileSkillhubCapabilityRuntimePerformed,
+      true
+    );
+    assert.deepEqual(entry.futureCuaDriverComputerUseActions, [
+      "capture",
+      "wait",
+      "list apps",
+      "list windows",
+      "get window state",
+      "screenshot",
+      "click",
+      "double click",
+      "right click",
+      "middle click",
+      "drag",
+      "scroll",
+      "type text",
+      "key/hotkey",
+      "focus app",
+      "set value",
+      "move cursor",
+      "launch app"
+    ]);
+    assert.equal(entry.architectureReferencePolicy.hermesReferenceOnly, true);
+    assert.equal(entry.architectureReferencePolicy.cuaDriverReferenceOnly, true);
+    assert.equal(entry.architectureReferencePolicy.importsHermes, false);
+    assert.equal(entry.architectureReferencePolicy.executesCuaDriver, false);
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(entry.unsafeAgentModeCapabilityRuntimeFlagsAllFalse, true);
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+  }
+
+  assert.equal(inventory.invalidBoundaryCasePolicy.missingRequiredFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownTopLevelFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownBoundaryFamiliesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownRelatedSystemsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownCurrentStatusesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledCuaDriverRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledCuaDriverMcpStdioInvocationFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledComputerUseRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledBackgroundSubagentRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledModelRouterFusionJudgeFrontDeskRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenCuaDriverExecutionSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenComputerUseSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSkillLoadingInstallScanInventorySemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenModelRoutingFusionJudgeFrontDeskSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenAcpA2aAdapterRegistrySemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenFabricSecureDropEncodedHandoffRuntimeSemanticsFailClosed, true);
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.69-review-only-testing-frameworks-quality-gates-contract-boundary-map"
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-68-agent-mode-profile-skillhub-capability-boundary-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, ["semgrep --config auto ."]);
+  assert.equal(
+    report.safetyPosture.phase568AgentModeProfileSkillhubCapabilityBoundaryMap,
+    true
+  );
+  assertSafetyFlags(report, phase568ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase568ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -29378,7 +29816,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase564SafetyFlagNames,
     ...phase565SafetyFlagNames,
     ...phase566SafetyFlagNames,
-    ...phase567SafetyFlagNames
+    ...phase567SafetyFlagNames,
+    ...phase568SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -29481,6 +29920,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase566ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase567ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase567ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase568ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase568ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

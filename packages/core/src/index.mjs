@@ -352,6 +352,12 @@ export const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_VERS
   "0.1.0";
 export const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_KIND =
   "infrastructure-compliance-data-retention-contract-boundary-map";
+export const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.68.agent-mode-profile-skillhub-capability-boundary-map-result";
+export const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_KIND =
+  "agent-mode-profile-skillhub-capability-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -55922,6 +55928,1768 @@ export function createInfrastructureComplianceDataRetentionContractBoundaryMapFo
     classification,
     accepted,
     infrastructureComplianceDataRetentionContractBoundaryMap
+  });
+}
+
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.68.agent-mode-profile-skillhub-capability-boundary-map-state";
+const VALID_AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_agent_mode_profile_skillhub_capability_boundary_map_runtime_still_blocked";
+const MALFORMED_AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_FAMILIES = Object.freeze([
+  "agent_mode_contract",
+  "profile_contract",
+  "personality_session_contract",
+  "subagent_background_contract",
+  "conversation_continuity_contract",
+  "front_desk_model_contract",
+  "computer_use_contract",
+  "cua_driver_contract",
+  "cua_driver_mcp_stdio_contract",
+  "cua_driver_manifest_contract",
+  "computer_use_doctor_contract",
+  "desktop_control_contract",
+  "browser_control_contract",
+  "screenshot_capture_contract",
+  "accessibility_tree_contract",
+  "som_index_contract",
+  "safe_action_contract",
+  "mutating_action_approval_contract",
+  "blocked_key_combo_contract",
+  "dangerous_type_pattern_contract",
+  "multimodal_tool_return_contract",
+  "telemetry_opt_in_contract",
+  "driver_update_provenance_contract",
+  "terminal_backend_contract",
+  "toolset_contract",
+  "skill_loading_contract",
+  "skillhub_install_contract",
+  "skill_security_scan_contract",
+  "skill_inventory_contract",
+  "mcp_inventory_contract",
+  "plugin_inventory_contract",
+  "provider_inventory_contract",
+  "tool_adapter_visibility_contract",
+  "gateway_messaging_contract",
+  "scheduled_automation_contract",
+  "context_file_contract",
+  "memory_profile_contract",
+  "acp_adapter_registry_contract",
+  "a2a_handoff_contract",
+  "diffusion_mode_contract",
+  "sakana_style_mode_contract",
+  "fusion_judge_mode_contract",
+  "prompt_skill_resolution_contract",
+  "control_plane_visibility_contract"
+]);
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family",
+  "external-harness",
+  "hermes-reference",
+  "cua-driver-reference"
+]);
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "operatorVisibilityExpectation",
+  "humanConversationContinuityExpectation",
+  "profilePersonalitySessionExpectation",
+  "promptToSkillMatchingExpectation",
+  "skillPluginMcpProviderInventoryExpectation",
+  "securityScanExpectation",
+  "frontDeskFallbackExpectation",
+  "modelRoutingExpectation",
+  "gatewayPlatformExpectation",
+  "memoryContextExpectation",
+  "cuaDriverRoleDescription",
+  "locusRoleDescription",
+  "multiverseRoleDescription",
+  "fabricRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeAgentModeCapabilityRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_ALLOWED_TOP_LEVEL_FIELDS =
+  Object.freeze(["reviewedAt", "boundaryEntries"]);
+const AGENT_MODE_PROFILE_SKILLHUB_CUA_DRIVER_COMPUTER_USE_ACTIONS =
+  Object.freeze([
+    "capture",
+    "wait",
+    "list apps",
+    "list windows",
+    "get window state",
+    "screenshot",
+    "click",
+    "double click",
+    "right click",
+    "middle click",
+    "drag",
+    "scroll",
+    "type text",
+    "key/hotkey",
+    "focus app",
+    "set value",
+    "move cursor",
+    "launch app"
+  ]);
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "connectorGrantProduced",
+  "fabricRuntimeImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "cuaDriverRuntimeEnabled",
+  "cuaDriverBinaryExecutionEnabled",
+  "cuaDriverInstallCommandEnabled",
+  "cuaDriverUpdateCommandEnabled",
+  "cuaDriverMcpStdioInvocationEnabled",
+  "cuaDriverManifestDiscoveryRuntimeEnabled",
+  "computerUseRuntimeEnabled",
+  "desktopControlEnabled",
+  "browserControlEnabled",
+  "screenshotCaptureRuntimeEnabled",
+  "ocrEnabled",
+  "accessibilityTreeAccessEnabled",
+  "somIndexRuntimeEnabled",
+  "osWindowEnumerationEnabled",
+  "waylandX11InputEnabled",
+  "windowsUiAutomationSendInputEnabled",
+  "macosAccessibilityPrivateApiEnabled",
+  "clickRuntimeEnabled",
+  "typeTextRuntimeEnabled",
+  "keyHotkeyRuntimeEnabled",
+  "dragRuntimeEnabled",
+  "scrollRuntimeEnabled",
+  "focusRuntimeEnabled",
+  "setValueRuntimeEnabled",
+  "moveCursorRuntimeEnabled",
+  "launchAppRuntimeEnabled",
+  "alwaysApproveEnabled",
+  "sessionApproveEnabled",
+  "telemetryOptInEnabled",
+  "backgroundWorkerEnabled",
+  "subagentDaemonEnabled",
+  "profileLoaderEnabled",
+  "personalityLoaderEnabled",
+  "sessionLoaderEnabled",
+  "contextFileLoaderEnabled",
+  "skillLoaderEnabled",
+  "skillhubInstallerEnabled",
+  "securityScannerRuntimeEnabled",
+  "mcpScannerEnabled",
+  "pluginScannerEnabled",
+  "providerScannerEnabled",
+  "toolInventoryScannerEnabled",
+  "gatewayRuntimeEnabled",
+  "scheduledAutomationRuntimeEnabled",
+  "terminalBackendRuntimeEnabled",
+  "modelRouterEnabled",
+  "fusionRuntimeEnabled",
+  "judgeRuntimeEnabled",
+  "frontDeskModelRuntimeEnabled",
+  "queueEnabled",
+  "schedulerImplemented",
+  "asyncExecutorEnabled",
+  "acpA2aRuntimeEnabled",
+  "locusIntegrationEnabled",
+  "externalHarnessIntegrationEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "cacheEngineImplemented",
+  "rlsRuntimeImplemented",
+  "databaseMigrationImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "loggerRuntimeImplemented",
+  "auditWriterRuntimeImplemented",
+  "telemetryClientImplemented",
+  "healthCheckRuntimeImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "failoverRuntimeImplemented",
+  "infrastructureAutomationImplemented",
+  "deploymentAutomationImplemented",
+  "complianceEnforcementImplemented",
+  "piiProcessingImplemented",
+  "uiFrontendBrowserRenderingImplemented",
+  "blockedCliBypassEnabled"
+]);
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_AUTHORIZATION_FIELDS =
+  Object.freeze([
+    "runtimeAuthorized",
+    "runtimeAuthorizationGranted",
+    "authorizesRuntime",
+    "commandExposureAuthorizationGranted",
+    "computerUseAuthorizationGranted",
+    "cuaDriverAuthorizationGranted",
+    "desktopControlAuthorizationGranted",
+    "browserControlAuthorizationGranted",
+    "screenshotCaptureAuthorizationGranted",
+    "backgroundSubagentAuthorizationGranted",
+    "profileLoaderAuthorizationGranted",
+    "personalitySessionAuthorizationGranted",
+    "contextFileAuthorizationGranted",
+    "skillLoaderAuthorizationGranted",
+    "skillhubInstallerAuthorizationGranted",
+    "securityScannerAuthorizationGranted",
+    "gatewayAuthorizationGranted",
+    "schedulerAuthorizationGranted",
+    "terminalBackendAuthorizationGranted",
+    "modelRouterAuthorizationGranted",
+    "fusionJudgeAuthorizationGranted",
+    "frontDeskModelAuthorizationGranted",
+    "acpA2aAuthorizationGranted",
+    "locusIntegrationAuthorizationGranted",
+    "externalHarnessAuthorizationGranted",
+    "backendApiServerAuthorizationGranted",
+    "databaseStorageAuthorizationGranted",
+    "connectorGrantAuthorizationGranted",
+    "approvalDecisionProduced",
+    "approvalGrantProduced"
+  ]);
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BLOCKED_CLI_BYPASS_FIELDS =
+  Object.freeze([
+    "blockedCliBypassEnabled",
+    "dryRunBypassesBlock",
+    "serveRuntimeBypassEnabled",
+    "bypassBlockedCommandBehavior",
+    "blockedCommandOverride"
+  ]);
+const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_HIDDEN_FIELD_GROUPS =
+  Object.freeze([
+    {
+      classification:
+        "hidden_cua_driver_execution_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "cuaDriver",
+        "cuaDriverBackend",
+        "cuaDriverCommand",
+        "cuaDriverBinary",
+        "cuaDriverInstallCommand",
+        "cuaDriverUpdateCommand",
+        "cuaDriverMcpStdioInvocation",
+        "cuaDriverManifestDiscovery"
+      ]
+    },
+    {
+      classification:
+        "hidden_computer_use_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "computerUseTool",
+        "desktopController",
+        "browserController",
+        "screenshotPipeline",
+        "ocrPipeline",
+        "accessibilityTreeReader",
+        "somIndexRuntime",
+        "osWindowEnumerator"
+      ]
+    },
+    {
+      classification:
+        "hidden_input_automation_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "clickAction",
+        "typeTextAction",
+        "keyHotkeyAction",
+        "dragAction",
+        "scrollAction",
+        "focusAction",
+        "setValueAction",
+        "moveCursorAction",
+        "launchAppAction",
+        "sendInput",
+        "waylandX11Input",
+        "macosAccessibilityPrivateApi"
+      ]
+    },
+    {
+      classification:
+        "hidden_action_approval_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "alwaysApprove",
+        "sessionApprove",
+        "mutatingActionApproval",
+        "destructiveKeyComboExecutor",
+        "dangerousTypedCommandExecutor",
+        "approvalRuntime"
+      ]
+    },
+    {
+      classification:
+        "hidden_multimodal_return_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "multimodalReturn",
+        "imageReturn",
+        "screenshotReturn",
+        "captureReturn",
+        "toolImagePayload",
+        "textFallbackRuntime"
+      ]
+    },
+    {
+      classification:
+        "hidden_telemetry_driver_update_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "telemetryOptIn",
+        "telemetrySink",
+        "driverUpdater",
+        "driverVersionResolver",
+        "driverProvenanceFetcher",
+        "externalTelemetry"
+      ]
+    },
+    {
+      classification:
+        "hidden_background_subagent_execution_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "backgroundWorker",
+        "subagentDaemon",
+        "asyncExecutor",
+        "queueRuntime",
+        "visibleSessionRuntime",
+        "subagentResultHandoff"
+      ]
+    },
+    {
+      classification:
+        "hidden_conversation_concurrency_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "frontDeskResponder",
+        "orchestratorBusyRuntime",
+        "concurrentStatusChannel",
+        "conversationContinuationRuntime",
+        "userInterruptRuntime"
+      ]
+    },
+    {
+      classification:
+        "hidden_profile_personality_session_context_loading_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "profileLoader",
+        "personalityLoader",
+        "sessionLoader",
+        "contextFileLoader",
+        "memoryProfileLoader",
+        "profileRuntime"
+      ]
+    },
+    {
+      classification:
+        "hidden_skill_loading_install_scan_inventory_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "skillLoader",
+        "skillhubInstaller",
+        "oneClickSkillInstall",
+        "skillSecurityScanner",
+        "mcpScanner",
+        "pluginScanner",
+        "providerScanner",
+        "toolInventoryScanner",
+        "toolRegistry"
+      ]
+    },
+    {
+      classification:
+        "hidden_gateway_scheduled_terminal_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "gatewayRuntime",
+        "telegramBridge",
+        "discordBridge",
+        "slackBridge",
+        "signalBridge",
+        "whatsappBridge",
+        "homeAssistantBridge",
+        "cronScheduler",
+        "scheduledAutomation",
+        "terminalBackend",
+        "sshBackend",
+        "dockerBackend",
+        "cloudBackend"
+      ]
+    },
+    {
+      classification:
+        "hidden_model_routing_fusion_judge_front_desk_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "modelRouter",
+        "frontDeskModel",
+        "fusionRuntime",
+        "judgeRuntime",
+        "candidateModelRunner",
+        "sakanaCandidateGenerator",
+        "diffusionOrchestrator"
+      ]
+    },
+    {
+      classification:
+        "hidden_acp_a2a_adapter_registry_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "acpAdapter",
+        "a2aAdapter",
+        "agentRegistry",
+        "serviceRegistry",
+        "serviceDiscovery",
+        "handoffTransport"
+      ]
+    },
+    {
+      classification:
+        "hidden_backend_api_server_storage_auth_connector_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "backendApiMiddleware",
+        "apiRequestHandler",
+        "httpServer",
+        "serverMiddleware",
+        "databaseUrl",
+        "databaseDsn",
+        "storageAdapter",
+        "cacheEngine",
+        "rlsPolicy",
+        "migrationRunner",
+        "sessionToken",
+        "apiKey",
+        "connectorGrant"
+      ]
+    },
+    {
+      classification:
+        "hidden_fabric_secure_drop_encoded_handoff_runtime_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "fabricBus",
+        "websocketUrl",
+        "mcpServer",
+        "taskRunner",
+        "secureDropKeyring",
+        "secureDropTransport",
+        "encodedHandoffRuntime",
+        "codecRuntime",
+        "translatorRuntime",
+        "stegoChannel",
+        "covertChannel",
+        "tokenizerExploit"
+      ]
+    },
+    {
+      classification:
+        "hidden_logger_audit_telemetry_health_infrastructure_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected",
+      fields: [
+        "loggerRuntime",
+        "auditWriter",
+        "transcriptWriter",
+        "telemetryClient",
+        "healthChecker",
+        "backupJob",
+        "restoreJob",
+        "failoverRuntime",
+        "processSupervisor",
+        "terraformPlan",
+        "deployCommand",
+        "complianceEnforcer",
+        "piiProcessor"
+      ]
+    }
+  ]);
+
+function agentModeProfileSkillhubCapabilityBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(
+      agentModeProfileSkillhubCapabilityBoundaryMapContainsTrue
+    );
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      agentModeProfileSkillhubCapabilityBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapHasTrueFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      agentModeProfileSkillhubCapabilityBoundaryMapHasTrueFieldDeep(
+        item,
+        fields
+      )
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (
+      agentModeProfileSkillhubCapabilityBoundaryMapHasTrueFieldDeep(
+        nested,
+        fields
+      )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapHasPresentFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      agentModeProfileSkillhubCapabilityBoundaryMapHasPresentFieldDeep(
+        item,
+        fields
+      )
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeAgentModeCapabilityRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (
+      agentModeProfileSkillhubCapabilityBoundaryMapHasPresentFieldDeep(
+        nested,
+        fields
+      )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapEntryIssue(
+  entries,
+  predicate
+) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.operatorVisibilityExpectation !== "string" ||
+    typeof entry.humanConversationContinuityExpectation !== "string" ||
+    typeof entry.profilePersonalitySessionExpectation !== "string" ||
+    typeof entry.promptToSkillMatchingExpectation !== "string" ||
+    typeof entry.skillPluginMcpProviderInventoryExpectation !== "string" ||
+    typeof entry.securityScanExpectation !== "string" ||
+    typeof entry.frontDeskFallbackExpectation !== "string" ||
+    typeof entry.modelRoutingExpectation !== "string" ||
+    typeof entry.gatewayPlatformExpectation !== "string" ||
+    typeof entry.memoryContextExpectation !== "string" ||
+    typeof entry.cuaDriverRoleDescription !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(entry.unsafeAgentModeCapabilityRuntimeFlags) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapAuthorizationFlagEnabled(
+  value
+) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.unsafeAgentModeCapabilityRuntimeFlags) &&
+      Object.values(value.unsafeAgentModeCapabilityRuntimeFlags).some(
+        (flag) => flag !== false
+      )) ||
+    agentModeProfileSkillhubCapabilityBoundaryMapHasTrueFieldDeep(
+      value,
+      AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_UNSAFE_FIELDS
+    )
+  );
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(agentModeProfileSkillhubCapabilityBoundaryMapEntries())
+  );
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapInputClassification(
+  inputRecord
+) {
+  if (agentModeProfileSkillhubCapabilityBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries =
+    agentModeProfileSkillhubCapabilityBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapEntryIssue(
+      entries,
+      agentModeProfileSkillhubCapabilityBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_agent_mode_profile_skillhub_capability_boundary_entry_rejected";
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_RELATED_SYSTEMS.includes(
+          entry.relatedSystem
+        )
+    )
+  ) {
+    return "unknown_related_system_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_STATUSES.includes(
+          entry.currentStatus
+        )
+    )
+  ) {
+    return "unknown_current_status_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapEntryIssue(
+      entries,
+      agentModeProfileSkillhubCapabilityBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord[field] === true
+    )
+  ) {
+    return "runtime_authorization_attempt_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapEntryIssue(
+      entries,
+      agentModeProfileSkillhubCapabilityBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    agentModeProfileSkillhubCapabilityBoundaryMapAuthorizationFlagEnabled(
+      inputRecord
+    )
+  ) {
+    return "authorization_flags_enabled_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  for (const {
+    classification,
+    fields
+  } of AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_HIDDEN_FIELD_GROUPS) {
+    if (
+      agentModeProfileSkillhubCapabilityBoundaryMapHasPresentFieldDeep(
+        inputRecord,
+        fields
+      )
+    ) {
+      return classification;
+    }
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapUnsafeFlagEnabled(
+      inputRecord
+    ) ||
+    agentModeProfileSkillhubCapabilityBoundaryMapEntryIssue(
+      entries,
+      agentModeProfileSkillhubCapabilityBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_agent_mode_profile_skillhub_capability_runtime_flags_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (
+    agentModeProfileSkillhubCapabilityBoundaryMapEntryIssue(entries, (entry) =>
+      agentModeProfileSkillhubCapabilityBoundaryMapContainsTrue(
+        entry?.runtimeEffect
+      )
+    ) ||
+    agentModeProfileSkillhubCapabilityBoundaryMapContainsTrue(
+      inputRecord?.runtimeEffect
+    )
+  ) {
+    return "nested_unsafe_flags_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord).some(
+      (field) =>
+        !AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_ALLOWED_TOP_LEVEL_FIELDS.includes(
+          field
+        )
+    )
+  ) {
+    return "unknown_top_level_field_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  if (!agentModeProfileSkillhubCapabilityBoundaryMapCanonical(entries)) {
+    return "noncanonical_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+  }
+
+  return VALID_AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapForbiddenBehavior() {
+  return [
+    "Hermes install, vendoring, copying, importing, migration, or integration",
+    "fainir prompt-guide install, vendoring, copying, importing, migration, or integration",
+    "cua-driver install, execution, binary invocation, update command, stdio MCP driver invocation, manifest discovery, backend start, tool dispatch, or driver update behavior",
+    "computer-use runtime",
+    "desktop control",
+    "browser control",
+    "screenshot or capture runtime",
+    "OCR runtime",
+    "accessibility tree access",
+    "UI element or SOM index runtime",
+    "OS window enumeration",
+    "Wayland/X11 input",
+    "Windows UI Automation or SendInput behavior",
+    "macOS accessibility or private-API behavior",
+    "coordinate fallback or input automation",
+    "click, double-click, right-click, middle-click, drag, scroll, type-text, key/hotkey, focus, set-value, move-cursor, or launch-app runtime",
+    "safe-action runtime",
+    "mutating action approval runtime",
+    "always-approve or session-approve behavior",
+    "destructive key-combo execution",
+    "dangerous typed-command execution",
+    "multimodal screenshot/image tool response runtime",
+    "telemetry opt-in, telemetry client, or external telemetry sink",
+    "background worker, daemon, queue, scheduler, async executor, or live subagent",
+    "concurrent conversation runtime or front-desk responder",
+    "profile loader, personality loader, session loader, context-file loader, memory-profile loader, or skill loader",
+    "SkillHub installer, one-click skill install, rollback runtime, permission manifest executor, or security scan runtime",
+    "MCP scanner, plugin scanner, provider scanner, tool inventory scanner, tool registry, or live inventory registry",
+    "gateway messaging runtime for Telegram, Discord, Slack, Signal, WhatsApp, Home Assistant, or other platforms",
+    "scheduled automation, cron, recurrence, delivery target, or cancellation runtime",
+    "terminal backend execution for local, Docker, SSH, cloud, or any toolset runner",
+    "model router, model-provider switching runtime, lightweight front-desk model, fusion runtime, judge runtime, diffusion mode, or Sakana-style multi-candidate runtime",
+    "Locus integration or external harness communication",
+    "ACP/A2A runtime, adapter, registry, service discovery, or handoff transport",
+    "backend API, server, database, storage, cache, RLS, migration, transcript write, audit write, import/export, package, or persistence behavior",
+    "Fabric bus, websocket/http transport, MCP/task runtime, connector grants, Secure Drop implementation, encoded handoff codec/translator/stego/covert-channel/tokenizer-exploit/bypass behavior",
+    "logger runtime, audit writer, health check runtime, backup job, restore job, failover runtime, infrastructure automation, deployment automation, compliance enforcement, PII processing, filesystem/process/UI behavior",
+    "command exposure",
+    "interactive control",
+    "blocked CLI bypass"
+  ];
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapAuthorizationFlags() {
+  return {
+    runtimeAuthorizationGranted: false,
+    commandExposureAuthorizationGranted: false,
+    computerUseAuthorizationGranted: false,
+    cuaDriverAuthorizationGranted: false,
+    desktopControlAuthorizationGranted: false,
+    browserControlAuthorizationGranted: false,
+    screenshotCaptureAuthorizationGranted: false,
+    backgroundSubagentAuthorizationGranted: false,
+    profileLoaderAuthorizationGranted: false,
+    personalitySessionAuthorizationGranted: false,
+    contextFileAuthorizationGranted: false,
+    skillLoaderAuthorizationGranted: false,
+    skillhubInstallerAuthorizationGranted: false,
+    securityScannerAuthorizationGranted: false,
+    gatewayAuthorizationGranted: false,
+    schedulerAuthorizationGranted: false,
+    terminalBackendAuthorizationGranted: false,
+    modelRouterAuthorizationGranted: false,
+    fusionJudgeAuthorizationGranted: false,
+    frontDeskModelAuthorizationGranted: false,
+    acpA2aAuthorizationGranted: false,
+    locusIntegrationAuthorizationGranted: false,
+    externalHarnessAuthorizationGranted: false,
+    backendApiServerAuthorizationGranted: false,
+    databaseStorageAuthorizationGranted: false,
+    connectorGrantAuthorizationGranted: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    authorizesRuntime: false
+  };
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_UNSAFE_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapNotes() {
+  return {
+    currentAuthorization:
+      "Requires a future explicit authorization phase before any runtime, driver, tool, skill, inventory, gateway, scheduler, terminal backend, model-routing, fusion, judge, ACP/A2A, Locus, external harness, backend/API/server, storage, Fabric, Secure Drop, encoded handoff, telemetry, health-check, infrastructure, filesystem, process, UI, or command behavior.",
+    operatorVisibility:
+      "Future implementation must expose visible sessions, capability status, active profile, active skills, inventories, permissions, approvals, cancellations, audit trail, and blocked-deny reasons before runtime.",
+    continuity:
+      "Future implementation must keep main orchestrator state, background subagent status, front-desk responses, user interruptions, and result handoff distinct and visible.",
+    profile:
+      "Future profiles for planner, implementer, reviewer, security auditor, tester, browser operator, desktop operator, front desk, coordinator, and specialized harness roles require explicit contracts before any loader.",
+    promptSkill:
+      "Future prompt/context-to-skill matching must be deterministic, auditable, context-file bound, and recorded as explicit skill activation metadata before any skill auto-load.",
+    inventory:
+      "Future inventory must visibly list installed skills, MCP servers, plugins, providers, tools, toolsets, trust levels, permissions, source, version, and provenance before any runtime registry or scanner.",
+    securityScan:
+      "Future install or enablement flows require source provenance, version pinning, permission manifests, rollback, trust level, and optional security-scan contracts before any scanner runtime.",
+    frontDesk:
+      "Future front-desk fallback may answer only within an explicit orchestrator-busy scope and must escalate and hand back to the main orchestrator.",
+    modelRouting:
+      "Future model routing, provider switching, diffusion, Sakana-style multi-candidate generation, fusion, and judge flows require candidate, merge, evaluation, budget, and audit contracts before runtime.",
+    gateway:
+      "Future gateway/platform bridges require pairing, allowed-user, platform-status, delivery, cancellation, and security contracts before any messaging runtime.",
+    memoryContext:
+      "Future memory, user-profile, context-file, and durable-memory behavior must define ownership, privacy, loading scope, retention, audit, and deletion boundaries before runtime.",
+    cua:
+      "CUA driver remains an external architecture reference only; future use would require permission, sandbox, audit, session approval, deny path, user confirmation, OS requirement checks, telemetry opt-in, and version/provenance contracts.",
+    locus:
+      "Locus may later own UI/control-surface visibility only after a Locus contract; Ardyn creates no Locus integration or UI.",
+    multiverse:
+      "Multiverse may later expose visible sessions or task/capability status only after Multiverse-owned task and UI contracts; Ardyn executes no task.",
+    fabric:
+      "Content Fabric remains a future external handoff/reference layer only; Ardyn creates no Fabric bus, websocket/http transport, MCP/task runtime, Secure Drop runtime, codec, translator, or external sink.",
+    noConsumerRole:
+      "No current runtime role; future consumers may inspect metadata only."
+  };
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapDefinition(definition) {
+  const notes = agentModeProfileSkillhubCapabilityBoundaryMapNotes();
+
+  return {
+    ...definition,
+    allowedCurrentBehavior: [
+      `Describe future ${definition.subject} capability boundary metadata.`,
+      "Keep current behavior review-only, metadata-only, non-authorizing, and runtime-blocked."
+    ],
+    forbiddenCurrentBehavior:
+      agentModeProfileSkillhubCapabilityBoundaryMapForbiddenBehavior(),
+    requiredFutureContractBeforeImplementation:
+      `A future ${definition.subject} contract must define ownership, permissions, operator visibility, deny paths, approvals, audit trail, inventory/provenance, context/memory boundaries, and explicit no-runtime defaults before implementation.`,
+    requiredFutureAuthorizationPhaseBeforeRuntime: notes.currentAuthorization,
+    operatorVisibilityExpectation:
+      definition.operatorVisibilityExpectation ?? notes.operatorVisibility,
+    humanConversationContinuityExpectation:
+      definition.humanConversationContinuityExpectation ?? notes.continuity,
+    profilePersonalitySessionExpectation:
+      definition.profilePersonalitySessionExpectation ?? notes.profile,
+    promptToSkillMatchingExpectation:
+      definition.promptToSkillMatchingExpectation ?? notes.promptSkill,
+    skillPluginMcpProviderInventoryExpectation:
+      definition.skillPluginMcpProviderInventoryExpectation ?? notes.inventory,
+    securityScanExpectation:
+      definition.securityScanExpectation ?? notes.securityScan,
+    frontDeskFallbackExpectation:
+      definition.frontDeskFallbackExpectation ?? notes.frontDesk,
+    modelRoutingExpectation:
+      definition.modelRoutingExpectation ?? notes.modelRouting,
+    gatewayPlatformExpectation:
+      definition.gatewayPlatformExpectation ?? notes.gateway,
+    memoryContextExpectation:
+      definition.memoryContextExpectation ?? notes.memoryContext,
+    cuaDriverRoleDescription:
+      definition.cuaDriverRoleDescription ?? notes.cua,
+    locusRoleDescription: definition.locusRoleDescription ?? notes.locus,
+    multiverseRoleDescription:
+      definition.multiverseRoleDescription ?? notes.multiverse,
+    fabricRoleDescription: definition.fabricRoleDescription ?? notes.fabric
+  };
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapDefinitions() {
+  const notes = agentModeProfileSkillhubCapabilityBoundaryMapNotes();
+  const rows = [
+    [
+      "phase5-68.ardyn.harness_wrapper_agent_modes.agent_mode_boundary",
+      "agent_mode_contract",
+      "ardyn",
+      "future_contract_required",
+      "harness-wrapper agent mode"
+    ],
+    [
+      "phase5-68.ardyn.profile_contracts.profile_boundary",
+      "profile_contract",
+      "ardyn",
+      "future_contract_required",
+      "agent and subagent profile"
+    ],
+    [
+      "phase5-68.ardyn.personality_session_contracts.personality_session_boundary",
+      "personality_session_contract",
+      "ardyn",
+      "future_contract_required",
+      "personality and session state"
+    ],
+    [
+      "phase5-68.ardyn_subagent.background_workstreams.subagent_background_boundary",
+      "subagent_background_contract",
+      "ardyn-subagent",
+      "future_contract_required",
+      "background subagent and isolated parallel workstream"
+    ],
+    [
+      "phase5-68.ardyn_subagent.conversation_while_working.conversation_continuity_boundary",
+      "conversation_continuity_contract",
+      "ardyn-subagent",
+      "future_contract_required",
+      "conversation continuity while background work is happening"
+    ],
+    [
+      "phase5-68.ardyn.front_desk_lightweight_model.front_desk_model_boundary",
+      "front_desk_model_contract",
+      "ardyn",
+      "future_contract_required",
+      "front-desk lightweight model"
+    ],
+    [
+      "phase5-68.hermes_reference.computer_use_category.computer_use_boundary",
+      "computer_use_contract",
+      "hermes-reference",
+      "metadata_only",
+      "Hermes-style computer-use category reference"
+    ],
+    [
+      "phase5-68.cua_driver_reference.driver_role.cua_driver_boundary",
+      "cua_driver_contract",
+      "cua-driver-reference",
+      "metadata_only",
+      "CUA-driver computer-use boundary"
+    ],
+    [
+      "phase5-68.cua_driver_reference.mcp_stdio_invocation.cua_driver_mcp_stdio_boundary",
+      "cua_driver_mcp_stdio_contract",
+      "cua-driver-reference",
+      "blocked",
+      "stdio MCP driver invocation"
+    ],
+    [
+      "phase5-68.cua_driver_reference.manifest_invocation_discovery.cua_driver_manifest_boundary",
+      "cua_driver_manifest_contract",
+      "cua-driver-reference",
+      "blocked",
+      "CUA driver manifest and invocation discovery"
+    ],
+    [
+      "phase5-68.cua_driver_reference.doctor_requirements_check.computer_use_doctor_boundary",
+      "computer_use_doctor_contract",
+      "cua-driver-reference",
+      "blocked",
+      "computer-use doctor and requirements check"
+    ],
+    [
+      "phase5-68.cua_driver_reference.desktop_control.desktop_control_boundary",
+      "desktop_control_contract",
+      "cua-driver-reference",
+      "blocked",
+      "desktop control driver"
+    ],
+    [
+      "phase5-68.external_harness.browser_control.browser_control_boundary",
+      "browser_control_contract",
+      "external-harness",
+      "blocked",
+      "browser control driver"
+    ],
+    [
+      "phase5-68.cua_driver_reference.screenshot_capture.screenshot_capture_boundary",
+      "screenshot_capture_contract",
+      "cua-driver-reference",
+      "blocked",
+      "screenshot and capture"
+    ],
+    [
+      "phase5-68.cua_driver_reference.accessibility_tree.accessibility_tree_boundary",
+      "accessibility_tree_contract",
+      "cua-driver-reference",
+      "blocked",
+      "accessibility tree access"
+    ],
+    [
+      "phase5-68.cua_driver_reference.som_index.som_index_boundary",
+      "som_index_contract",
+      "cua-driver-reference",
+      "blocked",
+      "UI element and SOM index"
+    ],
+    [
+      "phase5-68.ardyn.safe_read_only_actions.safe_action_boundary",
+      "safe_action_contract",
+      "ardyn",
+      "future_contract_required",
+      "safe read-only action taxonomy"
+    ],
+    [
+      "phase5-68.ardyn.mutating_action_approval.mutating_action_approval_boundary",
+      "mutating_action_approval_contract",
+      "ardyn",
+      "future_contract_required",
+      "approval-gated mutating action"
+    ],
+    [
+      "phase5-68.ardyn.blocked_destructive_key_combo.blocked_key_combo_boundary",
+      "blocked_key_combo_contract",
+      "ardyn",
+      "future_contract_required",
+      "hard-blocked destructive key combo"
+    ],
+    [
+      "phase5-68.ardyn.dangerous_typed_command_blocking.dangerous_type_pattern_boundary",
+      "dangerous_type_pattern_contract",
+      "ardyn",
+      "future_contract_required",
+      "dangerous typed-command blocking"
+    ],
+    [
+      "phase5-68.ardyn.multimodal_tool_return.multimodal_tool_return_boundary",
+      "multimodal_tool_return_contract",
+      "ardyn",
+      "future_contract_required",
+      "multimodal computer-use return"
+    ],
+    [
+      "phase5-68.cua_driver_reference.telemetry_opt_in.telemetry_opt_in_boundary",
+      "telemetry_opt_in_contract",
+      "cua-driver-reference",
+      "blocked",
+      "driver telemetry opt-in or disable"
+    ],
+    [
+      "phase5-68.cua_driver_reference.driver_update_provenance.driver_update_provenance_boundary",
+      "driver_update_provenance_contract",
+      "cua-driver-reference",
+      "blocked",
+      "driver update, version, and provenance"
+    ],
+    [
+      "phase5-68.ardyn.terminal_backend_tooling.terminal_backend_boundary",
+      "terminal_backend_contract",
+      "ardyn",
+      "future_contract_required",
+      "terminal backend"
+    ],
+    [
+      "phase5-68.ardyn.toolsets.toolset_boundary",
+      "toolset_contract",
+      "ardyn",
+      "future_contract_required",
+      "terminal and harness toolset"
+    ],
+    [
+      "phase5-68.ardyn.skill_loading.skill_loading_boundary",
+      "skill_loading_contract",
+      "ardyn",
+      "future_contract_required",
+      "prompt/context-to-skill loading"
+    ],
+    [
+      "phase5-68.external_harness.skillhub_one_click_install.skillhub_install_boundary",
+      "skillhub_install_contract",
+      "external-harness",
+      "future_contract_required",
+      "Skills Hub one-click install"
+    ],
+    [
+      "phase5-68.ardyn.skill_security_scan.skill_security_scan_boundary",
+      "skill_security_scan_contract",
+      "ardyn",
+      "future_contract_required",
+      "optional security scan for skill, plugin, and MCP installs"
+    ],
+    [
+      "phase5-68.ardyn.visible_skill_inventory.skill_inventory_boundary",
+      "skill_inventory_contract",
+      "ardyn",
+      "future_contract_required",
+      "visible skill inventory"
+    ],
+    [
+      "phase5-68.ardyn.visible_mcp_inventory.mcp_inventory_boundary",
+      "mcp_inventory_contract",
+      "ardyn",
+      "future_contract_required",
+      "visible MCP inventory"
+    ],
+    [
+      "phase5-68.ardyn.visible_plugin_inventory.plugin_inventory_boundary",
+      "plugin_inventory_contract",
+      "ardyn",
+      "future_contract_required",
+      "visible plugin inventory"
+    ],
+    [
+      "phase5-68.ardyn.visible_provider_inventory.provider_inventory_boundary",
+      "provider_inventory_contract",
+      "ardyn",
+      "future_contract_required",
+      "visible provider inventory"
+    ],
+    [
+      "phase5-68.ardyn.tool_adapter_visibility.tool_adapter_visibility_boundary",
+      "tool_adapter_visibility_contract",
+      "ardyn",
+      "future_contract_required",
+      "tool adapter and tool provider visibility"
+    ],
+    [
+      "phase5-68.repo_family.gateway_messaging_platforms.gateway_messaging_boundary",
+      "gateway_messaging_contract",
+      "repo-family",
+      "future_contract_required",
+      "gateway and messaging-platform bridge"
+    ],
+    [
+      "phase5-68.ardyn.scheduled_automation_cron.scheduled_automation_boundary",
+      "scheduled_automation_contract",
+      "ardyn",
+      "future_contract_required",
+      "scheduled automation and cron"
+    ],
+    [
+      "phase5-68.ardyn.context_files.context_file_boundary",
+      "context_file_contract",
+      "ardyn",
+      "future_contract_required",
+      "context-file loading"
+    ],
+    [
+      "phase5-68.ardyn.memory_profile.durable_memory_profile_boundary",
+      "memory_profile_contract",
+      "ardyn",
+      "future_contract_required",
+      "memory, user-profile, and durable context"
+    ],
+    [
+      "phase5-68.external_harness.acp_adapter_registry.acp_adapter_registry_boundary",
+      "acp_adapter_registry_contract",
+      "external-harness",
+      "future_contract_required",
+      "ACP-style adapter and registry"
+    ],
+    [
+      "phase5-68.external_harness.a2a_handoff.a2a_handoff_boundary",
+      "a2a_handoff_contract",
+      "external-harness",
+      "future_contract_required",
+      "A2A-style handoff"
+    ],
+    [
+      "phase5-68.ardyn_subagent.diffusion_multi_candidate.diffusion_mode_boundary",
+      "diffusion_mode_contract",
+      "ardyn-subagent",
+      "future_contract_required",
+      "diffusion multi-candidate mode"
+    ],
+    [
+      "phase5-68.ardyn_subagent.sakana_style_multi_candidate.sakana_style_mode_boundary",
+      "sakana_style_mode_contract",
+      "ardyn-subagent",
+      "future_contract_required",
+      "Sakana-style multi-candidate mode"
+    ],
+    [
+      "phase5-68.ardyn_subagent.fusion_judge_orchestrator.fusion_judge_mode_boundary",
+      "fusion_judge_mode_contract",
+      "ardyn-subagent",
+      "future_contract_required",
+      "fusion, judge, and orchestrator mode"
+    ],
+    [
+      "phase5-68.ardyn.prompt_skill_resolution.prompt_skill_resolution_boundary",
+      "prompt_skill_resolution_contract",
+      "ardyn",
+      "future_contract_required",
+      "prompt/context to skill resolution"
+    ],
+    [
+      "phase5-68.ardyn.control_plane_state_visibility.control_plane_visibility_boundary",
+      "control_plane_visibility_contract",
+      "ardyn",
+      "future_contract_required",
+      "control-plane state and runtime capability matrix"
+    ],
+    [
+      "phase5-68.locus.harness_control_surface.control_plane_visibility_boundary",
+      "control_plane_visibility_contract",
+      "locus",
+      "future_contract_required",
+      "Locus-mediated harness bridge and UI control surface"
+    ],
+    [
+      "phase5-68.multiverse.visible_sessions.control_plane_visibility_boundary",
+      "control_plane_visibility_contract",
+      "multiverse",
+      "future_contract_required",
+      "visible sessions and task graph for Multiverse consumers"
+    ],
+    [
+      "phase5-68.content_fabric.external_harness_handoff.tool_adapter_visibility_boundary",
+      "tool_adapter_visibility_contract",
+      "content-fabric",
+      "future_contract_required",
+      "external harness and Fabric/API/backend encoded handoff contract"
+    ]
+  ];
+
+  return rows.map(
+    ([boundaryId, boundaryFamily, relatedSystem, currentStatus, subject]) =>
+      agentModeProfileSkillhubCapabilityBoundaryMapDefinition({
+        boundaryId,
+        boundaryFamily,
+        relatedSystem,
+        currentStatus,
+        subject,
+        cuaDriverRoleDescription:
+          relatedSystem === "cua-driver-reference" ||
+          boundaryFamily.includes("computer_use") ||
+          boundaryFamily.includes("desktop_control") ||
+          boundaryFamily.includes("browser_control") ||
+          boundaryFamily.includes("screenshot") ||
+          boundaryFamily.includes("accessibility") ||
+          boundaryFamily.includes("som")
+            ? `${notes.cua} Windows UI Automation/SendInput, Linux X11/Wayland/AT-SPI accessibility tree, and macOS accessibility/private-API requirements are metadata-only notes.`
+            : notes.cua,
+        locusRoleDescription:
+          relatedSystem === "locus"
+            ? "Locus may later own the operator UI/control surface for this boundary after a separate Locus contract; Ardyn creates no UI or Locus integration."
+            : notes.locus,
+        multiverseRoleDescription:
+          relatedSystem === "multiverse"
+            ? "Multiverse may later display visible sessions or task graph metadata after a separate Multiverse contract; Ardyn executes no task."
+            : notes.multiverse,
+        fabricRoleDescription:
+          relatedSystem === "content-fabric"
+            ? "Content Fabric may later own external handoff and API/backend bridge metadata after a separate Fabric contract; Ardyn creates no Fabric, Secure Drop, transport, codec, or backend runtime."
+            : notes.fabric
+      })
+  );
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapEntry(definition) {
+  return {
+    ...definition,
+    futureCuaDriverComputerUseActions: [
+      ...AGENT_MODE_PROFILE_SKILLHUB_CUA_DRIVER_COMPUTER_USE_ACTIONS
+    ],
+    architectureReferencePolicy: {
+      hermesReferenceOnly: true,
+      cuaDriverReferenceOnly: true,
+      fainirPromptGuideCategoryOnly: true,
+      importsHermes: false,
+      vendorsHermes: false,
+      executesCuaDriver: false,
+      installsCuaDriver: false,
+      importsPromptGuide: false,
+      authorizesRuntime: false
+    },
+    agentModeProfileSkillhubCapabilityBoundaryMetadataOnly: true,
+    noLiveAgentModeProfileSkillhubCapabilityRuntimePerformed: true,
+    explicitBlockedAuthorizationFlags:
+      agentModeProfileSkillhubCapabilityBoundaryMapAuthorizationFlags(),
+    unsafeAgentModeCapabilityRuntimeFlags:
+      agentModeProfileSkillhubCapabilityBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapEntries() {
+  return agentModeProfileSkillhubCapabilityBoundaryMapDefinitions().map(
+    agentModeProfileSkillhubCapabilityBoundaryMapEntry
+  );
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+  const allBlockedAuthorizationFlagsFalse = entries.every((entry) =>
+    Object.values(entry.explicitBlockedAuthorizationFlags).every(
+      (value) => value === false
+    )
+  );
+  const allUnsafeAgentModeCapabilityRuntimeFlagsFalse = entries.every((entry) =>
+    Object.values(entry.unsafeAgentModeCapabilityRuntimeFlags).every(
+      (value) => value === false
+    )
+  );
+  const allRuntimeEffectsFalse = entries.every((entry) =>
+    Object.values(entry.runtimeEffect).every((value) => value === false)
+  );
+
+  return {
+    boundaryMapKind: AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    countByFamily,
+    countByRelatedSystem,
+    boundaryFamilies: [
+      ...AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_FAMILIES
+    ],
+    relatedSystems: [
+      ...AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_RELATED_SYSTEMS
+    ],
+    currentStatusValues: [
+      ...AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_STATUSES
+    ],
+    futureCuaDriverComputerUseActions: [
+      ...AGENT_MODE_PROFILE_SKILLHUB_CUA_DRIVER_COMPUTER_USE_ACTIONS
+    ],
+    hermesReferenceOnly: true,
+    cuaDriverReferenceOnly: true,
+    fainirPromptGuideCategoryOnly: true,
+    noHermesInstallVendorCopyImportMigrationIntegration: true,
+    noCuaDriverInstallExecutionMcpStdioManifestDiscoveryBackendStartToolDispatchUpdate:
+      true,
+    noComputerUseRuntime: true,
+    noDesktopControl: true,
+    noBrowserControl: true,
+    noScreenshotCaptureRuntime: true,
+    noOcrRuntime: true,
+    noAccessibilityTreeRuntime: true,
+    noSomIndexRuntime: true,
+    noOsWindowEnumeration: true,
+    noInputAutomationRuntime: true,
+    noActionApprovalRuntime: true,
+    noBackgroundSubagentRuntime: true,
+    noProfilePersonalitySessionContextSkillLoaderRuntime: true,
+    noSkillhubInstallRuntime: true,
+    noSecurityScannerRuntime: true,
+    noMcpPluginProviderToolInventoryScannerRuntime: true,
+    noGatewayMessagingRuntime: true,
+    noScheduledAutomationRuntime: true,
+    noTerminalBackendRuntime: true,
+    noModelRouterFusionJudgeFrontDeskRuntime: true,
+    noAcpA2aRuntime: true,
+    noLocusIntegration: true,
+    noExternalHarnessIntegration: true,
+    noBackendApiServerStorageCacheRlsMigrationRuntime: true,
+    noFabricWebsocketHttpMcpTaskRuntime: true,
+    noSecureDropRuntime: true,
+    noEncodedHandoffRuntime: true,
+    noLoggerAuditTelemetryHealthInfrastructureRuntime: true,
+    noCommandExposure: true,
+    noBlockedCliBypass: true,
+    allBlockedAuthorizationFlagsFalse,
+    allUnsafeAgentModeCapabilityRuntimeFlagsFalse,
+    allRuntimeEffectsFalse,
+    allEntriesNonAuthorizing: entries.every(
+      (entry) => entry.nonAuthorizingProof === true
+    )
+  };
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    enabledCuaDriverRuntimeFailClosed: true,
+    enabledCuaDriverBinaryExecutionFailClosed: true,
+    enabledCuaDriverInstallUpdateCommandFailClosed: true,
+    enabledCuaDriverMcpStdioInvocationFailClosed: true,
+    enabledCuaDriverManifestDiscoveryRuntimeFailClosed: true,
+    enabledComputerUseRuntimeFailClosed: true,
+    enabledDesktopBrowserScreenshotOcrAccessibilitySomInputRuntimeFailClosed:
+      true,
+    enabledAlwaysApproveOrSessionApproveFailClosed: true,
+    enabledTelemetryOptInFailClosed: true,
+    enabledBackgroundSubagentRuntimeFailClosed: true,
+    enabledProfilePersonalitySessionContextSkillLoaderFailClosed: true,
+    enabledSkillhubInstallSecurityScanRuntimeFailClosed: true,
+    enabledMcpPluginProviderToolInventoryScannerFailClosed: true,
+    enabledGatewayScheduledTerminalRuntimeFailClosed: true,
+    enabledModelRouterFusionJudgeFrontDeskRuntimeFailClosed: true,
+    enabledAcpA2aLocusExternalHarnessRuntimeFailClosed: true,
+    hiddenCuaDriverExecutionSemanticsFailClosed: true,
+    hiddenComputerUseSemanticsFailClosed: true,
+    hiddenInputAutomationSemanticsFailClosed: true,
+    hiddenActionApprovalSemanticsFailClosed: true,
+    hiddenMultimodalReturnSemanticsFailClosed: true,
+    hiddenTelemetryDriverUpdateSemanticsFailClosed: true,
+    hiddenBackgroundSubagentExecutionSemanticsFailClosed: true,
+    hiddenConversationConcurrencySemanticsFailClosed: true,
+    hiddenProfilePersonalitySessionContextLoadingSemanticsFailClosed: true,
+    hiddenSkillLoadingInstallScanInventorySemanticsFailClosed: true,
+    hiddenGatewayScheduledTerminalSemanticsFailClosed: true,
+    hiddenModelRoutingFusionJudgeFrontDeskSemanticsFailClosed: true,
+    hiddenAcpA2aAdapterRegistrySemanticsFailClosed: true,
+    hiddenBackendApiServerStorageAuthConnectorSemanticsFailClosed: true,
+    hiddenFabricSecureDropEncodedHandoffRuntimeSemanticsFailClosed: true,
+    hiddenLoggerAuditTelemetryHealthInfrastructureSemanticsFailClosed: true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationRunsRuntime: false,
+    validationRunsComputerUse: false,
+    validationRunsSkillInstall: false,
+    validationRunsBackgroundWorker: false,
+    validationRunsModelRouter: false
+  };
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapGaps() {
+  return [
+    "Future Hermes/CUA-inspired categories still need explicit contracts for action taxonomy, OS requirements, permissions, sandboxing, session approval, deny paths, audit, and user confirmation before any driver runtime.",
+    "Future background-subagent, visible-session, front-desk, and conversation-continuity behavior still needs cancellability, interruptibility, result handoff, status, and control-plane contracts.",
+    "Future profile/personality/session, context-file, skill loading, SkillHub install, scanner, and inventory behavior still needs deterministic activation, provenance, trust, rollback, permission, and audit contracts.",
+    "Future model routing, diffusion, Sakana-style multi-candidate generation, fusion, and judge orchestration still needs budget, candidate, synthesis, evaluation, and artifact-trail contracts.",
+    "Future Locus, Multiverse, Content Fabric, ACP/A2A, gateway, terminal backend, backend/API/server, storage, Fabric, Secure Drop, encoded handoff, telemetry, health-check, infrastructure, filesystem, process, and UI behavior remains blocked."
+  ];
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapState(reviewedAt) {
+  const boundaryEntries =
+    agentModeProfileSkillhubCapabilityBoundaryMapEntries();
+
+  return {
+    schema: AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion: AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_VERSION,
+    stateKind: AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase567InfrastructureComplianceDataRetentionBoundary:
+        "tests/fixtures/host-policy/phase5-67/infrastructure-compliance-data-retention-contract-boundary-map.json",
+      referenceRepoHermesAgent: "NousResearch/hermes-agent",
+      referenceHermesCuaBackend:
+        "tools/computer_use/cua_backend.py architecture reference only",
+      referenceHermesCuaTool:
+        "tools/computer_use/tool.py architecture reference only",
+      referencePromptGuide:
+        "fainir/most-capable-agent-system-prompt category guide only",
+      hermesReferenceOnly: true,
+      cuaDriverReferenceOnly: true,
+      promptGuideCategoryOnly: true,
+      externalCodeImported: false,
+      externalCodeVendored: false,
+      externalRepoModified: false,
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      agentModeProfileSkillhubCapabilityBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      agentModeProfileSkillhubCapabilityBoundaryMapValidationRules(),
+    topHermesCuaAgentModeProfileSkillhubTestingQualityGatesFabricApiBackendGaps:
+      agentModeProfileSkillhubCapabilityBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.69-review-only-testing-frameworks-quality-gates-contract-boundary-map",
+    agentModeProfileSkillhubCapabilityBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...agentModeProfileSkillhubCapabilityBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function agentModeProfileSkillhubCapabilityBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  agentModeProfileSkillhubCapabilityBoundaryMap
+}) {
+  return {
+    schema: AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_SCHEMA,
+    schemaVersion: AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_VERSION,
+    agentModeProfileSkillhubCapabilityBoundaryMapKind:
+      AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_KIND,
+    agentModeProfileSkillhubCapabilityBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    agentModeProfileSkillhubCapabilityBoundaryMapProduced: accepted,
+    agentModeProfileSkillhubCapabilityBoundaryMap,
+    boundaryMapSummary: accepted
+      ? agentModeProfileSkillhubCapabilityBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? agentModeProfileSkillhubCapabilityBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? agentModeProfileSkillhubCapabilityBoundaryMap.invalidBoundaryCasePolicy
+      : agentModeProfileSkillhubCapabilityBoundaryMapValidationRules(),
+    topHermesCuaAgentModeProfileSkillhubTestingQualityGatesFabricApiBackendGaps:
+      accepted
+        ? agentModeProfileSkillhubCapabilityBoundaryMap
+            .topHermesCuaAgentModeProfileSkillhubTestingQualityGatesFabricApiBackendGaps
+        : [],
+    recommendedNextPhase: accepted
+      ? agentModeProfileSkillhubCapabilityBoundaryMap.recommendedNextPhase
+      : null,
+    agentModeProfileSkillhubCapabilityBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...agentModeProfileSkillhubCapabilityBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            computerUseAuthorized: false,
+            cuaDriverAuthorized: false,
+            skillhubInstallAuthorized: false,
+            modelRoutingAuthorized: false,
+            fusionJudgeAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createAgentModeProfileSkillhubCapabilityBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord =
+    agentModeProfileSkillhubCapabilityBoundaryMapInputRecord(input);
+  const reviewedAt =
+    agentModeProfileSkillhubCapabilityBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    agentModeProfileSkillhubCapabilityBoundaryMapInputClassification(
+      inputRecord
+    );
+  const accepted =
+    classification ===
+    VALID_AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_CLASSIFICATION;
+  const agentModeProfileSkillhubCapabilityBoundaryMap = accepted
+    ? agentModeProfileSkillhubCapabilityBoundaryMapState(reviewedAt)
+    : null;
+
+  return agentModeProfileSkillhubCapabilityBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    agentModeProfileSkillhubCapabilityBoundaryMap
   });
 }
 

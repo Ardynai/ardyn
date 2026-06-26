@@ -372,6 +372,12 @@ export const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_VERS
   "0.1.0";
 export const INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_KIND:
   "infrastructure-compliance-data-retention-contract-boundary-map";
+export const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.68.agent-mode-profile-skillhub-capability-boundary-map-result";
+export const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_VERSION:
+  "0.1.0";
+export const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_KIND:
+  "agent-mode-profile-skillhub-capability-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -9562,6 +9568,182 @@ export interface InfrastructureComplianceDataRetentionContractBoundaryMapResult 
   runtimeEffect: ReviewOnlyRuntimeEffectFalse;
   [key: string]: unknown;
 }
+
+export type AgentModeProfileSkillhubCapabilityBoundaryMapClassification =
+  | "valid_agent_mode_profile_skillhub_capability_boundary_map_runtime_still_blocked"
+  | "malformed_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "missing_required_agent_mode_profile_skillhub_capability_boundary_entry_rejected"
+  | "unknown_top_level_field_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "unknown_boundary_family_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "unknown_related_system_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "unknown_current_status_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "authorization_flags_enabled_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "report_runs_checks_true_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "command_exposure_attempt_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_cua_driver_execution_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_computer_use_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_input_automation_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_action_approval_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_multimodal_return_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_telemetry_driver_update_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_background_subagent_execution_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_conversation_concurrency_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_profile_personality_session_context_loading_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_skill_loading_install_scan_inventory_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_gateway_scheduled_terminal_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_model_routing_fusion_judge_front_desk_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_acp_a2a_adapter_registry_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_backend_api_server_storage_auth_connector_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_fabric_secure_drop_encoded_handoff_runtime_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "hidden_logger_audit_telemetry_health_infrastructure_semantics_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "unsafe_agent_mode_profile_skillhub_capability_runtime_flags_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "nested_unsafe_flags_agent_mode_profile_skillhub_capability_boundary_map_input_rejected"
+  | "noncanonical_agent_mode_profile_skillhub_capability_boundary_map_input_rejected";
+
+export interface AgentModeProfileSkillhubCapabilityBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "agent_mode_contract"
+    | "profile_contract"
+    | "personality_session_contract"
+    | "subagent_background_contract"
+    | "conversation_continuity_contract"
+    | "front_desk_model_contract"
+    | "computer_use_contract"
+    | "cua_driver_contract"
+    | "cua_driver_mcp_stdio_contract"
+    | "cua_driver_manifest_contract"
+    | "computer_use_doctor_contract"
+    | "desktop_control_contract"
+    | "browser_control_contract"
+    | "screenshot_capture_contract"
+    | "accessibility_tree_contract"
+    | "som_index_contract"
+    | "safe_action_contract"
+    | "mutating_action_approval_contract"
+    | "blocked_key_combo_contract"
+    | "dangerous_type_pattern_contract"
+    | "multimodal_tool_return_contract"
+    | "telemetry_opt_in_contract"
+    | "driver_update_provenance_contract"
+    | "terminal_backend_contract"
+    | "toolset_contract"
+    | "skill_loading_contract"
+    | "skillhub_install_contract"
+    | "skill_security_scan_contract"
+    | "skill_inventory_contract"
+    | "mcp_inventory_contract"
+    | "plugin_inventory_contract"
+    | "provider_inventory_contract"
+    | "tool_adapter_visibility_contract"
+    | "gateway_messaging_contract"
+    | "scheduled_automation_contract"
+    | "context_file_contract"
+    | "memory_profile_contract"
+    | "acp_adapter_registry_contract"
+    | "a2a_handoff_contract"
+    | "diffusion_mode_contract"
+    | "sakana_style_mode_contract"
+    | "fusion_judge_mode_contract"
+    | "prompt_skill_resolution_contract"
+    | "control_plane_visibility_contract";
+  relatedSystem:
+    | "ardyn"
+    | "ardyn-subagent"
+    | "locus"
+    | "multiverse"
+    | "content-fabric"
+    | "repo-family"
+    | "external-harness"
+    | "hermes-reference"
+    | "cua-driver-reference";
+  currentStatus: "metadata_only" | "blocked" | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  operatorVisibilityExpectation: string;
+  humanConversationContinuityExpectation: string;
+  profilePersonalitySessionExpectation: string;
+  promptToSkillMatchingExpectation: string;
+  skillPluginMcpProviderInventoryExpectation: string;
+  securityScanExpectation: string;
+  frontDeskFallbackExpectation: string;
+  modelRoutingExpectation: string;
+  gatewayPlatformExpectation: string;
+  memoryContextExpectation: string;
+  cuaDriverRoleDescription: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  futureCuaDriverComputerUseActions: string[];
+  architectureReferencePolicy: Record<string, boolean>;
+  agentModeProfileSkillhubCapabilityBoundaryMetadataOnly: true;
+  noLiveAgentModeProfileSkillhubCapabilityRuntimePerformed: true;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeAgentModeCapabilityRuntimeFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface AgentModeProfileSkillhubCapabilityBoundaryMapState {
+  schema: "ardyn.phase-5.68.agent-mode-profile-skillhub-capability-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "agent-mode-profile-skillhub-capability-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  boundaryEntries: AgentModeProfileSkillhubCapabilityBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topHermesCuaAgentModeProfileSkillhubTestingQualityGatesFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  agentModeProfileSkillhubCapabilityBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface AgentModeProfileSkillhubCapabilityBoundaryMapResult {
+  schema: "ardyn.phase-5.68.agent-mode-profile-skillhub-capability-boundary-map-result";
+  schemaVersion: "0.1.0";
+  agentModeProfileSkillhubCapabilityBoundaryMapKind:
+    "agent-mode-profile-skillhub-capability-boundary-map";
+  agentModeProfileSkillhubCapabilityBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: AgentModeProfileSkillhubCapabilityBoundaryMapClassification;
+  agentModeProfileSkillhubCapabilityBoundaryMapProduced: boolean;
+  agentModeProfileSkillhubCapabilityBoundaryMap:
+    | AgentModeProfileSkillhubCapabilityBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | AgentModeProfileSkillhubCapabilityBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: AgentModeProfileSkillhubCapabilityBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topHermesCuaAgentModeProfileSkillhubTestingQualityGatesFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  agentModeProfileSkillhubCapabilityBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export function createAgentModeProfileSkillhubCapabilityBoundaryMapForReview(
+  input?: Record<string, unknown>
+): AgentModeProfileSkillhubCapabilityBoundaryMapResult;
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
