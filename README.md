@@ -1693,6 +1693,12 @@ declarations, code-pack sandbox and quarantine requirements, explicit
 network/process/filesystem permission scopes, and stdout/stderr line-delimited
 JSON semantics before any execution-adjacent behavior can be introduced.
 
+## Agent Instructions
+
+AI agents working in this repository must follow the minimal-code discipline in
+`AGENTS.md`. Matching committed rule copies are provided for Cursor, Windsurf,
+Cline, and GitHub Copilot.
+
 ## License
 
 Apache-2.0. See `LICENSE`.
