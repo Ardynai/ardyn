@@ -378,6 +378,12 @@ export const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_VERSION:
   "0.1.0";
 export const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_KIND:
   "agent-mode-profile-skillhub-capability-boundary-map";
+export const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.69.testing-frameworks-quality-gates-contract-boundary-map-result";
+export const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_VERSION:
+  "0.1.0";
+export const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_KIND:
+  "testing-frameworks-quality-gates-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -5966,7 +5972,7 @@ export interface ProductionReadinessCoverageMatrixState {
   stateMode: "review-only";
   reviewedAt: string;
   sourceRole: string;
-  sourcePhaseContext: Record<string, boolean | string>;
+  sourcePhaseContext: Record<string, boolean | number | string>;
   matrixRows: ProductionReadinessCoverageMatrixRow[];
   matrixSummary: Record<string, boolean | number | string | string[]>;
   topProductionReadinessGaps: string[];
@@ -9744,6 +9750,153 @@ export interface AgentModeProfileSkillhubCapabilityBoundaryMapResult {
 export function createAgentModeProfileSkillhubCapabilityBoundaryMapForReview(
   input?: Record<string, unknown>
 ): AgentModeProfileSkillhubCapabilityBoundaryMapResult;
+
+export type TestingFrameworksQualityGatesContractBoundaryMapClassification =
+  | "valid_testing_frameworks_quality_gates_contract_boundary_map_runtime_still_blocked"
+  | "malformed_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "missing_required_testing_frameworks_quality_gates_contract_boundary_entry_rejected"
+  | "unknown_top_level_field_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "unknown_related_system_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "unknown_current_status_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_test_harness_execution_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_ci_release_automation_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_browser_computer_use_cua_driver_execution_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_model_eval_training_finetuning_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_external_service_lookup_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_backend_api_server_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_database_storage_cache_write_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_auth_session_token_api_key_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_logger_audit_transcript_telemetry_external_sink_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_health_backup_restore_failover_scheduler_process_supervisor_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_infrastructure_deployment_compliance_pii_retention_export_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "hidden_agent_mode_profile_skillhub_background_subagent_fusion_front_desk_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "unsafe_testing_frameworks_quality_gates_runtime_flags_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_testing_frameworks_quality_gates_contract_boundary_map_input_rejected"
+  | "noncanonical_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+
+export interface TestingFrameworksQualityGatesContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "unit_test_contract"
+    | "schema_test_contract"
+    | "integration_test_contract"
+    | "e2e_test_contract"
+    | "regression_gate_contract"
+    | "stress_test_contract"
+    | "chaos_test_contract"
+    | "security_test_contract"
+    | "dependency_audit_contract"
+    | "static_analysis_contract"
+    | "fixture_conformance_contract"
+    | "runtime_blocked_gate_contract"
+    | "computer_use_test_contract"
+    | "agent_mode_test_contract"
+    | "model_eval_contract"
+    | "quality_gate_contract"
+    | "release_blocker_contract"
+    | "ci_gate_contract";
+  relatedSystem:
+    | "ardyn"
+    | "ardyn-subagent"
+    | "locus"
+    | "multiverse"
+    | "content-fabric"
+    | "repo-family"
+    | "external-harness"
+    | "hermes-reference"
+    | "cua-driver-reference";
+  currentStatus:
+    | "metadata_only"
+    | "covered_by_existing_validation"
+    | "blocked"
+    | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  qualityGateExpectation: string;
+  failureBlockerExpectation: string;
+  fixtureEvidenceExpectation: string;
+  ciReleaseExpectation: string;
+  securityStaticAnalysisExpectation: string;
+  modelEvalExpectation: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeTestingQualityGateRuntimeFlags: Record<string, false>;
+  testingFrameworksQualityGatesBoundaryMetadataOnly: true;
+  noLiveTestingFrameworksQualityGatesRuntimePerformed: true;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface TestingFrameworksQualityGatesContractBoundaryMapState {
+  schema: "ardyn.phase-5.69.testing-frameworks-quality-gates-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "testing-frameworks-quality-gates-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: TestingFrameworksQualityGatesContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topTestingQualityGatesOperationsCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  testingFrameworksQualityGatesContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface TestingFrameworksQualityGatesContractBoundaryMapResult {
+  schema: "ardyn.phase-5.69.testing-frameworks-quality-gates-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  testingFrameworksQualityGatesContractBoundaryMapKind:
+    "testing-frameworks-quality-gates-contract-boundary-map";
+  testingFrameworksQualityGatesContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: TestingFrameworksQualityGatesContractBoundaryMapClassification;
+  testingFrameworksQualityGatesContractBoundaryMapProduced: boolean;
+  testingFrameworksQualityGatesContractBoundaryMap:
+    | TestingFrameworksQualityGatesContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | TestingFrameworksQualityGatesContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: TestingFrameworksQualityGatesContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topTestingQualityGatesOperationsCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  testingFrameworksQualityGatesContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export function createTestingFrameworksQualityGatesContractBoundaryMapForReview(
+  input?: Record<string, unknown>
+): TestingFrameworksQualityGatesContractBoundaryMapResult;
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";

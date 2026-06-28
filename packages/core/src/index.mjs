@@ -358,6 +358,12 @@ export const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_VERSION =
   "0.1.0";
 export const AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_KIND =
   "agent-mode-profile-skillhub-capability-boundary-map";
+export const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.69.testing-frameworks-quality-gates-contract-boundary-map-result";
+export const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_KIND =
+  "testing-frameworks-quality-gates-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -57690,6 +57696,1506 @@ export function createAgentModeProfileSkillhubCapabilityBoundaryMapForReview(
     classification,
     accepted,
     agentModeProfileSkillhubCapabilityBoundaryMap
+  });
+}
+
+const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.69.testing-frameworks-quality-gates-contract-boundary-map-state";
+const VALID_TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_testing_frameworks_quality_gates_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+
+const TESTING_FRAMEWORKS_QUALITY_GATES_BOUNDARY_FAMILIES = Object.freeze([
+  "unit_test_contract",
+  "schema_test_contract",
+  "integration_test_contract",
+  "e2e_test_contract",
+  "regression_gate_contract",
+  "stress_test_contract",
+  "chaos_test_contract",
+  "security_test_contract",
+  "dependency_audit_contract",
+  "static_analysis_contract",
+  "fixture_conformance_contract",
+  "runtime_blocked_gate_contract",
+  "computer_use_test_contract",
+  "agent_mode_test_contract",
+  "model_eval_contract",
+  "quality_gate_contract",
+  "release_blocker_contract",
+  "ci_gate_contract"
+]);
+const TESTING_FRAMEWORKS_QUALITY_GATES_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family",
+  "external-harness",
+  "hermes-reference",
+  "cua-driver-reference"
+]);
+const TESTING_FRAMEWORKS_QUALITY_GATES_STATUSES = Object.freeze([
+  "metadata_only",
+  "covered_by_existing_validation",
+  "blocked",
+  "future_contract_required"
+]);
+const TESTING_FRAMEWORKS_QUALITY_GATES_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "qualityGateExpectation",
+  "failureBlockerExpectation",
+  "fixtureEvidenceExpectation",
+  "ciReleaseExpectation",
+  "securityStaticAnalysisExpectation",
+  "modelEvalExpectation",
+  "locusRoleDescription",
+  "multiverseRoleDescription",
+  "fabricRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeTestingQualityGateRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const TESTING_FRAMEWORKS_QUALITY_GATES_ALLOWED_TOP_LEVEL_FIELDS =
+  Object.freeze(["reviewedAt", "boundaryEntries"]);
+const TESTING_FRAMEWORKS_QUALITY_GATES_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "connectorGrantProduced",
+  "fabricRuntimeImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "testRunnerEnabled",
+  "integrationTestRunnerEnabled",
+  "e2eRunnerEnabled",
+  "browserTestRunnerEnabled",
+  "computerUseTestRunnerEnabled",
+  "cuaDriverTestRuntimeEnabled",
+  "chaosRunnerEnabled",
+  "stressRunnerEnabled",
+  "modelEvalRuntimeEnabled",
+  "ciPipelineCreationEnabled",
+  "releaseAutomationEnabled",
+  "packageExportEnabled",
+  "artifactUploadEnabled",
+  "externalServiceTestEnabled",
+  "liveDependencyUpdateEnabled",
+  "patchAutomationEnabled",
+  "runtimeTestHarnessEnabled",
+  "browserControlEnabled",
+  "computerUseRuntimeEnabled",
+  "cuaDriverRuntimeEnabled",
+  "cuaDriverBinaryExecutionEnabled",
+  "cuaDriverMcpStdioInvocationEnabled",
+  "cuaDriverManifestDiscoveryRuntimeEnabled",
+  "desktopControlEnabled",
+  "screenshotCaptureRuntimeEnabled",
+  "ocrEnabled",
+  "accessibilityTreeAccessEnabled",
+  "somIndexRuntimeEnabled",
+  "osWindowEnumerationEnabled",
+  "inputAutomationRuntimeEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "cacheEngineImplemented",
+  "rlsRuntimeImplemented",
+  "databaseMigrationImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "loggerRuntimeImplemented",
+  "auditWriterRuntimeImplemented",
+  "telemetryClientImplemented",
+  "healthCheckRuntimeImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "failoverRuntimeImplemented",
+  "schedulerImplemented",
+  "processSupervisorImplemented",
+  "infrastructureAutomationImplemented",
+  "deploymentAutomationImplemented",
+  "complianceEnforcementImplemented",
+  "piiProcessingImplemented",
+  "retentionJobImplemented",
+  "exportJobImplemented",
+  "hermesRuntimeEnabled",
+  "agentModeRuntimeEnabled",
+  "profileLoaderEnabled",
+  "skillLoaderEnabled",
+  "skillhubInstallerEnabled",
+  "securityScannerRuntimeEnabled",
+  "backgroundSubagentRuntimeEnabled",
+  "fusionRuntimeEnabled",
+  "judgeRuntimeEnabled",
+  "frontDeskModelRuntimeEnabled",
+  "uiFrontendBrowserRenderingImplemented",
+  "blockedCliBypassEnabled"
+]);
+const TESTING_FRAMEWORKS_QUALITY_GATES_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "runtimeAuthorizationGranted",
+  "authorizesRuntime",
+  "testingRuntimeAuthorizationGranted",
+  "testRunnerAuthorizationGranted",
+  "integrationRunnerAuthorizationGranted",
+  "e2eRunnerAuthorizationGranted",
+  "browserTestAuthorizationGranted",
+  "computerUseTestAuthorizationGranted",
+  "cuaDriverTestAuthorizationGranted",
+  "chaosStressAuthorizationGranted",
+  "modelEvalAuthorizationGranted",
+  "ciPipelineAuthorizationGranted",
+  "releaseAutomationAuthorizationGranted",
+  "artifactUploadAuthorizationGranted",
+  "externalServiceTestAuthorizationGranted",
+  "liveDependencyUpdateAuthorizationGranted",
+  "patchAutomationAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "backendApiServerAuthorizationGranted",
+  "databaseStorageAuthorizationGranted",
+  "fabricRuntimeAuthorizationGranted",
+  "secureDropAuthorizationGranted",
+  "encodedHandoffRuntimeAuthorizationGranted",
+  "agentModeRuntimeAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+const TESTING_FRAMEWORKS_QUALITY_GATES_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const TESTING_FRAMEWORKS_QUALITY_GATES_BLOCKED_CLI_BYPASS_FIELDS =
+  Object.freeze([
+    "blockedCliBypassEnabled",
+    "dryRunBypassesBlock",
+    "serveRuntimeBypassEnabled",
+    "bypassBlockedCommandBehavior",
+    "blockedCommandOverride"
+  ]);
+const TESTING_FRAMEWORKS_QUALITY_GATES_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_test_harness_execution_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "testRunner",
+      "integrationRunner",
+      "e2eRunner",
+      "browserTestRunner",
+      "computerUseTestRunner",
+      "chaosRunner",
+      "stressRunner",
+      "runtimeHarness",
+      "testExecutionPlan",
+      "playwrightConfig",
+      "cypressConfig"
+    ]
+  },
+  {
+    classification:
+      "hidden_ci_release_automation_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "ciPipeline",
+      "githubActionsWorkflow",
+      "releaseJob",
+      "releaseAutomation",
+      "artifactUpload",
+      "packageExport",
+      "publishCommand",
+      "deployGate",
+      "liveDependencyUpdate",
+      "patchAutomation"
+    ]
+  },
+  {
+    classification:
+      "hidden_browser_computer_use_cua_driver_execution_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "browserRunner",
+      "browserAutomation",
+      "computerUseRunner",
+      "cuaDriverTest",
+      "cuaDriverBinary",
+      "desktopTest",
+      "screenshotTest",
+      "ocrTest",
+      "accessibilityTreeTest",
+      "inputAutomationTest"
+    ]
+  },
+  {
+    classification:
+      "hidden_model_eval_training_finetuning_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "modelEvalRunner",
+      "evalDataset",
+      "trainingJob",
+      "fineTuningJob",
+      "finetuneJob",
+      "modelWeights",
+      "modelScorer",
+      "refusalEvalRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_external_service_lookup_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "externalServiceTest",
+      "vendorTestClient",
+      "networkProbe",
+      "webhookUrl",
+      "saasEndpoint",
+      "externalLookup"
+    ]
+  },
+  {
+    classification:
+      "hidden_backend_api_server_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "backendApiMiddleware",
+      "apiRequestHandler",
+      "httpServer",
+      "serverMiddleware",
+      "httpEndpoint",
+      "runtimeEndpoint"
+    ]
+  },
+  {
+    classification:
+      "hidden_database_storage_cache_write_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "databaseUrl",
+      "databaseDsn",
+      "dbConnectionString",
+      "storageAdapter",
+      "cacheEngine",
+      "writeQueue",
+      "persistenceLayer",
+      "filesystemWrite"
+    ]
+  },
+  {
+    classification:
+      "hidden_auth_session_token_api_key_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "loginUrl",
+      "sessionCookie",
+      "sessionStore",
+      "sessionToken",
+      "apiKey",
+      "oauthToken",
+      "authHeader"
+    ]
+  },
+  {
+    classification:
+      "hidden_connector_grant_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "connectorGrant",
+      "connectorCredential",
+      "connectorAccessToken",
+      "connectorComplianceGrant"
+    ]
+  },
+  {
+    classification:
+      "hidden_fabric_websocket_http_mcp_task_runtime_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "fabricBus",
+      "websocketUrl",
+      "httpTransport",
+      "mcpServer",
+      "mcpTool",
+      "taskRunner",
+      "taskQueue"
+    ]
+  },
+  {
+    classification:
+      "hidden_secure_drop_implementation_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "secureDropKeyring",
+      "secureDropCrypto",
+      "secureDropTransport",
+      "secureDropInbox",
+      "secureDropFilePicker",
+      "st3ggWrapper"
+    ]
+  },
+  {
+    classification:
+      "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "encodedHandoffRuntime",
+      "codecRuntime",
+      "translatorRuntime",
+      "encoderRuntime",
+      "decoderRuntime",
+      "stegoChannel",
+      "covertChannel",
+      "tokenizerExploit",
+      "bypassPayload"
+    ]
+  },
+  {
+    classification:
+      "hidden_logger_audit_transcript_telemetry_external_sink_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "loggerRuntime",
+      "auditWriter",
+      "transcriptWriter",
+      "telemetryClient",
+      "externalSink",
+      "logExporter"
+    ]
+  },
+  {
+    classification:
+      "hidden_health_backup_restore_failover_scheduler_process_supervisor_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "healthChecker",
+      "backupJob",
+      "restoreJob",
+      "failoverRuntime",
+      "scheduler",
+      "cronSchedule",
+      "processSupervisor",
+      "serviceDiscovery"
+    ]
+  },
+  {
+    classification:
+      "hidden_infrastructure_deployment_compliance_pii_retention_export_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "terraformPlan",
+      "deployCommand",
+      "cloudProvider",
+      "complianceEnforcer",
+      "piiProcessor",
+      "retentionScheduler",
+      "exportJob",
+      "policyEngine"
+    ]
+  },
+  {
+    classification:
+      "hidden_agent_mode_profile_skillhub_background_subagent_fusion_front_desk_semantics_testing_frameworks_quality_gates_contract_boundary_map_input_rejected",
+    fields: [
+      "hermesRuntime",
+      "agentModeRuntime",
+      "profileLoader",
+      "skillLoader",
+      "skillhubInstaller",
+      "backgroundSubagent",
+      "fusionRuntime",
+      "judgeRuntime",
+      "frontDeskModel",
+      "modelRouter"
+    ]
+  }
+]);
+
+function testingFrameworksQualityGatesBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function testingFrameworksQualityGatesBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function testingFrameworksQualityGatesBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(testingFrameworksQualityGatesBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      testingFrameworksQualityGatesBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function testingFrameworksQualityGatesBoundaryMapHasTrueFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      testingFrameworksQualityGatesBoundaryMapHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (
+      testingFrameworksQualityGatesBoundaryMapHasTrueFieldDeep(nested, fields)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function testingFrameworksQualityGatesBoundaryMapHasPresentFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      testingFrameworksQualityGatesBoundaryMapHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeTestingQualityGateRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (
+      testingFrameworksQualityGatesBoundaryMapHasPresentFieldDeep(
+        nested,
+        fields
+      )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function testingFrameworksQualityGatesBoundaryMapEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function testingFrameworksQualityGatesBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function testingFrameworksQualityGatesBoundaryMapEntryIssue(
+  entries,
+  predicate
+) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function testingFrameworksQualityGatesBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    TESTING_FRAMEWORKS_QUALITY_GATES_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function testingFrameworksQualityGatesBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.qualityGateExpectation !== "string" ||
+    typeof entry.failureBlockerExpectation !== "string" ||
+    typeof entry.fixtureEvidenceExpectation !== "string" ||
+    typeof entry.ciReleaseExpectation !== "string" ||
+    typeof entry.securityStaticAnalysisExpectation !== "string" ||
+    typeof entry.modelEvalExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(entry.unsafeTestingQualityGateRuntimeFlags) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function testingFrameworksQualityGatesBoundaryMapAuthorizationFlagEnabled(
+  value
+) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    TESTING_FRAMEWORKS_QUALITY_GATES_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function testingFrameworksQualityGatesBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.unsafeTestingQualityGateRuntimeFlags) &&
+      Object.values(value.unsafeTestingQualityGateRuntimeFlags).some(
+        (flag) => flag !== false
+      )) ||
+    testingFrameworksQualityGatesBoundaryMapHasTrueFieldDeep(
+      value,
+      TESTING_FRAMEWORKS_QUALITY_GATES_UNSAFE_FIELDS
+    )
+  );
+}
+
+function testingFrameworksQualityGatesBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(testingFrameworksQualityGatesBoundaryMapEntries())
+  );
+}
+
+function testingFrameworksQualityGatesBoundaryMapInputClassification(
+  inputRecord
+) {
+  if (testingFrameworksQualityGatesBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries =
+    testingFrameworksQualityGatesBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapEntryIssue(
+      entries,
+      testingFrameworksQualityGatesBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_testing_frameworks_quality_gates_contract_boundary_entry_rejected";
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !TESTING_FRAMEWORKS_QUALITY_GATES_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !TESTING_FRAMEWORKS_QUALITY_GATES_RELATED_SYSTEMS.includes(
+          entry.relatedSystem
+        )
+    )
+  ) {
+    return "unknown_related_system_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !TESTING_FRAMEWORKS_QUALITY_GATES_STATUSES.includes(
+          entry.currentStatus
+        )
+    )
+  ) {
+    return "unknown_current_status_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapEntryIssue(
+      entries,
+      testingFrameworksQualityGatesBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    TESTING_FRAMEWORKS_QUALITY_GATES_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord[field] === true
+    )
+  ) {
+    return "runtime_authorization_attempt_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapEntryIssue(
+      entries,
+      testingFrameworksQualityGatesBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    testingFrameworksQualityGatesBoundaryMapAuthorizationFlagEnabled(inputRecord)
+  ) {
+    return "authorization_flags_enabled_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      TESTING_FRAMEWORKS_QUALITY_GATES_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      TESTING_FRAMEWORKS_QUALITY_GATES_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      TESTING_FRAMEWORKS_QUALITY_GATES_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  for (const {
+    classification,
+    fields
+  } of TESTING_FRAMEWORKS_QUALITY_GATES_HIDDEN_FIELD_GROUPS) {
+    if (
+      testingFrameworksQualityGatesBoundaryMapHasPresentFieldDeep(
+        inputRecord,
+        fields
+      )
+    ) {
+      return classification;
+    }
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapUnsafeFlagEnabled(inputRecord) ||
+    testingFrameworksQualityGatesBoundaryMapEntryIssue(
+      entries,
+      testingFrameworksQualityGatesBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_testing_frameworks_quality_gates_runtime_flags_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    testingFrameworksQualityGatesBoundaryMapEntryIssue(entries, (entry) =>
+      testingFrameworksQualityGatesBoundaryMapContainsTrue(entry?.runtimeEffect)
+    ) ||
+    testingFrameworksQualityGatesBoundaryMapContainsTrue(
+      inputRecord?.runtimeEffect
+    )
+  ) {
+    return "nested_unsafe_flags_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord).some(
+      (field) =>
+        !TESTING_FRAMEWORKS_QUALITY_GATES_ALLOWED_TOP_LEVEL_FIELDS.includes(
+          field
+        )
+    )
+  ) {
+    return "unknown_top_level_field_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  if (!testingFrameworksQualityGatesBoundaryMapCanonical(entries)) {
+    return "noncanonical_testing_frameworks_quality_gates_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function testingFrameworksQualityGatesBoundaryMapForbiddenBehavior() {
+  return [
+    "new test runner",
+    "integration test runner",
+    "e2e runner",
+    "browser test runner",
+    "computer-use test runner",
+    "CUA-driver test runtime",
+    "chaos runner",
+    "stress runner",
+    "model-eval runtime",
+    "training or fine-tuning code",
+    "CI pipeline creation",
+    "release automation",
+    "package export",
+    "artifact upload",
+    "external service test",
+    "live dependency update",
+    "patch automation",
+    "runtime test harness",
+    "Hermes install, vendoring, copying, importing, migration, or integration",
+    "cua-driver install, execution, stdio MCP invocation, manifest discovery, update, backend start, or tool dispatch",
+    "computer-use runtime",
+    "desktop or browser control",
+    "screenshot, OCR, accessibility-tree, UI element, SOM, OS-window, coordinate fallback, or input automation behavior",
+    "background subagents, queues, schedulers, async workers, profile loaders, skill loaders, SkillHub install, security scan runtime, model router, fusion runtime, judge runtime, or front-desk model runtime",
+    "gateway messaging, scheduled automation, terminal backend execution, ACP/A2A runtime, Locus integration, external harness integration, or cross-harness communication",
+    "backend API, server, database client, storage adapter, cache engine, RLS, migration, storage write, transcript write, audit write, import/export path, package distribution, or persistence",
+    "Fabric bus, websocket/http transport, MCP exposure, task execution, connector grant, Secure Drop implementation, encoded handoff runtime, codec, translator, stego, covert channel, tokenizer exploit, or bypass",
+    "logger runtime, audit writer, telemetry client, external sink, health checker, backup job, restore job, failover runtime, service discovery, scheduler, process supervisor, infrastructure automation, deployment automation, compliance enforcement, PII processing, retention job, export job, filesystem write, process control, or UI behavior",
+    "command exposure",
+    "interactive control",
+    "blocked CLI bypass"
+  ];
+}
+
+function testingFrameworksQualityGatesBoundaryMapAuthorizationFlags() {
+  return {
+    runtimeAuthorizationGranted: false,
+    testingRuntimeAuthorizationGranted: false,
+    testRunnerAuthorizationGranted: false,
+    integrationRunnerAuthorizationGranted: false,
+    e2eRunnerAuthorizationGranted: false,
+    browserTestAuthorizationGranted: false,
+    computerUseTestAuthorizationGranted: false,
+    cuaDriverTestAuthorizationGranted: false,
+    chaosStressAuthorizationGranted: false,
+    modelEvalAuthorizationGranted: false,
+    ciPipelineAuthorizationGranted: false,
+    releaseAutomationAuthorizationGranted: false,
+    artifactUploadAuthorizationGranted: false,
+    externalServiceTestAuthorizationGranted: false,
+    liveDependencyUpdateAuthorizationGranted: false,
+    patchAutomationAuthorizationGranted: false,
+    commandExposureAuthorizationGranted: false,
+    backendApiServerAuthorizationGranted: false,
+    databaseStorageAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false,
+    encodedHandoffRuntimeAuthorizationGranted: false,
+    agentModeRuntimeAuthorizationGranted: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    authorizesRuntime: false
+  };
+}
+
+function testingFrameworksQualityGatesBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    TESTING_FRAMEWORKS_QUALITY_GATES_UNSAFE_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function testingFrameworksQualityGatesBoundaryMapNotes() {
+  return {
+    currentAuthorization:
+      "Requires a future explicit authorization phase before any test runner, CI/release automation, browser/computer-use/CUA-driver test runtime, model-eval runtime, chaos/stress/e2e runner, external service test, package export, artifact upload, live dependency update, patch automation, runtime integration, backend/API/server, storage, Fabric, Secure Drop, encoded handoff, agent-mode runtime, telemetry, health-check, infrastructure, filesystem, process, UI, or command behavior.",
+    qualityGate:
+      "Future quality gates must define deterministic command ownership, acceptance criteria, failure classification, waiver policy, artifact retention, and release-blocking semantics before implementation.",
+    blocker:
+      "Future failures must distinguish introduced regressions from inherited advisory debt and must define whether the failure blocks review, merge, release, or only records evidence.",
+    fixture:
+      "Current evidence is deterministic fixture/status metadata only; future fixture conformance must define schema, ordering, freshness, provenance, and canonicalization before any runtime runner.",
+    ciRelease:
+      "Future CI/release gates require a separate pipeline, runner, secret, artifact-upload, package-export, release, rollback, and publication contract before automation.",
+    security:
+      "Current security/static-analysis/audit commands are evidence only; future enforcement must define severity policy, dependency provenance, false-positive workflow, and advisory aging before gating.",
+    modelEval:
+      "Future model-eval or refusal-resilience checks are post-launch/advisory contracts only and must not include training, fine-tuning, model-weight handling, or automated model routing.",
+    locus:
+      "Locus may later display gate status after a Locus-owned UI/control-surface contract; Ardyn creates no Locus integration or UI.",
+    multiverse:
+      "Multiverse may later display consumer conformance or release-gate metadata after a Multiverse-owned contract; Ardyn executes no task.",
+    fabric:
+      "Content Fabric may later carry fixture/evidence references after a separate Fabric contract; Ardyn creates no Fabric bus, websocket/http transport, MCP/task runtime, Secure Drop runtime, codec, translator, or external sink.",
+    noConsumerRole: "No current runtime role; future consumers may inspect metadata only."
+  };
+}
+
+function testingFrameworksQualityGatesBoundaryMapDefinition(definition) {
+  const notes = testingFrameworksQualityGatesBoundaryMapNotes();
+
+  return {
+    ...definition,
+    allowedCurrentBehavior: [
+      `Describe future ${definition.subject} testing and quality-gate boundary metadata.`,
+      "Reference existing local validation evidence as metadata when explicitly marked covered by existing validation.",
+      "Keep current behavior review-only, metadata-only, non-authorizing, and runtime-blocked."
+    ],
+    forbiddenCurrentBehavior:
+      testingFrameworksQualityGatesBoundaryMapForbiddenBehavior(),
+    requiredFutureContractBeforeImplementation:
+      `A future ${definition.subject} contract must define test ownership, runner isolation, inputs, fixtures, evidence retention, failure/blocker policy, release/CI relationship, security/static-analysis posture, and explicit no-runtime defaults before implementation.`,
+    requiredFutureAuthorizationPhaseBeforeRuntime: notes.currentAuthorization,
+    qualityGateExpectation:
+      definition.qualityGateExpectation ?? notes.qualityGate,
+    failureBlockerExpectation:
+      definition.failureBlockerExpectation ?? notes.blocker,
+    fixtureEvidenceExpectation:
+      definition.fixtureEvidenceExpectation ?? notes.fixture,
+    ciReleaseExpectation: definition.ciReleaseExpectation ?? notes.ciRelease,
+    securityStaticAnalysisExpectation:
+      definition.securityStaticAnalysisExpectation ?? notes.security,
+    modelEvalExpectation: definition.modelEvalExpectation ?? notes.modelEval,
+    locusRoleDescription: definition.locusRoleDescription ?? notes.locus,
+    multiverseRoleDescription:
+      definition.multiverseRoleDescription ?? notes.multiverse,
+    fabricRoleDescription: definition.fabricRoleDescription ?? notes.fabric
+  };
+}
+
+function testingFrameworksQualityGatesBoundaryMapDefinitions() {
+  const notes = testingFrameworksQualityGatesBoundaryMapNotes();
+  const rows = [
+    [
+      "phase5-69.ardyn.current_unit_validation.unit_test_boundary",
+      "unit_test_contract",
+      "ardyn",
+      "covered_by_existing_validation",
+      "current node:test unit validation evidence"
+    ],
+    [
+      "phase5-69.ardyn.current_schema_validation.schema_test_boundary",
+      "schema_test_contract",
+      "ardyn",
+      "covered_by_existing_validation",
+      "current schema validation evidence"
+    ],
+    [
+      "phase5-69.ardyn.current_report_status_validation.quality_gate_boundary",
+      "quality_gate_contract",
+      "ardyn",
+      "covered_by_existing_validation",
+      "current report/status validation evidence"
+    ],
+    [
+      "phase5-69.repo_family.npm_cargo_validation.quality_gate_boundary",
+      "quality_gate_contract",
+      "repo-family",
+      "covered_by_existing_validation",
+      "current npm and cargo validation evidence"
+    ],
+    [
+      "phase5-69.repo_family.semgrep_static_analysis.static_analysis_boundary",
+      "static_analysis_contract",
+      "repo-family",
+      "covered_by_existing_validation",
+      "current Semgrep static-analysis evidence"
+    ],
+    [
+      "phase5-69.repo_family.npm_cargo_audit.dependency_audit_boundary",
+      "dependency_audit_contract",
+      "repo-family",
+      "covered_by_existing_validation",
+      "current npm audit and cargo audit evidence"
+    ],
+    [
+      "phase5-69.repo_family.cargo_machete_static_analysis.static_analysis_boundary",
+      "static_analysis_contract",
+      "repo-family",
+      "covered_by_existing_validation",
+      "current cargo machete evidence"
+    ],
+    [
+      "phase5-69.ardyn.phase5_fixture_conformance.fixture_conformance_boundary",
+      "fixture_conformance_contract",
+      "ardyn",
+      "covered_by_existing_validation",
+      "focused Phase 5 fixture conformance evidence"
+    ],
+    [
+      "phase5-69.repo_family.adjacent_regression_gates.regression_gate_boundary",
+      "regression_gate_contract",
+      "repo-family",
+      "covered_by_existing_validation",
+      "adjacent Phase 5 regression-gate evidence"
+    ],
+    [
+      "phase5-69.ardyn.runtime_blocked_gate.runtime_blocked_gate_boundary",
+      "runtime_blocked_gate_contract",
+      "ardyn",
+      "covered_by_existing_validation",
+      "runtime-blocked gate evidence"
+    ],
+    [
+      "phase5-69.ardyn.blocked_command_matrix.runtime_blocked_gate_boundary",
+      "runtime_blocked_gate_contract",
+      "ardyn",
+      "covered_by_existing_validation",
+      "blocked-command matrix evidence"
+    ],
+    [
+      "phase5-69.external_harness.ci_release_gate.ci_gate_boundary",
+      "ci_gate_contract",
+      "external-harness",
+      "future_contract_required",
+      "CI gate boundary"
+    ],
+    [
+      "phase5-69.repo_family.release_blocker_policy.release_blocker_boundary",
+      "release_blocker_contract",
+      "repo-family",
+      "future_contract_required",
+      "release-blocker policy"
+    ],
+    [
+      "phase5-69.ardyn.docs_markdown_lint.static_analysis_boundary",
+      "static_analysis_contract",
+      "ardyn",
+      "metadata_only",
+      "docs, markdown, and lint evidence"
+    ],
+    [
+      "phase5-69.ardyn.database_storage_phase561.integration_test_boundary",
+      "integration_test_contract",
+      "ardyn",
+      "covered_by_existing_validation",
+      "database/storage test boundary from Phase 5.61"
+    ],
+    [
+      "phase5-69.ardyn.auth_permissions_phase562.integration_test_boundary",
+      "integration_test_contract",
+      "ardyn",
+      "covered_by_existing_validation",
+      "auth/permissions test boundary from Phase 5.62"
+    ],
+    [
+      "phase5-69.ardyn.security_rls_input_phase563.security_test_boundary",
+      "security_test_contract",
+      "ardyn",
+      "covered_by_existing_validation",
+      "security/RLS/input-sanitization test boundary from Phase 5.63"
+    ],
+    [
+      "phase5-69.ardyn.rate_limiting_phase564.stress_test_boundary",
+      "stress_test_contract",
+      "ardyn",
+      "future_contract_required",
+      "rate-limiting and abuse-control stress test boundary from Phase 5.64"
+    ],
+    [
+      "phase5-69.ardyn.error_log_audit_phase565.regression_gate_boundary",
+      "regression_gate_contract",
+      "ardyn",
+      "covered_by_existing_validation",
+      "error/log/audit-integrity regression boundary from Phase 5.65"
+    ],
+    [
+      "phase5-69.repo_family.availability_recovery_phase566.chaos_test_boundary",
+      "chaos_test_contract",
+      "repo-family",
+      "future_contract_required",
+      "availability/recovery chaos test boundary from Phase 5.66"
+    ],
+    [
+      "phase5-69.repo_family.infrastructure_compliance_phase567.quality_gate_boundary",
+      "quality_gate_contract",
+      "repo-family",
+      "covered_by_existing_validation",
+      "infrastructure/compliance/data-retention quality-gate boundary from Phase 5.67"
+    ],
+    [
+      "phase5-69.hermes_reference.agent_mode_phase568.agent_mode_test_boundary",
+      "agent_mode_test_contract",
+      "hermes-reference",
+      "covered_by_existing_validation",
+      "Hermes/CUA agent-mode test boundary from Phase 5.68"
+    ],
+    [
+      "phase5-69.cua_driver_reference.computer_use_test.computer_use_test_boundary",
+      "computer_use_test_contract",
+      "cua-driver-reference",
+      "blocked",
+      "computer-use test boundary with CUA driver execution blocked"
+    ],
+    [
+      "phase5-69.external_harness.skillhub_security_scan.security_test_boundary",
+      "security_test_contract",
+      "external-harness",
+      "blocked",
+      "SkillHub and security-scan test boundary"
+    ],
+    [
+      "phase5-69.ardyn_subagent.background_fusion_front_desk.agent_mode_test_boundary",
+      "agent_mode_test_contract",
+      "ardyn-subagent",
+      "blocked",
+      "background-subagent, fusion, judge, and front-desk model test boundary"
+    ],
+    [
+      "phase5-69.content_fabric.encoded_handoff_phase560.fixture_conformance_boundary",
+      "fixture_conformance_contract",
+      "content-fabric",
+      "covered_by_existing_validation",
+      "encoded handoff conformance test boundary from Phase 5.60"
+    ],
+    [
+      "phase5-69.content_fabric.fabric_api_backend_phase559.integration_test_boundary",
+      "integration_test_contract",
+      "content-fabric",
+      "covered_by_existing_validation",
+      "Fabric/API/backend test boundary from Phase 5.59"
+    ],
+    [
+      "phase5-69.locus.consumer_conformance.e2e_test_boundary",
+      "e2e_test_contract",
+      "locus",
+      "future_contract_required",
+      "Locus consumer conformance test boundary"
+    ],
+    [
+      "phase5-69.multiverse.consumer_conformance.e2e_test_boundary",
+      "e2e_test_contract",
+      "multiverse",
+      "future_contract_required",
+      "Multiverse consumer conformance test boundary"
+    ],
+    [
+      "phase5-69.external_harness.model_eval_refusal_resilience.model_eval_boundary",
+      "model_eval_contract",
+      "external-harness",
+      "future_contract_required",
+      "future model-eval and refusal-resilience test boundary"
+    ],
+    [
+      "phase5-69.external_harness.browser_e2e_future.e2e_test_boundary",
+      "e2e_test_contract",
+      "external-harness",
+      "future_contract_required",
+      "future browser, e2e, chaos, stress, and computer-use tests"
+    ]
+  ];
+
+  return rows.map(
+    ([boundaryId, boundaryFamily, relatedSystem, currentStatus, subject]) =>
+      testingFrameworksQualityGatesBoundaryMapDefinition({
+        boundaryId,
+        boundaryFamily,
+        relatedSystem,
+        currentStatus,
+        subject,
+        modelEvalExpectation:
+          boundaryFamily === "model_eval_contract"
+            ? "Future model-eval and refusal-resilience checks remain post-launch/advisory only; no training code, fine-tuning, model-weight handling, or runtime model routing is authorized."
+            : notes.modelEval,
+        locusRoleDescription:
+          relatedSystem === "locus"
+            ? "Locus may later own consumer conformance and gate-status UI after a separate Locus contract; Ardyn creates no UI, browser runner, or Locus integration."
+            : notes.locus,
+        multiverseRoleDescription:
+          relatedSystem === "multiverse"
+            ? "Multiverse may later expose consumer conformance and task/capability gate metadata after a separate Multiverse contract; Ardyn executes no task."
+            : notes.multiverse,
+        fabricRoleDescription:
+          relatedSystem === "content-fabric"
+            ? "Content Fabric may later own encoded handoff or Fabric/API/backend fixture evidence after a separate Fabric contract; Ardyn creates no Fabric, Secure Drop, transport, codec, backend, or task runtime."
+            : notes.fabric
+      })
+  );
+}
+
+function testingFrameworksQualityGatesBoundaryMapEntry(definition) {
+  return {
+    ...definition,
+    productionReadinessAreaReference: {
+      phase: "5.48",
+      areaNumber: 15,
+      areaName: "Testing Frameworks",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      sourceStatus: "deferred",
+      representedByPhase569: true,
+      authorizesRuntime: false
+    },
+    testingFrameworksQualityGatesBoundaryMetadataOnly: true,
+    noLiveTestingFrameworksQualityGatesRuntimePerformed: true,
+    explicitBlockedAuthorizationFlags:
+      testingFrameworksQualityGatesBoundaryMapAuthorizationFlags(),
+    unsafeTestingQualityGateRuntimeFlags:
+      testingFrameworksQualityGatesBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function testingFrameworksQualityGatesBoundaryMapEntries() {
+  return testingFrameworksQualityGatesBoundaryMapDefinitions().map(
+    testingFrameworksQualityGatesBoundaryMapEntry
+  );
+}
+
+function testingFrameworksQualityGatesBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    TESTING_FRAMEWORKS_QUALITY_GATES_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    TESTING_FRAMEWORKS_QUALITY_GATES_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+  const countByStatus = Object.fromEntries(
+    TESTING_FRAMEWORKS_QUALITY_GATES_STATUSES.map((status) => [
+      status,
+      entries.filter((entry) => entry.currentStatus === status).length
+    ])
+  );
+  const allBlockedAuthorizationFlagsFalse = entries.every((entry) =>
+    Object.values(entry.explicitBlockedAuthorizationFlags).every(
+      (value) => value === false
+    )
+  );
+  const allUnsafeTestingQualityGateRuntimeFlagsFalse = entries.every((entry) =>
+    Object.values(entry.unsafeTestingQualityGateRuntimeFlags).every(
+      (value) => value === false
+    )
+  );
+  const allRuntimeEffectsFalse = entries.every((entry) =>
+    Object.values(entry.runtimeEffect).every((value) => value === false)
+  );
+
+  return {
+    boundaryMapKind: TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    boundaryFamilies: [...TESTING_FRAMEWORKS_QUALITY_GATES_BOUNDARY_FAMILIES],
+    relatedSystems: [...TESTING_FRAMEWORKS_QUALITY_GATES_RELATED_SYSTEMS],
+    currentStatusValues: [...TESTING_FRAMEWORKS_QUALITY_GATES_STATUSES],
+    phase548TestingFrameworksCoverageItemRepresented: true,
+    testingFrameworksQualityGatesBoundaryMetadataOnly: true,
+    noLiveTestingFrameworksQualityGatesRuntimePerformed: true,
+    currentUnitSchemaReportStatusValidationEvidenceRecorded: true,
+    currentNpmCargoValidationEvidenceRecorded: true,
+    currentSemgrepNpmAuditCargoAuditCargoMacheteEvidenceRecorded: true,
+    focusedFixtureConformanceBoundaryRecorded: true,
+    adjacentRegressionGateBoundaryRecorded: true,
+    runtimeBlockedGateBoundaryRecorded: true,
+    blockedCommandMatrixBoundaryRecorded: true,
+    ciReleaseGateBoundaryRecorded: true,
+    noNewTestRunner: true,
+    noCiPipelineCreation: true,
+    noReleaseAutomation: true,
+    noBrowserComputerUseCuaDriverTestRuntime: true,
+    noModelEvalTrainingFinetuningRuntime: true,
+    noChaosStressE2eRuntime: true,
+    noExternalServiceTestRuntime: true,
+    noPackageExportArtifactUploadLiveDependencyUpdatePatchAutomation: true,
+    noRuntimeIntegrationBackendStorageBehavior: true,
+    noFabricSecureDropEncodedHandoffRuntime: true,
+    noHermesCuaAgentModeProfileSkillhubBackgroundFusionFrontDeskRuntime: true,
+    noLoggerAuditTelemetryHealthInfrastructureRuntime: true,
+    noCommandExposure: true,
+    noBlockedCliBypass: true,
+    allBlockedAuthorizationFlagsFalse,
+    allUnsafeTestingQualityGateRuntimeFlagsFalse,
+    allRuntimeEffectsFalse,
+    allEntriesNonAuthorizing: entries.every(
+      (entry) => entry.nonAuthorizingProof === true
+    )
+  };
+}
+
+function testingFrameworksQualityGatesBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    enabledTestRunnerFailClosed: true,
+    enabledIntegrationE2eBrowserComputerUseCuaDriverRunnerFailClosed: true,
+    enabledChaosStressRunnerFailClosed: true,
+    enabledModelEvalRuntimeFailClosed: true,
+    enabledCiReleaseAutomationFailClosed: true,
+    enabledPackageExportArtifactUploadFailClosed: true,
+    enabledExternalServiceTestFailClosed: true,
+    enabledLiveDependencyUpdatePatchAutomationFailClosed: true,
+    hiddenTestHarnessExecutionSemanticsFailClosed: true,
+    hiddenCiReleaseAutomationSemanticsFailClosed: true,
+    hiddenBrowserComputerUseCuaDriverExecutionSemanticsFailClosed: true,
+    hiddenModelEvalTrainingFinetuningSemanticsFailClosed: true,
+    hiddenExternalServiceLookupSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+      true,
+    hiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed: true,
+    hiddenHealthBackupRestoreFailoverSchedulerProcessSupervisorSemanticsFailClosed:
+      true,
+    hiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed:
+      true,
+    hiddenAgentModeProfileSkillhubBackgroundSubagentFusionFrontDeskSemanticsFailClosed:
+      true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationRunsTestRunner: false,
+    validationCreatesCiPipeline: false,
+    validationRunsModelEval: false,
+    validationRunsComputerUse: false,
+    validationUploadsArtifacts: false,
+    validationRunsRuntime: false
+  };
+}
+
+function testingFrameworksQualityGatesBoundaryMapGaps() {
+  return [
+    "Future testing framework contracts still need explicit runner ownership, isolation, fixture freshness, evidence retention, waiver, and failure/blocker semantics before any new runner.",
+    "Future CI/release gates still need pipeline, branch protection, artifact upload, package export, release automation, rollback, and secret-boundary contracts before automation.",
+    "Future browser, e2e, computer-use, CUA-driver, chaos, stress, and external-service tests remain future contracts and require sandbox, permission, deny-path, and no-live-side-effect rules.",
+    "Future model-eval and refusal-resilience checks remain post-launch/advisory and need dataset, scoring, privacy, budget, and non-training contracts before any runtime.",
+    "Future operations/reliability gates still need health, backup, restore, failover, process-supervision, service-discovery, and infrastructure boundaries without enabling runtime."
+  ];
+}
+
+function testingFrameworksQualityGatesBoundaryMapState(reviewedAt) {
+  const boundaryEntries = testingFrameworksQualityGatesBoundaryMapEntries();
+
+  return {
+    schema: TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion:
+      TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind: TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase548ProductionReadinessCoverageMatrix:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      phase548TestingFrameworksAreaNumber: 15,
+      phase548TestingFrameworksStatus: "deferred",
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase560InterAgentEncodedHandoffConformance:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      phase561DatabaseStorageContractBoundary:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      phase563SecurityRlsInputSanitizationContractBoundary:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      phase564RateLimitingAbuseControlContractBoundary:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      phase565ErrorTrackingLoggingAuditIntegrityContractBoundary:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      phase566AvailabilityRecoveryContractBoundary:
+        "tests/fixtures/host-policy/phase5-66/availability-recovery-contract-boundary-map.json",
+      phase567InfrastructureComplianceDataRetentionBoundary:
+        "tests/fixtures/host-policy/phase5-67/infrastructure-compliance-data-retention-contract-boundary-map.json",
+      phase568AgentModeProfileSkillhubCapabilityBoundary:
+        "tests/fixtures/host-policy/phase5-68/agent-mode-profile-skillhub-capability-boundary-map.json",
+      testingFrameworksCoverageItemRepresented: true,
+      productionReadinessTestingFrameworksItemDeferred: true,
+      noNewTestRunnerImplemented: true,
+      noCiReleaseAutomationImplemented: true,
+      noRuntimeHarnessImplemented: true,
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      testingFrameworksQualityGatesBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      testingFrameworksQualityGatesBoundaryMapValidationRules(),
+    topTestingQualityGatesOperationsCodeModeFabricApiBackendGaps:
+      testingFrameworksQualityGatesBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.70-review-only-operations-reliability-contract-boundary-map",
+    testingFrameworksQualityGatesContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...testingFrameworksQualityGatesBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function testingFrameworksQualityGatesBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  testingFrameworksQualityGatesContractBoundaryMap
+}) {
+  return {
+    schema: TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion:
+      TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_VERSION,
+    testingFrameworksQualityGatesContractBoundaryMapKind:
+      TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_KIND,
+    testingFrameworksQualityGatesContractBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    testingFrameworksQualityGatesContractBoundaryMapProduced: accepted,
+    testingFrameworksQualityGatesContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? testingFrameworksQualityGatesContractBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? testingFrameworksQualityGatesContractBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? testingFrameworksQualityGatesContractBoundaryMap.invalidBoundaryCasePolicy
+      : testingFrameworksQualityGatesBoundaryMapValidationRules(),
+    topTestingQualityGatesOperationsCodeModeFabricApiBackendGaps: accepted
+      ? testingFrameworksQualityGatesContractBoundaryMap
+          .topTestingQualityGatesOperationsCodeModeFabricApiBackendGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? testingFrameworksQualityGatesContractBoundaryMap.recommendedNextPhase
+      : null,
+    testingFrameworksQualityGatesContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...testingFrameworksQualityGatesBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            testRunnerAuthorized: false,
+            ciReleaseAuthorized: false,
+            modelEvalAuthorized: false,
+            computerUseTestAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createTestingFrameworksQualityGatesContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord =
+    testingFrameworksQualityGatesBoundaryMapInputRecord(input);
+  const reviewedAt =
+    testingFrameworksQualityGatesBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    testingFrameworksQualityGatesBoundaryMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const testingFrameworksQualityGatesContractBoundaryMap = accepted
+    ? testingFrameworksQualityGatesBoundaryMapState(reviewedAt)
+    : null;
+
+  return testingFrameworksQualityGatesBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    testingFrameworksQualityGatesContractBoundaryMap
   });
 }
 

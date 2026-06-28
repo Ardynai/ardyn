@@ -326,6 +326,9 @@ const phase567InfrastructureComplianceDataRetentionContractBoundaryMap =
 const phase568AgentModeProfileSkillhubCapabilityBoundaryMap = await readJson(
   "tests/fixtures/host-policy/phase5-68/agent-mode-profile-skillhub-capability-boundary-map.json"
 );
+const phase569TestingFrameworksQualityGatesContractBoundaryMap = await readJson(
+  "tests/fixtures/host-policy/phase5-69/testing-frameworks-quality-gates-contract-boundary-map.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -1665,14 +1668,176 @@ const phase568SafetyFlags = {
   phase568FabricSourceChanged: false
 };
 
+const phase569SafetyFlags = {
+  phase569TestingFrameworksQualityGatesContractBoundaryMapRecorded: true,
+  phase569TestingFrameworksQualityGatesContractBoundaryMapReviewOnly: true,
+  phase569TestingFrameworksQualityGatesContractBoundaryMapAuthoritative: false,
+  phase569TestingFrameworksQualityGatesContractBoundaryMapProduced: true,
+  phase569BoundaryEntriesRecorded: true,
+  phase569Phase548TestingFrameworksCoverageItemRepresented: true,
+  phase569TestingFrameworksQualityGatesBoundaryMetadataOnly: true,
+  phase569NoLiveTestingFrameworksQualityGatesRuntimePerformed: true,
+  phase569CurrentUnitSchemaReportStatusValidationEvidenceRecorded: true,
+  phase569CurrentNpmCargoValidationEvidenceRecorded: true,
+  phase569CurrentSemgrepNpmAuditCargoAuditCargoMacheteEvidenceRecorded:
+    true,
+  phase569FocusedFixtureConformanceBoundaryRecorded: true,
+  phase569AdjacentRegressionGateBoundaryRecorded: true,
+  phase569RuntimeBlockedGateBoundaryRecorded: true,
+  phase569BlockedCommandMatrixBoundaryRecorded: true,
+  phase569CiReleaseGateBoundaryRecorded: true,
+  phase569NoNewTestRunner: true,
+  phase569NoCiPipelineCreation: true,
+  phase569NoReleaseAutomation: true,
+  phase569NoBrowserComputerUseCuaDriverTestRuntime: true,
+  phase569NoModelEvalTrainingFinetuningRuntime: true,
+  phase569NoChaosStressE2eRuntime: true,
+  phase569NoExternalServiceTestRuntime: true,
+  phase569NoPackageExportArtifactUploadLiveDependencyUpdatePatchAutomation:
+    true,
+  phase569NoRuntimeIntegrationBackendStorageBehavior: true,
+  phase569NoFabricSecureDropEncodedHandoffRuntime: true,
+  phase569NoHermesCuaAgentModeProfileSkillhubBackgroundFusionFrontDeskRuntime:
+    true,
+  phase569NoLoggerAuditTelemetryHealthInfrastructureRuntime: true,
+  phase569NoCommandExposure: true,
+  phase569NoBlockedCliBypass: true,
+  phase569AllBlockedAuthorizationFlagsFalse: true,
+  phase569AllUnsafeTestingQualityGateRuntimeFlagsFalse: true,
+  phase569AllRuntimeEffectsFalse: true,
+  phase569AllEntriesNonAuthorizing: true,
+  phase569InvalidTestingFrameworksQualityGatesBoundaryCasesFailClosed: true,
+  phase569MissingRequiredFieldsFailClosed: true,
+  phase569UnknownTopLevelFieldsFailClosed: true,
+  phase569UnknownBoundaryFamiliesFailClosed: true,
+  phase569UnknownRelatedSystemsFailClosed: true,
+  phase569UnknownCurrentStatusesFailClosed: true,
+  phase569HiddenTestHarnessExecutionSemanticsFailClosed: true,
+  phase569HiddenCiReleaseAutomationSemanticsFailClosed: true,
+  phase569HiddenBrowserComputerUseCuaDriverExecutionSemanticsFailClosed:
+    true,
+  phase569HiddenModelEvalTrainingFinetuningSemanticsFailClosed: true,
+  phase569HiddenExternalServiceLookupSemanticsFailClosed: true,
+  phase569HiddenBackendApiServerSemanticsFailClosed: true,
+  phase569HiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+  phase569HiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+  phase569HiddenConnectorGrantSemanticsFailClosed: true,
+  phase569HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+  phase569HiddenSecureDropImplementationSemanticsFailClosed: true,
+  phase569HiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+    true,
+  phase569HiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed:
+    true,
+  phase569HiddenHealthBackupRestoreFailoverSchedulerProcessSupervisorSemanticsFailClosed:
+    true,
+  phase569HiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed:
+    true,
+  phase569HiddenAgentModeProfileSkillhubBackgroundSubagentFusionFrontDeskSemanticsFailClosed:
+    true,
+  phase569ServeRuntimeStillDefaultBlocked: true,
+  phase569FallowRuntimeUsed: false,
+  phase569ReportRunsChecks: false,
+  phase569RuntimeExecutionEnabled: false,
+  phase569RuntimeAuthorizationEnabled: false,
+  phase569RuntimeCommandEnabled: false,
+  phase569CommandExposureEnabled: false,
+  phase569CommandRuntimeControlEnabled: false,
+  phase569BlockedCliBypassEnabled: false,
+  phase569DryRunBypassesBlock: false,
+  phase569ConnectorGrantProduced: false,
+  phase569FabricRuntimeImplementedByArdyn: false,
+  phase569WebsocketHttpTransportImplementedByArdyn: false,
+  phase569McpToolExposureEnabled: false,
+  phase569TaskExecutionEnabled: false,
+  phase569SecureDropImplemented: false,
+  phase569ServiceDiscoveryEnabled: false,
+  phase569ScheduleEnforcementEnabled: false,
+  phase569FilesystemWriteEnabled: false,
+  phase569FilesystemScanningEnabled: false,
+  phase569ProcessControlEnabled: false,
+  phase569TestRunnerEnabled: false,
+  phase569IntegrationTestRunnerEnabled: false,
+  phase569E2eRunnerEnabled: false,
+  phase569BrowserTestRunnerEnabled: false,
+  phase569ComputerUseTestRunnerEnabled: false,
+  phase569CuaDriverTestRuntimeEnabled: false,
+  phase569ChaosRunnerEnabled: false,
+  phase569StressRunnerEnabled: false,
+  phase569ModelEvalRuntimeEnabled: false,
+  phase569CiPipelineCreationEnabled: false,
+  phase569ReleaseAutomationEnabled: false,
+  phase569PackageExportEnabled: false,
+  phase569ArtifactUploadEnabled: false,
+  phase569ExternalServiceTestEnabled: false,
+  phase569LiveDependencyUpdateEnabled: false,
+  phase569PatchAutomationEnabled: false,
+  phase569RuntimeTestHarnessEnabled: false,
+  phase569BrowserControlEnabled: false,
+  phase569ComputerUseRuntimeEnabled: false,
+  phase569CuaDriverRuntimeEnabled: false,
+  phase569CuaDriverBinaryExecutionEnabled: false,
+  phase569CuaDriverMcpStdioInvocationEnabled: false,
+  phase569CuaDriverManifestDiscoveryRuntimeEnabled: false,
+  phase569DesktopControlEnabled: false,
+  phase569ScreenshotCaptureRuntimeEnabled: false,
+  phase569OcrEnabled: false,
+  phase569AccessibilityTreeAccessEnabled: false,
+  phase569SomIndexRuntimeEnabled: false,
+  phase569OsWindowEnumerationEnabled: false,
+  phase569InputAutomationRuntimeEnabled: false,
+  phase569BackendRuntimeImplementedByArdyn: false,
+  phase569BackendApiServerMiddlewareImplemented: false,
+  phase569ApiEndpointImplementedByArdyn: false,
+  phase569ServerImplementedByArdyn: false,
+  phase569DatabaseClientImplemented: false,
+  phase569DatabaseStorageRuntimeWritesEnabled: false,
+  phase569CacheEngineImplemented: false,
+  phase569RlsRuntimeImplemented: false,
+  phase569DatabaseMigrationImplemented: false,
+  phase569TranscriptWriterImplemented: false,
+  phase569AuditWriterImplemented: false,
+  phase569ImportExportPathImplementedByArdyn: false,
+  phase569PackageDistributionImplementedByArdyn: false,
+  phase569PersistenceImplementedByArdyn: false,
+  phase569LoggerRuntimeImplemented: false,
+  phase569AuditWriterRuntimeImplemented: false,
+  phase569TelemetryClientImplemented: false,
+  phase569HealthCheckRuntimeImplemented: false,
+  phase569BackupJobImplemented: false,
+  phase569RestoreJobImplemented: false,
+  phase569FailoverRuntimeImplemented: false,
+  phase569SchedulerImplemented: false,
+  phase569ProcessSupervisorImplemented: false,
+  phase569InfrastructureAutomationImplemented: false,
+  phase569DeploymentAutomationImplemented: false,
+  phase569ComplianceEnforcementImplemented: false,
+  phase569PiiProcessingImplemented: false,
+  phase569RetentionJobImplemented: false,
+  phase569ExportJobImplemented: false,
+  phase569HermesRuntimeEnabled: false,
+  phase569AgentModeRuntimeEnabled: false,
+  phase569ProfileLoaderEnabled: false,
+  phase569SkillLoaderEnabled: false,
+  phase569SkillhubInstallerEnabled: false,
+  phase569SecurityScannerRuntimeEnabled: false,
+  phase569BackgroundSubagentRuntimeEnabled: false,
+  phase569FusionRuntimeEnabled: false,
+  phase569JudgeRuntimeEnabled: false,
+  phase569FrontDeskModelRuntimeEnabled: false,
+  phase569UiFrontendBrowserRenderingImplemented: false,
+  phase569CliSourceChanged: false,
+  phase569RustSourceChanged: false,
+  phase569FabricSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.68",
+    id: "5.69",
     name:
-      "Review-only Hermes/CUA agent mode-profile-skillhub capability boundary map",
+      "Review-only testing-frameworks/quality-gates contract boundary map",
     executionPosture:
-      "agent-mode-profile-skillhub-capability-boundary-map runtime-disabled metadata-only no-hermes-install-vendor-copy-import-migration-integration no-cua-driver-install-execution-mcp-stdio-manifest-discovery-backend-start-tool-dispatch-update no-computer-use-runtime no-desktop-control no-browser-control no-screenshot-capture-runtime no-ocr-runtime no-accessibility-tree-runtime no-som-index-runtime no-os-window-enumeration no-input-automation no-action-approval-runtime no-background-subagent-runtime no-profile-personality-session-context-skill-loader no-skillhub-install no-security-scan-runtime no-mcp-plugin-provider-tool-inventory-scanner no-gateway-runtime no-scheduled-automation no-terminal-backend-runtime no-model-router no-fusion-runtime no-judge-runtime no-front-desk-model-runtime no-acp-a2a-runtime no-locus-integration no-external-harness-integration no-backend-api-server-storage-cache-rls-migration no-fabric-websocket-http-mcp-task-runtime no-secure-drop-runtime no-encoded-handoff-runtime no-logger-audit-telemetry-health-infrastructure-runtime no-command-exposure no-blocked-cli-bypass"
+      "testing-frameworks-quality-gates-contract-boundary-map runtime-disabled metadata-only no-new-test-runner no-ci-release-automation no-browser-test no-computer-use-test no-cua-driver-test-runtime no-model-eval-runtime no-chaos-stress-e2e-runner no-external-service-test no-package-export no-artifact-upload no-live-dependency-update no-runtime-command no-backend-api-server-storage no-fabric-secure-drop-encoded-handoff no-hermes-cua-agent-mode-profile-skillhub-background-fusion-front-desk no-logger-audit-telemetry-health-infrastructure no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -1753,18 +1918,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.68 Hermes/CUA agent mode-profile-skillhub capability boundary map status report.",
+        "Render this deterministic local Phase 5.69 testing-frameworks/quality-gates contract boundary map status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.68 status report.",
+      purpose: "Run focused tests for this local Phase 5.69 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.68 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.69 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-69-testing-frameworks-quality-gates-contract-boundary-map.test.mjs",
+      purpose:
+        "Run focused Phase 5.69 testing-frameworks/quality-gates contract boundary map and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -29206,6 +29378,240 @@ const report = {
           .blockedCliBypassEnabled
     }
   },
+  phase569TestingFrameworksQualityGatesContractBoundaryMapInventory: {
+    statusLayer: {
+      schema: phase569TestingFrameworksQualityGatesContractBoundaryMap.schema,
+      schemaVersion:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap.schemaVersion,
+      kind:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .testingFrameworksQualityGatesContractBoundaryMapKind,
+      mode:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .testingFrameworksQualityGatesContractBoundaryMapMode,
+      classification:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap.classification,
+      produced:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .testingFrameworksQualityGatesContractBoundaryMapProduced,
+      boundaryEntryCount:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap.boundaryEntries
+          .length,
+      countByFamily:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .boundaryMapSummary.countByFamily,
+      countByRelatedSystem:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .boundaryMapSummary.countByRelatedSystem,
+      countByStatus:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .boundaryMapSummary.countByStatus,
+      ...phase569TestingFrameworksQualityGatesContractBoundaryMap
+        .boundaryMapSummary,
+      reportRunsChecks:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .reportRunsChecks,
+      runtimeExecutionEnabled:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .runtimeExecutionEnabled,
+      commandExposureEnabled:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .commandExposureEnabled,
+      blockedCliBypassEnabled:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .blockedCliBypassEnabled
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-69-testing-frameworks-quality-gates-contract-boundary-map.md",
+        "Records deterministic review-only testing framework, quality gate, regression gate, CI/release, dependency audit, static analysis, fixture conformance, computer-use test, agent-mode test, model-eval, chaos/stress/e2e, Locus/Multiverse, Fabric/API/backend, and blocked-runtime boundary metadata."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md",
+        "Provides the Hermes/CUA agent-mode/profile/skillhub blocked-runtime boundary referenced by Phase 5.69."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-48-production-readiness-coverage-matrix.md",
+        "Provides production-readiness item #15, Testing Frameworks, represented by Phase 5.69 as review-only metadata."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-48-production-readiness-coverage-matrix.md",
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+      "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+      "docs/phase-5-61-database-storage-contract-boundary-map.md",
+      "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+      "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+      "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+      "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+      "docs/phase-5-66-availability-recovery-contract-boundary-map.md",
+      "docs/phase-5-67-infrastructure-compliance-data-retention-contract-boundary-map.md",
+      "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md",
+      "docs/phase-5-69-testing-frameworks-quality-gates-contract-boundary-map.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-69/testing-frameworks-quality-gates-contract-boundary-map.json",
+        "Records thirty-one metadata-only testing-frameworks/quality-gates boundary entries with false authorization flags, false unsafe runtime flags, false runtime effects, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-69-testing-frameworks-quality-gates-contract-boundary-map.test.mjs",
+        "Pins the Phase 5.69 helper, deterministic fixture shape, requested boundary families, related systems, current status values, fail-closed testing/quality-gate cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.69 status inventory, docs cross-links, fixture inventory, validation command list, and runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-69-testing-frameworks-quality-gates-contract-boundary-map.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-69/testing-frameworks-quality-gates-contract-boundary-map.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-69-testing-frameworks-quality-gates-contract-boundary-map.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      hermesRepoFilesChanged: [],
+      cuaDriverFilesChanged: [],
+      externalRepoFilesChanged: [],
+      newTestRunnerAddedByThisPhase: false,
+      ciPipelineCreationAddedByThisPhase: false,
+      releaseAutomationAddedByThisPhase: false,
+      browserComputerUseCuaDriverTestRuntimeAddedByThisPhase: false,
+      modelEvalRuntimeAddedByThisPhase: false,
+      chaosStressE2eRunnerAddedByThisPhase: false,
+      externalServiceTestAddedByThisPhase: false,
+      packageExportArtifactUploadLiveDependencyPatchAutomationAddedByThisPhase:
+        false,
+      runtimeIntegrationBackendStorageBehaviorAddedByThisPhase: false,
+      fabricSecureDropEncodedHandoffRuntimeAddedByThisPhase: false,
+      hermesCuaAgentModeProfileSkillhubBackgroundFusionFrontDeskRuntimeAddedByThisPhase:
+        false,
+      loggerAuditTelemetryHealthInfrastructureRuntimeAddedByThisPhase: false,
+      commandExposureAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateTestingFrameworksQualityGatesRuntimePhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    boundaryMapSummary:
+      phase569TestingFrameworksQualityGatesContractBoundaryMap.boundaryMapSummary,
+    sourcePhaseContext:
+      phase569TestingFrameworksQualityGatesContractBoundaryMap
+        .testingFrameworksQualityGatesContractBoundaryMap.sourcePhaseContext,
+    boundaryEntries:
+      phase569TestingFrameworksQualityGatesContractBoundaryMap.boundaryEntries.map(
+        ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          productionReadinessAreaReference,
+          testingFrameworksQualityGatesBoundaryMetadataOnly,
+          noLiveTestingFrameworksQualityGatesRuntimePerformed,
+          explicitBlockedAuthorizationFlags,
+          unsafeTestingQualityGateRuntimeFlags,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          productionReadinessAreaReference,
+          testingFrameworksQualityGatesBoundaryMetadataOnly,
+          noLiveTestingFrameworksQualityGatesRuntimePerformed,
+          explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+            explicitBlockedAuthorizationFlags
+          ).every((value) => value === false),
+          unsafeTestingQualityGateRuntimeFlagsAllFalse: Object.values(
+            unsafeTestingQualityGateRuntimeFlags
+          ).every((value) => value === false),
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    invalidBoundaryCasePolicy:
+      phase569TestingFrameworksQualityGatesContractBoundaryMap
+        .invalidBoundaryCasePolicy,
+    topTestingQualityGatesOperationsCodeModeFabricApiBackendGaps:
+      phase569TestingFrameworksQualityGatesContractBoundaryMap
+        .topTestingQualityGatesOperationsCodeModeFabricApiBackendGaps,
+    recommendedNextPhase:
+      phase569TestingFrameworksQualityGatesContractBoundaryMap
+        .recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase569TestingFrameworksQualityGatesContractBoundaryMap.runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-69-testing-frameworks-quality-gates-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-68-agent-mode-profile-skillhub-capability-boundary-map.test.mjs",
+      "node --test tests/phase5-67-infrastructure-compliance-data-retention-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-66-availability-recovery-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-65-error-tracking-logging-audit-integrity-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-64-rate-limiting-abuse-control-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-63-security-rls-input-sanitization-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-62-auth-permissions-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-61-database-storage-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-48-production-readiness-coverage-matrix.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "semgrep --config auto .",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      testingFrameworksQualityGatesContractBoundaryMapRecorded: true,
+      testingFrameworksQualityGatesContractBoundaryMapReviewOnly: true,
+      testingFrameworksQualityGatesContractBoundaryMapAuthoritative: false,
+      testingFrameworksQualityGatesContractBoundaryMapProduced: true,
+      boundaryEntriesRecorded: true,
+      ...phase569TestingFrameworksQualityGatesContractBoundaryMap
+        .boundaryMapSummary,
+      reportRunsChecks:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .reportRunsChecks,
+      runtimeExecutionEnabled:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .runtimeExecutionEnabled,
+      commandExposureEnabled:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .commandExposureEnabled,
+      blockedCliBypassEnabled:
+        phase569TestingFrameworksQualityGatesContractBoundaryMap
+          .blockedCliBypassEnabled
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -29309,6 +29715,7 @@ const report = {
     phase566AvailabilityRecoveryContractBoundaryMap: true,
     phase567InfrastructureComplianceDataRetentionContractBoundaryMap: true,
     phase568AgentModeProfileSkillhubCapabilityBoundaryMap: true,
+    phase569TestingFrameworksQualityGatesContractBoundaryMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -32614,6 +33021,7 @@ const report = {
       ...phase566SafetyFlags,
       ...phase567SafetyFlags,
       ...phase568SafetyFlags,
+      ...phase569SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,
