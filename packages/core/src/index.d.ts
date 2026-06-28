@@ -384,6 +384,11 @@ export const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_VERSION:
   "0.1.0";
 export const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_KIND:
   "testing-frameworks-quality-gates-contract-boundary-map";
+export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.70.operations-reliability-contract-boundary-map-result";
+export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_VERSION: "0.1.0";
+export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_KIND:
+  "operations-reliability-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -9897,6 +9902,155 @@ export interface TestingFrameworksQualityGatesContractBoundaryMapResult {
 export function createTestingFrameworksQualityGatesContractBoundaryMapForReview(
   input?: Record<string, unknown>
 ): TestingFrameworksQualityGatesContractBoundaryMapResult;
+
+export type OperationsReliabilityContractBoundaryMapClassification =
+  | "valid_operations_reliability_contract_boundary_map_runtime_still_blocked"
+  | "malformed_operations_reliability_contract_boundary_map_input_rejected"
+  | "missing_required_operations_reliability_contract_boundary_entry_rejected"
+  | "unknown_top_level_field_operations_reliability_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_operations_reliability_contract_boundary_map_input_rejected"
+  | "unknown_related_system_operations_reliability_contract_boundary_map_input_rejected"
+  | "unknown_current_status_operations_reliability_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_operations_reliability_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_operations_reliability_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_operations_reliability_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_operations_reliability_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_retry_circuit_breaker_execution_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_idempotency_persistence_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_queue_scheduler_worker_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_lease_work_ownership_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_cancellation_concurrency_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_background_subagent_execution_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_front_desk_fusion_judge_model_routing_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_computer_use_cua_driver_reliability_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_skillhub_install_rollback_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_mcp_tool_plugin_provider_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_backend_api_server_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_database_storage_cache_write_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_auth_session_token_api_key_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_logger_audit_transcript_telemetry_external_sink_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_health_backup_restore_failover_scheduler_process_supervisor_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_infrastructure_deployment_compliance_pii_retention_export_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "hidden_testing_ci_release_automation_semantics_operations_reliability_contract_boundary_map_input_rejected"
+  | "unsafe_operations_reliability_runtime_flags_operations_reliability_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_operations_reliability_contract_boundary_map_input_rejected"
+  | "noncanonical_operations_reliability_contract_boundary_map_input_rejected";
+
+export interface OperationsReliabilityContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "retry_contract"
+    | "idempotency_contract"
+    | "circuit_breaker_contract"
+    | "concurrency_contract"
+    | "cancellation_contract"
+    | "lease_contract"
+    | "work_ownership_contract"
+    | "queue_semantics_contract"
+    | "degraded_mode_contract"
+    | "front_desk_busy_contract"
+    | "background_subagent_reliability_contract"
+    | "operation_runbook_contract"
+    | "handoff_recovery_contract"
+    | "fabric_reliability_contract"
+    | "computer_use_reliability_contract"
+    | "skillhub_reliability_contract";
+  relatedSystem:
+    | "ardyn"
+    | "ardyn-subagent"
+    | "locus"
+    | "multiverse"
+    | "content-fabric"
+    | "repo-family"
+    | "external-harness"
+    | "hermes-reference"
+    | "cua-driver-reference";
+  currentStatus: "metadata_only" | "blocked" | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  retryExpectation: string;
+  idempotencyExpectation: string;
+  circuitBreakerExpectation: string;
+  concurrencyExpectation: string;
+  cancellationExpectation: string;
+  workOwnershipExpectation: string;
+  handoffRecoveryExpectation: string;
+  degradedModeExpectation: string;
+  runbookExpectation: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeOperationsReliabilityRuntimeFlags: Record<string, false>;
+  operationsReliabilityBoundaryMetadataOnly: true;
+  noLiveOperationsReliabilityRuntimePerformed: true;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface OperationsReliabilityContractBoundaryMapState {
+  schema: "ardyn.phase-5.70.operations-reliability-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "operations-reliability-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: OperationsReliabilityContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topOperationsReliabilityCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  operationsReliabilityContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface OperationsReliabilityContractBoundaryMapResult {
+  schema: "ardyn.phase-5.70.operations-reliability-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  operationsReliabilityContractBoundaryMapKind:
+    "operations-reliability-contract-boundary-map";
+  operationsReliabilityContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: OperationsReliabilityContractBoundaryMapClassification;
+  operationsReliabilityContractBoundaryMapProduced: boolean;
+  operationsReliabilityContractBoundaryMap:
+    | OperationsReliabilityContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | OperationsReliabilityContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: OperationsReliabilityContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topOperationsReliabilityCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  operationsReliabilityContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export function createOperationsReliabilityContractBoundaryMapForReview(
+  input?: Record<string, unknown>
+): OperationsReliabilityContractBoundaryMapResult;
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";

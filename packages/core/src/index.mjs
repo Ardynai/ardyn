@@ -364,6 +364,11 @@ export const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_VERSION =
   "0.1.0";
 export const TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_KIND =
   "testing-frameworks-quality-gates-contract-boundary-map";
+export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.70.operations-reliability-contract-boundary-map-result";
+export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_VERSION = "0.1.0";
+export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_KIND =
+  "operations-reliability-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -59196,6 +59201,1492 @@ export function createTestingFrameworksQualityGatesContractBoundaryMapForReview(
     classification,
     accepted,
     testingFrameworksQualityGatesContractBoundaryMap
+  });
+}
+
+const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.70.operations-reliability-contract-boundary-map-state";
+const VALID_OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_operations_reliability_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_operations_reliability_contract_boundary_map_input_rejected";
+
+const OPERATIONS_RELIABILITY_BOUNDARY_FAMILIES = Object.freeze([
+  "retry_contract",
+  "idempotency_contract",
+  "circuit_breaker_contract",
+  "concurrency_contract",
+  "cancellation_contract",
+  "lease_contract",
+  "work_ownership_contract",
+  "queue_semantics_contract",
+  "degraded_mode_contract",
+  "front_desk_busy_contract",
+  "background_subagent_reliability_contract",
+  "operation_runbook_contract",
+  "handoff_recovery_contract",
+  "fabric_reliability_contract",
+  "computer_use_reliability_contract",
+  "skillhub_reliability_contract"
+]);
+const OPERATIONS_RELIABILITY_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family",
+  "external-harness",
+  "hermes-reference",
+  "cua-driver-reference"
+]);
+const OPERATIONS_RELIABILITY_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const OPERATIONS_RELIABILITY_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "retryExpectation",
+  "idempotencyExpectation",
+  "circuitBreakerExpectation",
+  "concurrencyExpectation",
+  "cancellationExpectation",
+  "workOwnershipExpectation",
+  "handoffRecoveryExpectation",
+  "degradedModeExpectation",
+  "runbookExpectation",
+  "locusRoleDescription",
+  "multiverseRoleDescription",
+  "fabricRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeOperationsReliabilityRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const OPERATIONS_RELIABILITY_ALLOWED_TOP_LEVEL_FIELDS = Object.freeze([
+  "reviewedAt",
+  "boundaryEntries"
+]);
+const OPERATIONS_RELIABILITY_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "connectorGrantProduced",
+  "fabricRuntimeImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "retryEngineEnabled",
+  "idempotencyStoreEnabled",
+  "circuitBreakerEnabled",
+  "queueEnabled",
+  "schedulerEnabled",
+  "schedulerImplemented",
+  "leaseStoreEnabled",
+  "workerEnabled",
+  "backgroundWorkerEnabled",
+  "backgroundSubagentRuntimeEnabled",
+  "frontDeskModelRuntimeEnabled",
+  "modelRouterEnabled",
+  "processSupervisorImplemented",
+  "runbookExecutorEnabled",
+  "failoverRuntimeImplemented",
+  "operationMonitorEnabled",
+  "orchestrationRuntimeEnabled",
+  "fusionRuntimeEnabled",
+  "judgeRuntimeEnabled",
+  "computerUseRuntimeEnabled",
+  "cuaDriverRuntimeEnabled",
+  "skillhubRollbackRuntimeEnabled",
+  "skillhubInstallerEnabled",
+  "mcpRuntimeEnabled",
+  "toolRuntimeEnabled",
+  "pluginRuntimeEnabled",
+  "providerRuntimeEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "cacheEngineImplemented",
+  "rlsRuntimeImplemented",
+  "databaseMigrationImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "loggerRuntimeImplemented",
+  "auditWriterRuntimeImplemented",
+  "telemetryClientImplemented",
+  "healthCheckRuntimeImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "infrastructureAutomationImplemented",
+  "deploymentAutomationImplemented",
+  "complianceEnforcementImplemented",
+  "piiProcessingImplemented",
+  "retentionJobImplemented",
+  "exportJobImplemented",
+  "testingCiReleaseAutomationEnabled",
+  "hermesRuntimeEnabled",
+  "agentModeRuntimeEnabled",
+  "profileLoaderEnabled",
+  "skillLoaderEnabled",
+  "uiFrontendBrowserRenderingImplemented",
+  "blockedCliBypassEnabled"
+]);
+const OPERATIONS_RELIABILITY_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "runtimeAuthorizationGranted",
+  "authorizesRuntime",
+  "operationsRuntimeAuthorizationGranted",
+  "retryEngineAuthorizationGranted",
+  "idempotencyStoreAuthorizationGranted",
+  "circuitBreakerAuthorizationGranted",
+  "queueSchedulerAuthorizationGranted",
+  "leaseStoreAuthorizationGranted",
+  "workerAuthorizationGranted",
+  "operationMonitorAuthorizationGranted",
+  "runbookExecutorAuthorizationGranted",
+  "processSupervisorAuthorizationGranted",
+  "backgroundSubagentAuthorizationGranted",
+  "modelRouterAuthorizationGranted",
+  "frontDeskAuthorizationGranted",
+  "computerUseReliabilityAuthorizationGranted",
+  "skillhubRollbackAuthorizationGranted",
+  "mcpToolPluginProviderAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "backendApiServerAuthorizationGranted",
+  "databaseStorageAuthorizationGranted",
+  "fabricRuntimeAuthorizationGranted",
+  "secureDropAuthorizationGranted",
+  "encodedHandoffRuntimeAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+const OPERATIONS_RELIABILITY_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const OPERATIONS_RELIABILITY_BLOCKED_CLI_BYPASS_FIELDS = Object.freeze([
+  "blockedCliBypassEnabled",
+  "dryRunBypassesBlock",
+  "serveRuntimeBypassEnabled",
+  "bypassBlockedCommandBehavior",
+  "blockedCommandOverride"
+]);
+const OPERATIONS_RELIABILITY_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_retry_circuit_breaker_execution_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "retryEngine",
+      "retryPolicy",
+      "backoffSchedule",
+      "circuitBreaker",
+      "breakerState",
+      "fallbackExecutor"
+    ]
+  },
+  {
+    classification:
+      "hidden_idempotency_persistence_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "idempotencyStore",
+      "idempotencyKey",
+      "dedupeStore",
+      "writeFence",
+      "exactlyOnce"
+    ]
+  },
+  {
+    classification:
+      "hidden_queue_scheduler_worker_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "queue",
+      "taskQueue",
+      "scheduler",
+      "cronSchedule",
+      "worker",
+      "workerPool",
+      "asyncExecutor",
+      "pollingLoop"
+    ]
+  },
+  {
+    classification:
+      "hidden_lease_work_ownership_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "leaseStore",
+      "leaseToken",
+      "workOwner",
+      "ownershipRegistry",
+      "lockManager"
+    ]
+  },
+  {
+    classification:
+      "hidden_cancellation_concurrency_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "cancellationToken",
+      "abortController",
+      "concurrencyLimit",
+      "semaphore",
+      "mutex",
+      "parallelExecutor"
+    ]
+  },
+  {
+    classification:
+      "hidden_background_subagent_execution_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "backgroundSubagent",
+      "subagentDaemon",
+      "subagentQueue",
+      "subagentWorker",
+      "subagentCancellation"
+    ]
+  },
+  {
+    classification:
+      "hidden_front_desk_fusion_judge_model_routing_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "frontDeskModel",
+      "frontDeskResponder",
+      "fusionRuntime",
+      "judgeRuntime",
+      "modelRouter",
+      "orchestratorBusyState"
+    ]
+  },
+  {
+    classification:
+      "hidden_computer_use_cua_driver_reliability_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "computerUseRuntime",
+      "computerUseReliabilityRunner",
+      "cuaDriverRuntime",
+      "cuaDriverBinary",
+      "desktopControl",
+      "inputAutomation"
+    ]
+  },
+  {
+    classification:
+      "hidden_skillhub_install_rollback_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "skillhubInstaller",
+      "skillhubRollback",
+      "skillInstaller",
+      "skillRollback",
+      "skillActivation"
+    ]
+  },
+  {
+    classification:
+      "hidden_mcp_tool_plugin_provider_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "mcpServer",
+      "mcpTool",
+      "toolRuntime",
+      "pluginRuntime",
+      "providerRuntime",
+      "toolRegistry"
+    ]
+  },
+  {
+    classification:
+      "hidden_backend_api_server_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "backendApiMiddleware",
+      "apiRequestHandler",
+      "httpServer",
+      "serverMiddleware",
+      "httpEndpoint",
+      "runtimeEndpoint"
+    ]
+  },
+  {
+    classification:
+      "hidden_database_storage_cache_write_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "databaseUrl",
+      "databaseDsn",
+      "dbConnectionString",
+      "storageAdapter",
+      "cacheEngine",
+      "writeQueue",
+      "persistenceLayer",
+      "filesystemWrite"
+    ]
+  },
+  {
+    classification:
+      "hidden_auth_session_token_api_key_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "loginUrl",
+      "sessionCookie",
+      "sessionStore",
+      "sessionToken",
+      "apiKey",
+      "oauthToken",
+      "authHeader"
+    ]
+  },
+  {
+    classification:
+      "hidden_connector_grant_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "connectorGrant",
+      "connectorCredential",
+      "connectorAccessToken",
+      "connectorComplianceGrant"
+    ]
+  },
+  {
+    classification:
+      "hidden_fabric_websocket_http_mcp_task_runtime_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "fabricBus",
+      "websocketUrl",
+      "httpTransport",
+      "mcpRuntime",
+      "mcpServer",
+      "mcpTool",
+      "taskRunner",
+      "taskQueue"
+    ]
+  },
+  {
+    classification:
+      "hidden_secure_drop_implementation_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "secureDropKeyring",
+      "secureDropCrypto",
+      "secureDropTransport",
+      "secureDropInbox",
+      "secureDropFilePicker",
+      "st3ggWrapper"
+    ]
+  },
+  {
+    classification:
+      "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "encodedHandoffRuntime",
+      "codecRuntime",
+      "translatorRuntime",
+      "encoderRuntime",
+      "decoderRuntime",
+      "stegoChannel",
+      "covertChannel",
+      "tokenizerExploit",
+      "bypassPayload"
+    ]
+  },
+  {
+    classification:
+      "hidden_logger_audit_transcript_telemetry_external_sink_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "loggerRuntime",
+      "auditWriter",
+      "transcriptWriter",
+      "telemetryClient",
+      "externalSink",
+      "logExporter"
+    ]
+  },
+  {
+    classification:
+      "hidden_health_backup_restore_failover_scheduler_process_supervisor_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "healthChecker",
+      "backupJob",
+      "restoreJob",
+      "failoverRuntime",
+      "scheduler",
+      "cronSchedule",
+      "processSupervisor",
+      "serviceDiscovery"
+    ]
+  },
+  {
+    classification:
+      "hidden_infrastructure_deployment_compliance_pii_retention_export_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "terraformPlan",
+      "deployCommand",
+      "cloudProvider",
+      "complianceEnforcer",
+      "piiProcessor",
+      "retentionScheduler",
+      "exportJob",
+      "policyEngine"
+    ]
+  },
+  {
+    classification:
+      "hidden_testing_ci_release_automation_semantics_operations_reliability_contract_boundary_map_input_rejected",
+    fields: [
+      "testRunner",
+      "ciPipeline",
+      "githubActionsWorkflow",
+      "releaseJob",
+      "releaseAutomation",
+      "artifactUpload",
+      "packageExport"
+    ]
+  }
+]);
+
+function operationsReliabilityBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function operationsReliabilityBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function operationsReliabilityBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(operationsReliabilityBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      operationsReliabilityBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function operationsReliabilityBoundaryMapHasTrueFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      operationsReliabilityBoundaryMapHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (operationsReliabilityBoundaryMapHasTrueFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function operationsReliabilityBoundaryMapHasPresentFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      operationsReliabilityBoundaryMapHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeOperationsReliabilityRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (operationsReliabilityBoundaryMapHasPresentFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function operationsReliabilityBoundaryMapEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function operationsReliabilityBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function operationsReliabilityBoundaryMapEntryIssue(entries, predicate) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function operationsReliabilityBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    OPERATIONS_RELIABILITY_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function operationsReliabilityBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.retryExpectation !== "string" ||
+    typeof entry.idempotencyExpectation !== "string" ||
+    typeof entry.circuitBreakerExpectation !== "string" ||
+    typeof entry.concurrencyExpectation !== "string" ||
+    typeof entry.cancellationExpectation !== "string" ||
+    typeof entry.workOwnershipExpectation !== "string" ||
+    typeof entry.handoffRecoveryExpectation !== "string" ||
+    typeof entry.degradedModeExpectation !== "string" ||
+    typeof entry.runbookExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(entry.unsafeOperationsReliabilityRuntimeFlags) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function operationsReliabilityBoundaryMapAuthorizationFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    OPERATIONS_RELIABILITY_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function operationsReliabilityBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.unsafeOperationsReliabilityRuntimeFlags) &&
+      Object.values(value.unsafeOperationsReliabilityRuntimeFlags).some(
+        (flag) => flag !== false
+      )) ||
+    operationsReliabilityBoundaryMapHasTrueFieldDeep(
+      value,
+      OPERATIONS_RELIABILITY_UNSAFE_FIELDS
+    )
+  );
+}
+
+function operationsReliabilityBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(operationsReliabilityBoundaryMapEntries())
+  );
+}
+
+function operationsReliabilityBoundaryMapInputClassification(inputRecord) {
+  if (operationsReliabilityBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries = operationsReliabilityBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    operationsReliabilityBoundaryMapEntryIssue(
+      entries,
+      operationsReliabilityBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_operations_reliability_contract_boundary_entry_rejected";
+  }
+
+  if (
+    operationsReliabilityBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !OPERATIONS_RELIABILITY_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    operationsReliabilityBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !OPERATIONS_RELIABILITY_RELATED_SYSTEMS.includes(entry.relatedSystem)
+    )
+  ) {
+    return "unknown_related_system_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    operationsReliabilityBoundaryMapEntryIssue(
+      entries,
+      (entry) => !OPERATIONS_RELIABILITY_STATUSES.includes(entry.currentStatus)
+    )
+  ) {
+    return "unknown_current_status_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    operationsReliabilityBoundaryMapEntryIssue(
+      entries,
+      operationsReliabilityBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    OPERATIONS_RELIABILITY_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord[field] === true
+    )
+  ) {
+    return "runtime_authorization_attempt_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    operationsReliabilityBoundaryMapEntryIssue(
+      entries,
+      operationsReliabilityBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    operationsReliabilityBoundaryMapAuthorizationFlagEnabled(inputRecord)
+  ) {
+    return "authorization_flags_enabled_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    operationsReliabilityBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    operationsReliabilityBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      OPERATIONS_RELIABILITY_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    operationsReliabilityBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      OPERATIONS_RELIABILITY_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    operationsReliabilityBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      OPERATIONS_RELIABILITY_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  for (const {
+    classification,
+    fields
+  } of OPERATIONS_RELIABILITY_HIDDEN_FIELD_GROUPS) {
+    if (
+      operationsReliabilityBoundaryMapHasPresentFieldDeep(inputRecord, fields)
+    ) {
+      return classification;
+    }
+  }
+
+  if (
+    operationsReliabilityBoundaryMapUnsafeFlagEnabled(inputRecord) ||
+    operationsReliabilityBoundaryMapEntryIssue(
+      entries,
+      operationsReliabilityBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_operations_reliability_runtime_flags_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    operationsReliabilityBoundaryMapEntryIssue(entries, (entry) =>
+      operationsReliabilityBoundaryMapContainsTrue(entry?.runtimeEffect)
+    ) ||
+    operationsReliabilityBoundaryMapContainsTrue(inputRecord?.runtimeEffect)
+  ) {
+    return "nested_unsafe_flags_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord).some(
+      (field) =>
+        !OPERATIONS_RELIABILITY_ALLOWED_TOP_LEVEL_FIELDS.includes(field)
+    )
+  ) {
+    return "unknown_top_level_field_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  if (!operationsReliabilityBoundaryMapCanonical(entries)) {
+    return "noncanonical_operations_reliability_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function operationsReliabilityBoundaryMapForbiddenBehavior() {
+  return [
+    "runtime operations engine",
+    "retry engine",
+    "idempotency store",
+    "circuit breaker",
+    "queue",
+    "scheduler",
+    "worker",
+    "lease store",
+    "operation monitor",
+    "runbook executor",
+    "process supervisor",
+    "failover runtime",
+    "background subagent runtime",
+    "front-desk model runtime",
+    "model router",
+    "fusion runtime",
+    "judge runtime",
+    "orchestration runtime",
+    "computer-use or CUA-driver reliability runtime",
+    "SkillHub install or rollback runtime",
+    "MCP, tool, plugin, or provider runtime",
+    "service discovery, polling, persistence, database client, storage adapter, cache engine, filesystem write, or process control",
+    "backend middleware, API/server behavior, Fabric bus, websocket/http transport, MCP exposure, task execution, connector grant, Secure Drop implementation, encoded handoff runtime, codec, translator, stego, covert channel, tokenizer exploit, or bypass",
+    "logger runtime, audit writer, telemetry client, health monitor, backup job, restore job, infrastructure automation, deployment automation, compliance enforcement, PII processing, retention job, export job, or runtime governance",
+    "Hermes install, vendoring, copying, importing, migration, or integration",
+    "cua-driver install, execution, stdio MCP invocation, manifest discovery, update, backend start, or tool dispatch",
+    "testing, CI, release automation, package export, artifact upload, live dependency update, or patch automation",
+    "command exposure",
+    "interactive control",
+    "blocked CLI bypass"
+  ];
+}
+
+function operationsReliabilityBoundaryMapAuthorizationFlags() {
+  return {
+    runtimeAuthorizationGranted: false,
+    operationsRuntimeAuthorizationGranted: false,
+    retryEngineAuthorizationGranted: false,
+    idempotencyStoreAuthorizationGranted: false,
+    circuitBreakerAuthorizationGranted: false,
+    queueSchedulerAuthorizationGranted: false,
+    leaseStoreAuthorizationGranted: false,
+    workerAuthorizationGranted: false,
+    operationMonitorAuthorizationGranted: false,
+    runbookExecutorAuthorizationGranted: false,
+    processSupervisorAuthorizationGranted: false,
+    backgroundSubagentAuthorizationGranted: false,
+    modelRouterAuthorizationGranted: false,
+    frontDeskAuthorizationGranted: false,
+    computerUseReliabilityAuthorizationGranted: false,
+    skillhubRollbackAuthorizationGranted: false,
+    mcpToolPluginProviderAuthorizationGranted: false,
+    commandExposureAuthorizationGranted: false,
+    backendApiServerAuthorizationGranted: false,
+    databaseStorageAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false,
+    encodedHandoffRuntimeAuthorizationGranted: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    authorizesRuntime: false
+  };
+}
+
+function operationsReliabilityBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    OPERATIONS_RELIABILITY_UNSAFE_FIELDS.map((field) => [field, false])
+  );
+}
+
+function operationsReliabilityBoundaryMapNotes() {
+  return {
+    currentAuthorization:
+      "Requires a future explicit authorization phase before any retry engine, idempotency store, circuit breaker, queue, scheduler, worker, lease store, operation monitor, runbook executor, process supervisor, background subagent, model router, fusion/judge/front-desk runtime, computer-use/CUA-driver runtime, SkillHub install/rollback runtime, MCP/tool/plugin/provider runtime, backend/API/server behavior, storage write, connector grant, Secure Drop, Fabric, encoded handoff, logger/audit/telemetry, health-check, infrastructure, testing/CI/release automation, filesystem, process, UI, or command behavior.",
+    retry:
+      "Future retry behavior must define retryable classes, nonretryable classes, backoff, jitter, retry budgets, cancellation, audit evidence, and side-effect protection before implementation.",
+    idempotency:
+      "Future idempotency must define keys, dedupe windows, write fences, replay behavior, persistence ownership, and recovery semantics before any storage-backed operation.",
+    circuitBreaker:
+      "Future circuit breakers must define trip conditions, half-open behavior, fallback scope, operator visibility, reset policy, and fail-closed defaults before implementation.",
+    concurrency:
+      "Future concurrency must define work isolation, resource limits, queue ownership, parallelism, fairness, starvation handling, and user-interruptible status before runtime.",
+    cancellation:
+      "Future cancellation must define user interrupt, cleanup, partial-result handoff, cancellation propagation, and deny-path behavior before runtime.",
+    ownership:
+      "Future work ownership must define owner identity, leases, handoff, expiry, recovery, duplicate suppression, and conflict semantics before any live worker.",
+    handoff:
+      "Future handoff/recovery must define typed handoff records, retry safety, lost-result handling, transcript/audit visibility, and content-fabric boundaries before implementation.",
+    degraded:
+      "Future degraded modes must define fallback scope, user-visible busy/degraded status, escalation, no-silent-success behavior, and operator recovery steps before runtime.",
+    runbook:
+      "Future runbooks must be evidence and operator guidance until a separate executor contract exists; Ardyn executes no operational runbook in this phase.",
+    locus:
+      "Locus may later display reliability status after a Locus-owned UI/control-surface contract; Ardyn creates no Locus integration or UI.",
+    multiverse:
+      "Multiverse may later consume reliability metadata after a Multiverse-owned contract; Ardyn executes no task and creates no bridge.",
+    fabric:
+      "Content Fabric may later own coordination envelopes, Secure Drop canonical implementation, and handoff recovery after a separate Fabric contract; Ardyn creates no Fabric bus, websocket/http transport, MCP/task runtime, Secure Drop runtime, codec, translator, or external sink."
+  };
+}
+
+function operationsReliabilityBoundaryMapDefinition(definition) {
+  const notes = operationsReliabilityBoundaryMapNotes();
+
+  return {
+    ...definition,
+    allowedCurrentBehavior: [
+      `Describe future ${definition.subject} operations/reliability boundary metadata.`,
+      "Reference prior Phase 5 boundary artifacts as review-only metadata.",
+      "Keep current behavior review-only, metadata-only, non-authorizing, and runtime-blocked."
+    ],
+    forbiddenCurrentBehavior:
+      operationsReliabilityBoundaryMapForbiddenBehavior(),
+    requiredFutureContractBeforeImplementation:
+      `A future ${definition.subject} contract must define retry, idempotency, circuit-breaker, concurrency, cancellation, work ownership, degraded-mode, runbook, handoff/recovery, operator visibility, audit/evidence, deny-path, and explicit no-runtime defaults before implementation.`,
+    requiredFutureAuthorizationPhaseBeforeRuntime:
+      definition.requiredFutureAuthorizationPhaseBeforeRuntime ??
+      notes.currentAuthorization,
+    retryExpectation: definition.retryExpectation ?? notes.retry,
+    idempotencyExpectation:
+      definition.idempotencyExpectation ?? notes.idempotency,
+    circuitBreakerExpectation:
+      definition.circuitBreakerExpectation ?? notes.circuitBreaker,
+    concurrencyExpectation:
+      definition.concurrencyExpectation ?? notes.concurrency,
+    cancellationExpectation:
+      definition.cancellationExpectation ?? notes.cancellation,
+    workOwnershipExpectation:
+      definition.workOwnershipExpectation ?? notes.ownership,
+    handoffRecoveryExpectation:
+      definition.handoffRecoveryExpectation ?? notes.handoff,
+    degradedModeExpectation:
+      definition.degradedModeExpectation ?? notes.degraded,
+    runbookExpectation: definition.runbookExpectation ?? notes.runbook,
+    locusRoleDescription: definition.locusRoleDescription ?? notes.locus,
+    multiverseRoleDescription:
+      definition.multiverseRoleDescription ?? notes.multiverse,
+    fabricRoleDescription: definition.fabricRoleDescription ?? notes.fabric
+  };
+}
+
+function operationsReliabilityBoundaryMapDefinitions() {
+  const notes = operationsReliabilityBoundaryMapNotes();
+  const rows = [
+    [
+      "phase5-70.content_fabric.backend_api_phase559.fabric_reliability_boundary",
+      "fabric_reliability_contract",
+      "content-fabric",
+      "future_contract_required",
+      "backend/API reliability boundary from Phase 5.59"
+    ],
+    [
+      "phase5-70.content_fabric.encoded_handoff_phase560.handoff_recovery_boundary",
+      "handoff_recovery_contract",
+      "content-fabric",
+      "future_contract_required",
+      "encoded handoff reliability boundary from Phase 5.60"
+    ],
+    [
+      "phase5-70.ardyn.database_storage_phase561.idempotency_write_safety_boundary",
+      "idempotency_contract",
+      "ardyn",
+      "future_contract_required",
+      "database/storage idempotency and write-safety boundary from Phase 5.61"
+    ],
+    [
+      "phase5-70.ardyn.auth_permissions_phase562.retry_revocation_boundary",
+      "retry_contract",
+      "ardyn",
+      "future_contract_required",
+      "auth/permissions retry and revocation-continuity boundary from Phase 5.62"
+    ],
+    [
+      "phase5-70.ardyn.security_rls_phase563.fail_closed_operations_boundary",
+      "circuit_breaker_contract",
+      "ardyn",
+      "future_contract_required",
+      "security/RLS fail-closed operations boundary from Phase 5.63"
+    ],
+    [
+      "phase5-70.repo_family.rate_limit_abuse_phase564.retry_budget_boundary",
+      "retry_contract",
+      "repo-family",
+      "future_contract_required",
+      "rate-limit and abuse retry-budget boundary from Phase 5.64"
+    ],
+    [
+      "phase5-70.ardyn.error_log_audit_phase565.operational_visibility_boundary",
+      "operation_runbook_contract",
+      "ardyn",
+      "metadata_only",
+      "error/log/audit operational visibility boundary from Phase 5.65"
+    ],
+    [
+      "phase5-70.repo_family.availability_recovery_phase566.degraded_mode_boundary",
+      "degraded_mode_contract",
+      "repo-family",
+      "future_contract_required",
+      "availability/recovery degraded-mode boundary from Phase 5.66"
+    ],
+    [
+      "phase5-70.repo_family.infrastructure_compliance_phase567.operational_governance_boundary",
+      "operation_runbook_contract",
+      "repo-family",
+      "metadata_only",
+      "infrastructure/compliance operational governance boundary from Phase 5.67"
+    ],
+    [
+      "phase5-70.hermes_reference.computer_use_phase568.reliability_boundary",
+      "computer_use_reliability_contract",
+      "hermes-reference",
+      "blocked",
+      "Hermes/CUA computer-use reliability boundary from Phase 5.68"
+    ],
+    [
+      "phase5-70.cua_driver_reference.computer_use_driver_phase568.reliability_boundary",
+      "computer_use_reliability_contract",
+      "cua-driver-reference",
+      "blocked",
+      "CUA-driver computer-use reliability boundary from Phase 5.68"
+    ],
+    [
+      "phase5-70.external_harness.testing_quality_phase569.operational_release_boundary",
+      "operation_runbook_contract",
+      "external-harness",
+      "metadata_only",
+      "testing/quality-gate operational release boundary from Phase 5.69"
+    ],
+    [
+      "phase5-70.ardyn_subagent.background_subagent.concurrency_cancellation_boundary",
+      "background_subagent_reliability_contract",
+      "ardyn-subagent",
+      "blocked",
+      "future background subagent concurrency and cancellation boundary"
+    ],
+    [
+      "phase5-70.ardyn.front_desk.busy_state_boundary",
+      "front_desk_busy_contract",
+      "ardyn",
+      "blocked",
+      "future front-desk lightweight model busy-state boundary"
+    ],
+    [
+      "phase5-70.ardyn_subagent.fusion_judge.orchestration_reliability_boundary",
+      "concurrency_contract",
+      "ardyn-subagent",
+      "blocked",
+      "future fusion/judge orchestration reliability boundary"
+    ],
+    [
+      "phase5-70.external_harness.skillhub.rollback_retry_boundary",
+      "skillhub_reliability_contract",
+      "external-harness",
+      "blocked",
+      "future SkillHub install rollback and retry boundary"
+    ],
+    [
+      "phase5-70.external_harness.mcp_tool_plugin_provider.reliability_boundary",
+      "work_ownership_contract",
+      "external-harness",
+      "blocked",
+      "future MCP/tool/plugin/provider reliability boundary"
+    ],
+    [
+      "phase5-70.locus.harness_reliability_boundary",
+      "work_ownership_contract",
+      "locus",
+      "future_contract_required",
+      "future Locus-mediated harness reliability boundary"
+    ],
+    [
+      "phase5-70.multiverse.harness_reliability_boundary",
+      "work_ownership_contract",
+      "multiverse",
+      "future_contract_required",
+      "future Multiverse consumer reliability boundary"
+    ],
+    [
+      "phase5-70.content_fabric.fabric_coordination_envelope.reliability_boundary",
+      "fabric_reliability_contract",
+      "content-fabric",
+      "future_contract_required",
+      "future Fabric coordination-envelope reliability boundary"
+    ],
+    [
+      "phase5-70.content_fabric.secure_drop.handoff_recovery_boundary",
+      "handoff_recovery_contract",
+      "content-fabric",
+      "blocked",
+      "future Secure Drop handoff/recovery boundary"
+    ],
+    [
+      "phase5-70.ardyn.operational_runbook_evidence_boundary",
+      "operation_runbook_contract",
+      "ardyn",
+      "metadata_only",
+      "future operational runbook and evidence boundary"
+    ],
+    [
+      "phase5-70.ardyn.cancellation_boundary",
+      "cancellation_contract",
+      "ardyn",
+      "blocked",
+      "future cancellation propagation boundary"
+    ],
+    [
+      "phase5-70.ardyn.lease_boundary",
+      "lease_contract",
+      "ardyn",
+      "blocked",
+      "future lease and work ownership runtime boundary"
+    ],
+    [
+      "phase5-70.ardyn.queue_semantics_boundary",
+      "queue_semantics_contract",
+      "ardyn",
+      "blocked",
+      "future queue semantics and scheduler boundary"
+    ]
+  ];
+
+  return rows.map(
+    ([boundaryId, boundaryFamily, relatedSystem, currentStatus, subject]) =>
+      operationsReliabilityBoundaryMapDefinition({
+        boundaryId,
+        boundaryFamily,
+        relatedSystem,
+        currentStatus,
+        subject,
+        locusRoleDescription:
+          relatedSystem === "locus"
+            ? "Locus may later own display and control-surface reliability status after a separate Locus contract; Ardyn creates no UI, bridge, or Locus integration."
+            : notes.locus,
+        multiverseRoleDescription:
+          relatedSystem === "multiverse"
+            ? "Multiverse may later consume reliability status metadata after a separate Multiverse contract; Ardyn executes no task and creates no bridge."
+            : notes.multiverse,
+        fabricRoleDescription:
+          relatedSystem === "content-fabric"
+            ? "Content Fabric remains the canonical owner for Fabric coordination and Secure Drop implementation boundaries; Ardyn creates no Fabric, Secure Drop, transport, codec, backend, or task runtime."
+            : notes.fabric,
+        handoffRecoveryExpectation:
+          subject.includes("Secure Drop")
+            ? "Future Secure Drop handoff/recovery remains content-fabric canonical implementation work; Ardyn records only review metadata and no crypto, transport, inbox, stego, send/receive, connector ingestion, or file selection behavior."
+            : notes.handoff
+      })
+  );
+}
+
+function operationsReliabilityBoundaryMapEntry(definition) {
+  return {
+    ...definition,
+    productionReadinessAreaReference: {
+      phase: "5.48",
+      areaNumber: 16,
+      areaName: "Operations & Reliability",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      sourceStatus: "deferred",
+      representedByPhase570: true,
+      authorizesRuntime: false
+    },
+    operationsReliabilityBoundaryMetadataOnly: true,
+    noLiveOperationsReliabilityRuntimePerformed: true,
+    explicitBlockedAuthorizationFlags:
+      operationsReliabilityBoundaryMapAuthorizationFlags(),
+    unsafeOperationsReliabilityRuntimeFlags:
+      operationsReliabilityBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function operationsReliabilityBoundaryMapEntries() {
+  return operationsReliabilityBoundaryMapDefinitions().map(
+    operationsReliabilityBoundaryMapEntry
+  );
+}
+
+function operationsReliabilityBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    OPERATIONS_RELIABILITY_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    OPERATIONS_RELIABILITY_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+  const countByStatus = Object.fromEntries(
+    OPERATIONS_RELIABILITY_STATUSES.map((status) => [
+      status,
+      entries.filter((entry) => entry.currentStatus === status).length
+    ])
+  );
+  const allBlockedAuthorizationFlagsFalse = entries.every((entry) =>
+    Object.values(entry.explicitBlockedAuthorizationFlags).every(
+      (value) => value === false
+    )
+  );
+  const allUnsafeOperationsReliabilityRuntimeFlagsFalse = entries.every(
+    (entry) =>
+      Object.values(entry.unsafeOperationsReliabilityRuntimeFlags).every(
+        (value) => value === false
+      )
+  );
+  const allRuntimeEffectsFalse = entries.every((entry) =>
+    Object.values(entry.runtimeEffect).every((value) => value === false)
+  );
+
+  return {
+    boundaryMapKind: OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    boundaryFamilies: [...OPERATIONS_RELIABILITY_BOUNDARY_FAMILIES],
+    relatedSystems: [...OPERATIONS_RELIABILITY_RELATED_SYSTEMS],
+    currentStatusValues: [...OPERATIONS_RELIABILITY_STATUSES],
+    phase548OperationsReliabilityCoverageItemRepresented: true,
+    operationsReliabilityBoundaryMetadataOnly: true,
+    noLiveOperationsReliabilityRuntimePerformed: true,
+    backendApiReliabilityBoundaryRecorded: true,
+    encodedHandoffReliabilityBoundaryRecorded: true,
+    databaseStorageIdempotencyWriteSafetyBoundaryRecorded: true,
+    authPermissionsRetryRevocationBoundaryRecorded: true,
+    securityRlsFailClosedOperationsBoundaryRecorded: true,
+    rateLimitAbuseRetryBudgetBoundaryRecorded: true,
+    errorLogAuditOperationalVisibilityBoundaryRecorded: true,
+    availabilityRecoveryDegradedModeBoundaryRecorded: true,
+    infrastructureComplianceOperationalGovernanceBoundaryRecorded: true,
+    hermesCuaComputerUseReliabilityBoundaryRecorded: true,
+    testingQualityGateOperationalReleaseBoundaryRecorded: true,
+    backgroundSubagentConcurrencyCancellationBoundaryRecorded: true,
+    frontDeskBusyStateBoundaryRecorded: true,
+    fusionJudgeOrchestrationReliabilityBoundaryRecorded: true,
+    skillhubInstallRollbackRetryBoundaryRecorded: true,
+    mcpToolPluginProviderReliabilityBoundaryRecorded: true,
+    locusMediatedHarnessReliabilityBoundaryRecorded: true,
+    fabricCoordinationEnvelopeReliabilityBoundaryRecorded: true,
+    secureDropHandoffRecoveryBoundaryRecorded: true,
+    operationalRunbookEvidenceBoundaryRecorded: true,
+    noRetryEngine: true,
+    noIdempotencyStore: true,
+    noCircuitBreaker: true,
+    noQueueSchedulerWorkerLeaseRuntime: true,
+    noOperationMonitorRunbookExecutorProcessSupervisor: true,
+    noBackgroundSubagentModelRouterFusionJudgeFrontDeskRuntime: true,
+    noComputerUseCuaDriverRuntime: true,
+    noSkillhubRollbackInstallRuntime: true,
+    noMcpToolPluginProviderRuntime: true,
+    noRuntimeIntegrationBackendStorageBehavior: true,
+    noFabricSecureDropEncodedHandoffRuntime: true,
+    noLoggerAuditTelemetryHealthInfrastructureRuntime: true,
+    noTestingCiReleaseAutomation: true,
+    noCommandExposure: true,
+    noBlockedCliBypass: true,
+    allBlockedAuthorizationFlagsFalse,
+    allUnsafeOperationsReliabilityRuntimeFlagsFalse,
+    allRuntimeEffectsFalse,
+    allEntriesNonAuthorizing: entries.every(
+      (entry) => entry.nonAuthorizingProof === true
+    )
+  };
+}
+
+function operationsReliabilityBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    enabledRetryEngineFailClosed: true,
+    enabledIdempotencyStoreFailClosed: true,
+    enabledCircuitBreakerFailClosed: true,
+    enabledQueueSchedulerWorkerLeaseRuntimeFailClosed: true,
+    enabledBackgroundSubagentFrontDeskModelRouterRuntimeFailClosed: true,
+    enabledProcessSupervisorRunbookFailoverOperationMonitorOrchestrationRuntimeFailClosed:
+      true,
+    enabledComputerUseCuaDriverReliabilityRuntimeFailClosed: true,
+    enabledSkillhubInstallRollbackRuntimeFailClosed: true,
+    enabledMcpToolPluginProviderRuntimeFailClosed: true,
+    hiddenRetryCircuitBreakerExecutionSemanticsFailClosed: true,
+    hiddenIdempotencyPersistenceSemanticsFailClosed: true,
+    hiddenQueueSchedulerWorkerSemanticsFailClosed: true,
+    hiddenLeaseWorkOwnershipRuntimeSemanticsFailClosed: true,
+    hiddenCancellationConcurrencyRuntimeSemanticsFailClosed: true,
+    hiddenBackgroundSubagentExecutionSemanticsFailClosed: true,
+    hiddenFrontDeskFusionJudgeModelRoutingRuntimeSemanticsFailClosed: true,
+    hiddenComputerUseCuaDriverReliabilityRuntimeSemanticsFailClosed: true,
+    hiddenSkillhubInstallRollbackRuntimeSemanticsFailClosed: true,
+    hiddenMcpToolPluginProviderRuntimeSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+      true,
+    hiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed: true,
+    hiddenHealthBackupRestoreFailoverSchedulerProcessSupervisorSemanticsFailClosed:
+      true,
+    hiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed:
+      true,
+    hiddenTestingCiReleaseAutomationSemanticsFailClosed: true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationRunsOperationsRuntime: false,
+    validationCreatesQueue: false,
+    validationCreatesWorker: false,
+    validationCreatesLeaseStore: false,
+    validationRunsComputerUse: false,
+    validationRunsFabric: false
+  };
+}
+
+function operationsReliabilityBoundaryMapGaps() {
+  return [
+    "Future operations contracts still need explicit retry budgets, idempotency-key ownership, write fences, circuit-breaker state, and no-side-effect replay semantics before runtime.",
+    "Future queue, scheduler, worker, lease, cancellation, and background subagent contracts still need visibility, interruptibility, ownership, expiry, handoff, and duplicate-suppression rules.",
+    "Future front-desk, model-router, fusion, and judge reliability still need busy-state, escalation, cancellation, result handoff, and synthesized-output contracts before runtime.",
+    "Future Fabric/API/backend and Secure Drop recovery remain separate contracts with content-fabric ownership for canonical implementation and no Ardyn transport or codec behavior.",
+    "Future operations runbooks still need evidence retention, operator action taxonomy, manual recovery, release-blocker, maintenance/governance, ADR, and dependency-policy boundaries."
+  ];
+}
+
+function operationsReliabilityBoundaryMapState(reviewedAt) {
+  const boundaryEntries = operationsReliabilityBoundaryMapEntries();
+
+  return {
+    schema: OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion: OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind: OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase548ProductionReadinessCoverageMatrix:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      phase548OperationsReliabilityAreaNumber: 16,
+      phase548OperationsReliabilityStatus: "deferred",
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase560InterAgentEncodedHandoffConformance:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      phase561DatabaseStorageContractBoundary:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      phase563SecurityRlsInputSanitizationContractBoundary:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      phase564RateLimitingAbuseControlContractBoundary:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      phase565ErrorTrackingLoggingAuditIntegrityContractBoundary:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      phase566AvailabilityRecoveryContractBoundary:
+        "tests/fixtures/host-policy/phase5-66/availability-recovery-contract-boundary-map.json",
+      phase567InfrastructureComplianceDataRetentionBoundary:
+        "tests/fixtures/host-policy/phase5-67/infrastructure-compliance-data-retention-contract-boundary-map.json",
+      phase568AgentModeProfileSkillhubCapabilityBoundary:
+        "tests/fixtures/host-policy/phase5-68/agent-mode-profile-skillhub-capability-boundary-map.json",
+      phase569TestingFrameworksQualityGatesBoundary:
+        "tests/fixtures/host-policy/phase5-69/testing-frameworks-quality-gates-contract-boundary-map.json",
+      operationsReliabilityCoverageItemRepresented: true,
+      productionReadinessOperationsReliabilityItemDeferred: true,
+      noOperationsRuntimeImplemented: true,
+      noQueueSchedulerWorkerLeaseImplemented: true,
+      noRunbookExecutorImplemented: true,
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      operationsReliabilityBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      operationsReliabilityBoundaryMapValidationRules(),
+    topOperationsReliabilityCodeModeFabricApiBackendGaps:
+      operationsReliabilityBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.71-review-only-maintenance-governance-adr-dependency-policy-contract-boundary-map",
+    operationsReliabilityContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...operationsReliabilityBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function operationsReliabilityBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  operationsReliabilityContractBoundaryMap
+}) {
+  return {
+    schema: OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion: OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_VERSION,
+    operationsReliabilityContractBoundaryMapKind:
+      OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_KIND,
+    operationsReliabilityContractBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    operationsReliabilityContractBoundaryMapProduced: accepted,
+    operationsReliabilityContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? operationsReliabilityContractBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? operationsReliabilityContractBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? operationsReliabilityContractBoundaryMap.invalidBoundaryCasePolicy
+      : operationsReliabilityBoundaryMapValidationRules(),
+    topOperationsReliabilityCodeModeFabricApiBackendGaps: accepted
+      ? operationsReliabilityContractBoundaryMap
+          .topOperationsReliabilityCodeModeFabricApiBackendGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? operationsReliabilityContractBoundaryMap.recommendedNextPhase
+      : null,
+    operationsReliabilityContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...operationsReliabilityBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            operationsRuntimeAuthorized: false,
+            retryEngineAuthorized: false,
+            queueWorkerAuthorized: false,
+            runbookExecutorAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createOperationsReliabilityContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord = operationsReliabilityBoundaryMapInputRecord(input);
+  const reviewedAt = operationsReliabilityBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    operationsReliabilityBoundaryMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const operationsReliabilityContractBoundaryMap = accepted
+    ? operationsReliabilityBoundaryMapState(reviewedAt)
+    : null;
+
+  return operationsReliabilityBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    operationsReliabilityContractBoundaryMap
   });
 }
 
