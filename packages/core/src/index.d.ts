@@ -389,6 +389,12 @@ export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_SCHEMA:
 export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_VERSION: "0.1.0";
 export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_KIND:
   "operations-reliability-contract-boundary-map";
+export const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.71.maintenance-governance-adr-dependency-policy-contract-boundary-map-result";
+export const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_VERSION:
+  "0.1.0";
+export const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_KIND:
+  "maintenance-governance-adr-dependency-policy-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -10051,6 +10057,154 @@ export interface OperationsReliabilityContractBoundaryMapResult {
 export function createOperationsReliabilityContractBoundaryMapForReview(
   input?: Record<string, unknown>
 ): OperationsReliabilityContractBoundaryMapResult;
+
+export type MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapClassification =
+  | "valid_maintenance_governance_adr_dependency_policy_contract_boundary_map_runtime_still_blocked"
+  | "malformed_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "missing_required_maintenance_governance_adr_dependency_policy_contract_boundary_entry_rejected"
+  | "unknown_top_level_field_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "unknown_related_system_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "unknown_current_status_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_dependency_update_patch_execution_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_release_ci_publishing_automation_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_graphify_memory_mutation_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_code_mode_runtime_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_subagent_jules_automation_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_external_reference_vendoring_copying_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_backend_api_server_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_database_storage_cache_write_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_auth_session_token_api_key_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_hermes_cua_computer_use_runtime_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_infrastructure_deployment_compliance_pii_retention_export_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "hidden_testing_ci_release_automation_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "unsafe_maintenance_governance_runtime_flags_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected"
+  | "noncanonical_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+
+export interface MaintenanceGovernanceAdrDependencyPolicyContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "adr_contract"
+    | "architecture_diagram_contract"
+    | "governance_policy_contract"
+    | "dependency_policy_contract"
+    | "vulnerability_patch_policy_contract"
+    | "waiver_policy_contract"
+    | "release_governance_contract"
+    | "versioning_policy_contract"
+    | "ownership_contract"
+    | "review_policy_contract"
+    | "jules_review_boundary"
+    | "subagent_review_boundary"
+    | "toolkit_usage_boundary"
+    | "graphify_memory_boundary"
+    | "code_mode_governance_boundary"
+    | "external_reference_policy_contract";
+  relatedSystem:
+    | "ardyn"
+    | "ardyn-subagent"
+    | "locus"
+    | "multiverse"
+    | "content-fabric"
+    | "repo-family"
+    | "external-harness"
+    | "hermes-reference"
+    | "cua-driver-reference";
+  currentStatus:
+    | "metadata_only"
+    | "covered_by_existing_validation"
+    | "blocked"
+    | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  governanceExpectation: string;
+  adrEvidenceExpectation: string;
+  dependencyPolicyExpectation: string;
+  waiverExceptionExpectation: string;
+  reviewOwnershipExpectation: string;
+  releaseVersioningExpectation: string;
+  toolkitEvidenceExpectation: string;
+  graphifyMemoryExpectation: string;
+  externalReferenceProvenanceExpectation: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeMaintenanceGovernanceRuntimeFlags: Record<string, false>;
+  maintenanceGovernanceBoundaryMetadataOnly: true;
+  noLiveMaintenanceGovernanceRuntimePerformed: true;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapState {
+  schema: "ardyn.phase-5.71.maintenance-governance-adr-dependency-policy-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "maintenance-governance-adr-dependency-policy-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: MaintenanceGovernanceAdrDependencyPolicyContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topMaintenanceGovernanceSecretsCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapResult {
+  schema: "ardyn.phase-5.71.maintenance-governance-adr-dependency-policy-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapKind:
+    "maintenance-governance-adr-dependency-policy-contract-boundary-map";
+  maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapClassification;
+  maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapProduced: boolean;
+  maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap:
+    | MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: MaintenanceGovernanceAdrDependencyPolicyContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topMaintenanceGovernanceSecretsCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export function createMaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapForReview(
+  input?: Record<string, unknown>
+): MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapResult;
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";

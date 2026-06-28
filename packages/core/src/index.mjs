@@ -369,6 +369,12 @@ export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_SCHEMA =
 export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_VERSION = "0.1.0";
 export const OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_KIND =
   "operations-reliability-contract-boundary-map";
+export const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.71.maintenance-governance-adr-dependency-policy-contract-boundary-map-result";
+export const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_KIND =
+  "maintenance-governance-adr-dependency-policy-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -60687,6 +60693,1392 @@ export function createOperationsReliabilityContractBoundaryMapForReview(
     classification,
     accepted,
     operationsReliabilityContractBoundaryMap
+  });
+}
+
+const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.71.maintenance-governance-adr-dependency-policy-contract-boundary-map-state";
+const VALID_MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_maintenance_governance_adr_dependency_policy_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+
+const MAINTENANCE_GOVERNANCE_BOUNDARY_FAMILIES = Object.freeze([
+  "adr_contract",
+  "architecture_diagram_contract",
+  "governance_policy_contract",
+  "dependency_policy_contract",
+  "vulnerability_patch_policy_contract",
+  "waiver_policy_contract",
+  "release_governance_contract",
+  "versioning_policy_contract",
+  "ownership_contract",
+  "review_policy_contract",
+  "jules_review_boundary",
+  "subagent_review_boundary",
+  "toolkit_usage_boundary",
+  "graphify_memory_boundary",
+  "code_mode_governance_boundary",
+  "external_reference_policy_contract"
+]);
+const MAINTENANCE_GOVERNANCE_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family",
+  "external-harness",
+  "hermes-reference",
+  "cua-driver-reference"
+]);
+const MAINTENANCE_GOVERNANCE_STATUSES = Object.freeze([
+  "metadata_only",
+  "covered_by_existing_validation",
+  "blocked",
+  "future_contract_required"
+]);
+const MAINTENANCE_GOVERNANCE_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "governanceExpectation",
+  "adrEvidenceExpectation",
+  "dependencyPolicyExpectation",
+  "waiverExceptionExpectation",
+  "reviewOwnershipExpectation",
+  "releaseVersioningExpectation",
+  "toolkitEvidenceExpectation",
+  "graphifyMemoryExpectation",
+  "externalReferenceProvenanceExpectation",
+  "locusRoleDescription",
+  "multiverseRoleDescription",
+  "fabricRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeMaintenanceGovernanceRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const MAINTENANCE_GOVERNANCE_ALLOWED_TOP_LEVEL_FIELDS = Object.freeze([
+  "reviewedAt",
+  "boundaryEntries"
+]);
+const MAINTENANCE_GOVERNANCE_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "connectorGrantProduced",
+  "fabricRuntimeImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "adrGeneratorEnabled",
+  "diagramGeneratorEnabled",
+  "dependencyUpdateAutomationEnabled",
+  "dependencyUpdateBotEnabled",
+  "vulnerabilityPatchAutomationEnabled",
+  "releasePublishingEnabled",
+  "ciModificationEnabled",
+  "ciWorkflowModificationEnabled",
+  "policyEngineEnabled",
+  "waiverAutomationEnabled",
+  "adrGeneratorRuntimeEnabled",
+  "diagramGeneratorRuntimeEnabled",
+  "graphifyRuntimeMutationEnabled",
+  "graphifyRepoMutationEnabled",
+  "codeModeRuntimeEnabled",
+  "subagentRuntimeEnabled",
+  "julesAutomationEnabled",
+  "externalRepoImportEnabled",
+  "externalRepoVendoringEnabled",
+  "externalRepoCopyingEnabled",
+  "packageExportEnabled",
+  "packageDistributionImplementedByArdyn",
+  "deploymentAutomationImplemented",
+  "runtimeGovernanceEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "cacheEngineImplemented",
+  "rlsRuntimeImplemented",
+  "databaseMigrationImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "importExportPathImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "loggerRuntimeImplemented",
+  "auditWriterRuntimeImplemented",
+  "telemetryClientImplemented",
+  "healthCheckRuntimeImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "failoverRuntimeImplemented",
+  "infrastructureAutomationImplemented",
+  "complianceEnforcementImplemented",
+  "piiProcessingImplemented",
+  "retentionJobImplemented",
+  "exportJobImplemented",
+  "testingCiReleaseAutomationEnabled",
+  "hermesRuntimeEnabled",
+  "cuaDriverRuntimeEnabled",
+  "computerUseRuntimeEnabled",
+  "agentModeRuntimeEnabled",
+  "profileLoaderEnabled",
+  "skillLoaderEnabled",
+  "uiFrontendBrowserRenderingImplemented",
+  "blockedCliBypassEnabled"
+]);
+const MAINTENANCE_GOVERNANCE_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "runtimeAuthorizationGranted",
+  "authorizesRuntime",
+  "maintenanceGovernanceAuthorizationGranted",
+  "adrGeneratorAuthorizationGranted",
+  "diagramGeneratorAuthorizationGranted",
+  "dependencyUpdateAutomationAuthorizationGranted",
+  "vulnerabilityPatchAutomationAuthorizationGranted",
+  "releasePublishingAuthorizationGranted",
+  "ciModificationAuthorizationGranted",
+  "policyEngineAuthorizationGranted",
+  "waiverAutomationAuthorizationGranted",
+  "graphifyMutationAuthorizationGranted",
+  "codeModeRuntimeAuthorizationGranted",
+  "subagentRuntimeAuthorizationGranted",
+  "julesAutomationAuthorizationGranted",
+  "externalRepoVendoringAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "backendApiServerAuthorizationGranted",
+  "databaseStorageAuthorizationGranted",
+  "fabricRuntimeAuthorizationGranted",
+  "secureDropAuthorizationGranted",
+  "encodedHandoffRuntimeAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+const MAINTENANCE_GOVERNANCE_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const MAINTENANCE_GOVERNANCE_BLOCKED_CLI_BYPASS_FIELDS = Object.freeze([
+  "blockedCliBypassEnabled",
+  "dryRunBypassesBlock",
+  "serveRuntimeBypassEnabled",
+  "bypassBlockedCommandBehavior",
+  "blockedCommandOverride"
+]);
+const MAINTENANCE_GOVERNANCE_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_dependency_update_patch_execution_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "dependencyUpdateBot",
+      "dependencyUpdateJob",
+      "patchApplier",
+      "vulnerabilityPatchRunner",
+      "packageUpgradePlan",
+      "lockfileRewrite"
+    ]
+  },
+  {
+    classification:
+      "hidden_release_ci_publishing_automation_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "releasePublisher",
+      "releaseJob",
+      "ciWorkflow",
+      "githubActionsWorkflow",
+      "artifactPublisher",
+      "packagePublisher"
+    ]
+  },
+  {
+    classification:
+      "hidden_graphify_memory_mutation_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "graphifyRuntime",
+      "graphifyMutation",
+      "graphMemoryWrite",
+      "memoryWriter",
+      "outsideRepoMemoryWrite"
+    ]
+  },
+  {
+    classification:
+      "hidden_code_mode_runtime_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "codeModeRuntime",
+      "orchestratorPlanLoop",
+      "selfSubagentRuntime",
+      "miniFusionRuntime",
+      "judgeRuntime",
+      "frontDeskModel"
+    ]
+  },
+  {
+    classification:
+      "hidden_subagent_jules_automation_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "subagentRuntime",
+      "subagentRouter",
+      "julesAutomation",
+      "julesReviewer",
+      "reviewerAssignment",
+      "reviewerRouting"
+    ]
+  },
+  {
+    classification:
+      "hidden_external_reference_vendoring_copying_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "externalRepoImport",
+      "externalRepoVendor",
+      "externalRepoCopy",
+      "hermesSourceCopy",
+      "cuaDriverSourceCopy",
+      "promptGuideImport",
+      "glossopetraeImport"
+    ]
+  },
+  {
+    classification:
+      "hidden_backend_api_server_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "backendApiMiddleware",
+      "apiRequestHandler",
+      "httpServer",
+      "serverMiddleware",
+      "httpEndpoint",
+      "runtimeEndpoint"
+    ]
+  },
+  {
+    classification:
+      "hidden_database_storage_cache_write_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "databaseUrl",
+      "databaseDsn",
+      "dbConnectionString",
+      "storageAdapter",
+      "cacheEngine",
+      "writeQueue",
+      "persistenceLayer",
+      "filesystemWrite"
+    ]
+  },
+  {
+    classification:
+      "hidden_auth_session_token_api_key_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "loginUrl",
+      "sessionCookie",
+      "sessionStore",
+      "sessionToken",
+      "apiKey",
+      "oauthToken",
+      "authHeader"
+    ]
+  },
+  {
+    classification:
+      "hidden_connector_grant_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "connectorGrant",
+      "connectorCredential",
+      "connectorAccessToken",
+      "connectorComplianceGrant"
+    ]
+  },
+  {
+    classification:
+      "hidden_fabric_websocket_http_mcp_task_runtime_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "fabricBus",
+      "websocketUrl",
+      "httpTransport",
+      "mcpRuntime",
+      "mcpServer",
+      "mcpTool",
+      "taskRunner",
+      "taskQueue"
+    ]
+  },
+  {
+    classification:
+      "hidden_secure_drop_implementation_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "secureDropKeyring",
+      "secureDropCrypto",
+      "secureDropTransport",
+      "secureDropInbox",
+      "secureDropFilePicker",
+      "st3ggWrapper"
+    ]
+  },
+  {
+    classification:
+      "hidden_encoded_handoff_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "encodedHandoffRuntime",
+      "codecRuntime",
+      "translatorRuntime",
+      "encoderRuntime",
+      "decoderRuntime",
+      "stegoChannel",
+      "covertChannel",
+      "tokenizerExploit",
+      "bypassPayload"
+    ]
+  },
+  {
+    classification:
+      "hidden_hermes_cua_computer_use_runtime_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "hermesRuntime",
+      "cuaDriverRuntime",
+      "computerUseRuntime",
+      "desktopControl",
+      "browserControl",
+      "inputAutomation"
+    ]
+  },
+  {
+    classification:
+      "hidden_infrastructure_deployment_compliance_pii_retention_export_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "terraformPlan",
+      "deployCommand",
+      "cloudProvider",
+      "complianceEnforcer",
+      "piiProcessor",
+      "retentionScheduler",
+      "exportJob",
+      "policyEngine"
+    ]
+  },
+  {
+    classification:
+      "hidden_testing_ci_release_automation_semantics_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected",
+    fields: [
+      "testRunner",
+      "ciPipeline",
+      "githubActionsWorkflow",
+      "releaseAutomation",
+      "artifactUpload",
+      "packageExport"
+    ]
+  }
+]);
+
+function maintenanceGovernanceBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function maintenanceGovernanceBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function maintenanceGovernanceBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(maintenanceGovernanceBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      maintenanceGovernanceBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function maintenanceGovernanceBoundaryMapHasTrueFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      maintenanceGovernanceBoundaryMapHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (maintenanceGovernanceBoundaryMapHasTrueFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function maintenanceGovernanceBoundaryMapHasPresentFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      maintenanceGovernanceBoundaryMapHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeMaintenanceGovernanceRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (maintenanceGovernanceBoundaryMapHasPresentFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function maintenanceGovernanceBoundaryMapEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function maintenanceGovernanceBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function maintenanceGovernanceBoundaryMapEntryIssue(entries, predicate) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function maintenanceGovernanceBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    MAINTENANCE_GOVERNANCE_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function maintenanceGovernanceBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.governanceExpectation !== "string" ||
+    typeof entry.adrEvidenceExpectation !== "string" ||
+    typeof entry.dependencyPolicyExpectation !== "string" ||
+    typeof entry.waiverExceptionExpectation !== "string" ||
+    typeof entry.reviewOwnershipExpectation !== "string" ||
+    typeof entry.releaseVersioningExpectation !== "string" ||
+    typeof entry.toolkitEvidenceExpectation !== "string" ||
+    typeof entry.graphifyMemoryExpectation !== "string" ||
+    typeof entry.externalReferenceProvenanceExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(entry.unsafeMaintenanceGovernanceRuntimeFlags) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function maintenanceGovernanceBoundaryMapAuthorizationFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    MAINTENANCE_GOVERNANCE_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function maintenanceGovernanceBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.unsafeMaintenanceGovernanceRuntimeFlags) &&
+      Object.values(value.unsafeMaintenanceGovernanceRuntimeFlags).some(
+        (flag) => flag !== false
+      )) ||
+    maintenanceGovernanceBoundaryMapHasTrueFieldDeep(
+      value,
+      MAINTENANCE_GOVERNANCE_UNSAFE_FIELDS
+    )
+  );
+}
+
+function maintenanceGovernanceBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(maintenanceGovernanceBoundaryMapEntries())
+  );
+}
+
+function maintenanceGovernanceBoundaryMapInputClassification(inputRecord) {
+  if (maintenanceGovernanceBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries = maintenanceGovernanceBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    maintenanceGovernanceBoundaryMapEntryIssue(
+      entries,
+      maintenanceGovernanceBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_maintenance_governance_adr_dependency_policy_contract_boundary_entry_rejected";
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !MAINTENANCE_GOVERNANCE_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !MAINTENANCE_GOVERNANCE_RELATED_SYSTEMS.includes(entry.relatedSystem)
+    )
+  ) {
+    return "unknown_related_system_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapEntryIssue(
+      entries,
+      (entry) => !MAINTENANCE_GOVERNANCE_STATUSES.includes(entry.currentStatus)
+    )
+  ) {
+    return "unknown_current_status_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapEntryIssue(
+      entries,
+      maintenanceGovernanceBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    MAINTENANCE_GOVERNANCE_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord[field] === true
+    )
+  ) {
+    return "runtime_authorization_attempt_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapEntryIssue(
+      entries,
+      maintenanceGovernanceBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    maintenanceGovernanceBoundaryMapAuthorizationFlagEnabled(inputRecord)
+  ) {
+    return "authorization_flags_enabled_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      MAINTENANCE_GOVERNANCE_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      MAINTENANCE_GOVERNANCE_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      MAINTENANCE_GOVERNANCE_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  for (const {
+    classification,
+    fields
+  } of MAINTENANCE_GOVERNANCE_HIDDEN_FIELD_GROUPS) {
+    if (
+      maintenanceGovernanceBoundaryMapHasPresentFieldDeep(inputRecord, fields)
+    ) {
+      return classification;
+    }
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapUnsafeFlagEnabled(inputRecord) ||
+    maintenanceGovernanceBoundaryMapEntryIssue(
+      entries,
+      maintenanceGovernanceBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_maintenance_governance_runtime_flags_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    maintenanceGovernanceBoundaryMapEntryIssue(entries, (entry) =>
+      maintenanceGovernanceBoundaryMapContainsTrue(entry?.runtimeEffect)
+    ) ||
+    maintenanceGovernanceBoundaryMapContainsTrue(inputRecord?.runtimeEffect)
+  ) {
+    return "nested_unsafe_flags_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord).some(
+      (field) =>
+        !MAINTENANCE_GOVERNANCE_ALLOWED_TOP_LEVEL_FIELDS.includes(field)
+    )
+  ) {
+    return "unknown_top_level_field_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  if (!maintenanceGovernanceBoundaryMapCanonical(entries)) {
+    return "noncanonical_maintenance_governance_adr_dependency_policy_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function maintenanceGovernanceBoundaryMapForbiddenBehavior() {
+  return [
+    "ADR generator runtime",
+    "diagram generator runtime",
+    "dependency update bot",
+    "dependency update automation",
+    "vulnerability patch automation",
+    "release publishing",
+    "CI workflow modification",
+    "policy engine",
+    "waiver automation",
+    "Graphify mutation inside the repo",
+    "Code Mode runtime",
+    "subagent runtime",
+    "Jules automation",
+    "external repo import, vendoring, copying, migration, or integration",
+    "package export or deployment automation",
+    "runtime governance",
+    "backend middleware, API/server behavior, Fabric bus, websocket/http transport, MCP exposure, task execution, connector grant, Secure Drop implementation, encoded handoff runtime, codec, translator, stego, covert channel, tokenizer exploit, or bypass",
+    "database client, storage adapter, cache engine, RLS runtime, migration, persistence, filesystem write, or process control",
+    "auth/session/token/API-key behavior",
+    "Hermes, CUA-driver, computer-use, agent-mode, profile-loader, or skill-loader runtime",
+    "logger runtime, audit writer, transcript writer, telemetry client, health monitor, backup job, restore job, failover runtime, infrastructure automation, deployment automation, compliance enforcement, PII processing, retention job, export job, or testing/CI/release automation",
+    "command exposure",
+    "interactive control",
+    "blocked CLI bypass"
+  ];
+}
+
+function maintenanceGovernanceBoundaryMapAuthorizationFlags() {
+  return {
+    runtimeAuthorizationGranted: false,
+    maintenanceGovernanceAuthorizationGranted: false,
+    adrGeneratorAuthorizationGranted: false,
+    diagramGeneratorAuthorizationGranted: false,
+    dependencyUpdateAutomationAuthorizationGranted: false,
+    vulnerabilityPatchAutomationAuthorizationGranted: false,
+    releasePublishingAuthorizationGranted: false,
+    ciModificationAuthorizationGranted: false,
+    policyEngineAuthorizationGranted: false,
+    waiverAutomationAuthorizationGranted: false,
+    graphifyMutationAuthorizationGranted: false,
+    codeModeRuntimeAuthorizationGranted: false,
+    subagentRuntimeAuthorizationGranted: false,
+    julesAutomationAuthorizationGranted: false,
+    externalRepoVendoringAuthorizationGranted: false,
+    commandExposureAuthorizationGranted: false,
+    backendApiServerAuthorizationGranted: false,
+    databaseStorageAuthorizationGranted: false,
+    fabricRuntimeAuthorizationGranted: false,
+    secureDropAuthorizationGranted: false,
+    encodedHandoffRuntimeAuthorizationGranted: false,
+    approvalDecisionProduced: false,
+    approvalGrantProduced: false,
+    authorizesRuntime: false
+  };
+}
+
+function maintenanceGovernanceBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    MAINTENANCE_GOVERNANCE_UNSAFE_FIELDS.map((field) => [field, false])
+  );
+}
+
+function maintenanceGovernanceBoundaryMapNotes() {
+  return {
+    authorization:
+      "Requires a future explicit authorization phase before any ADR generator, diagram generator, dependency update automation, vulnerability patching, release publishing, CI modification, policy engine, waiver automation, Graphify mutation, Code Mode runtime, subagent runtime, Jules automation, external repo vendoring/copying, package/deployment behavior, backend/API/server behavior, storage write, Fabric, Secure Drop, encoded handoff, Hermes/CUA/computer-use, logger/audit/telemetry, health-check, infrastructure, testing/CI/release automation, filesystem, process, UI, or command behavior.",
+    governance:
+      "Future governance must define decision authority, owner roles, review cadence, exception handling, release gates, evidence retention, and fail-closed defaults before implementation.",
+    adr:
+      "Future ADR/evidence handling must define when architecture decisions are required, durable evidence paths, review ownership, supersession rules, and diagram update triggers before any generator or automation.",
+    dependency:
+      "Future dependency policy must define allowed ecosystems, update cadence, lockfile ownership, audit evidence, vulnerability triage, patch approval, rollback, and no-live-update defaults before automation.",
+    waiver:
+      "Future waiver/exception policy must define owner, scope, expiry, compensating controls, re-review, release blocking, and public report visibility before any waiver automation.",
+    review:
+      "Future review ownership must preserve one narrow Codex read-only reviewer by default, allow reuse only after concrete fixes, avoid polling/no-op subagents, and require Jules only for unresolved blockers, major security concerns, or milestone-level review.",
+    release:
+      "Future release/versioning policy must define semantic versioning, changelog, compatibility, release blocker, publishing, rollback, and consumer notification contracts before any release automation.",
+    toolkit:
+      "Installed cleanup/security tooling may provide advisory evidence when useful, but this phase does not force every tool every phase and never invokes Fallow Runtime.",
+    graphify:
+      "Graphify memory is optional outside-repo evidence only unless a future repo pattern explicitly commits it; no secrets, runtime config, or in-repo mutation is authorized.",
+    external:
+      "External references such as Hermes, CUA driver, GLOSSOPETRAE, fainir prompt guides, Goose, Onyx, OpenClaw-like references, and similar repos are category/provenance references only, never installed, vendored, copied, imported, migrated, or integrated by this phase.",
+    locus:
+      "Locus may later display governance status after a separate Locus-owned UI/control-surface contract; Ardyn creates no Locus integration or UI.",
+    multiverse:
+      "Multiverse may later consume governance metadata after a separate Multiverse-owned contract; Ardyn executes no task and creates no bridge.",
+    fabric:
+      "Content Fabric remains the canonical owner for Fabric coordination and Secure Drop implementation boundaries; Ardyn creates no Fabric, Secure Drop, transport, codec, backend, or task runtime."
+  };
+}
+
+function maintenanceGovernanceBoundaryMapDefinition(definition) {
+  const notes = maintenanceGovernanceBoundaryMapNotes();
+
+  return {
+    ...definition,
+    governanceExpectation: notes.governance,
+    adrEvidenceExpectation: notes.adr,
+    dependencyPolicyExpectation: notes.dependency,
+    waiverExceptionExpectation: notes.waiver,
+    reviewOwnershipExpectation: notes.review,
+    releaseVersioningExpectation: notes.release,
+    toolkitEvidenceExpectation: notes.toolkit,
+    graphifyMemoryExpectation: notes.graphify,
+    externalReferenceProvenanceExpectation: notes.external,
+    allowedCurrentBehavior: [
+      `Describe ${definition.subject} maintenance/governance boundary metadata.`,
+      "Reference prior Phase 5 boundary artifacts as review-only metadata.",
+      "Keep current behavior review-only, metadata-only, non-authorizing, and runtime-blocked."
+    ],
+    forbiddenCurrentBehavior:
+      maintenanceGovernanceBoundaryMapForbiddenBehavior(),
+    requiredFutureContractBeforeImplementation: `A future ${definition.subject} contract must define governance authority, ADR/evidence rules, dependency and waiver policy, release/versioning gates, review ownership, external-reference provenance, operator visibility, audit/evidence retention, deny-path semantics, and explicit no-runtime defaults before implementation.`,
+    requiredFutureAuthorizationPhaseBeforeRuntime: notes.authorization,
+    locusRoleDescription: notes.locus,
+    multiverseRoleDescription: notes.multiverse,
+    fabricRoleDescription: notes.fabric
+  };
+}
+
+function maintenanceGovernanceBoundaryMapDefinitions() {
+  const rows = [
+    [
+      "phase5-71.ardyn.adr_policy.architectural_decision_boundary",
+      "adr_contract",
+      "ardyn",
+      "future_contract_required",
+      "ADR policy boundary for architectural decisions"
+    ],
+    [
+      "phase5-71.ardyn.architecture_diagram.update_boundary",
+      "architecture_diagram_contract",
+      "ardyn",
+      "future_contract_required",
+      "architecture diagram and update boundary"
+    ],
+    [
+      "phase5-71.repo_family.production_readiness_governance.phase548_through_570_boundary",
+      "governance_policy_contract",
+      "repo-family",
+      "metadata_only",
+      "production-readiness governance boundary across Phases 5.48 through 5.70"
+    ],
+    [
+      "phase5-71.ardyn.dependency_update_policy.boundary",
+      "dependency_policy_contract",
+      "ardyn",
+      "future_contract_required",
+      "dependency update policy boundary"
+    ],
+    [
+      "phase5-71.ardyn.vulnerability_patch_policy.boundary",
+      "vulnerability_patch_policy_contract",
+      "ardyn",
+      "future_contract_required",
+      "vulnerability patch policy boundary"
+    ],
+    [
+      "phase5-71.external_harness.dependency_audit_evidence.phase548_563_569_boundary",
+      "dependency_policy_contract",
+      "external-harness",
+      "covered_by_existing_validation",
+      "dependency audit evidence boundary from Phases 5.48, 5.63, and 5.69"
+    ],
+    [
+      "phase5-71.ardyn.waiver_exception_policy.boundary",
+      "waiver_policy_contract",
+      "ardyn",
+      "future_contract_required",
+      "waiver and exception policy boundary for known findings"
+    ],
+    [
+      "phase5-71.repo_family.release_governance.boundary",
+      "release_governance_contract",
+      "repo-family",
+      "future_contract_required",
+      "release governance boundary"
+    ],
+    [
+      "phase5-71.repo_family.versioning_policy.boundary",
+      "versioning_policy_contract",
+      "repo-family",
+      "future_contract_required",
+      "versioning policy boundary"
+    ],
+    [
+      "phase5-71.ardyn.ownership_maintainer.boundary",
+      "ownership_contract",
+      "ardyn",
+      "future_contract_required",
+      "ownership and maintainer boundary"
+    ],
+    [
+      "phase5-71.ardyn.review_policy.boundary",
+      "review_policy_contract",
+      "ardyn",
+      "metadata_only",
+      "review policy boundary"
+    ],
+    [
+      "phase5-71.external_harness.jules_review.boundary",
+      "jules_review_boundary",
+      "external-harness",
+      "blocked",
+      "Jules review boundary"
+    ],
+    [
+      "phase5-71.ardyn_subagent.codex_read_only_review.boundary",
+      "subagent_review_boundary",
+      "ardyn-subagent",
+      "metadata_only",
+      "subagent review boundary"
+    ],
+    [
+      "phase5-71.external_harness.cleanup_security_toolkit_usage.boundary",
+      "toolkit_usage_boundary",
+      "external-harness",
+      "metadata_only",
+      "toolkit usage boundary for installed cleanup and security tooling"
+    ],
+    [
+      "phase5-71.external_harness.graphify_memory.boundary",
+      "graphify_memory_boundary",
+      "external-harness",
+      "blocked",
+      "Graphify memory boundary"
+    ],
+    [
+      "phase5-71.ardyn.code_mode_governance.boundary",
+      "code_mode_governance_boundary",
+      "ardyn",
+      "blocked",
+      "Code Mode governance boundary"
+    ],
+    [
+      "phase5-71.hermes_reference.external_reference_policy.boundary",
+      "external_reference_policy_contract",
+      "hermes-reference",
+      "blocked",
+      "external reference policy boundary for Hermes-style references"
+    ],
+    [
+      "phase5-71.cua_driver_reference.external_reference_policy.boundary",
+      "external_reference_policy_contract",
+      "cua-driver-reference",
+      "blocked",
+      "external reference policy boundary for CUA driver references"
+    ],
+    [
+      "phase5-71.content_fabric.secure_drop_reference_policy.boundary",
+      "external_reference_policy_contract",
+      "content-fabric",
+      "blocked",
+      "external reference policy boundary for content-fabric and Secure Drop ownership"
+    ],
+    [
+      "phase5-71.locus.consumer_governance.boundary",
+      "ownership_contract",
+      "locus",
+      "future_contract_required",
+      "Locus consumer governance boundary"
+    ],
+    [
+      "phase5-71.multiverse.consumer_governance.boundary",
+      "ownership_contract",
+      "multiverse",
+      "future_contract_required",
+      "Multiverse consumer governance boundary"
+    ],
+    [
+      "phase5-71.repo_family.per_repo_model_program.boundary",
+      "governance_policy_contract",
+      "repo-family",
+      "future_contract_required",
+      "post-launch Per-Repo Model Program boundary"
+    ]
+  ];
+
+  return rows.map(
+    ([boundaryId, boundaryFamily, relatedSystem, currentStatus, subject]) =>
+      maintenanceGovernanceBoundaryMapDefinition({
+        boundaryId,
+        boundaryFamily,
+        relatedSystem,
+        currentStatus,
+        subject,
+        locusRoleDescription:
+          relatedSystem === "locus"
+            ? "Locus may later own governance display and control-surface status after a separate Locus contract; Ardyn creates no UI, bridge, or Locus integration."
+            : maintenanceGovernanceBoundaryMapNotes().locus,
+        multiverseRoleDescription:
+          relatedSystem === "multiverse"
+            ? "Multiverse may later consume governance metadata after a separate Multiverse contract; Ardyn executes no task and creates no bridge."
+            : maintenanceGovernanceBoundaryMapNotes().multiverse,
+        fabricRoleDescription:
+          relatedSystem === "content-fabric"
+            ? "Content Fabric remains the canonical owner for Fabric coordination and Secure Drop implementation boundaries; Ardyn creates no Fabric, Secure Drop, transport, codec, backend, or task runtime."
+            : maintenanceGovernanceBoundaryMapNotes().fabric
+      })
+  );
+}
+
+function maintenanceGovernanceBoundaryMapEntry(definition) {
+  return {
+    ...definition,
+    productionReadinessAreaReference: {
+      phase: "5.48",
+      areaNumber: 17,
+      areaName: "Maintenance & Governance",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      sourceStatus: "deferred",
+      representedByPhase571: true,
+      authorizesRuntime: false
+    },
+    maintenanceGovernanceBoundaryMetadataOnly: true,
+    noLiveMaintenanceGovernanceRuntimePerformed: true,
+    explicitBlockedAuthorizationFlags:
+      maintenanceGovernanceBoundaryMapAuthorizationFlags(),
+    unsafeMaintenanceGovernanceRuntimeFlags:
+      maintenanceGovernanceBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function maintenanceGovernanceBoundaryMapEntries() {
+  return maintenanceGovernanceBoundaryMapDefinitions().map(
+    maintenanceGovernanceBoundaryMapEntry
+  );
+}
+
+function maintenanceGovernanceBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    MAINTENANCE_GOVERNANCE_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    MAINTENANCE_GOVERNANCE_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+  const countByStatus = Object.fromEntries(
+    MAINTENANCE_GOVERNANCE_STATUSES.map((status) => [
+      status,
+      entries.filter((entry) => entry.currentStatus === status).length
+    ])
+  );
+  const allBlockedAuthorizationFlagsFalse = entries.every((entry) =>
+    Object.values(entry.explicitBlockedAuthorizationFlags).every(
+      (value) => value === false
+    )
+  );
+  const allUnsafeMaintenanceGovernanceRuntimeFlagsFalse = entries.every(
+    (entry) =>
+      Object.values(entry.unsafeMaintenanceGovernanceRuntimeFlags).every(
+        (value) => value === false
+      )
+  );
+  const allRuntimeEffectsFalse = entries.every((entry) =>
+    Object.values(entry.runtimeEffect).every((value) => value === false)
+  );
+
+  return {
+    boundaryMapKind:
+      MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    boundaryFamilies: [...MAINTENANCE_GOVERNANCE_BOUNDARY_FAMILIES],
+    relatedSystems: [...MAINTENANCE_GOVERNANCE_RELATED_SYSTEMS],
+    currentStatusValues: [...MAINTENANCE_GOVERNANCE_STATUSES],
+    phase548MaintenanceGovernanceCoverageItemRepresented: true,
+    maintenanceGovernanceBoundaryMetadataOnly: true,
+    noLiveMaintenanceGovernanceRuntimePerformed: true,
+    adrPolicyBoundaryRecorded: true,
+    architectureDiagramUpdateBoundaryRecorded: true,
+    dependencyUpdatePolicyBoundaryRecorded: true,
+    vulnerabilityPatchPolicyBoundaryRecorded: true,
+    dependencyAuditEvidenceBoundaryRecorded: true,
+    waiverExceptionPolicyBoundaryRecorded: true,
+    releaseGovernanceVersioningPolicyBoundaryRecorded: true,
+    ownershipMaintainerBoundaryRecorded: true,
+    externalReferencePolicyBoundaryRecorded: true,
+    toolkitUsageBoundaryRecorded: true,
+    subagentReviewBoundaryRecorded: true,
+    julesReviewBoundaryRecorded: true,
+    graphifyMemoryBoundaryRecorded: true,
+    codeModeGovernanceBoundaryRecorded: true,
+    productionReadinessGovernanceBoundaryRecorded: true,
+    perRepoModelProgramBoundaryRecorded: true,
+    noAdrGenerator: true,
+    noDiagramGenerator: true,
+    noDependencyUpdateBot: true,
+    noVulnerabilityPatchAutomation: true,
+    noReleasePublishingCiModification: true,
+    noWaiverAutomationPolicyEngine: true,
+    noGraphifyMutation: true,
+    noCodeModeRuntime: true,
+    noSubagentRuntimeJulesAutomation: true,
+    noExternalRepoVendoringCopying: true,
+    noPackageDeploymentBehavior: true,
+    noRuntimeIntegrationBackendStorageBehavior: true,
+    noFabricSecureDropEncodedHandoffRuntime: true,
+    noHermesCuaComputerUseRuntime: true,
+    noLoggerAuditTelemetryHealthInfrastructureRuntime: true,
+    noTestingCiReleaseAutomation: true,
+    noCommandExposure: true,
+    noBlockedCliBypass: true,
+    allBlockedAuthorizationFlagsFalse,
+    allUnsafeMaintenanceGovernanceRuntimeFlagsFalse,
+    allRuntimeEffectsFalse,
+    allEntriesNonAuthorizing: entries.every(
+      (entry) => entry.nonAuthorizingProof === true
+    )
+  };
+}
+
+function maintenanceGovernanceBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    enabledAdrDiagramGeneratorFailClosed: true,
+    enabledDependencyUpdatePatchAutomationFailClosed: true,
+    enabledReleasePublishingCiModificationFailClosed: true,
+    enabledWaiverAutomationPolicyEngineFailClosed: true,
+    enabledGraphifyMutationFailClosed: true,
+    enabledCodeModeRuntimeFailClosed: true,
+    enabledSubagentJulesAutomationFailClosed: true,
+    enabledExternalRepoVendoringCopyingFailClosed: true,
+    enabledPackageDeploymentRuntimeFailClosed: true,
+    hiddenDependencyUpdatePatchExecutionSemanticsFailClosed: true,
+    hiddenReleaseCiPublishingAutomationSemanticsFailClosed: true,
+    hiddenGraphifyMemoryMutationSemanticsFailClosed: true,
+    hiddenCodeModeRuntimeSemanticsFailClosed: true,
+    hiddenSubagentJulesAutomationSemanticsFailClosed: true,
+    hiddenExternalReferenceVendoringCopyingSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+      true,
+    hiddenHermesCuaComputerUseRuntimeSemanticsFailClosed: true,
+    hiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed:
+      true,
+    hiddenTestingCiReleaseAutomationSemanticsFailClosed: true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationRunsMaintenanceGovernanceRuntime: false,
+    validationCreatesAdrGenerator: false,
+    validationCreatesDependencyUpdateBot: false,
+    validationRunsGraphifyMutation: false,
+    validationRunsCodeMode: false,
+    validationRequestsJules: false
+  };
+}
+
+function maintenanceGovernanceBoundaryMapGaps() {
+  return [
+    "Future governance still needs explicit ADR, architecture diagram, ownership, maintainer, review, release, versioning, waiver, and exception contracts before automation.",
+    "Future dependency policy still needs update cadence, vulnerability triage, patch approval, rollback, waiver expiry, and audit evidence ownership before any dependency bot or patch automation.",
+    "Future review governance still needs Codex subagent reuse rules, Jules escalation criteria, Graphify memory handling, and no-op/polling prohibitions formalized as contracts.",
+    "Future Code Mode governance still needs orchestrator plan loop, self-subagent, optional mini-fusion, judge, front-desk model, human relay, and disabled-model fallback contracts before runtime.",
+    "Future secrets-management, key rotation, Fabric/API/backend governance, and Per-Repo Model Program boundaries remain separate phases with no Ardyn training, deployment, or package behavior."
+  ];
+}
+
+function maintenanceGovernanceBoundaryMapState(reviewedAt) {
+  const boundaryEntries = maintenanceGovernanceBoundaryMapEntries();
+
+  return {
+    schema:
+      MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion:
+      MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind:
+      MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase548ProductionReadinessCoverageMatrix:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      phase548MaintenanceGovernanceAreaNumber: 17,
+      phase548MaintenanceGovernanceStatus: "deferred",
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase560InterAgentEncodedHandoffConformance:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      phase561DatabaseStorageContractBoundary:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      phase563SecurityRlsInputSanitizationContractBoundary:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      phase564RateLimitingAbuseControlContractBoundary:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      phase565ErrorTrackingLoggingAuditIntegrityContractBoundary:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      phase566AvailabilityRecoveryContractBoundary:
+        "tests/fixtures/host-policy/phase5-66/availability-recovery-contract-boundary-map.json",
+      phase567InfrastructureComplianceDataRetentionBoundary:
+        "tests/fixtures/host-policy/phase5-67/infrastructure-compliance-data-retention-contract-boundary-map.json",
+      phase568AgentModeProfileSkillhubCapabilityBoundary:
+        "tests/fixtures/host-policy/phase5-68/agent-mode-profile-skillhub-capability-boundary-map.json",
+      phase569TestingFrameworksQualityGatesBoundary:
+        "tests/fixtures/host-policy/phase5-69/testing-frameworks-quality-gates-contract-boundary-map.json",
+      phase570OperationsReliabilityBoundary:
+        "tests/fixtures/host-policy/phase5-70/operations-reliability-contract-boundary-map.json",
+      maintenanceGovernanceCoverageItemRepresented: true,
+      productionReadinessMaintenanceGovernanceItemDeferred: true,
+      noMaintenanceGovernanceRuntimeImplemented: true,
+      noDependencyUpdatePatchAutomationImplemented: true,
+      noReleasePublishingCiModificationImplemented: true,
+      noCodeModeRuntimeImplemented: true,
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      maintenanceGovernanceBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      maintenanceGovernanceBoundaryMapValidationRules(),
+    topMaintenanceGovernanceSecretsCodeModeFabricApiBackendGaps:
+      maintenanceGovernanceBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.72-review-only-secrets-management-key-rotation-contract-boundary-map",
+    maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...maintenanceGovernanceBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function maintenanceGovernanceBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap
+}) {
+  return {
+    schema:
+      MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion:
+      MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_VERSION,
+    maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapKind:
+      MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_KIND,
+    maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapMode:
+      "review-only",
+    reviewedAt,
+    classification,
+    maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapProduced:
+      accepted,
+    maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap
+          .boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap
+          .boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap
+          .invalidBoundaryCasePolicy
+      : maintenanceGovernanceBoundaryMapValidationRules(),
+    topMaintenanceGovernanceSecretsCodeModeFabricApiBackendGaps: accepted
+      ? maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap
+          .topMaintenanceGovernanceSecretsCodeModeFabricApiBackendGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap
+          .recommendedNextPhase
+      : null,
+    maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...maintenanceGovernanceBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            maintenanceGovernanceRuntimeAuthorized: false,
+            dependencyUpdateAutomationAuthorized: false,
+            vulnerabilityPatchAutomationAuthorized: false,
+            releasePublishingAuthorized: false,
+            codeModeRuntimeAuthorized: false,
+            julesAutomationAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createMaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord = maintenanceGovernanceBoundaryMapInputRecord(input);
+  const reviewedAt = maintenanceGovernanceBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    maintenanceGovernanceBoundaryMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap = accepted
+    ? maintenanceGovernanceBoundaryMapState(reviewedAt)
+    : null;
+
+  return maintenanceGovernanceBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap
   });
 }
 

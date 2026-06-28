@@ -6889,6 +6889,184 @@ const phase570SafetyFlagNames = [
   ...phase570ExpectedTrueSafetyFlagNames,
   ...phase570ExpectedFalseSafetyFlagNames
 ];
+const phase571DocFiles = [
+  "docs/phase-5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.md",
+  "docs/phase-5-70-operations-reliability-contract-boundary-map.md",
+  "docs/phase-5-48-production-readiness-coverage-matrix.md"
+];
+const phase571CrossLinks = [
+  "docs/phase-5-48-production-readiness-coverage-matrix.md",
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+  "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+  "docs/phase-5-61-database-storage-contract-boundary-map.md",
+  "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+  "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+  "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+  "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+  "docs/phase-5-66-availability-recovery-contract-boundary-map.md",
+  "docs/phase-5-67-infrastructure-compliance-data-retention-contract-boundary-map.md",
+  "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md",
+  "docs/phase-5-69-testing-frameworks-quality-gates-contract-boundary-map.md",
+  "docs/phase-5-70-operations-reliability-contract-boundary-map.md",
+  "docs/phase-5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.md"
+];
+const phase571ExpectedTrueSafetyFlagNames = [
+  "phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapRecorded",
+  "phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapReviewOnly",
+  "phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapProduced",
+  "phase571BoundaryEntriesRecorded",
+  "phase571Phase548MaintenanceGovernanceCoverageItemRepresented",
+  "phase571MaintenanceGovernanceBoundaryMetadataOnly",
+  "phase571NoLiveMaintenanceGovernanceRuntimePerformed",
+  "phase571AdrPolicyBoundaryRecorded",
+  "phase571ArchitectureDiagramUpdateBoundaryRecorded",
+  "phase571DependencyUpdatePolicyBoundaryRecorded",
+  "phase571VulnerabilityPatchPolicyBoundaryRecorded",
+  "phase571DependencyAuditEvidenceBoundaryRecorded",
+  "phase571WaiverExceptionPolicyBoundaryRecorded",
+  "phase571ReleaseGovernanceVersioningPolicyBoundaryRecorded",
+  "phase571OwnershipMaintainerBoundaryRecorded",
+  "phase571ExternalReferencePolicyBoundaryRecorded",
+  "phase571ToolkitUsageBoundaryRecorded",
+  "phase571SubagentReviewBoundaryRecorded",
+  "phase571JulesReviewBoundaryRecorded",
+  "phase571GraphifyMemoryBoundaryRecorded",
+  "phase571CodeModeGovernanceBoundaryRecorded",
+  "phase571ProductionReadinessGovernanceBoundaryRecorded",
+  "phase571PerRepoModelProgramBoundaryRecorded",
+  "phase571NoAdrGenerator",
+  "phase571NoDiagramGenerator",
+  "phase571NoDependencyUpdateBot",
+  "phase571NoVulnerabilityPatchAutomation",
+  "phase571NoReleasePublishingCiModification",
+  "phase571NoWaiverAutomationPolicyEngine",
+  "phase571NoGraphifyMutation",
+  "phase571NoCodeModeRuntime",
+  "phase571NoSubagentRuntimeJulesAutomation",
+  "phase571NoExternalRepoVendoringCopying",
+  "phase571NoPackageDeploymentBehavior",
+  "phase571NoRuntimeIntegrationBackendStorageBehavior",
+  "phase571NoFabricSecureDropEncodedHandoffRuntime",
+  "phase571NoHermesCuaComputerUseRuntime",
+  "phase571NoLoggerAuditTelemetryHealthInfrastructureRuntime",
+  "phase571NoTestingCiReleaseAutomation",
+  "phase571NoCommandExposure",
+  "phase571NoBlockedCliBypass",
+  "phase571AllBlockedAuthorizationFlagsFalse",
+  "phase571AllUnsafeMaintenanceGovernanceRuntimeFlagsFalse",
+  "phase571AllRuntimeEffectsFalse",
+  "phase571AllEntriesNonAuthorizing",
+  "phase571InvalidMaintenanceGovernanceBoundaryCasesFailClosed",
+  "phase571MissingRequiredFieldsFailClosed",
+  "phase571UnknownTopLevelFieldsFailClosed",
+  "phase571UnknownBoundaryFamiliesFailClosed",
+  "phase571UnknownRelatedSystemsFailClosed",
+  "phase571UnknownCurrentStatusesFailClosed",
+  "phase571HiddenDependencyUpdatePatchExecutionSemanticsFailClosed",
+  "phase571HiddenReleaseCiPublishingAutomationSemanticsFailClosed",
+  "phase571HiddenGraphifyMemoryMutationSemanticsFailClosed",
+  "phase571HiddenCodeModeRuntimeSemanticsFailClosed",
+  "phase571HiddenSubagentJulesAutomationSemanticsFailClosed",
+  "phase571HiddenExternalReferenceVendoringCopyingSemanticsFailClosed",
+  "phase571HiddenBackendApiServerSemanticsFailClosed",
+  "phase571HiddenDatabaseStorageCacheWriteSemanticsFailClosed",
+  "phase571HiddenAuthSessionTokenApiKeySemanticsFailClosed",
+  "phase571HiddenConnectorGrantSemanticsFailClosed",
+  "phase571HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed",
+  "phase571HiddenSecureDropImplementationSemanticsFailClosed",
+  "phase571HiddenEncodedHandoffCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed",
+  "phase571HiddenHermesCuaComputerUseRuntimeSemanticsFailClosed",
+  "phase571HiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed",
+  "phase571HiddenTestingCiReleaseAutomationSemanticsFailClosed",
+  "phase571ServeRuntimeStillDefaultBlocked"
+];
+const phase571ExpectedFalseSafetyFlagNames = [
+  "phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapAuthoritative",
+  "phase571FallowRuntimeUsed",
+  "phase571ReportRunsChecks",
+  "phase571RuntimeExecutionEnabled",
+  "phase571RuntimeAuthorizationEnabled",
+  "phase571RuntimeCommandEnabled",
+  "phase571CommandExposureEnabled",
+  "phase571CommandRuntimeControlEnabled",
+  "phase571BlockedCliBypassEnabled",
+  "phase571DryRunBypassesBlock",
+  "phase571ConnectorGrantProduced",
+  "phase571FabricRuntimeImplementedByArdyn",
+  "phase571WebsocketHttpTransportImplementedByArdyn",
+  "phase571McpToolExposureEnabled",
+  "phase571TaskExecutionEnabled",
+  "phase571SecureDropImplemented",
+  "phase571ServiceDiscoveryEnabled",
+  "phase571ScheduleEnforcementEnabled",
+  "phase571FilesystemWriteEnabled",
+  "phase571FilesystemScanningEnabled",
+  "phase571ProcessControlEnabled",
+  "phase571AdrGeneratorEnabled",
+  "phase571DiagramGeneratorEnabled",
+  "phase571DependencyUpdateAutomationEnabled",
+  "phase571DependencyUpdateBotEnabled",
+  "phase571VulnerabilityPatchAutomationEnabled",
+  "phase571ReleasePublishingEnabled",
+  "phase571CiModificationEnabled",
+  "phase571CiWorkflowModificationEnabled",
+  "phase571PolicyEngineEnabled",
+  "phase571WaiverAutomationEnabled",
+  "phase571AdrGeneratorRuntimeEnabled",
+  "phase571DiagramGeneratorRuntimeEnabled",
+  "phase571GraphifyRuntimeMutationEnabled",
+  "phase571GraphifyRepoMutationEnabled",
+  "phase571CodeModeRuntimeEnabled",
+  "phase571SubagentRuntimeEnabled",
+  "phase571JulesAutomationEnabled",
+  "phase571ExternalRepoImportEnabled",
+  "phase571ExternalRepoVendoringEnabled",
+  "phase571ExternalRepoCopyingEnabled",
+  "phase571PackageExportEnabled",
+  "phase571PackageDistributionImplementedByArdyn",
+  "phase571DeploymentAutomationImplemented",
+  "phase571RuntimeGovernanceEnabled",
+  "phase571BackendRuntimeImplementedByArdyn",
+  "phase571BackendApiServerMiddlewareImplemented",
+  "phase571ApiEndpointImplementedByArdyn",
+  "phase571ServerImplementedByArdyn",
+  "phase571DatabaseClientImplemented",
+  "phase571DatabaseStorageRuntimeWritesEnabled",
+  "phase571CacheEngineImplemented",
+  "phase571RlsRuntimeImplemented",
+  "phase571DatabaseMigrationImplemented",
+  "phase571TranscriptWriterImplemented",
+  "phase571AuditWriterImplemented",
+  "phase571ImportExportPathImplementedByArdyn",
+  "phase571PersistenceImplementedByArdyn",
+  "phase571LoggerRuntimeImplemented",
+  "phase571AuditWriterRuntimeImplemented",
+  "phase571TelemetryClientImplemented",
+  "phase571HealthCheckRuntimeImplemented",
+  "phase571BackupJobImplemented",
+  "phase571RestoreJobImplemented",
+  "phase571FailoverRuntimeImplemented",
+  "phase571InfrastructureAutomationImplemented",
+  "phase571ComplianceEnforcementImplemented",
+  "phase571PiiProcessingImplemented",
+  "phase571RetentionJobImplemented",
+  "phase571ExportJobImplemented",
+  "phase571TestingCiReleaseAutomationEnabled",
+  "phase571HermesRuntimeEnabled",
+  "phase571CuaDriverRuntimeEnabled",
+  "phase571ComputerUseRuntimeEnabled",
+  "phase571AgentModeRuntimeEnabled",
+  "phase571ProfileLoaderEnabled",
+  "phase571SkillLoaderEnabled",
+  "phase571UiFrontendBrowserRenderingImplemented",
+  "phase571CliSourceChanged",
+  "phase571RustSourceChanged",
+  "phase571FabricSourceChanged"
+];
+const phase571SafetyFlagNames = [
+  ...phase571ExpectedTrueSafetyFlagNames,
+  ...phase571ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -7023,15 +7201,16 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.70 operations/reliability contract boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.71 maintenance/governance/ADR/dependency-policy contract boundary map and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.70",
-    name: "Review-only operations/reliability contract boundary map",
+    id: "5.71",
+    name:
+      "Review-only maintenance/governance/ADR/dependency-policy contract boundary map",
     executionPosture:
-      "operations-reliability-contract-boundary-map runtime-disabled metadata-only no-retry-engine no-idempotency-store no-circuit-breaker no-queue-scheduler-worker-lease no-operation-monitor-runbook-executor-process-supervisor no-background-subagent no-model-router no-fusion-runtime no-judge-runtime no-front-desk-model no-computer-use-cua-driver no-skillhub-install-rollback no-mcp-tool-plugin-provider no-backend-api-server-storage no-fabric-secure-drop-encoded-handoff no-logger-audit-telemetry-health-infrastructure no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "maintenance-governance-adr-dependency-policy-contract-boundary-map runtime-disabled metadata-only no-adr-generator no-diagram-generator no-dependency-update-bot no-vulnerability-patch-automation no-release-publishing-ci-modification no-waiver-automation-policy-engine no-graphify-mutation no-code-mode-runtime no-subagent-runtime no-jules-automation no-external-repo-vendoring no-package-deployment no-backend-api-server-storage no-fabric-secure-drop-encoded-handoff no-hermes-cua-computer-use no-logger-audit-telemetry-health-infrastructure no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -7094,15 +7273,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.70 operations/reliability contract boundary map status report."
+    "Render this deterministic local Phase 5.71 maintenance/governance/ADR/dependency-policy contract boundary map status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.70 status report."
+    "Run focused tests for this local Phase 5.71 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.70 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.71 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.71 maintenance/governance/ADR/dependency-policy contract boundary map and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -29715,6 +29900,242 @@ test("report inventories Phase 5.70 operations/reliability contract boundary map
   assertSafetyFlags(report, phase570ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.71 maintenance/governance/ADR/dependency-policy contract boundary map", async () => {
+  const report = await runReport();
+  const inventory =
+    report
+      .phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapInventory;
+
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.71.maintenance-governance-adr-dependency-policy-contract-boundary-map-result"
+  );
+  assert.equal(inventory.statusLayer.schemaVersion, "0.1.0");
+  assert.equal(
+    inventory.statusLayer.kind,
+    "maintenance-governance-adr-dependency-policy-contract-boundary-map"
+  );
+  assert.equal(inventory.statusLayer.mode, "review-only");
+  assert.equal(
+    inventory.statusLayer.classification,
+    "valid_maintenance_governance_adr_dependency_policy_contract_boundary_map_runtime_still_blocked"
+  );
+  assert.equal(inventory.statusLayer.produced, true);
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 22);
+
+  for (const family of [
+    "adr_contract",
+    "architecture_diagram_contract",
+    "governance_policy_contract",
+    "dependency_policy_contract",
+    "vulnerability_patch_policy_contract",
+    "waiver_policy_contract",
+    "release_governance_contract",
+    "versioning_policy_contract",
+    "ownership_contract",
+    "review_policy_contract",
+    "jules_review_boundary",
+    "subagent_review_boundary",
+    "toolkit_usage_boundary",
+    "graphify_memory_boundary",
+    "code_mode_governance_boundary",
+    "external_reference_policy_contract"
+  ]) {
+    assert.ok(inventory.statusLayer.countByFamily[family] >= 1, family);
+  }
+
+  for (const system of [
+    "ardyn",
+    "ardyn-subagent",
+    "locus",
+    "multiverse",
+    "content-fabric",
+    "repo-family",
+    "external-harness",
+    "hermes-reference",
+    "cua-driver-reference"
+  ]) {
+    assert.ok(inventory.statusLayer.countByRelatedSystem[system] >= 1, system);
+  }
+
+  for (const status of [
+    "metadata_only",
+    "covered_by_existing_validation",
+    "blocked",
+    "future_contract_required"
+  ]) {
+    assert.ok(inventory.statusLayer.countByStatus[status] >= 1, status);
+  }
+
+  for (const field of [
+    "phase548MaintenanceGovernanceCoverageItemRepresented",
+    "maintenanceGovernanceBoundaryMetadataOnly",
+    "noLiveMaintenanceGovernanceRuntimePerformed",
+    "adrPolicyBoundaryRecorded",
+    "architectureDiagramUpdateBoundaryRecorded",
+    "dependencyUpdatePolicyBoundaryRecorded",
+    "vulnerabilityPatchPolicyBoundaryRecorded",
+    "dependencyAuditEvidenceBoundaryRecorded",
+    "waiverExceptionPolicyBoundaryRecorded",
+    "releaseGovernanceVersioningPolicyBoundaryRecorded",
+    "ownershipMaintainerBoundaryRecorded",
+    "externalReferencePolicyBoundaryRecorded",
+    "toolkitUsageBoundaryRecorded",
+    "subagentReviewBoundaryRecorded",
+    "julesReviewBoundaryRecorded",
+    "graphifyMemoryBoundaryRecorded",
+    "codeModeGovernanceBoundaryRecorded",
+    "productionReadinessGovernanceBoundaryRecorded",
+    "perRepoModelProgramBoundaryRecorded",
+    "noAdrGenerator",
+    "noDiagramGenerator",
+    "noDependencyUpdateBot",
+    "noVulnerabilityPatchAutomation",
+    "noReleasePublishingCiModification",
+    "noWaiverAutomationPolicyEngine",
+    "noGraphifyMutation",
+    "noCodeModeRuntime",
+    "noSubagentRuntimeJulesAutomation",
+    "noExternalRepoVendoringCopying",
+    "noPackageDeploymentBehavior",
+    "noRuntimeIntegrationBackendStorageBehavior",
+    "noFabricSecureDropEncodedHandoffRuntime",
+    "noHermesCuaComputerUseRuntime",
+    "noLoggerAuditTelemetryHealthInfrastructureRuntime",
+    "noTestingCiReleaseAutomation",
+    "noCommandExposure",
+    "noBlockedCliBypass",
+    "allBlockedAuthorizationFlagsFalse",
+    "allUnsafeMaintenanceGovernanceRuntimeFlagsFalse",
+    "allRuntimeEffectsFalse",
+    "allEntriesNonAuthorizing"
+  ]) {
+    assert.equal(inventory.statusLayer[field], true, `${field} should be true`);
+  }
+
+  for (const field of [
+    "reportRunsChecks",
+    "runtimeExecutionEnabled",
+    "commandExposureEnabled",
+    "blockedCliBypassEnabled"
+  ]) {
+    assert.equal(inventory.statusLayer[field], false, `${field} should be false`);
+  }
+
+  assert.deepEqual(inventory.docs.map(({ path, status }) => [path, status]), [
+    ...phase571DocFiles.map((path) => [path, "present"])
+  ]);
+  assert.deepEqual(inventory.crossLinks, phase571CrossLinks);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-71/maintenance-governance-adr-dependency-policy-contract-boundary-map.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    [
+      "tests/phase5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.test.mjs",
+      "present"
+    ],
+    ["tests/report-phase-status.test.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.hermesRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.cuaDriverFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.externalRepoFilesChanged, []);
+
+  for (const [key, value] of Object.entries(inventory.ownershipBoundary)) {
+    if (key.endsWith("ByThisPhase") || key.endsWith("AddedByThisPhase")) {
+      assert.equal(value, false, key);
+    }
+  }
+
+  assert.equal(
+    inventory.sourcePhaseContext.productionReadinessMaintenanceGovernanceItemDeferred,
+    true
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.noMaintenanceGovernanceRuntimeImplemented,
+    true
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.noDependencyUpdatePatchAutomationImplemented,
+    true
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.noReleasePublishingCiModificationImplemented,
+    true
+  );
+  assert.equal(inventory.sourcePhaseContext.noCodeModeRuntimeImplemented, true);
+  assert.equal(inventory.sourcePhaseContext.runtimeStillBlocked, true);
+  assert.equal(inventory.boundaryMapSummary.boundaryEntryCount, 22);
+  assert.equal(inventory.boundaryEntries.length, 22);
+
+  for (const entry of inventory.boundaryEntries) {
+    assert.match(entry.boundaryId, /^phase5-71\./);
+    assert.equal(entry.maintenanceGovernanceBoundaryMetadataOnly, true);
+    assert.equal(entry.noLiveMaintenanceGovernanceRuntimePerformed, true);
+    assert.equal(entry.productionReadinessAreaReference.phase, "5.48");
+    assert.equal(entry.productionReadinessAreaReference.areaNumber, 17);
+    assert.equal(entry.productionReadinessAreaReference.authorizesRuntime, false);
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(entry.unsafeMaintenanceGovernanceRuntimeFlagsAllFalse, true);
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+  }
+
+  assert.equal(inventory.invalidBoundaryCasePolicy.missingRequiredFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownTopLevelFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownBoundaryFamiliesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownRelatedSystemsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownCurrentStatusesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledAdrDiagramGeneratorFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledDependencyUpdatePatchAutomationFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledReleasePublishingCiModificationFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledWaiverAutomationPolicyEngineFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledGraphifyMutationFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledCodeModeRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledSubagentJulesAutomationFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledExternalRepoVendoringCopyingFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenDependencyUpdatePatchExecutionSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenReleaseCiPublishingAutomationSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenGraphifyMemoryMutationSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenCodeModeRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSubagentJulesAutomationSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenExternalReferenceVendoringCopyingSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenHermesCuaComputerUseRuntimeSemanticsFailClosed, true);
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.72-review-only-secrets-management-key-rotation-contract-boundary-map"
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-70-operations-reliability-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, ["semgrep --config auto ."]);
+  assert.equal(
+    report.safetyPosture
+      .phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMap,
+    true
+  );
+  assertSafetyFlags(report, phase571ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase571ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -30645,7 +31066,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase567SafetyFlagNames,
     ...phase568SafetyFlagNames,
     ...phase569SafetyFlagNames,
-    ...phase570SafetyFlagNames
+    ...phase570SafetyFlagNames,
+    ...phase571SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -30754,6 +31176,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase569ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase570ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase570ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase571ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase571ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });
