@@ -7270,6 +7270,198 @@ const phase572SafetyFlagNames = [
   ...phase572ExpectedTrueSafetyFlagNames,
   ...phase572ExpectedFalseSafetyFlagNames
 ];
+const phase573DocFiles = [
+  "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+  "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md"
+];
+const phase573CrossLinks = [
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+  "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+  "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+  "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+  "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+  "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md",
+  "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+  "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md"
+];
+const phase573ExpectedTrueSafetyFlagNames = [
+  "phase573ExternalGatewayMatrixTransportContractBoundaryMapRecorded",
+  "phase573ExternalGatewayMatrixTransportContractBoundaryMapReviewOnly",
+  "phase573ExternalGatewayMatrixTransportContractBoundaryMapProduced",
+  "phase573BoundaryEntriesRecorded",
+  "phase573ExternalGatewayMatrixTransportBoundaryMetadataOnly",
+  "phase573NoLiveExternalGatewayMatrixTransportRuntimePerformed",
+  "phase573MatrixHomeserverUrlBoundaryRecorded",
+  "phase573MatrixRoomAllowlistBoundaryRecorded",
+  "phase573MatrixUserDeviceIdentityBoundaryRecorded",
+  "phase573MatrixAccessRefreshTokenBoundaryLinkedFromPhase572",
+  "phase573MatrixE2eeKeySessionBoundaryRecorded",
+  "phase573MatrixMessageIngestionBoundaryRecorded",
+  "phase573MatrixMessageExportSendBoundaryRecorded",
+  "phase573MatrixDeliveryRetryRateLimitBoundaryRecorded",
+  "phase573MatrixModerationAbuseControlBoundaryRecorded",
+  "phase573MatrixAuditLoggingBoundaryRecorded",
+  "phase573LocusVisibleGatewayStatusBoundaryRecorded",
+  "phase573HiclawRoomCoordinationReferenceBoundaryRecorded",
+  "phase573ExternalPlatformGatewayBoundaryRecorded",
+  "phase573LocusMediatedHarnessBridgeBoundaryRecorded",
+  "phase573ExternalHarnessGatewayBridgeBoundaryRecorded",
+  "phase573FabricCoordinationEnvelopeGatewayBoundaryRecorded",
+  "phase573FabricCoreFutureConsumerBoundaryRecorded",
+  "phase573LargePayloadTodoBoundaryRecorded",
+  "phase573SecureDropGatewayReferenceBoundaryRecorded",
+  "phase573NoMatrixClientRuntime",
+  "phase573NoHomeserverConnection",
+  "phase573NoRoomJoinReadSendPollRuntime",
+  "phase573NoE2eeKeySessionHandling",
+  "phase573NoAccessTokenLoader",
+  "phase573NoGatewayRuntime",
+  "phase573NoExternalPlatformConnector",
+  "phase573NoMessageIngestionExportRuntime",
+  "phase573NoServiceDiscoverySchedulePolling",
+  "phase573NoContentAddressedChunkedResumableMultiSourceTransfer",
+  "phase573NoBitTorrentDhtSwarmP2pBehavior",
+  "phase573NoLargePayloadTransferRuntime",
+  "phase573NoFabricCoreProducerBehavior",
+  "phase573NoFabricWebsocketHttpMcpTaskRuntime",
+  "phase573NoSecureDropImplementation",
+  "phase573NoShellRuntime",
+  "phase573NoSqliteRuntime",
+  "phase573NoBackendApiServerDatabaseStorageCacheRlsMigration",
+  "phase573NoTranscriptAuditTelemetryLoggerHealthRuntime",
+  "phase573NoInfrastructureDeploymentComplianceAutomation",
+  "phase573NoTestingCiReleaseAutomation",
+  "phase573NoFilesystemProcessUiRuntime",
+  "phase573NoCommandExposure",
+  "phase573NoBlockedCliBypass",
+  "phase573AllBlockedAuthorizationFlagsFalse",
+  "phase573AllUnsafeExternalGatewayMatrixTransportRuntimeFlagsFalse",
+  "phase573AllRuntimeEffectsFalse",
+  "phase573AllEntriesNonAuthorizing",
+  "phase573InvalidExternalGatewayMatrixTransportBoundaryCasesFailClosed",
+  "phase573MissingRequiredFieldsFailClosed",
+  "phase573UnknownTopLevelFieldsFailClosed",
+  "phase573UnknownBoundaryFamiliesFailClosed",
+  "phase573UnknownRelatedSystemsFailClosed",
+  "phase573UnknownCurrentStatusesFailClosed",
+  "phase573HiddenMatrixGatewayRuntimeSemanticsFailClosed",
+  "phase573HiddenExternalConnectorSemanticsFailClosed",
+  "phase573HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed",
+  "phase573HiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed",
+  "phase573HiddenSecureDropImplementationSemanticsFailClosed",
+  "phase573HiddenSecretEnvVaultTokenKeyringSemanticsFailClosed",
+  "phase573HiddenShellPathExecutableEnvHistoryRuntimeSemanticsFailClosed",
+  "phase573HiddenSqliteEmbeddedDbQueryKeyRuntimeSemanticsFailClosed",
+  "phase573HiddenBackendApiServerSemanticsFailClosed",
+  "phase573HiddenDatabaseStorageCacheWriteSemanticsFailClosed",
+  "phase573HiddenAuthSessionTokenApiKeySemanticsFailClosed",
+  "phase573HiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed",
+  "phase573HiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed",
+  "phase573HiddenTestingCiReleaseAutomationSemanticsFailClosed",
+  "phase573ServeRuntimeStillDefaultBlocked"
+];
+const phase573ExpectedFalseSafetyFlagNames = [
+  "phase573ExternalGatewayMatrixTransportContractBoundaryMapAuthoritative",
+  "phase573FallowRuntimeUsed",
+  "phase573ReportRunsChecks",
+  "phase573RuntimeExecutionEnabled",
+  "phase573RuntimeAuthorizationEnabled",
+  "phase573RuntimeCommandEnabled",
+  "phase573CommandExposureEnabled",
+  "phase573CommandRuntimeControlEnabled",
+  "phase573BlockedCliBypassEnabled",
+  "phase573DryRunBypassesBlock",
+  "phase573ConnectorGrantProduced",
+  "phase573FabricRuntimeImplementedByArdyn",
+  "phase573WebsocketHttpTransportImplementedByArdyn",
+  "phase573HttpTransportImplementedByArdyn",
+  "phase573McpRuntimeEnabled",
+  "phase573McpToolExposureEnabled",
+  "phase573TaskExecutionEnabled",
+  "phase573SecureDropImplemented",
+  "phase573ServiceDiscoveryEnabled",
+  "phase573ScheduleEnforcementEnabled",
+  "phase573SchedulePollingEnabled",
+  "phase573FilesystemWriteEnabled",
+  "phase573FilesystemScanningEnabled",
+  "phase573ProcessControlEnabled",
+  "phase573MatrixClientRuntimeEnabled",
+  "phase573HomeserverConnectionEnabled",
+  "phase573MatrixRoomJoinRuntimeEnabled",
+  "phase573MatrixRoomSendRuntimeEnabled",
+  "phase573MatrixRoomReadRuntimeEnabled",
+  "phase573MatrixRoomPollRuntimeEnabled",
+  "phase573E2eeKeySessionHandlingEnabled",
+  "phase573AccessTokenLoaderEnabled",
+  "phase573GatewayRuntimeEnabled",
+  "phase573ExternalGatewayRuntimeEnabled",
+  "phase573ExternalPlatformConnectorEnabled",
+  "phase573MessageIngestionRuntimeEnabled",
+  "phase573MessageExportRuntimeEnabled",
+  "phase573ContentAddressedTransportEnabled",
+  "phase573ChunkedTransferEnabled",
+  "phase573ResumableTransferEnabled",
+  "phase573MultiSourceTransferEnabled",
+  "phase573BitTorrentDhtSwarmP2pEnabled",
+  "phase573LargePayloadTransferRuntimeEnabled",
+  "phase573FabricCoreProducerBehaviorEnabled",
+  "phase573EnvIngestionEnabled",
+  "phase573SecretLoadingEnabled",
+  "phase573VaultAccessEnabled",
+  "phase573KeyringRuntimeEnabled",
+  "phase573DidRuntimeEnabled",
+  "phase573TokenLoaderEnabled",
+  "phase573OauthFlowEnabled",
+  "phase573SessionHandlingEnabled",
+  "phase573ShellRuntimeEnabled",
+  "phase573PathLookupRuntimeEnabled",
+  "phase573ExecutableLookupRuntimeEnabled",
+  "phase573ShellHistoryRuntimeEnabled",
+  "phase573SqliteRuntimeEnabled",
+  "phase573EmbeddedDbRuntimeEnabled",
+  "phase573QueryEngineRuntimeEnabled",
+  "phase573SqliteKeyRuntimeEnabled",
+  "phase573BackendRuntimeImplementedByArdyn",
+  "phase573BackendApiServerMiddlewareImplemented",
+  "phase573ApiEndpointImplementedByArdyn",
+  "phase573ServerImplementedByArdyn",
+  "phase573DatabaseClientImplemented",
+  "phase573DatabaseStorageRuntimeWritesEnabled",
+  "phase573CacheEngineImplemented",
+  "phase573RlsRuntimeImplemented",
+  "phase573DatabaseMigrationImplemented",
+  "phase573TranscriptWriterImplemented",
+  "phase573AuditWriterImplemented",
+  "phase573ImportExportPathImplementedByArdyn",
+  "phase573PackageDistributionImplementedByArdyn",
+  "phase573PersistenceImplementedByArdyn",
+  "phase573LoggerRuntimeImplemented",
+  "phase573AuditWriterRuntimeImplemented",
+  "phase573TelemetryClientImplemented",
+  "phase573HealthCheckRuntimeImplemented",
+  "phase573BackupJobImplemented",
+  "phase573RestoreJobImplemented",
+  "phase573FailoverRuntimeImplemented",
+  "phase573InfrastructureAutomationImplemented",
+  "phase573DeploymentAutomationImplemented",
+  "phase573ComplianceEnforcementImplemented",
+  "phase573PiiProcessingImplemented",
+  "phase573RetentionJobImplemented",
+  "phase573ExportJobImplemented",
+  "phase573TestingCiReleaseAutomationEnabled",
+  "phase573EncodedHandoffRuntimeImplementedByArdyn",
+  "phase573CodecRuntimeEnabled",
+  "phase573TranslatorRuntimeEnabled",
+  "phase573FilesystemProcessRuntimeEnabled",
+  "phase573CliSourceChanged",
+  "phase573RustSourceChanged",
+  "phase573FabricSourceChanged"
+];
+const phase573SafetyFlagNames = [
+  ...phase573ExpectedTrueSafetyFlagNames,
+  ...phase573ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -7404,16 +7596,16 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.72 secrets-management/key-rotation/external-gateway credential boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.73 external gateway/Matrix transport contract boundary map and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.72",
+    id: "5.73",
     name:
-      "Review-only secrets-management/key-rotation/external-gateway credential boundary map",
+      "Review-only external gateway/Matrix transport contract boundary map",
     executionPosture:
-      "secrets-management-key-rotation-external-gateway-credential-boundary-map runtime-disabled metadata-only no-secret-store no-env-ingestion no-vault-access no-keyring-did-runtime no-token-loader no-oauth-session no-credential-scanner no-secret-scanner no-rotation-revocation-jobs no-credential-export no-secret-persistence no-redaction-runtime no-matrix-gateway no-e2ee-key-handling no-external-gateway no-mcp-plugin-provider-credentials no-secure-drop-fabric-runtime no-hermes-cua-computer-use no-shell-runtime no-sqlite-runtime no-backend-api-server-storage no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "external-gateway-matrix-transport-contract-boundary-map runtime-disabled metadata-only no-matrix-client no-homeserver-connection no-room-join-read-send-poll no-e2ee-key-session no-access-token-loader no-gateway-runtime no-external-platform-connector no-message-ingestion-export no-service-discovery-schedule-polling no-content-addressed-chunked-resumable-multi-source-transfer no-bittorrent-dht-swarm-p2p no-large-payload-transfer no-fabric-core-producer no-fabric-websocket-http-mcp-task-runtime no-secure-drop-implementation no-shell-runtime no-sqlite-runtime no-backend-api-server-storage no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -7476,15 +7668,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.72 secrets-management/key-rotation/external-gateway credential boundary map status report."
+    "Render this deterministic local Phase 5.73 external gateway/Matrix transport contract boundary map status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.72 status report."
+    "Run focused tests for this local Phase 5.73 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.72 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.73 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.73 external gateway/Matrix transport contract boundary map and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -30643,6 +30841,306 @@ test("report inventories Phase 5.72 secrets-management/key-rotation/external-gat
   assertSafetyFlags(report, phase572ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.73 external gateway/Matrix transport contract boundary map", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase573ExternalGatewayMatrixTransportContractBoundaryMapInventory;
+
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.73.external-gateway-matrix-transport-contract-boundary-map-result"
+  );
+  assert.equal(inventory.statusLayer.schemaVersion, "0.1.0");
+  assert.equal(
+    inventory.statusLayer.kind,
+    "external-gateway-matrix-transport-contract-boundary-map"
+  );
+  assert.equal(inventory.statusLayer.mode, "review-only");
+  assert.equal(
+    inventory.statusLayer.classification,
+    "valid_external_gateway_matrix_transport_contract_boundary_map_runtime_still_blocked"
+  );
+  assert.equal(inventory.statusLayer.produced, true);
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 17);
+
+  for (const family of [
+    "matrix_gateway_contract",
+    "matrix_room_contract",
+    "matrix_identity_contract",
+    "matrix_e2ee_boundary",
+    "gateway_transport_contract",
+    "gateway_delivery_contract",
+    "gateway_ingestion_contract",
+    "gateway_export_contract",
+    "gateway_moderation_contract",
+    "gateway_rate_limit_contract",
+    "gateway_audit_contract",
+    "locus_gateway_visibility_contract",
+    "harness_gateway_bridge_contract",
+    "fabric_core_consumer_boundary",
+    "large_payload_transfer_todo_boundary",
+    "external_platform_gateway_contract"
+  ]) {
+    assert.ok(inventory.statusLayer.countByFamily[family] >= 1, family);
+  }
+
+  for (const system of [
+    "ardyn",
+    "ardyn-subagent",
+    "locus",
+    "multiverse",
+    "content-fabric",
+    "repo-family",
+    "external-harness",
+    "matrix-reference",
+    "hiclaw-reference",
+    "fabric-core-reference"
+  ]) {
+    assert.ok(inventory.statusLayer.countByRelatedSystem[system] >= 1, system);
+  }
+
+  for (const status of [
+    "metadata_only",
+    "blocked",
+    "future_contract_required"
+  ]) {
+    assert.ok(inventory.statusLayer.countByStatus[status] >= 1, status);
+  }
+
+  for (const field of [
+    "externalGatewayMatrixTransportBoundaryMetadataOnly",
+    "noLiveExternalGatewayMatrixTransportRuntimePerformed",
+    "matrixHomeserverUrlBoundaryRecorded",
+    "matrixRoomAllowlistBoundaryRecorded",
+    "matrixUserDeviceIdentityBoundaryRecorded",
+    "matrixAccessRefreshTokenBoundaryLinkedFromPhase572",
+    "matrixE2eeKeySessionBoundaryRecorded",
+    "matrixMessageIngestionBoundaryRecorded",
+    "matrixMessageExportSendBoundaryRecorded",
+    "matrixDeliveryRetryRateLimitBoundaryRecorded",
+    "matrixModerationAbuseControlBoundaryRecorded",
+    "matrixAuditLoggingBoundaryRecorded",
+    "locusVisibleGatewayStatusBoundaryRecorded",
+    "hiclawRoomCoordinationReferenceBoundaryRecorded",
+    "externalPlatformGatewayBoundaryRecorded",
+    "locusMediatedHarnessBridgeBoundaryRecorded",
+    "externalHarnessGatewayBridgeBoundaryRecorded",
+    "fabricCoordinationEnvelopeGatewayBoundaryRecorded",
+    "fabricCoreFutureConsumerBoundaryRecorded",
+    "largePayloadTodoBoundaryRecorded",
+    "secureDropGatewayReferenceBoundaryRecorded",
+    "noMatrixClientRuntime",
+    "noHomeserverConnection",
+    "noRoomJoinReadSendPollRuntime",
+    "noE2eeKeySessionHandling",
+    "noAccessTokenLoader",
+    "noGatewayRuntime",
+    "noExternalPlatformConnector",
+    "noMessageIngestionExportRuntime",
+    "noServiceDiscoverySchedulePolling",
+    "noContentAddressedChunkedResumableMultiSourceTransfer",
+    "noBitTorrentDhtSwarmP2pBehavior",
+    "noLargePayloadTransferRuntime",
+    "noFabricCoreProducerBehavior",
+    "noFabricWebsocketHttpMcpTaskRuntime",
+    "noSecureDropImplementation",
+    "noShellRuntime",
+    "noSqliteRuntime",
+    "noBackendApiServerDatabaseStorageCacheRlsMigration",
+    "noTranscriptAuditTelemetryLoggerHealthRuntime",
+    "noInfrastructureDeploymentComplianceAutomation",
+    "noTestingCiReleaseAutomation",
+    "noFilesystemProcessUiRuntime",
+    "noCommandExposure",
+    "noBlockedCliBypass",
+    "allBlockedAuthorizationFlagsFalse",
+    "allUnsafeExternalGatewayMatrixTransportRuntimeFlagsFalse",
+    "allRuntimeEffectsFalse",
+    "allEntriesNonAuthorizing"
+  ]) {
+    assert.equal(inventory.statusLayer[field], true, `${field} should be true`);
+  }
+
+  for (const field of [
+    "reportRunsChecks",
+    "runtimeExecutionEnabled",
+    "matrixClientRuntimeEnabled",
+    "homeserverConnectionEnabled",
+    "gatewayRuntimeEnabled",
+    "contentAddressedTransportEnabled",
+    "largePayloadTransferRuntimeEnabled",
+    "fabricCoreProducerBehaviorEnabled",
+    "shellRuntimeEnabled",
+    "sqliteRuntimeEnabled",
+    "commandExposureEnabled",
+    "blockedCliBypassEnabled"
+  ]) {
+    assert.equal(inventory.statusLayer[field], false, `${field} should be false`);
+  }
+
+  assert.deepEqual(inventory.docs.map(({ path, status }) => [path, status]), [
+    ...phase573DocFiles.map((path) => [path, "present"])
+  ]);
+  assert.deepEqual(inventory.crossLinks, phase573CrossLinks);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-73/external-gateway-matrix-transport-contract-boundary-map.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    [
+      "tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs",
+      "present"
+    ],
+    ["tests/report-phase-status.test.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.matrixHiClawRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricCoreRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.externalRepoFilesChanged, []);
+
+  for (const [key, value] of Object.entries(inventory.ownershipBoundary)) {
+    if (key.endsWith("ByThisPhase") || key.endsWith("AddedByThisPhase")) {
+      assert.equal(value, false, key);
+    }
+  }
+
+  assert.equal(
+    inventory.fabricCoreStandingBoundary.producerRepository,
+    "Ardynai/multiverse"
+  );
+  assert.equal(
+    inventory.fabricCoreStandingBoundary.producerPackage,
+    "packages/fabric-core"
+  );
+  assert.equal(
+    inventory.fabricCoreStandingBoundary.producerImplementedByArdyn,
+    false
+  );
+  assert.equal(
+    inventory.fabricCoreStandingBoundary.contentAddressedTransportImplementedByArdyn,
+    false
+  );
+  assert.equal(
+    inventory.fabricCoreStandingBoundary.largePayloadTransferRuntimeImplementedByArdyn,
+    false
+  );
+
+  assert.equal(
+    inventory.sourcePhaseContext.phase572CredentialLinkageRequiredBeforeRuntime,
+    true
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.hiclawStyleRoomCoordinationReferenceOnly,
+    true
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.fabricCoreProducerRepository,
+    "Ardynai/multiverse"
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.fabricCoreProducerPackage,
+    "packages/fabric-core"
+  );
+  assert.equal(inventory.sourcePhaseContext.noMatrixClientImplemented, true);
+  assert.equal(inventory.sourcePhaseContext.noGatewayRuntimeImplemented, true);
+  assert.equal(inventory.sourcePhaseContext.noFabricCoreProducerImplemented, true);
+  assert.equal(inventory.sourcePhaseContext.noLargePayloadTransferImplemented, true);
+  assert.equal(inventory.sourcePhaseContext.runtimeStillBlocked, true);
+  assert.equal(inventory.boundaryMapSummary.boundaryEntryCount, 17);
+  assert.equal(inventory.boundaryEntries.length, 17);
+
+  for (const entry of inventory.boundaryEntries) {
+    assert.match(entry.boundaryId, /^phase5-73\./);
+    assert.equal(entry.gatewayTransportBoundaryMetadataOnly, true);
+    assert.equal(
+      entry.noLiveExternalGatewayMatrixTransportRuntimePerformed,
+      true
+    );
+    assert.equal(
+      entry.phase572CredentialBoundaryReference
+        .matrixAccessRefreshTokenBoundaryRecorded,
+      true
+    );
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(
+      entry.unsafeExternalGatewayMatrixTransportRuntimeFlagsAllFalse,
+      true
+    );
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+  }
+
+  const fabricCore = inventory.boundaryEntries.find(
+    (entry) => entry.boundaryFamily === "fabric_core_consumer_boundary"
+  );
+  assert.equal(fabricCore.fabricCoreProducerReference.producerRepository, "Ardynai/multiverse");
+  assert.equal(fabricCore.fabricCoreProducerReference.producerPackage, "packages/fabric-core");
+  assert.equal(fabricCore.fabricCoreConsumerExpectation.futureFabricCoreConsumerOnly, true);
+  assert.equal(fabricCore.fabricCoreConsumerExpectation.contentAddressedTransportImplementedByArdyn, false);
+  assert.equal(fabricCore.fabricCoreConsumerExpectation.chunkedTransferImplementedByArdyn, false);
+  assert.equal(fabricCore.fabricCoreConsumerExpectation.resumableTransferImplementedByArdyn, false);
+  assert.equal(fabricCore.fabricCoreConsumerExpectation.multiSourceTransferImplementedByArdyn, false);
+  assert.equal(fabricCore.fabricCoreConsumerExpectation.bittorrentDhtSwarmP2pImplementedByArdyn, false);
+  assert.equal(fabricCore.fabricCoreConsumerExpectation.largePayloadTransferRuntimeImplementedByArdyn, false);
+
+  const externalPlatform = inventory.boundaryEntries.find(
+    (entry) => entry.boundaryFamily === "external_platform_gateway_contract"
+  );
+  assert.equal(externalPlatform.externalPlatformGatewayExpectation.telegram, "future metadata only");
+  assert.equal(externalPlatform.externalPlatformGatewayExpectation.homeAssistant, "future metadata only");
+  assert.equal(externalPlatform.externalPlatformGatewayExpectation.runtimeImplemented, false);
+
+  assert.equal(inventory.invalidBoundaryCasePolicy.missingRequiredFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownTopLevelFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownBoundaryFamiliesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownRelatedSystemsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownCurrentStatusesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledMatrixClientRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledHomeserverConnectionFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledRoomJoinSendReadPollRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledContentAddressedChunkedResumableMultiSourceTransferFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledBitTorrentDhtSwarmP2pBehaviorFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledLargePayloadTransferRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledFabricCoreProducerBehaviorFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenMatrixGatewayRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenExternalConnectorSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSecureDropImplementationSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenShellPathExecutableEnvHistoryRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSqliteEmbeddedDbQueryKeyRuntimeSemanticsFailClosed, true);
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.74-review-only-command-surface-shell-primitive-contract-boundary-map"
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, ["semgrep --config auto ."]);
+  assert.equal(
+    report.safetyPosture.phase573ExternalGatewayMatrixTransportContractBoundaryMap,
+    true
+  );
+  assertSafetyFlags(report, phase573ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase573ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -31575,7 +32073,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase569SafetyFlagNames,
     ...phase570SafetyFlagNames,
     ...phase571SafetyFlagNames,
-    ...phase572SafetyFlagNames
+    ...phase572SafetyFlagNames,
+    ...phase573SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -31688,6 +32187,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase571ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase572ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase572ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase573ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase573ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

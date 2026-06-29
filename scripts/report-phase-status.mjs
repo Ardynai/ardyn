@@ -340,6 +340,10 @@ const phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap =
   await readJson(
     "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json"
   );
+const phase573ExternalGatewayMatrixTransportContractBoundaryMap =
+  await readJson(
+    "tests/fixtures/host-policy/phase5-73/external-gateway-matrix-transport-contract-boundary-map.json"
+  );
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -2349,14 +2353,189 @@ const phase572SafetyFlags = {
   phase572FabricSourceChanged: false
 };
 
+const phase573SafetyFlags = {
+  phase573ExternalGatewayMatrixTransportContractBoundaryMapRecorded: true,
+  phase573ExternalGatewayMatrixTransportContractBoundaryMapReviewOnly: true,
+  phase573ExternalGatewayMatrixTransportContractBoundaryMapAuthoritative: false,
+  phase573ExternalGatewayMatrixTransportContractBoundaryMapProduced: true,
+  phase573BoundaryEntriesRecorded: true,
+  phase573ExternalGatewayMatrixTransportBoundaryMetadataOnly: true,
+  phase573NoLiveExternalGatewayMatrixTransportRuntimePerformed: true,
+  phase573MatrixHomeserverUrlBoundaryRecorded: true,
+  phase573MatrixRoomAllowlistBoundaryRecorded: true,
+  phase573MatrixUserDeviceIdentityBoundaryRecorded: true,
+  phase573MatrixAccessRefreshTokenBoundaryLinkedFromPhase572: true,
+  phase573MatrixE2eeKeySessionBoundaryRecorded: true,
+  phase573MatrixMessageIngestionBoundaryRecorded: true,
+  phase573MatrixMessageExportSendBoundaryRecorded: true,
+  phase573MatrixDeliveryRetryRateLimitBoundaryRecorded: true,
+  phase573MatrixModerationAbuseControlBoundaryRecorded: true,
+  phase573MatrixAuditLoggingBoundaryRecorded: true,
+  phase573LocusVisibleGatewayStatusBoundaryRecorded: true,
+  phase573HiclawRoomCoordinationReferenceBoundaryRecorded: true,
+  phase573ExternalPlatformGatewayBoundaryRecorded: true,
+  phase573LocusMediatedHarnessBridgeBoundaryRecorded: true,
+  phase573ExternalHarnessGatewayBridgeBoundaryRecorded: true,
+  phase573FabricCoordinationEnvelopeGatewayBoundaryRecorded: true,
+  phase573FabricCoreFutureConsumerBoundaryRecorded: true,
+  phase573LargePayloadTodoBoundaryRecorded: true,
+  phase573SecureDropGatewayReferenceBoundaryRecorded: true,
+  phase573NoMatrixClientRuntime: true,
+  phase573NoHomeserverConnection: true,
+  phase573NoRoomJoinReadSendPollRuntime: true,
+  phase573NoE2eeKeySessionHandling: true,
+  phase573NoAccessTokenLoader: true,
+  phase573NoGatewayRuntime: true,
+  phase573NoExternalPlatformConnector: true,
+  phase573NoMessageIngestionExportRuntime: true,
+  phase573NoServiceDiscoverySchedulePolling: true,
+  phase573NoContentAddressedChunkedResumableMultiSourceTransfer: true,
+  phase573NoBitTorrentDhtSwarmP2pBehavior: true,
+  phase573NoLargePayloadTransferRuntime: true,
+  phase573NoFabricCoreProducerBehavior: true,
+  phase573NoFabricWebsocketHttpMcpTaskRuntime: true,
+  phase573NoSecureDropImplementation: true,
+  phase573NoShellRuntime: true,
+  phase573NoSqliteRuntime: true,
+  phase573NoBackendApiServerDatabaseStorageCacheRlsMigration: true,
+  phase573NoTranscriptAuditTelemetryLoggerHealthRuntime: true,
+  phase573NoInfrastructureDeploymentComplianceAutomation: true,
+  phase573NoTestingCiReleaseAutomation: true,
+  phase573NoFilesystemProcessUiRuntime: true,
+  phase573NoCommandExposure: true,
+  phase573NoBlockedCliBypass: true,
+  phase573AllBlockedAuthorizationFlagsFalse: true,
+  phase573AllUnsafeExternalGatewayMatrixTransportRuntimeFlagsFalse: true,
+  phase573AllRuntimeEffectsFalse: true,
+  phase573AllEntriesNonAuthorizing: true,
+  phase573InvalidExternalGatewayMatrixTransportBoundaryCasesFailClosed: true,
+  phase573MissingRequiredFieldsFailClosed: true,
+  phase573UnknownTopLevelFieldsFailClosed: true,
+  phase573UnknownBoundaryFamiliesFailClosed: true,
+  phase573UnknownRelatedSystemsFailClosed: true,
+  phase573UnknownCurrentStatusesFailClosed: true,
+  phase573HiddenMatrixGatewayRuntimeSemanticsFailClosed: true,
+  phase573HiddenExternalConnectorSemanticsFailClosed: true,
+  phase573HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+  phase573HiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed:
+    true,
+  phase573HiddenSecureDropImplementationSemanticsFailClosed: true,
+  phase573HiddenSecretEnvVaultTokenKeyringSemanticsFailClosed: true,
+  phase573HiddenShellPathExecutableEnvHistoryRuntimeSemanticsFailClosed: true,
+  phase573HiddenSqliteEmbeddedDbQueryKeyRuntimeSemanticsFailClosed: true,
+  phase573HiddenBackendApiServerSemanticsFailClosed: true,
+  phase573HiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+  phase573HiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+  phase573HiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed:
+    true,
+  phase573HiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed:
+    true,
+  phase573HiddenTestingCiReleaseAutomationSemanticsFailClosed: true,
+  phase573ServeRuntimeStillDefaultBlocked: true,
+  phase573FallowRuntimeUsed: false,
+  phase573ReportRunsChecks: false,
+  phase573RuntimeExecutionEnabled: false,
+  phase573RuntimeAuthorizationEnabled: false,
+  phase573RuntimeCommandEnabled: false,
+  phase573CommandExposureEnabled: false,
+  phase573CommandRuntimeControlEnabled: false,
+  phase573BlockedCliBypassEnabled: false,
+  phase573DryRunBypassesBlock: false,
+  phase573ConnectorGrantProduced: false,
+  phase573FabricRuntimeImplementedByArdyn: false,
+  phase573WebsocketHttpTransportImplementedByArdyn: false,
+  phase573HttpTransportImplementedByArdyn: false,
+  phase573McpRuntimeEnabled: false,
+  phase573McpToolExposureEnabled: false,
+  phase573TaskExecutionEnabled: false,
+  phase573SecureDropImplemented: false,
+  phase573ServiceDiscoveryEnabled: false,
+  phase573ScheduleEnforcementEnabled: false,
+  phase573SchedulePollingEnabled: false,
+  phase573FilesystemWriteEnabled: false,
+  phase573FilesystemScanningEnabled: false,
+  phase573ProcessControlEnabled: false,
+  phase573MatrixClientRuntimeEnabled: false,
+  phase573HomeserverConnectionEnabled: false,
+  phase573MatrixRoomJoinRuntimeEnabled: false,
+  phase573MatrixRoomSendRuntimeEnabled: false,
+  phase573MatrixRoomReadRuntimeEnabled: false,
+  phase573MatrixRoomPollRuntimeEnabled: false,
+  phase573E2eeKeySessionHandlingEnabled: false,
+  phase573AccessTokenLoaderEnabled: false,
+  phase573GatewayRuntimeEnabled: false,
+  phase573ExternalGatewayRuntimeEnabled: false,
+  phase573ExternalPlatformConnectorEnabled: false,
+  phase573MessageIngestionRuntimeEnabled: false,
+  phase573MessageExportRuntimeEnabled: false,
+  phase573ContentAddressedTransportEnabled: false,
+  phase573ChunkedTransferEnabled: false,
+  phase573ResumableTransferEnabled: false,
+  phase573MultiSourceTransferEnabled: false,
+  phase573BitTorrentDhtSwarmP2pEnabled: false,
+  phase573LargePayloadTransferRuntimeEnabled: false,
+  phase573FabricCoreProducerBehaviorEnabled: false,
+  phase573EnvIngestionEnabled: false,
+  phase573SecretLoadingEnabled: false,
+  phase573VaultAccessEnabled: false,
+  phase573KeyringRuntimeEnabled: false,
+  phase573DidRuntimeEnabled: false,
+  phase573TokenLoaderEnabled: false,
+  phase573OauthFlowEnabled: false,
+  phase573SessionHandlingEnabled: false,
+  phase573ShellRuntimeEnabled: false,
+  phase573PathLookupRuntimeEnabled: false,
+  phase573ExecutableLookupRuntimeEnabled: false,
+  phase573ShellHistoryRuntimeEnabled: false,
+  phase573SqliteRuntimeEnabled: false,
+  phase573EmbeddedDbRuntimeEnabled: false,
+  phase573QueryEngineRuntimeEnabled: false,
+  phase573SqliteKeyRuntimeEnabled: false,
+  phase573BackendRuntimeImplementedByArdyn: false,
+  phase573BackendApiServerMiddlewareImplemented: false,
+  phase573ApiEndpointImplementedByArdyn: false,
+  phase573ServerImplementedByArdyn: false,
+  phase573DatabaseClientImplemented: false,
+  phase573DatabaseStorageRuntimeWritesEnabled: false,
+  phase573CacheEngineImplemented: false,
+  phase573RlsRuntimeImplemented: false,
+  phase573DatabaseMigrationImplemented: false,
+  phase573TranscriptWriterImplemented: false,
+  phase573AuditWriterImplemented: false,
+  phase573ImportExportPathImplementedByArdyn: false,
+  phase573PackageDistributionImplementedByArdyn: false,
+  phase573PersistenceImplementedByArdyn: false,
+  phase573LoggerRuntimeImplemented: false,
+  phase573AuditWriterRuntimeImplemented: false,
+  phase573TelemetryClientImplemented: false,
+  phase573HealthCheckRuntimeImplemented: false,
+  phase573BackupJobImplemented: false,
+  phase573RestoreJobImplemented: false,
+  phase573FailoverRuntimeImplemented: false,
+  phase573InfrastructureAutomationImplemented: false,
+  phase573DeploymentAutomationImplemented: false,
+  phase573ComplianceEnforcementImplemented: false,
+  phase573PiiProcessingImplemented: false,
+  phase573RetentionJobImplemented: false,
+  phase573ExportJobImplemented: false,
+  phase573TestingCiReleaseAutomationEnabled: false,
+  phase573EncodedHandoffRuntimeImplementedByArdyn: false,
+  phase573CodecRuntimeEnabled: false,
+  phase573TranslatorRuntimeEnabled: false,
+  phase573FilesystemProcessRuntimeEnabled: false,
+  phase573CliSourceChanged: false,
+  phase573RustSourceChanged: false,
+  phase573FabricSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.72",
+    id: "5.73",
     name:
-      "Review-only secrets-management/key-rotation/external-gateway credential boundary map",
+      "Review-only external gateway/Matrix transport contract boundary map",
     executionPosture:
-      "secrets-management-key-rotation-external-gateway-credential-boundary-map runtime-disabled metadata-only no-secret-store no-env-ingestion no-vault-access no-keyring-did-runtime no-token-loader no-oauth-session no-credential-scanner no-secret-scanner no-rotation-revocation-jobs no-credential-export no-secret-persistence no-redaction-runtime no-matrix-gateway no-e2ee-key-handling no-external-gateway no-mcp-plugin-provider-credentials no-secure-drop-fabric-runtime no-hermes-cua-computer-use no-shell-runtime no-sqlite-runtime no-backend-api-server-storage no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "external-gateway-matrix-transport-contract-boundary-map runtime-disabled metadata-only no-matrix-client no-homeserver-connection no-room-join-read-send-poll no-e2ee-key-session no-access-token-loader no-gateway-runtime no-external-platform-connector no-message-ingestion-export no-service-discovery-schedule-polling no-content-addressed-chunked-resumable-multi-source-transfer no-bittorrent-dht-swarm-p2p no-large-payload-transfer no-fabric-core-producer no-fabric-websocket-http-mcp-task-runtime no-secure-drop-implementation no-shell-runtime no-sqlite-runtime no-backend-api-server-storage no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -2437,18 +2616,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.72 secrets-management/key-rotation/external-gateway credential boundary map status report.",
+        "Render this deterministic local Phase 5.73 external gateway/Matrix transport contract boundary map status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.72 status report.",
+      purpose: "Run focused tests for this local Phase 5.73 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.72 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.73 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs",
+      purpose:
+        "Run focused Phase 5.73 external gateway/Matrix transport contract boundary map and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -30932,6 +31118,318 @@ const report = {
           .blockedCliBypassEnabled
     }
   },
+  phase573ExternalGatewayMatrixTransportContractBoundaryMapInventory: {
+    statusLayer: {
+      schema:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap.schema,
+      schemaVersion:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap.schemaVersion,
+      kind:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .externalGatewayMatrixTransportContractBoundaryMapKind,
+      mode:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .externalGatewayMatrixTransportContractBoundaryMapMode,
+      classification:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .classification,
+      produced:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .externalGatewayMatrixTransportContractBoundaryMapProduced,
+      boundaryEntryCount:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .boundaryEntries.length,
+      countByFamily:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .boundaryMapSummary.countByFamily,
+      countByRelatedSystem:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .boundaryMapSummary.countByRelatedSystem,
+      countByStatus:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .boundaryMapSummary.countByStatus,
+      ...phase573ExternalGatewayMatrixTransportContractBoundaryMap
+        .boundaryMapSummary,
+      reportRunsChecks:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .reportRunsChecks,
+      runtimeExecutionEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .runtimeExecutionEnabled,
+      matrixClientRuntimeEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .matrixClientRuntimeEnabled,
+      homeserverConnectionEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .homeserverConnectionEnabled,
+      gatewayRuntimeEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .gatewayRuntimeEnabled,
+      contentAddressedTransportEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .contentAddressedTransportEnabled,
+      largePayloadTransferRuntimeEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .largePayloadTransferRuntimeEnabled,
+      fabricCoreProducerBehaviorEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .fabricCoreProducerBehaviorEnabled,
+      shellRuntimeEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .shellRuntimeEnabled,
+      sqliteRuntimeEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .sqliteRuntimeEnabled,
+      commandExposureEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .commandExposureEnabled,
+      blockedCliBypassEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .blockedCliBypassEnabled
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+        "Records deterministic review-only external gateway, Matrix/HiClaw-style transport, Locus-visible gateway status, harness bridge, fabric-core future consumer, large-payload TODO, and Secure Drop gateway reference boundary metadata."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+        "Provides the Matrix access-token, refresh-token, provider credential, and external gateway credential predecessor referenced by Phase 5.73."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+        "Provides the Fabric/API/backend predecessor while Phase 5.73 keeps Fabric, websocket/http, MCP, task, backend, and transport runtime blocked."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+      "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+      "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+      "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+      "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+      "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md",
+      "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+      "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-73/external-gateway-matrix-transport-contract-boundary-map.json",
+        "Records seventeen metadata-only external gateway/Matrix transport boundary entries with false authorization flags, false unsafe runtime flags, false runtime effects, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs",
+        "Pins the Phase 5.73 helper, deterministic fixture shape, requested boundary families, related systems, current status values, Matrix/fabric-core consumer constraints, fail-closed gateway/transport cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.73 status inventory, docs cross-links, fixture inventory, validation command list, and runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-73/external-gateway-matrix-transport-contract-boundary-map.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      hermesRepoFilesChanged: [],
+      cuaDriverFilesChanged: [],
+      matrixHiClawRepoFilesChanged: [],
+      fabricCoreRepoFilesChanged: [],
+      externalRepoFilesChanged: [],
+      matrixClientAddedByThisPhase: false,
+      homeserverConnectionAddedByThisPhase: false,
+      roomJoinReadSendPollRuntimeAddedByThisPhase: false,
+      e2eeKeySessionHandlingAddedByThisPhase: false,
+      accessTokenLoaderAddedByThisPhase: false,
+      gatewayRuntimeAddedByThisPhase: false,
+      externalPlatformConnectorAddedByThisPhase: false,
+      messageIngestionExportRuntimeAddedByThisPhase: false,
+      serviceDiscoverySchedulePollingAddedByThisPhase: false,
+      fabricRuntimeAddedByThisPhase: false,
+      websocketHttpMcpTaskRuntimeAddedByThisPhase: false,
+      contentAddressedTransportAddedByThisPhase: false,
+      chunkedTransferAddedByThisPhase: false,
+      resumableTransferAddedByThisPhase: false,
+      multiSourceTransferAddedByThisPhase: false,
+      bittorrentDhtSwarmP2pBehaviorAddedByThisPhase: false,
+      largePayloadTransferRuntimeAddedByThisPhase: false,
+      fabricCoreProducerBehaviorAddedByThisPhase: false,
+      fabricCorePackageSeamAddedByThisPhase: false,
+      secureDropImplementationAddedByThisPhase: false,
+      shellRuntimeAddedByThisPhase: false,
+      sqliteRuntimeAddedByThisPhase: false,
+      backendApiServerDatabaseStorageCacheAddedByThisPhase: false,
+      loggerAuditTelemetryHealthRuntimeAddedByThisPhase: false,
+      infrastructureDeploymentComplianceAutomationAddedByThisPhase: false,
+      testingCiReleaseAutomationAddedByThisPhase: false,
+      filesystemProcessUiRuntimeAddedByThisPhase: false,
+      commandExposureAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateGatewayTransportRuntimePhaseRequired: true,
+      separateFabricCoreConsumerIntegrationPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    fabricCoreStandingBoundary: {
+      producerRepository: "Ardynai/multiverse",
+      producerPackage: "packages/fabric-core",
+      ardynRole: "future-consumer-only-after-producer-and-security-review",
+      producerImplementedByArdyn: false,
+      contentAddressedTransportImplementedByArdyn: false,
+      chunkedTransferImplementedByArdyn: false,
+      resumableTransferImplementedByArdyn: false,
+      multiSourceTransferImplementedByArdyn: false,
+      bittorrentDhtSwarmP2pImplementedByArdyn: false,
+      largePayloadTransferRuntimeImplementedByArdyn: false
+    },
+    boundaryMapSummary:
+      phase573ExternalGatewayMatrixTransportContractBoundaryMap
+        .boundaryMapSummary,
+    sourcePhaseContext:
+      phase573ExternalGatewayMatrixTransportContractBoundaryMap
+        .externalGatewayMatrixTransportContractBoundaryMap.sourcePhaseContext,
+    boundaryEntries:
+      phase573ExternalGatewayMatrixTransportContractBoundaryMap.boundaryEntries.map(
+        ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          phase572CredentialBoundaryReference,
+          fabricCoreProducerReference,
+          externalPlatformGatewayExpectation,
+          fabricCoreConsumerExpectation,
+          gatewayTransportBoundaryMetadataOnly,
+          noLiveExternalGatewayMatrixTransportRuntimePerformed,
+          explicitBlockedAuthorizationFlags,
+          unsafeExternalGatewayMatrixTransportRuntimeFlags,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          phase572CredentialBoundaryReference,
+          fabricCoreProducerReference,
+          externalPlatformGatewayExpectation,
+          fabricCoreConsumerExpectation,
+          gatewayTransportBoundaryMetadataOnly,
+          noLiveExternalGatewayMatrixTransportRuntimePerformed,
+          explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+            explicitBlockedAuthorizationFlags
+          ).every((value) => value === false),
+          unsafeExternalGatewayMatrixTransportRuntimeFlagsAllFalse:
+            Object.values(
+              unsafeExternalGatewayMatrixTransportRuntimeFlags
+            ).every((value) => value === false),
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    invalidBoundaryCasePolicy:
+      phase573ExternalGatewayMatrixTransportContractBoundaryMap
+        .invalidBoundaryCasePolicy,
+    topMatrixGatewayFabricCoreConsumerShellSqliteCodeModeFabricApiBackendGaps:
+      phase573ExternalGatewayMatrixTransportContractBoundaryMap
+        .topMatrixGatewayFabricCoreConsumerShellSqliteCodeModeFabricApiBackendGaps,
+    recommendedNextPhase:
+      phase573ExternalGatewayMatrixTransportContractBoundaryMap
+        .recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase573ExternalGatewayMatrixTransportContractBoundaryMap.runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs",
+      "node --test tests/phase5-70-operations-reliability-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-68-agent-mode-profile-skillhub-capability-boundary-map.test.mjs",
+      "node --test tests/phase5-65-error-tracking-logging-audit-integrity-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-64-rate-limiting-abuse-control-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "semgrep --config auto .",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      externalGatewayMatrixTransportContractBoundaryMapRecorded: true,
+      externalGatewayMatrixTransportContractBoundaryMapReviewOnly: true,
+      externalGatewayMatrixTransportContractBoundaryMapAuthoritative: false,
+      externalGatewayMatrixTransportContractBoundaryMapProduced: true,
+      boundaryEntriesRecorded: true,
+      ...phase573ExternalGatewayMatrixTransportContractBoundaryMap
+        .boundaryMapSummary,
+      reportRunsChecks:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .reportRunsChecks,
+      runtimeExecutionEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .runtimeExecutionEnabled,
+      matrixClientRuntimeEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .matrixClientRuntimeEnabled,
+      homeserverConnectionEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .homeserverConnectionEnabled,
+      gatewayRuntimeEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .gatewayRuntimeEnabled,
+      contentAddressedTransportEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .contentAddressedTransportEnabled,
+      largePayloadTransferRuntimeEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .largePayloadTransferRuntimeEnabled,
+      fabricCoreProducerBehaviorEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .fabricCoreProducerBehaviorEnabled,
+      shellRuntimeEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .shellRuntimeEnabled,
+      sqliteRuntimeEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .sqliteRuntimeEnabled,
+      commandExposureEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .commandExposureEnabled,
+      blockedCliBypassEnabled:
+        phase573ExternalGatewayMatrixTransportContractBoundaryMap
+          .blockedCliBypassEnabled
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -31040,6 +31538,7 @@ const report = {
     phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMap: true,
     phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap:
       true,
+    phase573ExternalGatewayMatrixTransportContractBoundaryMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -34349,6 +34848,7 @@ const report = {
       ...phase570SafetyFlags,
       ...phase571SafetyFlags,
       ...phase572SafetyFlags,
+      ...phase573SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,

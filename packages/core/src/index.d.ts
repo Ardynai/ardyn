@@ -401,6 +401,12 @@ export const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDAR
   "0.1.0";
 export const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_KIND:
   "secrets-management-key-rotation-external-gateway-credential-boundary-map";
+export const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.73.external-gateway-matrix-transport-contract-boundary-map-result";
+export const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_VERSION:
+  "0.1.0";
+export const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_KIND:
+  "external-gateway-matrix-transport-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -10380,6 +10386,157 @@ export interface SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMa
 export function createSecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapForReview(
   input?: Record<string, unknown>
 ): SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapResult;
+
+export type ExternalGatewayMatrixTransportContractBoundaryMapClassification =
+  | "valid_external_gateway_matrix_transport_contract_boundary_map_runtime_still_blocked"
+  | "malformed_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "missing_required_external_gateway_matrix_transport_boundary_entry_rejected"
+  | "unknown_top_level_field_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "unknown_related_system_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "unknown_current_status_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_matrix_gateway_runtime_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_external_connector_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_content_addressed_chunked_resumable_p2p_transport_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_secret_env_vault_token_keyring_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_shell_path_executable_env_history_runtime_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_sqlite_embedded_db_query_key_runtime_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_backend_api_server_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_database_storage_cache_write_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_auth_session_token_api_key_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_logger_audit_transcript_telemetry_external_sink_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_infrastructure_deployment_compliance_pii_retention_export_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "hidden_testing_ci_release_automation_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "unsafe_external_gateway_matrix_transport_runtime_flags_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_external_gateway_matrix_transport_contract_boundary_map_input_rejected"
+  | "noncanonical_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+
+export interface ExternalGatewayMatrixTransportContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "matrix_gateway_contract"
+    | "matrix_room_contract"
+    | "matrix_identity_contract"
+    | "matrix_e2ee_boundary"
+    | "gateway_transport_contract"
+    | "gateway_delivery_contract"
+    | "gateway_ingestion_contract"
+    | "gateway_export_contract"
+    | "gateway_moderation_contract"
+    | "gateway_rate_limit_contract"
+    | "gateway_audit_contract"
+    | "locus_gateway_visibility_contract"
+    | "harness_gateway_bridge_contract"
+    | "fabric_core_consumer_boundary"
+    | "large_payload_transfer_todo_boundary"
+    | "external_platform_gateway_contract";
+  relatedSystem:
+    | "ardyn"
+    | "ardyn-subagent"
+    | "locus"
+    | "multiverse"
+    | "content-fabric"
+    | "repo-family"
+    | "external-harness"
+    | "matrix-reference"
+    | "hiclaw-reference"
+    | "fabric-core-reference";
+  currentStatus: "metadata_only" | "blocked" | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  gatewayIdentityExpectation: string;
+  credentialKeyExpectation: string;
+  roomChannelAllowlistExpectation: string;
+  messageIngestionExportExpectation: string;
+  moderationAbuseExpectation: string;
+  e2eeKeySessionExpectation: string;
+  rateLimitDeliveryExpectation: string;
+  auditVisibilityExpectation: string;
+  largePayloadTransferExpectation: string;
+  locusRoleDescription: string;
+  multiverseFabricCoreRoleDescription: string;
+  secureDropRoleDescription: string;
+  phase572CredentialBoundaryReference: Record<string, boolean | string>;
+  phase559FabricAwareApiBackendReference: Record<string, boolean | string>;
+  phase560EncodedHandoffReference: Record<string, boolean | string>;
+  phase564RateLimitingAbuseControlReference: Record<string, boolean | string>;
+  phase565ErrorTrackingLoggingAuditIntegrityReference: Record<string, boolean | string>;
+  fabricCoreProducerReference: Record<string, boolean | string>;
+  externalPlatformGatewayExpectation: Record<string, boolean | string>;
+  fabricCoreConsumerExpectation: Record<string, boolean | string>;
+  gatewayTransportBoundaryMetadataOnly: true;
+  noLiveExternalGatewayMatrixTransportRuntimePerformed: true;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeExternalGatewayMatrixTransportRuntimeFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface ExternalGatewayMatrixTransportContractBoundaryMapState {
+  schema: "ardyn.phase-5.73.external-gateway-matrix-transport-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "external-gateway-matrix-transport-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  boundaryEntries: ExternalGatewayMatrixTransportContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topMatrixGatewayFabricCoreConsumerShellSqliteCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  externalGatewayMatrixTransportContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface ExternalGatewayMatrixTransportContractBoundaryMapResult {
+  schema: "ardyn.phase-5.73.external-gateway-matrix-transport-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  externalGatewayMatrixTransportContractBoundaryMapKind:
+    "external-gateway-matrix-transport-contract-boundary-map";
+  externalGatewayMatrixTransportContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: ExternalGatewayMatrixTransportContractBoundaryMapClassification;
+  externalGatewayMatrixTransportContractBoundaryMapProduced: boolean;
+  externalGatewayMatrixTransportContractBoundaryMap:
+    | ExternalGatewayMatrixTransportContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | ExternalGatewayMatrixTransportContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: ExternalGatewayMatrixTransportContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topMatrixGatewayFabricCoreConsumerShellSqliteCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  externalGatewayMatrixTransportContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export function createExternalGatewayMatrixTransportContractBoundaryMapForReview(
+  input?: Record<string, unknown>
+): ExternalGatewayMatrixTransportContractBoundaryMapResult;
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";

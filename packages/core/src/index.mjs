@@ -381,6 +381,12 @@ export const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDAR
   "0.1.0";
 export const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_KIND =
   "secrets-management-key-rotation-external-gateway-credential-boundary-map";
+export const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.73.external-gateway-matrix-transport-contract-boundary-map-result";
+export const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_KIND =
+  "external-gateway-matrix-transport-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -63608,6 +63614,1438 @@ export function createSecretsManagementKeyRotationExternalGatewayCredentialBound
     classification,
     accepted,
     secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+  });
+}
+
+const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.73.external-gateway-matrix-transport-contract-boundary-map-state";
+const VALID_EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_external_gateway_matrix_transport_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+
+const EXTERNAL_GATEWAY_MATRIX_BOUNDARY_FAMILIES = Object.freeze([
+  "matrix_gateway_contract",
+  "matrix_room_contract",
+  "matrix_identity_contract",
+  "matrix_e2ee_boundary",
+  "gateway_transport_contract",
+  "gateway_delivery_contract",
+  "gateway_ingestion_contract",
+  "gateway_export_contract",
+  "gateway_moderation_contract",
+  "gateway_rate_limit_contract",
+  "gateway_audit_contract",
+  "locus_gateway_visibility_contract",
+  "harness_gateway_bridge_contract",
+  "fabric_core_consumer_boundary",
+  "large_payload_transfer_todo_boundary",
+  "external_platform_gateway_contract"
+]);
+const EXTERNAL_GATEWAY_MATRIX_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family",
+  "external-harness",
+  "matrix-reference",
+  "hiclaw-reference",
+  "fabric-core-reference"
+]);
+const EXTERNAL_GATEWAY_MATRIX_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const EXTERNAL_GATEWAY_MATRIX_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "gatewayIdentityExpectation",
+  "credentialKeyExpectation",
+  "roomChannelAllowlistExpectation",
+  "messageIngestionExportExpectation",
+  "moderationAbuseExpectation",
+  "e2eeKeySessionExpectation",
+  "rateLimitDeliveryExpectation",
+  "auditVisibilityExpectation",
+  "largePayloadTransferExpectation",
+  "locusRoleDescription",
+  "multiverseFabricCoreRoleDescription",
+  "secureDropRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeExternalGatewayMatrixTransportRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const EXTERNAL_GATEWAY_MATRIX_ALLOWED_TOP_LEVEL_FIELDS = Object.freeze([
+  "reviewedAt",
+  "boundaryEntries"
+]);
+const EXTERNAL_GATEWAY_MATRIX_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "connectorGrantProduced",
+  "fabricRuntimeImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "httpTransportImplementedByArdyn",
+  "mcpRuntimeEnabled",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "schedulePollingEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "matrixClientRuntimeEnabled",
+  "homeserverConnectionEnabled",
+  "matrixRoomJoinRuntimeEnabled",
+  "matrixRoomSendRuntimeEnabled",
+  "matrixRoomReadRuntimeEnabled",
+  "matrixRoomPollRuntimeEnabled",
+  "e2eeKeySessionHandlingEnabled",
+  "accessTokenLoaderEnabled",
+  "gatewayRuntimeEnabled",
+  "externalGatewayRuntimeEnabled",
+  "externalPlatformConnectorEnabled",
+  "messageIngestionRuntimeEnabled",
+  "messageExportRuntimeEnabled",
+  "contentAddressedTransportEnabled",
+  "chunkedTransferEnabled",
+  "resumableTransferEnabled",
+  "multiSourceTransferEnabled",
+  "bittorrentDhtSwarmP2pEnabled",
+  "largePayloadTransferRuntimeEnabled",
+  "fabricCoreProducerBehaviorEnabled",
+  "envIngestionEnabled",
+  "secretLoadingEnabled",
+  "vaultAccessEnabled",
+  "keyringRuntimeEnabled",
+  "didRuntimeEnabled",
+  "tokenLoaderEnabled",
+  "oauthFlowEnabled",
+  "sessionHandlingEnabled",
+  "shellRuntimeEnabled",
+  "pathLookupRuntimeEnabled",
+  "executableLookupRuntimeEnabled",
+  "shellHistoryRuntimeEnabled",
+  "sqliteRuntimeEnabled",
+  "embeddedDbRuntimeEnabled",
+  "queryEngineRuntimeEnabled",
+  "sqliteKeyRuntimeEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "cacheEngineImplemented",
+  "rlsRuntimeImplemented",
+  "databaseMigrationImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "loggerRuntimeImplemented",
+  "auditWriterRuntimeImplemented",
+  "telemetryClientImplemented",
+  "healthCheckRuntimeImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "failoverRuntimeImplemented",
+  "infrastructureAutomationImplemented",
+  "deploymentAutomationImplemented",
+  "complianceEnforcementImplemented",
+  "piiProcessingImplemented",
+  "retentionJobImplemented",
+  "exportJobImplemented",
+  "testingCiReleaseAutomationEnabled",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecRuntimeEnabled",
+  "translatorRuntimeEnabled",
+  "filesystemProcessRuntimeEnabled",
+  "blockedCliBypassEnabled"
+]);
+const EXTERNAL_GATEWAY_MATRIX_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "runtimeAuthorizationGranted",
+  "authorizesRuntime",
+  "matrixGatewayAuthorizationGranted",
+  "matrixClientAuthorizationGranted",
+  "homeserverConnectionAuthorizationGranted",
+  "roomJoinAuthorizationGranted",
+  "messageSendAuthorizationGranted",
+  "messageReadAuthorizationGranted",
+  "e2eeKeyHandlingAuthorizationGranted",
+  "gatewayRuntimeAuthorizationGranted",
+  "externalPlatformConnectorAuthorizationGranted",
+  "fabricCoreProducerAuthorizationGranted",
+  "largePayloadTransferAuthorizationGranted",
+  "secureDropAuthorizationGranted",
+  "fabricRuntimeAuthorizationGranted",
+  "shellRuntimeAuthorizationGranted",
+  "sqliteRuntimeAuthorizationGranted",
+  "backendApiServerAuthorizationGranted",
+  "databaseStorageAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "connectorGrantAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+const EXTERNAL_GATEWAY_MATRIX_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const EXTERNAL_GATEWAY_MATRIX_BLOCKED_CLI_BYPASS_FIELDS = Object.freeze([
+  "blockedCliBypassEnabled",
+  "dryRunBypassesBlock",
+  "serveRuntimeBypassEnabled",
+  "bypassBlockedCommandBehavior",
+  "blockedCommandOverride"
+]);
+const EXTERNAL_GATEWAY_MATRIX_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_matrix_gateway_runtime_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "matrixClient",
+      "matrixRuntime",
+      "homeserverConnection",
+      "matrixHomeserverUrl",
+      "matrixRoomJoin",
+      "matrixRoomReader",
+      "matrixRoomPoller",
+      "matrixMessageSender",
+      "matrixTransportRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_external_connector_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "telegramClient",
+      "discordClient",
+      "slackClient",
+      "signalClient",
+      "whatsappClient",
+      "homeAssistantClient",
+      "externalGatewayConnector",
+      "externalPlatformConnector"
+    ]
+  },
+  {
+    classification:
+      "hidden_fabric_websocket_http_mcp_task_runtime_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "fabricBus",
+      "fabricTransport",
+      "websocketUrl",
+      "httpTransport",
+      "mcpRuntime",
+      "mcpServer",
+      "mcpTool",
+      "taskRunner",
+      "taskQueue"
+    ]
+  },
+  {
+    classification:
+      "hidden_content_addressed_chunked_resumable_p2p_transport_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "contentAddressedTransport",
+      "contentAddressedTransferProtocol",
+      "chunkManifest",
+      "chunkedTransfer",
+      "resumableTransfer",
+      "multiSourceTransfer",
+      "torrentRuntime",
+      "bittorrentRuntime",
+      "dhtNode",
+      "swarmRuntime",
+      "p2pPeer",
+      "largePayloadTransport",
+      "fabricCoreProducer"
+    ]
+  },
+  {
+    classification:
+      "hidden_secure_drop_implementation_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "secureDropCrypto",
+      "secureDropTransport",
+      "secureDropInbox",
+      "secureDropSend",
+      "secureDropReceive",
+      "secureDropConnector",
+      "st3ggWrapper"
+    ]
+  },
+  {
+    classification:
+      "hidden_secret_env_vault_token_keyring_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "secretStore",
+      "envSecretLoader",
+      "envIngestionRuntime",
+      "vaultClient",
+      "secretValue",
+      "accessToken",
+      "refreshToken",
+      "tokenLoader",
+      "keyringRuntime",
+      "didKeyring"
+    ]
+  },
+  {
+    classification:
+      "hidden_shell_path_executable_env_history_runtime_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "shellRuntime",
+      "pathLookup",
+      "executableLookup",
+      "shellHistory",
+      "commandExecution",
+      "pipeRuntime",
+      "processSpawn"
+    ]
+  },
+  {
+    classification:
+      "hidden_sqlite_embedded_db_query_key_runtime_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "sqliteRuntime",
+      "embeddedDb",
+      "sqliteKey",
+      "databaseFile",
+      "sqlParser",
+      "queryEngine",
+      "walRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_backend_api_server_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "backendRuntime",
+      "apiServer",
+      "apiEndpoint",
+      "serverMiddleware",
+      "httpRoute",
+      "webhookHandler"
+    ]
+  },
+  {
+    classification:
+      "hidden_database_storage_cache_write_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "databaseClient",
+      "storageAdapter",
+      "cacheEngine",
+      "storageWrite",
+      "databaseMigration",
+      "rlsPolicy"
+    ]
+  },
+  {
+    classification:
+      "hidden_auth_session_token_api_key_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "authSession",
+      "sessionToken",
+      "sessionCookie",
+      "apiKey",
+      "providerApiKey",
+      "oauthFlow",
+      "oauthClientSecret"
+    ]
+  },
+  {
+    classification:
+      "hidden_logger_audit_transcript_telemetry_external_sink_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "loggerRuntime",
+      "auditWriterRuntime",
+      "transcriptWriter",
+      "telemetryClient",
+      "externalSink",
+      "errorReporter"
+    ]
+  },
+  {
+    classification:
+      "hidden_infrastructure_deployment_compliance_pii_retention_export_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "infrastructureAutomation",
+      "deploymentAutomation",
+      "deployCommand",
+      "cloudProvider",
+      "complianceEnforcer",
+      "piiProcessor",
+      "retentionScheduler",
+      "exportJob"
+    ]
+  },
+  {
+    classification:
+      "hidden_testing_ci_release_automation_semantics_external_gateway_matrix_transport_contract_boundary_map_input_rejected",
+    fields: [
+      "testRunner",
+      "ciPipeline",
+      "githubActionsWorkflow",
+      "releaseAutomation",
+      "artifactUpload",
+      "packageExport"
+    ]
+  }
+]);
+
+function externalGatewayMatrixBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function externalGatewayMatrixBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function externalGatewayMatrixBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(externalGatewayMatrixBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      externalGatewayMatrixBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function externalGatewayMatrixBoundaryMapHasTrueFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      externalGatewayMatrixBoundaryMapHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (externalGatewayMatrixBoundaryMapHasTrueFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function externalGatewayMatrixBoundaryMapHasPresentFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      externalGatewayMatrixBoundaryMapHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeExternalGatewayMatrixTransportRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (externalGatewayMatrixBoundaryMapHasPresentFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function externalGatewayMatrixBoundaryMapEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function externalGatewayMatrixBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function externalGatewayMatrixBoundaryMapEntryIssue(entries, predicate) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function externalGatewayMatrixBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    EXTERNAL_GATEWAY_MATRIX_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function externalGatewayMatrixBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.gatewayIdentityExpectation !== "string" ||
+    typeof entry.credentialKeyExpectation !== "string" ||
+    typeof entry.roomChannelAllowlistExpectation !== "string" ||
+    typeof entry.messageIngestionExportExpectation !== "string" ||
+    typeof entry.moderationAbuseExpectation !== "string" ||
+    typeof entry.e2eeKeySessionExpectation !== "string" ||
+    typeof entry.rateLimitDeliveryExpectation !== "string" ||
+    typeof entry.auditVisibilityExpectation !== "string" ||
+    typeof entry.largePayloadTransferExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseFabricCoreRoleDescription !== "string" ||
+    typeof entry.secureDropRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(
+      entry.unsafeExternalGatewayMatrixTransportRuntimeFlags
+    ) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function externalGatewayMatrixBoundaryMapAuthorizationFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    EXTERNAL_GATEWAY_MATRIX_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function externalGatewayMatrixBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(
+      value.unsafeExternalGatewayMatrixTransportRuntimeFlags
+    ) &&
+      Object.values(
+        value.unsafeExternalGatewayMatrixTransportRuntimeFlags
+      ).some((flag) => flag !== false)) ||
+    externalGatewayMatrixBoundaryMapHasTrueFieldDeep(
+      value,
+      EXTERNAL_GATEWAY_MATRIX_UNSAFE_FIELDS
+    )
+  );
+}
+
+function externalGatewayMatrixBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(externalGatewayMatrixBoundaryMapEntries())
+  );
+}
+
+function externalGatewayMatrixBoundaryMapInputClassification(inputRecord) {
+  if (externalGatewayMatrixBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries = externalGatewayMatrixBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    externalGatewayMatrixBoundaryMapEntryIssue(
+      entries,
+      externalGatewayMatrixBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_external_gateway_matrix_transport_boundary_entry_rejected";
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !EXTERNAL_GATEWAY_MATRIX_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !EXTERNAL_GATEWAY_MATRIX_RELATED_SYSTEMS.includes(entry.relatedSystem)
+    )
+  ) {
+    return "unknown_related_system_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapEntryIssue(
+      entries,
+      (entry) => !EXTERNAL_GATEWAY_MATRIX_STATUSES.includes(entry.currentStatus)
+    )
+  ) {
+    return "unknown_current_status_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapEntryIssue(
+      entries,
+      externalGatewayMatrixBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "runtimeAuthorized",
+      "authorizesRuntime"
+    ])
+  ) {
+    return "runtime_authorization_attempt_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    EXTERNAL_GATEWAY_MATRIX_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord?.[field] === true
+    ) ||
+    externalGatewayMatrixBoundaryMapEntryIssue(
+      entries,
+      externalGatewayMatrixBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    externalGatewayMatrixBoundaryMapAuthorizationFlagEnabled(inputRecord)
+  ) {
+    return "authorization_flags_enabled_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      EXTERNAL_GATEWAY_MATRIX_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      EXTERNAL_GATEWAY_MATRIX_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      EXTERNAL_GATEWAY_MATRIX_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  for (const { classification, fields } of EXTERNAL_GATEWAY_MATRIX_HIDDEN_FIELD_GROUPS) {
+    if (externalGatewayMatrixBoundaryMapHasPresentFieldDeep(inputRecord, fields)) {
+      return classification;
+    }
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapUnsafeFlagEnabled(inputRecord) ||
+    externalGatewayMatrixBoundaryMapEntryIssue(
+      entries,
+      externalGatewayMatrixBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_external_gateway_matrix_transport_runtime_flags_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    externalGatewayMatrixBoundaryMapEntryIssue(entries, (entry) =>
+      externalGatewayMatrixBoundaryMapContainsTrue(entry?.runtimeEffect)
+    ) ||
+    externalGatewayMatrixBoundaryMapContainsTrue(inputRecord?.runtimeEffect)
+  ) {
+    return "nested_unsafe_flags_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord ?? {}).some(
+      (field) =>
+        !EXTERNAL_GATEWAY_MATRIX_ALLOWED_TOP_LEVEL_FIELDS.includes(field)
+    )
+  ) {
+    return "unknown_top_level_field_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  if (!externalGatewayMatrixBoundaryMapCanonical(entries)) {
+    return "noncanonical_external_gateway_matrix_transport_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function externalGatewayMatrixBoundaryMapForbiddenBehavior() {
+  return [
+    "Matrix client behavior, homeserver connection, room join, message polling, message reading, message sending, message ingestion/export runtime, E2EE key/session handling, or access-token loader",
+    "external gateway client or connector for Telegram, Discord, Slack, Signal, WhatsApp, Home Assistant, or similar external platforms",
+    "service discovery, scheduling, polling, connector runtime, gateway runtime, retry engine, queue, worker, operation monitor, runbook executor, or failover runtime",
+    "Fabric bus, websocket/http transport, MCP exposure, task execution, Secure Drop implementation, Secure Drop crypto, transport, inbox polling, file selection, connector ingestion, ST3GG wrapping, or hidden payload transport",
+    "content-addressed transport, chunked transfer, resumable transfer, multi-source transfer, BitTorrent, DHT, swarm, P2P behavior, large payload transfer runtime, fabric-core producer behavior, or transfer package seam",
+    "secret store, env ingestion, vault access, keyring/DID runtime, token loader, OAuth flow, session handling, credential scanner runtime, secret scanner runtime, rotation/revocation job, credential export, secret persistence, or redaction runtime",
+    "shell runtime, PATH lookup, executable lookup, command execution, pipes, redirection, job control, command history, or process spawning",
+    "SQLite runtime, embedded DB file parsing, SQL parser, B-tree traversal, query execution, index scan, WAL, transaction, or DB storage behavior",
+    "backend middleware, API/server behavior, database client, storage adapter, cache engine, RLS runtime, migration, logger runtime, audit writer, transcript writer, telemetry client, external sink, health check, backup job, restore job, failover runtime, infrastructure/deployment/compliance automation, PII processing, retention/export job, testing/CI/release automation, filesystem write, process control, UI behavior, command exposure, or blocked CLI bypass"
+  ];
+}
+
+function externalGatewayMatrixBoundaryMapAuthorizationFlags() {
+  return Object.fromEntries(
+    EXTERNAL_GATEWAY_MATRIX_AUTHORIZATION_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function externalGatewayMatrixBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    EXTERNAL_GATEWAY_MATRIX_UNSAFE_FIELDS.map((field) => [field, false])
+  );
+}
+
+function externalGatewayMatrixBoundaryMapDefinition({
+  boundaryId,
+  boundaryFamily,
+  relatedSystem,
+  currentStatus,
+  contract,
+  gatewayIdentity,
+  credentialKey,
+  roomChannelAllowlist,
+  messageIngestionExport,
+  moderationAbuse,
+  e2eeKeySession,
+  rateLimitDelivery,
+  auditVisibility,
+  largePayloadTransfer,
+  locusRole,
+  multiverseFabricCoreRole,
+  secureDropRole
+}) {
+  return {
+    boundaryId,
+    boundaryFamily,
+    relatedSystem,
+    currentStatus,
+    allowedCurrentBehavior: [
+      "record deterministic review-only metadata",
+      "reference prior Ardyn boundary fixtures without loading credentials or connecting transports",
+      "require a future separately authorized contract before any runtime behavior"
+    ],
+    forbiddenCurrentBehavior: externalGatewayMatrixBoundaryMapForbiddenBehavior(),
+    requiredFutureContractBeforeImplementation: contract,
+    requiredFutureAuthorizationPhaseBeforeRuntime:
+      "A separate post-5.73 runtime authorization phase must approve implementation, operator consent, credential/key handling, transport ownership, audit visibility, and rollback before any gateway, Matrix, external platform, Fabric, or large-payload runtime can exist.",
+    gatewayIdentityExpectation: gatewayIdentity,
+    credentialKeyExpectation: credentialKey,
+    roomChannelAllowlistExpectation: roomChannelAllowlist,
+    messageIngestionExportExpectation: messageIngestionExport,
+    moderationAbuseExpectation: moderationAbuse,
+    e2eeKeySessionExpectation: e2eeKeySession,
+    rateLimitDeliveryExpectation: rateLimitDelivery,
+    auditVisibilityExpectation: auditVisibility,
+    largePayloadTransferExpectation: largePayloadTransfer,
+    locusRoleDescription: locusRole,
+    multiverseFabricCoreRoleDescription: multiverseFabricCoreRole,
+    secureDropRoleDescription: secureDropRole
+  };
+}
+
+function externalGatewayMatrixBoundaryMapDefinitions() {
+  const defaults = {
+    credentialKey:
+      "Phase 5.72 records future access-token, refresh-token, provider credential, keyring, and secret provenance expectations; Phase 5.73 loads no token, key, session, env, vault, or credential.",
+    roomChannelAllowlist:
+      "Future contract must define explicit room/channel allowlists before any join, read, poll, send, or export behavior; current metadata joins no room and reads no channel.",
+    messageIngestionExport:
+      "Future contract must separate ingestion, export, send, replay, consent, retention, redaction, and audit semantics before runtime; current metadata ingests and sends no message.",
+    moderationAbuse:
+      "Future contract must define moderation, abuse reporting, spam control, blocked sender handling, and operator escalation before runtime; current metadata performs no moderation.",
+    e2eeKeySession:
+      "Future contract must define Matrix E2EE key/session handling, device trust, backup, and redaction before runtime; current metadata handles no E2EE key/session.",
+    rateLimitDelivery:
+      "Future contract must define delivery state, retry ceilings, queue ownership, rate limits, backoff, abuse guardrails, and failure semantics before runtime; current metadata sends no traffic.",
+    auditVisibility:
+      "Future contract must define Locus-visible status, consent, audit log shape, redaction, transcript boundaries, and external-sink policy before runtime; current metadata writes no audit or transcript.",
+    largePayloadTransfer:
+      "future_fabric_core_consumer_only: Ardyn must not implement content-addressed, chunked, resumable, multi-source, BitTorrent/DHT/swarm/P2P, large-payload, or file-transfer runtime; any future large payload path is a TODO to consume Ardynai/multiverse packages/fabric-core only after paired security review.",
+    locusRole:
+      "Locus may later display gateway status and review metadata only after a contract; current Ardyn adds no Locus integration, UI, dashboard, bridge, or runtime status feed.",
+    multiverseFabricCoreRole:
+      "Multiverse packages/fabric-core is the future producer and single source of truth for large-payload/fabric-core transfer capability; Ardyn is only a future consumer and implements no producer or transfer protocol.",
+    secureDropRole:
+      "Secure Drop remains canonical to content-fabric; Ardyn records future gateway references only and implements no crypto, transport, stego, inbox polling, file selection, send/receive, or connector ingestion."
+  };
+
+  return [
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.matrix_reference.homeserver.gateway_contract",
+      boundaryFamily: "matrix_gateway_contract",
+      relatedSystem: "matrix-reference",
+      currentStatus: "metadata_only",
+      contract:
+        "Define Matrix homeserver URL provenance, allowed scheme/host policy, operator consent, credential linkage to Phase 5.72, status visibility, and no implicit service discovery before runtime.",
+      gatewayIdentity:
+        "Future Matrix homeserver URL must be explicit, operator-approved, and provenance-tagged; no homeserver URL is loaded or contacted in Phase 5.73.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.matrix_reference.room_allowlist.contract",
+      boundaryFamily: "matrix_room_contract",
+      relatedSystem: "matrix-reference",
+      currentStatus: "future_contract_required",
+      contract:
+        "Define room allowlist source, consent owner, join/read/send/export permissions, redaction, and abuse controls before any Matrix room runtime.",
+      gatewayIdentity:
+        "Future room membership must bind to an approved Matrix user/device identity and room allowlist; no room join/read/send/poll runtime exists.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.matrix_reference.user_device_identity.contract",
+      boundaryFamily: "matrix_identity_contract",
+      relatedSystem: "matrix-reference",
+      currentStatus: "future_contract_required",
+      contract:
+        "Define Matrix user ID, device ID, device trust, provenance, revocation, consent, and Locus-visible identity status before runtime.",
+      gatewayIdentity:
+        "Future Matrix user/device identity must be explicit, revocable, and least-privilege; Phase 5.73 stores no identity and opens no device session.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.matrix_reference.e2ee_key_session.boundary",
+      boundaryFamily: "matrix_e2ee_boundary",
+      relatedSystem: "matrix-reference",
+      currentStatus: "blocked",
+      contract:
+        "Define E2EE key/session ownership, device trust, backup, export prohibition, memory redaction, and audit boundaries before any E2EE handling.",
+      gatewayIdentity:
+        "Future E2EE handling must bind keys to an approved Matrix device identity; no key store, session, encryption, or decryption runtime exists.",
+      ...defaults,
+      e2eeKeySession:
+        "Blocked: no Olm/Megolm session, device key store, key backup, E2EE export, message decryption, or keyring/DID runtime exists."
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.hiclaw_reference.room_coordination.transport_contract",
+      boundaryFamily: "gateway_transport_contract",
+      relatedSystem: "hiclaw-reference",
+      currentStatus: "metadata_only",
+      contract:
+        "Record HiClaw-style room coordination as a future reference only; define transport ownership, trust boundaries, delivery policy, consent, and no hidden runtime before implementation.",
+      gatewayIdentity:
+        "HiClaw-style coordination remains a reference category only; no HiClaw code, Matrix client, or gateway transport is installed, copied, or integrated.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.ardyn.gateway_delivery.retry_rate_limit.contract",
+      boundaryFamily: "gateway_delivery_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      contract:
+        "Define delivery state, retry ceilings, idempotency, queue ownership, rate limits, backoff, and failure-audit semantics before any gateway delivery runtime.",
+      gatewayIdentity:
+        "Future delivery must bind to an approved gateway identity and room/channel allowlist; Phase 5.73 sends no messages and schedules no retry.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.external_harness.message_ingestion.boundary",
+      boundaryFamily: "gateway_ingestion_contract",
+      relatedSystem: "external-harness",
+      currentStatus: "blocked",
+      contract:
+        "Define message source, consent, schema, size limits, redaction, replay, retention, and operator approval before any external-harness ingestion.",
+      gatewayIdentity:
+        "Future external-harness ingestion must identify source harness and approved gateway identity; current metadata polls and ingests no message.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.external_harness.message_export_send.boundary",
+      boundaryFamily: "gateway_export_contract",
+      relatedSystem: "external-harness",
+      currentStatus: "blocked",
+      contract:
+        "Define export/send permission, destination allowlist, redaction, audit, replay protection, and operator confirmation before any outbound gateway behavior.",
+      gatewayIdentity:
+        "Future export/send must bind to approved gateway identity, recipient, and room/channel allowlist; current metadata sends and exports nothing.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.repo_family.gateway_moderation_abuse.contract",
+      boundaryFamily: "gateway_moderation_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "future_contract_required",
+      contract:
+        "Define moderation, abuse control, spam detection, consent revocation, blocked senders, operator escalation, and audit requirements before runtime.",
+      gatewayIdentity:
+        "Future moderation decisions must be scoped to an approved gateway identity and platform; current metadata performs no moderation or enforcement.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.ardyn.gateway_rate_limit_abuse.boundary",
+      boundaryFamily: "gateway_rate_limit_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "future_contract_required",
+      contract:
+        "Define platform-specific rate limits, abuse backoff, replay protection, queue-free failure posture, and operator escalation before runtime.",
+      gatewayIdentity:
+        "Future rate-limit policy must bind to gateway identity and destination allowlist; Phase 5.73 opens no queue, scheduler, worker, or transport.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.repo_family.gateway_audit_visibility.contract",
+      boundaryFamily: "gateway_audit_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "metadata_only",
+      contract:
+        "Define audit event shape, transcript boundaries, consent records, redaction policy, external sink policy, and non-authorizing status before runtime.",
+      gatewayIdentity:
+        "Future audit must identify gateway identity without leaking credentials or E2EE material; current metadata writes no audit, transcript, logger, telemetry, or external sink.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.locus.gateway_status.visibility_contract",
+      boundaryFamily: "locus_gateway_visibility_contract",
+      relatedSystem: "locus",
+      currentStatus: "future_contract_required",
+      contract:
+        "Define Locus-visible gateway status, allowed fields, freshness, redaction, consent, local-only/cloud-opt-in behavior, and non-authorizing display semantics before integration.",
+      gatewayIdentity:
+        "Future Locus-visible status must display only approved metadata and no tokens, keys, rooms, message contents, or runtime grants.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.ardyn_subagent.locus_external_harness_bridge.contract",
+      boundaryFamily: "harness_gateway_bridge_contract",
+      relatedSystem: "ardyn-subagent",
+      currentStatus: "blocked",
+      contract:
+        "Define Locus-mediated harness bridge and external-harness bridge ownership, consent, status-only metadata, and blocked runtime semantics before any bridge exists.",
+      gatewayIdentity:
+        "Future bridge identity must be explicit and non-authorizing; Phase 5.73 starts no subagent bridge, Locus bridge, ACP/A2A runtime, or cross-harness communication.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.fabric_core_reference.future_consumer.boundary",
+      boundaryFamily: "fabric_core_consumer_boundary",
+      relatedSystem: "fabric-core-reference",
+      currentStatus: "future_contract_required",
+      contract:
+        "Define future Ardyn consumer integration to Ardynai/multiverse packages/fabric-core only after the producer lands and passes paired security review; Ardyn must not implement producer, protocol, transfer, or package seam.",
+      gatewayIdentity:
+        "Future fabric-core consumer identity must be explicit, least-privilege, and separately authorized; current metadata imports no fabric-core package and creates no Fabric runtime.",
+      ...defaults,
+      multiverseFabricCoreRole:
+        "Ardynai/multiverse packages/fabric-core is the sole future producer for content-addressed/chunked/resumable/multi-source transfer; Ardyn records only future consumer metadata and implements none of it.",
+      largePayloadTransfer:
+        "future_fabric_core_consumer_only: producer is Ardynai/multiverse packages/fabric-core; Ardyn must not implement content-addressed, chunked, resumable, multi-source, BitTorrent/DHT/swarm/P2P, large-payload, or file-transfer runtime."
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.multiverse.large_payload_transfer.todo_boundary",
+      boundaryFamily: "large_payload_transfer_todo_boundary",
+      relatedSystem: "multiverse",
+      currentStatus: "blocked",
+      contract:
+        "Record model weights, large connector packs, large skill packs, and big media only as a TODO for future fabric-core consumer integration after producer readiness and paired security review.",
+      gatewayIdentity:
+        "Future large-payload movement must be owned by fabric-core consumer integration, not Ardyn gateway identity; current metadata transfers no model, pack, media, file, or payload.",
+      ...defaults,
+      largePayloadTransfer:
+        "future_fabric_core_consumer_only: model weights, large connector packs, large skill packs, and big media are held until a future prompt authorizes consuming packages/fabric-core; no Ardyn transfer runtime exists."
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.content_fabric.secure_drop_gateway_reference.boundary",
+      boundaryFamily: "gateway_transport_contract",
+      relatedSystem: "content-fabric",
+      currentStatus: "metadata_only",
+      contract:
+        "Record Secure Drop gateway references only; canonical Secure Drop implementation, crypto, transport, inbox, file selection, and connector ingestion remain in content-fabric.",
+      gatewayIdentity:
+        "Future Secure Drop gateway reference must identify content-fabric ownership and no Ardyn runtime; current metadata performs no send, receive, transport, crypto, or inbox polling.",
+      ...defaults
+    }),
+    externalGatewayMatrixBoundaryMapDefinition({
+      boundaryId: "phase5-73.external_harness.external_platform_gateway.contract",
+      boundaryFamily: "external_platform_gateway_contract",
+      relatedSystem: "external-harness",
+      currentStatus: "future_contract_required",
+      contract:
+        "Define future Telegram, Discord, Slack, Signal, WhatsApp, and Home Assistant gateway contracts, consent, credentials, allowlists, rate limits, audit, and revocation before any connector runtime.",
+      gatewayIdentity:
+        "Future external platform gateway identity must be explicit, per-platform, revocable, and least-privilege; current metadata installs no connector and contacts no external platform.",
+      ...defaults
+    })
+  ];
+}
+
+function externalGatewayMatrixBoundaryMapEntry(definition) {
+  return {
+    ...definition,
+    phase572CredentialBoundaryReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json",
+      matrixAccessRefreshTokenBoundaryRecorded: true,
+      credentialRuntimeAuthorized: false
+    },
+    phase559FabricAwareApiBackendReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      runtimeAuthorized: false
+    },
+    phase560EncodedHandoffReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      runtimeAuthorized: false
+    },
+    phase564RateLimitingAbuseControlReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      runtimeAuthorized: false
+    },
+    phase565ErrorTrackingLoggingAuditIntegrityReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      runtimeAuthorized: false
+    },
+    fabricCoreProducerReference: {
+      producerRepository: "Ardynai/multiverse",
+      producerPackage: "packages/fabric-core",
+      ardynRole: "future-consumer-only-after-paired-security-review",
+      producerImplementedByArdyn: false,
+      transferProtocolImplementedByArdyn: false
+    },
+    externalPlatformGatewayExpectation: {
+      telegram: "future metadata only",
+      discord: "future metadata only",
+      slack: "future metadata only",
+      signal: "future metadata only",
+      whatsapp: "future metadata only",
+      homeAssistant: "future metadata only",
+      runtimeImplemented: false
+    },
+    fabricCoreConsumerExpectation: {
+      futureFabricCoreConsumerOnly: true,
+      contentAddressedTransportImplementedByArdyn: false,
+      chunkedTransferImplementedByArdyn: false,
+      resumableTransferImplementedByArdyn: false,
+      multiSourceTransferImplementedByArdyn: false,
+      bittorrentDhtSwarmP2pImplementedByArdyn: false,
+      largePayloadTransferRuntimeImplementedByArdyn: false,
+      pairedSecurityReviewRequiredBeforeConsumerIntegration: true
+    },
+    gatewayTransportBoundaryMetadataOnly: true,
+    noLiveExternalGatewayMatrixTransportRuntimePerformed: true,
+    explicitBlockedAuthorizationFlags:
+      externalGatewayMatrixBoundaryMapAuthorizationFlags(),
+    unsafeExternalGatewayMatrixTransportRuntimeFlags:
+      externalGatewayMatrixBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function externalGatewayMatrixBoundaryMapEntries() {
+  return externalGatewayMatrixBoundaryMapDefinitions().map(
+    externalGatewayMatrixBoundaryMapEntry
+  );
+}
+
+function externalGatewayMatrixBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    EXTERNAL_GATEWAY_MATRIX_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    EXTERNAL_GATEWAY_MATRIX_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+  const countByStatus = Object.fromEntries(
+    EXTERNAL_GATEWAY_MATRIX_STATUSES.map((status) => [
+      status,
+      entries.filter((entry) => entry.currentStatus === status).length
+    ])
+  );
+  const allBlockedAuthorizationFlagsFalse = entries.every((entry) =>
+    Object.values(entry.explicitBlockedAuthorizationFlags).every(
+      (value) => value === false
+    )
+  );
+  const allUnsafeExternalGatewayMatrixTransportRuntimeFlagsFalse =
+    entries.every((entry) =>
+      Object.values(
+        entry.unsafeExternalGatewayMatrixTransportRuntimeFlags
+      ).every((value) => value === false)
+    );
+  const allRuntimeEffectsFalse = entries.every((entry) =>
+    Object.values(entry.runtimeEffect).every((value) => value === false)
+  );
+
+  return {
+    boundaryMapKind:
+      EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    boundaryFamilies: [...EXTERNAL_GATEWAY_MATRIX_BOUNDARY_FAMILIES],
+    relatedSystems: [...EXTERNAL_GATEWAY_MATRIX_RELATED_SYSTEMS],
+    currentStatusValues: [...EXTERNAL_GATEWAY_MATRIX_STATUSES],
+    externalGatewayMatrixTransportBoundaryMetadataOnly: true,
+    noLiveExternalGatewayMatrixTransportRuntimePerformed: true,
+    matrixHomeserverUrlBoundaryRecorded: true,
+    matrixRoomAllowlistBoundaryRecorded: true,
+    matrixUserDeviceIdentityBoundaryRecorded: true,
+    matrixAccessRefreshTokenBoundaryLinkedFromPhase572: true,
+    matrixE2eeKeySessionBoundaryRecorded: true,
+    matrixMessageIngestionBoundaryRecorded: true,
+    matrixMessageExportSendBoundaryRecorded: true,
+    matrixDeliveryRetryRateLimitBoundaryRecorded: true,
+    matrixModerationAbuseControlBoundaryRecorded: true,
+    matrixAuditLoggingBoundaryRecorded: true,
+    locusVisibleGatewayStatusBoundaryRecorded: true,
+    hiclawRoomCoordinationReferenceBoundaryRecorded: true,
+    externalPlatformGatewayBoundaryRecorded: true,
+    locusMediatedHarnessBridgeBoundaryRecorded: true,
+    externalHarnessGatewayBridgeBoundaryRecorded: true,
+    fabricCoordinationEnvelopeGatewayBoundaryRecorded: true,
+    fabricCoreFutureConsumerBoundaryRecorded: true,
+    largePayloadTodoBoundaryRecorded: true,
+    secureDropGatewayReferenceBoundaryRecorded: true,
+    noMatrixClientRuntime: true,
+    noHomeserverConnection: true,
+    noRoomJoinReadSendPollRuntime: true,
+    noE2eeKeySessionHandling: true,
+    noAccessTokenLoader: true,
+    noGatewayRuntime: true,
+    noExternalPlatformConnector: true,
+    noMessageIngestionExportRuntime: true,
+    noServiceDiscoverySchedulePolling: true,
+    noContentAddressedChunkedResumableMultiSourceTransfer: true,
+    noBitTorrentDhtSwarmP2pBehavior: true,
+    noLargePayloadTransferRuntime: true,
+    noFabricCoreProducerBehavior: true,
+    noFabricWebsocketHttpMcpTaskRuntime: true,
+    noSecureDropImplementation: true,
+    noShellRuntime: true,
+    noSqliteRuntime: true,
+    noBackendApiServerDatabaseStorageCacheRlsMigration: true,
+    noTranscriptAuditTelemetryLoggerHealthRuntime: true,
+    noInfrastructureDeploymentComplianceAutomation: true,
+    noTestingCiReleaseAutomation: true,
+    noFilesystemProcessUiRuntime: true,
+    noCommandExposure: true,
+    noBlockedCliBypass: true,
+    allBlockedAuthorizationFlagsFalse,
+    allUnsafeExternalGatewayMatrixTransportRuntimeFlagsFalse,
+    allRuntimeEffectsFalse,
+    allEntriesNonAuthorizing: entries.every(
+      (entry) => entry.nonAuthorizingProof === true
+    )
+  };
+}
+
+function externalGatewayMatrixBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    enabledMatrixClientRuntimeFailClosed: true,
+    enabledHomeserverConnectionFailClosed: true,
+    enabledRoomJoinSendReadPollRuntimeFailClosed: true,
+    enabledE2eeKeySessionHandlingFailClosed: true,
+    enabledAccessTokenLoaderFailClosed: true,
+    enabledGatewayRuntimeFailClosed: true,
+    enabledExternalPlatformConnectorFailClosed: true,
+    enabledMessageIngestionExportRuntimeFailClosed: true,
+    enabledServiceDiscoverySchedulePollingFailClosed: true,
+    enabledContentAddressedChunkedResumableMultiSourceTransferFailClosed: true,
+    enabledBitTorrentDhtSwarmP2pBehaviorFailClosed: true,
+    enabledLargePayloadTransferRuntimeFailClosed: true,
+    enabledFabricCoreProducerBehaviorFailClosed: true,
+    hiddenMatrixGatewayRuntimeSemanticsFailClosed: true,
+    hiddenExternalConnectorSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenSecretEnvVaultTokenKeyringSemanticsFailClosed: true,
+    hiddenShellPathExecutableEnvHistoryRuntimeSemanticsFailClosed: true,
+    hiddenSqliteEmbeddedDbQueryKeyRuntimeSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed: true,
+    hiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed:
+      true,
+    hiddenTestingCiReleaseAutomationSemanticsFailClosed: true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationRunsMatrixClient: false,
+    validationConnectsHomeserver: false,
+    validationHandlesE2eeKeys: false,
+    validationPollsOrSendsMessages: false,
+    validationRunsGatewayRuntime: false,
+    validationRunsFabricCoreProducer: false,
+    validationRunsLargePayloadTransfer: false,
+    validationRequestsJules: false
+  };
+}
+
+function externalGatewayMatrixBoundaryMapGaps() {
+  return [
+    "Future Matrix transport still needs homeserver URL, room allowlist, user/device identity, access-token/refresh-token linkage, E2EE key/session, ingestion/export, delivery, rate-limit, moderation, and audit contracts before runtime.",
+    "Future external gateway work still needs per-platform Telegram/Discord/Slack/Signal/WhatsApp/Home Assistant connector contracts, consent, credentials, allowlists, rate limits, redaction, and revocation.",
+    "Future Locus-mediated and external-harness bridge work remains status-only metadata until a separate bridge authorization phase defines ownership, consent, and non-authorizing visibility.",
+    "Future fabric-core consumer integration is held: Ardynai/multiverse packages/fabric-core must remain the producer, and Ardyn must not implement content-addressed/chunked/resumable/multi-source/P2P or large-payload transfer.",
+    "Future shell, SQLite, Code Mode, Fabric/API/backend, Secure Drop, logger/audit, and storage behavior remain separate review-only boundary maps before any runtime authorization."
+  ];
+}
+
+function externalGatewayMatrixBoundaryMapState(reviewedAt) {
+  const boundaryEntries = externalGatewayMatrixBoundaryMapEntries();
+
+  return {
+    schema:
+      EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion:
+      EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind: EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase560InterAgentEncodedHandoffConformance:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      phase564RateLimitingAbuseControlBoundary:
+        "tests/fixtures/host-policy/phase5-64/rate-limiting-abuse-control-contract-boundary-map.json",
+      phase565ErrorTrackingLoggingAuditIntegrityBoundary:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      phase568AgentModeProfileSkillhubCapabilityBoundary:
+        "tests/fixtures/host-policy/phase5-68/agent-mode-profile-skillhub-capability-boundary-map.json",
+      phase572SecretsCredentialBoundary:
+        "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json",
+      matrixTransportCoverageItemRepresented: true,
+      phase572CredentialLinkageRequiredBeforeRuntime: true,
+      hiclawStyleRoomCoordinationReferenceOnly: true,
+      fabricCoreProducerRepository: "Ardynai/multiverse",
+      fabricCoreProducerPackage: "packages/fabric-core",
+      ardynFutureFabricCoreRole: "consumer-only-after-paired-security-review",
+      noMatrixClientImplemented: true,
+      noGatewayRuntimeImplemented: true,
+      noFabricCoreProducerImplemented: true,
+      noLargePayloadTransferImplemented: true,
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      externalGatewayMatrixBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      externalGatewayMatrixBoundaryMapValidationRules(),
+    topMatrixGatewayFabricCoreConsumerShellSqliteCodeModeFabricApiBackendGaps:
+      externalGatewayMatrixBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.74-review-only-command-surface-shell-primitive-contract-boundary-map",
+    externalGatewayMatrixTransportContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...externalGatewayMatrixBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function externalGatewayMatrixBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  externalGatewayMatrixTransportContractBoundaryMap
+}) {
+  return {
+    schema: EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion:
+      EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_VERSION,
+    externalGatewayMatrixTransportContractBoundaryMapKind:
+      EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_KIND,
+    externalGatewayMatrixTransportContractBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    externalGatewayMatrixTransportContractBoundaryMapProduced: accepted,
+    externalGatewayMatrixTransportContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? externalGatewayMatrixTransportContractBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? externalGatewayMatrixTransportContractBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? externalGatewayMatrixTransportContractBoundaryMap
+          .invalidBoundaryCasePolicy
+      : externalGatewayMatrixBoundaryMapValidationRules(),
+    topMatrixGatewayFabricCoreConsumerShellSqliteCodeModeFabricApiBackendGaps:
+      accepted
+        ? externalGatewayMatrixTransportContractBoundaryMap
+            .topMatrixGatewayFabricCoreConsumerShellSqliteCodeModeFabricApiBackendGaps
+        : [],
+    recommendedNextPhase: accepted
+      ? externalGatewayMatrixTransportContractBoundaryMap.recommendedNextPhase
+      : null,
+    externalGatewayMatrixTransportContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...externalGatewayMatrixBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            matrixGatewayAuthorized: false,
+            matrixClientAuthorized: false,
+            homeserverConnectionAuthorized: false,
+            e2eeKeyHandlingAuthorized: false,
+            gatewayRuntimeAuthorized: false,
+            externalPlatformConnectorAuthorized: false,
+            fabricCoreProducerAuthorized: false,
+            largePayloadTransferAuthorized: false,
+            secureDropAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createExternalGatewayMatrixTransportContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord = externalGatewayMatrixBoundaryMapInputRecord(input);
+  const reviewedAt =
+    externalGatewayMatrixBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    externalGatewayMatrixBoundaryMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const externalGatewayMatrixTransportContractBoundaryMap = accepted
+    ? externalGatewayMatrixBoundaryMapState(reviewedAt)
+    : null;
+
+  return externalGatewayMatrixBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    externalGatewayMatrixTransportContractBoundaryMap
   });
 }
 
