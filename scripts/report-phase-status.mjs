@@ -21615,6 +21615,7 @@ const report = {
       stderrIncludes: "runtime unavailable",
       exitCode: 1
     },
+    // WHY: mirror the fixture's disabled runtime flags so the report proves absence without re-running checks.
     forbiddenBehavior: Object.fromEntries(
       [
         "commandRuntimeControlEnabled",
@@ -21684,9 +21685,9 @@ const report = {
         "liveServiceRegistryConnectionEnabled",
         "scheduleEnforcementEnabled",
         "backgroundPollingEnabled"
-      ].map((field) => [
-        field,
-        phase548ProductionReadinessCoverageMatrix[field]
+      ].map((forbiddenFlagName) => [
+        forbiddenFlagName,
+        phase548ProductionReadinessCoverageMatrix[forbiddenFlagName]
       ])
     ),
     validationCommands: [
@@ -22012,9 +22013,9 @@ const report = {
         "liveServiceRegistryConnectionEnabled",
         "scheduleEnforcementEnabled",
         "backgroundPollingEnabled"
-      ].map((field) => [
-        field,
-        phase549ConsumerDisplayAccessibilityContractMap[field]
+      ].map((forbiddenFlagName) => [
+        forbiddenFlagName,
+        phase549ConsumerDisplayAccessibilityContractMap[forbiddenFlagName]
       ])
     ),
     validationCommands: [
@@ -22326,9 +22327,9 @@ const report = {
         "liveServiceRegistryConnectionEnabled",
         "scheduleEnforcementEnabled",
         "backgroundPollingEnabled"
-      ].map((field) => [
-        field,
-        phase550ConsumerDisplayFixtureSchemaBoundary[field]
+      ].map((forbiddenFlagName) => [
+        forbiddenFlagName,
+        phase550ConsumerDisplayFixtureSchemaBoundary[forbiddenFlagName]
       ])
     ),
     validationCommands: [
@@ -22648,9 +22649,9 @@ const report = {
         "scheduleEnforcementEnabled",
         "backgroundPollingEnabled",
         "externalLookupsEnabled"
-      ].map((field) => [
-        field,
-        phase551ConsumerDisplayFixtureExamplePack[field]
+      ].map((forbiddenFlagName) => [
+        forbiddenFlagName,
+        phase551ConsumerDisplayFixtureExamplePack[forbiddenFlagName]
       ])
     ),
     validationCommands: [
@@ -23004,9 +23005,9 @@ const report = {
         "scheduleEnforcementEnabled",
         "backgroundPollingEnabled",
         "externalLookupsEnabled"
-      ].map((field) => [
-        field,
-        phase552ConsumerDisplayFixtureConformanceHandoff[field]
+      ].map((forbiddenFlagName) => [
+        forbiddenFlagName,
+        phase552ConsumerDisplayFixtureConformanceHandoff[forbiddenFlagName]
       ])
     ),
     validationCommands: [
@@ -23432,9 +23433,9 @@ const report = {
         "scheduleEnforcementEnabled",
         "backgroundPollingEnabled",
         "externalLookupsEnabled"
-      ].map((field) => [
-        field,
-        phase553ConsumerOwnedDisplayConformanceRunnerRequirements[field]
+      ].map((forbiddenFlagName) => [
+        forbiddenFlagName,
+        phase553ConsumerOwnedDisplayConformanceRunnerRequirements[forbiddenFlagName]
       ])
     ),
     validationCommands: [
@@ -23896,9 +23897,9 @@ const report = {
         "scheduleEnforcementEnabled",
         "backgroundPollingEnabled",
         "externalLookupsEnabled"
-      ].map((field) => [
-        field,
-        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan[field]
+      ].map((forbiddenFlagName) => [
+        forbiddenFlagName,
+        phase554ConsumerOwnedDisplayConformanceRunnerTestPlan[forbiddenFlagName]
       ])
     ),
     validationCommands: [
@@ -24389,9 +24390,9 @@ const report = {
         "scheduleEnforcementEnabled",
         "backgroundPollingEnabled",
         "externalLookupsEnabled"
-      ].map((field) => [
-        field,
-        phase555ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundary[field]
+      ].map((forbiddenFlagName) => [
+        forbiddenFlagName,
+        phase555ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundary[forbiddenFlagName]
       ])
     ),
     validationCommands: [
@@ -24897,9 +24898,9 @@ const report = {
         "scheduleEnforcementEnabled",
         "backgroundPollingEnabled",
         "externalLookupsEnabled"
-      ].map((field) => [
-        field,
-        phase556ConsumerOwnedDisplayConformanceResultHandoff[field]
+      ].map((forbiddenFlagName) => [
+        forbiddenFlagName,
+        phase556ConsumerOwnedDisplayConformanceResultHandoff[forbiddenFlagName]
       ])
     ),
     validationCommands: [
@@ -25482,9 +25483,9 @@ const report = {
         "scheduleEnforcementEnabled",
         "backgroundPollingEnabled",
         "externalLookupsEnabled"
-      ].map((field) => [
-        field,
-        phase557ConsumerOwnedDisplayConformanceResultReviewIntakeBoundary[field]
+      ].map((forbiddenFlagName) => [
+        forbiddenFlagName,
+        phase557ConsumerOwnedDisplayConformanceResultReviewIntakeBoundary[forbiddenFlagName]
       ])
     ),
     validationCommands: [
@@ -30095,6 +30096,7 @@ const report = {
     sourcePhaseContext:
       phase570OperationsReliabilityContractBoundaryMap
         .operationsReliabilityContractBoundaryMap.sourcePhaseContext,
+    // WHY: collapse nested flag objects into all-false proofs for report consumers.
     boundaryEntries:
       phase570OperationsReliabilityContractBoundaryMap.boundaryEntries.map(
         ({

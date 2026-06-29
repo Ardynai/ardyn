@@ -1,5 +1,119 @@
 # ARDYN Architecture
 
+ARDYN is a contract-first agent harness. The current code validates manifests,
+tasks, review artifacts, session events, and static host-policy metadata. It
+does not run agents, spawn tools, open network listeners, install plugins, or
+enable the Rust stdio runtime.
+
+The fastest way to read the repo is:
+
+1. Start with `apps/cli/src/index.mjs` to see the public commands.
+2. Follow command calls into `packages/core/src/index.mjs`.
+3. Read `schemas/*.schema.json` beside the tests that pin each contract.
+4. Read `crates/ardyn-host/src/lib.rs` only when the path touches Rust host
+   policy or the blocked stdio runtime skeleton.
+
+## Major Areas
+
+| Area | What it owns | Start reading |
+| --- | --- | --- |
+| `apps/cli` | Local CLI command parsing and JSON output. It delegates contract work to `@ardyn/core`. | `apps/cli/src/index.mjs` |
+| `packages/core` | Manifest/task validation, planning, approval/review metadata, dry-run session events, transcript validation, host-policy comparisons, and Phase 5 boundary-map helpers. | `packages/core/src/index.mjs` |
+| `schemas` | JSON Schema contracts for manifests, capabilities, tasks, session events, and session transcripts. | `schemas/ardyn.manifest.schema.json` |
+| `crates/ardyn-host` | Rust-side static identity, host-policy review metadata, and a deliberately blocked private stdio runtime skeleton. | `crates/ardyn-host/src/lib.rs` |
+| `packages/fabric` | Content Fabric canonical JSON, digest, keyring, pack, catalog, license, and path-confinement checks. | `packages/fabric/src/index.mjs` |
+| `packages/mcp`, `packages/plugin-api`, `packages/adapters/openclaw` | Metadata-only adapter registrations. They describe future boundaries but do not connect or execute. | each package's `src/index.mjs` |
+| `packages/sdk` | Placeholder package for future client/adapter SDK work. | `packages/sdk/README.md` |
+| `tests` | Node test coverage for CLI, core, schemas, Fabric, phase fixtures, and report inventory. | `tests/*.test.mjs` |
+| `scripts` | Deterministic local phase-status report generation. The report lists checks but does not run them. | `scripts/report-phase-status.mjs` |
+
+## Runtime Posture
+
+Current ARDYN is review-only and runtime-disabled. The CLI has dry-run and
+display commands, but live runtime behavior is blocked:
+
+- `serve --dry-run` is finite and non-executing.
+- `emit-session-events --dry-run` renders deterministic JSONL only.
+- `serve-runtime` is recognized only to return a deterministic
+  runtime-unavailable error.
+- Adapter packages export frozen metadata only.
+- Rust `stdio_runtime` remains private and blocked.
+
+## System Shape
+
+```mermaid
+flowchart TD
+  CLI["apps/cli\ncommand parser"] --> Core["@ardyn/core\ncontract helpers"]
+  Core --> Schemas["schemas/*.json\ncontract validation"]
+  Core --> Fixtures["tests/fixtures/**\nexpected review data"]
+  Core --> Report["scripts/report-phase-status.mjs\nstatus inventory"]
+  CLI --> Json["stdout JSON / JSONL"]
+  Host["crates/ardyn-host\nstatic Rust host metadata"] --> Fixtures
+  Fabric["@ardyn/fabric\npack/catalog validation"] --> Fixtures
+  Adapters["adapter packages\nmetadata only"] --> Core
+```
+
+## Important Flows
+
+### 1. Planning a Task
+
+```mermaid
+sequenceDiagram
+  participant Human
+  participant CLI as apps/cli
+  participant Core as @ardyn/core
+  participant Schemas
+
+  Human->>CLI: ardyn plan --manifest M --task T
+  CLI->>Core: loadManifest(M), loadTask(T)
+  Core->>Schemas: validate manifest and task
+  Core->>Core: resolve requested capabilities
+  Core->>Core: build approval decision metadata
+  Core-->>CLI: non-executing task plan
+  CLI-->>Human: JSON on stdout
+```
+
+The planner ranks capability matches by exact id, tag, then permission scope.
+The result can require approval metadata, but approval data is never a runtime
+grant.
+
+### 2. Rendering Dry-Run Session Events
+
+`emit-session-events --dry-run` and dry-run `serve` use the same core shape:
+load the manifest and task, build a non-executing plan, then render finite
+session events as LF-delimited JSONL. The formatter validates each event before
+emission and does not read stdin, spawn a process, call adapters, or start a
+listener.
+
+### 3. Reviewing Artifacts and Transcripts
+
+Review commands load a local JSON file through the shared local-only path
+policy, normalize it into display-safe metadata, classify compatibility, and
+print a deterministic JSON summary or explanation. Unknown fields are displayed
+as inert metadata; they are never interpreted as commands, approvals, keys, or
+runtime instructions.
+
+## Where Complexity Hides
+
+`packages/core/src/index.mjs` is the hardest file to read because it contains
+many historical phase helpers in one module. Treat it as layered sections:
+
+- schema and path helpers near the top
+- planning and approval review artifacts
+- transcript and host-policy display helpers
+- stdio dry-run and framing/redaction helpers
+- Phase 5 review-only boundary-map builders
+- static identity and doctor helpers near the end
+
+When changing it, prefer a focused section-level patch plus a focused test. Do
+not reformat the file or move unrelated helpers.
+
+## Historical Phase Architecture
+
+This section preserves the phase-oriented architecture record used by existing
+tests and status reports. New contributors can read the map above first, then
+use this section when a phase-specific test points here.
+
 ARDYN is a standalone open-source AI harness/framework. It should run locally without Locus or Multiverse, while exposing stable adapters so those systems can connect.
 
 ## Runtime Split

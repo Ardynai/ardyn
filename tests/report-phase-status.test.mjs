@@ -23290,7 +23290,7 @@ test("report inventories Phase 5.47 as Locus/Multiverse consumer contract gap in
 test("report inventories Phase 5.48 as review-only production-readiness coverage matrix", async () => {
   const report = await runReport();
   const inventory = report.phase548ProductionReadinessCoverageMatrixInventory;
-  const rows = new Map(inventory.matrixRows.map((row) => [row.areaNumber, row]));
+  const rowsByAreaNumber = new Map(inventory.matrixRows.map((row) => [row.areaNumber, row]));
 
   assert.equal(inventory.statusLayer.layerId, "production-readiness-coverage-matrix");
   assert.deepEqual(
@@ -23412,20 +23412,20 @@ test("report inventories Phase 5.48 as review-only production-readiness coverage
     inventory.productionReadinessCoverageMatrix.schema,
     "ardyn.phase-5.48.production-readiness-coverage-matrix-state"
   );
-  assert.deepEqual([...rows.keys()], Array.from({ length: 19 }, (_, index) => index + 1));
-  assert.equal(rows.get(1).currentStatus, "deferred");
-  assert.equal(rows.get(2).productionRuntimeRequirements.liveRuntimeRequired, true);
-  assert.equal(rows.get(3).productionRuntimeRequirements.databaseStorageRequired, true);
-  assert.equal(rows.get(8).productionRuntimeRequirements.databaseStorageRequired, true);
-  assert.equal(rows.get(15).currentStatus, "covered");
-  assert.equal(rows.get(18).currentStatus, "covered");
-  assert.equal(rows.get(18).productionRuntimeRequirements.secretsRequired, true);
-  assert.equal(rows.get(18).productionRuntimeRequirements.secureDropRequired, true);
+  assert.deepEqual([...rowsByAreaNumber.keys()], Array.from({ length: 19 }, (_, index) => index + 1));
+  assert.equal(rowsByAreaNumber.get(1).currentStatus, "deferred");
+  assert.equal(rowsByAreaNumber.get(2).productionRuntimeRequirements.liveRuntimeRequired, true);
+  assert.equal(rowsByAreaNumber.get(3).productionRuntimeRequirements.databaseStorageRequired, true);
+  assert.equal(rowsByAreaNumber.get(8).productionRuntimeRequirements.databaseStorageRequired, true);
+  assert.equal(rowsByAreaNumber.get(15).currentStatus, "covered");
+  assert.equal(rowsByAreaNumber.get(18).currentStatus, "covered");
+  assert.equal(rowsByAreaNumber.get(18).productionRuntimeRequirements.secretsRequired, true);
+  assert.equal(rowsByAreaNumber.get(18).productionRuntimeRequirements.secureDropRequired, true);
   assert.equal(
-    rows.get(19).productionRuntimeRequirements.serviceDiscoveryScheduleRequired,
+    rowsByAreaNumber.get(19).productionRuntimeRequirements.serviceDiscoveryScheduleRequired,
     true
   );
-  for (const row of rows.values()) {
+  for (const row of rowsByAreaNumber.values()) {
     assert.equal(row.nonAuthorizingProof, true);
     assert.ok(row.currentEvidenceInRepo.length > 0);
     assert.ok(row.productionGap.length > 0);
@@ -23464,7 +23464,7 @@ test("report inventories Phase 5.48 as review-only production-readiness coverage
 test("report inventories Phase 5.49 as review-only consumer display/accessibility contract map", async () => {
   const report = await runReport();
   const inventory = report.phase549ConsumerDisplayAccessibilityContractMapInventory;
-  const entries = new Map(
+  const entriesByDisplaySurfaceId = new Map(
     inventory.displayContractEntries.map((entry) => [entry.displaySurfaceId, entry])
   );
 
@@ -23572,17 +23572,19 @@ test("report inventories Phase 5.49 as review-only consumer display/accessibilit
     inventory.consumerDisplayAccessibilityContractMap.schema,
     "ardyn.phase-5.49.consumer-display-accessibility-contract-map-state"
   );
-  assert.equal(entries.get("locus.status-control-panels").consumerName, "Locus");
+  assert.equal(entriesByDisplaySurfaceId.get("locus.status-control-panels").consumerName, "Locus");
   assert.equal(
-    entries.get("locus.future-secure-drop-compose-inbox-indicators").consumerName,
+    entriesByDisplaySurfaceId.get("locus.future-secure-drop-compose-inbox-indicators")
+      .consumerName,
     "Locus"
   );
   assert.equal(
-    entries.get("multiverse.registry-websocket-mcp-task-runtime-blocked-indicators")
-      .consumerName,
+    entriesByDisplaySurfaceId.get(
+      "multiverse.registry-websocket-mcp-task-runtime-blocked-indicators"
+    ).consumerName,
     "Multiverse"
   );
-  for (const entry of entries.values()) {
+  for (const entry of entriesByDisplaySurfaceId.values()) {
     assert.equal(entry.nonAuthorizingProof, true);
     assert.ok(entry.allowedDisplayBehavior.length > 0);
     assert.ok(entry.forbiddenDisplayBehavior.length >= 6);
