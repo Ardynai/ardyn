@@ -336,6 +336,10 @@ const phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMap =
   await readJson(
     "tests/fixtures/host-policy/phase5-71/maintenance-governance-adr-dependency-policy-contract-boundary-map.json"
   );
+const phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap =
+  await readJson(
+    "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json"
+  );
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -2162,14 +2166,197 @@ const phase571SafetyFlags = {
   phase571FabricSourceChanged: false
 };
 
+const phase572SafetyFlags = {
+  phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapRecorded:
+    true,
+  phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapReviewOnly:
+    true,
+  phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapAuthoritative:
+    false,
+  phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapProduced:
+    true,
+  phase572BoundaryEntriesRecorded: true,
+  phase572Phase548SecretsManagementCoverageItemRepresented: true,
+  phase572SecretsCredentialBoundaryMetadataOnly: true,
+  phase572NoLiveSecretsCredentialRuntimePerformed: true,
+  phase572EnvSecretsVaultBoundaryRecorded: true,
+  phase572ApiKeyProviderCredentialBoundaryRecorded: true,
+  phase572OauthSessionTokenBoundaryRecorded: true,
+  phase572McpPluginProviderCredentialBoundaryRecorded: true,
+  phase572SkillhubTrustProvenanceBoundaryRecorded: true,
+  phase572MatrixGatewayCredentialBoundaryRecorded: true,
+  phase572ExternalGatewayCredentialBoundaryRecorded: true,
+  phase572FabricCoordinationEnvelopeSecretBoundaryRecorded: true,
+  phase572SecureDropRecipientIdentityKeyringDidBoundaryRecorded: true,
+  phase572EncodedHandoffProtocolIdentityBoundaryRecorded: true,
+  phase572HermesCuaDriverTrustBoundaryRecorded: true,
+  phase572ComputerUsePermissionSecretBoundaryRecorded: true,
+  phase572ShellPrimitiveSecretBoundaryRecorded: true,
+  phase572SqlitePrimitiveSecretBoundaryRecorded: true,
+  phase572SecretScanningEvidenceBoundaryRecorded: true,
+  phase572RotationRevocationEvidenceBoundaryRecorded: true,
+  phase572RedactionAuditBoundaryRecorded: true,
+  phase572LocalOnlyCloudOptInBoundaryRecorded: true,
+  phase572NoSecretStore: true,
+  phase572NoEnvIngestion: true,
+  phase572NoVaultAccess: true,
+  phase572NoKeyringDidRuntime: true,
+  phase572NoTokenLoaderOauthSessionHandling: true,
+  phase572NoCredentialScannerSecretScannerRuntime: true,
+  phase572NoRotationRevocationJobs: true,
+  phase572NoCredentialExportSecretPersistence: true,
+  phase572NoRedactionRuntime: true,
+  phase572NoMatrixGatewayE2eeKeyHandling: true,
+  phase572NoExternalGatewayRuntime: true,
+  phase572NoMcpPluginProviderCredentialsRuntime: true,
+  phase572NoSecureDropFabricRuntime: true,
+  phase572NoHermesCuaComputerUseRuntime: true,
+  phase572NoShellRuntime: true,
+  phase572NoSqliteRuntime: true,
+  phase572NoBackendApiServerDatabaseStorageCacheRlsMigration: true,
+  phase572NoTranscriptAuditTelemetryLoggerHealthRuntime: true,
+  phase572NoInfrastructureDeploymentComplianceAutomation: true,
+  phase572NoTestingCiReleaseAutomation: true,
+  phase572NoFilesystemProcessUiRuntime: true,
+  phase572NoCommandExposure: true,
+  phase572NoBlockedCliBypass: true,
+  phase572AllBlockedAuthorizationFlagsFalse: true,
+  phase572AllUnsafeSecretsCredentialRuntimeFlagsFalse: true,
+  phase572AllRuntimeEffectsFalse: true,
+  phase572AllEntriesNonAuthorizing: true,
+  phase572InvalidSecretsCredentialBoundaryCasesFailClosed: true,
+  phase572MissingRequiredFieldsFailClosed: true,
+  phase572UnknownTopLevelFieldsFailClosed: true,
+  phase572UnknownBoundaryFamiliesFailClosed: true,
+  phase572UnknownRelatedSystemsFailClosed: true,
+  phase572UnknownCurrentStatusesFailClosed: true,
+  phase572HiddenSecretEnvVaultAccessSemanticsFailClosed: true,
+  phase572HiddenApiKeyTokenOauthSessionSemanticsFailClosed: true,
+  phase572HiddenMatrixGatewayCredentialRuntimeSemanticsFailClosed: true,
+  phase572HiddenE2eeKeySessionHandlingSemanticsFailClosed: true,
+  phase572HiddenMcpPluginProviderCredentialRuntimeSemanticsFailClosed: true,
+  phase572HiddenSkillhubInstallTrustScannerRuntimeSemanticsFailClosed: true,
+  phase572HiddenSecretScannerRotationRedactionRuntimeSemanticsFailClosed: true,
+  phase572HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+  phase572HiddenSecureDropImplementationKeyringDidSemanticsFailClosed: true,
+  phase572HiddenEncodedHandoffRuntimeCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+    true,
+  phase572HiddenHermesCuaComputerUseRuntimeSemanticsFailClosed: true,
+  phase572HiddenShellPathExecutableEnvHistoryRuntimeSemanticsFailClosed: true,
+  phase572HiddenSqliteEmbeddedDbQueryKeyRuntimeSemanticsFailClosed: true,
+  phase572HiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed:
+    true,
+  phase572HiddenBackendApiServerSemanticsFailClosed: true,
+  phase572HiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+  phase572HiddenConnectorGrantSemanticsFailClosed: true,
+  phase572HiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed:
+    true,
+  phase572HiddenTestingCiReleaseAutomationSemanticsFailClosed: true,
+  phase572ServeRuntimeStillDefaultBlocked: true,
+  phase572FallowRuntimeUsed: false,
+  phase572ReportRunsChecks: false,
+  phase572RuntimeExecutionEnabled: false,
+  phase572RuntimeAuthorizationEnabled: false,
+  phase572RuntimeCommandEnabled: false,
+  phase572CommandExposureEnabled: false,
+  phase572CommandRuntimeControlEnabled: false,
+  phase572BlockedCliBypassEnabled: false,
+  phase572DryRunBypassesBlock: false,
+  phase572ConnectorGrantProduced: false,
+  phase572FabricRuntimeImplementedByArdyn: false,
+  phase572WebsocketHttpTransportImplementedByArdyn: false,
+  phase572HttpTransportImplementedByArdyn: false,
+  phase572McpRuntimeEnabled: false,
+  phase572McpToolExposureEnabled: false,
+  phase572TaskExecutionEnabled: false,
+  phase572SecureDropImplemented: false,
+  phase572ServiceDiscoveryEnabled: false,
+  phase572ScheduleEnforcementEnabled: false,
+  phase572FilesystemWriteEnabled: false,
+  phase572FilesystemScanningEnabled: false,
+  phase572ProcessControlEnabled: false,
+  phase572EnvIngestionEnabled: false,
+  phase572SecretLoadingEnabled: false,
+  phase572VaultAccessEnabled: false,
+  phase572KeyringRuntimeEnabled: false,
+  phase572DidRuntimeEnabled: false,
+  phase572TokenLoaderEnabled: false,
+  phase572OauthFlowEnabled: false,
+  phase572SessionHandlingEnabled: false,
+  phase572CredentialScannerRuntimeEnabled: false,
+  phase572SecretScannerRuntimeEnabled: false,
+  phase572RotationJobEnabled: false,
+  phase572RevocationJobEnabled: false,
+  phase572CredentialExportEnabled: false,
+  phase572SecretPersistenceEnabled: false,
+  phase572RedactionRuntimeEnabled: false,
+  phase572MatrixGatewayRuntimeEnabled: false,
+  phase572E2eeKeyHandlingEnabled: false,
+  phase572ExternalGatewayRuntimeEnabled: false,
+  phase572McpCredentialRuntimeEnabled: false,
+  phase572PluginCredentialRuntimeEnabled: false,
+  phase572ProviderCredentialRuntimeEnabled: false,
+  phase572SkillhubInstallTrustScannerRuntimeEnabled: false,
+  phase572ShellRuntimeEnabled: false,
+  phase572PathLookupRuntimeEnabled: false,
+  phase572ExecutableLookupRuntimeEnabled: false,
+  phase572ShellHistoryRuntimeEnabled: false,
+  phase572SqliteRuntimeEnabled: false,
+  phase572EmbeddedDbRuntimeEnabled: false,
+  phase572QueryEngineRuntimeEnabled: false,
+  phase572SqliteKeyRuntimeEnabled: false,
+  phase572BackendRuntimeImplementedByArdyn: false,
+  phase572BackendApiServerMiddlewareImplemented: false,
+  phase572ApiEndpointImplementedByArdyn: false,
+  phase572ServerImplementedByArdyn: false,
+  phase572DatabaseClientImplemented: false,
+  phase572DatabaseStorageRuntimeWritesEnabled: false,
+  phase572CacheEngineImplemented: false,
+  phase572RlsRuntimeImplemented: false,
+  phase572DatabaseMigrationImplemented: false,
+  phase572TranscriptWriterImplemented: false,
+  phase572AuditWriterImplemented: false,
+  phase572ImportExportPathImplementedByArdyn: false,
+  phase572PackageDistributionImplementedByArdyn: false,
+  phase572PersistenceImplementedByArdyn: false,
+  phase572LoggerRuntimeImplemented: false,
+  phase572AuditWriterRuntimeImplemented: false,
+  phase572TelemetryClientImplemented: false,
+  phase572HealthCheckRuntimeImplemented: false,
+  phase572BackupJobImplemented: false,
+  phase572RestoreJobImplemented: false,
+  phase572FailoverRuntimeImplemented: false,
+  phase572InfrastructureAutomationImplemented: false,
+  phase572DeploymentAutomationImplemented: false,
+  phase572ComplianceEnforcementImplemented: false,
+  phase572PiiProcessingImplemented: false,
+  phase572RetentionJobImplemented: false,
+  phase572ExportJobImplemented: false,
+  phase572TestingCiReleaseAutomationEnabled: false,
+  phase572HermesRuntimeEnabled: false,
+  phase572CuaDriverRuntimeEnabled: false,
+  phase572ComputerUseRuntimeEnabled: false,
+  phase572AgentModeRuntimeEnabled: false,
+  phase572ProfileLoaderEnabled: false,
+  phase572SkillLoaderEnabled: false,
+  phase572UiFrontendBrowserRenderingImplemented: false,
+  phase572EncodedHandoffRuntimeImplementedByArdyn: false,
+  phase572CodecRuntimeEnabled: false,
+  phase572TranslatorRuntimeEnabled: false,
+  phase572FilesystemProcessRuntimeEnabled: false,
+  phase572CliSourceChanged: false,
+  phase572RustSourceChanged: false,
+  phase572FabricSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.71",
+    id: "5.72",
     name:
-      "Review-only maintenance/governance/ADR/dependency-policy contract boundary map",
+      "Review-only secrets-management/key-rotation/external-gateway credential boundary map",
     executionPosture:
-      "maintenance-governance-adr-dependency-policy-contract-boundary-map runtime-disabled metadata-only no-adr-generator no-diagram-generator no-dependency-update-bot no-vulnerability-patch-automation no-release-publishing-ci-modification no-waiver-automation-policy-engine no-graphify-mutation no-code-mode-runtime no-subagent-runtime no-jules-automation no-external-repo-vendoring no-package-deployment no-backend-api-server-storage no-fabric-secure-drop-encoded-handoff no-hermes-cua-computer-use no-logger-audit-telemetry-health-infrastructure no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "secrets-management-key-rotation-external-gateway-credential-boundary-map runtime-disabled metadata-only no-secret-store no-env-ingestion no-vault-access no-keyring-did-runtime no-token-loader no-oauth-session no-credential-scanner no-secret-scanner no-rotation-revocation-jobs no-credential-export no-secret-persistence no-redaction-runtime no-matrix-gateway no-e2ee-key-handling no-external-gateway no-mcp-plugin-provider-credentials no-secure-drop-fabric-runtime no-hermes-cua-computer-use no-shell-runtime no-sqlite-runtime no-backend-api-server-storage no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -2250,18 +2437,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.71 maintenance/governance/ADR/dependency-policy contract boundary map status report.",
+        "Render this deterministic local Phase 5.72 secrets-management/key-rotation/external-gateway credential boundary map status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.71 status report.",
+      purpose: "Run focused tests for this local Phase 5.72 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.71 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.72 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs",
+      purpose:
+        "Run focused Phase 5.72 secrets-management/key-rotation/external-gateway credential boundary map and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -30438,6 +30632,306 @@ const report = {
           .blockedCliBypassEnabled
     }
   },
+  phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapInventory: {
+    statusLayer: {
+      schema:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .schema,
+      schemaVersion:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .schemaVersion,
+      kind:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapKind,
+      mode:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapMode,
+      classification:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .classification,
+      produced:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapProduced,
+      boundaryEntryCount:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .boundaryEntries.length,
+      countByFamily:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .boundaryMapSummary.countByFamily,
+      countByRelatedSystem:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .boundaryMapSummary.countByRelatedSystem,
+      countByStatus:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .boundaryMapSummary.countByStatus,
+      ...phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+        .boundaryMapSummary,
+      reportRunsChecks:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .reportRunsChecks,
+      runtimeExecutionEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .runtimeExecutionEnabled,
+      envIngestionEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .envIngestionEnabled,
+      vaultAccessEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .vaultAccessEnabled,
+      matrixGatewayRuntimeEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .matrixGatewayRuntimeEnabled,
+      shellRuntimeEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .shellRuntimeEnabled,
+      sqliteRuntimeEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .sqliteRuntimeEnabled,
+      commandExposureEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .commandExposureEnabled,
+      blockedCliBypassEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .blockedCliBypassEnabled
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+        "Records deterministic review-only secrets-management, key-rotation, credential provenance, token handling, provider credential, MCP/plugin/tool credential, SkillHub trust, Matrix/HiClaw-style gateway, external gateway, Fabric coordination-envelope, Secure Drop keyring/DID, Hermes/CUA, computer-use permission, shell primitive, SQLite primitive, redaction, audit, and secret-scanning boundary metadata."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.md",
+        "Provides the maintenance/governance predecessor referenced by Phase 5.72."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-48-production-readiness-coverage-matrix.md",
+        "Provides production-readiness item #18, Secrets Management, represented by Phase 5.72 as review-only metadata."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-48-production-readiness-coverage-matrix.md",
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+      "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+      "docs/phase-5-61-database-storage-contract-boundary-map.md",
+      "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+      "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+      "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+      "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+      "docs/phase-5-66-availability-recovery-contract-boundary-map.md",
+      "docs/phase-5-67-infrastructure-compliance-data-retention-contract-boundary-map.md",
+      "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md",
+      "docs/phase-5-69-testing-frameworks-quality-gates-contract-boundary-map.md",
+      "docs/phase-5-70-operations-reliability-contract-boundary-map.md",
+      "docs/phase-5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.md",
+      "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json",
+        "Records twenty-five metadata-only secrets/key-rotation/external-gateway credential boundary entries with false authorization flags, false unsafe runtime flags, false runtime effects, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs",
+        "Pins the Phase 5.72 helper, deterministic fixture shape, requested boundary families, related systems, current status values, fail-closed secrets/credential cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.72 status inventory, docs cross-links, fixture inventory, validation command list, and runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      hermesRepoFilesChanged: [],
+      cuaDriverFilesChanged: [],
+      codecraftersShellRepoFilesChanged: [],
+      codecraftersSqliteRepoFilesChanged: [],
+      matrixHiClawRepoFilesChanged: [],
+      externalRepoFilesChanged: [],
+      secretStoreAddedByThisPhase: false,
+      envIngestionAddedByThisPhase: false,
+      vaultAccessAddedByThisPhase: false,
+      keyringDidRuntimeAddedByThisPhase: false,
+      tokenLoaderOauthSessionAddedByThisPhase: false,
+      credentialScannerSecretScannerRuntimeAddedByThisPhase: false,
+      rotationRevocationJobsAddedByThisPhase: false,
+      credentialExportSecretPersistenceAddedByThisPhase: false,
+      redactionRuntimeAddedByThisPhase: false,
+      matrixGatewayE2eeKeyHandlingAddedByThisPhase: false,
+      externalGatewayRuntimeAddedByThisPhase: false,
+      mcpPluginProviderCredentialsAddedByThisPhase: false,
+      secureDropFabricRuntimeAddedByThisPhase: false,
+      hermesCuaComputerUseRuntimeAddedByThisPhase: false,
+      shellRuntimeAddedByThisPhase: false,
+      sqliteRuntimeAddedByThisPhase: false,
+      backendApiServerDatabaseStorageCacheAddedByThisPhase: false,
+      loggerAuditTelemetryHealthRuntimeAddedByThisPhase: false,
+      infrastructureDeploymentComplianceAutomationAddedByThisPhase: false,
+      testingCiReleaseAutomationAddedByThisPhase: false,
+      filesystemProcessUiRuntimeAddedByThisPhase: false,
+      commandExposureAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateSecretsRuntimePhaseRequired: true,
+      separateExternalGatewayMatrixTransportPhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    boundaryMapSummary:
+      phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+        .boundaryMapSummary,
+    sourcePhaseContext:
+      phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+        .secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+        .sourcePhaseContext,
+    boundaryEntries:
+      phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+        .boundaryEntries.map(
+          ({
+            boundaryId,
+            boundaryFamily,
+            relatedSystem,
+            currentStatus,
+            productionReadinessAreaReference,
+            matrixGatewayCredentialExpectation,
+            externalGatewayCredentialExpectation,
+            primitiveReferenceExpectation,
+            secretsCredentialBoundaryMetadataOnly,
+            noLiveSecretsCredentialRuntimePerformed,
+            explicitBlockedAuthorizationFlags,
+            unsafeSecretsCredentialRuntimeFlags,
+            runtimeEffect,
+            nonAuthorizingProof
+          }) => ({
+            boundaryId,
+            boundaryFamily,
+            relatedSystem,
+            currentStatus,
+            productionReadinessAreaReference,
+            matrixGatewayCredentialExpectation,
+            externalGatewayCredentialExpectation,
+            primitiveReferenceExpectation,
+            secretsCredentialBoundaryMetadataOnly,
+            noLiveSecretsCredentialRuntimePerformed,
+            explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+              explicitBlockedAuthorizationFlags
+            ).every((value) => value === false),
+            unsafeSecretsCredentialRuntimeFlagsAllFalse: Object.values(
+              unsafeSecretsCredentialRuntimeFlags
+            ).every((value) => value === false),
+            runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+              (value) => value === false
+            ),
+            nonAuthorizingProof
+          })
+        ),
+    invalidBoundaryCasePolicy:
+      phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+        .invalidBoundaryCasePolicy,
+    topSecretsMatrixShellSqliteCodeModeFabricApiBackendGaps:
+      phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+        .topSecretsMatrixShellSqliteCodeModeFabricApiBackendGaps,
+    recommendedNextPhase:
+      phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+        .recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+        .runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs",
+      "node --test tests/phase5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-70-operations-reliability-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-69-testing-frameworks-quality-gates-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-68-agent-mode-profile-skillhub-capability-boundary-map.test.mjs",
+      "node --test tests/phase5-67-infrastructure-compliance-data-retention-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-65-error-tracking-logging-audit-integrity-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-63-security-rls-input-sanitization-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-62-auth-permissions-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-61-database-storage-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-48-production-readiness-coverage-matrix.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "semgrep --config auto .",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapRecorded:
+        true,
+      secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapReviewOnly:
+        true,
+      secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapAuthoritative:
+        false,
+      secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapProduced:
+        true,
+      boundaryEntriesRecorded: true,
+      ...phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+        .boundaryMapSummary,
+      reportRunsChecks:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .reportRunsChecks,
+      runtimeExecutionEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .runtimeExecutionEnabled,
+      envIngestionEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .envIngestionEnabled,
+      vaultAccessEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .vaultAccessEnabled,
+      matrixGatewayRuntimeEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .matrixGatewayRuntimeEnabled,
+      externalGatewayRuntimeEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .externalGatewayRuntimeEnabled,
+      shellRuntimeEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .shellRuntimeEnabled,
+      sqliteRuntimeEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .sqliteRuntimeEnabled,
+      commandExposureEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .commandExposureEnabled,
+      blockedCliBypassEnabled:
+        phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .blockedCliBypassEnabled
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -30544,6 +31038,8 @@ const report = {
     phase569TestingFrameworksQualityGatesContractBoundaryMap: true,
     phase570OperationsReliabilityContractBoundaryMap: true,
     phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMap: true,
+    phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap:
+      true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -33852,6 +34348,7 @@ const report = {
       ...phase569SafetyFlags,
       ...phase570SafetyFlags,
       ...phase571SafetyFlags,
+      ...phase572SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,

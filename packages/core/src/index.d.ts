@@ -395,6 +395,12 @@ export const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_
   "0.1.0";
 export const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_KIND:
   "maintenance-governance-adr-dependency-policy-contract-boundary-map";
+export const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.72.secrets-management-key-rotation-external-gateway-credential-boundary-map-result";
+export const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_VERSION:
+  "0.1.0";
+export const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_KIND:
+  "secrets-management-key-rotation-external-gateway-credential-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -10205,6 +10211,175 @@ export interface MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapResu
 export function createMaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapForReview(
   input?: Record<string, unknown>
 ): MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapResult;
+
+export type SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapClassification =
+  | "valid_secrets_management_key_rotation_external_gateway_credential_boundary_map_runtime_still_blocked"
+  | "malformed_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "missing_required_secrets_management_key_rotation_external_gateway_credential_boundary_entry_rejected"
+  | "unknown_top_level_field_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "unknown_boundary_family_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "unknown_related_system_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "unknown_current_status_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "authorization_flags_enabled_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "report_runs_checks_true_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "command_exposure_attempt_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_secret_env_vault_access_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_api_key_token_oauth_session_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_matrix_gateway_credential_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_e2ee_key_session_handling_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_mcp_plugin_provider_credential_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_skillhub_install_trust_scanner_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_secret_scanner_rotation_redaction_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_keyring_did_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_encoded_handoff_runtime_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_hermes_cua_computer_use_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_shell_path_executable_env_history_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_sqlite_embedded_db_query_key_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_logger_audit_transcript_telemetry_external_sink_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_backend_api_server_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_database_storage_cache_write_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_infrastructure_deployment_compliance_pii_retention_export_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "hidden_testing_ci_release_automation_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "unsafe_secrets_management_key_rotation_external_gateway_credential_runtime_flags_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "nested_unsafe_flags_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected"
+  | "noncanonical_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+
+export interface SecretsManagementKeyRotationExternalGatewayCredentialBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "secret_management_contract"
+    | "key_rotation_contract"
+    | "credential_provenance_contract"
+    | "env_secret_boundary"
+    | "vault_access_boundary"
+    | "api_key_boundary"
+    | "oauth_token_boundary"
+    | "session_token_boundary"
+    | "provider_credential_boundary"
+    | "mcp_credential_boundary"
+    | "plugin_credential_boundary"
+    | "skillhub_trust_boundary"
+    | "matrix_gateway_credential_boundary"
+    | "external_gateway_credential_boundary"
+    | "fabric_secret_boundary"
+    | "secure_drop_key_boundary"
+    | "did_keyring_boundary"
+    | "cua_driver_trust_boundary"
+    | "computer_use_permission_secret_boundary"
+    | "encoded_handoff_secret_boundary"
+    | "secret_scanning_contract"
+    | "secret_redaction_contract"
+    | "secret_audit_contract";
+  relatedSystem:
+    | "ardyn"
+    | "ardyn-subagent"
+    | "locus"
+    | "multiverse"
+    | "content-fabric"
+    | "repo-family"
+    | "external-harness"
+    | "matrix-reference"
+    | "hermes-reference"
+    | "cua-driver-reference"
+    | "codecrafters-shell-reference"
+    | "codecrafters-sqlite-reference";
+  currentStatus: "metadata_only" | "blocked" | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  credentialSubjectExpectation: string;
+  secretSourceProvenanceExpectation: string;
+  rotationRevocationExpectation: string;
+  storageNonStorageExpectation: string;
+  redactionExpectation: string;
+  auditExpectation: string;
+  leastPrivilegeExpectation: string;
+  localOnlyCloudOptInExpectation: string;
+  locusRoleDescription: string;
+  multiverseRoleDescription: string;
+  fabricRoleDescription: string;
+  secureDropRoleDescription: string;
+  matrixGatewayRoleDescription: string;
+  productionReadinessAreaReference: Record<string, boolean | number | string>;
+  matrixGatewayCredentialExpectation: Record<string, boolean | string>;
+  externalGatewayCredentialExpectation: Record<string, boolean | string>;
+  primitiveReferenceExpectation: Record<string, boolean | string>;
+  phase560EncodedHandoffReference: Record<string, boolean | string>;
+  phase562AuthPermissionsReference: Record<string, boolean | string>;
+  phase563SecurityRlsInputSanitizationReference: Record<string, boolean | string>;
+  phase565ErrorTrackingLoggingAuditIntegrityReference: Record<string, boolean | string>;
+  phase568AgentModeProfileSkillhubReference: Record<string, boolean | string>;
+  phase571MaintenanceGovernanceReference: Record<string, boolean | string>;
+  secretsCredentialBoundaryMetadataOnly: true;
+  noLiveSecretsCredentialRuntimePerformed: true;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeSecretsCredentialRuntimeFlags: Record<string, false>;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapState {
+  schema: "ardyn.phase-5.72.secrets-management-key-rotation-external-gateway-credential-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "secrets-management-key-rotation-external-gateway-credential-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | number | string>;
+  boundaryEntries: SecretsManagementKeyRotationExternalGatewayCredentialBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topSecretsMatrixShellSqliteCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapResult {
+  schema: "ardyn.phase-5.72.secrets-management-key-rotation-external-gateway-credential-boundary-map-result";
+  schemaVersion: "0.1.0";
+  secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapKind:
+    "secrets-management-key-rotation-external-gateway-credential-boundary-map";
+  secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapMode:
+    "review-only";
+  reviewedAt: string;
+  classification: SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapClassification;
+  secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapProduced: boolean;
+  secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap:
+    | SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: SecretsManagementKeyRotationExternalGatewayCredentialBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topSecretsMatrixShellSqliteCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export function createSecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapForReview(
+  input?: Record<string, unknown>
+): SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapResult;
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";

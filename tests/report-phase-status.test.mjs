@@ -7067,6 +7067,209 @@ const phase571SafetyFlagNames = [
   ...phase571ExpectedTrueSafetyFlagNames,
   ...phase571ExpectedFalseSafetyFlagNames
 ];
+const phase572DocFiles = [
+  "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+  "docs/phase-5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.md",
+  "docs/phase-5-48-production-readiness-coverage-matrix.md"
+];
+const phase572CrossLinks = [
+  "docs/phase-5-48-production-readiness-coverage-matrix.md",
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+  "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+  "docs/phase-5-61-database-storage-contract-boundary-map.md",
+  "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+  "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+  "docs/phase-5-64-rate-limiting-abuse-control-contract-boundary-map.md",
+  "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+  "docs/phase-5-66-availability-recovery-contract-boundary-map.md",
+  "docs/phase-5-67-infrastructure-compliance-data-retention-contract-boundary-map.md",
+  "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md",
+  "docs/phase-5-69-testing-frameworks-quality-gates-contract-boundary-map.md",
+  "docs/phase-5-70-operations-reliability-contract-boundary-map.md",
+  "docs/phase-5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.md",
+  "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md"
+];
+const phase572ExpectedTrueSafetyFlagNames = [
+  "phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapRecorded",
+  "phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapReviewOnly",
+  "phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapProduced",
+  "phase572BoundaryEntriesRecorded",
+  "phase572Phase548SecretsManagementCoverageItemRepresented",
+  "phase572SecretsCredentialBoundaryMetadataOnly",
+  "phase572NoLiveSecretsCredentialRuntimePerformed",
+  "phase572EnvSecretsVaultBoundaryRecorded",
+  "phase572ApiKeyProviderCredentialBoundaryRecorded",
+  "phase572OauthSessionTokenBoundaryRecorded",
+  "phase572McpPluginProviderCredentialBoundaryRecorded",
+  "phase572SkillhubTrustProvenanceBoundaryRecorded",
+  "phase572MatrixGatewayCredentialBoundaryRecorded",
+  "phase572ExternalGatewayCredentialBoundaryRecorded",
+  "phase572FabricCoordinationEnvelopeSecretBoundaryRecorded",
+  "phase572SecureDropRecipientIdentityKeyringDidBoundaryRecorded",
+  "phase572EncodedHandoffProtocolIdentityBoundaryRecorded",
+  "phase572HermesCuaDriverTrustBoundaryRecorded",
+  "phase572ComputerUsePermissionSecretBoundaryRecorded",
+  "phase572ShellPrimitiveSecretBoundaryRecorded",
+  "phase572SqlitePrimitiveSecretBoundaryRecorded",
+  "phase572SecretScanningEvidenceBoundaryRecorded",
+  "phase572RotationRevocationEvidenceBoundaryRecorded",
+  "phase572RedactionAuditBoundaryRecorded",
+  "phase572LocalOnlyCloudOptInBoundaryRecorded",
+  "phase572NoSecretStore",
+  "phase572NoEnvIngestion",
+  "phase572NoVaultAccess",
+  "phase572NoKeyringDidRuntime",
+  "phase572NoTokenLoaderOauthSessionHandling",
+  "phase572NoCredentialScannerSecretScannerRuntime",
+  "phase572NoRotationRevocationJobs",
+  "phase572NoCredentialExportSecretPersistence",
+  "phase572NoRedactionRuntime",
+  "phase572NoMatrixGatewayE2eeKeyHandling",
+  "phase572NoExternalGatewayRuntime",
+  "phase572NoMcpPluginProviderCredentialsRuntime",
+  "phase572NoSecureDropFabricRuntime",
+  "phase572NoHermesCuaComputerUseRuntime",
+  "phase572NoShellRuntime",
+  "phase572NoSqliteRuntime",
+  "phase572NoBackendApiServerDatabaseStorageCacheRlsMigration",
+  "phase572NoTranscriptAuditTelemetryLoggerHealthRuntime",
+  "phase572NoInfrastructureDeploymentComplianceAutomation",
+  "phase572NoTestingCiReleaseAutomation",
+  "phase572NoFilesystemProcessUiRuntime",
+  "phase572NoCommandExposure",
+  "phase572NoBlockedCliBypass",
+  "phase572AllBlockedAuthorizationFlagsFalse",
+  "phase572AllUnsafeSecretsCredentialRuntimeFlagsFalse",
+  "phase572AllRuntimeEffectsFalse",
+  "phase572AllEntriesNonAuthorizing",
+  "phase572InvalidSecretsCredentialBoundaryCasesFailClosed",
+  "phase572MissingRequiredFieldsFailClosed",
+  "phase572UnknownTopLevelFieldsFailClosed",
+  "phase572UnknownBoundaryFamiliesFailClosed",
+  "phase572UnknownRelatedSystemsFailClosed",
+  "phase572UnknownCurrentStatusesFailClosed",
+  "phase572HiddenSecretEnvVaultAccessSemanticsFailClosed",
+  "phase572HiddenApiKeyTokenOauthSessionSemanticsFailClosed",
+  "phase572HiddenMatrixGatewayCredentialRuntimeSemanticsFailClosed",
+  "phase572HiddenE2eeKeySessionHandlingSemanticsFailClosed",
+  "phase572HiddenMcpPluginProviderCredentialRuntimeSemanticsFailClosed",
+  "phase572HiddenSkillhubInstallTrustScannerRuntimeSemanticsFailClosed",
+  "phase572HiddenSecretScannerRotationRedactionRuntimeSemanticsFailClosed",
+  "phase572HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed",
+  "phase572HiddenSecureDropImplementationKeyringDidSemanticsFailClosed",
+  "phase572HiddenEncodedHandoffRuntimeCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed",
+  "phase572HiddenHermesCuaComputerUseRuntimeSemanticsFailClosed",
+  "phase572HiddenShellPathExecutableEnvHistoryRuntimeSemanticsFailClosed",
+  "phase572HiddenSqliteEmbeddedDbQueryKeyRuntimeSemanticsFailClosed",
+  "phase572HiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed",
+  "phase572HiddenBackendApiServerSemanticsFailClosed",
+  "phase572HiddenDatabaseStorageCacheWriteSemanticsFailClosed",
+  "phase572HiddenConnectorGrantSemanticsFailClosed",
+  "phase572HiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed",
+  "phase572HiddenTestingCiReleaseAutomationSemanticsFailClosed",
+  "phase572ServeRuntimeStillDefaultBlocked"
+];
+const phase572ExpectedFalseSafetyFlagNames = [
+  "phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapAuthoritative",
+  "phase572FallowRuntimeUsed",
+  "phase572ReportRunsChecks",
+  "phase572RuntimeExecutionEnabled",
+  "phase572RuntimeAuthorizationEnabled",
+  "phase572RuntimeCommandEnabled",
+  "phase572CommandExposureEnabled",
+  "phase572CommandRuntimeControlEnabled",
+  "phase572BlockedCliBypassEnabled",
+  "phase572DryRunBypassesBlock",
+  "phase572ConnectorGrantProduced",
+  "phase572FabricRuntimeImplementedByArdyn",
+  "phase572WebsocketHttpTransportImplementedByArdyn",
+  "phase572HttpTransportImplementedByArdyn",
+  "phase572McpRuntimeEnabled",
+  "phase572McpToolExposureEnabled",
+  "phase572TaskExecutionEnabled",
+  "phase572SecureDropImplemented",
+  "phase572ServiceDiscoveryEnabled",
+  "phase572ScheduleEnforcementEnabled",
+  "phase572FilesystemWriteEnabled",
+  "phase572FilesystemScanningEnabled",
+  "phase572ProcessControlEnabled",
+  "phase572EnvIngestionEnabled",
+  "phase572SecretLoadingEnabled",
+  "phase572VaultAccessEnabled",
+  "phase572KeyringRuntimeEnabled",
+  "phase572DidRuntimeEnabled",
+  "phase572TokenLoaderEnabled",
+  "phase572OauthFlowEnabled",
+  "phase572SessionHandlingEnabled",
+  "phase572CredentialScannerRuntimeEnabled",
+  "phase572SecretScannerRuntimeEnabled",
+  "phase572RotationJobEnabled",
+  "phase572RevocationJobEnabled",
+  "phase572CredentialExportEnabled",
+  "phase572SecretPersistenceEnabled",
+  "phase572RedactionRuntimeEnabled",
+  "phase572MatrixGatewayRuntimeEnabled",
+  "phase572E2eeKeyHandlingEnabled",
+  "phase572ExternalGatewayRuntimeEnabled",
+  "phase572McpCredentialRuntimeEnabled",
+  "phase572PluginCredentialRuntimeEnabled",
+  "phase572ProviderCredentialRuntimeEnabled",
+  "phase572SkillhubInstallTrustScannerRuntimeEnabled",
+  "phase572ShellRuntimeEnabled",
+  "phase572PathLookupRuntimeEnabled",
+  "phase572ExecutableLookupRuntimeEnabled",
+  "phase572ShellHistoryRuntimeEnabled",
+  "phase572SqliteRuntimeEnabled",
+  "phase572EmbeddedDbRuntimeEnabled",
+  "phase572QueryEngineRuntimeEnabled",
+  "phase572SqliteKeyRuntimeEnabled",
+  "phase572BackendRuntimeImplementedByArdyn",
+  "phase572BackendApiServerMiddlewareImplemented",
+  "phase572ApiEndpointImplementedByArdyn",
+  "phase572ServerImplementedByArdyn",
+  "phase572DatabaseClientImplemented",
+  "phase572DatabaseStorageRuntimeWritesEnabled",
+  "phase572CacheEngineImplemented",
+  "phase572RlsRuntimeImplemented",
+  "phase572DatabaseMigrationImplemented",
+  "phase572TranscriptWriterImplemented",
+  "phase572AuditWriterImplemented",
+  "phase572ImportExportPathImplementedByArdyn",
+  "phase572PackageDistributionImplementedByArdyn",
+  "phase572PersistenceImplementedByArdyn",
+  "phase572LoggerRuntimeImplemented",
+  "phase572AuditWriterRuntimeImplemented",
+  "phase572TelemetryClientImplemented",
+  "phase572HealthCheckRuntimeImplemented",
+  "phase572BackupJobImplemented",
+  "phase572RestoreJobImplemented",
+  "phase572FailoverRuntimeImplemented",
+  "phase572InfrastructureAutomationImplemented",
+  "phase572DeploymentAutomationImplemented",
+  "phase572ComplianceEnforcementImplemented",
+  "phase572PiiProcessingImplemented",
+  "phase572RetentionJobImplemented",
+  "phase572ExportJobImplemented",
+  "phase572TestingCiReleaseAutomationEnabled",
+  "phase572HermesRuntimeEnabled",
+  "phase572CuaDriverRuntimeEnabled",
+  "phase572ComputerUseRuntimeEnabled",
+  "phase572AgentModeRuntimeEnabled",
+  "phase572ProfileLoaderEnabled",
+  "phase572SkillLoaderEnabled",
+  "phase572UiFrontendBrowserRenderingImplemented",
+  "phase572EncodedHandoffRuntimeImplementedByArdyn",
+  "phase572CodecRuntimeEnabled",
+  "phase572TranslatorRuntimeEnabled",
+  "phase572FilesystemProcessRuntimeEnabled",
+  "phase572CliSourceChanged",
+  "phase572RustSourceChanged",
+  "phase572FabricSourceChanged"
+];
+const phase572SafetyFlagNames = [
+  ...phase572ExpectedTrueSafetyFlagNames,
+  ...phase572ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -7159,7 +7362,7 @@ async function readJson(url) {
 async function runReport() {
   const { stdout, stderr } = await execFileAsync(process.execPath, [reportScriptPath], {
     cwd: repoRoot,
-    maxBuffer: 8 * 1024 * 1024
+    maxBuffer: 16 * 1024 * 1024
   });
 
   assert.equal(stderr, "");
@@ -7201,16 +7404,16 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.71 maintenance/governance/ADR/dependency-policy contract boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.72 secrets-management/key-rotation/external-gateway credential boundary map and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.71",
+    id: "5.72",
     name:
-      "Review-only maintenance/governance/ADR/dependency-policy contract boundary map",
+      "Review-only secrets-management/key-rotation/external-gateway credential boundary map",
     executionPosture:
-      "maintenance-governance-adr-dependency-policy-contract-boundary-map runtime-disabled metadata-only no-adr-generator no-diagram-generator no-dependency-update-bot no-vulnerability-patch-automation no-release-publishing-ci-modification no-waiver-automation-policy-engine no-graphify-mutation no-code-mode-runtime no-subagent-runtime no-jules-automation no-external-repo-vendoring no-package-deployment no-backend-api-server-storage no-fabric-secure-drop-encoded-handoff no-hermes-cua-computer-use no-logger-audit-telemetry-health-infrastructure no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "secrets-management-key-rotation-external-gateway-credential-boundary-map runtime-disabled metadata-only no-secret-store no-env-ingestion no-vault-access no-keyring-did-runtime no-token-loader no-oauth-session no-credential-scanner no-secret-scanner no-rotation-revocation-jobs no-credential-export no-secret-persistence no-redaction-runtime no-matrix-gateway no-e2ee-key-handling no-external-gateway no-mcp-plugin-provider-credentials no-secure-drop-fabric-runtime no-hermes-cua-computer-use no-shell-runtime no-sqlite-runtime no-backend-api-server-storage no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -7273,15 +7476,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.71 maintenance/governance/ADR/dependency-policy contract boundary map status report."
+    "Render this deterministic local Phase 5.72 secrets-management/key-rotation/external-gateway credential boundary map status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.71 status report."
+    "Run focused tests for this local Phase 5.72 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.71 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.72 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.72 secrets-management/key-rotation/external-gateway credential boundary map and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -30138,6 +30347,302 @@ test("report inventories Phase 5.71 maintenance/governance/ADR/dependency-policy
   assertSafetyFlags(report, phase571ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.72 secrets-management/key-rotation/external-gateway credential boundary map", async () => {
+  const report = await runReport();
+  const inventory =
+    report
+      .phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapInventory;
+
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.72.secrets-management-key-rotation-external-gateway-credential-boundary-map-result"
+  );
+  assert.equal(inventory.statusLayer.schemaVersion, "0.1.0");
+  assert.equal(
+    inventory.statusLayer.kind,
+    "secrets-management-key-rotation-external-gateway-credential-boundary-map"
+  );
+  assert.equal(inventory.statusLayer.mode, "review-only");
+  assert.equal(
+    inventory.statusLayer.classification,
+    "valid_secrets_management_key_rotation_external_gateway_credential_boundary_map_runtime_still_blocked"
+  );
+  assert.equal(inventory.statusLayer.produced, true);
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 25);
+
+  for (const family of [
+    "secret_management_contract",
+    "key_rotation_contract",
+    "credential_provenance_contract",
+    "env_secret_boundary",
+    "vault_access_boundary",
+    "api_key_boundary",
+    "oauth_token_boundary",
+    "session_token_boundary",
+    "provider_credential_boundary",
+    "mcp_credential_boundary",
+    "plugin_credential_boundary",
+    "skillhub_trust_boundary",
+    "matrix_gateway_credential_boundary",
+    "external_gateway_credential_boundary",
+    "fabric_secret_boundary",
+    "secure_drop_key_boundary",
+    "did_keyring_boundary",
+    "cua_driver_trust_boundary",
+    "computer_use_permission_secret_boundary",
+    "encoded_handoff_secret_boundary",
+    "secret_scanning_contract",
+    "secret_redaction_contract",
+    "secret_audit_contract"
+  ]) {
+    assert.ok(inventory.statusLayer.countByFamily[family] >= 1, family);
+  }
+
+  for (const system of [
+    "ardyn",
+    "ardyn-subagent",
+    "locus",
+    "multiverse",
+    "content-fabric",
+    "repo-family",
+    "external-harness",
+    "matrix-reference",
+    "hermes-reference",
+    "cua-driver-reference",
+    "codecrafters-shell-reference",
+    "codecrafters-sqlite-reference"
+  ]) {
+    assert.ok(inventory.statusLayer.countByRelatedSystem[system] >= 1, system);
+  }
+
+  for (const status of [
+    "metadata_only",
+    "blocked",
+    "future_contract_required"
+  ]) {
+    assert.ok(inventory.statusLayer.countByStatus[status] >= 1, status);
+  }
+
+  for (const field of [
+    "phase548SecretsManagementCoverageItemRepresented",
+    "secretsCredentialBoundaryMetadataOnly",
+    "noLiveSecretsCredentialRuntimePerformed",
+    "envSecretsVaultBoundaryRecorded",
+    "apiKeyProviderCredentialBoundaryRecorded",
+    "oauthSessionTokenBoundaryRecorded",
+    "mcpPluginProviderCredentialBoundaryRecorded",
+    "skillhubTrustProvenanceBoundaryRecorded",
+    "matrixGatewayCredentialBoundaryRecorded",
+    "externalGatewayCredentialBoundaryRecorded",
+    "fabricCoordinationEnvelopeSecretBoundaryRecorded",
+    "secureDropRecipientIdentityKeyringDidBoundaryRecorded",
+    "encodedHandoffProtocolIdentityBoundaryRecorded",
+    "hermesCuaDriverTrustBoundaryRecorded",
+    "computerUsePermissionSecretBoundaryRecorded",
+    "shellPrimitiveSecretBoundaryRecorded",
+    "sqlitePrimitiveSecretBoundaryRecorded",
+    "secretScanningEvidenceBoundaryRecorded",
+    "rotationRevocationEvidenceBoundaryRecorded",
+    "redactionAuditBoundaryRecorded",
+    "localOnlyCloudOptInBoundaryRecorded",
+    "noSecretStore",
+    "noEnvIngestion",
+    "noVaultAccess",
+    "noKeyringDidRuntime",
+    "noTokenLoaderOauthSessionHandling",
+    "noCredentialScannerSecretScannerRuntime",
+    "noRotationRevocationJobs",
+    "noCredentialExportSecretPersistence",
+    "noRedactionRuntime",
+    "noMatrixGatewayE2eeKeyHandling",
+    "noExternalGatewayRuntime",
+    "noMcpPluginProviderCredentialsRuntime",
+    "noSecureDropFabricRuntime",
+    "noHermesCuaComputerUseRuntime",
+    "noShellRuntime",
+    "noSqliteRuntime",
+    "noBackendApiServerDatabaseStorageCacheRlsMigration",
+    "noTranscriptAuditTelemetryLoggerHealthRuntime",
+    "noInfrastructureDeploymentComplianceAutomation",
+    "noTestingCiReleaseAutomation",
+    "noFilesystemProcessUiRuntime",
+    "noCommandExposure",
+    "noBlockedCliBypass",
+    "allBlockedAuthorizationFlagsFalse",
+    "allUnsafeSecretsCredentialRuntimeFlagsFalse",
+    "allRuntimeEffectsFalse",
+    "allEntriesNonAuthorizing"
+  ]) {
+    assert.equal(inventory.statusLayer[field], true, `${field} should be true`);
+  }
+
+  for (const field of [
+    "reportRunsChecks",
+    "runtimeExecutionEnabled",
+    "envIngestionEnabled",
+    "vaultAccessEnabled",
+    "matrixGatewayRuntimeEnabled",
+    "shellRuntimeEnabled",
+    "sqliteRuntimeEnabled",
+    "commandExposureEnabled",
+    "blockedCliBypassEnabled"
+  ]) {
+    assert.equal(inventory.statusLayer[field], false, `${field} should be false`);
+  }
+
+  assert.deepEqual(inventory.docs.map(({ path, status }) => [path, status]), [
+    ...phase572DocFiles.map((path) => [path, "present"])
+  ]);
+  assert.deepEqual(inventory.crossLinks, phase572CrossLinks);
+  assert.deepEqual(
+    inventory.machineReadableArtifacts.map(({ path, status }) => [path, status]),
+    [
+      [
+        "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json",
+        "present"
+      ]
+    ]
+  );
+  assert.deepEqual(inventory.tests.map(({ path, status }) => [path, status]), [
+    [
+      "tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs",
+      "present"
+    ],
+    ["tests/report-phase-status.test.mjs", "present"]
+  ]);
+  assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.fabricRuntimeSourceFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.locusRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.multiverseRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.contentFabricRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.hermesRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.cuaDriverFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.codecraftersShellRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.codecraftersSqliteRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.matrixHiClawRepoFilesChanged, []);
+  assert.deepEqual(inventory.ownershipBoundary.externalRepoFilesChanged, []);
+
+  for (const [key, value] of Object.entries(inventory.ownershipBoundary)) {
+    if (key.endsWith("ByThisPhase") || key.endsWith("AddedByThisPhase")) {
+      assert.equal(value, false, key);
+    }
+  }
+
+  assert.equal(
+    inventory.sourcePhaseContext.productionReadinessSecretsManagementItemDeferred,
+    true
+  );
+  assert.equal(inventory.sourcePhaseContext.noSecretStoreImplemented, true);
+  assert.equal(
+    inventory.sourcePhaseContext.noEnvIngestionVaultAccessImplemented,
+    true
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.noKeyringDidTokenOauthSessionImplemented,
+    true
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.noCredentialScannerSecretScannerRotationRevocationImplemented,
+    true
+  );
+  assert.equal(inventory.sourcePhaseContext.noMatrixExternalGatewayImplemented, true);
+  assert.equal(inventory.sourcePhaseContext.noShellSqliteRuntimeImplemented, true);
+  assert.equal(inventory.sourcePhaseContext.runtimeStillBlocked, true);
+  assert.equal(inventory.boundaryMapSummary.boundaryEntryCount, 25);
+  assert.equal(inventory.boundaryEntries.length, 25);
+
+  for (const entry of inventory.boundaryEntries) {
+    assert.match(entry.boundaryId, /^phase5-72\./);
+    assert.equal(entry.secretsCredentialBoundaryMetadataOnly, true);
+    assert.equal(entry.noLiveSecretsCredentialRuntimePerformed, true);
+    assert.equal(entry.productionReadinessAreaReference.phase, "5.48");
+    assert.equal(entry.productionReadinessAreaReference.areaNumber, 18);
+    assert.equal(entry.productionReadinessAreaReference.authorizesRuntime, false);
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(entry.unsafeSecretsCredentialRuntimeFlagsAllFalse, true);
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+  }
+
+  const matrix = inventory.boundaryEntries.find(
+    (entry) => entry.boundaryFamily === "matrix_gateway_credential_boundary"
+  );
+  assert.equal(
+    matrix.matrixGatewayCredentialExpectation.accessRefreshTokenHandling,
+    "future contract required, no token loader"
+  );
+  assert.equal(
+    matrix.matrixGatewayCredentialExpectation.e2eeKeySessionHandling,
+    "future contract required, no E2EE runtime"
+  );
+
+  const externalGateway = inventory.boundaryEntries.find(
+    (entry) => entry.boundaryFamily === "external_gateway_credential_boundary"
+  );
+  assert.equal(externalGateway.externalGatewayCredentialExpectation.telegram, "future metadata only");
+  assert.equal(externalGateway.externalGatewayCredentialExpectation.homeAssistant, "future metadata only");
+  assert.equal(externalGateway.externalGatewayCredentialExpectation.runtimeImplemented, false);
+
+  assert.ok(
+    inventory.boundaryEntries.some(
+      (entry) =>
+        entry.relatedSystem === "codecrafters-shell-reference" &&
+        entry.primitiveReferenceExpectation.shellPathEnvExecutableHistoryRuntime === false
+    )
+  );
+  assert.ok(
+    inventory.boundaryEntries.some(
+      (entry) =>
+        entry.relatedSystem === "codecrafters-sqlite-reference" &&
+        entry.primitiveReferenceExpectation.sqliteEmbeddedDbQueryKeyRuntime === false
+    )
+  );
+
+  assert.equal(inventory.invalidBoundaryCasePolicy.missingRequiredFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownTopLevelFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownBoundaryFamiliesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownRelatedSystemsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownCurrentStatusesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledEnvSecretVaultAccessFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledKeyringDidTokenOauthSessionFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledCredentialScannerSecretScannerRotationRevocationFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledMatrixGatewayE2eeExternalGatewayFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledShellPathExecutableEnvHistoryRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledSqliteEmbeddedDbQueryKeyRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSecretEnvVaultAccessSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenApiKeyTokenOauthSessionSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenMatrixGatewayCredentialRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenE2eeKeySessionHandlingSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenMcpPluginProviderCredentialRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSecureDropImplementationKeyringDidSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenHermesCuaComputerUseRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenShellPathExecutableEnvHistoryRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSqliteEmbeddedDbQueryKeyRuntimeSemanticsFailClosed, true);
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.73-review-only-external-gateway-matrix-transport-contract-boundary-map"
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-71-maintenance-governance-adr-dependency-policy-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, ["semgrep --config auto ."]);
+  assert.equal(
+    report.safetyPosture
+      .phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap,
+    true
+  );
+  assertSafetyFlags(report, phase572ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase572ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -31069,7 +31574,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase568SafetyFlagNames,
     ...phase569SafetyFlagNames,
     ...phase570SafetyFlagNames,
-    ...phase571SafetyFlagNames
+    ...phase571SafetyFlagNames,
+    ...phase572SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -31180,6 +31686,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase570ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase571ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase571ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase572ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase572ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

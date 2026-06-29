@@ -375,6 +375,12 @@ export const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_
   "0.1.0";
 export const MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_KIND =
   "maintenance-governance-adr-dependency-policy-contract-boundary-map";
+export const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.72.secrets-management-key-rotation-external-gateway-credential-boundary-map-result";
+export const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_KIND =
+  "secrets-management-key-rotation-external-gateway-credential-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -62079,6 +62085,1529 @@ export function createMaintenanceGovernanceAdrDependencyPolicyContractBoundaryMa
     classification,
     accepted,
     maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap
+  });
+}
+
+const SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.72.secrets-management-key-rotation-external-gateway-credential-boundary-map-state";
+const VALID_SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_secrets_management_key_rotation_external_gateway_credential_boundary_map_runtime_still_blocked";
+const MALFORMED_SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+
+const SECRETS_CREDENTIAL_BOUNDARY_FAMILIES = Object.freeze([
+  "secret_management_contract",
+  "key_rotation_contract",
+  "credential_provenance_contract",
+  "env_secret_boundary",
+  "vault_access_boundary",
+  "api_key_boundary",
+  "oauth_token_boundary",
+  "session_token_boundary",
+  "provider_credential_boundary",
+  "mcp_credential_boundary",
+  "plugin_credential_boundary",
+  "skillhub_trust_boundary",
+  "matrix_gateway_credential_boundary",
+  "external_gateway_credential_boundary",
+  "fabric_secret_boundary",
+  "secure_drop_key_boundary",
+  "did_keyring_boundary",
+  "cua_driver_trust_boundary",
+  "computer_use_permission_secret_boundary",
+  "encoded_handoff_secret_boundary",
+  "secret_scanning_contract",
+  "secret_redaction_contract",
+  "secret_audit_contract"
+]);
+const SECRETS_CREDENTIAL_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family",
+  "external-harness",
+  "matrix-reference",
+  "hermes-reference",
+  "cua-driver-reference",
+  "codecrafters-shell-reference",
+  "codecrafters-sqlite-reference"
+]);
+const SECRETS_CREDENTIAL_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const SECRETS_CREDENTIAL_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "credentialSubjectExpectation",
+  "secretSourceProvenanceExpectation",
+  "rotationRevocationExpectation",
+  "storageNonStorageExpectation",
+  "redactionExpectation",
+  "auditExpectation",
+  "leastPrivilegeExpectation",
+  "localOnlyCloudOptInExpectation",
+  "locusRoleDescription",
+  "multiverseRoleDescription",
+  "fabricRoleDescription",
+  "secureDropRoleDescription",
+  "matrixGatewayRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeSecretsCredentialRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const SECRETS_CREDENTIAL_ALLOWED_TOP_LEVEL_FIELDS = Object.freeze([
+  "reviewedAt",
+  "boundaryEntries"
+]);
+const SECRETS_CREDENTIAL_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "connectorGrantProduced",
+  "fabricRuntimeImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "httpTransportImplementedByArdyn",
+  "mcpRuntimeEnabled",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "envIngestionEnabled",
+  "secretLoadingEnabled",
+  "vaultAccessEnabled",
+  "keyringRuntimeEnabled",
+  "didRuntimeEnabled",
+  "tokenLoaderEnabled",
+  "oauthFlowEnabled",
+  "sessionHandlingEnabled",
+  "credentialScannerRuntimeEnabled",
+  "secretScannerRuntimeEnabled",
+  "rotationJobEnabled",
+  "revocationJobEnabled",
+  "credentialExportEnabled",
+  "secretPersistenceEnabled",
+  "redactionRuntimeEnabled",
+  "matrixGatewayRuntimeEnabled",
+  "e2eeKeyHandlingEnabled",
+  "externalGatewayRuntimeEnabled",
+  "mcpCredentialRuntimeEnabled",
+  "pluginCredentialRuntimeEnabled",
+  "providerCredentialRuntimeEnabled",
+  "skillhubInstallTrustScannerRuntimeEnabled",
+  "shellRuntimeEnabled",
+  "pathLookupRuntimeEnabled",
+  "executableLookupRuntimeEnabled",
+  "shellHistoryRuntimeEnabled",
+  "sqliteRuntimeEnabled",
+  "embeddedDbRuntimeEnabled",
+  "queryEngineRuntimeEnabled",
+  "sqliteKeyRuntimeEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "cacheEngineImplemented",
+  "rlsRuntimeImplemented",
+  "databaseMigrationImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "loggerRuntimeImplemented",
+  "auditWriterRuntimeImplemented",
+  "telemetryClientImplemented",
+  "healthCheckRuntimeImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "failoverRuntimeImplemented",
+  "infrastructureAutomationImplemented",
+  "deploymentAutomationImplemented",
+  "complianceEnforcementImplemented",
+  "piiProcessingImplemented",
+  "retentionJobImplemented",
+  "exportJobImplemented",
+  "testingCiReleaseAutomationEnabled",
+  "hermesRuntimeEnabled",
+  "cuaDriverRuntimeEnabled",
+  "computerUseRuntimeEnabled",
+  "agentModeRuntimeEnabled",
+  "profileLoaderEnabled",
+  "skillLoaderEnabled",
+  "uiFrontendBrowserRenderingImplemented",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecRuntimeEnabled",
+  "translatorRuntimeEnabled",
+  "filesystemProcessRuntimeEnabled",
+  "blockedCliBypassEnabled"
+]);
+const SECRETS_CREDENTIAL_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "runtimeAuthorizationGranted",
+  "authorizesRuntime",
+  "secretsManagementAuthorizationGranted",
+  "envIngestionAuthorizationGranted",
+  "secretLoadingAuthorizationGranted",
+  "vaultAccessAuthorizationGranted",
+  "keyringDidAuthorizationGranted",
+  "tokenLoaderAuthorizationGranted",
+  "oauthSessionAuthorizationGranted",
+  "credentialScannerAuthorizationGranted",
+  "secretScannerAuthorizationGranted",
+  "rotationJobAuthorizationGranted",
+  "revocationJobAuthorizationGranted",
+  "credentialExportAuthorizationGranted",
+  "secretPersistenceAuthorizationGranted",
+  "redactionRuntimeAuthorizationGranted",
+  "matrixGatewayAuthorizationGranted",
+  "e2eeKeyHandlingAuthorizationGranted",
+  "externalGatewayAuthorizationGranted",
+  "mcpPluginProviderCredentialAuthorizationGranted",
+  "secureDropAuthorizationGranted",
+  "fabricRuntimeAuthorizationGranted",
+  "encodedHandoffRuntimeAuthorizationGranted",
+  "hermesCuaComputerUseAuthorizationGranted",
+  "shellRuntimeAuthorizationGranted",
+  "sqliteRuntimeAuthorizationGranted",
+  "backendApiServerAuthorizationGranted",
+  "databaseStorageAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "connectorGrantAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+const SECRETS_CREDENTIAL_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed"
+]);
+const SECRETS_CREDENTIAL_BLOCKED_CLI_BYPASS_FIELDS = Object.freeze([
+  "blockedCliBypassEnabled",
+  "dryRunBypassesBlock",
+  "serveRuntimeBypassEnabled",
+  "bypassBlockedCommandBehavior",
+  "blockedCommandOverride"
+]);
+const SECRETS_CREDENTIAL_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_secret_env_vault_access_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "secretStore",
+      "envSecretLoader",
+      "envIngestionRuntime",
+      "vaultClient",
+      "vaultPath",
+      "secretValue",
+      "dotenvLoader",
+      "secretPersistence"
+    ]
+  },
+  {
+    classification:
+      "hidden_api_key_token_oauth_session_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "apiKey",
+      "providerApiKey",
+      "accessToken",
+      "refreshToken",
+      "oauthFlow",
+      "oauthClientSecret",
+      "sessionCookie",
+      "sessionToken",
+      "tokenLoader"
+    ]
+  },
+  {
+    classification:
+      "hidden_matrix_gateway_credential_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "matrixClient",
+      "matrixHomeserverUrl",
+      "matrixRoomAllowlist",
+      "matrixAccessToken",
+      "matrixRefreshToken",
+      "matrixGatewayRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_e2ee_key_session_handling_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "e2eeKey",
+      "e2eeSession",
+      "olmSession",
+      "megolmSession",
+      "deviceKeyStore",
+      "messageDecryptionRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_mcp_plugin_provider_credential_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "mcpServerCredential",
+      "mcpConnector",
+      "pluginCredential",
+      "providerCredential",
+      "toolRegistryCredential",
+      "connectorGrant"
+    ]
+  },
+  {
+    classification:
+      "hidden_skillhub_install_trust_scanner_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "skillhubInstaller",
+      "skillInstallRuntime",
+      "skillTrustScanner",
+      "skillSecurityScan",
+      "skillRollbackRuntime",
+      "toolInventoryScanner"
+    ]
+  },
+  {
+    classification:
+      "hidden_secret_scanner_rotation_redaction_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "credentialScanner",
+      "secretScanner",
+      "rotationJob",
+      "revocationJob",
+      "redactionRuntime",
+      "credentialExport",
+      "secretRedactor"
+    ]
+  },
+  {
+    classification:
+      "hidden_fabric_websocket_http_mcp_task_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "fabricBus",
+      "fabricTransport",
+      "websocketUrl",
+      "httpTransport",
+      "mcpRuntime",
+      "mcpServer",
+      "mcpTool",
+      "taskRunner",
+      "taskQueue"
+    ]
+  },
+  {
+    classification:
+      "hidden_secure_drop_implementation_keyring_did_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "secureDropKeyring",
+      "secureDropCrypto",
+      "secureDropTransport",
+      "secureDropInbox",
+      "didKeyring",
+      "recipientPrivateKey",
+      "st3ggWrapper"
+    ]
+  },
+  {
+    classification:
+      "hidden_encoded_handoff_runtime_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "encodedHandoffRuntime",
+      "codecRuntime",
+      "translatorRuntime",
+      "encoderRuntime",
+      "decoderRuntime",
+      "stegoChannel",
+      "covertChannel",
+      "tokenizerExploit",
+      "bypassPayload"
+    ]
+  },
+  {
+    classification:
+      "hidden_hermes_cua_computer_use_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "hermesRuntime",
+      "cuaDriverRuntime",
+      "computerUseRuntime",
+      "desktopControl",
+      "browserControl",
+      "screenshotCapture",
+      "accessibilityTreeAccess",
+      "inputAutomation",
+      "operatorApprovalSecret"
+    ]
+  },
+  {
+    classification:
+      "hidden_shell_path_executable_env_history_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "shellRuntime",
+      "pathLookup",
+      "executableLookup",
+      "shellHistory",
+      "commandExecution",
+      "pipeRuntime",
+      "processSpawn"
+    ]
+  },
+  {
+    classification:
+      "hidden_sqlite_embedded_db_query_key_runtime_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "sqliteRuntime",
+      "embeddedDb",
+      "sqliteKey",
+      "databaseFile",
+      "sqlParser",
+      "queryEngine",
+      "walRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_logger_audit_transcript_telemetry_external_sink_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "loggerRuntime",
+      "auditWriterRuntime",
+      "transcriptWriter",
+      "telemetryClient",
+      "externalSink",
+      "errorReporter"
+    ]
+  },
+  {
+    classification:
+      "hidden_backend_api_server_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "backendApiMiddleware",
+      "apiRequestHandler",
+      "httpServer",
+      "serverMiddleware",
+      "httpEndpoint",
+      "runtimeEndpoint"
+    ]
+  },
+  {
+    classification:
+      "hidden_database_storage_cache_write_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "databaseUrl",
+      "databaseDsn",
+      "dbConnectionString",
+      "storageAdapter",
+      "cacheEngine",
+      "writeQueue",
+      "persistenceLayer",
+      "filesystemWrite"
+    ]
+  },
+  {
+    classification:
+      "hidden_connector_grant_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "connectorAccessGrant",
+      "connectorCredential",
+      "connectorAccessToken",
+      "connectorComplianceGrant",
+      "providerGrant"
+    ]
+  },
+  {
+    classification:
+      "hidden_infrastructure_deployment_compliance_pii_retention_export_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "terraformPlan",
+      "deployCommand",
+      "cloudProvider",
+      "complianceEnforcer",
+      "piiProcessor",
+      "retentionScheduler",
+      "exportJob",
+      "policyEngine"
+    ]
+  },
+  {
+    classification:
+      "hidden_testing_ci_release_automation_semantics_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected",
+    fields: [
+      "testRunner",
+      "ciPipeline",
+      "githubActionsWorkflow",
+      "releaseAutomation",
+      "artifactUpload",
+      "packageExport"
+    ]
+  }
+]);
+
+function secretsCredentialBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function secretsCredentialBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function secretsCredentialBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(secretsCredentialBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      secretsCredentialBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function secretsCredentialBoundaryMapHasTrueFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      secretsCredentialBoundaryMapHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (secretsCredentialBoundaryMapHasTrueFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function secretsCredentialBoundaryMapHasPresentFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      secretsCredentialBoundaryMapHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeSecretsCredentialRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (secretsCredentialBoundaryMapHasPresentFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function secretsCredentialBoundaryMapEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function secretsCredentialBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function secretsCredentialBoundaryMapEntryIssue(entries, predicate) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function secretsCredentialBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    SECRETS_CREDENTIAL_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function secretsCredentialBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.credentialSubjectExpectation !== "string" ||
+    typeof entry.secretSourceProvenanceExpectation !== "string" ||
+    typeof entry.rotationRevocationExpectation !== "string" ||
+    typeof entry.storageNonStorageExpectation !== "string" ||
+    typeof entry.redactionExpectation !== "string" ||
+    typeof entry.auditExpectation !== "string" ||
+    typeof entry.leastPrivilegeExpectation !== "string" ||
+    typeof entry.localOnlyCloudOptInExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.multiverseRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    typeof entry.secureDropRoleDescription !== "string" ||
+    typeof entry.matrixGatewayRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(entry.unsafeSecretsCredentialRuntimeFlags) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function secretsCredentialBoundaryMapAuthorizationFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    SECRETS_CREDENTIAL_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function secretsCredentialBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.unsafeSecretsCredentialRuntimeFlags) &&
+      Object.values(value.unsafeSecretsCredentialRuntimeFlags).some(
+        (flag) => flag !== false
+      )) ||
+    secretsCredentialBoundaryMapHasTrueFieldDeep(
+      value,
+      SECRETS_CREDENTIAL_UNSAFE_FIELDS
+    )
+  );
+}
+
+function secretsCredentialBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(secretsCredentialBoundaryMapEntries())
+  );
+}
+
+function secretsCredentialBoundaryMapInputClassification(inputRecord) {
+  if (secretsCredentialBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries = secretsCredentialBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    secretsCredentialBoundaryMapEntryIssue(
+      entries,
+      secretsCredentialBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_secrets_management_key_rotation_external_gateway_credential_boundary_entry_rejected";
+  }
+
+  if (
+    secretsCredentialBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !SECRETS_CREDENTIAL_BOUNDARY_FAMILIES.includes(entry.boundaryFamily)
+    )
+  ) {
+    return "unknown_boundary_family_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (
+    secretsCredentialBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !SECRETS_CREDENTIAL_RELATED_SYSTEMS.includes(entry.relatedSystem)
+    )
+  ) {
+    return "unknown_related_system_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (
+    secretsCredentialBoundaryMapEntryIssue(
+      entries,
+      (entry) => !SECRETS_CREDENTIAL_STATUSES.includes(entry.currentStatus)
+    )
+  ) {
+    return "unknown_current_status_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (
+    secretsCredentialBoundaryMapEntryIssue(
+      entries,
+      secretsCredentialBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    secretsCredentialBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "runtimeAuthorized",
+      "authorizesRuntime"
+    ])
+  ) {
+    return "runtime_authorization_attempt_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (
+    SECRETS_CREDENTIAL_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord?.[field] === true
+    ) ||
+    secretsCredentialBoundaryMapEntryIssue(
+      entries,
+      secretsCredentialBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    secretsCredentialBoundaryMapAuthorizationFlagEnabled(inputRecord)
+  ) {
+    return "authorization_flags_enabled_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (
+    secretsCredentialBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (
+    secretsCredentialBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      SECRETS_CREDENTIAL_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (
+    secretsCredentialBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      SECRETS_CREDENTIAL_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (
+    secretsCredentialBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      SECRETS_CREDENTIAL_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  for (const { classification, fields } of SECRETS_CREDENTIAL_HIDDEN_FIELD_GROUPS) {
+    if (secretsCredentialBoundaryMapHasPresentFieldDeep(inputRecord, fields)) {
+      return classification;
+    }
+  }
+
+  if (
+    secretsCredentialBoundaryMapUnsafeFlagEnabled(inputRecord) ||
+    secretsCredentialBoundaryMapEntryIssue(
+      entries,
+      secretsCredentialBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_secrets_management_key_rotation_external_gateway_credential_runtime_flags_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (
+    secretsCredentialBoundaryMapEntryIssue(entries, (entry) =>
+      secretsCredentialBoundaryMapContainsTrue(entry?.runtimeEffect)
+    ) ||
+    secretsCredentialBoundaryMapContainsTrue(inputRecord?.runtimeEffect)
+  ) {
+    return "nested_unsafe_flags_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord ?? {}).some(
+      (field) => !SECRETS_CREDENTIAL_ALLOWED_TOP_LEVEL_FIELDS.includes(field)
+    )
+  ) {
+    return "unknown_top_level_field_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  if (!secretsCredentialBoundaryMapCanonical(entries)) {
+    return "noncanonical_secrets_management_key_rotation_external_gateway_credential_boundary_map_input_rejected";
+  }
+
+  return VALID_SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function secretsCredentialBoundaryMapForbiddenBehavior() {
+  return [
+    "secret store, vault access, env ingestion, keyring, DID runtime, token loader, OAuth flow, session handling, credential scanner runtime, secret scanner runtime, rotation job, revocation job, credential export, secret persistence, or redaction runtime",
+    "Matrix client, HiClaw-style gateway client, homeserver access, room join, message ingestion/export, access-token handling, refresh-token handling, E2EE key/session handling, or gateway rate-limit runtime",
+    "external gateway client for Telegram, Discord, Slack, Signal, WhatsApp, Home Assistant, or similar services",
+    "MCP connector, MCP server credential handling, plugin credential handling, provider credential handling, SkillHub install/trust scanner runtime, tool registry, or connector grant",
+    "Fabric bus, websocket/http transport, MCP exposure, task execution, Secure Drop implementation, Secure Drop crypto, keyring/DID implementation, ST3GG wrapping, or file selection",
+    "Hermes runtime, CUA driver install/update/runtime, CUA manifest discovery, CUA MCP stdio invocation, computer-use screenshots, OCR, accessibility-tree access, UI element/SOM runtime, input automation, or approval runtime",
+    "encoded handoff runtime, codec, translator, encoder, decoder, conlang generator, stego, covert channel, tokenizer exploit, bypass, or hidden payload",
+    "shell runtime, process spawning, PATH lookup, executable lookup, command execution, pipes, redirection, job control, command history, or filesystem shell behavior",
+    "SQLite runtime, embedded DB file parsing, SQL parser, B-tree traversal, query execution, index scan, WAL, transaction, or DB storage behavior",
+    "backend middleware, API/server behavior, database client, storage adapter, cache engine, RLS runtime, migration, logger runtime, audit writer, transcript writer, telemetry client, external sink, health check, backup job, restore job, failover runtime, infrastructure/deployment/compliance automation, PII processing, retention/export job, testing/CI/release automation, filesystem write, process control, UI behavior, command exposure, or blocked CLI bypass"
+  ];
+}
+
+function secretsCredentialBoundaryMapAuthorizationFlags() {
+  return Object.fromEntries(
+    SECRETS_CREDENTIAL_AUTHORIZATION_FIELDS.map((field) => [field, false])
+  );
+}
+
+function secretsCredentialBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    SECRETS_CREDENTIAL_UNSAFE_FIELDS.map((field) => [field, false])
+  );
+}
+
+function secretsCredentialBoundaryMapNotes() {
+  return {
+    locus:
+      "Locus may later display local-only sensitive-context and gateway credential status after a separate Locus-owned contract; Ardyn creates no Locus bridge, UI, token loader, scanner, approval runtime, or external harness integration.",
+    multiverse:
+      "Multiverse may later consume credential-boundary metadata after a separate Multiverse-owned contract; Ardyn creates no cross-harness communication, registry, connector grant, task execution, or external gateway integration.",
+    fabric:
+      "Content Fabric remains the canonical owner for Fabric coordination-envelope and Secure Drop implementation boundaries; Ardyn creates no Fabric bus, websocket/http transport, MCP exposure, task runtime, Secure Drop crypto, keyring, DID runtime, or ST3GG wrapping.",
+    secureDrop:
+      "Secure Drop recipient identity, keyring, DID, crypto, transport, stego, send/receive, inbox polling, and file-selection behavior remain canonical to content-fabric and are metadata-only in Ardyn.",
+    matrixGateway:
+      "Matrix/HiClaw-style gateway support is a future external gateway contract only; Ardyn creates no Matrix client, homeserver connection, room access, device identity, token loader, E2EE key/session handling, ingestion/export, rate-limit runtime, or audit/consent runtime."
+  };
+}
+
+function secretsCredentialBoundaryMapDefinition(definition) {
+  const notes = secretsCredentialBoundaryMapNotes();
+  const subject = definition.subject;
+
+  return {
+    ...definition,
+    credentialSubjectExpectation:
+      `Future ${subject} credentials must name the exact actor, system, room, device, provider, recipient, command surface, DB file, or external harness subject before implementation.`,
+    secretSourceProvenanceExpectation:
+      `Future ${subject} secrets must record source, owner, consent, provenance, issuance time, non-secret evidence pointer, and revocation authority without storing secret values in Ardyn metadata.`,
+    rotationRevocationExpectation:
+      `Future ${subject} rotation and revocation must define owner, cadence, trigger, revocation proof, break-glass process, stale-token handling, and deny-by-default behavior before any job exists.`,
+    storageNonStorageExpectation:
+      `Current ${subject} behavior is non-storage metadata only. A future implementation must define whether storage is prohibited, local-only, encrypted, keyring-backed, or external-vault-backed before any read/write path.`,
+    redactionExpectation:
+      `Future ${subject} reports, logs, transcripts, audit metadata, error reports, and external-harness handoffs must redact secrets and credential-shaped data before any sink or writer exists.`,
+    auditExpectation:
+      `Future ${subject} audit evidence must prove authorization, least privilege, consent, rotation, revocation, redaction, and local/cloud boundary decisions without exposing credentials.`,
+    leastPrivilegeExpectation:
+      `Future ${subject} credentials must be scoped to the minimum provider, room, device, command, file, database, task, or gateway permission needed, with deny-path behavior specified first.`,
+    localOnlyCloudOptInExpectation:
+      `Sensitive ${subject} context remains local-only unless a future phase defines explicit cloud opt-in, operator consent, credential scope, export limits, and revocation proof.`,
+    locusRoleDescription: definition.locusRoleDescription ?? notes.locus,
+    multiverseRoleDescription:
+      definition.multiverseRoleDescription ?? notes.multiverse,
+    fabricRoleDescription: definition.fabricRoleDescription ?? notes.fabric,
+    secureDropRoleDescription:
+      definition.secureDropRoleDescription ?? notes.secureDrop,
+    matrixGatewayRoleDescription:
+      definition.matrixGatewayRoleDescription ?? notes.matrixGateway,
+    allowedCurrentBehavior: [
+      `Describe ${subject} secrets-management/key-rotation boundary metadata.`,
+      "Reference prior Phase 5 boundary artifacts as review-only metadata.",
+      "Keep all credential values absent and keep current behavior review-only, metadata-only, non-authorizing, and runtime-blocked."
+    ],
+    forbiddenCurrentBehavior: secretsCredentialBoundaryMapForbiddenBehavior(),
+    requiredFutureContractBeforeImplementation:
+      `A future ${subject} contract must define credential subject, source/provenance, authorization owner, storage/non-storage rule, redaction, audit evidence, rotation/revocation, least privilege, local-only/cloud opt-in, deny-path semantics, and explicit no-runtime defaults before implementation.`,
+    requiredFutureAuthorizationPhaseBeforeRuntime:
+      `Requires a future explicit authorization phase before any ${subject} secret store, env ingestion, vault access, keyring/DID runtime, token loader, OAuth/session handling, credential scanner, secret scanner, rotation/revocation job, credential export, secret persistence, redaction runtime, Matrix/external gateway, E2EE key handling, MCP/plugin/provider credential path, Secure Drop/Fabric runtime, Hermes/CUA/computer-use runtime, shell runtime, SQLite runtime, backend/API/server behavior, storage write, logger/audit/telemetry, health check, infrastructure, deployment, compliance, testing/CI/release automation, filesystem, process, UI, command, or encoded-handoff behavior.`
+  };
+}
+
+function secretsCredentialBoundaryMapDefinitions() {
+  const notes = secretsCredentialBoundaryMapNotes();
+  const rows = [
+    [
+      "phase5-72.ardyn.secret_management.contract_boundary",
+      "secret_management_contract",
+      "ardyn",
+      "future_contract_required",
+      "secret-management contract boundary"
+    ],
+    [
+      "phase5-72.ardyn.key_rotation.revocation_contract_boundary",
+      "key_rotation_contract",
+      "ardyn",
+      "future_contract_required",
+      "key rotation and revocation evidence boundary"
+    ],
+    [
+      "phase5-72.repo_family.credential_provenance.inventory_boundary",
+      "credential_provenance_contract",
+      "repo-family",
+      "metadata_only",
+      "credential provenance and provider inventory boundary"
+    ],
+    [
+      "phase5-72.ardyn.env_secret.non_ingestion_boundary",
+      "env_secret_boundary",
+      "ardyn",
+      "blocked",
+      "environment secret non-ingestion boundary"
+    ],
+    [
+      "phase5-72.external_harness.vault_access.non_access_boundary",
+      "vault_access_boundary",
+      "external-harness",
+      "blocked",
+      "vault access non-access boundary"
+    ],
+    [
+      "phase5-72.external_harness.api_key.provider_boundary",
+      "api_key_boundary",
+      "external-harness",
+      "future_contract_required",
+      "API key and provider credential boundary"
+    ],
+    [
+      "phase5-72.external_harness.oauth_token.boundary",
+      "oauth_token_boundary",
+      "external-harness",
+      "future_contract_required",
+      "OAuth access and refresh token boundary"
+    ],
+    [
+      "phase5-72.ardyn.session_token.boundary",
+      "session_token_boundary",
+      "ardyn",
+      "blocked",
+      "session token and cookie boundary"
+    ],
+    [
+      "phase5-72.external_harness.provider_credential.inventory_boundary",
+      "provider_credential_boundary",
+      "external-harness",
+      "future_contract_required",
+      "provider credential inventory boundary"
+    ],
+    [
+      "phase5-72.external_harness.mcp_server_credential.boundary",
+      "mcp_credential_boundary",
+      "external-harness",
+      "blocked",
+      "MCP server credential boundary"
+    ],
+    [
+      "phase5-72.repo_family.plugin_tool_provider_credential.boundary",
+      "plugin_credential_boundary",
+      "repo-family",
+      "blocked",
+      "plugin, tool, and provider credential boundary"
+    ],
+    [
+      "phase5-72.ardyn_subagent.skillhub_trust.provenance_boundary",
+      "skillhub_trust_boundary",
+      "ardyn-subagent",
+      "future_contract_required",
+      "SkillHub install trust and provenance boundary"
+    ],
+    [
+      "phase5-72.matrix_reference.gateway_credential.boundary",
+      "matrix_gateway_credential_boundary",
+      "matrix-reference",
+      "future_contract_required",
+      "Matrix/HiClaw-style gateway credential boundary"
+    ],
+    [
+      "phase5-72.external_harness.external_gateway_credential.boundary",
+      "external_gateway_credential_boundary",
+      "external-harness",
+      "future_contract_required",
+      "Telegram Discord Slack Signal WhatsApp Home Assistant external gateway credential boundary"
+    ],
+    [
+      "phase5-72.content_fabric.coordination_envelope_secret.boundary",
+      "fabric_secret_boundary",
+      "content-fabric",
+      "future_contract_required",
+      "Fabric coordination-envelope secret boundary"
+    ],
+    [
+      "phase5-72.content_fabric.secure_drop_recipient_key.boundary",
+      "secure_drop_key_boundary",
+      "content-fabric",
+      "future_contract_required",
+      "Secure Drop recipient identity and key boundary"
+    ],
+    [
+      "phase5-72.content_fabric.did_keyring.identity_boundary",
+      "did_keyring_boundary",
+      "content-fabric",
+      "future_contract_required",
+      "DID and keyring identity boundary"
+    ],
+    [
+      "phase5-72.cua_driver_reference.driver_trust.boundary",
+      "cua_driver_trust_boundary",
+      "cua-driver-reference",
+      "blocked",
+      "CUA driver provenance, version trust, and telemetry opt-in boundary"
+    ],
+    [
+      "phase5-72.hermes_reference.computer_use_permission_secret.boundary",
+      "computer_use_permission_secret_boundary",
+      "hermes-reference",
+      "blocked",
+      "computer-use permission secret and operator consent boundary"
+    ],
+    [
+      "phase5-72.multiverse.encoded_handoff_protocol_identity.boundary",
+      "encoded_handoff_secret_boundary",
+      "multiverse",
+      "future_contract_required",
+      "encoded handoff protocol and spec identity secret boundary"
+    ],
+    [
+      "phase5-72.external_harness.secret_scanning_evidence.boundary",
+      "secret_scanning_contract",
+      "external-harness",
+      "metadata_only",
+      "secret scanning evidence boundary without scanner automation"
+    ],
+    [
+      "phase5-72.locus.redaction_sensitive_context.boundary",
+      "secret_redaction_contract",
+      "locus",
+      "metadata_only",
+      "redaction boundary for reports logs audit metadata transcripts and error reports"
+    ],
+    [
+      "phase5-72.repo_family.secret_audit.evidence_boundary",
+      "secret_audit_contract",
+      "repo-family",
+      "metadata_only",
+      "secret audit and credential evidence boundary"
+    ],
+    [
+      "phase5-72.codecrafters_shell_reference.command_surface_secret.boundary",
+      "env_secret_boundary",
+      "codecrafters-shell-reference",
+      "future_contract_required",
+      "future shell primitive PATH env executable lookup and shell history secrets boundary"
+    ],
+    [
+      "phase5-72.codecrafters_sqlite_reference.embedded_db_secret.boundary",
+      "secret_management_contract",
+      "codecrafters-sqlite-reference",
+      "future_contract_required",
+      "future SQLite embedded DB file key credential and query-engine boundary"
+    ]
+  ];
+
+  return rows.map(
+    ([boundaryId, boundaryFamily, relatedSystem, currentStatus, subject]) =>
+      secretsCredentialBoundaryMapDefinition({
+        boundaryId,
+        boundaryFamily,
+        relatedSystem,
+        currentStatus,
+        subject,
+        locusRoleDescription:
+          relatedSystem === "locus"
+            ? "Locus may later display local-only redaction and sensitive-context status after a separate Locus contract; Ardyn creates no UI, bridge, token loader, scanner, or cloud export."
+            : notes.locus,
+        multiverseRoleDescription:
+          relatedSystem === "multiverse"
+            ? "Multiverse may later consume encoded-handoff identity and credential-boundary metadata after a separate Multiverse contract; Ardyn creates no cross-harness communication or runtime."
+            : notes.multiverse,
+        fabricRoleDescription:
+          relatedSystem === "content-fabric"
+            ? notes.fabric
+            : notes.fabric,
+        secureDropRoleDescription:
+          relatedSystem === "content-fabric"
+            ? notes.secureDrop
+            : notes.secureDrop,
+        matrixGatewayRoleDescription:
+          relatedSystem === "matrix-reference"
+            ? "Matrix/HiClaw-style gateway metadata must define homeserver URL, room allowlist, user/device identity, access-token and refresh-token handling, E2EE key/session handling, ingestion/export permissions, rate-limit/abuse controls, audit/consent, and Locus-visible status before any runtime."
+            : notes.matrixGateway
+      })
+  );
+}
+
+function secretsCredentialBoundaryMapEntry(definition) {
+  return {
+    ...definition,
+    productionReadinessAreaReference: {
+      phase: "5.48",
+      areaNumber: 18,
+      areaName: "Secrets Management",
+      sourceFixture:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      sourceStatus: "deferred",
+      representedByPhase572: true,
+      authorizesRuntime: false
+    },
+    matrixGatewayCredentialExpectation: {
+      homeserverUrl: "future contract required, no URL loaded",
+      roomAllowlist: "future contract required, no room joined",
+      userDeviceIdentity: "future contract required, no identity loaded",
+      accessRefreshTokenHandling: "future contract required, no token loader",
+      e2eeKeySessionHandling: "future contract required, no E2EE runtime",
+      messageIngestionExportPermissions:
+        "future contract required, no ingestion or export",
+      rateLimitAbuseBoundary: "future contract required, no gateway runtime",
+      auditConsentBoundary: "future contract required, no audit writer",
+      locusVisibleStatusBoundary: "future contract required, no Locus bridge"
+    },
+    externalGatewayCredentialExpectation: {
+      telegram: "future metadata only",
+      discord: "future metadata only",
+      slack: "future metadata only",
+      signal: "future metadata only",
+      whatsapp: "future metadata only",
+      homeAssistant: "future metadata only",
+      runtimeImplemented: false
+    },
+    primitiveReferenceExpectation: {
+      shellPathEnvExecutableHistoryRuntime: false,
+      sqliteEmbeddedDbQueryKeyRuntime: false,
+      referencesAreMetadataOnly: true
+    },
+    phase560EncodedHandoffReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      runtimeAuthorized: false
+    },
+    phase562AuthPermissionsReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      runtimeAuthorized: false
+    },
+    phase563SecurityRlsInputSanitizationReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      runtimeAuthorized: false
+    },
+    phase565ErrorTrackingLoggingAuditIntegrityReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      runtimeAuthorized: false
+    },
+    phase568AgentModeProfileSkillhubReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-68/agent-mode-profile-skillhub-capability-boundary-map.json",
+      runtimeAuthorized: false
+    },
+    phase571MaintenanceGovernanceReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-71/maintenance-governance-adr-dependency-policy-contract-boundary-map.json",
+      runtimeAuthorized: false
+    },
+    secretsCredentialBoundaryMetadataOnly: true,
+    noLiveSecretsCredentialRuntimePerformed: true,
+    explicitBlockedAuthorizationFlags:
+      secretsCredentialBoundaryMapAuthorizationFlags(),
+    unsafeSecretsCredentialRuntimeFlags:
+      secretsCredentialBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function secretsCredentialBoundaryMapEntries() {
+  return secretsCredentialBoundaryMapDefinitions().map(
+    secretsCredentialBoundaryMapEntry
+  );
+}
+
+function secretsCredentialBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    SECRETS_CREDENTIAL_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    SECRETS_CREDENTIAL_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+  const countByStatus = Object.fromEntries(
+    SECRETS_CREDENTIAL_STATUSES.map((status) => [
+      status,
+      entries.filter((entry) => entry.currentStatus === status).length
+    ])
+  );
+  const allBlockedAuthorizationFlagsFalse = entries.every((entry) =>
+    Object.values(entry.explicitBlockedAuthorizationFlags).every(
+      (value) => value === false
+    )
+  );
+  const allUnsafeSecretsCredentialRuntimeFlagsFalse = entries.every((entry) =>
+    Object.values(entry.unsafeSecretsCredentialRuntimeFlags).every(
+      (value) => value === false
+    )
+  );
+  const allRuntimeEffectsFalse = entries.every((entry) =>
+    Object.values(entry.runtimeEffect).every((value) => value === false)
+  );
+
+  return {
+    boundaryMapKind:
+      SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    boundaryFamilies: [...SECRETS_CREDENTIAL_BOUNDARY_FAMILIES],
+    relatedSystems: [...SECRETS_CREDENTIAL_RELATED_SYSTEMS],
+    currentStatusValues: [...SECRETS_CREDENTIAL_STATUSES],
+    phase548SecretsManagementCoverageItemRepresented: true,
+    secretsCredentialBoundaryMetadataOnly: true,
+    noLiveSecretsCredentialRuntimePerformed: true,
+    envSecretsVaultBoundaryRecorded: true,
+    apiKeyProviderCredentialBoundaryRecorded: true,
+    oauthSessionTokenBoundaryRecorded: true,
+    mcpPluginProviderCredentialBoundaryRecorded: true,
+    skillhubTrustProvenanceBoundaryRecorded: true,
+    matrixGatewayCredentialBoundaryRecorded: true,
+    externalGatewayCredentialBoundaryRecorded: true,
+    fabricCoordinationEnvelopeSecretBoundaryRecorded: true,
+    secureDropRecipientIdentityKeyringDidBoundaryRecorded: true,
+    encodedHandoffProtocolIdentityBoundaryRecorded: true,
+    hermesCuaDriverTrustBoundaryRecorded: true,
+    computerUsePermissionSecretBoundaryRecorded: true,
+    shellPrimitiveSecretBoundaryRecorded: true,
+    sqlitePrimitiveSecretBoundaryRecorded: true,
+    secretScanningEvidenceBoundaryRecorded: true,
+    rotationRevocationEvidenceBoundaryRecorded: true,
+    redactionAuditBoundaryRecorded: true,
+    localOnlyCloudOptInBoundaryRecorded: true,
+    noSecretStore: true,
+    noEnvIngestion: true,
+    noVaultAccess: true,
+    noKeyringDidRuntime: true,
+    noTokenLoaderOauthSessionHandling: true,
+    noCredentialScannerSecretScannerRuntime: true,
+    noRotationRevocationJobs: true,
+    noCredentialExportSecretPersistence: true,
+    noRedactionRuntime: true,
+    noMatrixGatewayE2eeKeyHandling: true,
+    noExternalGatewayRuntime: true,
+    noMcpPluginProviderCredentialsRuntime: true,
+    noSecureDropFabricRuntime: true,
+    noHermesCuaComputerUseRuntime: true,
+    noShellRuntime: true,
+    noSqliteRuntime: true,
+    noBackendApiServerDatabaseStorageCacheRlsMigration: true,
+    noTranscriptAuditTelemetryLoggerHealthRuntime: true,
+    noInfrastructureDeploymentComplianceAutomation: true,
+    noTestingCiReleaseAutomation: true,
+    noFilesystemProcessUiRuntime: true,
+    noCommandExposure: true,
+    noBlockedCliBypass: true,
+    allBlockedAuthorizationFlagsFalse,
+    allUnsafeSecretsCredentialRuntimeFlagsFalse,
+    allRuntimeEffectsFalse,
+    allEntriesNonAuthorizing: entries.every(
+      (entry) => entry.nonAuthorizingProof === true
+    )
+  };
+}
+
+function secretsCredentialBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    enabledEnvSecretVaultAccessFailClosed: true,
+    enabledKeyringDidTokenOauthSessionFailClosed: true,
+    enabledCredentialScannerSecretScannerRotationRevocationFailClosed: true,
+    enabledCredentialExportSecretPersistenceRedactionRuntimeFailClosed: true,
+    enabledMatrixGatewayE2eeExternalGatewayFailClosed: true,
+    enabledMcpPluginProviderCredentialRuntimeFailClosed: true,
+    enabledSkillhubTrustScannerRuntimeFailClosed: true,
+    enabledHermesCuaComputerUseRuntimeFailClosed: true,
+    enabledShellPathExecutableEnvHistoryRuntimeFailClosed: true,
+    enabledSqliteEmbeddedDbQueryKeyRuntimeFailClosed: true,
+    hiddenSecretEnvVaultAccessSemanticsFailClosed: true,
+    hiddenApiKeyTokenOauthSessionSemanticsFailClosed: true,
+    hiddenMatrixGatewayCredentialRuntimeSemanticsFailClosed: true,
+    hiddenE2eeKeySessionHandlingSemanticsFailClosed: true,
+    hiddenMcpPluginProviderCredentialRuntimeSemanticsFailClosed: true,
+    hiddenSkillhubInstallTrustScannerRuntimeSemanticsFailClosed: true,
+    hiddenSecretScannerRotationRedactionRuntimeSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationKeyringDidSemanticsFailClosed: true,
+    hiddenEncodedHandoffRuntimeCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+      true,
+    hiddenHermesCuaComputerUseRuntimeSemanticsFailClosed: true,
+    hiddenShellPathExecutableEnvHistoryRuntimeSemanticsFailClosed: true,
+    hiddenSqliteEmbeddedDbQueryKeyRuntimeSemanticsFailClosed: true,
+    hiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenInfrastructureDeploymentCompliancePiiRetentionExportSemanticsFailClosed:
+      true,
+    hiddenTestingCiReleaseAutomationSemanticsFailClosed: true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationRunsSecretsCredentialRuntime: false,
+    validationLoadsSecrets: false,
+    validationRequestsVaultAccess: false,
+    validationRunsSecretScanner: false,
+    validationRunsRotationJob: false,
+    validationConnectsMatrixGateway: false,
+    validationRunsShellRuntime: false,
+    validationRunsSqliteRuntime: false,
+    validationRequestsJules: false
+  };
+}
+
+function secretsCredentialBoundaryMapGaps() {
+  return [
+    "Future secrets management still needs explicit secret-store, env-ingestion, vault-access, keyring/DID, token-loader, OAuth/session, storage/non-storage, and redaction contracts before runtime.",
+    "Future Matrix/HiClaw-style gateway work still needs homeserver URL, room allowlist, user/device identity, token, E2EE key/session, ingestion/export, rate-limit/abuse, audit/consent, and Locus-visible status contracts.",
+    "Future shell and SQLite primitive work remains reference-only and still needs PATH/env/executable/history and DB file/key/query-engine boundaries before any runtime.",
+    "Future Fabric coordination-envelope and Secure Drop recipient identity/keyring/DID work remains canonical to content-fabric and requires separate authorization before Ardyn can integrate.",
+    "Future Code Mode, Fabric, API/backend, provider/MCP/plugin credentials, scanner evidence, rotation evidence, and local-only/cloud opt-in boundaries remain metadata-only until a separate runtime phase."
+  ];
+}
+
+function secretsCredentialBoundaryMapState(reviewedAt) {
+  const boundaryEntries = secretsCredentialBoundaryMapEntries();
+
+  return {
+    schema:
+      SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion:
+      SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_VERSION,
+    stateKind:
+      SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase548ProductionReadinessCoverageMatrix:
+        "tests/fixtures/host-policy/phase5-48/production-readiness-coverage-matrix.json",
+      phase548SecretsManagementAreaNumber: 18,
+      phase548SecretsManagementStatus: "deferred",
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase560InterAgentEncodedHandoffConformance:
+        "tests/fixtures/host-policy/phase5-60/inter-agent-encoded-handoff-conformance.json",
+      phase561DatabaseStorageContractBoundary:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      phase563SecurityRlsInputSanitizationContractBoundary:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      phase565ErrorTrackingLoggingAuditIntegrityContractBoundary:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      phase567InfrastructureComplianceDataRetentionBoundary:
+        "tests/fixtures/host-policy/phase5-67/infrastructure-compliance-data-retention-contract-boundary-map.json",
+      phase568AgentModeProfileSkillhubCapabilityBoundary:
+        "tests/fixtures/host-policy/phase5-68/agent-mode-profile-skillhub-capability-boundary-map.json",
+      phase571MaintenanceGovernanceBoundary:
+        "tests/fixtures/host-policy/phase5-71/maintenance-governance-adr-dependency-policy-contract-boundary-map.json",
+      secretsManagementCoverageItemRepresented: true,
+      productionReadinessSecretsManagementItemDeferred: true,
+      noSecretStoreImplemented: true,
+      noEnvIngestionVaultAccessImplemented: true,
+      noKeyringDidTokenOauthSessionImplemented: true,
+      noCredentialScannerSecretScannerRotationRevocationImplemented: true,
+      noMatrixExternalGatewayImplemented: true,
+      noShellSqliteRuntimeImplemented: true,
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      secretsCredentialBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      secretsCredentialBoundaryMapValidationRules(),
+    topSecretsMatrixShellSqliteCodeModeFabricApiBackendGaps:
+      secretsCredentialBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.73-review-only-external-gateway-matrix-transport-contract-boundary-map",
+    secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...secretsCredentialBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function secretsCredentialBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+}) {
+  return {
+    schema:
+      SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_SCHEMA,
+    schemaVersion:
+      SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_VERSION,
+    secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapKind:
+      SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_KIND,
+    secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapMode:
+      "review-only",
+    reviewedAt,
+    classification,
+    secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapProduced:
+      accepted,
+    secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap,
+    boundaryMapSummary: accepted
+      ? secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .invalidBoundaryCasePolicy
+      : secretsCredentialBoundaryMapValidationRules(),
+    topSecretsMatrixShellSqliteCodeModeFabricApiBackendGaps: accepted
+      ? secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .topSecretsMatrixShellSqliteCodeModeFabricApiBackendGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
+          .recommendedNextPhase
+      : null,
+    secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...secretsCredentialBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            secretsCredentialRuntimeAuthorized: false,
+            secretStoreAuthorized: false,
+            envIngestionAuthorized: false,
+            vaultAccessAuthorized: false,
+            keyringDidAuthorized: false,
+            tokenOauthSessionAuthorized: false,
+            matrixGatewayAuthorized: false,
+            externalGatewayAuthorized: false,
+            shellRuntimeAuthorized: false,
+            sqliteRuntimeAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createSecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord = secretsCredentialBoundaryMapInputRecord(input);
+  const reviewedAt = secretsCredentialBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    secretsCredentialBoundaryMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_CLASSIFICATION;
+  const secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap =
+    accepted ? secretsCredentialBoundaryMapState(reviewedAt) : null;
+
+  return secretsCredentialBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
   });
 }
 
