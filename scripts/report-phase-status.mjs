@@ -347,6 +347,10 @@ const phase573ExternalGatewayMatrixTransportContractBoundaryMap =
 const phase574CommandSurfaceShellPrimitiveContractBoundaryMap = await readJson(
   "tests/fixtures/host-policy/phase5-74/command-surface-shell-primitive-contract-boundary-map.json"
 );
+const phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate =
+  await readJson(
+    "tests/fixtures/host-policy/phase5-75/fabric-core-consumer-integration-readiness-boundary-update.json"
+  );
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -2743,14 +2747,172 @@ const phase574SafetyFlags = {
   phase574FabricSourceChanged: false
 };
 
+const phase575SafetyFlags = {
+  phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateRecorded: true,
+  phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateReviewOnly: true,
+  phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateAuthoritative:
+    false,
+  phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateProduced: true,
+  phase575BoundaryEntriesRecorded: true,
+  phase575FabricCoreConsumerReadinessBoundaryMetadataOnly: true,
+  phase575NoLiveFabricCoreConsumerIntegrationRuntimePerformed: true,
+  phase575ProducerReadyConsumerPendingRecorded: true,
+  phase575FabricCoreJsTsNpmConsumerBoundaryRecorded: true,
+  phase575FabricTransportDSidecarConsumerBoundaryRecorded: true,
+  phase575SidecarBearerTokenBoundaryRecorded: true,
+  phase575LoopbackHttpBoundaryRecorded: true,
+  phase575ContentIdReverificationBoundaryRecorded: true,
+  phase575LargePayloadTodoBoundaryRecorded: true,
+  phase575ExistingPointToPointTransportHoldRecorded: true,
+  phase575DedicatedConsumerPromptRequiredRecorded: true,
+  phase575NoReimplementationBoundaryRecorded: true,
+  phase575NoP2pDependencyBoundaryRecorded: true,
+  phase575LocusByteInteropBoundaryRecorded: true,
+  phase575SecurityReviewedProducerDependencyRecorded: true,
+  phase575SecureDropRelationBoundaryRecorded: true,
+  phase575NoFabricCoreImport: true,
+  phase575NoFabricTransportDSidecarClient: true,
+  phase575NoLoopbackHttpClient: true,
+  phase575NoBearerTokenLoader: true,
+  phase575NoContentIdHashingVerificationRuntime: true,
+  phase575NoContentAddressedChunkedResumableMultiSourceTransfer: true,
+  phase575NoBitTorrentDhtSwarmP2pBehavior: true,
+  phase575NoLargePayloadTransferRuntime: true,
+  phase575NoPackageJsonDependencyChange: true,
+  phase575NoRustSidecarClient: true,
+  phase575NoFabricCoreProducerBehavior: true,
+  phase575NoSecureDropImplementation: true,
+  phase575NoMatrixGatewayRuntime: true,
+  phase575NoShellCommandRuntime: true,
+  phase575NoSqliteRuntime: true,
+  phase575NoBackendApiServerDatabaseStorageCacheRlsMigration: true,
+  phase575NoEncodedHandoffRuntimeCodecTranslator: true,
+  phase575NoLoggerAuditTelemetryHealthRuntime: true,
+  phase575NoInfrastructureDeploymentComplianceAutomation: true,
+  phase575NoTestingCiReleaseAutomation: true,
+  phase575NoFilesystemProcessUiRuntime: true,
+  phase575NoCommandExposure: true,
+  phase575NoBlockedCliBypass: true,
+  phase575AllBlockedAuthorizationFlagsFalse: true,
+  phase575AllUnsafeFabricCoreConsumerReadinessRuntimeFlagsFalse: true,
+  phase575AllRuntimeEffectsFalse: true,
+  phase575AllEntriesNonAuthorizing: true,
+  phase575InvalidFabricCoreConsumerBoundaryCasesFailClosed: true,
+  phase575MissingRequiredFieldsFailClosed: true,
+  phase575UnknownTopLevelFieldsFailClosed: true,
+  phase575UnknownBoundaryFamiliesFailClosed: true,
+  phase575UnknownRelatedSystemsFailClosed: true,
+  phase575UnknownCurrentStatusesFailClosed: true,
+  phase575HiddenFabricCoreImportSemanticsFailClosed: true,
+  phase575HiddenSidecarHttpBearerTokenSemanticsFailClosed: true,
+  phase575HiddenHashingContentIdVerificationSemanticsFailClosed: true,
+  phase575HiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed:
+    true,
+  phase575HiddenLargePayloadMovementSemanticsFailClosed: true,
+  phase575HiddenFilesystemScanningFileSelectionSemanticsFailClosed: true,
+  phase575HiddenBackendApiServerSemanticsFailClosed: true,
+  phase575HiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+  phase575HiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+  phase575HiddenConnectorGrantSemanticsFailClosed: true,
+  phase575HiddenMatrixGatewayRuntimeSemanticsFailClosed: true,
+  phase575HiddenShellCommandRuntimeSemanticsFailClosed: true,
+  phase575HiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed: true,
+  phase575HiddenEncodedHandoffRuntimeCodecTranslatorSemanticsFailClosed: true,
+  phase575ServeRuntimeStillDefaultBlocked: true,
+  phase575FallowRuntimeUsed: false,
+  phase575ReportRunsChecks: false,
+  phase575RuntimeExecutionEnabled: false,
+  phase575RuntimeAuthorizationEnabled: false,
+  phase575RuntimeCommandEnabled: false,
+  phase575CommandExposureEnabled: false,
+  phase575BlockedCliBypassEnabled: false,
+  phase575ConnectorGrantProduced: false,
+  phase575FabricRuntimeImplementedByArdyn: false,
+  phase575WebsocketHttpTransportImplementedByArdyn: false,
+  phase575HttpTransportImplementedByArdyn: false,
+  phase575McpRuntimeEnabled: false,
+  phase575McpToolExposureEnabled: false,
+  phase575TaskExecutionEnabled: false,
+  phase575SecureDropImplemented: false,
+  phase575ServiceDiscoveryEnabled: false,
+  phase575ScheduleEnforcementEnabled: false,
+  phase575SchedulePollingEnabled: false,
+  phase575FilesystemWriteEnabled: false,
+  phase575FilesystemScanningEnabled: false,
+  phase575FileSelectionRuntimeEnabled: false,
+  phase575ProcessControlEnabled: false,
+  phase575MultiverseFabricCoreImportEnabled: false,
+  phase575FabricCoreNpmDependencyEnabled: false,
+  phase575FabricTransportDSidecarClientEnabled: false,
+  phase575LoopbackHttpClientEnabled: false,
+  phase575BearerTokenLoaderEnabled: false,
+  phase575ContentIdVerificationRuntimeEnabled: false,
+  phase575ContentIdHashingRuntimeEnabled: false,
+  phase575ContentAddressedTransportEnabled: false,
+  phase575ChunkedTransferEnabled: false,
+  phase575ResumableTransferEnabled: false,
+  phase575MultiSourceTransferEnabled: false,
+  phase575BitTorrentDhtSwarmP2pEnabled: false,
+  phase575LargePayloadTransferRuntimeEnabled: false,
+  phase575PackageJsonDependencyChanged: false,
+  phase575RustSidecarClientEnabled: false,
+  phase575FabricCoreProducerBehaviorEnabled: false,
+  phase575MatrixClientRuntimeEnabled: false,
+  phase575HomeserverConnectionEnabled: false,
+  phase575E2eeKeySessionHandlingEnabled: false,
+  phase575MessagePollingRuntimeEnabled: false,
+  phase575MessageSendingRuntimeEnabled: false,
+  phase575ExternalGatewayRuntimeEnabled: false,
+  phase575ShellRuntimeEnabled: false,
+  phase575CommandRuntimeEnabled: false,
+  phase575SqliteRuntimeEnabled: false,
+  phase575EmbeddedDbRuntimeEnabled: false,
+  phase575QueryEngineRuntimeEnabled: false,
+  phase575BackendRuntimeImplementedByArdyn: false,
+  phase575BackendApiServerMiddlewareImplemented: false,
+  phase575ApiEndpointImplementedByArdyn: false,
+  phase575ServerImplementedByArdyn: false,
+  phase575DatabaseClientImplemented: false,
+  phase575DatabaseStorageRuntimeWritesEnabled: false,
+  phase575CacheEngineImplemented: false,
+  phase575RlsRuntimeImplemented: false,
+  phase575DatabaseMigrationImplemented: false,
+  phase575TranscriptWriterImplemented: false,
+  phase575AuditWriterImplemented: false,
+  phase575ImportExportPathImplementedByArdyn: false,
+  phase575PackageDistributionImplementedByArdyn: false,
+  phase575PersistenceImplementedByArdyn: false,
+  phase575LoggerRuntimeImplemented: false,
+  phase575AuditWriterRuntimeImplemented: false,
+  phase575TelemetryClientImplemented: false,
+  phase575HealthCheckRuntimeImplemented: false,
+  phase575BackupJobImplemented: false,
+  phase575RestoreJobImplemented: false,
+  phase575FailoverRuntimeImplemented: false,
+  phase575InfrastructureAutomationImplemented: false,
+  phase575DeploymentAutomationImplemented: false,
+  phase575ComplianceEnforcementImplemented: false,
+  phase575PiiProcessingImplemented: false,
+  phase575RetentionJobImplemented: false,
+  phase575ExportJobImplemented: false,
+  phase575TestingCiReleaseAutomationEnabled: false,
+  phase575EncodedHandoffRuntimeImplementedByArdyn: false,
+  phase575CodecRuntimeEnabled: false,
+  phase575TranslatorRuntimeEnabled: false,
+  phase575FilesystemProcessRuntimeEnabled: false,
+  phase575CliSourceChanged: false,
+  phase575RustSourceChanged: false,
+  phase575FabricSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.74",
+    id: "5.75",
     name:
-      "Review-only command-surface/shell primitive contract boundary map",
+      "Review-only fabric-core consumer integration readiness boundary update",
     executionPosture:
-      "command-surface-shell-primitive-contract-boundary-map runtime-disabled metadata-only no-shell-runtime no-repl no-command-parser no-tokenizer no-builtin-execution no-path-lookup no-executable-lookup no-external-program-execution no-process-spawn no-stdin-loop no-stdout-stderr-writer no-redirection-pipeline no-completion no-background-job no-job-control no-history-persistence no-env-parameter-expansion no-terminal-backend no-matrix-gateway no-content-addressed-chunked-resumable-p2p-transfer no-sqlite-runtime no-secure-drop-implementation no-fabric-websocket-http-mcp-task-runtime no-backend-api-server-storage no-encoded-handoff-runtime no-hermes-cua-computer-use no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "fabric-core-consumer-integration-readiness-boundary-update runtime-disabled metadata-only producer-ready-consumer-pending no-fabric-core-import no-package-dependency no-fabric-transport-d-sidecar-client no-loopback-http-client no-bearer-token-loader no-content-id-hashing-verification no-content-addressed-chunked-resumable-multi-source-p2p-transfer no-large-payload-transfer no-fabric-core-producer no-secure-drop-implementation no-matrix-gateway no-shell-command-runtime no-sqlite-runtime no-backend-api-server-storage no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -2831,18 +2993,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.74 command-surface/shell primitive contract boundary map status report.",
+        "Render this deterministic local Phase 5.75 fabric-core consumer integration readiness boundary update status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.74 status report.",
+      purpose: "Run focused tests for this local Phase 5.75 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.74 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.75 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-75-fabric-core-consumer-integration-readiness-boundary-update.test.mjs",
+      purpose:
+        "Run focused Phase 5.75 fabric-core consumer integration readiness boundary update and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -31918,6 +32087,356 @@ const report = {
           .blockedCliBypassEnabled
     }
   },
+  phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateInventory: {
+    statusLayer: {
+      schema:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate.schema,
+      schemaVersion:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .schemaVersion,
+      kind:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .fabricCoreConsumerIntegrationReadinessBoundaryUpdateKind,
+      mode:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .fabricCoreConsumerIntegrationReadinessBoundaryUpdateMode,
+      classification:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .classification,
+      produced:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .fabricCoreConsumerIntegrationReadinessBoundaryUpdateProduced,
+      boundaryEntryCount:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .boundaryEntries.length,
+      countByFamily:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .boundaryMapSummary.countByFamily,
+      countByRelatedSystem:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .boundaryMapSummary.countByRelatedSystem,
+      countByStatus:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .boundaryMapSummary.countByStatus,
+      ...phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+        .boundaryMapSummary,
+      reportRunsChecks:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .reportRunsChecks,
+      multiverseFabricCoreImportEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .multiverseFabricCoreImportEnabled,
+      fabricCoreNpmDependencyEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .fabricCoreNpmDependencyEnabled,
+      fabricTransportDSidecarClientEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .fabricTransportDSidecarClientEnabled,
+      loopbackHttpClientEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .loopbackHttpClientEnabled,
+      bearerTokenLoaderEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .bearerTokenLoaderEnabled,
+      contentIdVerificationRuntimeEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .contentIdVerificationRuntimeEnabled,
+      contentIdHashingRuntimeEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .contentIdHashingRuntimeEnabled,
+      contentAddressedTransportEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .contentAddressedTransportEnabled,
+      chunkedTransferEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .chunkedTransferEnabled,
+      resumableTransferEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .resumableTransferEnabled,
+      multiSourceTransferEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .multiSourceTransferEnabled,
+      bittorrentDhtSwarmP2pEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .bittorrentDhtSwarmP2pEnabled,
+      largePayloadTransferRuntimeEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .largePayloadTransferRuntimeEnabled,
+      packageJsonDependencyChanged:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .packageJsonDependencyChanged,
+      rustSidecarClientEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .rustSidecarClientEnabled,
+      fabricCoreProducerBehaviorEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .fabricCoreProducerBehaviorEnabled,
+      secureDropImplemented:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .secureDropImplemented,
+      commandExposureEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .commandExposureEnabled,
+      blockedCliBypassEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .blockedCliBypassEnabled
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-75-fabric-core-consumer-integration-readiness-boundary-update.md",
+        "Records deterministic review-only fabric-core producer-ready, Ardyn-consumer-pending readiness metadata with no import, dependency, sidecar, loopback HTTP, bearer-token, contentId verification, transfer, or runtime behavior."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md",
+        "Provides the command-surface/shell predecessor while Phase 5.75 keeps command and shell runtime blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+        "Provides the external gateway/Matrix and earlier fabric-core future-consumer TODO predecessor updated by Phase 5.75."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+        "Provides the Fabric/API/backend predecessor while Phase 5.75 keeps Fabric, backend, transport, storage, and task runtime blocked."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+      "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+      "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+      "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+      "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md",
+      "docs/phase-5-75-fabric-core-consumer-integration-readiness-boundary-update.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-75/fabric-core-consumer-integration-readiness-boundary-update.json",
+        "Records thirteen metadata-only fabric-core consumer readiness boundary entries with false authorization flags, false unsafe runtime flags, false runtime effects, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-75-fabric-core-consumer-integration-readiness-boundary-update.test.mjs",
+        "Pins the Phase 5.75 helper, deterministic fixture shape, requested boundary families, related systems, status values, producer-ready/consumer-pending shift, fail-closed Fabric consumer cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.75 status inventory, docs cross-links, fixture inventory, validation command list, and runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-75-fabric-core-consumer-integration-readiness-boundary-update.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-75/fabric-core-consumer-integration-readiness-boundary-update.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-75-fabric-core-consumer-integration-readiness-boundary-update.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      packageManifestFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      fabricCoreRepoFilesChanged: [],
+      fabricTransportDSidecarFilesChanged: [],
+      externalRepoFilesChanged: [],
+      fabricCoreImportAddedByThisPhase: false,
+      fabricCorePackageDependencyAddedByThisPhase: false,
+      fabricTransportDSidecarClientAddedByThisPhase: false,
+      loopbackHttpClientAddedByThisPhase: false,
+      bearerTokenLoaderAddedByThisPhase: false,
+      contentIdVerificationRuntimeAddedByThisPhase: false,
+      contentAddressedTransportAddedByThisPhase: false,
+      chunkedTransferAddedByThisPhase: false,
+      resumableTransferAddedByThisPhase: false,
+      multiSourceTransferAddedByThisPhase: false,
+      bittorrentDhtSwarmP2pAddedByThisPhase: false,
+      largePayloadTransferRuntimeAddedByThisPhase: false,
+      rustSidecarClientAddedByThisPhase: false,
+      fabricCoreProducerBehaviorAddedByThisPhase: false,
+      secureDropImplementationAddedByThisPhase: false,
+      matrixGatewayRuntimeAddedByThisPhase: false,
+      shellCommandRuntimeAddedByThisPhase: false,
+      sqliteRuntimeAddedByThisPhase: false,
+      backendApiServerDatabaseStorageCacheAddedByThisPhase: false,
+      encodedHandoffRuntimeAddedByThisPhase: false,
+      loggerAuditTelemetryHealthRuntimeAddedByThisPhase: false,
+      infrastructureDeploymentComplianceAutomationAddedByThisPhase: false,
+      testingCiReleaseAutomationAddedByThisPhase: false,
+      filesystemProcessUiRuntimeAddedByThisPhase: false,
+      commandExposureAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateFabricCoreConsumerIntegrationPromptRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    fabricCoreConsumerStandingBoundary: {
+      producerRepository: "Ardynai/multiverse",
+      producerPackage: "packages/fabric-core",
+      jsTsConsumerPackage: "@multiverse/fabric-core",
+      nonJsSidecar: "fabric-transport-d",
+      producerSecurityReviewed: true,
+      ardynRole: "future-consumer-only-pending-dedicated-prompt",
+      producerImplementedByArdyn: false,
+      fabricCoreImportImplementedByArdyn: false,
+      fabricTransportDSidecarClientImplementedByArdyn: false,
+      loopbackHttpClientImplementedByArdyn: false,
+      bearerTokenLoaderImplementedByArdyn: false,
+      contentIdVerificationRuntimeImplementedByArdyn: false,
+      contentAddressedTransportImplementedByArdyn: false,
+      chunkedTransferImplementedByArdyn: false,
+      resumableTransferImplementedByArdyn: false,
+      multiSourceTransferImplementedByArdyn: false,
+      bittorrentDhtSwarmP2pImplementedByArdyn: false,
+      largePayloadTransferRuntimeImplementedByArdyn: false,
+      existingPointToPointTransportHeld: true
+    },
+    boundaryMapSummary:
+      phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+        .boundaryMapSummary,
+    sourcePhaseContext:
+      phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+        .fabricCoreConsumerIntegrationReadinessBoundaryUpdate.sourcePhaseContext,
+    boundaryEntries:
+      phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate.boundaryEntries.map(
+        ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          fabricCoreProducerReference,
+          fabricCoreConsumerReadinessBoundaryMetadataOnly,
+          noLiveFabricCoreConsumerIntegrationRuntimePerformed,
+          secureDropRelationExpectation,
+          explicitBlockedAuthorizationFlags,
+          unsafeFabricCoreConsumerReadinessRuntimeFlags,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          fabricCoreProducerReference,
+          fabricCoreConsumerReadinessBoundaryMetadataOnly,
+          noLiveFabricCoreConsumerIntegrationRuntimePerformed,
+          secureDropRelationExpectation,
+          explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+            explicitBlockedAuthorizationFlags
+          ).every((value) => value === false),
+          unsafeFabricCoreConsumerReadinessRuntimeFlagsAllFalse:
+            Object.values(
+              unsafeFabricCoreConsumerReadinessRuntimeFlags
+            ).every((value) => value === false),
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    invalidBoundaryCasePolicy:
+      phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+        .invalidBoundaryCasePolicy,
+    topFabricCoreConsumerSqliteCodeModeFabricApiBackendGaps:
+      phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+        .topFabricCoreConsumerSqliteCodeModeFabricApiBackendGaps,
+    recommendedNextPhase:
+      phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+        .recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate.runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-75-fabric-core-consumer-integration-readiness-boundary-update.test.mjs",
+      "node --test tests/phase5-74-command-surface-shell-primitive-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs",
+      "node --test tests/phase5-70-operations-reliability-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-69-testing-frameworks-quality-gates-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-68-agent-mode-profile-skillhub-capability-boundary-map.test.mjs",
+      "node --test tests/phase5-65-error-tracking-logging-audit-integrity-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs",
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "semgrep --config auto .",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      fabricCoreConsumerIntegrationReadinessBoundaryUpdateRecorded: true,
+      fabricCoreConsumerIntegrationReadinessBoundaryUpdateReviewOnly: true,
+      fabricCoreConsumerIntegrationReadinessBoundaryUpdateAuthoritative: false,
+      fabricCoreConsumerIntegrationReadinessBoundaryUpdateProduced: true,
+      boundaryEntriesRecorded: true,
+      ...phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+        .boundaryMapSummary,
+      reportRunsChecks:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .reportRunsChecks,
+      multiverseFabricCoreImportEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .multiverseFabricCoreImportEnabled,
+      fabricCoreNpmDependencyEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .fabricCoreNpmDependencyEnabled,
+      fabricTransportDSidecarClientEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .fabricTransportDSidecarClientEnabled,
+      loopbackHttpClientEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .loopbackHttpClientEnabled,
+      bearerTokenLoaderEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .bearerTokenLoaderEnabled,
+      contentIdVerificationRuntimeEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .contentIdVerificationRuntimeEnabled,
+      contentAddressedTransportEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .contentAddressedTransportEnabled,
+      largePayloadTransferRuntimeEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .largePayloadTransferRuntimeEnabled,
+      packageJsonDependencyChanged:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .packageJsonDependencyChanged,
+      rustSidecarClientEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .rustSidecarClientEnabled,
+      fabricCoreProducerBehaviorEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .fabricCoreProducerBehaviorEnabled,
+      secureDropImplemented:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .secureDropImplemented,
+      commandExposureEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .commandExposureEnabled,
+      blockedCliBypassEnabled:
+        phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .blockedCliBypassEnabled
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -32028,6 +32547,7 @@ const report = {
       true,
     phase573ExternalGatewayMatrixTransportContractBoundaryMap: true,
     phase574CommandSurfaceShellPrimitiveContractBoundaryMap: true,
+    phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -35339,6 +35859,7 @@ const report = {
       ...phase572SafetyFlags,
       ...phase573SafetyFlags,
       ...phase574SafetyFlags,
+      ...phase575SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,

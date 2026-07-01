@@ -7690,6 +7690,181 @@ const phase574SafetyFlagNames = [
   ...phase574ExpectedTrueSafetyFlagNames,
   ...phase574ExpectedFalseSafetyFlagNames
 ];
+const phase575DocFiles = [
+  "docs/phase-5-75-fabric-core-consumer-integration-readiness-boundary-update.md",
+  "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md",
+  "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md"
+];
+const phase575CrossLinks = [
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+  "docs/phase-5-60-inter-agent-encoded-handoff-conformance.md",
+  "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+  "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+  "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md",
+  "docs/phase-5-75-fabric-core-consumer-integration-readiness-boundary-update.md"
+];
+const phase575ExpectedTrueSafetyFlagNames = [
+  "phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateRecorded",
+  "phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateReviewOnly",
+  "phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateProduced",
+  "phase575BoundaryEntriesRecorded",
+  "phase575FabricCoreConsumerReadinessBoundaryMetadataOnly",
+  "phase575NoLiveFabricCoreConsumerIntegrationRuntimePerformed",
+  "phase575ProducerReadyConsumerPendingRecorded",
+  "phase575FabricCoreJsTsNpmConsumerBoundaryRecorded",
+  "phase575FabricTransportDSidecarConsumerBoundaryRecorded",
+  "phase575SidecarBearerTokenBoundaryRecorded",
+  "phase575LoopbackHttpBoundaryRecorded",
+  "phase575ContentIdReverificationBoundaryRecorded",
+  "phase575LargePayloadTodoBoundaryRecorded",
+  "phase575ExistingPointToPointTransportHoldRecorded",
+  "phase575DedicatedConsumerPromptRequiredRecorded",
+  "phase575NoReimplementationBoundaryRecorded",
+  "phase575NoP2pDependencyBoundaryRecorded",
+  "phase575LocusByteInteropBoundaryRecorded",
+  "phase575SecurityReviewedProducerDependencyRecorded",
+  "phase575SecureDropRelationBoundaryRecorded",
+  "phase575NoFabricCoreImport",
+  "phase575NoFabricTransportDSidecarClient",
+  "phase575NoLoopbackHttpClient",
+  "phase575NoBearerTokenLoader",
+  "phase575NoContentIdHashingVerificationRuntime",
+  "phase575NoContentAddressedChunkedResumableMultiSourceTransfer",
+  "phase575NoBitTorrentDhtSwarmP2pBehavior",
+  "phase575NoLargePayloadTransferRuntime",
+  "phase575NoPackageJsonDependencyChange",
+  "phase575NoRustSidecarClient",
+  "phase575NoFabricCoreProducerBehavior",
+  "phase575NoSecureDropImplementation",
+  "phase575NoMatrixGatewayRuntime",
+  "phase575NoShellCommandRuntime",
+  "phase575NoSqliteRuntime",
+  "phase575NoBackendApiServerDatabaseStorageCacheRlsMigration",
+  "phase575NoEncodedHandoffRuntimeCodecTranslator",
+  "phase575NoLoggerAuditTelemetryHealthRuntime",
+  "phase575NoInfrastructureDeploymentComplianceAutomation",
+  "phase575NoTestingCiReleaseAutomation",
+  "phase575NoFilesystemProcessUiRuntime",
+  "phase575NoCommandExposure",
+  "phase575NoBlockedCliBypass",
+  "phase575AllBlockedAuthorizationFlagsFalse",
+  "phase575AllUnsafeFabricCoreConsumerReadinessRuntimeFlagsFalse",
+  "phase575AllRuntimeEffectsFalse",
+  "phase575AllEntriesNonAuthorizing",
+  "phase575InvalidFabricCoreConsumerBoundaryCasesFailClosed",
+  "phase575MissingRequiredFieldsFailClosed",
+  "phase575UnknownTopLevelFieldsFailClosed",
+  "phase575UnknownBoundaryFamiliesFailClosed",
+  "phase575UnknownRelatedSystemsFailClosed",
+  "phase575UnknownCurrentStatusesFailClosed",
+  "phase575HiddenFabricCoreImportSemanticsFailClosed",
+  "phase575HiddenSidecarHttpBearerTokenSemanticsFailClosed",
+  "phase575HiddenHashingContentIdVerificationSemanticsFailClosed",
+  "phase575HiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed",
+  "phase575HiddenLargePayloadMovementSemanticsFailClosed",
+  "phase575HiddenFilesystemScanningFileSelectionSemanticsFailClosed",
+  "phase575HiddenBackendApiServerSemanticsFailClosed",
+  "phase575HiddenDatabaseStorageCacheWriteSemanticsFailClosed",
+  "phase575HiddenAuthSessionTokenApiKeySemanticsFailClosed",
+  "phase575HiddenConnectorGrantSemanticsFailClosed",
+  "phase575HiddenMatrixGatewayRuntimeSemanticsFailClosed",
+  "phase575HiddenShellCommandRuntimeSemanticsFailClosed",
+  "phase575HiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed",
+  "phase575HiddenEncodedHandoffRuntimeCodecTranslatorSemanticsFailClosed",
+  "phase575ServeRuntimeStillDefaultBlocked"
+];
+const phase575ExpectedFalseSafetyFlagNames = [
+  "phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateAuthoritative",
+  "phase575FallowRuntimeUsed",
+  "phase575ReportRunsChecks",
+  "phase575RuntimeExecutionEnabled",
+  "phase575RuntimeAuthorizationEnabled",
+  "phase575RuntimeCommandEnabled",
+  "phase575CommandExposureEnabled",
+  "phase575BlockedCliBypassEnabled",
+  "phase575ConnectorGrantProduced",
+  "phase575FabricRuntimeImplementedByArdyn",
+  "phase575WebsocketHttpTransportImplementedByArdyn",
+  "phase575HttpTransportImplementedByArdyn",
+  "phase575McpRuntimeEnabled",
+  "phase575McpToolExposureEnabled",
+  "phase575TaskExecutionEnabled",
+  "phase575SecureDropImplemented",
+  "phase575ServiceDiscoveryEnabled",
+  "phase575ScheduleEnforcementEnabled",
+  "phase575SchedulePollingEnabled",
+  "phase575FilesystemWriteEnabled",
+  "phase575FilesystemScanningEnabled",
+  "phase575FileSelectionRuntimeEnabled",
+  "phase575ProcessControlEnabled",
+  "phase575MultiverseFabricCoreImportEnabled",
+  "phase575FabricCoreNpmDependencyEnabled",
+  "phase575FabricTransportDSidecarClientEnabled",
+  "phase575LoopbackHttpClientEnabled",
+  "phase575BearerTokenLoaderEnabled",
+  "phase575ContentIdVerificationRuntimeEnabled",
+  "phase575ContentIdHashingRuntimeEnabled",
+  "phase575ContentAddressedTransportEnabled",
+  "phase575ChunkedTransferEnabled",
+  "phase575ResumableTransferEnabled",
+  "phase575MultiSourceTransferEnabled",
+  "phase575BitTorrentDhtSwarmP2pEnabled",
+  "phase575LargePayloadTransferRuntimeEnabled",
+  "phase575PackageJsonDependencyChanged",
+  "phase575RustSidecarClientEnabled",
+  "phase575FabricCoreProducerBehaviorEnabled",
+  "phase575MatrixClientRuntimeEnabled",
+  "phase575HomeserverConnectionEnabled",
+  "phase575E2eeKeySessionHandlingEnabled",
+  "phase575MessagePollingRuntimeEnabled",
+  "phase575MessageSendingRuntimeEnabled",
+  "phase575ExternalGatewayRuntimeEnabled",
+  "phase575ShellRuntimeEnabled",
+  "phase575CommandRuntimeEnabled",
+  "phase575SqliteRuntimeEnabled",
+  "phase575EmbeddedDbRuntimeEnabled",
+  "phase575QueryEngineRuntimeEnabled",
+  "phase575BackendRuntimeImplementedByArdyn",
+  "phase575BackendApiServerMiddlewareImplemented",
+  "phase575ApiEndpointImplementedByArdyn",
+  "phase575ServerImplementedByArdyn",
+  "phase575DatabaseClientImplemented",
+  "phase575DatabaseStorageRuntimeWritesEnabled",
+  "phase575CacheEngineImplemented",
+  "phase575RlsRuntimeImplemented",
+  "phase575DatabaseMigrationImplemented",
+  "phase575TranscriptWriterImplemented",
+  "phase575AuditWriterImplemented",
+  "phase575ImportExportPathImplementedByArdyn",
+  "phase575PackageDistributionImplementedByArdyn",
+  "phase575PersistenceImplementedByArdyn",
+  "phase575LoggerRuntimeImplemented",
+  "phase575AuditWriterRuntimeImplemented",
+  "phase575TelemetryClientImplemented",
+  "phase575HealthCheckRuntimeImplemented",
+  "phase575BackupJobImplemented",
+  "phase575RestoreJobImplemented",
+  "phase575FailoverRuntimeImplemented",
+  "phase575InfrastructureAutomationImplemented",
+  "phase575DeploymentAutomationImplemented",
+  "phase575ComplianceEnforcementImplemented",
+  "phase575PiiProcessingImplemented",
+  "phase575RetentionJobImplemented",
+  "phase575ExportJobImplemented",
+  "phase575TestingCiReleaseAutomationEnabled",
+  "phase575EncodedHandoffRuntimeImplementedByArdyn",
+  "phase575CodecRuntimeEnabled",
+  "phase575TranslatorRuntimeEnabled",
+  "phase575FilesystemProcessRuntimeEnabled",
+  "phase575CliSourceChanged",
+  "phase575RustSourceChanged",
+  "phase575FabricSourceChanged"
+];
+const phase575SafetyFlagNames = [
+  ...phase575ExpectedTrueSafetyFlagNames,
+  ...phase575ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -7824,16 +7999,16 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.74 command-surface/shell primitive contract boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.75 fabric-core consumer integration readiness boundary update and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.74",
+    id: "5.75",
     name:
-      "Review-only command-surface/shell primitive contract boundary map",
+      "Review-only fabric-core consumer integration readiness boundary update",
     executionPosture:
-      "command-surface-shell-primitive-contract-boundary-map runtime-disabled metadata-only no-shell-runtime no-repl no-command-parser no-tokenizer no-builtin-execution no-path-lookup no-executable-lookup no-external-program-execution no-process-spawn no-stdin-loop no-stdout-stderr-writer no-redirection-pipeline no-completion no-background-job no-job-control no-history-persistence no-env-parameter-expansion no-terminal-backend no-matrix-gateway no-content-addressed-chunked-resumable-p2p-transfer no-sqlite-runtime no-secure-drop-implementation no-fabric-websocket-http-mcp-task-runtime no-backend-api-server-storage no-encoded-handoff-runtime no-hermes-cua-computer-use no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "fabric-core-consumer-integration-readiness-boundary-update runtime-disabled metadata-only producer-ready-consumer-pending no-fabric-core-import no-package-dependency no-fabric-transport-d-sidecar-client no-loopback-http-client no-bearer-token-loader no-content-id-hashing-verification no-content-addressed-chunked-resumable-multi-source-p2p-transfer no-large-payload-transfer no-fabric-core-producer no-secure-drop-implementation no-matrix-gateway no-shell-command-runtime no-sqlite-runtime no-backend-api-server-storage no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -7896,15 +8071,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.74 command-surface/shell primitive contract boundary map status report."
+    "Render this deterministic local Phase 5.75 fabric-core consumer integration readiness boundary update status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.74 status report."
+    "Run focused tests for this local Phase 5.75 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.74 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.75 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-75-fabric-core-consumer-integration-readiness-boundary-update.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.75 fabric-core consumer integration readiness boundary update and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -31561,6 +31742,221 @@ test("report inventories Phase 5.74 command-surface/shell primitive contract bou
   assertSafetyFlags(report, phase574ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.75 fabric-core consumer integration readiness boundary update", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateInventory;
+
+  assert.deepEqual(inventory.statusLayer, {
+    schema:
+      "ardyn.phase-5.75.fabric-core-consumer-integration-readiness-boundary-update-result",
+    schemaVersion: "0.1.0",
+    kind: "fabric-core-consumer-integration-readiness-boundary-update",
+    mode: "review-only",
+    classification:
+      "valid_fabric_core_consumer_integration_readiness_boundary_update_runtime_still_blocked",
+    produced: true,
+    boundaryEntryCount: 13,
+    countByFamily: inventory.boundaryMapSummary.countByFamily,
+    countByRelatedSystem: inventory.boundaryMapSummary.countByRelatedSystem,
+    countByStatus: inventory.boundaryMapSummary.countByStatus,
+    ...inventory.boundaryMapSummary,
+    reportRunsChecks: false,
+    multiverseFabricCoreImportEnabled: false,
+    fabricCoreNpmDependencyEnabled: false,
+    fabricTransportDSidecarClientEnabled: false,
+    loopbackHttpClientEnabled: false,
+    bearerTokenLoaderEnabled: false,
+    contentIdVerificationRuntimeEnabled: false,
+    contentIdHashingRuntimeEnabled: false,
+    contentAddressedTransportEnabled: false,
+    chunkedTransferEnabled: false,
+    resumableTransferEnabled: false,
+    multiSourceTransferEnabled: false,
+    bittorrentDhtSwarmP2pEnabled: false,
+    largePayloadTransferRuntimeEnabled: false,
+    packageJsonDependencyChanged: false,
+    rustSidecarClientEnabled: false,
+    fabricCoreProducerBehaviorEnabled: false,
+    secureDropImplemented: false,
+    commandExposureEnabled: false,
+    blockedCliBypassEnabled: false
+  });
+  assertKnownInventoryStatuses(inventory.docs);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(
+    Object.fromEntries(inventory.docs.map((entry) => [entry.path, entry.status])),
+    Object.fromEntries(phase575DocFiles.map((path) => [path, "present"]))
+  );
+  assert.deepEqual(inventory.crossLinks, phase575CrossLinks);
+  assert.deepEqual(
+    Object.fromEntries(
+      inventory.machineReadableArtifacts.map((entry) => [entry.path, entry.status])
+    ),
+    {
+      "tests/fixtures/host-policy/phase5-75/fabric-core-consumer-integration-readiness-boundary-update.json":
+        "present"
+    }
+  );
+  assert.deepEqual(
+    Object.fromEntries(inventory.tests.map((entry) => [entry.path, entry.status])),
+    {
+      "tests/phase5-75-fabric-core-consumer-integration-readiness-boundary-update.test.mjs":
+        "present",
+      "tests/report-phase-status.test.mjs": "present"
+    }
+  );
+
+  for (const [key, value] of Object.entries(inventory.ownershipBoundary)) {
+    if (key.endsWith("ByThisPhase") || key.endsWith("AddedByThisPhase")) {
+      assert.equal(value, false, key);
+    }
+  }
+
+  assert.equal(
+    inventory.fabricCoreConsumerStandingBoundary.producerRepository,
+    "Ardynai/multiverse"
+  );
+  assert.equal(
+    inventory.fabricCoreConsumerStandingBoundary.producerPackage,
+    "packages/fabric-core"
+  );
+  assert.equal(
+    inventory.fabricCoreConsumerStandingBoundary.jsTsConsumerPackage,
+    "@multiverse/fabric-core"
+  );
+  assert.equal(
+    inventory.fabricCoreConsumerStandingBoundary.nonJsSidecar,
+    "fabric-transport-d"
+  );
+  assert.equal(
+    inventory.fabricCoreConsumerStandingBoundary.producerSecurityReviewed,
+    true
+  );
+  assert.equal(
+    inventory.fabricCoreConsumerStandingBoundary.existingPointToPointTransportHeld,
+    true
+  );
+  assert.equal(
+    inventory.fabricCoreConsumerStandingBoundary.producerImplementedByArdyn,
+    false
+  );
+  assert.equal(
+    inventory.fabricCoreConsumerStandingBoundary.fabricCoreImportImplementedByArdyn,
+    false
+  );
+  assert.equal(
+    inventory.fabricCoreConsumerStandingBoundary.loopbackHttpClientImplementedByArdyn,
+    false
+  );
+  assert.equal(
+    inventory.fabricCoreConsumerStandingBoundary
+      .contentIdVerificationRuntimeImplementedByArdyn,
+    false
+  );
+
+  assert.equal(inventory.sourcePhaseContext.fabricCoreProducerRepository, "Ardynai/multiverse");
+  assert.equal(inventory.sourcePhaseContext.fabricCoreProducerPackage, "packages/fabric-core");
+  assert.equal(inventory.sourcePhaseContext.fabricCoreProducerSecurityReviewed, true);
+  assert.equal(inventory.sourcePhaseContext.fabricTransportDSidecar, "fabric-transport-d");
+  assert.equal(inventory.sourcePhaseContext.jsTsFuturePackage, "@multiverse/fabric-core");
+  assert.equal(
+    inventory.sourcePhaseContext.ardynConsumerIntegrationPendingDedicatedPrompt,
+    true
+  );
+  assert.equal(inventory.sourcePhaseContext.noRuntimeWiring, true);
+  assert.equal(inventory.sourcePhaseContext.noPackageDependencyAdded, true);
+  assert.equal(inventory.boundaryMapSummary.boundaryEntryCount, 13);
+  assert.equal(inventory.boundaryEntries.length, 13);
+  assert.equal(
+    inventory.boundaryMapSummary.countByFamily
+      .fabric_core_consumer_readiness_contract,
+    2
+  );
+  assert.equal(
+    inventory.boundaryMapSummary.countByFamily
+      .fabric_core_js_ts_consumer_contract,
+    1
+  );
+  assert.equal(
+    inventory.boundaryMapSummary.countByFamily
+      .fabric_transport_sidecar_consumer_contract,
+    1
+  );
+  assert.equal(
+    inventory.boundaryMapSummary.countByFamily
+      .fabric_dedicated_consumer_prompt_required_contract,
+    1
+  );
+
+  for (const entry of inventory.boundaryEntries) {
+    assert.match(entry.boundaryId, /^phase5-75\./);
+    assert.equal(entry.fabricCoreConsumerReadinessBoundaryMetadataOnly, true);
+    assert.equal(
+      entry.noLiveFabricCoreConsumerIntegrationRuntimePerformed,
+      true
+    );
+    assert.equal(entry.fabricCoreProducerReference.producerRepository, "Ardynai/multiverse");
+    assert.equal(entry.fabricCoreProducerReference.producerPackage, "packages/fabric-core");
+    assert.equal(entry.fabricCoreProducerReference.sidecarName, "fabric-transport-d");
+    assert.equal(entry.fabricCoreProducerReference.producerSecurityReviewed, true);
+    assert.equal(entry.fabricCoreProducerReference.producerImplementedByArdyn, false);
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(
+      entry.unsafeFabricCoreConsumerReadinessRuntimeFlagsAllFalse,
+      true
+    );
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+  }
+
+  assert.equal(inventory.invalidBoundaryCasePolicy.missingRequiredFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownTopLevelFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownBoundaryFamiliesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownRelatedSystemsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownCurrentStatusesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledMultiverseFabricCoreImportFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledFabricTransportDSidecarClientFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledLoopbackHttpClientFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledBearerTokenLoaderFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledContentIdVerificationRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledContentAddressedChunkedResumableMultiSourceTransferFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledBitTorrentDhtSwarmP2pBehaviorFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledLargePayloadTransferRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledPackageJsonDependencyChangeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledFabricCoreProducerBehaviorFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenFabricCoreImportSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSidecarHttpBearerTokenSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenHashingContentIdVerificationSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenLargePayloadMovementSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenFilesystemScanningFileSelectionSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenShellCommandRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed, true);
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.76-review-only-embedded-db-query-engine-primitive-contract-boundary-map"
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-75-fabric-core-consumer-integration-readiness-boundary-update.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-74-command-surface-shell-primitive-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, ["semgrep --config auto ."]);
+  assert.equal(
+    report.safetyPosture.phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate,
+    true
+  );
+  assertSafetyFlags(report, phase575ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase575ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -32495,7 +32891,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase571SafetyFlagNames,
     ...phase572SafetyFlagNames,
     ...phase573SafetyFlagNames,
-    ...phase574SafetyFlagNames
+    ...phase574SafetyFlagNames,
+    ...phase575SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -32612,6 +33009,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase573ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase574ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase574ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase575ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase575ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

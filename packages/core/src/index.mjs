@@ -393,6 +393,12 @@ export const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION =
   "0.1.0";
 export const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND =
   "command-surface-shell-primitive-contract-boundary-map";
+export const FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_SCHEMA =
+  "ardyn.phase-5.75.fabric-core-consumer-integration-readiness-boundary-update-result";
+export const FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_VERSION =
+  "0.1.0";
+export const FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_KIND =
+  "fabric-core-consumer-integration-readiness-boundary-update";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -66606,6 +66612,1275 @@ export function createCommandSurfaceShellPrimitiveContractBoundaryMapForReview(
     classification,
     accepted,
     commandSurfaceShellPrimitiveContractBoundaryMap
+  });
+}
+
+const FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_UPDATE_STATE_SCHEMA =
+  "ardyn.phase-5.75.fabric-core-consumer-integration-readiness-boundary-update-state";
+const VALID_FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_UPDATE_CLASSIFICATION =
+  "valid_fabric_core_consumer_integration_readiness_boundary_update_runtime_still_blocked";
+const MALFORMED_FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_UPDATE_CLASSIFICATION =
+  "malformed_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+
+const FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_FAMILIES = Object.freeze([
+  "fabric_core_consumer_readiness_contract",
+  "fabric_core_js_ts_consumer_contract",
+  "fabric_transport_sidecar_consumer_contract",
+  "fabric_content_id_reverification_contract",
+  "fabric_large_payload_todo_contract",
+  "fabric_existing_point_to_point_hold_contract",
+  "fabric_dedicated_consumer_prompt_required_contract",
+  "fabric_no_reimplementation_contract",
+  "fabric_no_p2p_dependency_contract",
+  "fabric_sidecar_bearer_token_boundary",
+  "fabric_loopback_http_boundary",
+  "fabric_security_review_dependency_contract"
+]);
+const FABRIC_CORE_CONSUMER_READINESS_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "multiverse",
+  "locus",
+  "content-fabric",
+  "repo-family",
+  "fabric-core-reference",
+  "fabric-transport-d-reference"
+]);
+const FABRIC_CORE_CONSUMER_READINESS_STATUSES = Object.freeze([
+  "metadata_only",
+  "producer_ready_consumer_pending",
+  "blocked",
+  "future_contract_required"
+]);
+const FABRIC_CORE_CONSUMER_READINESS_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "producerSourceOfTruthExpectation",
+  "jsTsConsumerExpectation",
+  "nonJsSidecarConsumerExpectation",
+  "contentIdReverificationExpectation",
+  "bearerTokenLoopbackExpectation",
+  "largePayloadTodoExpectation",
+  "pointToPointHoldExpectation",
+  "locusByteInteropExpectation",
+  "multiverseProducerRole",
+  "fabricRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeFabricCoreConsumerReadinessRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const FABRIC_CORE_CONSUMER_READINESS_ALLOWED_TOP_LEVEL_FIELDS =
+  Object.freeze(["reviewedAt", "boundaryEntries"]);
+const FABRIC_CORE_CONSUMER_READINESS_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandsExposed",
+  "connectorGrantProduced",
+  "fabricRuntimeImplementedByArdyn",
+  "fabricRuntimeEnabled",
+  "websocketHttpTransportImplementedByArdyn",
+  "websocketRuntimeEnabled",
+  "httpTransportImplementedByArdyn",
+  "httpRuntimeEnabled",
+  "mcpRuntimeEnabled",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "schedulePollingEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "fileSelectionRuntimeEnabled",
+  "processControlEnabled",
+  "multiverseFabricCoreImportEnabled",
+  "fabricCoreNpmDependencyEnabled",
+  "fabricTransportDSidecarClientEnabled",
+  "loopbackHttpClientEnabled",
+  "bearerTokenLoaderEnabled",
+  "tokenLoaderEnabled",
+  "contentIdVerificationRuntimeEnabled",
+  "contentIdHashingRuntimeEnabled",
+  "contentAddressedTransportEnabled",
+  "chunkedTransferEnabled",
+  "resumableTransferEnabled",
+  "multiSourceTransferEnabled",
+  "bittorrentDhtSwarmP2pEnabled",
+  "p2pTransferEnabled",
+  "largePayloadTransferRuntimeEnabled",
+  "packageJsonDependencyChanged",
+  "rustSidecarClientEnabled",
+  "fabricCoreProducerBehaviorEnabled",
+  "matrixClientRuntimeEnabled",
+  "homeserverConnectionEnabled",
+  "e2eeKeySessionHandlingEnabled",
+  "messagePollingRuntimeEnabled",
+  "messageSendingRuntimeEnabled",
+  "externalGatewayRuntimeEnabled",
+  "shellRuntimeEnabled",
+  "commandRuntimeEnabled",
+  "sqliteRuntimeEnabled",
+  "embeddedDbRuntimeEnabled",
+  "queryEngineRuntimeEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "cacheEngineImplemented",
+  "rlsRuntimeImplemented",
+  "databaseMigrationImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "loggerRuntimeImplemented",
+  "auditWriterRuntimeImplemented",
+  "telemetryClientImplemented",
+  "healthCheckRuntimeImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "failoverRuntimeImplemented",
+  "infrastructureAutomationImplemented",
+  "deploymentAutomationImplemented",
+  "complianceEnforcementImplemented",
+  "piiProcessingImplemented",
+  "retentionJobImplemented",
+  "exportJobImplemented",
+  "testingCiReleaseAutomationEnabled",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecRuntimeEnabled",
+  "translatorRuntimeEnabled",
+  "filesystemProcessRuntimeEnabled",
+  "uiRuntimeImplemented",
+  "blockedCliBypassEnabled"
+]);
+const FABRIC_CORE_CONSUMER_READINESS_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "runtimeAuthorizationGranted",
+  "authorizesRuntime",
+  "fabricCoreConsumerAuthorizationGranted",
+  "fabricCoreJsTsConsumerAuthorizationGranted",
+  "fabricTransportSidecarAuthorizationGranted",
+  "loopbackHttpAuthorizationGranted",
+  "bearerTokenAuthorizationGranted",
+  "contentIdVerificationAuthorizationGranted",
+  "largePayloadTransferAuthorizationGranted",
+  "fabricRuntimeAuthorizationGranted",
+  "packageDependencyAuthorizationGranted",
+  "rustSidecarClientAuthorizationGranted",
+  "secureDropAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+const FABRIC_CORE_CONSUMER_READINESS_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "fabricCoreCommandExposed",
+  "sidecarCommandExposed",
+  "serveRuntimeCommandEnabled"
+]);
+const FABRIC_CORE_CONSUMER_READINESS_BLOCKED_CLI_BYPASS_FIELDS =
+  Object.freeze([
+    "blockedCliBypassEnabled",
+    "dryRunBypassesBlock",
+    "serveRuntimeBypassEnabled",
+    "bypassBlockedCommandBehavior",
+    "blockedCommandOverride"
+  ]);
+const FABRIC_CORE_CONSUMER_READINESS_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_fabric_core_import_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "multiverseFabricCoreImport",
+      "fabricCoreImport",
+      "fabricCorePackageImport",
+      "fabricCoreDependency",
+      "fabricCoreNpmImport",
+      "fabricCoreClient",
+      "@multiverse/fabric-core"
+    ]
+  },
+  {
+    classification:
+      "hidden_sidecar_http_bearer_token_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "fabricTransportDSidecar",
+      "fabricTransportDClient",
+      "sidecarHttpClient",
+      "loopbackHttpClient",
+      "bearerToken",
+      "bearerTokenLoader",
+      "sidecarBearerToken"
+    ]
+  },
+  {
+    classification:
+      "hidden_hashing_content_id_verification_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "contentIdVerifier",
+      "contentIdVerification",
+      "contentHash",
+      "hashRuntime",
+      "contentDigestVerification",
+      "blake3Runtime"
+    ]
+  },
+  {
+    classification:
+      "hidden_content_addressed_chunked_resumable_p2p_transport_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "contentAddressedTransport",
+      "chunkedTransfer",
+      "resumableTransfer",
+      "multiSourceTransfer",
+      "bittorrentRuntime",
+      "dhtRuntime",
+      "swarmRuntime",
+      "p2pTransfer"
+    ]
+  },
+  {
+    classification:
+      "hidden_large_payload_movement_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "largePayloadTransfer",
+      "modelWeightTransfer",
+      "largeConnectorPackTransfer",
+      "largeSkillPackTransfer",
+      "bigMediaTransfer",
+      "fileTransferRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_filesystem_scanning_file_selection_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "filesystemScanner",
+      "fileSelectionRuntime",
+      "filesystemScanning",
+      "filePicker"
+    ]
+  },
+  {
+    classification:
+      "hidden_backend_api_server_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "backendRuntime",
+      "apiServer",
+      "apiEndpoint",
+      "serverMiddleware",
+      "httpHandler"
+    ]
+  },
+  {
+    classification:
+      "hidden_database_storage_cache_write_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "databaseClient",
+      "storageAdapter",
+      "cacheEngine",
+      "databaseWrite",
+      "migrationRunner",
+      "rlsRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_auth_session_token_api_key_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "authSession",
+      "sessionToken",
+      "apiKey",
+      "oauthFlow",
+      "accessToken",
+      "refreshToken",
+      "tokenLoader"
+    ]
+  },
+  {
+    classification:
+      "hidden_connector_grant_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "connectorGrant",
+      "providerGrant",
+      "pluginGrant",
+      "mcpGrant",
+      "toolGrant"
+    ]
+  },
+  {
+    classification:
+      "hidden_matrix_gateway_runtime_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "matrixClient",
+      "matrixRuntime",
+      "homeserverConnection",
+      "matrixRoomPoller",
+      "matrixMessageSender",
+      "externalGateway"
+    ]
+  },
+  {
+    classification:
+      "hidden_shell_command_runtime_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "shellRuntime",
+      "commandRuntime",
+      "commandParser",
+      "pathLookup",
+      "processSpawn",
+      "commandRunner"
+    ]
+  },
+  {
+    classification:
+      "hidden_sqlite_embedded_db_query_runtime_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "sqliteRuntime",
+      "embeddedDb",
+      "queryEngine",
+      "sqlParser",
+      "btreeTraversal",
+      "walRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_encoded_handoff_runtime_codec_translator_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected",
+    fields: [
+      "encodedHandoffRuntime",
+      "codecRuntime",
+      "translatorRuntime",
+      "stegoRuntime",
+      "covertChannel",
+      "tokenizerExploit",
+      "bypassRuntime"
+    ]
+  }
+]);
+
+function fabricCoreConsumerReadinessBoundaryUpdateInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateHasTrueFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      fabricCoreConsumerReadinessBoundaryUpdateHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (
+      fabricCoreConsumerReadinessBoundaryUpdateHasTrueFieldDeep(nested, fields)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateHasPresentFieldDeep(
+  value,
+  fields
+) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      fabricCoreConsumerReadinessBoundaryUpdateHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeFabricCoreConsumerReadinessRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (
+      fabricCoreConsumerReadinessBoundaryUpdateHasPresentFieldDeep(nested, fields)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateEntryIssue(
+  entries,
+  predicate
+) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    FABRIC_CORE_CONSUMER_READINESS_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.producerSourceOfTruthExpectation !== "string" ||
+    typeof entry.jsTsConsumerExpectation !== "string" ||
+    typeof entry.nonJsSidecarConsumerExpectation !== "string" ||
+    typeof entry.contentIdReverificationExpectation !== "string" ||
+    typeof entry.bearerTokenLoopbackExpectation !== "string" ||
+    typeof entry.largePayloadTodoExpectation !== "string" ||
+    typeof entry.pointToPointHoldExpectation !== "string" ||
+    typeof entry.locusByteInteropExpectation !== "string" ||
+    typeof entry.multiverseProducerRole !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(
+      entry.unsafeFabricCoreConsumerReadinessRuntimeFlags
+    ) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateAuthorizationFlagEnabled(
+  value
+) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    FABRIC_CORE_CONSUMER_READINESS_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(
+      value.unsafeFabricCoreConsumerReadinessRuntimeFlags
+    ) &&
+      Object.values(
+        value.unsafeFabricCoreConsumerReadinessRuntimeFlags
+      ).some((flag) => flag !== false)) ||
+    fabricCoreConsumerReadinessBoundaryUpdateHasTrueFieldDeep(
+      value,
+      FABRIC_CORE_CONSUMER_READINESS_UNSAFE_FIELDS
+    )
+  );
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(fabricCoreConsumerReadinessBoundaryUpdateEntries())
+  );
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateInputClassification(
+  inputRecord
+) {
+  if (fabricCoreConsumerReadinessBoundaryUpdateMalformed(inputRecord)) {
+    return MALFORMED_FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_UPDATE_CLASSIFICATION;
+  }
+
+  const entries =
+    fabricCoreConsumerReadinessBoundaryUpdateEntriesInput(inputRecord);
+
+  if (
+    fabricCoreConsumerReadinessBoundaryUpdateEntryIssue(
+      entries,
+      fabricCoreConsumerReadinessBoundaryUpdateMissingRequired
+    )
+  ) {
+    return "missing_required_fabric_core_consumer_readiness_boundary_entry_rejected";
+  }
+
+  if (
+    fabricCoreConsumerReadinessBoundaryUpdateEntryIssue(
+      entries,
+      fabricCoreConsumerReadinessBoundaryUpdateEntryMalformed
+    )
+  ) {
+    return MALFORMED_FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_UPDATE_CLASSIFICATION;
+  }
+
+  if (
+    fabricCoreConsumerReadinessBoundaryUpdateEntryIssue(
+      entries,
+      (entry) =>
+        !FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  if (
+    fabricCoreConsumerReadinessBoundaryUpdateEntryIssue(
+      entries,
+      (entry) =>
+        !FABRIC_CORE_CONSUMER_READINESS_RELATED_SYSTEMS.includes(
+          entry.relatedSystem
+        )
+    )
+  ) {
+    return "unknown_related_system_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  if (
+    fabricCoreConsumerReadinessBoundaryUpdateEntryIssue(
+      entries,
+      (entry) =>
+        !FABRIC_CORE_CONSUMER_READINESS_STATUSES.includes(entry.currentStatus)
+    )
+  ) {
+    return "unknown_current_status_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  if (
+    fabricCoreConsumerReadinessBoundaryUpdateEntryIssue(
+      entries,
+      fabricCoreConsumerReadinessBoundaryUpdateAuthorizationFlagEnabled
+    )
+  ) {
+    return "authorization_flags_enabled_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  if (inputRecord.reportRunsChecks === true) {
+    return "report_runs_checks_true_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  if (
+    fabricCoreConsumerReadinessBoundaryUpdateHasTrueFieldDeep(
+      inputRecord,
+      FABRIC_CORE_CONSUMER_READINESS_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  if (
+    fabricCoreConsumerReadinessBoundaryUpdateHasTrueFieldDeep(
+      inputRecord,
+      FABRIC_CORE_CONSUMER_READINESS_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  if (
+    fabricCoreConsumerReadinessBoundaryUpdateHasTrueFieldDeep(
+      inputRecord,
+      FABRIC_CORE_CONSUMER_READINESS_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  for (const {
+    classification,
+    fields
+  } of FABRIC_CORE_CONSUMER_READINESS_HIDDEN_FIELD_GROUPS) {
+    if (
+      fabricCoreConsumerReadinessBoundaryUpdateHasPresentFieldDeep(
+        inputRecord,
+        fields
+      )
+    ) {
+      return classification;
+    }
+  }
+
+  if (fabricCoreConsumerReadinessBoundaryUpdateUnsafeFlagEnabled(inputRecord)) {
+    return "unsafe_fabric_core_consumer_readiness_runtime_flags_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  if (
+    isPlainObjectRecord(inputRecord.runtimeEffect) &&
+    commandSurfaceShellBoundaryMapContainsTrue(inputRecord.runtimeEffect)
+  ) {
+    return "nested_unsafe_flags_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord).some(
+      (field) =>
+        !FABRIC_CORE_CONSUMER_READINESS_ALLOWED_TOP_LEVEL_FIELDS.includes(field)
+    )
+  ) {
+    return "unknown_top_level_field_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  if (!fabricCoreConsumerReadinessBoundaryUpdateCanonical(entries)) {
+    return "noncanonical_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+  }
+
+  return VALID_FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_UPDATE_CLASSIFICATION;
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateAuthorizationFlags() {
+  return Object.fromEntries(
+    FABRIC_CORE_CONSUMER_READINESS_AUTHORIZATION_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateFalseRuntimeFields() {
+  return Object.fromEntries(
+    FABRIC_CORE_CONSUMER_READINESS_UNSAFE_FIELDS.map((field) => [field, false])
+  );
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+  boundaryId,
+  boundaryFamily,
+  relatedSystem,
+  currentStatus = "producer_ready_consumer_pending",
+  contract,
+  allowed = [],
+  forbidden = [],
+  jsTs,
+  sidecar,
+  contentId,
+  bearer,
+  largePayload,
+  pointHold,
+  locus,
+  multiverseRole,
+  fabricRole
+}) {
+  return {
+    boundaryId,
+    boundaryFamily,
+    relatedSystem,
+    currentStatus,
+    allowedCurrentBehavior: [
+      "Record deterministic review-only Fabric consumer integration readiness metadata.",
+      "Keep Ardyn's existing point-to-point transport behavior unchanged.",
+      "Wait for a dedicated Multiverse-provided Ardyn consumer prompt before any wiring.",
+      ...allowed
+    ],
+    forbiddenCurrentBehavior: [
+      "Import @multiverse/fabric-core or add a package dependency.",
+      "Create a fabric-transport-d sidecar client, loopback HTTP client, or bearer-token loader.",
+      "Implement content-addressed, chunked, integrity-verified, resumable, multi-source, BitTorrent, DHT, swarm, P2P, or large-payload transfer runtime.",
+      "Implement contentId hashing/re-verification runtime in Ardyn.",
+      "Implement Secure Drop, Matrix/gateway, shell/command, SQLite/query, backend/API/server, database/storage/cache, filesystem scanning/file selection, or encoded-handoff runtime.",
+      ...forbidden
+    ],
+    requiredFutureContractBeforeImplementation: contract,
+    requiredFutureAuthorizationPhaseBeforeRuntime:
+      "A later explicit runtime authorization phase must approve the exact consumer integration after the dedicated Multiverse prompt; Phase 5.75 grants no runtime, dependency, token, sidecar, HTTP, Fabric, filesystem, process, or command permission.",
+    producerSourceOfTruthExpectation:
+      "Ardynai/multiverse packages/fabric-core is the reviewed producer and source of truth; Ardyn is only a future consumer and must not reimplement producer or transport behavior.",
+    jsTsConsumerExpectation:
+      jsTs ??
+      "Future JS/TS code may consume @multiverse/fabric-core only after a dedicated prompt, dependency review, package provenance review, and runtime authorization; this phase adds no import or dependency.",
+    nonJsSidecarConsumerExpectation:
+      sidecar ??
+      "Future non-JS or stdlib-only surfaces may consume fabric-transport-d over loopback HTTP only after a dedicated prompt, bearer-token contract, and local contentId re-verification contract; this phase adds no client.",
+    contentIdReverificationExpectation:
+      contentId ??
+      "Future consumers must locally re-verify contentId values from the producer path, but Phase 5.75 adds no hashing, digest, contentId parsing, verification, filesystem scan, or file-selection runtime.",
+    bearerTokenLoopbackExpectation:
+      bearer ??
+      "Future sidecar access must use a separately authorized loopback bearer-token boundary; this phase adds no token loader, env access, vault access, secret store, HTTP client, or sidecar process.",
+    largePayloadTodoExpectation:
+      largePayload ??
+      "Model weights, large connector packs, large skill packs, and big media remain TODO metadata for future fabric-core consumer integration only.",
+    pointToPointHoldExpectation:
+      pointHold ??
+      "Existing point-to-point transport behavior stays held exactly as-is until a dedicated consumer prompt authorizes a narrower change.",
+    locusByteInteropExpectation:
+      locus ??
+      "Locus byte interop remains future review-only metadata; Phase 5.75 adds no Locus runtime bridge, dashboard, byte transfer, or approval surface.",
+    multiverseProducerRole:
+      multiverseRole ??
+      "Multiverse owns the producer implementation in packages/fabric-core and fabric-transport-d; Ardyn must ask the Multiverse planner for a dedicated consumer prompt before wiring.",
+    fabricRoleDescription:
+      fabricRole ??
+      "Fabric-core is a future externally produced consumer dependency for Ardyn; Phase 5.75 records readiness metadata only.",
+    secureDropRelationExpectation:
+      "Secure Drop remains canonical outside Ardyn, with content-fabric retaining implementation ownership; Phase 5.75 adds no Secure Drop crypto, transport, stego, send/receive, inbox, file selection, filesystem scanning, connector ingestion, or secret access."
+  };
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateDefinitions() {
+  return [
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId:
+        "phase5-75.fabric_core_reference.consumer_readiness.contract",
+      boundaryFamily: "fabric_core_consumer_readiness_contract",
+      relatedSystem: "fabric-core-reference",
+      contract:
+        "Define the future Ardyn consumer contract against Ardynai/multiverse packages/fabric-core after the dedicated consumer prompt lands.",
+      allowed: [
+        "Record that the producer is ready and Ardyn consumer integration remains pending."
+      ]
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId: "phase5-75.ardyn.js_ts_npm_consumer.contract",
+      boundaryFamily: "fabric_core_js_ts_consumer_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define npm dependency provenance, import surface, version pinning, integrity expectations, and runtime authorization before any @multiverse/fabric-core consumption.",
+      jsTs:
+        "Future JS/TS consumer surfaces must use @multiverse/fabric-core as the only package source after dedicated prompt, dependency review, and runtime authorization; Phase 5.75 adds no package.json, import, or dependency change."
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId:
+        "phase5-75.fabric_transport_d_reference.sidecar_consumer.contract",
+      boundaryFamily: "fabric_transport_sidecar_consumer_contract",
+      relatedSystem: "fabric-transport-d-reference",
+      contract:
+        "Define loopback sidecar request/response, bearer-token custody, contentId re-verification, failure handling, and local-only constraints before any fabric-transport-d client exists.",
+      sidecar:
+        "Future non-JS or stdlib-only surfaces may call fabric-transport-d only over local loopback HTTP with a bearer token and local contentId re-verification; Phase 5.75 adds no sidecar client."
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId: "phase5-75.repo_family.content_id_reverification.contract",
+      boundaryFamily: "fabric_content_id_reverification_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "metadata_only",
+      contract:
+        "Define contentId shape, digest algorithm ownership, local re-verification proof, and fail-closed mismatch behavior before runtime.",
+      contentId:
+        "Future Ardyn consumers must re-verify contentId values locally against producer output, but this phase adds no hashing, digest verification, filesystem scan, or file-selection runtime."
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId:
+        "phase5-75.fabric_transport_d_reference.sidecar_bearer_token.boundary",
+      boundaryFamily: "fabric_sidecar_bearer_token_boundary",
+      relatedSystem: "fabric-transport-d-reference",
+      currentStatus: "metadata_only",
+      contract:
+        "Define sidecar bearer-token issuance, storage prohibition, rotation, redaction, least privilege, and local-only scope before any sidecar access.",
+      bearer:
+        "Future sidecar bearer-token access requires an explicit secret boundary and no env/vault/token loader in this phase."
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId:
+        "phase5-75.fabric_transport_d_reference.loopback_http.boundary",
+      boundaryFamily: "fabric_loopback_http_boundary",
+      relatedSystem: "fabric-transport-d-reference",
+      currentStatus: "metadata_only",
+      contract:
+        "Define localhost-only HTTP transport, authentication, request caps, contentId re-verification, logging redaction, and failure behavior before any sidecar client.",
+      sidecar:
+        "Future sidecar calls must stay loopback-only, bearer-token gated, and contentId re-verified; this phase adds no HTTP client, listener, fetch, websocket, or process."
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId: "phase5-75.multiverse.large_payload.todo.contract",
+      boundaryFamily: "fabric_large_payload_todo_contract",
+      relatedSystem: "multiverse",
+      currentStatus: "metadata_only",
+      contract:
+        "Define a future fabric-core consumer integration for model weights, large connector packs, large skill packs, and big media after paired security review.",
+      largePayload:
+        "Large payload movement remains a TODO to consume fabric-core later; Phase 5.75 moves no files, weights, packs, media, chunks, manifests, or payloads."
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId: "phase5-75.ardyn.point_to_point_transport.hold.contract",
+      boundaryFamily: "fabric_existing_point_to_point_hold_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      contract:
+        "Define an explicit migration or coexistence contract before changing any existing point-to-point transport behavior.",
+      pointHold:
+        "Existing point-to-point behavior remains held exactly as-is; Phase 5.75 changes no transport, envelope, bridge, connector, or file movement behavior."
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId:
+        "phase5-75.multiverse.dedicated_consumer_prompt_required.contract",
+      boundaryFamily: "fabric_dedicated_consumer_prompt_required_contract",
+      relatedSystem: "multiverse",
+      currentStatus: "future_contract_required",
+      contract:
+        "Require a dedicated Multiverse-provided Ardyn consumer prompt before any import, sidecar, dependency, token, loopback, contentId, or transport wiring.",
+      multiverseRole:
+        "Multiverse must provide the dedicated consumer prompt and producer contract; Ardyn records this dependency and holds implementation."
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId: "phase5-75.ardyn.no_reimplementation.contract",
+      boundaryFamily: "fabric_no_reimplementation_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      contract:
+        "Define hard no-reimplementation checks that keep producer algorithms, transfer protocols, chunk manifests, resumability, multi-source scheduling, and integrity implementation out of Ardyn.",
+      forbidden: [
+        "Add local content-addressed transfer protocols, chunk manifests, resumable stores, multi-source schedulers, or producer code."
+      ]
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId: "phase5-75.repo_family.no_p2p_dependency.contract",
+      boundaryFamily: "fabric_no_p2p_dependency_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "blocked",
+      contract:
+        "Define dependency policy that forbids public DHT, swarm, BitTorrent-style, P2P, or large-payload transfer dependencies in Ardyn.",
+      forbidden: [
+        "Add P2P, DHT, swarm, BitTorrent, large-payload transfer, or content-addressed transport dependencies."
+      ]
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId:
+        "phase5-75.content_fabric.security_review_dependency.secure_drop_relation.contract",
+      boundaryFamily: "fabric_security_review_dependency_contract",
+      relatedSystem: "content-fabric",
+      currentStatus: "metadata_only",
+      contract:
+        "Record the security-reviewed producer dependency and Secure Drop relation while keeping Secure Drop canonical outside Ardyn.",
+      fabricRole:
+        "Fabric-core producer readiness is a dependency for a later Ardyn consumer prompt; Secure Drop remains canonical in content-fabric and is not implemented here."
+    }),
+    fabricCoreConsumerReadinessBoundaryUpdateDefinition({
+      boundaryId: "phase5-75.locus.byte_interop.consumer_readiness.contract",
+      boundaryFamily: "fabric_core_consumer_readiness_contract",
+      relatedSystem: "locus",
+      contract:
+        "Define future Locus byte-interop visibility and consent boundaries before Ardyn exposes any fabric-core consumer status or byte movement.",
+      locus:
+        "Locus byte interop is future display/coordination metadata only; Phase 5.75 adds no Locus bridge, byte transfer, UI, or runtime visibility surface."
+    })
+  ];
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateEntry(definition) {
+  return {
+    ...definition,
+    phase559FabricAwareApiBackendReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      fabricApiBackendBoundaryReferenced: true,
+      implementsFabricRuntime: false
+    },
+    phase573ExternalGatewayMatrixTransportReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-73/external-gateway-matrix-transport-contract-boundary-map.json",
+      fabricCoreFutureConsumerBoundaryWasPreviouslyTodo: true,
+      gatewayRuntimeAuthorized: false
+    },
+    phase574CommandSurfaceShellReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-74/command-surface-shell-primitive-contract-boundary-map.json",
+      commandRuntimeAuthorized: false,
+      shellRuntimeAuthorized: false
+    },
+    fabricCoreProducerReference: {
+      producerRepository: "Ardynai/multiverse",
+      producerPackage: "packages/fabric-core",
+      sidecarName: "fabric-transport-d",
+      producerSecurityReviewed: true,
+      producerImplementedByArdyn: false,
+      ardynConsumerIntegrationPendingDedicatedPrompt: true
+    },
+    fabricCoreConsumerReadinessBoundaryMetadataOnly: true,
+    noLiveFabricCoreConsumerIntegrationRuntimePerformed: true,
+    explicitBlockedAuthorizationFlags:
+      fabricCoreConsumerReadinessBoundaryUpdateAuthorizationFlags(),
+    unsafeFabricCoreConsumerReadinessRuntimeFlags:
+      fabricCoreConsumerReadinessBoundaryUpdateFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateEntries() {
+  return fabricCoreConsumerReadinessBoundaryUpdateDefinitions().map(
+    fabricCoreConsumerReadinessBoundaryUpdateEntry
+  );
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    FABRIC_CORE_CONSUMER_READINESS_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+  const countByStatus = Object.fromEntries(
+    FABRIC_CORE_CONSUMER_READINESS_STATUSES.map((status) => [
+      status,
+      entries.filter((entry) => entry.currentStatus === status).length
+    ])
+  );
+  const allBlockedAuthorizationFlagsFalse = entries.every((entry) =>
+    Object.values(entry.explicitBlockedAuthorizationFlags).every(
+      (value) => value === false
+    )
+  );
+  const allUnsafeFabricCoreConsumerReadinessRuntimeFlagsFalse = entries.every(
+    (entry) =>
+      Object.values(
+        entry.unsafeFabricCoreConsumerReadinessRuntimeFlags
+      ).every((value) => value === false)
+  );
+  const allRuntimeEffectsFalse = entries.every((entry) =>
+    Object.values(entry.runtimeEffect).every((value) => value === false)
+  );
+
+  return {
+    boundaryUpdateKind:
+      FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_KIND,
+    boundaryEntryCount: entries.length,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    boundaryFamilies: [...FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_FAMILIES],
+    relatedSystems: [...FABRIC_CORE_CONSUMER_READINESS_RELATED_SYSTEMS],
+    currentStatusValues: [...FABRIC_CORE_CONSUMER_READINESS_STATUSES],
+    fabricCoreConsumerReadinessBoundaryMetadataOnly: true,
+    noLiveFabricCoreConsumerIntegrationRuntimePerformed: true,
+    producerReadyConsumerPendingRecorded: true,
+    fabricCoreJsTsNpmConsumerBoundaryRecorded: true,
+    fabricTransportDSidecarConsumerBoundaryRecorded: true,
+    sidecarBearerTokenBoundaryRecorded: true,
+    loopbackHttpBoundaryRecorded: true,
+    contentIdReverificationBoundaryRecorded: true,
+    largePayloadTodoBoundaryRecorded: true,
+    existingPointToPointTransportHoldRecorded: true,
+    dedicatedConsumerPromptRequiredRecorded: true,
+    noReimplementationBoundaryRecorded: true,
+    noP2pDependencyBoundaryRecorded: true,
+    locusByteInteropBoundaryRecorded: true,
+    securityReviewedProducerDependencyRecorded: true,
+    secureDropRelationBoundaryRecorded: true,
+    noFabricCoreImport: true,
+    noFabricTransportDSidecarClient: true,
+    noLoopbackHttpClient: true,
+    noBearerTokenLoader: true,
+    noContentIdHashingVerificationRuntime: true,
+    noContentAddressedChunkedResumableMultiSourceTransfer: true,
+    noBitTorrentDhtSwarmP2pBehavior: true,
+    noLargePayloadTransferRuntime: true,
+    noPackageJsonDependencyChange: true,
+    noRustSidecarClient: true,
+    noFabricCoreProducerBehavior: true,
+    noSecureDropImplementation: true,
+    noMatrixGatewayRuntime: true,
+    noShellCommandRuntime: true,
+    noSqliteRuntime: true,
+    noBackendApiServerDatabaseStorageCacheRlsMigration: true,
+    noEncodedHandoffRuntimeCodecTranslator: true,
+    noLoggerAuditTelemetryHealthRuntime: true,
+    noInfrastructureDeploymentComplianceAutomation: true,
+    noTestingCiReleaseAutomation: true,
+    noFilesystemProcessUiRuntime: true,
+    noCommandExposure: true,
+    noBlockedCliBypass: true,
+    allBlockedAuthorizationFlagsFalse,
+    allUnsafeFabricCoreConsumerReadinessRuntimeFlagsFalse,
+    allRuntimeEffectsFalse,
+    allEntriesNonAuthorizing: entries.every(
+      (entry) => entry.nonAuthorizingProof === true
+    )
+  };
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    enabledRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    enabledMultiverseFabricCoreImportFailClosed: true,
+    enabledFabricCoreNpmDependencyFailClosed: true,
+    enabledFabricTransportDSidecarClientFailClosed: true,
+    enabledLoopbackHttpClientFailClosed: true,
+    enabledBearerTokenLoaderFailClosed: true,
+    enabledContentIdVerificationRuntimeFailClosed: true,
+    enabledContentAddressedChunkedResumableMultiSourceTransferFailClosed: true,
+    enabledBitTorrentDhtSwarmP2pBehaviorFailClosed: true,
+    enabledLargePayloadTransferRuntimeFailClosed: true,
+    enabledPackageJsonDependencyChangeFailClosed: true,
+    enabledRustSidecarClientFailClosed: true,
+    enabledFabricCoreProducerBehaviorFailClosed: true,
+    enabledSecureDropImplementationFailClosed: true,
+    hiddenFabricCoreImportSemanticsFailClosed: true,
+    hiddenSidecarHttpBearerTokenSemanticsFailClosed: true,
+    hiddenHashingContentIdVerificationSemanticsFailClosed: true,
+    hiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed: true,
+    hiddenLargePayloadMovementSemanticsFailClosed: true,
+    hiddenFilesystemScanningFileSelectionSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenMatrixGatewayRuntimeSemanticsFailClosed: true,
+    hiddenShellCommandRuntimeSemanticsFailClosed: true,
+    hiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed: true,
+    hiddenEncodedHandoffRuntimeCodecTranslatorSemanticsFailClosed: true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationImportsFabricCore: false,
+    validationStartsSidecar: false,
+    validationUsesLoopbackHttp: false,
+    validationLoadsBearerToken: false,
+    validationHashesContentIds: false,
+    validationTransfersLargePayloads: false,
+    validationChangesPackageJson: false,
+    validationRequestsJules: false
+  };
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateGaps() {
+  return [
+    "Future Ardyn fabric-core consumer integration still needs a dedicated Multiverse-provided prompt, dependency provenance, API contract, auth boundary, and paired security review before any @multiverse/fabric-core import.",
+    "Future fabric-transport-d sidecar use still needs loopback-only HTTP, bearer-token custody, contentId re-verification, redaction, local-only, and failure-mode contracts before any client or token loader.",
+    "Future large-payload movement for model weights, large connector packs, large skill packs, and big media remains a fabric-core consumer TODO; Ardyn must not implement producer, chunking, resumability, multi-source, DHT, swarm, P2P, or file-transfer runtime.",
+    "Existing point-to-point behavior remains held while Locus byte-interop, Secure Drop relation, Matrix/gateway, shell command surface, SQLite/query engine, Fabric/API/backend, and storage boundaries remain runtime-blocked.",
+    "Future embedded DB/query-engine primitive work remains a separate review-only boundary map before any SQLite or DB runtime authorization."
+  ];
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateState(reviewedAt) {
+  const boundaryEntries = fabricCoreConsumerReadinessBoundaryUpdateEntries();
+
+  return {
+    schema: FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_UPDATE_STATE_SCHEMA,
+    schemaVersion:
+      FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_VERSION,
+    stateKind:
+      FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase573ExternalGatewayMatrixTransportBoundary:
+        "tests/fixtures/host-policy/phase5-73/external-gateway-matrix-transport-contract-boundary-map.json",
+      phase574CommandSurfaceShellPrimitiveBoundary:
+        "tests/fixtures/host-policy/phase5-74/command-surface-shell-primitive-contract-boundary-map.json",
+      fabricCoreProducerRepository: "Ardynai/multiverse",
+      fabricCoreProducerPackage: "packages/fabric-core",
+      fabricCoreProducerSecurityReviewed: true,
+      fabricTransportDSidecar: "fabric-transport-d",
+      jsTsFuturePackage: "@multiverse/fabric-core",
+      ardynRole: "future-consumer-only",
+      ardynConsumerIntegrationPendingDedicatedPrompt: true,
+      existingPointToPointTransportHeld: true,
+      byteInteropWithLocusFutureOnly: true,
+      secureDropCanonicalOwner: "content-fabric",
+      noRuntimeWiring: true,
+      noPackageDependencyAdded: true,
+      noFabricCoreImportImplemented: true,
+      noSidecarClientImplemented: true,
+      noLoopbackHttpClientImplemented: true,
+      noBearerTokenLoaderImplemented: true,
+      noContentIdVerificationImplemented: true,
+      noLargePayloadTransferImplemented: true,
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      fabricCoreConsumerReadinessBoundaryUpdateSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      fabricCoreConsumerReadinessBoundaryUpdateValidationRules(),
+    topFabricCoreConsumerSqliteCodeModeFabricApiBackendGaps:
+      fabricCoreConsumerReadinessBoundaryUpdateGaps(),
+    recommendedNextPhase:
+      "phase-5.76-review-only-embedded-db-query-engine-primitive-contract-boundary-map",
+    fabricCoreConsumerIntegrationReadinessBoundaryUpdateOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...fabricCoreConsumerReadinessBoundaryUpdateFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function fabricCoreConsumerReadinessBoundaryUpdateResult({
+  reviewedAt,
+  classification,
+  accepted,
+  fabricCoreConsumerIntegrationReadinessBoundaryUpdate
+}) {
+  return {
+    schema: FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_SCHEMA,
+    schemaVersion:
+      FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_VERSION,
+    fabricCoreConsumerIntegrationReadinessBoundaryUpdateKind:
+      FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_KIND,
+    fabricCoreConsumerIntegrationReadinessBoundaryUpdateMode: "review-only",
+    reviewedAt,
+    classification,
+    fabricCoreConsumerIntegrationReadinessBoundaryUpdateProduced: accepted,
+    fabricCoreConsumerIntegrationReadinessBoundaryUpdate,
+    boundaryMapSummary: accepted
+      ? fabricCoreConsumerIntegrationReadinessBoundaryUpdate.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? fabricCoreConsumerIntegrationReadinessBoundaryUpdate.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? fabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .invalidBoundaryCasePolicy
+      : fabricCoreConsumerReadinessBoundaryUpdateValidationRules(),
+    topFabricCoreConsumerSqliteCodeModeFabricApiBackendGaps: accepted
+      ? fabricCoreConsumerIntegrationReadinessBoundaryUpdate
+          .topFabricCoreConsumerSqliteCodeModeFabricApiBackendGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? fabricCoreConsumerIntegrationReadinessBoundaryUpdate.recommendedNextPhase
+      : null,
+    fabricCoreConsumerIntegrationReadinessBoundaryUpdateOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...fabricCoreConsumerReadinessBoundaryUpdateFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            fabricCoreConsumerAuthorized: false,
+            fabricCoreImportAuthorized: false,
+            sidecarClientAuthorized: false,
+            loopbackHttpAuthorized: false,
+            bearerTokenAuthorized: false,
+            contentIdVerificationAuthorized: false,
+            largePayloadTransferAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createFabricCoreConsumerIntegrationReadinessBoundaryUpdateForReview(
+  input = {}
+) {
+  const inputRecord =
+    fabricCoreConsumerReadinessBoundaryUpdateInputRecord(input);
+  const reviewedAt =
+    fabricCoreConsumerReadinessBoundaryUpdateReviewedAt(inputRecord);
+  const classification =
+    fabricCoreConsumerReadinessBoundaryUpdateInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_FABRIC_CORE_CONSUMER_READINESS_BOUNDARY_UPDATE_CLASSIFICATION;
+  const fabricCoreConsumerIntegrationReadinessBoundaryUpdate = accepted
+    ? fabricCoreConsumerReadinessBoundaryUpdateState(reviewedAt)
+    : null;
+
+  return fabricCoreConsumerReadinessBoundaryUpdateResult({
+    reviewedAt,
+    classification,
+    accepted,
+    fabricCoreConsumerIntegrationReadinessBoundaryUpdate
   });
 }
 

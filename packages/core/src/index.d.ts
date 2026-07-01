@@ -413,6 +413,12 @@ export const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION:
   "0.1.0";
 export const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND:
   "command-surface-shell-primitive-contract-boundary-map";
+export const FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_SCHEMA:
+  "ardyn.phase-5.75.fabric-core-consumer-integration-readiness-boundary-update-result";
+export const FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_VERSION:
+  "0.1.0";
+export const FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_KIND:
+  "fabric-core-consumer-integration-readiness-boundary-update";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -10695,6 +10701,144 @@ export interface CommandSurfaceShellPrimitiveContractBoundaryMapResult {
 export function createCommandSurfaceShellPrimitiveContractBoundaryMapForReview(
   input?: Record<string, unknown>
 ): CommandSurfaceShellPrimitiveContractBoundaryMapResult;
+
+export type FabricCoreConsumerIntegrationReadinessBoundaryUpdateClassification =
+  | "valid_fabric_core_consumer_integration_readiness_boundary_update_runtime_still_blocked"
+  | "malformed_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "missing_required_fabric_core_consumer_readiness_boundary_entry_rejected"
+  | "unknown_top_level_field_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "unknown_boundary_family_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "unknown_related_system_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "unknown_current_status_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "authorization_flags_enabled_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "report_runs_checks_true_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "runtime_authorization_attempt_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "command_exposure_attempt_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "blocked_cli_bypass_attempt_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_fabric_core_import_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_sidecar_http_bearer_token_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_hashing_content_id_verification_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_content_addressed_chunked_resumable_p2p_transport_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_large_payload_movement_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_filesystem_scanning_file_selection_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_backend_api_server_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_database_storage_cache_write_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_auth_session_token_api_key_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_connector_grant_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_matrix_gateway_runtime_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_shell_command_runtime_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_sqlite_embedded_db_query_runtime_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "hidden_encoded_handoff_runtime_codec_translator_semantics_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "unsafe_fabric_core_consumer_readiness_runtime_flags_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "nested_unsafe_flags_fabric_core_consumer_integration_readiness_boundary_update_input_rejected"
+  | "noncanonical_fabric_core_consumer_integration_readiness_boundary_update_input_rejected";
+
+export interface FabricCoreConsumerIntegrationReadinessBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "fabric_core_consumer_readiness_contract"
+    | "fabric_core_js_ts_consumer_contract"
+    | "fabric_transport_sidecar_consumer_contract"
+    | "fabric_content_id_reverification_contract"
+    | "fabric_large_payload_todo_contract"
+    | "fabric_existing_point_to_point_hold_contract"
+    | "fabric_dedicated_consumer_prompt_required_contract"
+    | "fabric_no_reimplementation_contract"
+    | "fabric_no_p2p_dependency_contract"
+    | "fabric_sidecar_bearer_token_boundary"
+    | "fabric_loopback_http_boundary"
+    | "fabric_security_review_dependency_contract";
+  relatedSystem:
+    | "ardyn"
+    | "multiverse"
+    | "locus"
+    | "content-fabric"
+    | "repo-family"
+    | "fabric-core-reference"
+    | "fabric-transport-d-reference";
+  currentStatus:
+    | "metadata_only"
+    | "producer_ready_consumer_pending"
+    | "blocked"
+    | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  producerSourceOfTruthExpectation: string;
+  jsTsConsumerExpectation: string;
+  nonJsSidecarConsumerExpectation: string;
+  contentIdReverificationExpectation: string;
+  bearerTokenLoopbackExpectation: string;
+  largePayloadTodoExpectation: string;
+  pointToPointHoldExpectation: string;
+  locusByteInteropExpectation: string;
+  multiverseProducerRole: string;
+  fabricRoleDescription: string;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeFabricCoreConsumerReadinessRuntimeFlags: Record<string, false>;
+  fabricCoreConsumerReadinessBoundaryMetadataOnly: true;
+  noLiveFabricCoreConsumerIntegrationRuntimePerformed: true;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface FabricCoreConsumerIntegrationReadinessBoundaryUpdateState {
+  schema: "ardyn.phase-5.75.fabric-core-consumer-integration-readiness-boundary-update-state";
+  schemaVersion: "0.1.0";
+  stateKind: "fabric-core-consumer-integration-readiness-boundary-update";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  boundaryEntries: FabricCoreConsumerIntegrationReadinessBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topFabricCoreConsumerSqliteCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  fabricCoreConsumerIntegrationReadinessBoundaryUpdateOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface FabricCoreConsumerIntegrationReadinessBoundaryUpdateResult {
+  schema: "ardyn.phase-5.75.fabric-core-consumer-integration-readiness-boundary-update-result";
+  schemaVersion: "0.1.0";
+  fabricCoreConsumerIntegrationReadinessBoundaryUpdateKind:
+    "fabric-core-consumer-integration-readiness-boundary-update";
+  fabricCoreConsumerIntegrationReadinessBoundaryUpdateMode: "review-only";
+  reviewedAt: string;
+  classification: FabricCoreConsumerIntegrationReadinessBoundaryUpdateClassification;
+  fabricCoreConsumerIntegrationReadinessBoundaryUpdateProduced: boolean;
+  fabricCoreConsumerIntegrationReadinessBoundaryUpdate:
+    | FabricCoreConsumerIntegrationReadinessBoundaryUpdateState
+    | null;
+  boundaryMapSummary:
+    | FabricCoreConsumerIntegrationReadinessBoundaryUpdateState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: FabricCoreConsumerIntegrationReadinessBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topFabricCoreConsumerSqliteCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  fabricCoreConsumerIntegrationReadinessBoundaryUpdateOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export function createFabricCoreConsumerIntegrationReadinessBoundaryUpdateForReview(
+  input?: Record<string, unknown>
+): FabricCoreConsumerIntegrationReadinessBoundaryUpdateResult;
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
