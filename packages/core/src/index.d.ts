@@ -407,6 +407,12 @@ export const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_VERSION:
   "0.1.0";
 export const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_KIND:
   "external-gateway-matrix-transport-contract-boundary-map";
+export const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.74.command-surface-shell-primitive-contract-boundary-map-result";
+export const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION:
+  "0.1.0";
+export const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND:
+  "command-surface-shell-primitive-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -10537,6 +10543,158 @@ export interface ExternalGatewayMatrixTransportContractBoundaryMapResult {
 export function createExternalGatewayMatrixTransportContractBoundaryMapForReview(
   input?: Record<string, unknown>
 ): ExternalGatewayMatrixTransportContractBoundaryMapResult;
+
+export type CommandSurfaceShellPrimitiveContractBoundaryMapClassification =
+  | "valid_command_surface_shell_primitive_contract_boundary_map_runtime_still_blocked"
+  | "malformed_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "missing_required_command_surface_shell_primitive_boundary_entry_rejected"
+  | "unknown_top_level_field_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "unknown_related_system_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "unknown_current_status_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_shell_repl_process_execution_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_path_executable_lookup_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_filesystem_read_write_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_env_secrets_exposure_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_pipe_redirection_stdio_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_job_control_background_worker_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_command_exposure_or_runtime_authorization_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_backend_api_server_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_database_storage_cache_write_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_auth_session_token_api_key_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_fabric_websocket_http_mcp_task_runtime_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_matrix_gateway_runtime_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_content_addressed_chunked_resumable_p2p_transport_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_sqlite_embedded_db_query_runtime_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_hermes_cua_computer_use_runtime_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "hidden_encoded_handoff_runtime_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "unsafe_command_surface_shell_primitive_runtime_flags_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_command_surface_shell_primitive_contract_boundary_map_input_rejected"
+  | "noncanonical_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+
+export interface CommandSurfaceShellPrimitiveContractBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily:
+    | "command_surface_contract"
+    | "repl_contract"
+    | "prompt_contract"
+    | "command_parser_contract"
+    | "builtin_command_contract"
+    | "path_resolution_contract"
+    | "external_program_contract"
+    | "process_spawn_boundary"
+    | "exit_code_contract"
+    | "quoting_contract"
+    | "escaping_contract"
+    | "redirection_contract"
+    | "pipeline_contract"
+    | "completion_contract"
+    | "programmable_completion_contract"
+    | "background_job_contract"
+    | "job_control_contract"
+    | "history_contract"
+    | "history_persistence_contract"
+    | "parameter_expansion_contract"
+    | "environment_variable_contract"
+    | "terminal_backend_contract"
+    | "stdin_stdout_stderr_contract"
+    | "shell_reference_boundary";
+  relatedSystem:
+    | "ardyn"
+    | "ardyn-subagent"
+    | "locus"
+    | "multiverse"
+    | "content-fabric"
+    | "repo-family"
+    | "external-harness"
+    | "codecrafters-shell-reference"
+    | "hermes-reference"
+    | "cua-driver-reference";
+  currentStatus: "metadata_only" | "blocked" | "future_contract_required";
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  commandVisibilityExpectation: string;
+  commandParsingExpectation: string;
+  processControlExpectation: string;
+  stdinStdoutStderrExpectation: string;
+  filesystemInteractionExpectation: string;
+  environmentSecretExposureExpectation: string;
+  operatorApprovalExpectation: string;
+  locusRoleDescription: string;
+  fabricRoleDescription: string;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeCommandSurfaceShellPrimitiveRuntimeFlags: Record<string, false>;
+  commandSurfaceBoundaryMetadataOnly: true;
+  noLiveCommandSurfaceShellPrimitiveRuntimePerformed: true;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface CommandSurfaceShellPrimitiveContractBoundaryMapState {
+  schema: "ardyn.phase-5.74.command-surface-shell-primitive-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "command-surface-shell-primitive-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  boundaryEntries: CommandSurfaceShellPrimitiveContractBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topCommandSurfaceShellSqliteCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  commandSurfaceShellPrimitiveContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface CommandSurfaceShellPrimitiveContractBoundaryMapResult {
+  schema: "ardyn.phase-5.74.command-surface-shell-primitive-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  commandSurfaceShellPrimitiveContractBoundaryMapKind:
+    "command-surface-shell-primitive-contract-boundary-map";
+  commandSurfaceShellPrimitiveContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: CommandSurfaceShellPrimitiveContractBoundaryMapClassification;
+  commandSurfaceShellPrimitiveContractBoundaryMapProduced: boolean;
+  commandSurfaceShellPrimitiveContractBoundaryMap:
+    | CommandSurfaceShellPrimitiveContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | CommandSurfaceShellPrimitiveContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: CommandSurfaceShellPrimitiveContractBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topCommandSurfaceShellSqliteCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  commandSurfaceShellPrimitiveContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export function createCommandSurfaceShellPrimitiveContractBoundaryMapForReview(
+  input?: Record<string, unknown>
+): CommandSurfaceShellPrimitiveContractBoundaryMapResult;
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";

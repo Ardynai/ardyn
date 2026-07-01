@@ -344,6 +344,9 @@ const phase573ExternalGatewayMatrixTransportContractBoundaryMap =
   await readJson(
     "tests/fixtures/host-policy/phase5-73/external-gateway-matrix-transport-contract-boundary-map.json"
   );
+const phase574CommandSurfaceShellPrimitiveContractBoundaryMap = await readJson(
+  "tests/fixtures/host-policy/phase5-74/command-surface-shell-primitive-contract-boundary-map.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -2528,14 +2531,226 @@ const phase573SafetyFlags = {
   phase573FabricSourceChanged: false
 };
 
+const phase574SafetyFlags = {
+  phase574CommandSurfaceShellPrimitiveContractBoundaryMapRecorded: true,
+  phase574CommandSurfaceShellPrimitiveContractBoundaryMapReviewOnly: true,
+  phase574CommandSurfaceShellPrimitiveContractBoundaryMapAuthoritative: false,
+  phase574CommandSurfaceShellPrimitiveContractBoundaryMapProduced: true,
+  phase574BoundaryEntriesRecorded: true,
+  phase574CommandSurfaceShellPrimitiveBoundaryMetadataOnly: true,
+  phase574NoLiveCommandSurfaceShellPrimitiveRuntimePerformed: true,
+  phase574CliCommandRecognitionBoundaryRecorded: true,
+  phase574ServeRuntimeBlockedCommandBoundaryRecorded: true,
+  phase574FutureReplPromptBoundaryRecorded: true,
+  phase574CommandParserTokenizerBoundaryRecorded: true,
+  phase574BuiltinCommandBoundaryRecorded: true,
+  phase574InvalidCommandErrorHandlingBoundaryRecorded: true,
+  phase574PathExecutableLookupBoundaryRecorded: true,
+  phase574ExternalProgramExecutionBoundaryRecorded: true,
+  phase574ProcessSpawnExitCodeBoundaryRecorded: true,
+  phase574QuotingEscapingBoundaryRecorded: true,
+  phase574StdoutStderrRedirectionBoundaryRecorded: true,
+  phase574AppendRedirectionBoundaryRecorded: true,
+  phase574PipelineBoundaryRecorded: true,
+  phase574CompletionAutocompleteBoundaryRecorded: true,
+  phase574ProgrammableCompletionBoundaryRecorded: true,
+  phase574FilenameCompletionBoundaryRecorded: true,
+  phase574BackgroundJobsJobListingReapingBoundaryRecorded: true,
+  phase574CommandHistoryPersistenceBoundaryRecorded: true,
+  phase574ParameterExpansionBoundaryRecorded: true,
+  phase574EnvironmentVariableExpansionBoundaryRecorded: true,
+  phase574TerminalBackendBoundaryFromPhase568Recorded: true,
+  phase574OperationsReliabilityRetryCancellationBoundaryFromPhase570Recorded:
+    true,
+  phase574AuthPermissionsCommandAuthorizationBoundaryFromPhase562Recorded:
+    true,
+  phase574SecurityInputSanitizationCommandBoundaryFromPhase563Recorded: true,
+  phase574SecretsEnvExposureBoundaryFromPhase572Recorded: true,
+  phase574LoggingAuditBoundaryFromPhase565Recorded: true,
+  phase574LocusCommandControlSurfaceDisplayBoundaryRecorded: true,
+  phase574FabricApiBackendCommandEnvelopeBoundaryRecorded: true,
+  phase574ExternalHarnessCommandHandoffBoundaryRecorded: true,
+  phase574NoShellRuntime: true,
+  phase574NoReplRuntime: true,
+  phase574NoCommandParserRuntime: true,
+  phase574NoPathLookupRuntime: true,
+  phase574NoProcessSpawn: true,
+  phase574NoBuiltinExecution: true,
+  phase574NoRedirectionPipelineRuntime: true,
+  phase574NoCompletionRuntime: true,
+  phase574NoBackgroundJobRuntime: true,
+  phase574NoHistoryRuntime: true,
+  phase574NoEnvironmentParameterExpansionRuntime: true,
+  phase574NoTerminalBackendRuntime: true,
+  phase574NoMatrixGatewayRuntime: true,
+  phase574NoContentAddressedChunkedResumableP2pTransport: true,
+  phase574NoSqliteRuntime: true,
+  phase574NoSecureDropImplementation: true,
+  phase574NoFabricWebsocketHttpMcpTaskRuntime: true,
+  phase574NoBackendApiServerDatabaseStorageCacheRlsMigration: true,
+  phase574NoEncodedHandoffRuntimeCodecTranslator: true,
+  phase574NoHermesCuaComputerUseRuntime: true,
+  phase574NoLoggerAuditTelemetryHealthRuntime: true,
+  phase574NoInfrastructureDeploymentComplianceAutomation: true,
+  phase574NoTestingCiReleaseAutomation: true,
+  phase574NoFilesystemProcessUiRuntime: true,
+  phase574NoCommandExposure: true,
+  phase574NoBlockedCliBypass: true,
+  phase574AllBlockedAuthorizationFlagsFalse: true,
+  phase574AllUnsafeCommandSurfaceShellPrimitiveRuntimeFlagsFalse: true,
+  phase574AllRuntimeEffectsFalse: true,
+  phase574AllEntriesNonAuthorizing: true,
+  phase574InvalidCommandSurfaceShellPrimitiveBoundaryCasesFailClosed: true,
+  phase574MissingRequiredFieldsFailClosed: true,
+  phase574UnknownTopLevelFieldsFailClosed: true,
+  phase574UnknownBoundaryFamiliesFailClosed: true,
+  phase574UnknownRelatedSystemsFailClosed: true,
+  phase574UnknownCurrentStatusesFailClosed: true,
+  phase574HiddenShellReplProcessExecutionSemanticsFailClosed: true,
+  phase574HiddenPathExecutableLookupSemanticsFailClosed: true,
+  phase574HiddenFilesystemReadWriteSemanticsFailClosed: true,
+  phase574HiddenEnvSecretsExposureSemanticsFailClosed: true,
+  phase574HiddenPipeRedirectionStdioSemanticsFailClosed: true,
+  phase574HiddenJobControlBackgroundWorkerSemanticsFailClosed: true,
+  phase574HiddenCommandExposureOrRuntimeAuthorizationSemanticsFailClosed:
+    true,
+  phase574HiddenBackendApiServerSemanticsFailClosed: true,
+  phase574HiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+  phase574HiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+  phase574HiddenConnectorGrantSemanticsFailClosed: true,
+  phase574HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+  phase574HiddenSecureDropImplementationSemanticsFailClosed: true,
+  phase574HiddenMatrixGatewayRuntimeSemanticsFailClosed: true,
+  phase574HiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed:
+    true,
+  phase574HiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed: true,
+  phase574HiddenHermesCuaComputerUseRuntimeSemanticsFailClosed: true,
+  phase574HiddenEncodedHandoffRuntimeCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+    true,
+  phase574ServeRuntimeStillDefaultBlocked: true,
+  phase574FallowRuntimeUsed: false,
+  phase574ReportRunsChecks: false,
+  phase574RuntimeExecutionEnabled: false,
+  phase574RuntimeAuthorizationEnabled: false,
+  phase574RuntimeCommandEnabled: false,
+  phase574CommandExposureEnabled: false,
+  phase574CommandRuntimeControlEnabled: false,
+  phase574BlockedCliBypassEnabled: false,
+  phase574DryRunBypassesBlock: false,
+  phase574ConnectorGrantProduced: false,
+  phase574FabricRuntimeImplementedByArdyn: false,
+  phase574WebsocketHttpTransportImplementedByArdyn: false,
+  phase574HttpTransportImplementedByArdyn: false,
+  phase574McpRuntimeEnabled: false,
+  phase574McpToolExposureEnabled: false,
+  phase574TaskExecutionEnabled: false,
+  phase574SecureDropImplemented: false,
+  phase574ServiceDiscoveryEnabled: false,
+  phase574ScheduleEnforcementEnabled: false,
+  phase574SchedulePollingEnabled: false,
+  phase574FilesystemWriteEnabled: false,
+  phase574FilesystemScanningEnabled: false,
+  phase574FilesystemReadEnabled: false,
+  phase574ProcessControlEnabled: false,
+  phase574ShellRuntimeEnabled: false,
+  phase574ReplRuntimeEnabled: false,
+  phase574PromptLoopEnabled: false,
+  phase574CommandParserRuntimeEnabled: false,
+  phase574CommandTokenizerRuntimeEnabled: false,
+  phase574BuiltinExecutionEnabled: false,
+  phase574PathLookupRuntimeEnabled: false,
+  phase574ExecutableLookupRuntimeEnabled: false,
+  phase574ExternalProgramExecutionEnabled: false,
+  phase574ProcessSpawnEnabled: false,
+  phase574StdinLoopEnabled: false,
+  phase574StdoutWriterEnabled: false,
+  phase574StderrWriterEnabled: false,
+  phase574RedirectionRuntimeEnabled: false,
+  phase574PipelineRuntimeEnabled: false,
+  phase574CompletionRuntimeEnabled: false,
+  phase574CompleterRuntimeEnabled: false,
+  phase574ProgrammableCompletionRuntimeEnabled: false,
+  phase574FilenameCompletionRuntimeEnabled: false,
+  phase574BackgroundJobRuntimeEnabled: false,
+  phase574JobControlRuntimeEnabled: false,
+  phase574CommandHistoryRuntimeEnabled: false,
+  phase574HistoryPersistenceRuntimeEnabled: false,
+  phase574EnvironmentVariableExpansionRuntimeEnabled: false,
+  phase574ParameterExpansionRuntimeEnabled: false,
+  phase574TerminalBackendRuntimeEnabled: false,
+  phase574TerminalBackendExecutionEnabled: false,
+  phase574MatrixClientRuntimeEnabled: false,
+  phase574HomeserverConnectionEnabled: false,
+  phase574MatrixRoomPollRuntimeEnabled: false,
+  phase574MatrixRoomSendRuntimeEnabled: false,
+  phase574E2eeKeySessionHandlingEnabled: false,
+  phase574GatewayRuntimeEnabled: false,
+  phase574ExternalGatewayRuntimeEnabled: false,
+  phase574ContentAddressedTransportEnabled: false,
+  phase574ChunkedTransferEnabled: false,
+  phase574ResumableTransferEnabled: false,
+  phase574MultiSourceTransferEnabled: false,
+  phase574BitTorrentDhtSwarmP2pEnabled: false,
+  phase574LargePayloadTransferRuntimeEnabled: false,
+  phase574FabricCoreProducerBehaviorEnabled: false,
+  phase574SqliteRuntimeEnabled: false,
+  phase574EmbeddedDbRuntimeEnabled: false,
+  phase574QueryEngineRuntimeEnabled: false,
+  phase574SqliteKeyRuntimeEnabled: false,
+  phase574EnvIngestionEnabled: false,
+  phase574SecretLoadingEnabled: false,
+  phase574VaultAccessEnabled: false,
+  phase574TokenLoaderEnabled: false,
+  phase574OauthFlowEnabled: false,
+  phase574SessionHandlingEnabled: false,
+  phase574BackendRuntimeImplementedByArdyn: false,
+  phase574BackendApiServerMiddlewareImplemented: false,
+  phase574ApiEndpointImplementedByArdyn: false,
+  phase574ServerImplementedByArdyn: false,
+  phase574DatabaseClientImplemented: false,
+  phase574DatabaseStorageRuntimeWritesEnabled: false,
+  phase574CacheEngineImplemented: false,
+  phase574RlsRuntimeImplemented: false,
+  phase574DatabaseMigrationImplemented: false,
+  phase574TranscriptWriterImplemented: false,
+  phase574AuditWriterImplemented: false,
+  phase574ImportExportPathImplementedByArdyn: false,
+  phase574PackageDistributionImplementedByArdyn: false,
+  phase574PersistenceImplementedByArdyn: false,
+  phase574LoggerRuntimeImplemented: false,
+  phase574AuditWriterRuntimeImplemented: false,
+  phase574TelemetryClientImplemented: false,
+  phase574HealthCheckRuntimeImplemented: false,
+  phase574BackupJobImplemented: false,
+  phase574RestoreJobImplemented: false,
+  phase574FailoverRuntimeImplemented: false,
+  phase574InfrastructureAutomationImplemented: false,
+  phase574DeploymentAutomationImplemented: false,
+  phase574ComplianceEnforcementImplemented: false,
+  phase574PiiProcessingImplemented: false,
+  phase574RetentionJobImplemented: false,
+  phase574ExportJobImplemented: false,
+  phase574TestingCiReleaseAutomationEnabled: false,
+  phase574EncodedHandoffRuntimeImplementedByArdyn: false,
+  phase574CodecRuntimeEnabled: false,
+  phase574TranslatorRuntimeEnabled: false,
+  phase574HermesRuntimeEnabled: false,
+  phase574CuaDriverRuntimeEnabled: false,
+  phase574ComputerUseRuntimeEnabled: false,
+  phase574FilesystemProcessRuntimeEnabled: false,
+  phase574CliSourceChanged: false,
+  phase574RustSourceChanged: false,
+  phase574FabricSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.73",
+    id: "5.74",
     name:
-      "Review-only external gateway/Matrix transport contract boundary map",
+      "Review-only command-surface/shell primitive contract boundary map",
     executionPosture:
-      "external-gateway-matrix-transport-contract-boundary-map runtime-disabled metadata-only no-matrix-client no-homeserver-connection no-room-join-read-send-poll no-e2ee-key-session no-access-token-loader no-gateway-runtime no-external-platform-connector no-message-ingestion-export no-service-discovery-schedule-polling no-content-addressed-chunked-resumable-multi-source-transfer no-bittorrent-dht-swarm-p2p no-large-payload-transfer no-fabric-core-producer no-fabric-websocket-http-mcp-task-runtime no-secure-drop-implementation no-shell-runtime no-sqlite-runtime no-backend-api-server-storage no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "command-surface-shell-primitive-contract-boundary-map runtime-disabled metadata-only no-shell-runtime no-repl no-command-parser no-tokenizer no-builtin-execution no-path-lookup no-executable-lookup no-external-program-execution no-process-spawn no-stdin-loop no-stdout-stderr-writer no-redirection-pipeline no-completion no-background-job no-job-control no-history-persistence no-env-parameter-expansion no-terminal-backend no-matrix-gateway no-content-addressed-chunked-resumable-p2p-transfer no-sqlite-runtime no-secure-drop-implementation no-fabric-websocket-http-mcp-task-runtime no-backend-api-server-storage no-encoded-handoff-runtime no-hermes-cua-computer-use no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -2616,18 +2831,25 @@ const report = {
     {
       command: "npm run report:phase-status",
       purpose:
-        "Render this deterministic local Phase 5.73 external gateway/Matrix transport contract boundary map status report.",
+        "Render this deterministic local Phase 5.74 command-surface/shell primitive contract boundary map status report.",
       ranByReport: false
     },
     {
       command: "node --test tests/report-phase-status.test.mjs",
-      purpose: "Run focused tests for this local Phase 5.73 status report.",
+      purpose: "Run focused tests for this local Phase 5.74 status report.",
       ranByReport: false
     },
     {
       command: "semgrep --config auto .",
       purpose:
-        "Run Semgrep as evidence only for Phase 5.73 without folding unrelated findings into this phase.",
+        "Run Semgrep as evidence only for Phase 5.74 without folding unrelated findings into this phase.",
+      ranByReport: false
+    },
+    {
+      command:
+        "node --test tests/phase5-74-command-surface-shell-primitive-contract-boundary-map.test.mjs",
+      purpose:
+        "Run focused Phase 5.74 command-surface/shell primitive contract boundary map and blocked-runtime checks.",
       ranByReport: false
     },
     {
@@ -31430,6 +31652,272 @@ const report = {
           .blockedCliBypassEnabled
     }
   },
+  phase574CommandSurfaceShellPrimitiveContractBoundaryMapInventory: {
+    statusLayer: {
+      schema: phase574CommandSurfaceShellPrimitiveContractBoundaryMap.schema,
+      schemaVersion:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap.schemaVersion,
+      kind:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .commandSurfaceShellPrimitiveContractBoundaryMapKind,
+      mode:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .commandSurfaceShellPrimitiveContractBoundaryMapMode,
+      classification:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap.classification,
+      produced:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .commandSurfaceShellPrimitiveContractBoundaryMapProduced,
+      boundaryEntryCount:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap.boundaryEntries
+          .length,
+      countByFamily:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap.boundaryMapSummary
+          .countByFamily,
+      countByRelatedSystem:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap.boundaryMapSummary
+          .countByRelatedSystem,
+      countByStatus:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap.boundaryMapSummary
+          .countByStatus,
+      ...phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+        .boundaryMapSummary,
+      reportRunsChecks:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap.reportRunsChecks,
+      shellRuntimeEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .shellRuntimeEnabled,
+      replRuntimeEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .replRuntimeEnabled,
+      commandParserRuntimeEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .commandParserRuntimeEnabled,
+      pathLookupRuntimeEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .pathLookupRuntimeEnabled,
+      processSpawnEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .processSpawnEnabled,
+      terminalBackendRuntimeEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .terminalBackendRuntimeEnabled,
+      commandExposureEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .commandExposureEnabled,
+      blockedCliBypassEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .blockedCliBypassEnabled
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md",
+        "Records deterministic review-only command-surface and shell primitive contract boundary metadata using shell concepts as taxonomy only."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+        "Provides the external gateway/Matrix predecessor while Phase 5.74 keeps gateway and transport runtime blocked."
+      ),
+      await localInventoryEntry(
+        "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+        "Provides the secrets/env exposure predecessor referenced by command-surface and shell metadata."
+      )
+    ],
+    crossLinks: [
+      "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+      "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+      "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+      "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+      "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md",
+      "docs/phase-5-70-operations-reliability-contract-boundary-map.md",
+      "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+      "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+      "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md"
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-74/command-surface-shell-primitive-contract-boundary-map.json",
+        "Records twenty-seven metadata-only command-surface/shell primitive boundary entries with false authorization flags, false unsafe runtime flags, false runtime effects, and non-authorizing proof."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-74-command-surface-shell-primitive-contract-boundary-map.test.mjs",
+        "Pins the Phase 5.74 helper, deterministic fixture shape, requested boundary families, related systems, current status values, fail-closed command/shell cases, blocked command probes, and runtime source guards."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.74 status inventory, docs cross-links, fixture inventory, validation command list, and runtime-disabled posture."
+      )
+    ],
+    ownershipBoundary: {
+      docsStatusFiles: [
+        "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md",
+        "scripts/report-phase-status.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      coreReviewOnlyFilesChanged: [
+        "packages/core/src/index.mjs",
+        "packages/core/src/index.d.ts"
+      ],
+      machineReadableArtifactFiles: [
+        "tests/fixtures/host-policy/phase5-74/command-surface-shell-primitive-contract-boundary-map.json"
+      ],
+      focusedTestFiles: [
+        "tests/phase5-74-command-surface-shell-primitive-contract-boundary-map.test.mjs",
+        "tests/report-phase-status.test.mjs"
+      ],
+      cliRuntimeSourceFilesChanged: [],
+      rustRuntimeSourceFilesChanged: [],
+      fabricRuntimeSourceFilesChanged: [],
+      locusRepoFilesChanged: [],
+      multiverseRepoFilesChanged: [],
+      contentFabricRepoFilesChanged: [],
+      codecraftersShellRepoFilesChanged: [],
+      hermesRepoFilesChanged: [],
+      cuaDriverFilesChanged: [],
+      externalRepoFilesChanged: [],
+      commandSurfaceAddedByThisPhase: false,
+      shellRuntimeAddedByThisPhase: false,
+      replAddedByThisPhase: false,
+      promptLoopAddedByThisPhase: false,
+      commandParserAddedByThisPhase: false,
+      tokenizerAddedByThisPhase: false,
+      builtinExecutionAddedByThisPhase: false,
+      pathLookupAddedByThisPhase: false,
+      executableLookupAddedByThisPhase: false,
+      externalProgramExecutionAddedByThisPhase: false,
+      processSpawnAddedByThisPhase: false,
+      stdinLoopAddedByThisPhase: false,
+      stdoutStderrWriterAddedByThisPhase: false,
+      redirectionPipelineRuntimeAddedByThisPhase: false,
+      completionRuntimeAddedByThisPhase: false,
+      backgroundJobRuntimeAddedByThisPhase: false,
+      jobControlRuntimeAddedByThisPhase: false,
+      historyPersistenceAddedByThisPhase: false,
+      environmentParameterExpansionAddedByThisPhase: false,
+      terminalBackendRuntimeAddedByThisPhase: false,
+      filesystemShellBehaviorAddedByThisPhase: false,
+      processControlAddedByThisPhase: false,
+      commandExposureAddedByThisPhase: false,
+      runtimeEnabledByThisPhase: false,
+      fallowRuntimeUsedByThisPhase: false,
+      separateCommandSurfaceRuntimePhaseRequired: true,
+      separateRuntimeEnablementApprovalRequired: true
+    },
+    boundaryMapSummary:
+      phase574CommandSurfaceShellPrimitiveContractBoundaryMap.boundaryMapSummary,
+    sourcePhaseContext:
+      phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+        .commandSurfaceShellPrimitiveContractBoundaryMap.sourcePhaseContext,
+    boundaryEntries:
+      phase574CommandSurfaceShellPrimitiveContractBoundaryMap.boundaryEntries.map(
+        ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          codecraftersShellReferenceTaxonomy,
+          commandSurfaceBoundaryMetadataOnly,
+          noLiveCommandSurfaceShellPrimitiveRuntimePerformed,
+          explicitBlockedAuthorizationFlags,
+          unsafeCommandSurfaceShellPrimitiveRuntimeFlags,
+          runtimeEffect,
+          nonAuthorizingProof
+        }) => ({
+          boundaryId,
+          boundaryFamily,
+          relatedSystem,
+          currentStatus,
+          codecraftersShellReferenceTaxonomy,
+          commandSurfaceBoundaryMetadataOnly,
+          noLiveCommandSurfaceShellPrimitiveRuntimePerformed,
+          explicitBlockedAuthorizationFlagsAllFalse: Object.values(
+            explicitBlockedAuthorizationFlags
+          ).every((value) => value === false),
+          unsafeCommandSurfaceShellPrimitiveRuntimeFlagsAllFalse:
+            Object.values(
+              unsafeCommandSurfaceShellPrimitiveRuntimeFlags
+            ).every((value) => value === false),
+          runtimeEffectAllFalse: Object.values(runtimeEffect).every(
+            (value) => value === false
+          ),
+          nonAuthorizingProof
+        })
+      ),
+    invalidBoundaryCasePolicy:
+      phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+        .invalidBoundaryCasePolicy,
+    topCommandSurfaceShellSqliteCodeModeFabricApiBackendGaps:
+      phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+        .topCommandSurfaceShellSqliteCodeModeFabricApiBackendGaps,
+    recommendedNextPhase:
+      phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+        .recommendedNextPhase,
+    blockedRuntimeEffect:
+      phase574CommandSurfaceShellPrimitiveContractBoundaryMap.runtimeEffect,
+    validationCommands: [
+      "node --test tests/phase5-74-command-surface-shell-primitive-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.test.mjs",
+      "node --test tests/phase5-70-operations-reliability-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-68-agent-mode-profile-skillhub-capability-boundary-map.test.mjs",
+      "node --test tests/phase5-65-error-tracking-logging-audit-integrity-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-63-security-rls-input-sanitization-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-62-auth-permissions-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-59-fabric-aware-api-backend-contract-boundary-map.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "semgrep --config auto .",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    optionalAdvisoryCommands: ["semgrep --config auto ."],
+    safetyPosture: {
+      commandSurfaceShellPrimitiveContractBoundaryMapRecorded: true,
+      commandSurfaceShellPrimitiveContractBoundaryMapReviewOnly: true,
+      commandSurfaceShellPrimitiveContractBoundaryMapAuthoritative: false,
+      commandSurfaceShellPrimitiveContractBoundaryMapProduced: true,
+      boundaryEntriesRecorded: true,
+      ...phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+        .boundaryMapSummary,
+      reportRunsChecks:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap.reportRunsChecks,
+      shellRuntimeEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .shellRuntimeEnabled,
+      replRuntimeEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .replRuntimeEnabled,
+      commandParserRuntimeEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .commandParserRuntimeEnabled,
+      pathLookupRuntimeEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .pathLookupRuntimeEnabled,
+      processSpawnEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .processSpawnEnabled,
+      terminalBackendRuntimeEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .terminalBackendRuntimeEnabled,
+      commandExposureEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .commandExposureEnabled,
+      blockedCliBypassEnabled:
+        phase574CommandSurfaceShellPrimitiveContractBoundaryMap
+          .blockedCliBypassEnabled
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -31539,6 +32027,7 @@ const report = {
     phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap:
       true,
     phase573ExternalGatewayMatrixTransportContractBoundaryMap: true,
+    phase574CommandSurfaceShellPrimitiveContractBoundaryMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
@@ -34849,6 +35338,7 @@ const report = {
       ...phase571SafetyFlags,
       ...phase572SafetyFlags,
       ...phase573SafetyFlags,
+      ...phase574SafetyFlags,
       freshExternalReviewRan: false,
       freshDevinReviewRan: false,
       freshJulesReviewRan: false,

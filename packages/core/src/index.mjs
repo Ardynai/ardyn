@@ -387,6 +387,12 @@ export const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_VERSION =
   "0.1.0";
 export const EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_KIND =
   "external-gateway-matrix-transport-contract-boundary-map";
+export const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.74.command-surface-shell-primitive-contract-boundary-map-result";
+export const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND =
+  "command-surface-shell-primitive-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -65046,6 +65052,1560 @@ export function createExternalGatewayMatrixTransportContractBoundaryMapForReview
     classification,
     accepted,
     externalGatewayMatrixTransportContractBoundaryMap
+  });
+}
+
+const COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.74.command-surface-shell-primitive-contract-boundary-map-state";
+const VALID_COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_command_surface_shell_primitive_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+
+const COMMAND_SURFACE_SHELL_BOUNDARY_FAMILIES = Object.freeze([
+  "command_surface_contract",
+  "repl_contract",
+  "prompt_contract",
+  "command_parser_contract",
+  "builtin_command_contract",
+  "path_resolution_contract",
+  "external_program_contract",
+  "process_spawn_boundary",
+  "exit_code_contract",
+  "quoting_contract",
+  "escaping_contract",
+  "redirection_contract",
+  "pipeline_contract",
+  "completion_contract",
+  "programmable_completion_contract",
+  "background_job_contract",
+  "job_control_contract",
+  "history_contract",
+  "history_persistence_contract",
+  "parameter_expansion_contract",
+  "environment_variable_contract",
+  "terminal_backend_contract",
+  "stdin_stdout_stderr_contract",
+  "shell_reference_boundary"
+]);
+const COMMAND_SURFACE_SHELL_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family",
+  "external-harness",
+  "codecrafters-shell-reference",
+  "hermes-reference",
+  "cua-driver-reference"
+]);
+const COMMAND_SURFACE_SHELL_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const COMMAND_SURFACE_SHELL_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "commandVisibilityExpectation",
+  "commandParsingExpectation",
+  "processControlExpectation",
+  "stdinStdoutStderrExpectation",
+  "filesystemInteractionExpectation",
+  "environmentSecretExposureExpectation",
+  "operatorApprovalExpectation",
+  "locusRoleDescription",
+  "fabricRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeCommandSurfaceShellPrimitiveRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const COMMAND_SURFACE_SHELL_ALLOWED_TOP_LEVEL_FIELDS = Object.freeze([
+  "reviewedAt",
+  "boundaryEntries"
+]);
+const COMMAND_SURFACE_SHELL_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "connectorGrantProduced",
+  "fabricRuntimeImplementedByArdyn",
+  "websocketHttpTransportImplementedByArdyn",
+  "httpTransportImplementedByArdyn",
+  "mcpRuntimeEnabled",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "schedulePollingEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "filesystemReadEnabled",
+  "processControlEnabled",
+  "shellRuntimeEnabled",
+  "replRuntimeEnabled",
+  "promptLoopEnabled",
+  "commandParserRuntimeEnabled",
+  "commandTokenizerRuntimeEnabled",
+  "builtinExecutionEnabled",
+  "pathLookupRuntimeEnabled",
+  "executableLookupRuntimeEnabled",
+  "externalProgramExecutionEnabled",
+  "processSpawnEnabled",
+  "stdinLoopEnabled",
+  "stdoutWriterEnabled",
+  "stderrWriterEnabled",
+  "redirectionRuntimeEnabled",
+  "pipelineRuntimeEnabled",
+  "completionRuntimeEnabled",
+  "completerRuntimeEnabled",
+  "programmableCompletionRuntimeEnabled",
+  "filenameCompletionRuntimeEnabled",
+  "backgroundJobRuntimeEnabled",
+  "jobControlRuntimeEnabled",
+  "commandHistoryRuntimeEnabled",
+  "historyPersistenceRuntimeEnabled",
+  "environmentVariableExpansionRuntimeEnabled",
+  "parameterExpansionRuntimeEnabled",
+  "terminalBackendRuntimeEnabled",
+  "terminalBackendExecutionEnabled",
+  "matrixClientRuntimeEnabled",
+  "homeserverConnectionEnabled",
+  "matrixRoomPollRuntimeEnabled",
+  "matrixRoomSendRuntimeEnabled",
+  "e2eeKeySessionHandlingEnabled",
+  "gatewayRuntimeEnabled",
+  "externalGatewayRuntimeEnabled",
+  "contentAddressedTransportEnabled",
+  "chunkedTransferEnabled",
+  "resumableTransferEnabled",
+  "multiSourceTransferEnabled",
+  "bittorrentDhtSwarmP2pEnabled",
+  "largePayloadTransferRuntimeEnabled",
+  "fabricCoreProducerBehaviorEnabled",
+  "sqliteRuntimeEnabled",
+  "embeddedDbRuntimeEnabled",
+  "queryEngineRuntimeEnabled",
+  "sqliteKeyRuntimeEnabled",
+  "envIngestionEnabled",
+  "secretLoadingEnabled",
+  "vaultAccessEnabled",
+  "tokenLoaderEnabled",
+  "oauthFlowEnabled",
+  "sessionHandlingEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "databaseClientImplemented",
+  "databaseStorageRuntimeWritesEnabled",
+  "cacheEngineImplemented",
+  "rlsRuntimeImplemented",
+  "databaseMigrationImplemented",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "loggerRuntimeImplemented",
+  "auditWriterRuntimeImplemented",
+  "telemetryClientImplemented",
+  "healthCheckRuntimeImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "failoverRuntimeImplemented",
+  "infrastructureAutomationImplemented",
+  "deploymentAutomationImplemented",
+  "complianceEnforcementImplemented",
+  "piiProcessingImplemented",
+  "retentionJobImplemented",
+  "exportJobImplemented",
+  "testingCiReleaseAutomationEnabled",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecRuntimeEnabled",
+  "translatorRuntimeEnabled",
+  "hermesRuntimeEnabled",
+  "cuaDriverRuntimeEnabled",
+  "computerUseRuntimeEnabled",
+  "filesystemProcessRuntimeEnabled",
+  "blockedCliBypassEnabled"
+]);
+const COMMAND_SURFACE_SHELL_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "runtimeAuthorizationGranted",
+  "authorizesRuntime",
+  "commandSurfaceAuthorizationGranted",
+  "shellRuntimeAuthorizationGranted",
+  "replAuthorizationGranted",
+  "parserRuntimeAuthorizationGranted",
+  "pathLookupAuthorizationGranted",
+  "processSpawnAuthorizationGranted",
+  "builtinExecutionAuthorizationGranted",
+  "redirectionPipelineAuthorizationGranted",
+  "completionAuthorizationGranted",
+  "jobControlAuthorizationGranted",
+  "historyPersistenceAuthorizationGranted",
+  "environmentExpansionAuthorizationGranted",
+  "terminalBackendAuthorizationGranted",
+  "fabricRuntimeAuthorizationGranted",
+  "matrixGatewayAuthorizationGranted",
+  "sqliteRuntimeAuthorizationGranted",
+  "secureDropAuthorizationGranted",
+  "backendApiServerAuthorizationGranted",
+  "databaseStorageAuthorizationGranted",
+  "connectorGrantAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+const COMMAND_SURFACE_SHELL_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "cliCommandExposed",
+  "shellCommandExposed",
+  "serveRuntimeCommandEnabled"
+]);
+const COMMAND_SURFACE_SHELL_BLOCKED_CLI_BYPASS_FIELDS = Object.freeze([
+  "blockedCliBypassEnabled",
+  "dryRunBypassesBlock",
+  "serveRuntimeBypassEnabled",
+  "bypassBlockedCommandBehavior",
+  "blockedCommandOverride"
+]);
+const COMMAND_SURFACE_SHELL_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_shell_repl_process_execution_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "shellRuntime",
+      "replRuntime",
+      "promptLoop",
+      "commandParser",
+      "commandTokenizer",
+      "builtinExecutor",
+      "processExecution",
+      "processSpawn",
+      "commandRunner"
+    ]
+  },
+  {
+    classification:
+      "hidden_path_executable_lookup_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "pathLookup",
+      "pathResolver",
+      "executableLookup",
+      "executableResolver",
+      "whichLookup",
+      "commandSearchPath"
+    ]
+  },
+  {
+    classification:
+      "hidden_filesystem_read_write_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "filesystemRead",
+      "filesystemWrite",
+      "fileOpen",
+      "fileCreate",
+      "directoryScan",
+      "globRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_env_secrets_exposure_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "envReader",
+      "envIngestion",
+      "environmentLoader",
+      "secretLoader",
+      "vaultAccess",
+      "tokenLoader",
+      "credentialExport"
+    ]
+  },
+  {
+    classification:
+      "hidden_pipe_redirection_stdio_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "pipeRuntime",
+      "pipelineRuntime",
+      "redirectionRuntime",
+      "stdoutWriter",
+      "stderrWriter",
+      "stdinLoop",
+      "appendRedirect"
+    ]
+  },
+  {
+    classification:
+      "hidden_job_control_background_worker_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "backgroundJob",
+      "jobControl",
+      "jobReaper",
+      "processSupervisor",
+      "workerRuntime",
+      "schedulerRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_command_exposure_or_runtime_authorization_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "commandExposure",
+      "commandRegistry",
+      "runtimeCommand",
+      "runtimeAuthorization",
+      "approvalGrant",
+      "approvalDecision"
+    ]
+  },
+  {
+    classification:
+      "hidden_backend_api_server_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "backendRuntime",
+      "apiServer",
+      "apiEndpoint",
+      "serverMiddleware",
+      "httpHandler"
+    ]
+  },
+  {
+    classification:
+      "hidden_database_storage_cache_write_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "databaseClient",
+      "storageAdapter",
+      "cacheEngine",
+      "databaseWrite",
+      "migrationRunner",
+      "rlsRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_auth_session_token_api_key_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "authSession",
+      "sessionToken",
+      "apiKey",
+      "oauthFlow",
+      "accessToken",
+      "refreshToken"
+    ]
+  },
+  {
+    classification:
+      "hidden_connector_grant_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "connectorGrant",
+      "providerGrant",
+      "pluginGrant",
+      "mcpGrant",
+      "toolGrant"
+    ]
+  },
+  {
+    classification:
+      "hidden_fabric_websocket_http_mcp_task_runtime_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "fabricRuntime",
+      "fabricBus",
+      "websocketTransport",
+      "httpTransport",
+      "mcpRuntime",
+      "mcpTool",
+      "taskExecutor"
+    ]
+  },
+  {
+    classification:
+      "hidden_secure_drop_implementation_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "secureDrop",
+      "secureDropCrypto",
+      "secureDropTransport",
+      "secureDropInbox",
+      "st3ggWrapper"
+    ]
+  },
+  {
+    classification:
+      "hidden_matrix_gateway_runtime_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "matrixClient",
+      "matrixRuntime",
+      "homeserverConnection",
+      "matrixRoomPoller",
+      "matrixMessageSender",
+      "externalGateway"
+    ]
+  },
+  {
+    classification:
+      "hidden_content_addressed_chunked_resumable_p2p_transport_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "contentAddressedTransport",
+      "chunkedTransfer",
+      "resumableTransfer",
+      "multiSourceTransfer",
+      "bittorrentRuntime",
+      "dhtRuntime",
+      "swarmRuntime",
+      "p2pTransfer"
+    ]
+  },
+  {
+    classification:
+      "hidden_sqlite_embedded_db_query_runtime_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "sqliteRuntime",
+      "embeddedDb",
+      "queryEngine",
+      "sqlParser",
+      "btreeTraversal",
+      "walRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_hermes_cua_computer_use_runtime_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "hermesRuntime",
+      "cuaDriver",
+      "computerUse",
+      "screenshotRuntime",
+      "inputAutomation",
+      "accessibilityTree"
+    ]
+  },
+  {
+    classification:
+      "hidden_encoded_handoff_runtime_codec_translator_stego_covert_channel_tokenizer_exploit_bypass_semantics_command_surface_shell_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "encodedHandoffRuntime",
+      "codecRuntime",
+      "translatorRuntime",
+      "stegoRuntime",
+      "covertChannel",
+      "tokenizerExploit",
+      "bypassRuntime"
+    ]
+  }
+]);
+
+function commandSurfaceShellBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function commandSurfaceShellBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function commandSurfaceShellBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(commandSurfaceShellBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(commandSurfaceShellBoundaryMapContainsTrue);
+  }
+
+  return false;
+}
+
+function commandSurfaceShellBoundaryMapHasTrueFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      commandSurfaceShellBoundaryMapHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (commandSurfaceShellBoundaryMapHasTrueFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function commandSurfaceShellBoundaryMapHasPresentFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      commandSurfaceShellBoundaryMapHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeCommandSurfaceShellPrimitiveRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (commandSurfaceShellBoundaryMapHasPresentFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function commandSurfaceShellBoundaryMapEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function commandSurfaceShellBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function commandSurfaceShellBoundaryMapEntryIssue(entries, predicate) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function commandSurfaceShellBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    COMMAND_SURFACE_SHELL_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function commandSurfaceShellBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.commandVisibilityExpectation !== "string" ||
+    typeof entry.commandParsingExpectation !== "string" ||
+    typeof entry.processControlExpectation !== "string" ||
+    typeof entry.stdinStdoutStderrExpectation !== "string" ||
+    typeof entry.filesystemInteractionExpectation !== "string" ||
+    typeof entry.environmentSecretExposureExpectation !== "string" ||
+    typeof entry.operatorApprovalExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(
+      entry.unsafeCommandSurfaceShellPrimitiveRuntimeFlags
+    ) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function commandSurfaceShellBoundaryMapAuthorizationFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    COMMAND_SURFACE_SHELL_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function commandSurfaceShellBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(
+      value.unsafeCommandSurfaceShellPrimitiveRuntimeFlags
+    ) &&
+      Object.values(
+        value.unsafeCommandSurfaceShellPrimitiveRuntimeFlags
+      ).some((flag) => flag !== false)) ||
+    commandSurfaceShellBoundaryMapHasTrueFieldDeep(
+      value,
+      COMMAND_SURFACE_SHELL_UNSAFE_FIELDS
+    )
+  );
+}
+
+function commandSurfaceShellBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(commandSurfaceShellBoundaryMapEntries())
+  );
+}
+
+function commandSurfaceShellBoundaryMapInputClassification(inputRecord) {
+  if (commandSurfaceShellBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries = commandSurfaceShellBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    commandSurfaceShellBoundaryMapEntryIssue(
+      entries,
+      commandSurfaceShellBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_command_surface_shell_primitive_boundary_entry_rejected";
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !COMMAND_SURFACE_SHELL_BOUNDARY_FAMILIES.includes(entry.boundaryFamily)
+    )
+  ) {
+    return "unknown_boundary_family_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !COMMAND_SURFACE_SHELL_RELATED_SYSTEMS.includes(entry.relatedSystem)
+    )
+  ) {
+    return "unknown_related_system_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapEntryIssue(
+      entries,
+      (entry) => !COMMAND_SURFACE_SHELL_STATUSES.includes(entry.currentStatus)
+    )
+  ) {
+    return "unknown_current_status_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapEntryIssue(
+      entries,
+      commandSurfaceShellBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "runtimeAuthorized",
+      "authorizesRuntime"
+    ])
+  ) {
+    return "runtime_authorization_attempt_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    COMMAND_SURFACE_SHELL_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord?.[field] === true
+    ) ||
+    commandSurfaceShellBoundaryMapEntryIssue(
+      entries,
+      commandSurfaceShellBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    commandSurfaceShellBoundaryMapAuthorizationFlagEnabled(inputRecord)
+  ) {
+    return "authorization_flags_enabled_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      COMMAND_SURFACE_SHELL_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      COMMAND_SURFACE_SHELL_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      COMMAND_SURFACE_SHELL_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  for (const { classification, fields } of COMMAND_SURFACE_SHELL_HIDDEN_FIELD_GROUPS) {
+    if (commandSurfaceShellBoundaryMapHasPresentFieldDeep(inputRecord, fields)) {
+      return classification;
+    }
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapUnsafeFlagEnabled(inputRecord) ||
+    commandSurfaceShellBoundaryMapEntryIssue(
+      entries,
+      commandSurfaceShellBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_command_surface_shell_primitive_runtime_flags_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    commandSurfaceShellBoundaryMapEntryIssue(entries, (entry) =>
+      commandSurfaceShellBoundaryMapContainsTrue(entry?.runtimeEffect)
+    ) ||
+    commandSurfaceShellBoundaryMapContainsTrue(inputRecord?.runtimeEffect)
+  ) {
+    return "nested_unsafe_flags_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord ?? {}).some(
+      (field) =>
+        !COMMAND_SURFACE_SHELL_ALLOWED_TOP_LEVEL_FIELDS.includes(field)
+    )
+  ) {
+    return "unknown_top_level_field_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (!commandSurfaceShellBoundaryMapCanonical(entries)) {
+    return "noncanonical_command_surface_shell_primitive_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function commandSurfaceShellBoundaryMapForbiddenBehavior() {
+  return [
+    "shell runtime, REPL, prompt loop, command parser, tokenizer, builtin execution, command execution, process spawning, process control, terminal backend execution, stdin loop, stdout/stderr writers, pipes, redirection, completion, job control, background jobs, command history, history persistence, parameter expansion, or environment variable expansion",
+    "PATH lookup, executable lookup, command search, filename completion, globbing, filesystem shell behavior, filesystem read/write, command history file access, or shell history persistence",
+    "new CLI command exposure, serve-runtime bypass, runtime authorization, approval decision/grant, reviewer routing, evaluator execution, transcript/audit runtime writes, or command-surface control behavior",
+    "secret store, env ingestion, vault access, token loader, OAuth flow, session handling, API key handling, credential export, secret persistence, credential scanner runtime, secret scanner runtime, rotation/revocation job, or redaction runtime",
+    "Fabric bus, websocket/http transport, MCP exposure, task execution, connector grants, backend middleware, API/server behavior, database client, storage adapter, cache engine, RLS runtime, migration, logger runtime, audit writer, transcript writer, telemetry client, health check, backup job, restore job, failover runtime, infrastructure/deployment/compliance automation, PII processing, retention/export job, testing/CI/release automation, filesystem write, process control, UI behavior, or blocked CLI bypass",
+    "Matrix client behavior, homeserver connection, E2EE key/session handling, message polling, message sending, room joining, external gateway client, service discovery, scheduling, polling, connector runtime, gateway runtime, content-addressed/chunked/resumable/multi-source/BitTorrent/DHT/swarm/P2P/large-payload transfer, fabric-core producer behavior, Secure Drop implementation, encoded handoff runtime, codec, translator, stego, covert channel, tokenizer exploit, bypass, Hermes/CUA/computer-use runtime, SQLite runtime, embedded DB/query runtime, or DB storage behavior"
+  ];
+}
+
+function commandSurfaceShellBoundaryMapAuthorizationFlags() {
+  return Object.fromEntries(
+    COMMAND_SURFACE_SHELL_AUTHORIZATION_FIELDS.map((field) => [field, false])
+  );
+}
+
+function commandSurfaceShellBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    COMMAND_SURFACE_SHELL_UNSAFE_FIELDS.map((field) => [field, false])
+  );
+}
+
+function commandSurfaceShellBoundaryMapDefinition({
+  boundaryId,
+  boundaryFamily,
+  relatedSystem,
+  currentStatus = "metadata_only",
+  contract,
+  commandVisibility,
+  commandParsing,
+  processControl,
+  stdio,
+  filesystem,
+  environmentSecret,
+  operatorApproval,
+  locusRole,
+  fabricRole
+}) {
+  return {
+    boundaryId,
+    boundaryFamily,
+    relatedSystem,
+    currentStatus,
+    allowedCurrentBehavior: [
+      "record deterministic review-only metadata",
+      "use shell concepts as a taxonomy for future command handling",
+      "reference prior Ardyn boundary fixtures without adding command runtime"
+    ],
+    forbiddenCurrentBehavior: commandSurfaceShellBoundaryMapForbiddenBehavior(),
+    requiredFutureContractBeforeImplementation: contract,
+    requiredFutureAuthorizationPhaseBeforeRuntime:
+      "A separate post-5.74 runtime authorization phase must approve command ownership, parser semantics, process-control boundaries, stdio policy, filesystem/env exposure, operator consent, audit visibility, rollback, and source guards before any shell or command-surface runtime can exist.",
+    commandVisibilityExpectation: commandVisibility,
+    commandParsingExpectation: commandParsing,
+    processControlExpectation: processControl,
+    stdinStdoutStderrExpectation: stdio,
+    filesystemInteractionExpectation: filesystem,
+    environmentSecretExposureExpectation: environmentSecret,
+    operatorApprovalExpectation: operatorApproval,
+    locusRoleDescription: locusRole,
+    fabricRoleDescription: fabricRole
+  };
+}
+
+function commandSurfaceShellBoundaryMapDefinitions() {
+  const defaults = {
+    commandVisibility:
+      "Current command visibility remains limited to existing blocked CLI behavior; this metadata exposes no command and registers no command surface.",
+    commandParsing:
+      "Future contract must define grammar, tokenization, quoting, escaping, expansion order, invalid command errors, and fail-closed parsing before runtime; Phase 5.74 parses no command.",
+    processControl:
+      "Future contract must define process spawn, exit-code, cancellation, retry, background job, reaping, and kill semantics before runtime; Phase 5.74 starts no process.",
+    stdio:
+      "Future contract must define stdin/stdout/stderr ownership, buffering, redirection, transcript, error-report, and audit boundaries before runtime; Phase 5.74 opens no stdin loop and writes no runtime stdout/stderr.",
+    filesystem:
+      "Future contract must define all filesystem reads, writes, PATH/executable lookup, filename completion, history persistence, and shell working-directory behavior before runtime; Phase 5.74 performs no shell filesystem behavior.",
+    environmentSecret:
+      "Future contract must bind environment-variable handling to Phase 5.72 secret/env provenance, redaction, least-privilege, and local-only/cloud-opt-in policy; Phase 5.74 reads no env and loads no secret.",
+    operatorApproval:
+      "Future contract must require explicit operator approval, auth/permissions linkage from Phase 5.62, input-sanitization linkage from Phase 5.63, retry/cancellation linkage from Phase 5.70, and audit linkage from Phase 5.65 before runtime.",
+    locusRole:
+      "Locus may later display command/control-surface status only after a separate contract; Phase 5.74 adds no Locus integration, UI, dashboard, bridge, or runtime status feed.",
+    fabricRole:
+      "Fabric/API/backend command envelopes remain future metadata only; Phase 5.74 adds no Fabric bus, websocket/http transport, MCP exposure, task execution, backend, persistence, or fabric-core producer behavior."
+  };
+
+  return [
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.cli_command_recognition.command_surface_contract",
+      boundaryFamily: "command_surface_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define CLI command recognition, allowlist, help/error display, blocked-command behavior, auth boundary, and report-only provenance before any new command is exposed.",
+      commandVisibility:
+        "Existing blocked CLI probes remain rejected; Phase 5.74 recognizes no new command, exposes no shell command, and cannot make serve-runtime runnable.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.serve_runtime.blocked_command_boundary",
+      boundaryFamily: "command_surface_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      contract:
+        "Preserve serve-runtime default-blocked behavior until a future runtime approval phase explicitly changes CLI behavior and source guards.",
+      commandVisibility:
+        "serve-runtime and dry-run variants remain blocked command probes; metadata cannot bypass the blocked CLI matrix.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn_subagent.future_repl.contract",
+      boundaryFamily: "repl_contract",
+      relatedSystem: "ardyn-subagent",
+      contract:
+        "Define any future REPL ownership, input loop, evaluation boundary, cancellation, transcript, and approval semantics before runtime.",
+      commandVisibility:
+        "No interactive REPL, stdin loop, evaluator, prompt loop, or command session is exposed in Phase 5.74.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.prompt.contract",
+      boundaryFamily: "prompt_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define future prompt rendering, prompt state, current directory display, identity display, and no-secret display policy before runtime.",
+      commandVisibility:
+        "No prompt text, shell banner, terminal UI, or command input affordance is added by Phase 5.74.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.repo_family.command_parser_tokenizer.contract",
+      boundaryFamily: "command_parser_contract",
+      relatedSystem: "repo-family",
+      contract:
+        "Define tokenizer/parser grammar, invalid-command handling, quoting/escaping interaction, expansion order, sanitization, and fuzz/fail-closed tests before runtime.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.builtin_command.contract",
+      boundaryFamily: "builtin_command_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define builtin command inventory, authorization, side effects, help text, error behavior, audit/redaction, and no-op review mode before any builtin can run.",
+      commandVisibility:
+        "No builtin such as cd, pwd, echo, type, exit, history, jobs, fg, bg, or help is implemented or exposed.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.codecrafters_shell_reference.path_resolution.contract",
+      boundaryFamily: "path_resolution_contract",
+      relatedSystem: "codecrafters-shell-reference",
+      contract:
+        "Use CodeCrafters shell concepts only as taxonomy for future PATH/executable lookup boundaries; no repo code, SDK, shell challenge implementation, or lookup runtime is integrated.",
+      processControl:
+        "PATH and executable lookup are blocked because they are prerequisites to process execution; Phase 5.74 resolves no executable.",
+      filesystem:
+        "No PATH directory scan, filesystem stat, executable completion, or command search is performed.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.external_harness.external_program.contract",
+      boundaryFamily: "external_program_contract",
+      relatedSystem: "external-harness",
+      contract:
+        "Define external program invocation ownership, command handoff, sandbox policy, environment policy, stdio routing, exit-code mapping, and operator approval before runtime.",
+      processControl:
+        "External harness command handoff is metadata only; Phase 5.74 does not spawn, invoke, supervise, or bridge external programs.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.process_spawn.boundary",
+      boundaryFamily: "process_spawn_boundary",
+      relatedSystem: "ardyn",
+      contract:
+        "Define process spawn allowlist, argv/env construction, working directory, stdio policy, cancellation, timeout, kill, audit, and rollback before runtime.",
+      processControl:
+        "Process spawn, process groups, kill, signal handling, supervisors, and child lifecycle management remain entirely blocked.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.repo_family.exit_code_invalid_command.contract",
+      boundaryFamily: "exit_code_contract",
+      relatedSystem: "repo-family",
+      contract:
+        "Define invalid-command and child exit-code mapping, retry/cancellation linkage from Phase 5.70, error redaction, and transcript policy before runtime.",
+      commandVisibility:
+        "Invalid future command names remain rejected by the existing CLI; Phase 5.74 adds no shell-specific error runner.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.codecrafters_shell_reference.quoting.contract",
+      boundaryFamily: "quoting_contract",
+      relatedSystem: "codecrafters-shell-reference",
+      contract:
+        "Use shell quoting concepts only as future parser taxonomy; define quote grammar, nesting, literal handling, and error behavior before runtime.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.codecrafters_shell_reference.escaping.contract",
+      boundaryFamily: "escaping_contract",
+      relatedSystem: "codecrafters-shell-reference",
+      contract:
+        "Use shell escaping concepts only as future parser taxonomy; define escape grammar, platform differences, and sanitizer interaction before runtime.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.stdout_stderr_redirection.contract",
+      boundaryFamily: "redirection_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define stdout/stderr redirection, append redirection, file target authorization, overwrite policy, redaction, and audit before runtime.",
+      stdio:
+        "No stdout/stderr writer, redirect target, append mode, file descriptor routing, or runtime transcript writer is implemented.",
+      filesystem:
+        "Redirection would imply filesystem writes; Phase 5.74 writes no redirected output and opens no file target.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.pipeline.contract",
+      boundaryFamily: "pipeline_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define pipeline parsing, process fanout, pipe ownership, backpressure, exit-code aggregation, cancellation, and redaction before runtime.",
+      processControl:
+        "Pipelines are blocked because they imply multiple process spawns and pipe IO; Phase 5.74 creates no pipe.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.completion_filename.contract",
+      boundaryFamily: "completion_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define autocomplete and filename completion visibility, filesystem scan policy, secret redaction, latency budget, and consent before runtime.",
+      commandVisibility:
+        "No completion UI, completer, filename probe, filesystem scan, or suggestion engine is added.",
+      filesystem:
+        "Filename completion would require filesystem reads; Phase 5.74 performs no completion scan.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.repo_family.programmable_completion.contract",
+      boundaryFamily: "programmable_completion_contract",
+      relatedSystem: "repo-family",
+      contract:
+        "Define programmable completion scripts/providers, trust provenance, plugin boundaries, command execution prohibition, and audit before runtime.",
+      commandVisibility:
+        "No programmable completion hook, script, provider registry, plugin grant, or command-executing completer is exposed.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.background_job.contract",
+      boundaryFamily: "background_job_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define background job launch, listing, reaping, cancellation, output collection, operator approval, and no-orphan guarantees before runtime.",
+      processControl:
+        "Background jobs, job listing, job reaping, worker runtimes, and process supervisors remain blocked.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.job_control.contract",
+      boundaryFamily: "job_control_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define foreground/background switching, signal policy, terminal ownership, process groups, and audit before any job control exists.",
+      processControl:
+        "No fg, bg, jobs, wait, signal forwarding, terminal process group, or reaping behavior is implemented.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.history.contract",
+      boundaryFamily: "history_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define command history capture, redaction, retention, secrets handling, search, consent, and local-only policy before runtime.",
+      environmentSecret:
+        "History may expose secrets and env values; Phase 5.74 records no history and persists no command text.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.history_persistence.contract",
+      boundaryFamily: "history_persistence_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define history persistence path, encryption/keying, deletion, retention, export, cloud opt-in, and redaction before any write.",
+      filesystem:
+        "History persistence would write storage; Phase 5.74 creates no history file, cache, database, transcript, or audit writer.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.codecrafters_shell_reference.parameter_expansion.contract",
+      boundaryFamily: "parameter_expansion_contract",
+      relatedSystem: "codecrafters-shell-reference",
+      contract:
+        "Use shell parameter expansion concepts only as taxonomy; define expansion order, defaults, errors, nested expansion, and secret redaction before runtime.",
+      commandParsing:
+        "No variable, parameter, command substitution, arithmetic expansion, globbing, or tokenizer exploit path is implemented.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.ardyn.environment_variable.contract",
+      boundaryFamily: "environment_variable_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define environment-variable expansion, inheritance, redaction, denylist/allowlist, local-only/cloud-opt-in, and Phase 5.72 provenance before runtime.",
+      environmentSecret:
+        "Environment variables are treated as potential secrets; Phase 5.74 performs no env ingestion, expansion, inheritance, logging, or export.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.hermes_reference.terminal_backend.contract",
+      boundaryFamily: "terminal_backend_contract",
+      relatedSystem: "hermes-reference",
+      contract:
+        "Define terminal backend ownership, Hermes/CUA trust boundary from Phase 5.68, telemetry opt-in, input/output access, and no computer-use escalation before runtime.",
+      commandVisibility:
+        "Terminal backend remains a reference boundary only; Phase 5.74 adds no terminal backend, desktop control, browser control, screenshot, OCR, or accessibility runtime.",
+      processControl:
+        "No terminal session, PTY, OS window enumeration, input automation, or driver install/update/runtime is implemented.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.cua_driver_reference.stdin_stdout_stderr.contract",
+      boundaryFamily: "stdin_stdout_stderr_contract",
+      relatedSystem: "cua-driver-reference",
+      contract:
+        "Define stdin/stdout/stderr ownership, buffering, terminal profile, transcript boundaries, CUA permission secrecy, telemetry opt-in, and approval before runtime.",
+      stdio:
+        "No CUA driver stdio invocation, stdin loop, stdout/stderr runtime writer, terminal backend writer, transcript writer, or audit writer is implemented.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.locus.command_control_surface_display.contract",
+      boundaryFamily: "command_surface_contract",
+      relatedSystem: "locus",
+      contract:
+        "Define future Locus command/control-surface display status, non-authorizing indicators, consent, redaction, and no command grant semantics before runtime.",
+      commandVisibility:
+        "Locus-visible command status remains future display-only metadata; Phase 5.74 adds no Locus UI, dashboard, bridge, or control command.",
+      locusRole:
+        "Locus may later display blocked/available command-surface metadata only after a contract; it must not authorize commands or operate a shell.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.multiverse.fabric_api_backend_command_envelope.contract",
+      boundaryFamily: "command_surface_contract",
+      relatedSystem: "multiverse",
+      currentStatus: "future_contract_required",
+      contract:
+        "Define future Fabric/API/backend command envelope schema, provenance, authorization, queue prohibition or ownership, and consumer boundaries before runtime.",
+      fabricRole:
+        "Fabric/API/backend command envelopes remain metadata only; Ardyn adds no Fabric bus, backend API, storage, queue, task runtime, or fabric-core producer behavior.",
+      ...defaults
+    }),
+    commandSurfaceShellBoundaryMapDefinition({
+      boundaryId: "phase5-74.content_fabric.secure_drop_command_reference.boundary",
+      boundaryFamily: "shell_reference_boundary",
+      relatedSystem: "content-fabric",
+      contract:
+        "Record Secure Drop command references only as future review metadata with canonical implementation remaining in content-fabric before any command surface can mention it.",
+      commandVisibility:
+        "No Secure Drop command, inbox polling, crypto, transport, file selection, ST3GG wrapping, or connector ingestion is added.",
+      ...defaults
+    })
+  ];
+}
+
+function commandSurfaceShellBoundaryMapEntry(definition) {
+  return {
+    ...definition,
+    phase562AuthPermissionsCommandAuthorizationReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      commandAuthorizationRequiredBeforeRuntime: true,
+      runtimeAuthorized: false
+    },
+    phase563SecurityInputSanitizationCommandReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      inputSanitizationRequiredBeforeRuntime: true,
+      runtimeAuthorized: false
+    },
+    phase565LoggingAuditCommandReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      auditContractRequiredBeforeRuntime: true,
+      auditWriterRuntimeImplemented: false
+    },
+    phase568TerminalBackendReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-68/agent-mode-profile-skillhub-capability-boundary-map.json",
+      terminalBackendReferenceOnly: true,
+      hermesCuaRuntimeAuthorized: false
+    },
+    phase570OperationsReliabilityReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-70/operations-reliability-contract-boundary-map.json",
+      retryCancellationContractRequiredBeforeRuntime: true,
+      retryEngineImplemented: false
+    },
+    phase572SecretsEnvExposureReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json",
+      envSecretExposureBoundaryRequiredBeforeRuntime: true,
+      envIngestionEnabled: false
+    },
+    phase573ExternalGatewayMatrixBoundaryReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-73/external-gateway-matrix-transport-contract-boundary-map.json",
+      gatewayRuntimeAuthorized: false,
+      matrixRuntimeAuthorized: false
+    },
+    codecraftersShellReferenceTaxonomy: {
+      upstreamReference: "codecrafters-io/build-your-own-shell",
+      taxonomyOnly: true,
+      repositoryInstalledOrCopied: false,
+      courseSdkIntegrated: false
+    },
+    commandSurfaceBoundaryMetadataOnly: true,
+    noLiveCommandSurfaceShellPrimitiveRuntimePerformed: true,
+    explicitBlockedAuthorizationFlags:
+      commandSurfaceShellBoundaryMapAuthorizationFlags(),
+    unsafeCommandSurfaceShellPrimitiveRuntimeFlags:
+      commandSurfaceShellBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function commandSurfaceShellBoundaryMapEntries() {
+  return commandSurfaceShellBoundaryMapDefinitions().map(
+    commandSurfaceShellBoundaryMapEntry
+  );
+}
+
+function commandSurfaceShellBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    COMMAND_SURFACE_SHELL_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    COMMAND_SURFACE_SHELL_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+  const countByStatus = Object.fromEntries(
+    COMMAND_SURFACE_SHELL_STATUSES.map((status) => [
+      status,
+      entries.filter((entry) => entry.currentStatus === status).length
+    ])
+  );
+  const allBlockedAuthorizationFlagsFalse = entries.every((entry) =>
+    Object.values(entry.explicitBlockedAuthorizationFlags).every(
+      (value) => value === false
+    )
+  );
+  const allUnsafeCommandSurfaceShellPrimitiveRuntimeFlagsFalse = entries.every(
+    (entry) =>
+      Object.values(
+        entry.unsafeCommandSurfaceShellPrimitiveRuntimeFlags
+      ).every((value) => value === false)
+  );
+  const allRuntimeEffectsFalse = entries.every((entry) =>
+    Object.values(entry.runtimeEffect).every((value) => value === false)
+  );
+
+  return {
+    boundaryMapKind:
+      COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    boundaryFamilies: [...COMMAND_SURFACE_SHELL_BOUNDARY_FAMILIES],
+    relatedSystems: [...COMMAND_SURFACE_SHELL_RELATED_SYSTEMS],
+    currentStatusValues: [...COMMAND_SURFACE_SHELL_STATUSES],
+    commandSurfaceShellPrimitiveBoundaryMetadataOnly: true,
+    noLiveCommandSurfaceShellPrimitiveRuntimePerformed: true,
+    cliCommandRecognitionBoundaryRecorded: true,
+    serveRuntimeBlockedCommandBoundaryRecorded: true,
+    futureReplPromptBoundaryRecorded: true,
+    commandParserTokenizerBoundaryRecorded: true,
+    builtinCommandBoundaryRecorded: true,
+    invalidCommandErrorHandlingBoundaryRecorded: true,
+    pathExecutableLookupBoundaryRecorded: true,
+    externalProgramExecutionBoundaryRecorded: true,
+    processSpawnExitCodeBoundaryRecorded: true,
+    quotingEscapingBoundaryRecorded: true,
+    stdoutStderrRedirectionBoundaryRecorded: true,
+    appendRedirectionBoundaryRecorded: true,
+    pipelineBoundaryRecorded: true,
+    completionAutocompleteBoundaryRecorded: true,
+    programmableCompletionBoundaryRecorded: true,
+    filenameCompletionBoundaryRecorded: true,
+    backgroundJobsJobListingReapingBoundaryRecorded: true,
+    commandHistoryPersistenceBoundaryRecorded: true,
+    parameterExpansionBoundaryRecorded: true,
+    environmentVariableExpansionBoundaryRecorded: true,
+    terminalBackendBoundaryFromPhase568Recorded: true,
+    operationsReliabilityRetryCancellationBoundaryFromPhase570Recorded: true,
+    authPermissionsCommandAuthorizationBoundaryFromPhase562Recorded: true,
+    securityInputSanitizationCommandBoundaryFromPhase563Recorded: true,
+    secretsEnvExposureBoundaryFromPhase572Recorded: true,
+    loggingAuditBoundaryFromPhase565Recorded: true,
+    locusCommandControlSurfaceDisplayBoundaryRecorded: true,
+    fabricApiBackendCommandEnvelopeBoundaryRecorded: true,
+    externalHarnessCommandHandoffBoundaryRecorded: true,
+    noShellRuntime: true,
+    noReplRuntime: true,
+    noCommandParserRuntime: true,
+    noPathLookupRuntime: true,
+    noProcessSpawn: true,
+    noBuiltinExecution: true,
+    noRedirectionPipelineRuntime: true,
+    noCompletionRuntime: true,
+    noBackgroundJobRuntime: true,
+    noHistoryRuntime: true,
+    noEnvironmentParameterExpansionRuntime: true,
+    noTerminalBackendRuntime: true,
+    noMatrixGatewayRuntime: true,
+    noContentAddressedChunkedResumableP2pTransport: true,
+    noSqliteRuntime: true,
+    noSecureDropImplementation: true,
+    noFabricWebsocketHttpMcpTaskRuntime: true,
+    noBackendApiServerDatabaseStorageCacheRlsMigration: true,
+    noEncodedHandoffRuntimeCodecTranslator: true,
+    noHermesCuaComputerUseRuntime: true,
+    noLoggerAuditTelemetryHealthRuntime: true,
+    noInfrastructureDeploymentComplianceAutomation: true,
+    noTestingCiReleaseAutomation: true,
+    noFilesystemProcessUiRuntime: true,
+    noCommandExposure: true,
+    noBlockedCliBypass: true,
+    allBlockedAuthorizationFlagsFalse,
+    allUnsafeCommandSurfaceShellPrimitiveRuntimeFlagsFalse,
+    allRuntimeEffectsFalse,
+    allEntriesNonAuthorizing: entries.every(
+      (entry) => entry.nonAuthorizingProof === true
+    )
+  };
+}
+
+function commandSurfaceShellBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    unsafeRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    enabledShellRuntimeFailClosed: true,
+    enabledReplFailClosed: true,
+    enabledCommandParserRuntimeFailClosed: true,
+    enabledBuiltinExecutionFailClosed: true,
+    enabledPathLookupFailClosed: true,
+    enabledExternalProgramExecutionFailClosed: true,
+    enabledProcessSpawnFailClosed: true,
+    enabledStdinLoopFailClosed: true,
+    enabledStdoutStderrWriterFailClosed: true,
+    enabledRedirectionPipelineRuntimeFailClosed: true,
+    enabledCompletionCompleterRuntimeFailClosed: true,
+    enabledBackgroundJobRuntimeFailClosed: true,
+    enabledJobControlRuntimeFailClosed: true,
+    enabledCommandHistoryPersistenceFailClosed: true,
+    enabledEnvironmentVariableExpansionRuntimeFailClosed: true,
+    enabledParameterExpansionRuntimeFailClosed: true,
+    enabledTerminalBackendRuntimeFailClosed: true,
+    hiddenShellReplProcessExecutionSemanticsFailClosed: true,
+    hiddenPathExecutableLookupSemanticsFailClosed: true,
+    hiddenFilesystemReadWriteSemanticsFailClosed: true,
+    hiddenEnvSecretsExposureSemanticsFailClosed: true,
+    hiddenPipeRedirectionStdioSemanticsFailClosed: true,
+    hiddenJobControlBackgroundWorkerSemanticsFailClosed: true,
+    hiddenCommandExposureOrRuntimeAuthorizationSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenDatabaseStorageCacheWriteSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenMatrixGatewayRuntimeSemanticsFailClosed: true,
+    hiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed: true,
+    hiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed: true,
+    hiddenHermesCuaComputerUseRuntimeSemanticsFailClosed: true,
+    hiddenEncodedHandoffRuntimeCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed:
+      true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationRunsShell: false,
+    validationParsesCommands: false,
+    validationSpawnsProcesses: false,
+    validationReadsPathOrEnv: false,
+    validationWritesFilesystem: false,
+    validationRequestsJules: false
+  };
+}
+
+function commandSurfaceShellBoundaryMapGaps() {
+  return [
+    "Future command-surface work still needs CLI recognition, allowlist, blocked-command, auth/permissions, input-sanitization, operator-approval, audit, and source-guard contracts before command exposure.",
+    "Future shell primitive work still needs REPL, prompt, parser/tokenizer, quoting, escaping, expansion, builtins, PATH/executable lookup, process spawn, exit-code, stdio, redirection, pipeline, completion, job-control, and history contracts before runtime.",
+    "Future environment/secret handling remains blocked until Phase 5.72 provenance, redaction, least-privilege, and local-only/cloud-opt-in expectations are implemented in a separately authorized runtime phase.",
+    "Future Locus display, external-harness handoff, Fabric/API/backend command envelopes, terminal backend, Hermes/CUA, Matrix/gateway, Secure Drop, encoded handoff, SQLite, and storage behavior remain metadata-only references.",
+    "Future embedded DB/query-engine primitive work remains a separate review-only boundary map before any SQLite or DB runtime authorization."
+  ];
+}
+
+function commandSurfaceShellBoundaryMapState(reviewedAt) {
+  const boundaryEntries = commandSurfaceShellBoundaryMapEntries();
+
+  return {
+    schema:
+      COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion:
+      COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind: COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase559FabricAwareApiBackendBoundary:
+        "tests/fixtures/host-policy/phase5-59/fabric-aware-api-backend-contract-boundary-map.json",
+      phase562AuthPermissionsContractBoundary:
+        "tests/fixtures/host-policy/phase5-62/auth-permissions-contract-boundary-map.json",
+      phase563SecurityRlsInputSanitizationBoundary:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      phase565ErrorTrackingLoggingAuditIntegrityBoundary:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      phase568AgentModeProfileSkillhubCapabilityBoundary:
+        "tests/fixtures/host-policy/phase5-68/agent-mode-profile-skillhub-capability-boundary-map.json",
+      phase570OperationsReliabilityBoundary:
+        "tests/fixtures/host-policy/phase5-70/operations-reliability-contract-boundary-map.json",
+      phase572SecretsCredentialBoundary:
+        "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json",
+      phase573ExternalGatewayMatrixTransportBoundary:
+        "tests/fixtures/host-policy/phase5-73/external-gateway-matrix-transport-contract-boundary-map.json",
+      codecraftersShellReference: "codecrafters-io/build-your-own-shell",
+      codecraftersShellReferenceTaxonomyOnly: true,
+      codecraftersShellRepoInstalledOrCopied: false,
+      commandSurfaceCoverageItemRepresented: true,
+      noShellRuntimeImplemented: true,
+      noCommandParserImplemented: true,
+      noProcessSpawnImplemented: true,
+      noTerminalBackendImplemented: true,
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      commandSurfaceShellBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      commandSurfaceShellBoundaryMapValidationRules(),
+    topCommandSurfaceShellSqliteCodeModeFabricApiBackendGaps:
+      commandSurfaceShellBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.75-review-only-embedded-db-query-engine-primitive-contract-boundary-map",
+    commandSurfaceShellPrimitiveContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...commandSurfaceShellBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function commandSurfaceShellBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  commandSurfaceShellPrimitiveContractBoundaryMap
+}) {
+  return {
+    schema: COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion:
+      COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION,
+    commandSurfaceShellPrimitiveContractBoundaryMapKind:
+      COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND,
+    commandSurfaceShellPrimitiveContractBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    commandSurfaceShellPrimitiveContractBoundaryMapProduced: accepted,
+    commandSurfaceShellPrimitiveContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? commandSurfaceShellPrimitiveContractBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? commandSurfaceShellPrimitiveContractBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? commandSurfaceShellPrimitiveContractBoundaryMap.invalidBoundaryCasePolicy
+      : commandSurfaceShellBoundaryMapValidationRules(),
+    topCommandSurfaceShellSqliteCodeModeFabricApiBackendGaps: accepted
+      ? commandSurfaceShellPrimitiveContractBoundaryMap
+          .topCommandSurfaceShellSqliteCodeModeFabricApiBackendGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? commandSurfaceShellPrimitiveContractBoundaryMap.recommendedNextPhase
+      : null,
+    commandSurfaceShellPrimitiveContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...commandSurfaceShellBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            commandSurfaceAuthorized: false,
+            shellRuntimeAuthorized: false,
+            processSpawnAuthorized: false,
+            pathLookupAuthorized: false,
+            terminalBackendAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createCommandSurfaceShellPrimitiveContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord = commandSurfaceShellBoundaryMapInputRecord(input);
+  const reviewedAt = commandSurfaceShellBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    commandSurfaceShellBoundaryMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const commandSurfaceShellPrimitiveContractBoundaryMap = accepted
+    ? commandSurfaceShellBoundaryMapState(reviewedAt)
+    : null;
+
+  return commandSurfaceShellBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    commandSurfaceShellPrimitiveContractBoundaryMap
   });
 }
 

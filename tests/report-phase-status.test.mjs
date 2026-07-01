@@ -7462,6 +7462,234 @@ const phase573SafetyFlagNames = [
   ...phase573ExpectedTrueSafetyFlagNames,
   ...phase573ExpectedFalseSafetyFlagNames
 ];
+const phase574DocFiles = [
+  "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md",
+  "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+  "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md"
+];
+const phase574CrossLinks = [
+  "docs/phase-5-59-fabric-aware-api-backend-contract-boundary-map.md",
+  "docs/phase-5-62-auth-permissions-contract-boundary-map.md",
+  "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+  "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+  "docs/phase-5-68-agent-mode-profile-skillhub-capability-boundary-map.md",
+  "docs/phase-5-70-operations-reliability-contract-boundary-map.md",
+  "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+  "docs/phase-5-73-external-gateway-matrix-transport-contract-boundary-map.md",
+  "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md"
+];
+const phase574ExpectedTrueSafetyFlagNames = [
+  "phase574CommandSurfaceShellPrimitiveContractBoundaryMapRecorded",
+  "phase574CommandSurfaceShellPrimitiveContractBoundaryMapReviewOnly",
+  "phase574CommandSurfaceShellPrimitiveContractBoundaryMapProduced",
+  "phase574BoundaryEntriesRecorded",
+  "phase574CommandSurfaceShellPrimitiveBoundaryMetadataOnly",
+  "phase574NoLiveCommandSurfaceShellPrimitiveRuntimePerformed",
+  "phase574CliCommandRecognitionBoundaryRecorded",
+  "phase574ServeRuntimeBlockedCommandBoundaryRecorded",
+  "phase574FutureReplPromptBoundaryRecorded",
+  "phase574CommandParserTokenizerBoundaryRecorded",
+  "phase574BuiltinCommandBoundaryRecorded",
+  "phase574InvalidCommandErrorHandlingBoundaryRecorded",
+  "phase574PathExecutableLookupBoundaryRecorded",
+  "phase574ExternalProgramExecutionBoundaryRecorded",
+  "phase574ProcessSpawnExitCodeBoundaryRecorded",
+  "phase574QuotingEscapingBoundaryRecorded",
+  "phase574StdoutStderrRedirectionBoundaryRecorded",
+  "phase574AppendRedirectionBoundaryRecorded",
+  "phase574PipelineBoundaryRecorded",
+  "phase574CompletionAutocompleteBoundaryRecorded",
+  "phase574ProgrammableCompletionBoundaryRecorded",
+  "phase574FilenameCompletionBoundaryRecorded",
+  "phase574BackgroundJobsJobListingReapingBoundaryRecorded",
+  "phase574CommandHistoryPersistenceBoundaryRecorded",
+  "phase574ParameterExpansionBoundaryRecorded",
+  "phase574EnvironmentVariableExpansionBoundaryRecorded",
+  "phase574TerminalBackendBoundaryFromPhase568Recorded",
+  "phase574OperationsReliabilityRetryCancellationBoundaryFromPhase570Recorded",
+  "phase574AuthPermissionsCommandAuthorizationBoundaryFromPhase562Recorded",
+  "phase574SecurityInputSanitizationCommandBoundaryFromPhase563Recorded",
+  "phase574SecretsEnvExposureBoundaryFromPhase572Recorded",
+  "phase574LoggingAuditBoundaryFromPhase565Recorded",
+  "phase574LocusCommandControlSurfaceDisplayBoundaryRecorded",
+  "phase574FabricApiBackendCommandEnvelopeBoundaryRecorded",
+  "phase574ExternalHarnessCommandHandoffBoundaryRecorded",
+  "phase574NoShellRuntime",
+  "phase574NoReplRuntime",
+  "phase574NoCommandParserRuntime",
+  "phase574NoPathLookupRuntime",
+  "phase574NoProcessSpawn",
+  "phase574NoBuiltinExecution",
+  "phase574NoRedirectionPipelineRuntime",
+  "phase574NoCompletionRuntime",
+  "phase574NoBackgroundJobRuntime",
+  "phase574NoHistoryRuntime",
+  "phase574NoEnvironmentParameterExpansionRuntime",
+  "phase574NoTerminalBackendRuntime",
+  "phase574NoMatrixGatewayRuntime",
+  "phase574NoContentAddressedChunkedResumableP2pTransport",
+  "phase574NoSqliteRuntime",
+  "phase574NoSecureDropImplementation",
+  "phase574NoFabricWebsocketHttpMcpTaskRuntime",
+  "phase574NoBackendApiServerDatabaseStorageCacheRlsMigration",
+  "phase574NoEncodedHandoffRuntimeCodecTranslator",
+  "phase574NoHermesCuaComputerUseRuntime",
+  "phase574NoLoggerAuditTelemetryHealthRuntime",
+  "phase574NoInfrastructureDeploymentComplianceAutomation",
+  "phase574NoTestingCiReleaseAutomation",
+  "phase574NoFilesystemProcessUiRuntime",
+  "phase574NoCommandExposure",
+  "phase574NoBlockedCliBypass",
+  "phase574AllBlockedAuthorizationFlagsFalse",
+  "phase574AllUnsafeCommandSurfaceShellPrimitiveRuntimeFlagsFalse",
+  "phase574AllRuntimeEffectsFalse",
+  "phase574AllEntriesNonAuthorizing",
+  "phase574InvalidCommandSurfaceShellPrimitiveBoundaryCasesFailClosed",
+  "phase574MissingRequiredFieldsFailClosed",
+  "phase574UnknownTopLevelFieldsFailClosed",
+  "phase574UnknownBoundaryFamiliesFailClosed",
+  "phase574UnknownRelatedSystemsFailClosed",
+  "phase574UnknownCurrentStatusesFailClosed",
+  "phase574HiddenShellReplProcessExecutionSemanticsFailClosed",
+  "phase574HiddenPathExecutableLookupSemanticsFailClosed",
+  "phase574HiddenFilesystemReadWriteSemanticsFailClosed",
+  "phase574HiddenEnvSecretsExposureSemanticsFailClosed",
+  "phase574HiddenPipeRedirectionStdioSemanticsFailClosed",
+  "phase574HiddenJobControlBackgroundWorkerSemanticsFailClosed",
+  "phase574HiddenCommandExposureOrRuntimeAuthorizationSemanticsFailClosed",
+  "phase574HiddenBackendApiServerSemanticsFailClosed",
+  "phase574HiddenDatabaseStorageCacheWriteSemanticsFailClosed",
+  "phase574HiddenAuthSessionTokenApiKeySemanticsFailClosed",
+  "phase574HiddenConnectorGrantSemanticsFailClosed",
+  "phase574HiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed",
+  "phase574HiddenSecureDropImplementationSemanticsFailClosed",
+  "phase574HiddenMatrixGatewayRuntimeSemanticsFailClosed",
+  "phase574HiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed",
+  "phase574HiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed",
+  "phase574HiddenHermesCuaComputerUseRuntimeSemanticsFailClosed",
+  "phase574HiddenEncodedHandoffRuntimeCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed",
+  "phase574ServeRuntimeStillDefaultBlocked"
+];
+const phase574ExpectedFalseSafetyFlagNames = [
+  "phase574CommandSurfaceShellPrimitiveContractBoundaryMapAuthoritative",
+  "phase574FallowRuntimeUsed",
+  "phase574ReportRunsChecks",
+  "phase574RuntimeExecutionEnabled",
+  "phase574RuntimeAuthorizationEnabled",
+  "phase574RuntimeCommandEnabled",
+  "phase574CommandExposureEnabled",
+  "phase574CommandRuntimeControlEnabled",
+  "phase574BlockedCliBypassEnabled",
+  "phase574DryRunBypassesBlock",
+  "phase574ConnectorGrantProduced",
+  "phase574FabricRuntimeImplementedByArdyn",
+  "phase574WebsocketHttpTransportImplementedByArdyn",
+  "phase574HttpTransportImplementedByArdyn",
+  "phase574McpRuntimeEnabled",
+  "phase574McpToolExposureEnabled",
+  "phase574TaskExecutionEnabled",
+  "phase574SecureDropImplemented",
+  "phase574ServiceDiscoveryEnabled",
+  "phase574ScheduleEnforcementEnabled",
+  "phase574SchedulePollingEnabled",
+  "phase574FilesystemWriteEnabled",
+  "phase574FilesystemScanningEnabled",
+  "phase574FilesystemReadEnabled",
+  "phase574ProcessControlEnabled",
+  "phase574ShellRuntimeEnabled",
+  "phase574ReplRuntimeEnabled",
+  "phase574PromptLoopEnabled",
+  "phase574CommandParserRuntimeEnabled",
+  "phase574CommandTokenizerRuntimeEnabled",
+  "phase574BuiltinExecutionEnabled",
+  "phase574PathLookupRuntimeEnabled",
+  "phase574ExecutableLookupRuntimeEnabled",
+  "phase574ExternalProgramExecutionEnabled",
+  "phase574ProcessSpawnEnabled",
+  "phase574StdinLoopEnabled",
+  "phase574StdoutWriterEnabled",
+  "phase574StderrWriterEnabled",
+  "phase574RedirectionRuntimeEnabled",
+  "phase574PipelineRuntimeEnabled",
+  "phase574CompletionRuntimeEnabled",
+  "phase574CompleterRuntimeEnabled",
+  "phase574ProgrammableCompletionRuntimeEnabled",
+  "phase574FilenameCompletionRuntimeEnabled",
+  "phase574BackgroundJobRuntimeEnabled",
+  "phase574JobControlRuntimeEnabled",
+  "phase574CommandHistoryRuntimeEnabled",
+  "phase574HistoryPersistenceRuntimeEnabled",
+  "phase574EnvironmentVariableExpansionRuntimeEnabled",
+  "phase574ParameterExpansionRuntimeEnabled",
+  "phase574TerminalBackendRuntimeEnabled",
+  "phase574TerminalBackendExecutionEnabled",
+  "phase574MatrixClientRuntimeEnabled",
+  "phase574HomeserverConnectionEnabled",
+  "phase574MatrixRoomPollRuntimeEnabled",
+  "phase574MatrixRoomSendRuntimeEnabled",
+  "phase574E2eeKeySessionHandlingEnabled",
+  "phase574GatewayRuntimeEnabled",
+  "phase574ExternalGatewayRuntimeEnabled",
+  "phase574ContentAddressedTransportEnabled",
+  "phase574ChunkedTransferEnabled",
+  "phase574ResumableTransferEnabled",
+  "phase574MultiSourceTransferEnabled",
+  "phase574BitTorrentDhtSwarmP2pEnabled",
+  "phase574LargePayloadTransferRuntimeEnabled",
+  "phase574FabricCoreProducerBehaviorEnabled",
+  "phase574SqliteRuntimeEnabled",
+  "phase574EmbeddedDbRuntimeEnabled",
+  "phase574QueryEngineRuntimeEnabled",
+  "phase574SqliteKeyRuntimeEnabled",
+  "phase574EnvIngestionEnabled",
+  "phase574SecretLoadingEnabled",
+  "phase574VaultAccessEnabled",
+  "phase574TokenLoaderEnabled",
+  "phase574OauthFlowEnabled",
+  "phase574SessionHandlingEnabled",
+  "phase574BackendRuntimeImplementedByArdyn",
+  "phase574BackendApiServerMiddlewareImplemented",
+  "phase574ApiEndpointImplementedByArdyn",
+  "phase574ServerImplementedByArdyn",
+  "phase574DatabaseClientImplemented",
+  "phase574DatabaseStorageRuntimeWritesEnabled",
+  "phase574CacheEngineImplemented",
+  "phase574RlsRuntimeImplemented",
+  "phase574DatabaseMigrationImplemented",
+  "phase574TranscriptWriterImplemented",
+  "phase574AuditWriterImplemented",
+  "phase574ImportExportPathImplementedByArdyn",
+  "phase574PackageDistributionImplementedByArdyn",
+  "phase574PersistenceImplementedByArdyn",
+  "phase574LoggerRuntimeImplemented",
+  "phase574AuditWriterRuntimeImplemented",
+  "phase574TelemetryClientImplemented",
+  "phase574HealthCheckRuntimeImplemented",
+  "phase574BackupJobImplemented",
+  "phase574RestoreJobImplemented",
+  "phase574FailoverRuntimeImplemented",
+  "phase574InfrastructureAutomationImplemented",
+  "phase574DeploymentAutomationImplemented",
+  "phase574ComplianceEnforcementImplemented",
+  "phase574PiiProcessingImplemented",
+  "phase574RetentionJobImplemented",
+  "phase574ExportJobImplemented",
+  "phase574TestingCiReleaseAutomationEnabled",
+  "phase574EncodedHandoffRuntimeImplementedByArdyn",
+  "phase574CodecRuntimeEnabled",
+  "phase574TranslatorRuntimeEnabled",
+  "phase574HermesRuntimeEnabled",
+  "phase574CuaDriverRuntimeEnabled",
+  "phase574ComputerUseRuntimeEnabled",
+  "phase574FilesystemProcessRuntimeEnabled",
+  "phase574CliSourceChanged",
+  "phase574RustSourceChanged",
+  "phase574FabricSourceChanged"
+];
+const phase574SafetyFlagNames = [
+  ...phase574ExpectedTrueSafetyFlagNames,
+  ...phase574ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -7596,16 +7824,16 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.73 external gateway/Matrix transport contract boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.74 command-surface/shell primitive contract boundary map and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.73",
+    id: "5.74",
     name:
-      "Review-only external gateway/Matrix transport contract boundary map",
+      "Review-only command-surface/shell primitive contract boundary map",
     executionPosture:
-      "external-gateway-matrix-transport-contract-boundary-map runtime-disabled metadata-only no-matrix-client no-homeserver-connection no-room-join-read-send-poll no-e2ee-key-session no-access-token-loader no-gateway-runtime no-external-platform-connector no-message-ingestion-export no-service-discovery-schedule-polling no-content-addressed-chunked-resumable-multi-source-transfer no-bittorrent-dht-swarm-p2p no-large-payload-transfer no-fabric-core-producer no-fabric-websocket-http-mcp-task-runtime no-secure-drop-implementation no-shell-runtime no-sqlite-runtime no-backend-api-server-storage no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "command-surface-shell-primitive-contract-boundary-map runtime-disabled metadata-only no-shell-runtime no-repl no-command-parser no-tokenizer no-builtin-execution no-path-lookup no-executable-lookup no-external-program-execution no-process-spawn no-stdin-loop no-stdout-stderr-writer no-redirection-pipeline no-completion no-background-job no-job-control no-history-persistence no-env-parameter-expansion no-terminal-backend no-matrix-gateway no-content-addressed-chunked-resumable-p2p-transfer no-sqlite-runtime no-secure-drop-implementation no-fabric-websocket-http-mcp-task-runtime no-backend-api-server-storage no-encoded-handoff-runtime no-hermes-cua-computer-use no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -7668,15 +7896,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.73 external gateway/Matrix transport contract boundary map status report."
+    "Render this deterministic local Phase 5.74 command-surface/shell primitive contract boundary map status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.73 status report."
+    "Run focused tests for this local Phase 5.74 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.73 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.74 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-74-command-surface-shell-primitive-contract-boundary-map.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.74 command-surface/shell primitive contract boundary map and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -31141,6 +31375,192 @@ test("report inventories Phase 5.73 external gateway/Matrix transport contract b
   assertSafetyFlags(report, phase573ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.74 command-surface/shell primitive contract boundary map", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase574CommandSurfaceShellPrimitiveContractBoundaryMapInventory;
+
+  assert.deepEqual(inventory.statusLayer, {
+    schema:
+      "ardyn.phase-5.74.command-surface-shell-primitive-contract-boundary-map-result",
+    schemaVersion: "0.1.0",
+    kind: "command-surface-shell-primitive-contract-boundary-map",
+    mode: "review-only",
+    classification:
+      "valid_command_surface_shell_primitive_contract_boundary_map_runtime_still_blocked",
+    produced: true,
+    boundaryEntryCount: 27,
+    countByFamily: inventory.boundaryMapSummary.countByFamily,
+    countByRelatedSystem: inventory.boundaryMapSummary.countByRelatedSystem,
+    countByStatus: inventory.boundaryMapSummary.countByStatus,
+    ...inventory.boundaryMapSummary,
+    reportRunsChecks: false,
+    shellRuntimeEnabled: false,
+    replRuntimeEnabled: false,
+    commandParserRuntimeEnabled: false,
+    pathLookupRuntimeEnabled: false,
+    processSpawnEnabled: false,
+    terminalBackendRuntimeEnabled: false,
+    commandExposureEnabled: false,
+    blockedCliBypassEnabled: false
+  });
+  assertKnownInventoryStatuses(inventory.docs);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(
+    Object.fromEntries(inventory.docs.map((entry) => [entry.path, entry.status])),
+    Object.fromEntries(phase574DocFiles.map((path) => [path, "present"]))
+  );
+  assert.deepEqual(inventory.crossLinks, phase574CrossLinks);
+  assert.deepEqual(
+    Object.fromEntries(
+      inventory.machineReadableArtifacts.map((entry) => [entry.path, entry.status])
+    ),
+    {
+      "tests/fixtures/host-policy/phase5-74/command-surface-shell-primitive-contract-boundary-map.json":
+        "present"
+    }
+  );
+  assert.deepEqual(
+    Object.fromEntries(inventory.tests.map((entry) => [entry.path, entry.status])),
+    {
+      "tests/phase5-74-command-surface-shell-primitive-contract-boundary-map.test.mjs":
+        "present",
+      "tests/report-phase-status.test.mjs": "present"
+    }
+  );
+
+  for (const [key, value] of Object.entries(inventory.ownershipBoundary)) {
+    if (key.endsWith("ByThisPhase") || key.endsWith("AddedByThisPhase")) {
+      assert.equal(value, false, key);
+    }
+  }
+
+  assert.equal(
+    inventory.sourcePhaseContext.codecraftersShellReference,
+    "codecrafters-io/build-your-own-shell"
+  );
+  assert.equal(inventory.sourcePhaseContext.codecraftersShellReferenceTaxonomyOnly, true);
+  assert.equal(inventory.sourcePhaseContext.codecraftersShellRepoInstalledOrCopied, false);
+  assert.equal(inventory.sourcePhaseContext.noShellRuntimeImplemented, true);
+  assert.equal(inventory.sourcePhaseContext.noCommandParserImplemented, true);
+  assert.equal(inventory.sourcePhaseContext.noProcessSpawnImplemented, true);
+  assert.equal(inventory.sourcePhaseContext.runtimeStillBlocked, true);
+  assert.equal(inventory.boundaryMapSummary.boundaryEntryCount, 27);
+  assert.equal(inventory.boundaryEntries.length, 27);
+  assert.equal(
+    inventory.boundaryMapSummary.countByFamily.command_surface_contract,
+    4
+  );
+  assert.equal(inventory.boundaryMapSummary.countByFamily.repl_contract, 1);
+  assert.equal(
+    inventory.boundaryMapSummary.countByFamily.command_parser_contract,
+    1
+  );
+  assert.equal(
+    inventory.boundaryMapSummary.countByFamily.shell_reference_boundary,
+    1
+  );
+  assert.equal(inventory.boundaryMapSummary.countByRelatedSystem.ardyn, 13);
+  assert.equal(
+    inventory.boundaryMapSummary.countByRelatedSystem[
+      "codecrafters-shell-reference"
+    ],
+    4
+  );
+  assert.equal(inventory.boundaryMapSummary.countByStatus.metadata_only, 25);
+  assert.equal(inventory.boundaryMapSummary.countByStatus.blocked, 1);
+  assert.equal(
+    inventory.boundaryMapSummary.countByStatus.future_contract_required,
+    1
+  );
+
+  for (const entry of inventory.boundaryEntries) {
+    assert.match(entry.boundaryId, /^phase5-74\./);
+    assert.equal(entry.commandSurfaceBoundaryMetadataOnly, true);
+    assert.equal(
+      entry.noLiveCommandSurfaceShellPrimitiveRuntimePerformed,
+      true
+    );
+    assert.equal(entry.codecraftersShellReferenceTaxonomy.taxonomyOnly, true);
+    assert.equal(
+      entry.codecraftersShellReferenceTaxonomy.repositoryInstalledOrCopied,
+      false
+    );
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(
+      entry.unsafeCommandSurfaceShellPrimitiveRuntimeFlagsAllFalse,
+      true
+    );
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+  }
+
+  assert.equal(inventory.invalidBoundaryCasePolicy.missingRequiredFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownTopLevelFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownBoundaryFamiliesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownRelatedSystemsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownCurrentStatusesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledShellRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledReplFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledCommandParserRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledBuiltinExecutionFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledPathLookupFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledExternalProgramExecutionFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledProcessSpawnFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledRedirectionPipelineRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledCompletionCompleterRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledBackgroundJobRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledJobControlRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledCommandHistoryPersistenceFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledEnvironmentVariableExpansionRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledParameterExpansionRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledTerminalBackendRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenShellReplProcessExecutionSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenPathExecutableLookupSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenFilesystemReadWriteSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenEnvSecretsExposureSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenPipeRedirectionStdioSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenJobControlBackgroundWorkerSemanticsFailClosed, true);
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy
+      .hiddenCommandExposureOrRuntimeAuthorizationSemanticsFailClosed,
+    true
+  );
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenFabricWebsocketHttpMcpTaskRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSecureDropImplementationSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenMatrixGatewayRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.hiddenHermesCuaComputerUseRuntimeSemanticsFailClosed, true);
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy
+      .hiddenEncodedHandoffRuntimeCodecTranslatorStegoCovertChannelTokenizerExploitBypassSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.75-review-only-embedded-db-query-engine-primitive-contract-boundary-map"
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-74-command-surface-shell-primitive-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, ["semgrep --config auto ."]);
+  assert.equal(
+    report.safetyPosture.phase574CommandSurfaceShellPrimitiveContractBoundaryMap,
+    true
+  );
+  assertSafetyFlags(report, phase574ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase574ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -32074,7 +32494,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase570SafetyFlagNames,
     ...phase571SafetyFlagNames,
     ...phase572SafetyFlagNames,
-    ...phase573SafetyFlagNames
+    ...phase573SafetyFlagNames,
+    ...phase574SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -32189,6 +32610,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase572ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase573ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase573ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase574ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase574ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

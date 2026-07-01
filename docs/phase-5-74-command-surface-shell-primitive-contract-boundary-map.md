@@ -1,0 +1,7 @@
+# Phase 5.74 - Review-only command-surface/shell primitive contract boundary map
+
+Phase 5.74 records deterministic review-only metadata for future command-surface and shell primitive contracts. It uses `codecrafters-io/build-your-own-shell` only as a shell-concept taxonomy reference and does not install, vendor, copy, import, or integrate that repository, course SDK, or challenge code.
+
+The boundary map covers future CLI recognition, blocked `serve-runtime`, REPL/prompt, parser/tokenizer, builtins, invalid-command errors, PATH/executable lookup, external program execution, process spawn/exit codes, quoting, escaping, redirection, append redirection, pipelines, completion, programmable completion, filename completion, background jobs, job control, history, history persistence, parameter/env expansion, terminal backend, Locus display, Fabric/API/backend command envelopes, and external-harness command handoff.
+
+No shell runtime, REPL, prompt loop, command parser, tokenizer, builtin execution, PATH lookup, executable lookup, process spawn, stdin loop, stdout/stderr writer, redirection, pipeline, completion, background job, job control, history persistence, env/parameter expansion, terminal backend, filesystem shell behavior, process control, Matrix/gateway runtime, content-addressed/chunked/resumable/P2P transport, SQLite runtime, Secure Drop implementation, Fabric/websocket/http/MCP/task runtime, backend/API/server behavior, storage/cache writes, command exposure, or blocked CLI bypass is added.
