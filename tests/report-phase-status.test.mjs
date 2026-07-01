@@ -7865,6 +7865,207 @@ const phase575SafetyFlagNames = [
   ...phase575ExpectedTrueSafetyFlagNames,
   ...phase575ExpectedFalseSafetyFlagNames
 ];
+const phase576DocFiles = [
+  "docs/phase-5-76-embedded-db-query-engine-primitive-contract-boundary-map.md",
+  "docs/phase-5-61-database-storage-contract-boundary-map.md",
+  "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md",
+  "docs/phase-5-75-fabric-core-consumer-integration-readiness-boundary-update.md"
+];
+const phase576CrossLinks = [
+  "docs/phase-5-61-database-storage-contract-boundary-map.md",
+  "docs/phase-5-63-security-rls-input-sanitization-contract-boundary-map.md",
+  "docs/phase-5-65-error-tracking-logging-audit-integrity-contract-boundary-map.md",
+  "docs/phase-5-66-availability-recovery-contract-boundary-map.md",
+  "docs/phase-5-67-infrastructure-compliance-data-retention-contract-boundary-map.md",
+  "docs/phase-5-69-testing-frameworks-quality-gates-contract-boundary-map.md",
+  "docs/phase-5-70-operations-reliability-contract-boundary-map.md",
+  "docs/phase-5-72-secrets-management-key-rotation-external-gateway-credential-boundary-map.md",
+  "docs/phase-5-74-command-surface-shell-primitive-contract-boundary-map.md",
+  "docs/phase-5-75-fabric-core-consumer-integration-readiness-boundary-update.md",
+  "docs/phase-5-76-embedded-db-query-engine-primitive-contract-boundary-map.md"
+];
+const phase576ExpectedTrueSafetyFlagNames = [
+  "phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMapRecorded",
+  "phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMapReviewOnly",
+  "phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMapProduced",
+  "phase576BoundaryEntriesRecorded",
+  "phase576EmbeddedDbQueryEnginePrimitiveBoundaryMetadataOnly",
+  "phase576NoLiveEmbeddedDbQueryEngineRuntimePerformed",
+  "phase576SqliteReferenceBoundaryRecorded",
+  "phase576DatabaseFileFormatBoundaryRecorded",
+  "phase576PageHeaderBoundaryRecorded",
+  "phase576SchemaTableMetadataBoundaryRecorded",
+  "phase576DbinfoStyleMetadataInspectionBoundaryRecorded",
+  "phase576TablesStyleTableListingBoundaryRecorded",
+  "phase576SelectCountBoundaryRecorded",
+  "phase576SingleColumnSelectBoundaryRecorded",
+  "phase576MultiColumnSelectBoundaryRecorded",
+  "phase576WhereFilterBoundaryRecorded",
+  "phase576FullTableScanBoundaryRecorded",
+  "phase576IndexLookupBoundaryRecorded",
+  "phase576BtreeTraversalBoundaryRecorded",
+  "phase576QueryPerformanceBoundaryRecorded",
+  "phase576TransactionWalBoundaryRecorded",
+  "phase576MigrationSchemaChangeBoundaryRecorded",
+  "phase576StorageAdapterBoundaryRecorded",
+  "phase576RlsDataIsolationBoundaryRecorded",
+  "phase576QueryAuditBoundaryRecorded",
+  "phase576EmbeddedDbKeyCredentialBoundaryReferenced",
+  "phase576DatabaseStoragePersistenceBoundaryReferenced",
+  "phase576ShellCommandSurfaceRelationshipBoundaryReferenced",
+  "phase576FabricCoreLargePayloadMetadataRelationshipBoundaryReferenced",
+  "phase576NoSqliteRuntime",
+  "phase576NoEmbeddedDbReader",
+  "phase576NoDatabaseClient",
+  "phase576NoDatabaseFileParser",
+  "phase576NoPageParser",
+  "phase576NoSqlParser",
+  "phase576NoQueryExecutor",
+  "phase576NoTableScan",
+  "phase576NoIndexLookup",
+  "phase576NoBtreeTraversal",
+  "phase576NoTransactionWalRuntime",
+  "phase576NoMigrationSchemaChangeRuntime",
+  "phase576NoStorageAdapter",
+  "phase576NoDbReadWrite",
+  "phase576NoFilesystemAccess",
+  "phase576NoCacheRuntime",
+  "phase576NoRlsRuntime",
+  "phase576NoQueryAuditWriter",
+  "phase576NoShellRuntime",
+  "phase576NoMatrixGatewayRuntime",
+  "phase576NoFabricCoreImport",
+  "phase576NoFabricCoreTransportRuntime",
+  "phase576NoContentAddressedChunkedResumableMultiSourceP2pTransport",
+  "phase576NoSecureDropImplementation",
+  "phase576NoBackendApiServerBehavior",
+  "phase576NoCommandExposure",
+  "phase576NoBlockedCliBypass",
+  "phase576AllBlockedAuthorizationFlagsFalse",
+  "phase576AllUnsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlagsFalse",
+  "phase576AllRuntimeEffectsFalse",
+  "phase576AllEntriesNonAuthorizing",
+  "phase576InvalidEmbeddedDbQueryEnginePrimitiveBoundaryCasesFailClosed",
+  "phase576MissingRequiredFieldsFailClosed",
+  "phase576UnknownTopLevelFieldsFailClosed",
+  "phase576UnknownBoundaryFamiliesFailClosed",
+  "phase576UnknownRelatedSystemsFailClosed",
+  "phase576UnknownCurrentStatusesFailClosed",
+  "phase576HiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed",
+  "phase576HiddenDatabaseFilePageParsingSemanticsFailClosed",
+  "phase576HiddenSqlQueryExecutionSemanticsFailClosed",
+  "phase576HiddenBtreeIndexTraversalSemanticsFailClosed",
+  "phase576HiddenTransactionWalMigrationSemanticsFailClosed",
+  "phase576HiddenStorageCacheReadWriteSemanticsFailClosed",
+  "phase576HiddenFilesystemAccessSemanticsFailClosed",
+  "phase576HiddenAuthSessionTokenApiKeySemanticsFailClosed",
+  "phase576HiddenConnectorGrantSemanticsFailClosed",
+  "phase576HiddenFabricFabricCoreTransportRuntimeSemanticsFailClosed",
+  "phase576HiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed",
+  "phase576HiddenMatrixGatewayRuntimeSemanticsFailClosed",
+  "phase576HiddenShellCommandRuntimeSemanticsFailClosed",
+  "phase576HiddenSecureDropImplementationSemanticsFailClosed",
+  "phase576HiddenBackendApiServerSemanticsFailClosed",
+  "phase576HiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed",
+  "phase576ServeRuntimeStillDefaultBlocked"
+];
+const phase576ExpectedFalseSafetyFlagNames = [
+  "phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMapAuthoritative",
+  "phase576FallowRuntimeUsed",
+  "phase576ReportRunsChecks",
+  "phase576RuntimeExecutionEnabled",
+  "phase576RuntimeAuthorizationEnabled",
+  "phase576RuntimeCommandEnabled",
+  "phase576CommandExposureEnabled",
+  "phase576BlockedCliBypassEnabled",
+  "phase576ConnectorGrantProduced",
+  "phase576FabricRuntimeImplementedByArdyn",
+  "phase576WebsocketHttpTransportImplementedByArdyn",
+  "phase576HttpTransportImplementedByArdyn",
+  "phase576McpRuntimeEnabled",
+  "phase576McpToolExposureEnabled",
+  "phase576TaskExecutionEnabled",
+  "phase576SecureDropImplemented",
+  "phase576ServiceDiscoveryEnabled",
+  "phase576ScheduleEnforcementEnabled",
+  "phase576SchedulePollingEnabled",
+  "phase576FilesystemAccessEnabled",
+  "phase576FilesystemReadEnabled",
+  "phase576FilesystemWriteEnabled",
+  "phase576FilesystemScanningEnabled",
+  "phase576ProcessControlEnabled",
+  "phase576SqliteRuntimeEnabled",
+  "phase576EmbeddedDbReaderEnabled",
+  "phase576EmbeddedDbRuntimeEnabled",
+  "phase576QueryEngineRuntimeEnabled",
+  "phase576DatabaseClientImplemented",
+  "phase576DatabaseFileParserEnabled",
+  "phase576PageParserEnabled",
+  "phase576SqlParserRuntimeEnabled",
+  "phase576QueryExecutorEnabled",
+  "phase576TableScanEnabled",
+  "phase576FullTableScanEnabled",
+  "phase576IndexLookupEnabled",
+  "phase576BtreeTraversalEnabled",
+  "phase576TransactionWalRuntimeEnabled",
+  "phase576TransactionRuntimeEnabled",
+  "phase576WalRuntimeEnabled",
+  "phase576MigrationSchemaChangeEnabled",
+  "phase576DatabaseMigrationImplemented",
+  "phase576StorageAdapterImplemented",
+  "phase576DbReadWriteEnabled",
+  "phase576DatabaseStorageRuntimeWritesEnabled",
+  "phase576CacheRuntimeEnabled",
+  "phase576CacheEngineImplemented",
+  "phase576RlsRuntimeImplemented",
+  "phase576QueryAuditWriterImplemented",
+  "phase576ShellRuntimeEnabled",
+  "phase576CommandRuntimeEnabled",
+  "phase576MatrixClientRuntimeEnabled",
+  "phase576ExternalGatewayRuntimeEnabled",
+  "phase576MultiverseFabricCoreImportEnabled",
+  "phase576FabricCoreNpmDependencyEnabled",
+  "phase576FabricTransportDSidecarClientEnabled",
+  "phase576FabricCoreTransportRuntimeEnabled",
+  "phase576ContentAddressedTransportEnabled",
+  "phase576ChunkedTransferEnabled",
+  "phase576ResumableTransferEnabled",
+  "phase576MultiSourceTransferEnabled",
+  "phase576BitTorrentDhtSwarmP2pEnabled",
+  "phase576LargePayloadTransferRuntimeEnabled",
+  "phase576BackendRuntimeImplementedByArdyn",
+  "phase576BackendApiServerMiddlewareImplemented",
+  "phase576ApiEndpointImplementedByArdyn",
+  "phase576ServerImplementedByArdyn",
+  "phase576TranscriptWriterImplemented",
+  "phase576AuditWriterImplemented",
+  "phase576ImportExportPathImplementedByArdyn",
+  "phase576PackageDistributionImplementedByArdyn",
+  "phase576PersistenceImplementedByArdyn",
+  "phase576LoggerRuntimeImplemented",
+  "phase576AuditWriterRuntimeImplemented",
+  "phase576TelemetryClientImplemented",
+  "phase576HealthCheckRuntimeImplemented",
+  "phase576BackupJobImplemented",
+  "phase576RestoreJobImplemented",
+  "phase576FailoverRuntimeImplemented",
+  "phase576InfrastructureAutomationImplemented",
+  "phase576DeploymentAutomationImplemented",
+  "phase576ComplianceEnforcementImplemented",
+  "phase576PiiProcessingImplemented",
+  "phase576TestingCiReleaseAutomationEnabled",
+  "phase576EncodedHandoffRuntimeImplementedByArdyn",
+  "phase576CodecRuntimeEnabled",
+  "phase576TranslatorRuntimeEnabled",
+  "phase576FilesystemProcessRuntimeEnabled",
+  "phase576CliSourceChanged",
+  "phase576RustSourceChanged",
+  "phase576FabricSourceChanged"
+];
+const phase576SafetyFlagNames = [
+  ...phase576ExpectedTrueSafetyFlagNames,
+  ...phase576ExpectedFalseSafetyFlagNames
+];
 const phase42DRuntimeLikeCommandRejectionProbes = [
   "serve-runtime",
   "stdio-runtime",
@@ -7999,16 +8200,16 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.75 fabric-core consumer integration readiness boundary update and does not claim to run checks", async () => {
+test("phase status report is Phase 5.76 embedded DB/query-engine primitive contract boundary map and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.75",
+    id: "5.76",
     name:
-      "Review-only fabric-core consumer integration readiness boundary update",
+      "Review-only embedded DB/query-engine primitive contract boundary map",
     executionPosture:
-      "fabric-core-consumer-integration-readiness-boundary-update runtime-disabled metadata-only producer-ready-consumer-pending no-fabric-core-import no-package-dependency no-fabric-transport-d-sidecar-client no-loopback-http-client no-bearer-token-loader no-content-id-hashing-verification no-content-addressed-chunked-resumable-multi-source-p2p-transfer no-large-payload-transfer no-fabric-core-producer no-secure-drop-implementation no-matrix-gateway no-shell-command-runtime no-sqlite-runtime no-backend-api-server-storage no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "embedded-db-query-engine-primitive-contract-boundary-map runtime-disabled metadata-only review-only no-sqlite-runtime no-embedded-db-reader no-database-client no-file-parser no-page-parser no-sql-parser no-query-executor no-table-scan no-index-lookup no-btree-traversal no-transaction-wal no-migration no-storage-adapter no-db-read-write no-filesystem-access no-cache-runtime no-rls-runtime no-query-audit-writer no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-fabric-transport-sidecar no-content-addressed-chunked-resumable-multi-source-p2p-transfer no-secure-drop-implementation no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -8071,15 +8272,21 @@ test("report lists configured checks and verification commands without running t
 
   assert.equal(
     verificationByCommand.get("npm run report:phase-status").purpose,
-    "Render this deterministic local Phase 5.75 fabric-core consumer integration readiness boundary update status report."
+    "Render this deterministic local Phase 5.76 embedded DB/query-engine primitive contract boundary map status report."
   );
   assert.equal(
     verificationByCommand.get("node --test tests/report-phase-status.test.mjs").purpose,
-    "Run focused tests for this local Phase 5.75 status report."
+    "Run focused tests for this local Phase 5.76 status report."
   );
   assert.equal(
     verificationByCommand.get("semgrep --config auto .").purpose,
-    "Run Semgrep as evidence only for Phase 5.75 without folding unrelated findings into this phase."
+    "Run Semgrep as evidence only for Phase 5.76 without folding unrelated findings into this phase."
+  );
+  assert.equal(
+    verificationByCommand.get(
+      "node --test tests/phase5-76-embedded-db-query-engine-primitive-contract-boundary-map.test.mjs"
+    ).purpose,
+    "Run focused Phase 5.76 embedded DB/query-engine primitive contract boundary map and blocked-runtime checks."
   );
   assert.equal(
     verificationByCommand.get(
@@ -31957,6 +32164,215 @@ test("report inventories Phase 5.75 fabric-core consumer integration readiness b
   assertSafetyFlags(report, phase575ExpectedFalseSafetyFlagNames, false);
 });
 
+test("report inventories Phase 5.76 embedded DB/query-engine primitive contract boundary map", async () => {
+  const report = await runReport();
+  const inventory =
+    report.phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMapInventory;
+
+  assert.deepEqual(inventory.statusLayer, {
+    schema:
+      "ardyn.phase-5.76.embedded-db-query-engine-primitive-contract-boundary-map-result",
+    schemaVersion: "0.1.0",
+    kind: "embedded-db-query-engine-primitive-contract-boundary-map",
+    mode: "review-only",
+    classification:
+      "valid_embedded_db_query_engine_primitive_contract_boundary_map_runtime_still_blocked",
+    produced: true,
+    boundaryEntryCount: 20,
+    countByFamily: inventory.boundaryMapSummary.countByFamily,
+    countByRelatedSystem: inventory.boundaryMapSummary.countByRelatedSystem,
+    countByStatus: inventory.boundaryMapSummary.countByStatus,
+    ...inventory.boundaryMapSummary,
+    reportRunsChecks: false,
+    sqliteRuntimeEnabled: false,
+    embeddedDbReaderEnabled: false,
+    databaseClientImplemented: false,
+    databaseFileParserEnabled: false,
+    pageParserEnabled: false,
+    sqlParserRuntimeEnabled: false,
+    queryExecutorEnabled: false,
+    tableScanEnabled: false,
+    indexLookupEnabled: false,
+    btreeTraversalEnabled: false,
+    transactionWalRuntimeEnabled: false,
+    migrationSchemaChangeEnabled: false,
+    storageAdapterImplemented: false,
+    dbReadWriteEnabled: false,
+    filesystemAccessEnabled: false,
+    rlsRuntimeImplemented: false,
+    queryAuditWriterImplemented: false,
+    shellRuntimeEnabled: false,
+    fabricCoreTransportRuntimeEnabled: false,
+    commandExposureEnabled: false,
+    blockedCliBypassEnabled: false
+  });
+  assertKnownInventoryStatuses(inventory.docs);
+  assertKnownInventoryStatuses(inventory.machineReadableArtifacts);
+  assertKnownInventoryStatuses(inventory.tests);
+  assert.deepEqual(
+    Object.fromEntries(inventory.docs.map((entry) => [entry.path, entry.status])),
+    Object.fromEntries(phase576DocFiles.map((path) => [path, "present"]))
+  );
+  assert.deepEqual(inventory.crossLinks, phase576CrossLinks);
+  assert.deepEqual(
+    Object.fromEntries(
+      inventory.machineReadableArtifacts.map((entry) => [entry.path, entry.status])
+    ),
+    {
+      "tests/fixtures/host-policy/phase5-76/embedded-db-query-engine-primitive-contract-boundary-map.json":
+        "present"
+    }
+  );
+  assert.deepEqual(
+    Object.fromEntries(inventory.tests.map((entry) => [entry.path, entry.status])),
+    {
+      "tests/phase5-76-embedded-db-query-engine-primitive-contract-boundary-map.test.mjs":
+        "present",
+      "tests/report-phase-status.test.mjs": "present"
+    }
+  );
+
+  for (const [key, value] of Object.entries(inventory.ownershipBoundary)) {
+    if (key.endsWith("ByThisPhase") || key.endsWith("AddedByThisPhase")) {
+      assert.equal(value, false, key);
+    }
+  }
+
+  assert.equal(
+    inventory.ownershipBoundary.separateEmbeddedDbImplementationPromptRequired,
+    true
+  );
+  assert.equal(
+    inventory.ownershipBoundary.separateRuntimeEnablementApprovalRequired,
+    true
+  );
+  assert.equal(
+    inventory.sourcePhaseContext.codeCraftersSqliteReference,
+    "codecrafters-io/build-your-own-sqlite reference taxonomy only"
+  );
+  assert.equal(inventory.sourcePhaseContext.sqliteRuntimeImplemented, false);
+  assert.equal(inventory.sourcePhaseContext.databaseClientImplemented, false);
+  assert.equal(inventory.sourcePhaseContext.filesystemAccessImplemented, false);
+  assert.equal(inventory.sourcePhaseContext.storageAdapterImplemented, false);
+  assert.equal(inventory.sourcePhaseContext.fabricCoreTransportImplemented, false);
+  assert.equal(inventory.sourcePhaseContext.runtimeStillBlocked, true);
+  assert.equal(inventory.boundaryMapSummary.boundaryEntryCount, 20);
+  assert.equal(inventory.boundaryEntries.length, 20);
+  assert.equal(inventory.boundaryMapSummary.countByFamily.embedded_db_contract, 1);
+  assert.equal(
+    inventory.boundaryMapSummary.countByFamily.sqlite_reference_boundary,
+    1
+  );
+  assert.equal(
+    inventory.boundaryMapSummary.countByFamily.database_file_format_contract,
+    1
+  );
+  assert.equal(inventory.boundaryMapSummary.countByFamily.sql_parser_contract, 1);
+  assert.equal(inventory.boundaryMapSummary.countByFamily.select_query_contract, 1);
+  assert.equal(inventory.boundaryMapSummary.countByFamily.where_filter_contract, 1);
+  assert.equal(inventory.boundaryMapSummary.countByFamily.btree_traversal_contract, 1);
+  assert.equal(inventory.boundaryMapSummary.countByFamily.wal_boundary_contract, 1);
+  assert.equal(inventory.boundaryMapSummary.countByFamily.query_audit_boundary, 1);
+
+  for (const entry of inventory.boundaryEntries) {
+    assert.match(entry.boundaryId, /^phase5-76\./);
+    assert.equal(
+      entry.embeddedDbQueryEnginePrimitiveBoundaryMetadataOnly,
+      true
+    );
+    assert.equal(entry.noLiveEmbeddedDbQueryEngineRuntimePerformed, true);
+    assert.equal(entry.explicitBlockedAuthorizationFlagsAllFalse, true);
+    assert.equal(
+      entry.unsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlagsAllFalse,
+      true
+    );
+    assert.equal(entry.runtimeEffectAllFalse, true);
+    assert.equal(entry.nonAuthorizingProof, true);
+  }
+
+  assert.equal(inventory.invalidBoundaryCasePolicy.missingRequiredFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownTopLevelFieldsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownBoundaryFamiliesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownRelatedSystemsFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.unknownCurrentStatusesFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledSqliteRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledEmbeddedDbReaderFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledDatabaseClientFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledDatabaseFileParserFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledPageParserFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledSqlParserFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledQueryExecutorFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledTableScanFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledIndexLookupFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledBtreeTraversalFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledTransactionWalBehaviorFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledMigrationSchemaChangeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledStorageAdapterFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledDbReadWriteFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledFilesystemAccessFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledRlsRuntimeFailClosed, true);
+  assert.equal(inventory.invalidBoundaryCasePolicy.enabledQueryAuditWriterFailClosed, true);
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy
+      .hiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenDatabaseFilePageParsingSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenSqlQueryExecutionSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenBtreeIndexTraversalSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenTransactionWalMigrationSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenStorageCacheReadWriteSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenFilesystemAccessSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy.hiddenFabricFabricCoreTransportRuntimeSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.invalidBoundaryCasePolicy
+      .hiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed,
+    true
+  );
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.77-review-only-code-mode-orchestration-contract-boundary-map"
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-76-embedded-db-query-engine-primitive-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-61-database-storage-contract-boundary-map.test.mjs"
+    )
+  );
+  assert.deepEqual(inventory.optionalAdvisoryCommands, ["semgrep --config auto ."]);
+  assert.equal(
+    report.safetyPosture.phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMap,
+    true
+  );
+  assertSafetyFlags(report, phase576ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase576ExpectedFalseSafetyFlagNames, false);
+});
+
 test("report inventories Phase 3.6 versioning, display contract, fixtures, docs, and tests", async () => {
   const report = await runReport();
 
@@ -32892,7 +33308,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
     ...phase572SafetyFlagNames,
     ...phase573SafetyFlagNames,
     ...phase574SafetyFlagNames,
-    ...phase575SafetyFlagNames
+    ...phase575SafetyFlagNames,
+    ...phase576SafetyFlagNames
   ]);
   assert.deepEqual(comparableFlags, expectedFlags);
   assertSafetyFlags(report, phase519ExpectedTrueSafetyFlagNames, true);
@@ -33011,6 +33428,8 @@ test("safety posture keeps every execution, network, plugin, torrent, and runtim
   assertSafetyFlags(report, phase574ExpectedFalseSafetyFlagNames, false);
   assertSafetyFlags(report, phase575ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase575ExpectedFalseSafetyFlagNames, false);
+  assertSafetyFlags(report, phase576ExpectedTrueSafetyFlagNames, true);
+  assertSafetyFlags(report, phase576ExpectedFalseSafetyFlagNames, false);
   assert.equal(report.phase36Inventory.displayContract.locusRuntimeDependency, false);
   assert.equal(report.phase36Inventory.displayContract.unknownFieldsAreInertMetadata, true);
 });

@@ -399,6 +399,12 @@ export const FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_VERSION 
   "0.1.0";
 export const FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_KIND =
   "fabric-core-consumer-integration-readiness-boundary-update";
+export const EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.76.embedded-db-query-engine-primitive-contract-boundary-map-result";
+export const EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION =
+  "0.1.0";
+export const EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND =
+  "embedded-db-query-engine-primitive-contract-boundary-map";
 
 const manifestSchemaUrl = new URL("../../../schemas/ardyn.manifest.schema.json", import.meta.url);
 const capabilitySchemaUrl = new URL("../../../schemas/capability.schema.json", import.meta.url);
@@ -67881,6 +67887,1459 @@ export function createFabricCoreConsumerIntegrationReadinessBoundaryUpdateForRev
     classification,
     accepted,
     fabricCoreConsumerIntegrationReadinessBoundaryUpdate
+  });
+}
+
+const EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_MAP_STATE_SCHEMA =
+  "ardyn.phase-5.76.embedded-db-query-engine-primitive-contract-boundary-map-state";
+const VALID_EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_embedded_db_query_engine_primitive_contract_boundary_map_runtime_still_blocked";
+const MALFORMED_EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_MAP_CLASSIFICATION =
+  "malformed_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+
+const EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_FAMILIES = Object.freeze([
+  "embedded_db_contract",
+  "sqlite_reference_boundary",
+  "database_file_format_contract",
+  "page_header_contract",
+  "schema_metadata_contract",
+  "table_metadata_contract",
+  "sql_parser_contract",
+  "read_only_query_contract",
+  "select_query_contract",
+  "where_filter_contract",
+  "full_table_scan_contract",
+  "index_lookup_contract",
+  "btree_traversal_contract",
+  "query_performance_contract",
+  "transaction_boundary_contract",
+  "wal_boundary_contract",
+  "migration_boundary_contract",
+  "storage_adapter_boundary",
+  "rls_data_isolation_boundary",
+  "query_audit_boundary"
+]);
+const EMBEDDED_DB_QUERY_ENGINE_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "locus",
+  "multiverse",
+  "content-fabric",
+  "repo-family",
+  "external-harness",
+  "codecrafters-sqlite-reference",
+  "fabric-core-reference"
+]);
+const EMBEDDED_DB_QUERY_ENGINE_STATUSES = Object.freeze([
+  "metadata_only",
+  "blocked",
+  "future_contract_required"
+]);
+const EMBEDDED_DB_QUERY_ENGINE_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "databaseFileFormatExpectation",
+  "queryParsingExpectation",
+  "readOnlyQueryExpectation",
+  "dataIsolationExpectation",
+  "storageWriteExpectation",
+  "auditLoggingExpectation",
+  "migrationTransactionExpectation",
+  "performanceIndexingExpectation",
+  "locusRoleDescription",
+  "fabricRoleDescription",
+  "secureDropRoleDescription",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+const EMBEDDED_DB_QUERY_ENGINE_ALLOWED_TOP_LEVEL_FIELDS = Object.freeze([
+  "reviewedAt",
+  "boundaryEntries"
+]);
+const EMBEDDED_DB_QUERY_ENGINE_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandsExposed",
+  "connectorGrantProduced",
+  "fabricRuntimeImplementedByArdyn",
+  "fabricRuntimeEnabled",
+  "websocketHttpTransportImplementedByArdyn",
+  "websocketRuntimeEnabled",
+  "httpTransportImplementedByArdyn",
+  "httpRuntimeEnabled",
+  "mcpRuntimeEnabled",
+  "mcpToolExposureEnabled",
+  "taskExecutionEnabled",
+  "secureDropImplemented",
+  "serviceDiscoveryEnabled",
+  "scheduleEnforcementEnabled",
+  "schedulePollingEnabled",
+  "filesystemAccessEnabled",
+  "filesystemReadEnabled",
+  "filesystemWriteEnabled",
+  "filesystemScanningEnabled",
+  "processControlEnabled",
+  "sqliteRuntimeEnabled",
+  "embeddedDbReaderEnabled",
+  "embeddedDbRuntimeEnabled",
+  "queryEngineRuntimeEnabled",
+  "databaseClientImplemented",
+  "databaseFileParserEnabled",
+  "pageParserEnabled",
+  "sqlParserRuntimeEnabled",
+  "queryExecutorEnabled",
+  "tableScanEnabled",
+  "fullTableScanEnabled",
+  "indexLookupEnabled",
+  "indexScanEnabled",
+  "btreeTraversalEnabled",
+  "transactionWalRuntimeEnabled",
+  "transactionRuntimeEnabled",
+  "walRuntimeEnabled",
+  "migrationSchemaChangeEnabled",
+  "databaseMigrationImplemented",
+  "storageAdapterImplemented",
+  "dbReadEnabled",
+  "dbWriteEnabled",
+  "dbReadWriteEnabled",
+  "databaseStorageRuntimeWritesEnabled",
+  "cacheRuntimeEnabled",
+  "cacheEngineImplemented",
+  "rlsRuntimeImplemented",
+  "queryAuditWriterImplemented",
+  "queryAuditRuntimeEnabled",
+  "shellRuntimeEnabled",
+  "commandRuntimeEnabled",
+  "matrixClientRuntimeEnabled",
+  "externalGatewayRuntimeEnabled",
+  "multiverseFabricCoreImportEnabled",
+  "fabricCoreNpmDependencyEnabled",
+  "fabricTransportDSidecarClientEnabled",
+  "fabricCoreTransportRuntimeEnabled",
+  "contentAddressedTransportEnabled",
+  "chunkedTransferEnabled",
+  "resumableTransferEnabled",
+  "multiSourceTransferEnabled",
+  "bittorrentDhtSwarmP2pEnabled",
+  "largePayloadTransferRuntimeEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "importExportPathImplementedByArdyn",
+  "packageDistributionImplementedByArdyn",
+  "persistenceImplementedByArdyn",
+  "loggerRuntimeImplemented",
+  "auditWriterRuntimeImplemented",
+  "telemetryClientImplemented",
+  "healthCheckRuntimeImplemented",
+  "backupJobImplemented",
+  "restoreJobImplemented",
+  "failoverRuntimeImplemented",
+  "infrastructureAutomationImplemented",
+  "deploymentAutomationImplemented",
+  "complianceEnforcementImplemented",
+  "piiProcessingImplemented",
+  "retentionJobImplemented",
+  "exportJobImplemented",
+  "testingCiReleaseAutomationEnabled",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecRuntimeEnabled",
+  "translatorRuntimeEnabled",
+  "filesystemProcessRuntimeEnabled",
+  "uiRuntimeImplemented",
+  "blockedCliBypassEnabled"
+]);
+const EMBEDDED_DB_QUERY_ENGINE_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "runtimeAuthorizationGranted",
+  "authorizesRuntime",
+  "sqliteRuntimeAuthorizationGranted",
+  "embeddedDbReaderAuthorizationGranted",
+  "databaseClientAuthorizationGranted",
+  "databaseFileParserAuthorizationGranted",
+  "pageParserAuthorizationGranted",
+  "sqlParserAuthorizationGranted",
+  "queryExecutorAuthorizationGranted",
+  "tableScanAuthorizationGranted",
+  "indexLookupAuthorizationGranted",
+  "btreeTraversalAuthorizationGranted",
+  "transactionWalAuthorizationGranted",
+  "migrationAuthorizationGranted",
+  "storageAdapterAuthorizationGranted",
+  "dbReadWriteAuthorizationGranted",
+  "filesystemAccessAuthorizationGranted",
+  "rlsRuntimeAuthorizationGranted",
+  "queryAuditWriterAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+const EMBEDDED_DB_QUERY_ENGINE_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "sqliteCommandExposed",
+  "dbInfoCommandExposed",
+  "tablesCommandExposed",
+  "selectCommandExposed",
+  "queryCommandExposed",
+  "serveRuntimeCommandEnabled"
+]);
+const EMBEDDED_DB_QUERY_ENGINE_BLOCKED_CLI_BYPASS_FIELDS = Object.freeze([
+  "blockedCliBypassEnabled",
+  "dryRunBypassesBlock",
+  "serveRuntimeBypassEnabled",
+  "bypassBlockedCommandBehavior",
+  "blockedCommandOverride"
+]);
+const EMBEDDED_DB_QUERY_ENGINE_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_sqlite_embedded_db_query_runtime_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "sqliteRuntime",
+      "embeddedDbRuntime",
+      "embeddedDbReader",
+      "queryEngineRuntime",
+      "databaseRuntime",
+      "dbRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_database_file_page_parsing_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "databaseFileParser",
+      "sqliteFileReader",
+      "pageParser",
+      "pageHeaderParser",
+      "dbInfoRuntime",
+      "schemaMetadataParser",
+      "tableMetadataParser"
+    ]
+  },
+  {
+    classification:
+      "hidden_sql_query_execution_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "sqlParser",
+      "sqlTokenizer",
+      "selectExecutor",
+      "queryExecutor",
+      "whereEvaluator",
+      "countQueryExecutor",
+      "readOnlyQueryRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_btree_index_traversal_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "btreeTraversal",
+      "btreePageReader",
+      "indexLookup",
+      "indexScan",
+      "fullTableScan",
+      "tableScanner"
+    ]
+  },
+  {
+    classification:
+      "hidden_transaction_wal_migration_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "transactionRuntime",
+      "walRuntime",
+      "walReader",
+      "migrationRunner",
+      "schemaChangeRuntime",
+      "transactionLog"
+    ]
+  },
+  {
+    classification:
+      "hidden_storage_cache_read_write_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "storageAdapter",
+      "databaseWrite",
+      "databaseRead",
+      "dbReadWrite",
+      "cacheEngine",
+      "persistenceLayer",
+      "storageWrite"
+    ]
+  },
+  {
+    classification:
+      "hidden_filesystem_access_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "filesystemRead",
+      "filesystemWrite",
+      "fileOpen",
+      "dbFilePath",
+      "fileSystemAccess",
+      "fileScanner"
+    ]
+  },
+  {
+    classification:
+      "hidden_auth_session_token_api_key_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "authSession",
+      "sessionToken",
+      "apiKey",
+      "tokenLoader",
+      "credentialLoader"
+    ]
+  },
+  {
+    classification:
+      "hidden_connector_grant_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "connectorGrant",
+      "providerGrant",
+      "mcpConnector",
+      "pluginCredential",
+      "toolGrant"
+    ]
+  },
+  {
+    classification:
+      "hidden_fabric_fabric_core_transport_runtime_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "fabricRuntime",
+      "fabricCoreTransportRuntime",
+      "fabricCoreImport",
+      "fabricTransportDSidecar",
+      "loopbackHttpClient",
+      "largePayloadTransfer"
+    ]
+  },
+  {
+    classification:
+      "hidden_content_addressed_chunked_resumable_p2p_transport_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "contentAddressedTransport",
+      "chunkedTransfer",
+      "resumableTransfer",
+      "multiSourceTransfer",
+      "bittorrentRuntime",
+      "dhtRuntime",
+      "swarmRuntime",
+      "p2pTransfer"
+    ]
+  },
+  {
+    classification:
+      "hidden_matrix_gateway_runtime_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "matrixClientRuntime",
+      "homeserverConnection",
+      "messagePollingRuntime",
+      "messageSendingRuntime",
+      "externalGatewayRuntime"
+    ]
+  },
+  {
+    classification:
+      "hidden_shell_command_runtime_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "shellRuntime",
+      "commandRuntime",
+      "processSpawn",
+      "pathLookup",
+      "terminalBackend"
+    ]
+  },
+  {
+    classification:
+      "hidden_secure_drop_implementation_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "secureDropRuntime",
+      "secureDropInbox",
+      "secureDropTransport",
+      "secureDropCrypto",
+      "secureDropFileSelection"
+    ]
+  },
+  {
+    classification:
+      "hidden_backend_api_server_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "backendRuntime",
+      "apiServer",
+      "apiEndpoint",
+      "serverMiddleware",
+      "httpHandler"
+    ]
+  },
+  {
+    classification:
+      "hidden_logger_audit_transcript_telemetry_external_sink_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected",
+    fields: [
+      "loggerRuntime",
+      "auditWriter",
+      "queryAuditWriter",
+      "transcriptWriter",
+      "telemetryClient",
+      "externalSink"
+    ]
+  }
+]);
+
+function embeddedDbQueryEngineBoundaryMapInputRecord(input) {
+  return isPlainObjectRecord(input) ? input : null;
+}
+
+function embeddedDbQueryEngineBoundaryMapReviewedAt(inputRecord) {
+  if (
+    inputRecord === null ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt")
+  ) {
+    return APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+  }
+
+  return isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
+    ? inputRecord.reviewedAt
+    : APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT;
+}
+
+function embeddedDbQueryEngineBoundaryMapContainsTrue(value) {
+  if (value === true) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return value.some(embeddedDbQueryEngineBoundaryMapContainsTrue);
+  }
+
+  if (isPlainObjectRecord(value)) {
+    return Object.values(value).some(
+      embeddedDbQueryEngineBoundaryMapContainsTrue
+    );
+  }
+
+  return false;
+}
+
+function embeddedDbQueryEngineBoundaryMapHasTrueFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      embeddedDbQueryEngineBoundaryMapHasTrueFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (fields.includes(key) && nested === true) {
+      return true;
+    }
+
+    if (embeddedDbQueryEngineBoundaryMapHasTrueFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function embeddedDbQueryEngineBoundaryMapHasPresentFieldDeep(value, fields) {
+  if (Array.isArray(value)) {
+    return value.some((item) =>
+      embeddedDbQueryEngineBoundaryMapHasPresentFieldDeep(item, fields)
+    );
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  for (const [key, nested] of Object.entries(value)) {
+    if (
+      key === "explicitBlockedAuthorizationFlags" ||
+      key === "unsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlags"
+    ) {
+      continue;
+    }
+
+    if (fields.includes(key)) {
+      return true;
+    }
+
+    if (embeddedDbQueryEngineBoundaryMapHasPresentFieldDeep(nested, fields)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function embeddedDbQueryEngineBoundaryMapEntriesInput(inputRecord) {
+  return Array.isArray(inputRecord?.boundaryEntries)
+    ? inputRecord.boundaryEntries
+    : null;
+}
+
+function embeddedDbQueryEngineBoundaryMapMalformed(inputRecord) {
+  return (
+    inputRecord === null ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") &&
+      !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)) ||
+    (Object.prototype.hasOwnProperty.call(inputRecord, "boundaryEntries") &&
+      !Array.isArray(inputRecord.boundaryEntries))
+  );
+}
+
+function embeddedDbQueryEngineBoundaryMapEntryIssue(entries, predicate) {
+  return entries !== null && entries.some((entry) => predicate(entry));
+}
+
+function embeddedDbQueryEngineBoundaryMapMissingRequired(entry) {
+  return (
+    !isPlainObjectRecord(entry) ||
+    EMBEDDED_DB_QUERY_ENGINE_REQUIRED_FIELDS.some(
+      (field) => !Object.prototype.hasOwnProperty.call(entry, field)
+    )
+  );
+}
+
+function embeddedDbQueryEngineBoundaryMapEntryMalformed(entry) {
+  if (!isPlainObjectRecord(entry)) {
+    return true;
+  }
+
+  return (
+    typeof entry.boundaryId !== "string" ||
+    !Array.isArray(entry.allowedCurrentBehavior) ||
+    !Array.isArray(entry.forbiddenCurrentBehavior) ||
+    typeof entry.requiredFutureContractBeforeImplementation !== "string" ||
+    typeof entry.requiredFutureAuthorizationPhaseBeforeRuntime !== "string" ||
+    typeof entry.databaseFileFormatExpectation !== "string" ||
+    typeof entry.queryParsingExpectation !== "string" ||
+    typeof entry.readOnlyQueryExpectation !== "string" ||
+    typeof entry.dataIsolationExpectation !== "string" ||
+    typeof entry.storageWriteExpectation !== "string" ||
+    typeof entry.auditLoggingExpectation !== "string" ||
+    typeof entry.migrationTransactionExpectation !== "string" ||
+    typeof entry.performanceIndexingExpectation !== "string" ||
+    typeof entry.locusRoleDescription !== "string" ||
+    typeof entry.fabricRoleDescription !== "string" ||
+    typeof entry.secureDropRoleDescription !== "string" ||
+    !isPlainObjectRecord(entry.explicitBlockedAuthorizationFlags) ||
+    !isPlainObjectRecord(
+      entry.unsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlags
+    ) ||
+    entry.nonAuthorizingProof !== true
+  );
+}
+
+function embeddedDbQueryEngineBoundaryMapAuthorizationFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(value.explicitBlockedAuthorizationFlags) &&
+      Object.values(value.explicitBlockedAuthorizationFlags).some(
+        (flag) => flag !== false
+      )) ||
+    EMBEDDED_DB_QUERY_ENGINE_AUTHORIZATION_FIELDS.some(
+      (field) => value[field] === true
+    )
+  );
+}
+
+function embeddedDbQueryEngineBoundaryMapUnsafeFlagEnabled(value) {
+  if (!isPlainObjectRecord(value)) {
+    return false;
+  }
+
+  return (
+    (isPlainObjectRecord(
+      value.unsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlags
+    ) &&
+      Object.values(
+        value.unsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlags
+      ).some((flag) => flag !== false)) ||
+    embeddedDbQueryEngineBoundaryMapHasTrueFieldDeep(
+      value,
+      EMBEDDED_DB_QUERY_ENGINE_UNSAFE_FIELDS
+    )
+  );
+}
+
+function embeddedDbQueryEngineBoundaryMapCanonical(entries) {
+  if (entries === null) {
+    return true;
+  }
+
+  return (
+    JSON.stringify(entries) ===
+    JSON.stringify(embeddedDbQueryEngineBoundaryMapEntries())
+  );
+}
+
+function embeddedDbQueryEngineBoundaryMapInputClassification(inputRecord) {
+  if (embeddedDbQueryEngineBoundaryMapMalformed(inputRecord)) {
+    return MALFORMED_EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  const entries = embeddedDbQueryEngineBoundaryMapEntriesInput(inputRecord);
+
+  if (
+    embeddedDbQueryEngineBoundaryMapEntryIssue(
+      entries,
+      embeddedDbQueryEngineBoundaryMapMissingRequired
+    )
+  ) {
+    return "missing_required_embedded_db_query_engine_boundary_entry_rejected";
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_FAMILIES.includes(
+          entry.boundaryFamily
+        )
+    )
+  ) {
+    return "unknown_boundary_family_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapEntryIssue(
+      entries,
+      (entry) =>
+        !EMBEDDED_DB_QUERY_ENGINE_RELATED_SYSTEMS.includes(entry.relatedSystem)
+    )
+  ) {
+    return "unknown_related_system_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapEntryIssue(
+      entries,
+      (entry) => !EMBEDDED_DB_QUERY_ENGINE_STATUSES.includes(entry.currentStatus)
+    )
+  ) {
+    return "unknown_current_status_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapEntryIssue(
+      entries,
+      embeddedDbQueryEngineBoundaryMapEntryMalformed
+    )
+  ) {
+    return MALFORMED_EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_MAP_CLASSIFICATION;
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "runtimeAuthorized",
+      "authorizesRuntime"
+    ])
+  ) {
+    return "runtime_authorization_attempt_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    EMBEDDED_DB_QUERY_ENGINE_AUTHORIZATION_FIELDS.some(
+      (field) => inputRecord?.[field] === true
+    ) ||
+    embeddedDbQueryEngineBoundaryMapEntryIssue(
+      entries,
+      embeddedDbQueryEngineBoundaryMapAuthorizationFlagEnabled
+    ) ||
+    embeddedDbQueryEngineBoundaryMapAuthorizationFlagEnabled(inputRecord)
+  ) {
+    return "authorization_flags_enabled_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapHasTrueFieldDeep(inputRecord, [
+      "reportRunsChecks"
+    ])
+  ) {
+    return "report_runs_checks_true_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      EMBEDDED_DB_QUERY_ENGINE_AUTHORIZATION_FIELDS
+    )
+  ) {
+    return "runtime_authorization_attempt_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      EMBEDDED_DB_QUERY_ENGINE_COMMAND_FIELDS
+    )
+  ) {
+    return "command_exposure_attempt_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapHasTrueFieldDeep(
+      inputRecord,
+      EMBEDDED_DB_QUERY_ENGINE_BLOCKED_CLI_BYPASS_FIELDS
+    )
+  ) {
+    return "blocked_cli_bypass_attempt_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  for (const { classification, fields } of EMBEDDED_DB_QUERY_ENGINE_HIDDEN_FIELD_GROUPS) {
+    if (
+      embeddedDbQueryEngineBoundaryMapHasPresentFieldDeep(inputRecord, fields)
+    ) {
+      return classification;
+    }
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapUnsafeFlagEnabled(inputRecord) ||
+    embeddedDbQueryEngineBoundaryMapEntryIssue(
+      entries,
+      embeddedDbQueryEngineBoundaryMapUnsafeFlagEnabled
+    )
+  ) {
+    return "unsafe_embedded_db_query_engine_primitive_runtime_flags_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    embeddedDbQueryEngineBoundaryMapEntryIssue(entries, (entry) =>
+      embeddedDbQueryEngineBoundaryMapContainsTrue(entry?.runtimeEffect)
+    ) ||
+    embeddedDbQueryEngineBoundaryMapContainsTrue(inputRecord?.runtimeEffect)
+  ) {
+    return "nested_unsafe_flags_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (
+    Object.keys(inputRecord ?? {}).some(
+      (field) =>
+        !EMBEDDED_DB_QUERY_ENGINE_ALLOWED_TOP_LEVEL_FIELDS.includes(field)
+    )
+  ) {
+    return "unknown_top_level_field_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  if (!embeddedDbQueryEngineBoundaryMapCanonical(entries)) {
+    return "noncanonical_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+  }
+
+  return VALID_EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function embeddedDbQueryEngineBoundaryMapAuthorizationFlags() {
+  return Object.fromEntries(
+    EMBEDDED_DB_QUERY_ENGINE_AUTHORIZATION_FIELDS.map((field) => [
+      field,
+      false
+    ])
+  );
+}
+
+function embeddedDbQueryEngineBoundaryMapFalseRuntimeFields() {
+  return Object.fromEntries(
+    EMBEDDED_DB_QUERY_ENGINE_UNSAFE_FIELDS.map((field) => [field, false])
+  );
+}
+
+function embeddedDbQueryEngineBoundaryDefinition({
+  boundaryId,
+  boundaryFamily,
+  relatedSystem,
+  currentStatus = "future_contract_required",
+  contract,
+  allowed = [],
+  forbidden = [],
+  databaseFileFormat,
+  queryParsing,
+  readOnlyQuery,
+  dataIsolation,
+  storageWrite,
+  auditLogging,
+  migrationTransaction,
+  performanceIndexing,
+  locusRole,
+  fabricRole,
+  secureDropRole
+}) {
+  return {
+    boundaryId,
+    boundaryFamily,
+    relatedSystem,
+    currentStatus,
+    allowedCurrentBehavior: [
+      "Record deterministic review-only embedded DB/query-engine primitive boundary metadata.",
+      "Use SQLite concepts and CodeCrafters SQLite references as taxonomy only.",
+      "Keep Ardyn runtime, command, storage, filesystem, and query behavior blocked.",
+      ...allowed
+    ],
+    forbiddenCurrentBehavior: [
+      "Install, vendor, import, copy, or integrate CodeCrafters SQLite, course SDK code, SQLite libraries, DB clients, or storage adapters.",
+      "Implement SQLite runtime, embedded DB reader, database file parser, page parser, schema/table parser, SQL parser, query executor, table scan, index lookup, B-tree traversal, transaction, WAL, migration, RLS runtime, query audit writer, cache, or persistence behavior.",
+      "Read or write database files, scan filesystems, expose commands, start backends, grant connectors, run Fabric/fabric-core transport, or bypass blocked CLI behavior.",
+      ...forbidden
+    ],
+    requiredFutureContractBeforeImplementation: contract,
+    requiredFutureAuthorizationPhaseBeforeRuntime:
+      "A later explicit runtime authorization phase must approve the exact embedded DB/query-engine implementation after security, storage, auth, audit, and operations contracts exist; Phase 5.76 grants no runtime, filesystem, database, query, command, process, Fabric, or connector permission.",
+    databaseFileFormatExpectation:
+      databaseFileFormat ??
+      "SQLite file format concepts, page size, page headers, schema metadata, and table metadata remain review taxonomy only; Phase 5.76 opens no database file and parses no bytes.",
+    queryParsingExpectation:
+      queryParsing ??
+      "SQL parsing concepts remain future contract metadata only; Phase 5.76 adds no tokenizer, parser, grammar, AST, planner, or execution path.",
+    readOnlyQueryExpectation:
+      readOnlyQuery ??
+      "Read-only query concepts such as .dbinfo, .tables, SELECT COUNT(*), single-column SELECT, multi-column SELECT, and WHERE filters are reference boundaries only.",
+    dataIsolationExpectation:
+      dataIsolation ??
+      "Future data isolation must be defined against Phase 5.63 RLS and auth boundaries before runtime; Phase 5.76 enforces no RLS runtime and touches no records.",
+    storageWriteExpectation:
+      storageWrite ??
+      "Future storage must be separately authorized against Phase 5.61 database/storage boundaries; Phase 5.76 adds no database client, storage adapter, persistence, cache, read, or write.",
+    auditLoggingExpectation:
+      auditLogging ??
+      "Future query audit evidence must be separately designed against Phase 5.65 logging/audit boundaries; Phase 5.76 adds no logger, transcript writer, audit writer, telemetry, or external sink.",
+    migrationTransactionExpectation:
+      migrationTransaction ??
+      "Future transaction, WAL, migration, schema-change, backup, recovery, retention, deletion, and export behavior require separate contracts; Phase 5.76 implements none of them.",
+    performanceIndexingExpectation:
+      performanceIndexing ??
+      "Future performance, full-table scan, index lookup, and B-tree traversal contracts must remain analysis metadata until authorized; Phase 5.76 performs no scan, lookup, traversal, or timing work.",
+    locusRoleDescription:
+      locusRole ??
+      "Locus may later display review-only DB/query readiness state after a separate UI/consent contract; Phase 5.76 adds no Locus integration or UI.",
+    fabricRoleDescription:
+      fabricRole ??
+      "Fabric and fabric-core remain referenced only for future large-payload metadata relationships; Phase 5.76 adds no fabric-core import, sidecar, content-addressed transport, or file transfer.",
+    secureDropRoleDescription:
+      secureDropRole ??
+      "Secure Drop remains canonical outside Ardyn with content-fabric ownership; Phase 5.76 adds no Secure Drop crypto, transport, inbox, file selection, filesystem scanning, or DB integration."
+  };
+}
+
+function embeddedDbQueryEngineBoundaryDefinitions() {
+  return [
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.ardyn.embedded_db.contract",
+      boundaryFamily: "embedded_db_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      contract:
+        "Define the full embedded DB responsibility boundary, ownership, threat model, data model, and blocked-runtime approval gates before any DB runtime exists."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId:
+        "phase5-76.codecrafters_sqlite_reference.sqlite.taxonomy.boundary",
+      boundaryFamily: "sqlite_reference_boundary",
+      relatedSystem: "codecrafters-sqlite-reference",
+      currentStatus: "metadata_only",
+      contract:
+        "Keep codecrafters-io/build-your-own-sqlite as architecture taxonomy only; any future implementation must be independently specified, reviewed, and authorized.",
+      databaseFileFormat:
+        "SQLite file concepts are reference labels only; this phase imports no challenge code, SDK, SQLite library, or database reader."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId:
+        "phase5-76.codecrafters_sqlite_reference.file_format.contract",
+      boundaryFamily: "database_file_format_contract",
+      relatedSystem: "codecrafters-sqlite-reference",
+      currentStatus: "metadata_only",
+      contract:
+        "Define any future database file-format reader contract, byte limits, malformed file handling, and local-only policy before reading a database file.",
+      allowed: [
+        "Record SQLite file-format, .dbinfo-style metadata, and .tables-style metadata as review-only taxonomy."
+      ]
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.codecrafters_sqlite_reference.page_header.contract",
+      boundaryFamily: "page_header_contract",
+      relatedSystem: "codecrafters-sqlite-reference",
+      currentStatus: "metadata_only",
+      contract:
+        "Define page size, page header, overflow, malformed page, and byte-order contracts before any page parsing or DB byte inspection."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.ardyn.schema_metadata.contract",
+      boundaryFamily: "schema_metadata_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define schema metadata, .dbinfo-style introspection, schema provenance, and redaction requirements before schema inspection exists.",
+      readOnlyQuery:
+        ".dbinfo-style metadata inspection is reference-only in Phase 5.76; no schema table, file, page, or metadata parser is added."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.ardyn.table_metadata.contract",
+      boundaryFamily: "table_metadata_contract",
+      relatedSystem: "ardyn",
+      contract:
+        "Define table metadata listing, .tables-style behavior, table allowlists, and hidden-table policy before table listing exists.",
+      readOnlyQuery:
+        ".tables-style table listing is reference-only in Phase 5.76; no table catalog reader or filesystem-backed database inspection is added."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.ardyn.sql_parser.contract",
+      boundaryFamily: "sql_parser_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      contract:
+        "Define parser grammar scope, rejected statement classes, parameter handling, injection boundaries, and fail-closed parse errors before any SQL parser exists.",
+      queryParsing:
+        "Future SQL parsing must be read-only, allowlisted, and separately authorized; Phase 5.76 adds no SQL tokenizer, grammar, AST, planner, or parser."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.ardyn_subagent.read_only_query.contract",
+      boundaryFamily: "read_only_query_contract",
+      relatedSystem: "ardyn-subagent",
+      contract:
+        "Define read-only query eligibility, output limits, result redaction, and non-authorizing subagent handoff rules before any query runtime exists.",
+      readOnlyQuery:
+        "Read-only query concepts are metadata-only; no SELECT, COUNT, projection, filter, scan, or result materialization occurs."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.external_harness.select_query.contract",
+      boundaryFamily: "select_query_contract",
+      relatedSystem: "external-harness",
+      contract:
+        "Define SELECT COUNT(*), single-column SELECT, multi-column SELECT, projection limits, type handling, and result display contracts before query execution.",
+      readOnlyQuery:
+        "SELECT COUNT(*), single-column SELECT, and multi-column SELECT are future taxonomy boundaries only; no query executor is present."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.external_harness.where_filter.contract",
+      boundaryFamily: "where_filter_contract",
+      relatedSystem: "external-harness",
+      contract:
+        "Define WHERE predicate scope, comparison semantics, parameter rules, type coercion, and injection-resistant filter contracts before runtime.",
+      queryParsing:
+        "WHERE filtering remains a future parser and evaluator contract; Phase 5.76 adds no predicate evaluator or expression runtime."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.repo_family.full_table_scan.contract",
+      boundaryFamily: "full_table_scan_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "blocked",
+      contract:
+        "Define scan authorization, local-only limits, cancellation, abuse controls, performance budgets, and audit evidence before any full-table scan exists.",
+      performanceIndexing:
+        "Full-table scan is a risk taxonomy entry only; Phase 5.76 scans no table, page, file, or record."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.repo_family.index_lookup.contract",
+      boundaryFamily: "index_lookup_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "blocked",
+      contract:
+        "Define index metadata trust, lookup semantics, malformed index behavior, and performance evidence before any index lookup exists.",
+      performanceIndexing:
+        "Index lookup remains reference metadata only; no index page, key, cursor, or planner behavior is implemented."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.codecrafters_sqlite_reference.btree.contract",
+      boundaryFamily: "btree_traversal_contract",
+      relatedSystem: "codecrafters-sqlite-reference",
+      currentStatus: "blocked",
+      contract:
+        "Define B-tree page traversal, overflow handling, malformed node handling, recursion limits, and resource budgets before any traversal exists.",
+      performanceIndexing:
+        "B-tree traversal is a taxonomy boundary only; Phase 5.76 follows no pointers and reads no pages."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.multiverse.query_performance.contract",
+      boundaryFamily: "query_performance_contract",
+      relatedSystem: "multiverse",
+      contract:
+        "Define performance, cancellation, idempotency, result-size, and quality-gate evidence before query runtime or benchmarking exists.",
+      performanceIndexing:
+        "Query performance remains metadata-only and linked to Phase 5.69 and Phase 5.70; Phase 5.76 adds no benchmark, retry, scheduler, or worker."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.repo_family.transaction.boundary",
+      boundaryFamily: "transaction_boundary_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "blocked",
+      contract:
+        "Define transaction scope, locking, rollback, idempotency, and write prohibition before any transaction behavior exists.",
+      migrationTransaction:
+        "Transactions remain future contract metadata only; Phase 5.76 opens no connection, acquires no lock, writes no journal, and changes no state."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.content_fabric.wal.boundary",
+      boundaryFamily: "wal_boundary_contract",
+      relatedSystem: "content-fabric",
+      currentStatus: "blocked",
+      contract:
+        "Define WAL interpretation, checkpoint, recovery, retention, and corruption handling before any WAL behavior or file access exists.",
+      migrationTransaction:
+        "WAL behavior is reference-only; Phase 5.76 adds no WAL parser, journal reader, recovery job, backup job, restore job, or filesystem access."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.repo_family.migration.boundary",
+      boundaryFamily: "migration_boundary_contract",
+      relatedSystem: "repo-family",
+      currentStatus: "blocked",
+      contract:
+        "Define schema-change, migration, rollback, retention, deletion, export, and compliance contracts before migrations are considered.",
+      migrationTransaction:
+        "Migration and schema-change behavior remain blocked; Phase 5.76 adds no migration runner, DDL executor, RLS migration, or storage write."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.content_fabric.storage_adapter.boundary",
+      boundaryFamily: "storage_adapter_boundary",
+      relatedSystem: "content-fabric",
+      currentStatus: "blocked",
+      contract:
+        "Define storage adapter ownership, credential boundaries, local-only/cloud-opt-in policy, backup/recovery, and retention before any adapter exists.",
+      storageWrite:
+        "Storage adapters remain blocked and owned by future explicit contracts; Phase 5.76 adds no database client, adapter, filesystem reader, filesystem writer, cache, or persistence layer."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.locus.rls_data_isolation.boundary",
+      boundaryFamily: "rls_data_isolation_boundary",
+      relatedSystem: "locus",
+      contract:
+        "Define RLS/data-isolation display expectations, tenant/owner boundaries, and consent before any query result can be shown.",
+      dataIsolation:
+        "RLS/data isolation references Phase 5.63 only; Phase 5.76 enforces no RLS runtime and exposes no data to Locus."
+    }),
+    embeddedDbQueryEngineBoundaryDefinition({
+      boundaryId: "phase5-76.fabric_core_reference.query_audit.boundary",
+      boundaryFamily: "query_audit_boundary",
+      relatedSystem: "fabric-core-reference",
+      contract:
+        "Define query audit, redaction, retention, Fabric large-payload metadata relation, and non-authorizing evidence before any audit writer or fabric-core consumer path.",
+      auditLogging:
+        "Query audit remains future metadata; Phase 5.76 writes no logs, transcripts, audit records, telemetry, external sink, import, export, or package artifact.",
+      fabricRole:
+        "Phase 5.75 fabric-core large-payload metadata is referenced only to keep Ardyn a future consumer; Phase 5.76 adds no fabric-core import, sidecar, transport, contentId verification, or payload movement."
+    })
+  ];
+}
+
+function embeddedDbQueryEngineBoundaryMapEntry(definition) {
+  return {
+    ...definition,
+    phase561DatabaseStorageReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      databaseStorageRuntimeAuthorized: false,
+      storageAdapterAuthorized: false
+    },
+    phase563RlsDataIsolationReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      rlsRuntimeAuthorized: false,
+      inputSanitizationRuntimeAuthorized: false
+    },
+    phase565AuditLoggingReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      queryAuditWriterAuthorized: false,
+      loggerRuntimeAuthorized: false
+    },
+    phase566BackupRecoveryReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-66/availability-recovery-contract-boundary-map.json",
+      backupJobAuthorized: false,
+      restoreJobAuthorized: false
+    },
+    phase567RetentionDeletionExportReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-67/infrastructure-compliance-data-retention-contract-boundary-map.json",
+      retentionJobAuthorized: false,
+      exportJobAuthorized: false
+    },
+    phase569TestingQualityGateReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-69/testing-frameworks-quality-gates-contract-boundary-map.json",
+      queryEngineQualityGateRequired: true,
+      qualityGateRuntimeAuthorized: false
+    },
+    phase570OperationsReliabilityReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-70/operations-reliability-contract-boundary-map.json",
+      idempotencyRuntimeAuthorized: false,
+      retryRuntimeAuthorized: false
+    },
+    phase572SecretsCredentialReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json",
+      embeddedDbKeyCredentialRuntimeAuthorized: false,
+      secretStoreAuthorized: false
+    },
+    phase574CommandSurfaceShellReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-74/command-surface-shell-primitive-contract-boundary-map.json",
+      shellRuntimeAuthorized: false,
+      commandExposureAuthorized: false
+    },
+    phase575FabricCoreConsumerReference: {
+      fixture:
+        "tests/fixtures/host-policy/phase5-75/fabric-core-consumer-integration-readiness-boundary-update.json",
+      fabricCoreLargePayloadMetadataRelationOnly: true,
+      fabricCoreTransportAuthorized: false
+    },
+    embeddedDbQueryEnginePrimitiveBoundaryMetadataOnly: true,
+    noLiveEmbeddedDbQueryEngineRuntimePerformed: true,
+    explicitBlockedAuthorizationFlags:
+      embeddedDbQueryEngineBoundaryMapAuthorizationFlags(),
+    unsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlags:
+      embeddedDbQueryEngineBoundaryMapFalseRuntimeFields(),
+    nonAuthorizingProof: true,
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function embeddedDbQueryEngineBoundaryMapEntries() {
+  return embeddedDbQueryEngineBoundaryDefinitions().map(
+    embeddedDbQueryEngineBoundaryMapEntry
+  );
+}
+
+function embeddedDbQueryEngineBoundaryMapSummary(entries) {
+  const countByFamily = Object.fromEntries(
+    EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_FAMILIES.map((family) => [
+      family,
+      entries.filter((entry) => entry.boundaryFamily === family).length
+    ])
+  );
+  const countByRelatedSystem = Object.fromEntries(
+    EMBEDDED_DB_QUERY_ENGINE_RELATED_SYSTEMS.map((system) => [
+      system,
+      entries.filter((entry) => entry.relatedSystem === system).length
+    ])
+  );
+  const countByStatus = Object.fromEntries(
+    EMBEDDED_DB_QUERY_ENGINE_STATUSES.map((status) => [
+      status,
+      entries.filter((entry) => entry.currentStatus === status).length
+    ])
+  );
+  const allBlockedAuthorizationFlagsFalse = entries.every((entry) =>
+    Object.values(entry.explicitBlockedAuthorizationFlags).every(
+      (value) => value === false
+    )
+  );
+  const allUnsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlagsFalse =
+    entries.every((entry) =>
+      Object.values(
+        entry.unsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlags
+      ).every((value) => value === false)
+    );
+  const allRuntimeEffectsFalse = entries.every((entry) =>
+    Object.values(entry.runtimeEffect).every((value) => value === false)
+  );
+
+  return {
+    boundaryMapKind:
+      EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND,
+    boundaryEntryCount: entries.length,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    boundaryFamilies: [...EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_FAMILIES],
+    relatedSystems: [...EMBEDDED_DB_QUERY_ENGINE_RELATED_SYSTEMS],
+    currentStatusValues: [...EMBEDDED_DB_QUERY_ENGINE_STATUSES],
+    embeddedDbQueryEnginePrimitiveBoundaryMetadataOnly: true,
+    noLiveEmbeddedDbQueryEngineRuntimePerformed: true,
+    sqliteReferenceBoundaryRecorded: true,
+    databaseFileFormatBoundaryRecorded: true,
+    pageHeaderBoundaryRecorded: true,
+    schemaTableMetadataBoundaryRecorded: true,
+    dbinfoStyleMetadataInspectionBoundaryRecorded: true,
+    tablesStyleTableListingBoundaryRecorded: true,
+    selectCountBoundaryRecorded: true,
+    singleColumnSelectBoundaryRecorded: true,
+    multiColumnSelectBoundaryRecorded: true,
+    whereFilterBoundaryRecorded: true,
+    fullTableScanBoundaryRecorded: true,
+    indexLookupBoundaryRecorded: true,
+    btreeTraversalBoundaryRecorded: true,
+    queryPerformanceBoundaryRecorded: true,
+    transactionWalBoundaryRecorded: true,
+    migrationSchemaChangeBoundaryRecorded: true,
+    storageAdapterBoundaryRecorded: true,
+    rlsDataIsolationBoundaryRecorded: true,
+    queryAuditBoundaryRecorded: true,
+    embeddedDbKeyCredentialBoundaryReferenced: true,
+    databaseStoragePersistenceBoundaryReferenced: true,
+    shellCommandSurfaceRelationshipBoundaryReferenced: true,
+    fabricCoreLargePayloadMetadataRelationshipBoundaryReferenced: true,
+    noSqliteRuntime: true,
+    noEmbeddedDbReader: true,
+    noDatabaseClient: true,
+    noDatabaseFileParser: true,
+    noPageParser: true,
+    noSqlParser: true,
+    noQueryExecutor: true,
+    noTableScan: true,
+    noIndexLookup: true,
+    noBtreeTraversal: true,
+    noTransactionWalRuntime: true,
+    noMigrationSchemaChangeRuntime: true,
+    noStorageAdapter: true,
+    noDbReadWrite: true,
+    noFilesystemAccess: true,
+    noCacheRuntime: true,
+    noRlsRuntime: true,
+    noQueryAuditWriter: true,
+    noShellRuntime: true,
+    noMatrixGatewayRuntime: true,
+    noFabricCoreImport: true,
+    noFabricCoreTransportRuntime: true,
+    noContentAddressedChunkedResumableMultiSourceP2pTransport: true,
+    noSecureDropImplementation: true,
+    noBackendApiServerBehavior: true,
+    noCommandExposure: true,
+    noBlockedCliBypass: true,
+    allBlockedAuthorizationFlagsFalse,
+    allUnsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlagsFalse,
+    allRuntimeEffectsFalse,
+    allEntriesNonAuthorizing: entries.every(
+      (entry) => entry.nonAuthorizingProof === true
+    )
+  };
+}
+
+function embeddedDbQueryEngineBoundaryMapValidationRules() {
+  return {
+    missingRequiredFieldsFailClosed: true,
+    unknownTopLevelFieldsFailClosed: true,
+    unknownBoundaryFamiliesFailClosed: true,
+    unknownRelatedSystemsFailClosed: true,
+    unknownCurrentStatusesFailClosed: true,
+    enabledAuthorizationFlagsFailClosed: true,
+    reportRunsChecksTrueFailClosed: true,
+    runtimeAuthorizationAttemptsFailClosed: true,
+    commandExposureAttemptsFailClosed: true,
+    blockedCliBypassAttemptsFailClosed: true,
+    enabledRuntimeCommandConnectorFabricWebsocketHttpMcpTaskSecureDropServiceDiscoveryScheduleFilesystemProcessFlagsFailClosed:
+      true,
+    enabledSqliteRuntimeFailClosed: true,
+    enabledEmbeddedDbReaderFailClosed: true,
+    enabledDatabaseClientFailClosed: true,
+    enabledDatabaseFileParserFailClosed: true,
+    enabledPageParserFailClosed: true,
+    enabledSqlParserFailClosed: true,
+    enabledQueryExecutorFailClosed: true,
+    enabledTableScanFailClosed: true,
+    enabledIndexLookupFailClosed: true,
+    enabledBtreeTraversalFailClosed: true,
+    enabledTransactionWalBehaviorFailClosed: true,
+    enabledMigrationSchemaChangeFailClosed: true,
+    enabledStorageAdapterFailClosed: true,
+    enabledDbReadWriteFailClosed: true,
+    enabledFilesystemAccessFailClosed: true,
+    enabledCacheRuntimeFailClosed: true,
+    enabledRlsRuntimeFailClosed: true,
+    enabledQueryAuditWriterFailClosed: true,
+    hiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed: true,
+    hiddenDatabaseFilePageParsingSemanticsFailClosed: true,
+    hiddenSqlQueryExecutionSemanticsFailClosed: true,
+    hiddenBtreeIndexTraversalSemanticsFailClosed: true,
+    hiddenTransactionWalMigrationSemanticsFailClosed: true,
+    hiddenStorageCacheReadWriteSemanticsFailClosed: true,
+    hiddenFilesystemAccessSemanticsFailClosed: true,
+    hiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+    hiddenConnectorGrantSemanticsFailClosed: true,
+    hiddenFabricFabricCoreTransportRuntimeSemanticsFailClosed: true,
+    hiddenContentAddressedChunkedResumableP2pTransportSemanticsFailClosed: true,
+    hiddenMatrixGatewayRuntimeSemanticsFailClosed: true,
+    hiddenShellCommandRuntimeSemanticsFailClosed: true,
+    hiddenSecureDropImplementationSemanticsFailClosed: true,
+    hiddenBackendApiServerSemanticsFailClosed: true,
+    hiddenLoggerAuditTranscriptTelemetryExternalSinkSemanticsFailClosed: true,
+    nestedUnsafeFlagsFailClosed: true,
+    noncanonicalBoundaryEntriesFailClosed: true,
+    validationImportsCodeCraftersSqlite: false,
+    validationImportsSqliteLibrary: false,
+    validationReadsDatabaseFiles: false,
+    validationWritesDatabaseFiles: false,
+    validationRunsSqlParser: false,
+    validationExecutesQueries: false,
+    validationChangesPackageJson: false,
+    validationRequestsJules: false
+  };
+}
+
+function embeddedDbQueryEngineBoundaryMapGaps() {
+  return [
+    "Future embedded DB/query-engine work still needs a dedicated implementation prompt, threat model, file-format contract, parser contract, query authorization model, and security review before any SQLite or DB runtime.",
+    "Future read-only query behavior still needs explicit contracts for .dbinfo, .tables, SELECT COUNT(*), single-column SELECT, multi-column SELECT, WHERE filters, result limits, and redaction.",
+    "Future storage work still needs Phase 5.61 persistence, Phase 5.63 RLS/data isolation, Phase 5.65 audit, Phase 5.66 backup/recovery, and Phase 5.67 retention/deletion/export contracts before any storage adapter or DB file access.",
+    "Future performance work still needs quality gates, idempotency, cancellation, abuse controls, and operations/reliability evidence before table scans, index lookups, B-tree traversal, or query planning.",
+    "Code Mode orchestration, Fabric/API-backend wiring, fabric-core large-payload consumption, shell command exposure, and external harness DB handoff remain separate review-only gaps."
+  ];
+}
+
+function embeddedDbQueryEngineBoundaryMapState(reviewedAt) {
+  const boundaryEntries = embeddedDbQueryEngineBoundaryMapEntries();
+
+  return {
+    schema: EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_MAP_STATE_SCHEMA,
+    schemaVersion:
+      EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION,
+    stateKind: EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND,
+    stateMode: "review-only",
+    reviewedAt,
+    sourcePhaseContext: {
+      phase561DatabaseStorageBoundary:
+        "tests/fixtures/host-policy/phase5-61/database-storage-contract-boundary-map.json",
+      phase563SecurityRlsInputSanitizationBoundary:
+        "tests/fixtures/host-policy/phase5-63/security-rls-input-sanitization-contract-boundary-map.json",
+      phase565LoggingAuditBoundary:
+        "tests/fixtures/host-policy/phase5-65/error-tracking-logging-audit-integrity-contract-boundary-map.json",
+      phase566AvailabilityRecoveryBoundary:
+        "tests/fixtures/host-policy/phase5-66/availability-recovery-contract-boundary-map.json",
+      phase567InfrastructureComplianceRetentionBoundary:
+        "tests/fixtures/host-policy/phase5-67/infrastructure-compliance-data-retention-contract-boundary-map.json",
+      phase569TestingQualityGateBoundary:
+        "tests/fixtures/host-policy/phase5-69/testing-frameworks-quality-gates-contract-boundary-map.json",
+      phase570OperationsReliabilityBoundary:
+        "tests/fixtures/host-policy/phase5-70/operations-reliability-contract-boundary-map.json",
+      phase572SecretsCredentialBoundary:
+        "tests/fixtures/host-policy/phase5-72/secrets-management-key-rotation-external-gateway-credential-boundary-map.json",
+      phase574CommandSurfaceShellPrimitiveBoundary:
+        "tests/fixtures/host-policy/phase5-74/command-surface-shell-primitive-contract-boundary-map.json",
+      phase575FabricCoreConsumerReadinessBoundary:
+        "tests/fixtures/host-policy/phase5-75/fabric-core-consumer-integration-readiness-boundary-update.json",
+      codeCraftersSqliteReference:
+        "codecrafters-io/build-your-own-sqlite reference taxonomy only",
+      sqliteRuntimeImplemented: false,
+      databaseClientImplemented: false,
+      filesystemAccessImplemented: false,
+      storageAdapterImplemented: false,
+      fabricCoreTransportImplemented: false,
+      runtimeStillBlocked: true
+    },
+    boundaryEntries,
+    boundaryMapSummary:
+      embeddedDbQueryEngineBoundaryMapSummary(boundaryEntries),
+    invalidBoundaryCasePolicy:
+      embeddedDbQueryEngineBoundaryMapValidationRules(),
+    topEmbeddedDbQueryEngineCodeModeFabricApiBackendGaps:
+      embeddedDbQueryEngineBoundaryMapGaps(),
+    recommendedNextPhase:
+      "phase-5.77-review-only-code-mode-orchestration-contract-boundary-map",
+    embeddedDbQueryEnginePrimitiveContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...embeddedDbQueryEngineBoundaryMapFalseRuntimeFields(),
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+function embeddedDbQueryEngineBoundaryMapResult({
+  reviewedAt,
+  classification,
+  accepted,
+  embeddedDbQueryEnginePrimitiveContractBoundaryMap
+}) {
+  return {
+    schema: EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion:
+      EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION,
+    embeddedDbQueryEnginePrimitiveContractBoundaryMapKind:
+      EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND,
+    embeddedDbQueryEnginePrimitiveContractBoundaryMapMode: "review-only",
+    reviewedAt,
+    classification,
+    embeddedDbQueryEnginePrimitiveContractBoundaryMapProduced: accepted,
+    embeddedDbQueryEnginePrimitiveContractBoundaryMap,
+    boundaryMapSummary: accepted
+      ? embeddedDbQueryEnginePrimitiveContractBoundaryMap.boundaryMapSummary
+      : null,
+    boundaryEntries: accepted
+      ? embeddedDbQueryEnginePrimitiveContractBoundaryMap.boundaryEntries
+      : [],
+    invalidBoundaryCasePolicy: accepted
+      ? embeddedDbQueryEnginePrimitiveContractBoundaryMap
+          .invalidBoundaryCasePolicy
+      : embeddedDbQueryEngineBoundaryMapValidationRules(),
+    topEmbeddedDbQueryEngineCodeModeFabricApiBackendGaps: accepted
+      ? embeddedDbQueryEnginePrimitiveContractBoundaryMap
+          .topEmbeddedDbQueryEngineCodeModeFabricApiBackendGaps
+      : [],
+    recommendedNextPhase: accepted
+      ? embeddedDbQueryEnginePrimitiveContractBoundaryMap.recommendedNextPhase
+      : null,
+    embeddedDbQueryEnginePrimitiveContractBoundaryMapOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...embeddedDbQueryEngineBoundaryMapFalseRuntimeFields(),
+    rejectionReasons: accepted
+      ? []
+      : [
+          {
+            classification,
+            rejected: true,
+            runtimeAuthorized: false,
+            sqliteRuntimeAuthorized: false,
+            embeddedDbReaderAuthorized: false,
+            databaseClientAuthorized: false,
+            databaseFileParserAuthorized: false,
+            pageParserAuthorized: false,
+            sqlParserAuthorized: false,
+            queryExecutorAuthorized: false,
+            storageAdapterAuthorized: false,
+            filesystemAccessAuthorized: false,
+            commandExposureAuthorized: false,
+            reportRunsChecks: false
+          }
+        ],
+    runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
+  };
+}
+
+export function createEmbeddedDbQueryEnginePrimitiveContractBoundaryMapForReview(
+  input = {}
+) {
+  const inputRecord = embeddedDbQueryEngineBoundaryMapInputRecord(input);
+  const reviewedAt = embeddedDbQueryEngineBoundaryMapReviewedAt(inputRecord);
+  const classification =
+    embeddedDbQueryEngineBoundaryMapInputClassification(inputRecord);
+  const accepted =
+    classification ===
+    VALID_EMBEDDED_DB_QUERY_ENGINE_BOUNDARY_MAP_CLASSIFICATION;
+  const embeddedDbQueryEnginePrimitiveContractBoundaryMap = accepted
+    ? embeddedDbQueryEngineBoundaryMapState(reviewedAt)
+    : null;
+
+  return embeddedDbQueryEngineBoundaryMapResult({
+    reviewedAt,
+    classification,
+    accepted,
+    embeddedDbQueryEnginePrimitiveContractBoundaryMap
   });
 }
 

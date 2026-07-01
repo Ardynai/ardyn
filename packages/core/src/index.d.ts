@@ -419,6 +419,12 @@ export const FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_VERSION:
   "0.1.0";
 export const FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_KIND:
   "fabric-core-consumer-integration-readiness-boundary-update";
+export const EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_SCHEMA:
+  "ardyn.phase-5.76.embedded-db-query-engine-primitive-contract-boundary-map-result";
+export const EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION:
+  "0.1.0";
+export const EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND:
+  "embedded-db-query-engine-primitive-contract-boundary-map";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -10839,6 +10845,124 @@ export interface FabricCoreConsumerIntegrationReadinessBoundaryUpdateResult {
 export function createFabricCoreConsumerIntegrationReadinessBoundaryUpdateForReview(
   input?: Record<string, unknown>
 ): FabricCoreConsumerIntegrationReadinessBoundaryUpdateResult;
+
+export type EmbeddedDbQueryEnginePrimitiveContractBoundaryMapClassification =
+  | "valid_embedded_db_query_engine_primitive_contract_boundary_map_runtime_still_blocked"
+  | "malformed_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "missing_required_embedded_db_query_engine_boundary_entry_rejected"
+  | "unknown_top_level_field_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "unknown_boundary_family_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "unknown_related_system_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "unknown_current_status_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "authorization_flags_enabled_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "report_runs_checks_true_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "runtime_authorization_attempt_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "command_exposure_attempt_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "blocked_cli_bypass_attempt_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_sqlite_embedded_db_query_runtime_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_database_file_page_parsing_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_sql_query_execution_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_btree_index_traversal_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_transaction_wal_migration_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_storage_cache_read_write_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_filesystem_access_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_auth_session_token_api_key_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_connector_grant_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_fabric_fabric_core_transport_runtime_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_content_addressed_chunked_resumable_p2p_transport_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_matrix_gateway_runtime_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_shell_command_runtime_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_secure_drop_implementation_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_backend_api_server_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "hidden_logger_audit_transcript_telemetry_external_sink_semantics_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "unsafe_embedded_db_query_engine_primitive_runtime_flags_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "nested_unsafe_flags_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected"
+  | "noncanonical_embedded_db_query_engine_primitive_contract_boundary_map_input_rejected";
+
+export interface EmbeddedDbQueryEnginePrimitiveBoundaryEntry {
+  boundaryId: string;
+  boundaryFamily: string;
+  relatedSystem: string;
+  currentStatus: string;
+  allowedCurrentBehavior: string[];
+  forbiddenCurrentBehavior: string[];
+  requiredFutureContractBeforeImplementation: string;
+  requiredFutureAuthorizationPhaseBeforeRuntime: string;
+  databaseFileFormatExpectation: string;
+  queryParsingExpectation: string;
+  readOnlyQueryExpectation: string;
+  dataIsolationExpectation: string;
+  storageWriteExpectation: string;
+  auditLoggingExpectation: string;
+  migrationTransactionExpectation: string;
+  performanceIndexingExpectation: string;
+  locusRoleDescription: string;
+  fabricRoleDescription: string;
+  secureDropRoleDescription: string;
+  explicitBlockedAuthorizationFlags: Record<string, false>;
+  unsafeEmbeddedDbQueryEnginePrimitiveRuntimeFlags: Record<string, false>;
+  embeddedDbQueryEnginePrimitiveBoundaryMetadataOnly: true;
+  noLiveEmbeddedDbQueryEngineRuntimePerformed: true;
+  nonAuthorizingProof: true;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface EmbeddedDbQueryEnginePrimitiveContractBoundaryMapState {
+  schema: "ardyn.phase-5.76.embedded-db-query-engine-primitive-contract-boundary-map-state";
+  schemaVersion: "0.1.0";
+  stateKind: "embedded-db-query-engine-primitive-contract-boundary-map";
+  stateMode: "review-only";
+  reviewedAt: string;
+  sourcePhaseContext: Record<string, boolean | string>;
+  boundaryEntries: EmbeddedDbQueryEnginePrimitiveBoundaryEntry[];
+  boundaryMapSummary: Record<string, boolean | number | string | string[] | Record<string, number>>;
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topEmbeddedDbQueryEngineCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string;
+  embeddedDbQueryEnginePrimitiveContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export interface EmbeddedDbQueryEnginePrimitiveContractBoundaryMapResult {
+  schema: "ardyn.phase-5.76.embedded-db-query-engine-primitive-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  embeddedDbQueryEnginePrimitiveContractBoundaryMapKind:
+    "embedded-db-query-engine-primitive-contract-boundary-map";
+  embeddedDbQueryEnginePrimitiveContractBoundaryMapMode: "review-only";
+  reviewedAt: string;
+  classification: EmbeddedDbQueryEnginePrimitiveContractBoundaryMapClassification;
+  embeddedDbQueryEnginePrimitiveContractBoundaryMapProduced: boolean;
+  embeddedDbQueryEnginePrimitiveContractBoundaryMap:
+    | EmbeddedDbQueryEnginePrimitiveContractBoundaryMapState
+    | null;
+  boundaryMapSummary:
+    | EmbeddedDbQueryEnginePrimitiveContractBoundaryMapState["boundaryMapSummary"]
+    | null;
+  boundaryEntries: EmbeddedDbQueryEnginePrimitiveBoundaryEntry[];
+  invalidBoundaryCasePolicy: Record<string, boolean>;
+  topEmbeddedDbQueryEngineCodeModeFabricApiBackendGaps: string[];
+  recommendedNextPhase: string | null;
+  embeddedDbQueryEnginePrimitiveContractBoundaryMapOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: Array<Record<string, boolean | string>>;
+  runtimeEffect: ReviewOnlyRuntimeEffectFalse;
+  [key: string]: unknown;
+}
+
+export function createEmbeddedDbQueryEnginePrimitiveContractBoundaryMapForReview(
+  input?: Record<string, unknown>
+): EmbeddedDbQueryEnginePrimitiveContractBoundaryMapResult;
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
