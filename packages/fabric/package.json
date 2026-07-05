@@ -9,6 +9,10 @@
     ".": {
       "types": "./src/index.d.ts",
       "default": "./src/index.mjs"
+    },
+    "./federation": {
+      "types": "./src/federation.d.ts",
+      "default": "./src/federation.mjs"
     }
   }
 }

@@ -3,4 +3,4 @@ target/
 dist/
 coverage/
 *.log
-
+config/secret/
