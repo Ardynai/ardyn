@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 
@@ -18,10 +19,23 @@ import {
   validateKeyringShape,
   validatePackManifest,
 } from "../packages/fabric/src/index.mjs";
+import {
+  createFabricFederationClient,
+  isLoopbackFabricFederationUrl,
+  loadFabricFederationConfigFromEnv,
+  verifyFabricCaContent,
+} from "../packages/fabric/src/federation.mjs";
 
 const root = process.cwd();
 const fixtureRoot = "packages/fabric/fixtures";
 const locusFixtureRoot = `${fixtureRoot}/locus-cross-impl-v1`;
+
+test("fabric federation helpers are exposed through a package subpath", async () => {
+  const exposed = await import("@ardyn/fabric/federation");
+
+  assert.equal(typeof exposed.createFabricFederationClient, "function");
+  assert.equal(typeof exposed.startFabricFederationReceiver, "function");
+});
 
 async function readText(path) {
   return readFile(join(root, path), "utf8");
@@ -205,3 +219,308 @@ test("unknown fields are preserved in signing payload", async () => {
   assert.match(payload, /"zFutureField":\{"count":1,"retained":true\}/);
   assert.match(payload, /"signatures":\[\]/);
 });
+
+test("fabric federation client accepts loopback sidecar URLs and rejects remote sidecars", () => {
+  assert.equal(isLoopbackFabricFederationUrl("http://127.0.0.1:37877"), true);
+  assert.equal(isLoopbackFabricFederationUrl("http://localhost:37877"), true);
+  assert.equal(isLoopbackFabricFederationUrl("http://[::1]:37877"), true);
+  assert.equal(isLoopbackFabricFederationUrl("https://127.0.0.1:37877"), false);
+  assert.equal(isLoopbackFabricFederationUrl("http://0.0.0.0:37877"), false);
+  assert.equal(isLoopbackFabricFederationUrl("http://example.com:37877"), false);
+
+  assert.throws(
+    () =>
+      createFabricFederationClient({
+        localDid: "did:multiverse:ardyn",
+        registryBaseUrl: "https://registry.example.test",
+        registryToken: "registry-token",
+        sidecarBaseUrl: "http://example.com:37877",
+        sidecarToken: "sidecar-token",
+      }),
+    /loopback HTTP/,
+  );
+});
+
+test("fabric federation env config reads the local secret identity DID without logging key material", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "ardyn-fabric-identity-"));
+  const identityPath = join(dir, "identity.json");
+  await writeFile(
+    identityPath,
+    JSON.stringify({
+      did: "did:multiverse:ardyn",
+      privateKey: "do-not-log-or-commit",
+    }),
+  );
+
+  try {
+    const config = loadFabricFederationConfigFromEnv({
+      ARDYN_FABRIC_IDENTITY_FILE: identityPath,
+      ARDYN_FABRIC_REGISTRY_TOKEN: "registry-token",
+      ARDYN_FABRIC_REGISTRY_URL: "https://registry.example.test",
+      ARDYN_FABRIC_SIDECAR_TOKEN: "sidecar-token",
+      ARDYN_FABRIC_SIDECAR_URL: "http://127.0.0.1:37877",
+    });
+
+    assert.equal(config.localDid, "did:multiverse:ardyn");
+    assert.equal(config.privateKey, undefined);
+  } finally {
+    await rm(dir, { force: true, recursive: true });
+  }
+});
+
+test("fabric federation send authenticates with registry and reaches an allowlisted sibling", async () => {
+  const calls = [];
+  const fetchImpl = async (url, init) => {
+    calls.push({ body: init.body, headers: init.headers, method: init.method, path: new URL(url).pathname });
+    const path = new URL(url).pathname;
+    if (path === "/fabric/federation/allowlist") {
+      return jsonResponse({ allowlist: ["did:multiverse:locus"] });
+    }
+    if (path === "/v1/content" && init.method === "PUT") {
+      const bytes = Buffer.from(init.body);
+      const descriptor = testDescriptor(bytes, 4);
+      return jsonResponse({ contentId: descriptor.contentId, descriptor });
+    }
+    if (path === "/fabric/federation/send") {
+      const body = JSON.parse(init.body);
+      assert.equal(body.toDid, "did:multiverse:locus");
+      assert.equal(body.fromDid, "did:multiverse:ardyn");
+      assert.equal(body.transport, "fabric-ca");
+      return jsonResponse({ delivered: true, toDid: body.toDid });
+    }
+    if (path === "/systems/register") {
+      return jsonResponse({ registered: true });
+    }
+    return jsonResponse({ error: "not found" }, 404);
+  };
+  const client = createFabricFederationClient(testFederationConfig({ fetchImpl }));
+
+  await client.registerReachability();
+  const sent = await client.send("did:multiverse:locus", Buffer.from("shared-content"));
+
+  assert.equal(sent.registry.delivered, true);
+  assert.equal(calls.find((call) => call.path === "/systems/register").headers.authorization, "Bearer registry-token");
+  assert.equal(calls.find((call) => call.path === "/fabric/federation/send").headers.authorization, "Bearer registry-token");
+  assert.equal(calls.find((call) => call.path === "/v1/content").headers.authorization, "Bearer sidecar-token");
+});
+
+test("fabric federation client preserves custom registry send paths after normalization", async () => {
+  const calls = [];
+  const fetchImpl = async (url, init) => {
+    calls.push({ body: init.body, method: init.method, path: new URL(url).pathname });
+    const path = new URL(url).pathname;
+    if (path === "/custom/allowlist") return jsonResponse({ allowlist: ["did:multiverse:locus"] });
+    if (path === "/v1/content" && init.method === "PUT") {
+      const bytes = Buffer.from(init.body);
+      const descriptor = testDescriptor(bytes, 4);
+      return jsonResponse({ contentId: descriptor.contentId, descriptor });
+    }
+    if (path === "/custom/send") return jsonResponse({ delivered: true });
+    return jsonResponse({ error: "not found" }, 404);
+  };
+  const client = createFabricFederationClient(
+    testFederationConfig({
+      fetchImpl,
+      registryPaths: { allowlist: "/custom/allowlist", send: "/custom/send" },
+    }),
+  );
+
+  const sent = await client.send("did:multiverse:locus", Buffer.from("shared-content"));
+
+  assert.equal(sent.registry.delivered, true);
+  assert.equal(calls.some((call) => call.path === "/custom/send"), true);
+  assert.equal(calls.some((call) => call.path === "/fabric/federation/send"), false);
+});
+
+test("fabric federation receiver accepts allowlisted authenticated siblings and rejects non-allowlisted DIDs", async () => {
+  const bytes = Buffer.from("ciphertext:opaque-secure-drop-payload");
+  const descriptor = testDescriptor(bytes, 8);
+  const delivered = [];
+  const fetchImpl = async (url) => {
+    const path = new URL(url).pathname;
+    if (path === "/fabric/federation/allowlist") {
+      return jsonResponse({ allowlist: ["did:multiverse:locus"] });
+    }
+    if (path === "/fabric/federation/inbox") {
+      return jsonResponse({
+        items: [
+          {
+            authenticated: true,
+            contentId: descriptor.contentId,
+            encrypted: true,
+            fromDid: "did:multiverse:locus",
+            id: "message-1",
+            secure: true,
+            toDid: "did:multiverse:ardyn",
+          },
+          {
+            authenticated: true,
+            contentId: descriptor.contentId,
+            fromDid: "did:multiverse:kybernetes",
+            id: "message-2",
+            toDid: "did:multiverse:ardyn",
+          },
+        ],
+      });
+    }
+    if (path === `/v1/content/${descriptor.contentId}/descriptor`) {
+      return jsonResponse({ contentId: descriptor.contentId, descriptor });
+    }
+    if (path === `/v1/content/${descriptor.contentId}`) {
+      return bytesResponse(bytes, { "x-fabric-content-id": descriptor.contentId });
+    }
+    if (path.endsWith("/received")) {
+      return jsonResponse({ ok: true });
+    }
+    return jsonResponse({ error: "not found" }, 404);
+  };
+  const client = createFabricFederationClient(testFederationConfig({ fetchImpl }));
+
+  const result = await client.pollInboundOnce((delivery) => {
+    delivered.push(delivery);
+  });
+
+  assert.equal(result.delivered.length, 1);
+  assert.equal(result.rejected.length, 1);
+  assert.equal(result.rejected[0].fromDid, "did:multiverse:kybernetes");
+  assert.equal(result.rejected[0].error.code, "did_not_allowlisted");
+  assert.equal(delivered[0].fromDid, "did:multiverse:locus");
+  assert.equal(delivered[0].encrypted, true);
+  assert.equal(delivered[0].bytes.toString("utf8"), "ciphertext:opaque-secure-drop-payload");
+});
+
+test("fabric federation receive re-verifies contentId and catches tampered bytes", async () => {
+  const original = Buffer.from("verified-content");
+  const descriptor = testDescriptor(original, 6);
+  const fetchImpl = async (url) => {
+    const path = new URL(url).pathname;
+    if (path === "/fabric/federation/allowlist") {
+      return jsonResponse({ allowlist: ["did:multiverse:locus"] });
+    }
+    if (path === "/fabric/federation/inbox") {
+      return jsonResponse({
+        items: [
+          {
+            authenticated: true,
+            contentId: descriptor.contentId,
+            fromDid: "did:multiverse:locus",
+            toDid: "did:multiverse:ardyn",
+          },
+        ],
+      });
+    }
+    if (path === `/v1/content/${descriptor.contentId}/descriptor`) {
+      return jsonResponse({ contentId: descriptor.contentId, descriptor });
+    }
+    if (path === `/v1/content/${descriptor.contentId}`) {
+      return bytesResponse(Buffer.from("tampered-content"), { "x-fabric-content-id": descriptor.contentId });
+    }
+    return jsonResponse({ error: "not found" }, 404);
+  };
+  const client = createFabricFederationClient(testFederationConfig({ fetchImpl }));
+
+  const result = await client.pollInboundOnce(() => {
+    throw new Error("handler should not receive tampered bytes");
+  });
+
+  assert.equal(result.delivered.length, 0);
+  assert.equal(result.rejected.length, 1);
+  assert.equal(result.rejected[0].error.code, "piece_hash_mismatch");
+});
+
+test("fabric CA verifier catches a tampered byte against the sidecar descriptor contract", () => {
+  const original = Buffer.from("piece-order-matters");
+  const descriptor = testDescriptor(original, 5);
+
+  assert.equal(verifyFabricCaContent(original, descriptor).contentId, descriptor.contentId);
+  assert.throws(
+    () => verifyFabricCaContent(Buffer.from("piece-order-matterz"), descriptor),
+    /piece hash mismatch/i,
+  );
+});
+
+function testFederationConfig(overrides = {}) {
+  return {
+    allowSiblingDids: ["did:multiverse:locus"],
+    localDid: "did:multiverse:ardyn",
+    registryBaseUrl: "https://registry.example.test",
+    registryToken: "registry-token",
+    sidecarBaseUrl: "http://127.0.0.1:37877",
+    sidecarToken: "sidecar-token",
+    timeoutMs: 1_000,
+    ...overrides,
+  };
+}
+
+function testDescriptor(bytes, pieceSize) {
+  const pieces = [];
+  for (let offset = 0; offset < bytes.byteLength || pieces.length === 0; offset += pieceSize) {
+    const chunk = bytes.subarray(offset, Math.min(offset + pieceSize, bytes.byteLength));
+    pieces.push({
+      index: pieces.length,
+      offset,
+      sha256: leafHash(chunk),
+      size: chunk.byteLength,
+    });
+    if (bytes.byteLength === 0) break;
+  }
+  const contentId = merkleRoot(pieces.map((piece) => piece.sha256));
+  return {
+    contentId,
+    hash: "sha256",
+    merkle: "sha256-domain-separated-binary-pair-v1",
+    merkleRoot: contentId,
+    pieces,
+    pieceSize,
+    schemaVersion: "1.0.0",
+    totalSize: bytes.byteLength,
+    transport: "fabric-ca",
+  };
+}
+
+function leafHash(bytes) {
+  return createHash("sha256").update(Buffer.from([0x00])).update(bytes).digest("hex");
+}
+
+function merkleRoot(pieceHashes) {
+  let level = pieceHashes.map((hash) => Buffer.from(hash, "hex"));
+  while (level.length > 1) {
+    const next = [];
+    for (let index = 0; index < level.length; index += 2) {
+      const left = level[index];
+      const right = level[index + 1] ?? left;
+      next.push(createHash("sha256").update(Buffer.from([0x01])).update(left).update(right).digest());
+    }
+    level = next;
+  }
+  return Buffer.from(level[0]).toString("hex");
+}
+
+function jsonResponse(body, status = 200) {
+  return response(Buffer.from(JSON.stringify(body), "utf8"), status, { "content-type": "application/json" });
+}
+
+function bytesResponse(body, headers = {}) {
+  return response(Buffer.from(body), 200, headers);
+}
+
+function response(body, status, headers) {
+  const normalizedHeaders = new Map(
+    Object.entries(headers).map(([key, value]) => [key.toLowerCase(), String(value)]),
+  );
+  return {
+    headers: {
+      get(name) {
+        return normalizedHeaders.get(name.toLowerCase()) ?? null;
+      },
+    },
+    ok: status >= 200 && status < 300,
+    status,
+    async arrayBuffer() {
+      return body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength);
+    },
+    async text() {
+      return body.toString("utf8");
+    },
+  };
+}
