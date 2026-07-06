@@ -29,8 +29,9 @@ The fastest way to read the repo is:
 
 ## Runtime Posture
 
-Current ARDYN is review-only and runtime-disabled. The CLI has dry-run and
-display commands, but live runtime behavior is blocked:
+Current ARDYN is review-only and runtime-blocked except for the authorized
+Fabric Federation consumer client (see `docs/posture.md`). The CLI has dry-run
+and display commands, but live runtime behavior is blocked:
 
 - `serve --dry-run` is finite and non-executing.
 - `emit-session-events --dry-run` renders deterministic JSONL only.

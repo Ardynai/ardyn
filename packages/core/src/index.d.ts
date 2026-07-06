@@ -425,6 +425,11 @@ export const EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION:
   "0.1.0";
 export const EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND:
   "embedded-db-query-engine-primitive-contract-boundary-map";
+export const FABRIC_FEDERATION_RECONCILIATION_SCHEMA:
+  "ardyn.phase-5.76b.fabric-federation-reconciliation-result";
+export const FABRIC_FEDERATION_RECONCILIATION_VERSION: "0.1.0";
+export const FABRIC_FEDERATION_RECONCILIATION_KIND:
+  "fabric-federation-reconciliation";
 
 export type RuntimeHost = "rust";
 export type RuntimeCore = "typescript";
@@ -10963,6 +10968,32 @@ export interface EmbeddedDbQueryEnginePrimitiveContractBoundaryMapResult {
 export function createEmbeddedDbQueryEnginePrimitiveContractBoundaryMapForReview(
   input?: Record<string, unknown>
 ): EmbeddedDbQueryEnginePrimitiveContractBoundaryMapResult;
+
+export interface FabricFederationReconciliationResult {
+  schema: "ardyn.phase-5.76b.fabric-federation-reconciliation-result";
+  schemaVersion: "0.1.0";
+  fabricFederationReconciliationKind: "fabric-federation-reconciliation";
+  fabricFederationReconciliationMode: "review-only";
+  reviewedAt: string;
+  classification: string;
+  fabricFederationReconciliationProduced: boolean;
+  boundaryEntries: unknown[];
+  boundaryMapSummary: unknown | null;
+  recommendedNextPhase: string | null;
+  fabricFederationReconciliationOnly: true;
+  reviewOnly: true;
+  metadataOnly: true;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: unknown[];
+  runtimeEffect: Record<string, boolean>;
+  [key: string]: unknown;
+}
+
+export function createFabricFederationReconciliationForReview(
+  input?: Record<string, unknown>
+): FabricFederationReconciliationResult;
 
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";

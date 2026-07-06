@@ -4,14 +4,16 @@ ARDYN adopts the Multiverse Content Fabric Canonical Spec v1.0.0 as an ARDYN-fam
 
 Canonical source inspected:
 
-- `C:\AI\obsidian-mind\multiverse os platform\MULTIVERSE_CONTENT_FABRIC.md`
+- Multiverse Content Fabric Canonical Spec v1.0.0 (external, maintained by
+  the Multiverse project)
 
 Locus reference implementation inspected:
 
-- `C:\AI\locus\electron\content-fabric\manifest.ts`
-- `C:\AI\locus\electron\content-fabric\signing.ts`
-- `C:\AI\locus\electron\content-fabric\fixtures\cross-impl\v1\`
-- `C:\AI\locus\docs\content-fabric.md`
+- Locus content-fabric implementation (external, maintained by the Locus
+  project)
+
+Cross-implementation fixtures are mirrored at
+`packages/fabric/fixtures/locus-cross-impl-v1/` in this repo.
 
 ## ARDYN Phase 1.5 Scope
 
@@ -125,7 +127,6 @@ Before ARDYN can run a real Content Fabric runtime, it still needs:
 - Keyring self-signature and rotation verification.
 - Publisher-threshold enforcement.
 - Payload hash verification after fetch.
-- BitTorrent infohash verification.
 - HTTP catalog endpoints.
 - WebSocket fabric subscription events.
 - Code quarantine.
@@ -133,3 +134,16 @@ Before ARDYN can run a real Content Fabric runtime, it still needs:
 - Sandbox policy.
 - Explicit enable flow for code packs.
 - Cross-repo runtime conformance tests against Locus.
+
+### P2P / BitTorrent — permanently out of scope
+
+BitTorrent infohash verification, torrent seeding, magnet/webseed
+validation, and any DHT/swarm/P2P transport are permanently out of scope for
+Ardyn. Large-payload and content-addressed transport is handled by
+`@multiverse/fabric-core` (produced by Multiverse) consumed over the
+`fabric-transport-d` loopback sidecar, never rebuilt by Ardyn. See
+`docs/how-it-works/fabric-connect.md` and `docs/fabric-glossary.md`.
+
+Legacy infohash/magnet/webseed references in earlier docs are labeled as
+"legacy Content Fabric v1.0.0 byte-conformance only" and do not represent a
+future runtime requirement.

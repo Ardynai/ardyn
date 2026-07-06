@@ -41,10 +41,14 @@ metadata report that lists verification commands.
 
 ## Safety Boundaries
 
-ARDYN is currently review-only and runtime-disabled. Do not add live execution,
-process spawning, network listeners, plugin installation, adapter calls,
-approval grants, database writes, transcript/audit writers, or CI workflow
-changes unless the task explicitly asks for that behavior.
+ARDYN is currently review-only and runtime-blocked except for the authorized
+Fabric Federation consumer client (see `docs/posture.md`). Do not add live
+execution, process spawning, network listeners, plugin installation, adapter
+calls, approval grants, database writes, transcript/audit writers, or CI
+workflow changes unless the task explicitly asks for that behavior.
+
+The canonical current posture lives in `docs/posture.md`. No other file may
+contradict it.
 
 Follow `AGENTS.md`: prefer the smallest correct change, reuse existing patterns,
 and leave one runnable check for non-trivial logic.
