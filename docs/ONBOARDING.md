@@ -63,10 +63,11 @@ node --test tests/phase5-71-maintenance-governance-adr-dependency-policy-contrac
 
 ## Current Safety Boundary
 
-ARDYN is runtime-disabled. Do not add live execution, process spawning, network
-listeners, plugin installation, adapter calls, approval grants, database
-writes, transcript/audit writers, or CI workflow changes unless a task
-explicitly authorizes that behavior.
+ARDYN is runtime-blocked except for the authorized Fabric Federation consumer
+client (see `docs/posture.md`). Do not add live execution, process spawning,
+network listeners, plugin installation, adapter calls, approval grants,
+database writes, transcript/audit writers, or CI workflow changes unless a
+task explicitly authorizes that behavior.
 
 The recognized `serve-runtime` command remains default-blocked. `--dry-run`
 does not bypass that block.

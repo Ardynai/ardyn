@@ -69457,3 +69457,452 @@ export function createDoctorReport() {
 export function manifestPathToUrl(manifestPath) {
   return pathToFileURL(resolveManifestPath(manifestPath)).href;
 }
+
+// ─── Phase 5.76B: Fabric Federation Reconciliation ───────────────────────────
+// ponytail: side phase (precedent: 5.38A, 5.44A) — single-surface reconciliation,
+// not a chain phase. The helper is small because federation is one surface, not
+// 20 boundary families. Ceiling: if more surfaces need reconciliation, copy this
+// pattern rather than generalizing.
+
+export const FABRIC_FEDERATION_RECONCILIATION_SCHEMA =
+  "ardyn.phase-5.76b.fabric-federation-reconciliation-result";
+export const FABRIC_FEDERATION_RECONCILIATION_VERSION = "0.1.0";
+export const FABRIC_FEDERATION_RECONCILIATION_KIND =
+  "fabric-federation-reconciliation";
+export const VALID_FABRIC_FEDERATION_RECONCILIATION_CLASSIFICATION =
+  "valid_fabric_federation_reconciliation_consumer_client_present_unwired";
+
+const FABRIC_FEDERATION_RECONCILIATION_KNOWN_KEYS = Object.freeze(new Set([
+  "reviewedAt",
+  "boundaryEntries",
+  "reportRunsChecks",
+  "authorizesRuntime",
+  "fabricFederationClientPresent",
+  "wiredIntoCli",
+  "wiredIntoHost",
+  "outOfProcess",
+  "sidecarLoopbackEnforced",
+  "registryRequiresHttpsWhenRemote",
+  "importsFabricCore",
+  "joinsDhtSwarmP2p",
+  "reimplementsTransport",
+  "decryptsSecureDropCiphertext",
+  "addsRuntimeDependency",
+  "secretsCommittedToRepo",
+  "closedSiblingDidAllowlist",
+  "receiveSideContentIdReverified",
+  "fabricRuntime",
+  "fabricCoreTransportRuntime",
+  "fabricCoreImport",
+  "secureDropRuntime",
+  "dhtSwarmP2p",
+  "shellRuntime",
+  "sqliteRuntime",
+  "commandExposureEnabled",
+  "blockedCliBypassEnabled",
+  "apiKey",
+  "connectorGrant",
+  "filesystemRead",
+  "filesystemWrite",
+  "envReader"
+]));
+
+const MALFORMED_INPUT = Symbol("malformed");
+function fabricFederationReconciliationInputRecord(input) {
+  if (input === null || typeof input !== "object" || Array.isArray(input)) {
+    return MALFORMED_INPUT;
+  }
+  return input;
+}
+
+function fabricFederationReconciliationReviewedAt(inputRecord) {
+  if (inputRecord === MALFORMED_INPUT) {
+    return null;
+  }
+  const value = inputRecord.reviewedAt;
+  if (value === undefined) {
+    return "2026-07-05T00:00:00.000Z";
+  }
+  if (typeof value !== "string" || Number.isNaN(Date.parse(value))) {
+    return null;
+  }
+  return value;
+}
+
+function fabricFederationReconciliationClassification(inputRecord) {
+  const reviewedAt = fabricFederationReconciliationReviewedAt(inputRecord);
+  if (reviewedAt === null) {
+    return "malformed_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.reportRunsChecks === true) {
+    return "report_runs_checks_true_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.authorizesRuntime === true) {
+    return "runtime_authorization_attempt_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.fabricRuntime && typeof inputRecord.fabricRuntime === "object") {
+    return "hidden_fabric_runtime_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.fabricCoreTransportRuntime && typeof inputRecord.fabricCoreTransportRuntime === "object") {
+    return "hidden_fabric_core_transport_runtime_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.fabricCoreImport && typeof inputRecord.fabricCoreImport === "object") {
+    return "hidden_fabric_core_import_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.secureDropRuntime && typeof inputRecord.secureDropRuntime === "object") {
+    return "hidden_secure_drop_implementation_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.dhtSwarmP2p && typeof inputRecord.dhtSwarmP2p === "object") {
+    return "hidden_dht_swarm_p2p_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.shellRuntime && typeof inputRecord.shellRuntime === "object") {
+    return "hidden_shell_command_runtime_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.sqliteRuntime && typeof inputRecord.sqliteRuntime === "object") {
+    return "hidden_sqlite_embedded_db_query_runtime_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.commandExposureEnabled === true) {
+    return "command_exposure_attempt_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.blockedCliBypassEnabled === true) {
+    return "blocked_cli_bypass_attempt_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.apiKey && typeof inputRecord.apiKey === "object") {
+    return "hidden_auth_session_token_api_key_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.connectorGrant && typeof inputRecord.connectorGrant === "object") {
+    return "hidden_connector_grant_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.filesystemRead && typeof inputRecord.filesystemRead === "object") {
+    return "hidden_filesystem_access_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.filesystemWrite && typeof inputRecord.filesystemWrite === "object") {
+    return "hidden_filesystem_write_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.envReader && typeof inputRecord.envReader === "object") {
+    return "hidden_env_secrets_exposure_semantics_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord === MALFORMED_INPUT) {
+    return "malformed_fabric_federation_reconciliation_input_rejected";
+  }
+  // Check for unknown top-level keys (excluding known ones)
+  for (const key of Object.keys(inputRecord)) {
+    if (!FABRIC_FEDERATION_RECONCILIATION_KNOWN_KEYS.has(key)) {
+      return "unknown_top_level_field_fabric_federation_reconciliation_input_rejected";
+    }
+  }
+  // Check invariant flips — any attempt to flip an invariant to a disallowed value
+  if (inputRecord.wiredIntoCli === true) {
+    return "invariant_flip_wired_into_cli_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.wiredIntoHost === true) {
+    return "invariant_flip_wired_into_host_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.importsFabricCore === true) {
+    return "invariant_flip_imports_fabric_core_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.joinsDhtSwarmP2p === true) {
+    return "invariant_flip_joins_dht_swarm_p2p_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.decryptsSecureDropCiphertext === true) {
+    return "invariant_flip_decrypts_secure_drop_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.addsRuntimeDependency === true) {
+    return "invariant_flip_adds_runtime_dependency_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.secretsCommittedToRepo === true) {
+    return "invariant_flip_secrets_committed_to_repo_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.outOfProcess === false) {
+    return "invariant_flip_out_of_process_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.sidecarLoopbackEnforced === false) {
+    return "invariant_flip_sidecar_loopback_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.closedSiblingDidAllowlist === false) {
+    return "invariant_flip_closed_sibling_allowlist_fabric_federation_reconciliation_input_rejected";
+  }
+  if (inputRecord.receiveSideContentIdReverified === false) {
+    return "invariant_flip_receive_side_content_id_reverified_fabric_federation_reconciliation_input_rejected";
+  }
+  return VALID_FABRIC_FEDERATION_RECONCILIATION_CLASSIFICATION;
+}
+
+function fabricFederationReconciliationBoundaryEntries() {
+  return [
+    {
+      boundaryId: "phase5-76b.ardyn.fabric_federation_consumer_client",
+      boundaryFamily: "fabric_federation_consumer_client",
+      relatedSystem: "ardyn",
+      currentStatus: "active_consumer_unwired",
+      allowedCurrentBehavior: [
+        "Record the Fabric Federation consumer client as present but unwired.",
+        "Keep the client out-of-process with loopback-sidecar-only transport.",
+        "Keep the client out of the CLI and Rust host wiring."
+      ],
+      forbiddenCurrentBehavior: [
+        "Wire the federation client into the CLI or Rust host.",
+        "Import @multiverse/fabric-core.",
+        "Join a DHT, swarm, or P2P network.",
+        "Decrypt Secure Drop ciphertext.",
+        "Add runtime dependencies.",
+        "Commit secrets to the repo."
+      ],
+      authorizedBy: "PR#4",
+      authorizationDate: "2026-07-05",
+      fabricFederationClientPresent: true,
+      wiredIntoCli: false,
+      wiredIntoHost: false,
+      outOfProcess: true,
+      sidecarLoopbackEnforced: true,
+      registryRequiresHttpsWhenRemote: true,
+      importsFabricCore: false,
+      joinsDhtSwarmP2p: false,
+      reimplementsTransport: false,
+      decryptsSecureDropCiphertext: false,
+      addsRuntimeDependency: false,
+      secretsCommittedToRepo: false,
+      closedSiblingDidAllowlist: true,
+      receiveSideContentIdReverified: true,
+      explicitBlockedAuthorizationFlags: {
+        runtimeAuthorized: false,
+        authorizesRuntime: false,
+        fabricCoreImportAuthorized: false,
+        dhtSwarmP2pAuthorized: false,
+        secureDropDecryptionAuthorized: false,
+        commandExposureAuthorized: false,
+        blockedCliBypassAuthorized: false,
+        cliWiringAuthorized: false,
+        hostWiringAuthorized: false,
+        approvalDecisionProduced: false,
+        approvalGrantProduced: false
+      },
+      unsafeFabricFederationRuntimeFlags: {
+        runtimeExecutionEnabled: false,
+        runtimeAuthorizationEnabled: false,
+        runtimeCommandEnabled: false,
+        commandExposureEnabled: false,
+        commandsExposed: false,
+        connectorGrantProduced: false,
+        fabricCoreTransportRuntimeEnabled: false,
+        fabricCoreNpmDependencyEnabled: false,
+        fabricTransportDSidecarClientEnabled: false,
+        multiverseFabricCoreImportEnabled: false,
+        contentAddressedTransportEnabled: false,
+        chunkedTransferEnabled: false,
+        resumableTransferEnabled: false,
+        multiSourceTransferEnabled: false,
+        bittorrentDhtSwarmP2pEnabled: false,
+        largePayloadTransferRuntimeEnabled: false,
+        secureDropImplemented: false,
+        secureDropDecryptionEnabled: false,
+        filesystemAccessEnabled: false,
+        filesystemReadEnabled: false,
+        filesystemWriteEnabled: false,
+        filesystemScanningEnabled: false,
+        processControlEnabled: false,
+        shellRuntimeEnabled: false,
+        sqliteRuntimeEnabled: false,
+        embeddedDbReaderEnabled: false,
+        databaseClientImplemented: false,
+        dbReadWriteEnabled: false,
+        cacheRuntimeEnabled: false,
+        rlsRuntimeImplemented: false,
+        queryAuditWriterImplemented: false,
+        matrixClientRuntimeEnabled: false,
+        externalGatewayRuntimeEnabled: false,
+        backendRuntimeImplementedByArdyn: false,
+        backendApiServerMiddlewareImplemented: false,
+        apiEndpointImplementedByArdyn: false,
+        serverImplementedByArdyn: false,
+        transcriptWriterImplemented: false,
+        auditWriterImplemented: false,
+        loggerRuntimeImplemented: false,
+        auditWriterRuntimeImplemented: false,
+        telemetryClientImplemented: false,
+        healthCheckRuntimeImplemented: false,
+        encodedHandoffRuntimeImplementedByArdyn: false,
+        codecRuntimeEnabled: false,
+        translatorRuntimeEnabled: false,
+        uiRuntimeImplemented: false,
+        blockedCliBypassEnabled: false
+      },
+      runtimeEffect: {
+        runtimeEnabled: false,
+        runtimeStarted: false,
+        runtimeReady: false,
+        runtimeCommandEnabled: false,
+        runtimeCommandExposureEnabled: false,
+        runtimeExecutionEnabled: false,
+        runtimeExecuted: false,
+        approvalGrantProduced: false,
+        approvalGrantPersisted: false,
+        approvalEvaluatorAuthoritative: false
+      },
+      nonAuthorizingProof: true,
+      fabricFederationReconciliationMetadataOnly: true,
+      noLiveFabricFederationWiringPerformed: true
+    }
+  ];
+}
+
+function fabricFederationReconciliationBoundaryMapSummary(entries) {
+  return {
+    boundaryEntryCount: entries.length,
+    boundaryFamilies: ["fabric_federation_consumer_client"],
+    relatedSystems: ["ardyn"],
+    currentStatusValues: ["active_consumer_unwired"],
+    countByFamily: { fabric_federation_consumer_client: 1 },
+    countByRelatedSystem: { ardyn: 1 },
+    countByStatus: { active_consumer_unwired: 1 },
+    fabricFederationClientPresent: true,
+    wiredIntoCli: false,
+    wiredIntoHost: false,
+    outOfProcess: true,
+    sidecarLoopbackEnforced: true,
+    registryRequiresHttpsWhenRemote: true,
+    importsFabricCore: false,
+    joinsDhtSwarmP2p: false,
+    reimplementsTransport: false,
+    decryptsSecureDropCiphertext: false,
+    addsRuntimeDependency: false,
+    secretsCommittedToRepo: false,
+    closedSiblingDidAllowlist: true,
+    receiveSideContentIdReverified: true,
+    authorizedBy: "PR#4",
+    authorizationDate: "2026-07-05",
+    noFabricCoreImport: true,
+    noDhtSwarmP2p: true,
+    noSecureDropDecrypt: true,
+    noCliHostWiring: true,
+    allBlockedAuthorizationFlagsFalse: true,
+    allUnsafeFabricFederationRuntimeFlagsFalse: true,
+    allRuntimeEffectsFalse: true,
+    allEntriesNonAuthorizing: true
+  };
+}
+
+function fabricFederationReconciliationFalseRuntimeFields() {
+  return {
+    fabricFederationClientPresent: false,
+    runtimeAuthorized: false,
+    authorizesRuntime: false,
+    runtimeExecutionEnabled: false,
+    runtimeAuthorizationEnabled: false,
+    runtimeCommandEnabled: false,
+    commandExposureEnabled: false,
+    commandsExposed: false,
+    connectorGrantProduced: false,
+    fabricCoreTransportRuntimeEnabled: false,
+    fabricCoreNpmDependencyEnabled: false,
+    fabricTransportDSidecarClientEnabled: false,
+    multiverseFabricCoreImportEnabled: false,
+    contentAddressedTransportEnabled: false,
+    chunkedTransferEnabled: false,
+    resumableTransferEnabled: false,
+    multiSourceTransferEnabled: false,
+    bittorrentDhtSwarmP2pEnabled: false,
+    largePayloadTransferRuntimeEnabled: false,
+    secureDropImplemented: false,
+    secureDropDecryptionEnabled: false,
+    filesystemAccessEnabled: false,
+    filesystemReadEnabled: false,
+    filesystemWriteEnabled: false,
+    filesystemScanningEnabled: false,
+    processControlEnabled: false,
+    shellRuntimeEnabled: false,
+    sqliteRuntimeEnabled: false,
+    embeddedDbReaderEnabled: false,
+    databaseClientImplemented: false,
+    dbReadWriteEnabled: false,
+    cacheRuntimeEnabled: false,
+    rlsRuntimeImplemented: false,
+    queryAuditWriterImplemented: false,
+    matrixClientRuntimeEnabled: false,
+    externalGatewayRuntimeEnabled: false,
+    backendRuntimeImplementedByArdyn: false,
+    backendApiServerMiddlewareImplemented: false,
+    apiEndpointImplementedByArdyn: false,
+    serverImplementedByArdyn: false,
+    transcriptWriterImplemented: false,
+    auditWriterImplemented: false,
+    loggerRuntimeImplemented: false,
+    auditWriterRuntimeImplemented: false,
+    telemetryClientImplemented: false,
+    healthCheckRuntimeImplemented: false,
+    encodedHandoffRuntimeImplementedByArdyn: false,
+    codecRuntimeEnabled: false,
+    translatorRuntimeEnabled: false,
+    uiRuntimeImplemented: false,
+    blockedCliBypassEnabled: false
+  };
+}
+
+function fabricFederationReconciliationResult({
+  reviewedAt,
+  classification,
+  accepted,
+  boundaryEntries
+}) {
+  const summary = accepted
+    ? fabricFederationReconciliationBoundaryMapSummary(boundaryEntries)
+    : null;
+  return {
+    schema: FABRIC_FEDERATION_RECONCILIATION_SCHEMA,
+    schemaVersion: FABRIC_FEDERATION_RECONCILIATION_VERSION,
+    fabricFederationReconciliationKind: FABRIC_FEDERATION_RECONCILIATION_KIND,
+    fabricFederationReconciliationMode: "review-only",
+    reviewedAt,
+    classification,
+    fabricFederationReconciliationProduced: accepted,
+    boundaryEntries: accepted ? boundaryEntries : [],
+    boundaryMapSummary: summary,
+    recommendedNextPhase: accepted ? "phase-5.77-code-mode-orchestration-boundary-map" : null,
+    fabricFederationReconciliationOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...(accepted ? {} : fabricFederationReconciliationFalseRuntimeFields()),
+    rejectionReasons: accepted ? [] : [
+      {
+        classification,
+        rejected: true,
+        runtimeAuthorized: false,
+        reportRunsChecks: false
+      }
+    ],
+    runtimeEffect: {
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      approvalEvaluatorAuthoritative: false
+    }
+  };
+}
+
+export function createFabricFederationReconciliationForReview(input = {}) {
+  const inputRecord = fabricFederationReconciliationInputRecord(input);
+  const reviewedAt = fabricFederationReconciliationReviewedAt(inputRecord);
+  const classification =
+    fabricFederationReconciliationClassification(inputRecord);
+  const accepted =
+    classification === VALID_FABRIC_FEDERATION_RECONCILIATION_CLASSIFICATION;
+  const boundaryEntries = accepted
+    ? fabricFederationReconciliationBoundaryEntries()
+    : [];
+
+  return fabricFederationReconciliationResult({
+    reviewedAt,
+    classification,
+    accepted,
+    boundaryEntries
+  });
+}

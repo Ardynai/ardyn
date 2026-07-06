@@ -355,6 +355,9 @@ const phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMap =
   await readJson(
     "tests/fixtures/host-policy/phase5-76/embedded-db-query-engine-primitive-contract-boundary-map.json"
   );
+const phase576bFabricFederationReconciliation = await readJson(
+  "tests/fixtures/host-policy/phase5-76b/fabric-federation-reconciliation.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -3095,7 +3098,7 @@ const report = {
     name:
       "Review-only embedded DB/query-engine primitive contract boundary map",
     executionPosture:
-      "embedded-db-query-engine-primitive-contract-boundary-map runtime-disabled metadata-only review-only no-sqlite-runtime no-embedded-db-reader no-database-client no-file-parser no-page-parser no-sql-parser no-query-executor no-table-scan no-index-lookup no-btree-traversal no-transaction-wal no-migration no-storage-adapter no-db-read-write no-filesystem-access no-cache-runtime no-rls-runtime no-query-audit-writer no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-fabric-transport-sidecar no-content-addressed-chunked-resumable-multi-source-p2p-transfer no-secure-drop-implementation no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "embedded-db-query-engine-primitive-contract-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only no-sqlite-runtime no-embedded-db-reader no-database-client no-file-parser no-page-parser no-sql-parser no-query-executor no-table-scan no-index-lookup no-btree-traversal no-transaction-wal no-migration no-storage-adapter no-db-read-write no-filesystem-access no-cache-runtime no-rls-runtime no-query-audit-writer no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -32950,6 +32953,110 @@ const report = {
           .blockedCliBypassEnabled
     }
   },
+  phase576BFabricFederationReconciliationInventory: {
+    statusLayer: {
+      document: "docs/phase-5-76b-fabric-federation-reconciliation.md",
+      schema: phase576bFabricFederationReconciliation.schema,
+      schemaVersion:
+        phase576bFabricFederationReconciliation.schemaVersion,
+      kind: phase576bFabricFederationReconciliation.fabricFederationReconciliationKind,
+      mode: phase576bFabricFederationReconciliation.fabricFederationReconciliationMode,
+      classification:
+        phase576bFabricFederationReconciliation.classification,
+      produced:
+        phase576bFabricFederationReconciliation.fabricFederationReconciliationProduced,
+      authorizedBy: "PR#4",
+      authorizationDate: "2026-07-05",
+      isSidePhase: true,
+      sidePhasePrecedent: "5.44A",
+      doesNotContinueMetadataChain: true,
+      doesNotChangeRecommendedNextPhase: true,
+      recommendedNextPhaseStaysPhase577: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFederationMjsBehaviorChange: true,
+      noHistoricalFixtureEdited: true,
+      ...phase576bFabricFederationReconciliation.boundaryMapSummary,
+      reportRunsChecks:
+        phase576bFabricFederationReconciliation.reportRunsChecks
+    },
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-76b-fabric-federation-reconciliation.md",
+        "Records the Fabric Federation consumer client reconciliation as a side phase that corrects the advertised posture without continuing the Phase 5 metadata chain or changing runtime posture."
+      ),
+      await localInventoryEntry(
+        "docs/posture.md",
+        "The single canonical current-posture statement with the federation carve-out."
+      ),
+      await localInventoryEntry(
+        "docs/fabric-glossary.md",
+        "Distinguishes the five concrete fabric things."
+      ),
+      await localInventoryEntry(
+        "docs/content-fabric.md",
+        "Amended to remove BitTorrent/P2P from remaining requirements and add the fabric-core/sidecar supersession note."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-76b-fabric-federation-reconciliation.test.mjs",
+        "Pins the Phase 5.76B fixture, helper, invariants, unwired assertions, no-fabric-core-import, no-deps-added, and rejection cases."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.76B status inventory and safetyPosture flag."
+      )
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-76b/fabric-federation-reconciliation.json",
+        "Deterministic review-only Fabric Federation reconciliation boundary record with consumer client invariants."
+      )
+    ],
+    validationCommands: [
+      "node --test tests/phase5-76b-fabric-federation-reconciliation.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "node --test tests/fabric.test.mjs",
+      "node --test tests/host-policy-preconditions.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "semgrep --config auto .",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    safetyPosture: {
+      fabricFederationReconciliationRecorded: true,
+      fabricFederationReconciliationReviewOnly: true,
+      fabricFederationReconciliationAuthoritative: false,
+      fabricFederationReconciliationProduced: true,
+      fabricFederationClientPresent: true,
+      wiredIntoCli: false,
+      wiredIntoHost: false,
+      outOfProcess: true,
+      sidecarLoopbackEnforced: true,
+      importsFabricCore: false,
+      joinsDhtSwarmP2p: false,
+      decryptsSecureDropCiphertext: false,
+      addsRuntimeDependency: false,
+      secretsCommittedToRepo: false,
+      closedSiblingDidAllowlist: true,
+      receiveSideContentIdReverified: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFederationMjsBehaviorChange: true,
+      noHistoricalFixtureEdited: true,
+      reportRunsChecks: false
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -33062,6 +33169,7 @@ const report = {
     phase574CommandSurfaceShellPrimitiveContractBoundaryMap: true,
     phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate: true,
     phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMap: true,
+    phase576BFabricFederationReconciliation: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,

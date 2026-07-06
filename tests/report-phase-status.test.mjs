@@ -8209,7 +8209,7 @@ test("phase status report is Phase 5.76 embedded DB/query-engine primitive contr
     name:
       "Review-only embedded DB/query-engine primitive contract boundary map",
     executionPosture:
-      "embedded-db-query-engine-primitive-contract-boundary-map runtime-disabled metadata-only review-only no-sqlite-runtime no-embedded-db-reader no-database-client no-file-parser no-page-parser no-sql-parser no-query-executor no-table-scan no-index-lookup no-btree-traversal no-transaction-wal no-migration no-storage-adapter no-db-read-write no-filesystem-access no-cache-runtime no-rls-runtime no-query-audit-writer no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-fabric-transport-sidecar no-content-addressed-chunked-resumable-multi-source-p2p-transfer no-secure-drop-implementation no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "embedded-db-query-engine-primitive-contract-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only no-sqlite-runtime no-embedded-db-reader no-database-client no-file-parser no-page-parser no-sql-parser no-query-executor no-table-scan no-index-lookup no-btree-traversal no-transaction-wal no-migration no-storage-adapter no-db-read-write no-filesystem-access no-cache-runtime no-rls-runtime no-query-audit-writer no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -32369,6 +32369,10 @@ test("report inventories Phase 5.76 embedded DB/query-engine primitive contract 
     report.safetyPosture.phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMap,
     true
   );
+  assert.equal(
+    report.safetyPosture.phase576BFabricFederationReconciliation,
+    true
+  );
   assertSafetyFlags(report, phase576ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase576ExpectedFalseSafetyFlagNames, false);
 });
@@ -33459,4 +33463,81 @@ test("report script source does not import forbidden process, network, write, or
   for (const pattern of forbiddenPatterns) {
     assert.doesNotMatch(source, pattern);
   }
+});
+
+test("report inventories Phase 5.76B as Fabric Federation reconciliation side phase", async () => {
+  const report = await runReport();
+  const inventory = report.phase576BFabricFederationReconciliationInventory;
+
+  assert.equal(
+    inventory.statusLayer.document,
+    "docs/phase-5-76b-fabric-federation-reconciliation.md"
+  );
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.76b.fabric-federation-reconciliation-result"
+  );
+  assert.equal(inventory.statusLayer.isSidePhase, true);
+  assert.equal(inventory.statusLayer.doesNotContinueMetadataChain, true);
+  assert.equal(inventory.statusLayer.doesNotChangeRecommendedNextPhase, true);
+  assert.equal(inventory.statusLayer.recommendedNextPhaseStaysPhase577, true);
+  assert.equal(inventory.statusLayer.noCliSourceChange, true);
+  assert.equal(inventory.statusLayer.noRustSourceChange, true);
+  assert.equal(inventory.statusLayer.noFederationMjsBehaviorChange, true);
+  assert.equal(inventory.statusLayer.noHistoricalFixtureEdited, true);
+  assert.equal(inventory.statusLayer.fabricFederationClientPresent, true);
+  assert.equal(inventory.statusLayer.wiredIntoCli, false);
+  assert.equal(inventory.statusLayer.wiredIntoHost, false);
+  assert.equal(inventory.statusLayer.outOfProcess, true);
+  assert.equal(inventory.statusLayer.sidecarLoopbackEnforced, true);
+  assert.equal(inventory.statusLayer.importsFabricCore, false);
+  assert.equal(inventory.statusLayer.joinsDhtSwarmP2p, false);
+  assert.equal(inventory.statusLayer.decryptsSecureDropCiphertext, false);
+  assert.equal(inventory.statusLayer.addsRuntimeDependency, false);
+  assert.equal(inventory.statusLayer.secretsCommittedToRepo, false);
+  assert.equal(inventory.statusLayer.closedSiblingDidAllowlist, true);
+  assert.equal(inventory.statusLayer.receiveSideContentIdReverified, true);
+  assert.equal(inventory.statusLayer.reportRunsChecks, false);
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-5-76b-fabric-federation-reconciliation.md", "present"],
+      ["docs/posture.md", "present"],
+      ["docs/fabric-glossary.md", "present"],
+      ["docs/content-fabric.md", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase5-76b-fabric-federation-reconciliation.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+
+  assert.equal(
+    inventory.machineReadableArtifacts[0].path,
+    "tests/fixtures/host-policy/phase5-76b/fabric-federation-reconciliation.json"
+  );
+  assert.equal(inventory.machineReadableArtifacts[0].status, "present");
+
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-76b-fabric-federation-reconciliation.test.mjs"
+    )
+  );
+
+  assert.equal(inventory.safetyPosture.fabricFederationReconciliationRecorded, true);
+  assert.equal(inventory.safetyPosture.fabricFederationClientPresent, true);
+  assert.equal(inventory.safetyPosture.wiredIntoCli, false);
+  assert.equal(inventory.safetyPosture.wiredIntoHost, false);
+  assert.equal(inventory.safetyPosture.noCliSourceChange, true);
+  assert.equal(inventory.safetyPosture.noRustSourceChange, true);
+  assert.equal(inventory.safetyPosture.noFederationMjsBehaviorChange, true);
+  assert.equal(inventory.safetyPosture.noHistoricalFixtureEdited, true);
+  assert.equal(inventory.safetyPosture.reportRunsChecks, false);
+
+  assert.equal(report.safetyPosture.phase576BFabricFederationReconciliation, true);
 });
