@@ -10995,6 +10995,32 @@ export function createFabricFederationReconciliationForReview(
   input?: Record<string, unknown>
 ): FabricFederationReconciliationResult;
 
+export interface CodeModeOrchestrationBoundaryMapResult {
+  schema: "ardyn.phase-5.77.code-mode-orchestration-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  codeModeOrchestrationKind: "code-mode-orchestration-contract-boundary-map";
+  codeModeOrchestrationMode: "review-only";
+  reviewedAt: string;
+  classification: string;
+  codeModeOrchestrationBoundaryMapProduced: boolean;
+  boundaryEntries: unknown[];
+  boundaryMapSummary: Record<string, unknown> | null;
+  recommendedNextPhase: string | null;
+  codeModeOrchestrationOnly: boolean;
+  reviewOnly: boolean;
+  metadataOnly: boolean;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: unknown[];
+  runtimeEffect: Record<string, boolean>;
+  [key: string]: unknown;
+}
+
+export function createCodeModeOrchestrationForReview(
+  input?: Record<string, unknown>
+): CodeModeOrchestrationBoundaryMapResult;
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";

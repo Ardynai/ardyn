@@ -8200,16 +8200,16 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.76 embedded DB/query-engine primitive contract boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.77 Code Mode orchestration contract boundary map and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.76",
+    id: "5.77",
     name:
-      "Review-only embedded DB/query-engine primitive contract boundary map",
+      "Review-only Code Mode orchestration contract boundary map",
     executionPosture:
-      "embedded-db-query-engine-primitive-contract-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only no-sqlite-runtime no-embedded-db-reader no-database-client no-file-parser no-page-parser no-sql-parser no-query-executor no-table-scan no-index-lookup no-btree-traversal no-transaction-wal no-migration no-storage-adapter no-db-read-write no-filesystem-access no-cache-runtime no-rls-runtime no-query-audit-writer no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "code-mode-orchestration-contract-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only no-model-api-calls no-subagent-processes no-front-desk-responder no-judge-fusion-execution no-loop-runtime no-toolkit-invocation no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -32373,6 +32373,10 @@ test("report inventories Phase 5.76 embedded DB/query-engine primitive contract 
     report.safetyPosture.phase576BFabricFederationReconciliation,
     true
   );
+  assert.equal(
+    report.safetyPosture.phase577CodeModeOrchestrationBoundaryMap,
+    true
+  );
   assertSafetyFlags(report, phase576ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase576ExpectedFalseSafetyFlagNames, false);
 });
@@ -33540,4 +33544,78 @@ test("report inventories Phase 5.76B as Fabric Federation reconciliation side ph
   assert.equal(inventory.safetyPosture.reportRunsChecks, false);
 
   assert.equal(report.safetyPosture.phase576BFabricFederationReconciliation, true);
+  assert.equal(report.safetyPosture.phase577CodeModeOrchestrationBoundaryMap, true);
+});
+
+test("report inventories Phase 5.77 as Code Mode orchestration contract boundary map", async () => {
+  const report = await runReport();
+  const inventory = report.phase577CodeModeOrchestrationBoundaryMapInventory;
+
+  assert.equal(
+    inventory.statusLayer.document,
+    "docs/phase-5-77-code-mode-orchestration-boundary.md"
+  );
+  assert.equal(
+    inventory.statusLayer.schema,
+    "ardyn.phase-5.77.code-mode-orchestration-contract-boundary-map-result"
+  );
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 12);
+  assert.equal(inventory.statusLayer.reportRunsChecks, false);
+  assert.equal(inventory.statusLayer.noModelApiCalls, true);
+  assert.equal(inventory.statusLayer.noSubagentProcesses, true);
+  assert.equal(inventory.statusLayer.noFrontDeskResponder, true);
+  assert.equal(inventory.statusLayer.noJudgeFusionExecution, true);
+  assert.equal(inventory.statusLayer.noLoopRuntime, true);
+  assert.equal(inventory.statusLayer.noToolkitInvocation, true);
+  assert.equal(inventory.statusLayer.maxIterationsPerLoopRequired, true);
+  assert.equal(inventory.statusLayer.judgeContextIsolatedFromProducers, true);
+  assert.equal(inventory.statusLayer.externalAgentDefaultDeny, true);
+  assert.equal(inventory.statusLayer.frontDeskZeroApprovalAuthority, true);
+  assert.equal(inventory.statusLayer.fabricFederationCarveOutReferenced, true);
+  assert.equal(inventory.statusLayer.noBlanketFabricTransportClaim, true);
+
+  assert.equal(
+    inventory.recommendedNextPhase,
+    "phase-5.78-review-only-ci-enforcement-contract-boundary-map"
+  );
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [
+      ["docs/phase-5-77-code-mode-orchestration-boundary.md", "present"]
+    ]
+  );
+
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase5-77-code-mode-orchestration.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+
+  assert.equal(
+    inventory.machineReadableArtifacts[0].path,
+    "tests/fixtures/host-policy/phase5-77/code-mode-orchestration.json"
+  );
+  assert.equal(inventory.machineReadableArtifacts[0].status, "present");
+
+  assert.ok(
+    inventory.validationCommands.includes(
+      "node --test tests/phase5-77-code-mode-orchestration.test.mjs"
+    )
+  );
+
+  assert.equal(inventory.safetyPosture.codeModeOrchestrationBoundaryMapRecorded, true);
+  assert.equal(inventory.safetyPosture.noModelApiCalls, true);
+  assert.equal(inventory.safetyPosture.noSubagentProcesses, true);
+  assert.equal(inventory.safetyPosture.fabricFederationCarveOutReferenced, true);
+  assert.equal(inventory.safetyPosture.noBlanketFabricTransportClaim, true);
+  assert.equal(inventory.safetyPosture.noCliSourceChange, true);
+  assert.equal(inventory.safetyPosture.noRustSourceChange, true);
+  assert.equal(inventory.safetyPosture.noFederationMjsBehaviorChange, true);
+  assert.equal(inventory.safetyPosture.noHistoricalFixtureEdited, true);
+  assert.equal(inventory.safetyPosture.reportRunsChecks, false);
+
+  assert.equal(report.safetyPosture.phase577CodeModeOrchestrationBoundaryMap, true);
 });

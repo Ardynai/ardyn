@@ -69906,3 +69906,1094 @@ export function createFabricFederationReconciliationForReview(input = {}) {
     boundaryEntries
   });
 }
+
+// ─── Phase 5.77: Code Mode orchestration contract boundary map ───────────────
+// ponytail: 12 boundary families with contract shapes (deeper than 5.68 flags).
+// Reuses MALFORMED_INPUT (line 69510), isPlainObjectRecord (line 3945),
+// approvalEvaluatorCandidateNestedTrueClaim (line 8163) — no new clones.
+// Ceiling: if more orchestration surfaces are added, copy this block rather
+// than generalizing the pattern.
+
+export const CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.77.code-mode-orchestration-contract-boundary-map-result";
+export const CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_VERSION = "0.1.0";
+export const CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_KIND =
+  "code-mode-orchestration-contract-boundary-map";
+export const VALID_CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_code_mode_orchestration_contract_boundary_map_runtime_still_blocked";
+
+const CODE_MODE_ORCHESTRATION_BOUNDARY_FAMILIES = Object.freeze([
+  "orchestrator_plan_contract",
+  "subagent_spawn_role_contract",
+  "fusion_pass_contract",
+  "judge_comparison_contract",
+  "synthesis_result_contract",
+  "front_desk_contract",
+  "toolkit_check_selection_contract",
+  "loop_semantics_contract",
+  "failure_abort_contract",
+  "audit_transcript_contract",
+  "human_approval_gate_contract",
+  "code_mode_blocked_runtime_list"
+]);
+
+const CODE_MODE_ORCHESTRATION_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "external-harness"
+]);
+
+const CODE_MODE_ORCHESTRATION_STATUSES = Object.freeze([
+  "blocked",
+  "future_contract_required"
+]);
+
+const CODE_MODE_ORCHESTRATION_REQUIRED_FIELDS = Object.freeze([
+  "boundaryId",
+  "boundaryFamily",
+  "relatedSystem",
+  "currentStatus",
+  "allowedCurrentBehavior",
+  "forbiddenCurrentBehavior",
+  "requiredFutureContractBeforeImplementation",
+  "requiredFutureAuthorizationPhaseBeforeRuntime",
+  "contractShape",
+  "crossPhaseReferences",
+  "explicitBlockedAuthorizationFlags",
+  "unsafeCodeModeOrchestrationRuntimeFlags",
+  "nonAuthorizingProof"
+]);
+
+const CODE_MODE_ORCHESTRATION_ALLOWED_TOP_LEVEL_FIELDS = Object.freeze([
+  "reviewedAt",
+  "boundaryEntries",
+  "reportRunsChecks",
+  "authorizesRuntime",
+  "maxIterationsPerLoop",
+  "orchestratorRuntime",
+  "subagentSpawnRuntime",
+  "fusionPassRuntime",
+  "judgeComparisonRuntime",
+  "frontDeskRuntime",
+  "toolkitInvocationRuntime",
+  "loopRuntime",
+  "modelApiCalls",
+  "processSpawnRuntime",
+  "shellRuntime",
+  "sqliteRuntime",
+  "matrixClientRuntime",
+  "fabricCoreTransportRuntime",
+  "secureDropRuntime",
+  "apiKey",
+  "connectorGrant",
+  "filesystemRead",
+  "filesystemWrite",
+  "envReader",
+  "commandExposureEnabled",
+  "blockedCliBypassEnabled",
+  "runtimeEffect"
+]);
+
+const CODE_MODE_ORCHESTRATION_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandsExposed",
+  "connectorGrantProduced",
+  "orchestratorRuntimeEnabled",
+  "orchestrationEngineEnabled",
+  "planExecutorEnabled",
+  "subagentSpawnEnabled",
+  "agentSpawnerEnabled",
+  "subagentProcessEnabled",
+  "fusionPassEnabled",
+  "fusionEngineEnabled",
+  "candidateMergerEnabled",
+  "judgeComparisonEnabled",
+  "judgeEngineEnabled",
+  "verdictProducerEnabled",
+  "frontDeskRuntimeEnabled",
+  "frontDeskResponderEnabled",
+  "responderRuntimeEnabled",
+  "toolkitInvocationEnabled",
+  "toolRuntimeEnabled",
+  "checkRunnerEnabled",
+  "loopRuntimeEnabled",
+  "iterationEngineEnabled",
+  "loopExecutorEnabled",
+  "modelApiCallsEnabled",
+  "llmApiCallsEnabled",
+  "inferenceRuntimeEnabled",
+  "processSpawnEnabled",
+  "processControlEnabled",
+  "childProcessEnabled",
+  "shellRuntimeEnabled",
+  "sqliteRuntimeEnabled",
+  "embeddedDbReaderEnabled",
+  "databaseClientImplemented",
+  "matrixClientRuntimeEnabled",
+  "externalGatewayRuntimeEnabled",
+  "fabricCoreTransportRuntimeEnabled",
+  "fabricRuntimeImplementedByArdyn",
+  "contentAddressedTransportEnabled",
+  "secureDropImplemented",
+  "secureDropDecryptionEnabled",
+  "filesystemAccessEnabled",
+  "filesystemReadEnabled",
+  "filesystemWriteEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "transcriptWriterImplemented",
+  "auditWriterImplemented",
+  "loggerRuntimeImplemented",
+  "auditWriterRuntimeImplemented",
+  "telemetryClientImplemented",
+  "healthCheckRuntimeImplemented",
+  "encodedHandoffRuntimeImplementedByArdyn",
+  "codecRuntimeEnabled",
+  "translatorRuntimeEnabled",
+  "uiRuntimeImplemented",
+  "blockedCliBypassEnabled"
+]);
+
+const CODE_MODE_ORCHESTRATION_KNOWN_KEYS = Object.freeze(new Set([
+  "reviewedAt",
+  "boundaryEntries",
+  "reportRunsChecks",
+  "authorizesRuntime",
+  "maxIterationsPerLoop",
+  "orchestratorRuntime",
+  "subagentSpawnRuntime",
+  "fusionPassRuntime",
+  "judgeComparisonRuntime",
+  "frontDeskRuntime",
+  "toolkitInvocationRuntime",
+  "loopRuntime",
+  "modelApiCalls",
+  "processSpawnRuntime",
+  "shellRuntime",
+  "sqliteRuntime",
+  "matrixClientRuntime",
+  "fabricCoreTransportRuntime",
+  "secureDropRuntime",
+  "apiKey",
+  "connectorGrant",
+  "filesystemRead",
+  "filesystemWrite",
+  "envReader",
+  "commandExposureEnabled",
+  "blockedCliBypassEnabled",
+  "runtimeEffect",
+  // ponytail: unsafe runtime flags are known keys so the classifier can test
+  // them as unsafe rather than rejecting them as unknown top-level fields.
+  ...CODE_MODE_ORCHESTRATION_UNSAFE_FIELDS
+]));
+
+const CODE_MODE_ORCHESTRATION_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "authorizesRuntime",
+  "orchestratorRuntimeAuthorizationGranted",
+  "subagentSpawnAuthorizationGranted",
+  "fusionPassAuthorizationGranted",
+  "judgeComparisonAuthorizationGranted",
+  "frontDeskAuthorizationGranted",
+  "toolkitInvocationAuthorizationGranted",
+  "loopRuntimeAuthorizationGranted",
+  "modelApiCallsAuthorizationGranted",
+  "externalAgentInviteAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+
+const CODE_MODE_ORCHESTRATION_COMMAND_FIELDS = Object.freeze([
+  "commandExposureEnabled",
+  "commandRuntimeControlEnabled",
+  "commandsExposed",
+  "exposesCommands",
+  "runtimeCommandEnabled",
+  "codeModeCommandExposed",
+  "orchestratorCommandExposed",
+  "spawnSubagentCommandExposed",
+  "serveRuntimeCommandEnabled"
+]);
+
+const CODE_MODE_ORCHESTRATION_BLOCKED_CLI_BYPASS_FIELDS = Object.freeze([
+  "blockedCliBypassEnabled",
+  "dryRunBypassesBlock",
+  "serveRuntimeBypassEnabled",
+  "bypassBlockedCommandBehavior",
+  "blockedCommandOverride"
+]);
+
+const CODE_MODE_ORCHESTRATION_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_orchestrator_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["orchestratorRuntime", "orchestrationEngine", "planExecutor"]
+  },
+  {
+    classification:
+      "hidden_subagent_spawn_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["subagentSpawnRuntime", "agentSpawner", "subagentProcess"]
+  },
+  {
+    classification:
+      "hidden_fusion_pass_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["fusionPassRuntime", "fusionEngine", "candidateMerger"]
+  },
+  {
+    classification:
+      "hidden_judge_comparison_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["judgeComparisonRuntime", "judgeEngine", "verdictProducer"]
+  },
+  {
+    classification:
+      "hidden_front_desk_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["frontDeskRuntime", "responderRuntime", "frontDeskResponder"]
+  },
+  {
+    classification:
+      "hidden_toolkit_invocation_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["toolkitInvocationRuntime", "toolRuntime", "checkRunner"]
+  },
+  {
+    classification:
+      "hidden_loop_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["loopRuntime", "iterationEngine", "loopExecutor"]
+  },
+  {
+    classification:
+      "hidden_model_api_call_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["modelApiCalls", "llmApiCalls", "inferenceRuntime"]
+  },
+  {
+    classification:
+      "hidden_process_spawn_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["processSpawnRuntime", "processControl", "childProcess"]
+  },
+  {
+    classification:
+      "hidden_shell_command_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["shellRuntime", "shellCommand", "commandExecution"]
+  },
+  {
+    classification:
+      "hidden_sqlite_embedded_db_query_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["sqliteRuntime", "embeddedDbRuntime", "databaseRuntime"]
+  },
+  {
+    classification:
+      "hidden_matrix_gateway_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["matrixClientRuntime", "matrixGateway", "externalGateway"]
+  },
+  {
+    classification:
+      "hidden_fabric_core_transport_runtime_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["fabricCoreTransportRuntime", "fabricTransport", "contentAddressedTransport"]
+  },
+  {
+    classification:
+      "hidden_secure_drop_implementation_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["secureDropRuntime", "secureDropImplementation", "secureDropDecrypt"]
+  },
+  {
+    classification:
+      "hidden_filesystem_access_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["filesystemRead", "filesystemWrite", "filesystemAccess"]
+  },
+  {
+    classification:
+      "hidden_auth_session_token_api_key_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["apiKey", "authToken", "sessionToken"]
+  },
+  {
+    classification:
+      "hidden_connector_grant_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["connectorGrant", "apiConnector", "integrationGrant"]
+  },
+  {
+    classification:
+      "hidden_env_secrets_exposure_semantics_code_mode_orchestration_contract_boundary_map_input_rejected",
+    fields: ["envReader", "envSecrets", "secretReader"]
+  }
+]);
+
+function codeModeOrchestrationInputRecord(input) {
+  if (input === null || typeof input !== "object" || Array.isArray(input)) {
+    return MALFORMED_INPUT;
+  }
+  return input;
+}
+
+function codeModeOrchestrationReviewedAt(inputRecord) {
+  if (inputRecord === MALFORMED_INPUT) {
+    return null;
+  }
+  const value = inputRecord.reviewedAt;
+  if (value === undefined) {
+    return "2026-07-06T00:00:00.000Z";
+  }
+  if (typeof value !== "string" || Number.isNaN(Date.parse(value))) {
+    return null;
+  }
+  return value;
+}
+
+function codeModeOrchestrationClassification(inputRecord) {
+  const reviewedAt = codeModeOrchestrationReviewedAt(inputRecord);
+  if (reviewedAt === null) {
+    return "malformed_code_mode_orchestration_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord === MALFORMED_INPUT) {
+    return "malformed_code_mode_orchestration_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.reportRunsChecks === true) {
+    return "report_runs_checks_true_code_mode_orchestration_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.authorizesRuntime === true) {
+    return "runtime_authorization_attempt_code_mode_orchestration_contract_boundary_map_input_rejected";
+  }
+  // maxIterationsPerLoop is REQUIRED — its absence is a rejection-class (like reportRunsChecks:true)
+  if (inputRecord.maxIterationsPerLoop === undefined || inputRecord.maxIterationsPerLoop === null) {
+    return "missing_max_iterations_per_loop_code_mode_orchestration_contract_boundary_map_input_rejected";
+  }
+  if (typeof inputRecord.maxIterationsPerLoop !== "number" || inputRecord.maxIterationsPerLoop < 1 || !Number.isInteger(inputRecord.maxIterationsPerLoop)) {
+    return "invalid_max_iterations_per_loop_code_mode_orchestration_contract_boundary_map_input_rejected";
+  }
+  // Hidden runtime semantics — any object-valued hidden field is rejected
+  for (const group of CODE_MODE_ORCHESTRATION_HIDDEN_FIELD_GROUPS) {
+    for (const field of group.fields) {
+      if (inputRecord[field] && typeof inputRecord[field] === "object") {
+        return group.classification;
+      }
+    }
+  }
+  if (inputRecord.commandExposureEnabled === true) {
+    return "command_exposure_attempt_code_mode_orchestration_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.blockedCliBypassEnabled === true) {
+    return "blocked_cli_bypass_attempt_code_mode_orchestration_contract_boundary_map_input_rejected";
+  }
+  // Check for unknown top-level keys
+  for (const key of Object.keys(inputRecord)) {
+    if (!CODE_MODE_ORCHESTRATION_KNOWN_KEYS.has(key)) {
+      return "unknown_top_level_field_code_mode_orchestration_contract_boundary_map_input_rejected";
+    }
+  }
+  // Check unsafe runtime flags at top level
+  for (const flag of CODE_MODE_ORCHESTRATION_UNSAFE_FIELDS) {
+    if (inputRecord[flag] === true) {
+      return "unsafe_code_mode_orchestration_runtime_flags_code_mode_orchestration_contract_boundary_map_input_rejected";
+    }
+  }
+  // Nested unsafe flags — reuse the cycle-guarded nested-true-claim walker
+  // (approvalEvaluatorCandidateNestedTrueClaim at index.mjs:8163), not a fresh clone.
+  // ponytail: the audit found 17 byte-identical clones; this is NOT an 18th.
+  if (
+    inputRecord.runtimeEffect &&
+    approvalEvaluatorCandidateNestedTrueClaim(
+      inputRecord.runtimeEffect,
+      (key) => CODE_MODE_ORCHESTRATION_UNSAFE_FIELDS.includes(key) ||
+        key === "runtimeEnabled" ||
+        key === "runtimeStarted" ||
+        key === "runtimeReady" ||
+        key === "runtimeCommandEnabled" ||
+        key === "runtimeCommandExposureEnabled" ||
+        key === "runtimeExecutionEnabled" ||
+        key === "runtimeExecuted" ||
+        key === "approvalGrantProduced" ||
+        key === "approvalGrantPersisted" ||
+        key === "approvalEvaluatorAuthoritative"
+    )
+  ) {
+    return "nested_unsafe_flags_code_mode_orchestration_contract_boundary_map_input_rejected";
+  }
+  // Boundary entry validation (if provided)
+  if (inputRecord.boundaryEntries !== undefined) {
+    if (!Array.isArray(inputRecord.boundaryEntries)) {
+      return "malformed_code_mode_orchestration_contract_boundary_map_input_rejected";
+    }
+    for (const entry of inputRecord.boundaryEntries) {
+      if (!isPlainObjectRecord(entry)) {
+        return "malformed_code_mode_orchestration_contract_boundary_map_input_rejected";
+      }
+      // Check for unknown boundary family
+      if (entry.boundaryFamily !== undefined && !CODE_MODE_ORCHESTRATION_BOUNDARY_FAMILIES.includes(entry.boundaryFamily)) {
+        return "unknown_boundary_family_code_mode_orchestration_contract_boundary_map_input_rejected";
+      }
+      // Check for unknown related system
+      if (entry.relatedSystem !== undefined && !CODE_MODE_ORCHESTRATION_RELATED_SYSTEMS.includes(entry.relatedSystem)) {
+        return "unknown_related_system_code_mode_orchestration_contract_boundary_map_input_rejected";
+      }
+      // Check for unknown current status
+      if (entry.currentStatus !== undefined && !CODE_MODE_ORCHESTRATION_STATUSES.includes(entry.currentStatus)) {
+        return "unknown_current_status_code_mode_orchestration_contract_boundary_map_input_rejected";
+      }
+      // Check boundary entry authorization flags
+      if (entry.explicitBlockedAuthorizationFlags && typeof entry.explicitBlockedAuthorizationFlags === "object") {
+        for (const authFlag of CODE_MODE_ORCHESTRATION_AUTHORIZATION_FIELDS) {
+          if (entry.explicitBlockedAuthorizationFlags[authFlag] === true) {
+            return "authorization_flags_enabled_code_mode_orchestration_contract_boundary_map_input_rejected";
+          }
+        }
+      }
+      // Check boundary entry unsafe runtime flags
+      if (entry.unsafeCodeModeOrchestrationRuntimeFlags && typeof entry.unsafeCodeModeOrchestrationRuntimeFlags === "object") {
+        for (const unsafeFlag of CODE_MODE_ORCHESTRATION_UNSAFE_FIELDS) {
+          if (entry.unsafeCodeModeOrchestrationRuntimeFlags[unsafeFlag] === true) {
+            return "unsafe_code_mode_orchestration_runtime_flags_code_mode_orchestration_contract_boundary_map_input_rejected";
+          }
+        }
+      }
+      // Check boundary entry required fields
+      if (entry.boundaryId !== undefined && entry.boundaryId !== null) {
+        // Noncanonical boundary ID check — must match a canonical phase5-77.* ID
+        const canonicalIds = codeModeOrchestrationBoundaryEntries().map((e) => e.boundaryId);
+        if (typeof entry.boundaryId === "string" && !canonicalIds.includes(entry.boundaryId)) {
+          return "noncanonical_code_mode_orchestration_contract_boundary_map_input_rejected";
+        }
+      }
+      // Judge-produces-own-candidate invariant: judgeComparisonRuntime with judgeProducedCandidate=true
+      if (entry.judgeComparisonRuntime && typeof entry.judgeComparisonRuntime === "object" && entry.judgeComparisonRuntime.judgeProducedCandidate === true) {
+        return "judge_produces_own_candidate_code_mode_orchestration_contract_boundary_map_input_rejected";
+      }
+      // External-agent default-allow invariant
+      if (entry.subagentSpawnRuntime && typeof entry.subagentSpawnRuntime === "object" && entry.subagentSpawnRuntime.externalAgentDefaultAllow === true) {
+        return "external_agent_default_allow_code_mode_orchestration_contract_boundary_map_input_rejected";
+      }
+      // Front-desk-with-approval-authority invariant
+      if (entry.frontDeskRuntime && typeof entry.frontDeskRuntime === "object" && entry.frontDeskRuntime.approvalAuthority === true) {
+        return "front_desk_with_approval_authority_code_mode_orchestration_contract_boundary_map_input_rejected";
+      }
+    }
+  }
+  return VALID_CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function codeModeOrchestrationAuthorizationFlags() {
+  return Object.fromEntries(
+    CODE_MODE_ORCHESTRATION_AUTHORIZATION_FIELDS.map((f) => [f, false])
+  );
+}
+
+function codeModeOrchestrationUnsafeRuntimeFlags() {
+  return Object.fromEntries(
+    CODE_MODE_ORCHESTRATION_UNSAFE_FIELDS.map((f) => [f, false])
+  );
+}
+
+function codeModeOrchestrationRuntimeEffect() {
+  return {
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalEvaluatorAuthoritative: false
+  };
+}
+
+function codeModeOrchestrationBoundaryEntries() {
+  const authFlags = codeModeOrchestrationAuthorizationFlags();
+  const unsafeFlags = codeModeOrchestrationUnsafeRuntimeFlags();
+  const runtimeEffect = codeModeOrchestrationRuntimeEffect();
+  const baseEntry = {
+    explicitBlockedAuthorizationFlags: authFlags,
+    unsafeCodeModeOrchestrationRuntimeFlags: unsafeFlags,
+    runtimeEffect,
+    nonAuthorizingProof: true,
+    codeModeOrchestrationBoundaryMetadataOnly: true,
+    noLiveCodeModeOrchestrationRuntimePerformed: true
+  };
+  return [
+    {
+      boundaryId: "phase5-77.ardyn.orchestrator_plan_contract",
+      boundaryFamily: "orchestrator_plan_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the required plan contract shape for future Code Mode orchestration.",
+        "Reference createTaskPlan and schemas/task.schema.json as the plan-contract anchor.",
+        "Document that a plan is itself a review artifact."
+      ],
+      forbiddenCurrentBehavior: [
+        "Execute a plan against any runtime.",
+        "Make model API calls to decompose or plan.",
+        "Spawn subagents to implement plan steps."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Plan schema with goal, decomposition[], roleAssignments[], perStepBudgets[], expectedArtifacts[], humanApprovalCheckpoints[]",
+        "Plan extends createTaskPlan/task.schema.json",
+        "Budgets (tokens/calls/wall-clock) as required fields using 5.64 vocabulary"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        goal: "string (required, minLength 1)",
+        decomposition: "array of step objects (required, minItems 1)",
+        roleAssignments: "array of role-assignment objects (required)",
+        perStepBudgets: "array of budget objects (required, 5.64 vocabulary)",
+        expectedArtifacts: "array of artifact descriptors (required)",
+        humanApprovalCheckpoints: "array of checkpoint descriptors (required)"
+      },
+      crossPhaseReferences: [
+        "5.68 (profile/fusion/front-desk capability boundaries)",
+        "createTaskPlan (plan-contract anchor)",
+        "schemas/task.schema.json",
+        "5.64 (budget vocabulary)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.subagent_spawn_role_contract",
+      boundaryFamily: "subagent_spawn_role_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the required subagent spawn contract shape.",
+        "Reference 5.68 profiles for role definitions."
+      ],
+      forbiddenCurrentBehavior: [
+        "Spawn subagent processes.",
+        "Allow external agents without explicit human-request flag.",
+        "Grant capabilities beyond the orchestrator's own grant."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Roles: planner, implementer, tester, reviewer, judge, front-desk, coordinator (reuse 5.68 profiles)",
+        "Per-role capability manifest MUST be subset of orchestrator grant (subagentCapabilitiesSubsetOfParent)",
+        "Spawn-depth cap",
+        "Per-subagent identity/attribution per docs/harness-identity.md",
+        "External agents DEFAULT-DENY, invitable only via explicit human-request flag"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        role: "string enum (required)",
+        capabilityManifest: "object subset of parent grant (required)",
+        spawnDepth: "integer cap (required)",
+        identityLabel: "string (required)",
+        attributionRecord: "object (required)",
+        externalAgentInvite: "boolean default false (required, default-deny)"
+      },
+      crossPhaseReferences: [
+        "5.68 (profiles)",
+        "5.62 (permissions)",
+        "docs/harness-identity.md",
+        "5.60 (inter-agent handoff provenance)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.fusion_pass_contract",
+      boundaryFamily: "fusion_pass_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the optional mini-fusion contract shape.",
+        "Document deterministic merge requirements."
+      ],
+      forbiddenCurrentBehavior: [
+        "Execute a fusion pass.",
+        "Merge candidates non-deterministically.",
+        "Produce output without citing contributing candidates."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Candidate provenance IDs",
+        "Deterministic merge requirements",
+        "candidateCountCap (integer)",
+        "Output cites contributing candidates"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        candidateProvenanceIds: "array of strings (required)",
+        mergeRequirements: "object (required, deterministic)",
+        candidateCountCap: "integer (required)",
+        outputCitesCandidates: "boolean true (required)"
+      },
+      crossPhaseReferences: [
+        "5.68 (fusion capability boundary)",
+        "5.60 (provenance)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.judge_comparison_contract",
+      boundaryFamily: "judge_comparison_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the judge comparison contract shape.",
+        "Document pseudonymization and isolation requirements."
+      ],
+      forbiddenCurrentBehavior: [
+        "Execute a judge comparison.",
+        "Allow judge to score a candidate it produced.",
+        "Produce verdicts without mandatory evidence field."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "judgeContextIsolatedFromProducers: true",
+        "Candidate pseudonymization enabled",
+        "Judge never scores a candidate it produced",
+        "Structured per-criterion verdict with mandatory evidence field",
+        "Tie-break + escalate-to-human",
+        "Judge identity + model recorded"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        judgeContextIsolatedFromProducers: "boolean true (required)",
+        pseudonymizationEnabled: "boolean true (required)",
+        judgeNeverScoresOwnCandidate: "boolean true (required)",
+        perCriterionVerdicts: "array with mandatory evidence field (required)",
+        tieBreakAndEscalateToHuman: "object (required)",
+        judgeIdentity: "string (required)",
+        judgeModel: "string (required)"
+      },
+      crossPhaseReferences: [
+        "5.68 (fusion capability boundary)",
+        "5.18-5.31 (evaluator vocabulary)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.synthesis_result_contract",
+      boundaryFamily: "synthesis_result_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the synthesis result contract shape.",
+        "Reference session-event/session-transcript schemas."
+      ],
+      forbiddenCurrentBehavior: [
+        "Execute synthesis.",
+        "Drop dissent without carrying it forward.",
+        "Produce final output without referencing contributing artifacts."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Final output references contributing artifacts",
+        "dissentCarriedForward + overruled objections enumerated",
+        "Maps onto session-event/session-transcript schemas"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        contributingArtifactIds: "array of strings (required)",
+        dissentCarriedForward: "boolean (required)",
+        overruledObjections: "array (required, enumerated)",
+        sessionEventSchema: "string (required)",
+        sessionTranscriptSchema: "string (required)"
+      },
+      crossPhaseReferences: [
+        "4.1D (transcript persistence)",
+        "5.60 (provenance)",
+        "5.65 (audit)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.front_desk_contract",
+      boundaryFamily: "front_desk_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the front-desk responder contract shape.",
+        "Reference 5.70 busy-state and cancellation semantics."
+      ],
+      forbiddenCurrentBehavior: [
+        "Run a front-desk responder.",
+        "Grant spawn or approval authority to the front desk.",
+        "Make commitments about in-flight work.",
+        "Omit staleness disclosure."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Busy-scope allowlist/denylist",
+        "Every answer carries stateSnapshotSequence + staleness disclosure",
+        "Zero spawn authority, zero approval authority",
+        "No commitments about in-flight work",
+        "Mandatory hand-back event"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        busyScopeAllowlist: "array (required)",
+        busyScopeDenylist: "array (required)",
+        stateSnapshotSequence: "integer (required, per-answer)",
+        stalenessDisclosure: "string (required, per-answer)",
+        spawnAuthority: "boolean false (required, invariant)",
+        approvalAuthority: "boolean false (required, invariant)",
+        handBackEvent: "object (required)"
+      },
+      crossPhaseReferences: [
+        "5.68 (front-desk capability boundary)",
+        "5.70 (busy-state, cancellation, leases)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.toolkit_check_selection_contract",
+      boundaryFamily: "toolkit_check_selection_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the toolkit selection contract shape.",
+        "Document relevance-based selection rationale."
+      ],
+      forbiddenCurrentBehavior: [
+        "Invoke toolkit checks.",
+        "Select all tools every time.",
+        "Run Fallow Runtime (Fallow advisory only)."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Relevance-based selection of installed toolkit checks",
+        "Recorded rationale per selection ('not every tool every time')",
+        "Fallow advisory only, never Fallow Runtime"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        selectionMode: "string 'relevance-based' (required)",
+        recordedRationale: "string (required, per-selection)",
+        allToolsEveryTime: "boolean false (required, invariant)",
+        fallowMode: "string 'advisory' (required, never 'runtime')"
+      },
+      crossPhaseReferences: [
+        "5.71 (code_mode_governance, toolkit evidence, no polling/no-op subagents)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.loop_semantics_contract",
+      boundaryFamily: "loop_semantics_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the loop semantics contract shape.",
+        "Document maxIterationsPerLoop as a required field.",
+        "Reference no-progress and budget-exhaustion rules."
+      ],
+      forbiddenCurrentBehavior: [
+        "Execute a loop runtime.",
+        "Accept a plan without maxIterationsPerLoop.",
+        "Continue after identical failure signature twice."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Loop: plan->implement->test->fix->review",
+        "maxIterationsPerLoop REQUIRED (input without it rejected)",
+        "No-progress rule (identical failure signature twice -> abort/escalate)",
+        "loop_budget_exhausted as first-class terminal classification",
+        "Per-iteration checkpoint for cancellation (5.70)"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        loopPhases: "array ['plan','implement','test','fix','review'] (required)",
+        maxIterationsPerLoop: "integer >= 1 (REQUIRED, absence is rejection)",
+        noProgressRule: "object (required, identical-failure-signature-twice)",
+        loopBudgetExhaustedClassification: "string (required, first-class)",
+        perIterationCheckpoint: "object (required, 5.70 cancellation)"
+      },
+      crossPhaseReferences: [
+        "5.70 (cancellation)",
+        "5.64 (budget vocabulary)",
+        "4.1E (failure/kill semantics)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.failure_abort_contract",
+      boundaryFamily: "failure_abort_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the failure/abort contract shape.",
+        "Reference 4.1E failure-audit/kill semantics."
+      ],
+      forbiddenCurrentBehavior: [
+        "Execute abort handlers.",
+        "Suppress partial-result disclosure."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Abort/partial-result semantics aligned with 4.1E failure-audit/kill semantics",
+        "Partial results returned with explicit exhausted/aborted classification"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        abortSemantics: "object (required, aligned with 4.1E)",
+        partialResultDisclosure: "boolean true (required)",
+        exhaustedClassification: "string (required)",
+        abortedClassification: "string (required)"
+      },
+      crossPhaseReferences: [
+        "4.1E (failure/kill semantics)",
+        "5.65 (audit)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.audit_transcript_contract",
+      boundaryFamily: "audit_transcript_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the audit/transcript contract shape.",
+        "Reference 4.1C redaction and 4.1D persistence."
+      ],
+      forbiddenCurrentBehavior: [
+        "Emit audit events to a live runtime.",
+        "Transmit payloads without provenance labels.",
+        "Persist unredacted transcripts."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Every spawn/verdict/fusion/synthesis/hand-back emits session events",
+        "Redaction per 4.1C",
+        "Persistence per 4.1D",
+        "Provenance labels required on all inter-role payloads (cross-ref 5.60)"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        sessionEvents: "array (required, every spawn/verdict/fusion/synthesis/hand-back)",
+        redactionPolicy: "object (required, 4.1C)",
+        persistencePolicy: "object (required, 4.1D)",
+        provenanceLabels: "array (required, on all inter-role payloads)"
+      },
+      crossPhaseReferences: [
+        "4.1C (redaction)",
+        "4.1D (transcript persistence)",
+        "5.60 (inter-agent handoff provenance)",
+        "5.65 (audit)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.human_approval_gate_contract",
+      boundaryFamily: "human_approval_gate_contract",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the human-approval gate contract shape.",
+        "Reference 5.18-5.31 evaluator vocabulary."
+      ],
+      forbiddenCurrentBehavior: [
+        "Bypass human approval for plan release.",
+        "Bypass human approval for privilege escalation.",
+        "Bypass human approval for external-agent invite.",
+        "Bypass human approval for final output."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Plan release requires human approval",
+        "Privilege escalation requires human approval",
+        "External-agent invite requires human approval",
+        "Final output requires human approval",
+        "Reusing 5.18-5.31 evaluator vocabulary"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        planReleaseApproval: "object (required, 5.18-5.31 vocabulary)",
+        privilegeEscalationApproval: "object (required)",
+        externalAgentInviteApproval: "object (required)",
+        finalOutputApproval: "object (required)",
+        evaluatorVocabulary: "string '5.18-5.31' (required)"
+      },
+      crossPhaseReferences: [
+        "5.18-5.31 (evaluator vocabulary for approval gates)",
+        "5.62 (permissions)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-77.ardyn.code_mode_blocked_runtime_list",
+      boundaryFamily: "code_mode_blocked_runtime_list",
+      relatedSystem: "ardyn-subagent",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the complete list of blocked runtime surfaces for Code Mode.",
+        "Reference docs/posture.md for the fabric federation carve-out."
+      ],
+      forbiddenCurrentBehavior: [
+        "Make model API calls.",
+        "Spawn subagent processes.",
+        "Run a front-desk responder.",
+        "Execute judge/fusion.",
+        "Execute a loop runtime.",
+        "Invoke toolkit checks.",
+        "Invoke the fabric federation client (Code Mode may not use it)."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "No model API calls",
+        "No subagent processes",
+        "No front-desk responder",
+        "No judge/fusion execution",
+        "No loop runtime",
+        "No toolkit invocation",
+        "Standard backend/DB/Matrix/shell/SQLite blocks (cross-referenced to owning phases)",
+        "Fabric federation: reference docs/posture.md carve-out (Code Mode may not invoke it; do NOT assert blanket 'no fabric transport')"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime:
+        "phase-6.x-code-mode-runtime-authorization",
+      contractShape: {
+        blockedSurfaces: "array of strings (required)",
+        fabricFederationCarveOut: "string 'docs/posture.md' (required, reference not re-block)",
+        noBlanketFabricTransportClaim: "boolean true (required, invariant)"
+      },
+      crossPhaseReferences: [
+        "5.61 (database storage)",
+        "5.63 (RLS)",
+        "5.65 (audit)",
+        "5.73 (Matrix/external gateway)",
+        "5.74 (command surface/shell)",
+        "5.76 (embedded DB/query engine)",
+        "docs/posture.md (fabric federation carve-out)",
+        "5.72 (credential custody)"
+      ],
+      ...baseEntry
+    }
+  ];
+}
+
+function codeModeOrchestrationBoundaryMapSummary(entries) {
+  const families = CODE_MODE_ORCHESTRATION_BOUNDARY_FAMILIES;
+  const systems = CODE_MODE_ORCHESTRATION_RELATED_SYSTEMS;
+  const statuses = CODE_MODE_ORCHESTRATION_STATUSES;
+  const countByFamily = {};
+  const countByRelatedSystem = {};
+  const countByStatus = {};
+  for (const family of families) countByFamily[family] = 0;
+  for (const system of systems) countByRelatedSystem[system] = 0;
+  for (const status of statuses) countByStatus[status] = 0;
+  for (const entry of entries) {
+    countByFamily[entry.boundaryFamily] = (countByFamily[entry.boundaryFamily] || 0) + 1;
+    countByRelatedSystem[entry.relatedSystem] = (countByRelatedSystem[entry.relatedSystem] || 0) + 1;
+    countByStatus[entry.currentStatus] = (countByStatus[entry.currentStatus] || 0) + 1;
+  }
+  return {
+    boundaryEntryCount: entries.length,
+    boundaryFamilies: families,
+    relatedSystems: systems,
+    currentStatusValues: statuses,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    orchestratorPlanContractRecorded: true,
+    subagentSpawnRoleContractRecorded: true,
+    fusionPassContractRecorded: true,
+    judgeComparisonContractRecorded: true,
+    synthesisResultContractRecorded: true,
+    frontDeskContractRecorded: true,
+    toolkitCheckSelectionContractRecorded: true,
+    loopSemanticsContractRecorded: true,
+    failureAbortContractRecorded: true,
+    auditTranscriptContractRecorded: true,
+    humanApprovalGateContractRecorded: true,
+    codeModeBlockedRuntimeListRecorded: true,
+    noModelApiCalls: true,
+    noSubagentProcesses: true,
+    noFrontDeskResponder: true,
+    noJudgeFusionExecution: true,
+    noLoopRuntime: true,
+    noToolkitInvocation: true,
+    maxIterationsPerLoopRequired: true,
+    judgeContextIsolatedFromProducers: true,
+    externalAgentDefaultDeny: true,
+    frontDeskZeroApprovalAuthority: true,
+    fabricFederationCarveOutReferenced: true,
+    noBlanketFabricTransportClaim: true,
+    allBlockedAuthorizationFlagsFalse: true,
+    allUnsafeCodeModeOrchestrationRuntimeFlagsFalse: true,
+    allRuntimeEffectsFalse: true,
+    allEntriesNonAuthorizing: true
+  };
+}
+
+function codeModeOrchestrationFalseRuntimeFields() {
+  const fields = {};
+  for (const flag of CODE_MODE_ORCHESTRATION_UNSAFE_FIELDS) {
+    fields[flag] = false;
+  }
+  for (const flag of CODE_MODE_ORCHESTRATION_AUTHORIZATION_FIELDS) {
+    fields[flag] = false;
+  }
+  return fields;
+}
+
+function codeModeOrchestrationResult({
+  reviewedAt,
+  classification,
+  accepted,
+  boundaryEntries
+}) {
+  const summary = accepted
+    ? codeModeOrchestrationBoundaryMapSummary(boundaryEntries)
+    : null;
+  return {
+    schema: CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_SCHEMA,
+    schemaVersion: CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_VERSION,
+    codeModeOrchestrationKind: CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_KIND,
+    codeModeOrchestrationMode: "review-only",
+    reviewedAt,
+    classification,
+    codeModeOrchestrationBoundaryMapProduced: accepted,
+    boundaryEntries: accepted ? boundaryEntries : [],
+    boundaryMapSummary: summary,
+    recommendedNextPhase: accepted
+      ? "phase-5.78-review-only-ci-enforcement-contract-boundary-map"
+      : null,
+    codeModeOrchestrationOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...(accepted ? {} : codeModeOrchestrationFalseRuntimeFields()),
+    rejectionReasons: accepted ? [] : [
+      {
+        classification,
+        rejected: true,
+        runtimeAuthorized: false,
+        reportRunsChecks: false
+      }
+    ],
+    runtimeEffect: {
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      approvalEvaluatorAuthoritative: false
+    }
+  };
+}
+
+export function createCodeModeOrchestrationForReview(input = {}) {
+  const inputRecord = codeModeOrchestrationInputRecord(input);
+  const reviewedAt = codeModeOrchestrationReviewedAt(inputRecord);
+  const classification =
+    codeModeOrchestrationClassification(inputRecord);
+  const accepted =
+    classification === VALID_CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_CLASSIFICATION;
+  const boundaryEntries = accepted
+    ? codeModeOrchestrationBoundaryEntries()
+    : [];
+
+  return codeModeOrchestrationResult({
+    reviewedAt,
+    classification,
+    accepted,
+    boundaryEntries
+  });
+}

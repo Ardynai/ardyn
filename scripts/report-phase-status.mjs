@@ -358,6 +358,9 @@ const phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMap =
 const phase576bFabricFederationReconciliation = await readJson(
   "tests/fixtures/host-policy/phase5-76b/fabric-federation-reconciliation.json"
 );
+const phase577CodeModeOrchestrationBoundaryMap = await readJson(
+  "tests/fixtures/host-policy/phase5-77/code-mode-orchestration.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -3091,14 +3094,99 @@ const phase576SafetyFlags = {
   phase576FabricSourceChanged: false
 };
 
+const phase577SafetyFlags = {
+  phase577CodeModeOrchestrationBoundaryMapRecorded: true,
+  phase577CodeModeOrchestrationBoundaryMapReviewOnly: true,
+  phase577CodeModeOrchestrationBoundaryMapAuthoritative: false,
+  phase577CodeModeOrchestrationBoundaryMapProduced: true,
+  phase577BoundaryEntriesRecorded: true,
+  phase577CodeModeOrchestrationBoundaryMetadataOnly: true,
+  phase577NoLiveCodeModeOrchestrationRuntimePerformed: true,
+  phase577OrchestratorPlanContractRecorded: true,
+  phase577SubagentSpawnRoleContractRecorded: true,
+  phase577FusionPassContractRecorded: true,
+  phase577JudgeComparisonContractRecorded: true,
+  phase577SynthesisResultContractRecorded: true,
+  phase577FrontDeskContractRecorded: true,
+  phase577ToolkitCheckSelectionContractRecorded: true,
+  phase577LoopSemanticsContractRecorded: true,
+  phase577FailureAbortContractRecorded: true,
+  phase577AuditTranscriptContractRecorded: true,
+  phase577HumanApprovalGateContractRecorded: true,
+  phase577CodeModeBlockedRuntimeListRecorded: true,
+  phase577NoModelApiCalls: true,
+  phase577NoSubagentProcesses: true,
+  phase577NoFrontDeskResponder: true,
+  phase577NoJudgeFusionExecution: true,
+  phase577NoLoopRuntime: true,
+  phase577NoToolkitInvocation: true,
+  phase577MaxIterationsPerLoopRequired: true,
+  phase577JudgeContextIsolatedFromProducers: true,
+  phase577ExternalAgentDefaultDeny: true,
+  phase577FrontDeskZeroApprovalAuthority: true,
+  phase577FabricFederationCarveOutReferenced: true,
+  phase577NoBlanketFabricTransportClaim: true,
+  phase577AllBlockedAuthorizationFlagsFalse: true,
+  phase577AllUnsafeCodeModeOrchestrationRuntimeFlagsFalse: true,
+  phase577AllRuntimeEffectsFalse: true,
+  phase577AllEntriesNonAuthorizing: true,
+  phase577InvalidCodeModeOrchestrationBoundaryCasesFailClosed: true,
+  phase577MissingMaxIterationsPerLoopFailClosed: true,
+  phase577UnknownTopLevelFieldsFailClosed: true,
+  phase577UnknownBoundaryFamiliesFailClosed: true,
+  phase577UnknownRelatedSystemsFailClosed: true,
+  phase577UnknownCurrentStatusesFailClosed: true,
+  phase577HiddenOrchestratorRuntimeSemanticsFailClosed: true,
+  phase577HiddenSubagentSpawnRuntimeSemanticsFailClosed: true,
+  phase577HiddenFusionPassRuntimeSemanticsFailClosed: true,
+  phase577HiddenJudgeComparisonRuntimeSemanticsFailClosed: true,
+  phase577HiddenFrontDeskRuntimeSemanticsFailClosed: true,
+  phase577HiddenToolkitInvocationRuntimeSemanticsFailClosed: true,
+  phase577HiddenLoopRuntimeSemanticsFailClosed: true,
+  phase577HiddenModelApiCallSemanticsFailClosed: true,
+  phase577HiddenProcessSpawnSemanticsFailClosed: true,
+  phase577HiddenShellCommandRuntimeSemanticsFailClosed: true,
+  phase577HiddenSqliteEmbeddedDbQueryRuntimeSemanticsFailClosed: true,
+  phase577HiddenMatrixGatewayRuntimeSemanticsFailClosed: true,
+  phase577HiddenFabricCoreTransportRuntimeSemanticsFailClosed: true,
+  phase577HiddenSecureDropImplementationSemanticsFailClosed: true,
+  phase577HiddenFilesystemAccessSemanticsFailClosed: true,
+  phase577HiddenAuthSessionTokenApiKeySemanticsFailClosed: true,
+  phase577HiddenConnectorGrantSemanticsFailClosed: true,
+  phase577HiddenEnvSecretsExposureSemanticsFailClosed: true,
+  phase577ServeRuntimeStillDefaultBlocked: true,
+  phase577ReportRunsChecks: false,
+  phase577RuntimeExecutionEnabled: false,
+  phase577OrchestratorRuntimeEnabled: false,
+  phase577SubagentSpawnEnabled: false,
+  phase577FusionPassEnabled: false,
+  phase577JudgeComparisonEnabled: false,
+  phase577FrontDeskRuntimeEnabled: false,
+  phase577ToolkitInvocationEnabled: false,
+  phase577LoopRuntimeEnabled: false,
+  phase577ModelApiCallsEnabled: false,
+  phase577ProcessSpawnEnabled: false,
+  phase577ShellRuntimeEnabled: false,
+  phase577SqliteRuntimeEnabled: false,
+  phase577MatrixClientRuntimeEnabled: false,
+  phase577FabricCoreTransportRuntimeEnabled: false,
+  phase577SecureDropImplemented: false,
+  phase577CommandExposureEnabled: false,
+  phase577BlockedCliBypassEnabled: false,
+  phase577CliSourceChanged: false,
+  phase577RustSourceChanged: false,
+  phase577FabricSourceChanged: false,
+  phase577FederationMjsSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.76",
+    id: "5.77",
     name:
-      "Review-only embedded DB/query-engine primitive contract boundary map",
+      "Review-only Code Mode orchestration contract boundary map",
     executionPosture:
-      "embedded-db-query-engine-primitive-contract-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only no-sqlite-runtime no-embedded-db-reader no-database-client no-file-parser no-page-parser no-sql-parser no-query-executor no-table-scan no-index-lookup no-btree-traversal no-transaction-wal no-migration no-storage-adapter no-db-read-write no-filesystem-access no-cache-runtime no-rls-runtime no-query-audit-writer no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "code-mode-orchestration-contract-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only no-model-api-calls no-subagent-processes no-front-desk-responder no-judge-fusion-execution no-loop-runtime no-toolkit-invocation no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-testing-ci-release-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -33057,6 +33145,89 @@ const report = {
       reportRunsChecks: false
     }
   },
+  phase577CodeModeOrchestrationBoundaryMapInventory: {
+    statusLayer: {
+      document: "docs/phase-5-77-code-mode-orchestration-boundary.md",
+      schema: phase577CodeModeOrchestrationBoundaryMap.schema,
+      schemaVersion:
+        phase577CodeModeOrchestrationBoundaryMap.schemaVersion,
+      kind: phase577CodeModeOrchestrationBoundaryMap.codeModeOrchestrationKind,
+      mode: phase577CodeModeOrchestrationBoundaryMap.codeModeOrchestrationMode,
+      classification:
+        phase577CodeModeOrchestrationBoundaryMap.classification,
+      produced:
+        phase577CodeModeOrchestrationBoundaryMap.codeModeOrchestrationBoundaryMapProduced,
+      ...phase577CodeModeOrchestrationBoundaryMap.boundaryMapSummary,
+      reportRunsChecks:
+        phase577CodeModeOrchestrationBoundaryMap.reportRunsChecks
+    },
+    recommendedNextPhase:
+      phase577CodeModeOrchestrationBoundaryMap.recommendedNextPhase,
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-77-code-mode-orchestration-boundary.md",
+        "Records 12 Code Mode orchestration boundary families with contract shapes (deeper than 5.68 capability flags) — all runtime-blocked."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-77-code-mode-orchestration.test.mjs",
+        "Pins the Phase 5.77 fixture, helper, 12 boundary families, contract shapes, cross-references, and rejection cases."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.77 status inventory and safetyPosture flag."
+      )
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-77/code-mode-orchestration.json",
+        "Deterministic review-only Code Mode orchestration boundary map with 12 boundary families and contract shapes."
+      )
+    ],
+    validationCommands: [
+      "node --test tests/phase5-77-code-mode-orchestration.test.mjs",
+      "node --test tests/phase5-76-embedded-db-query-engine-primitive-contract-boundary-map.test.mjs",
+      "node --test tests/phase5-76b-fabric-federation-reconciliation.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "semgrep --config auto .",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check",
+      "git diff --cached --check"
+    ],
+    safetyPosture: {
+      codeModeOrchestrationBoundaryMapRecorded: true,
+      codeModeOrchestrationBoundaryMapReviewOnly: true,
+      codeModeOrchestrationBoundaryMapAuthoritative: false,
+      codeModeOrchestrationBoundaryMapProduced: true,
+      noModelApiCalls: true,
+      noSubagentProcesses: true,
+      noFrontDeskResponder: true,
+      noJudgeFusionExecution: true,
+      noLoopRuntime: true,
+      noToolkitInvocation: true,
+      maxIterationsPerLoopRequired: true,
+      judgeContextIsolatedFromProducers: true,
+      externalAgentDefaultDeny: true,
+      frontDeskZeroApprovalAuthority: true,
+      fabricFederationCarveOutReferenced: true,
+      noBlanketFabricTransportClaim: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFederationMjsBehaviorChange: true,
+      noHistoricalFixtureEdited: true,
+      reportRunsChecks: false
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -33170,6 +33341,7 @@ const report = {
     phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate: true,
     phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMap: true,
     phase576BFabricFederationReconciliation: true,
+    phase577CodeModeOrchestrationBoundaryMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
