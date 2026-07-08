@@ -11021,6 +11021,32 @@ export function createCodeModeOrchestrationForReview(
   input?: Record<string, unknown>
 ): CodeModeOrchestrationBoundaryMapResult;
 
+export interface CiEnforcementContractBoundaryMapResult {
+  schema: "ardyn.phase-5.78.ci-enforcement-contract-boundary-map-result";
+  schemaVersion: "0.1.0";
+  ciEnforcementContractKind: "ci-enforcement-contract-boundary-map";
+  ciEnforcementContractMode: "review-only";
+  reviewedAt: string;
+  classification: string;
+  ciEnforcementContractBoundaryMapProduced: boolean;
+  boundaryEntries: unknown[];
+  boundaryMapSummary: Record<string, unknown> | null;
+  recommendedNextPhase: string | null;
+  ciEnforcementContractOnly: boolean;
+  reviewOnly: boolean;
+  metadataOnly: boolean;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: unknown[];
+  runtimeEffect: Record<string, boolean>;
+  [key: string]: unknown;
+}
+
+export function createCiEnforcementContractForReview(
+  input?: Record<string, unknown>
+): CiEnforcementContractBoundaryMapResult;
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";

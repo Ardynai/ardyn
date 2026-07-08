@@ -70997,3 +70997,773 @@ export function createCodeModeOrchestrationForReview(input = {}) {
     boundaryEntries
   });
 }
+
+// ─── Phase 5.78: CI enforcement contract boundary map ────────────────────────
+// ponytail: 8 boundary families for CI enforcement contract shapes.
+// Reuses MALFORMED_INPUT (line 69510), isPlainObjectRecord (line 3945),
+// approvalEvaluatorCandidateNestedTrueClaim (line 8163) — no new clones.
+
+export const CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.78.ci-enforcement-contract-boundary-map-result";
+export const CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_VERSION = "0.1.0";
+export const CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_KIND =
+  "ci-enforcement-contract-boundary-map";
+export const VALID_CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_ci_enforcement_contract_boundary_map_runtime_still_blocked";
+
+const CI_ENFORCEMENT_CONTRACT_BOUNDARY_FAMILIES = Object.freeze([
+  "ci_workflow_scope",
+  "ci_job_matrix",
+  "security_workflow_scope",
+  "test_invocation_portability",
+  "ci_offline_hermetic_guarantee",
+  "ci_forbidden_behavior",
+  "branch_protection_expectation",
+  "ci_enablement_authorization"
+]);
+
+const CI_ENFORCEMENT_CONTRACT_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "ardyn-subagent",
+  "github-actions"
+]);
+
+const CI_ENFORCEMENT_CONTRACT_STATUSES = Object.freeze([
+  "blocked",
+  "future_contract_required"
+]);
+
+const CI_ENFORCEMENT_CONTRACT_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandsExposed",
+  "connectorGrantProduced",
+  "ciRuntimeEnabled",
+  "ciExecutionEnabled",
+  "workflowExecutionEnabled",
+  "ciPublishedArtifacts",
+  "ciDeployEnabled",
+  "ciWriteToRepoEnabled",
+  "ciSecretUsed",
+  "ciTokenMinted",
+  "ciAutoMergeEnabled",
+  "semgrepGateEnabled",
+  "fabricSecretInCiEnabled",
+  "fabricSidecarContactEnabled",
+  "shellRuntimeEnabled",
+  "sqliteRuntimeEnabled",
+  "embeddedDbReaderEnabled",
+  "databaseClientImplemented",
+  "matrixClientRuntimeEnabled",
+  "externalGatewayRuntimeEnabled",
+  "fabricCoreTransportRuntimeEnabled",
+  "fabricRuntimeImplementedByArdyn",
+  "secureDropImplemented",
+  "secureDropDecryptionEnabled",
+  "filesystemAccessEnabled",
+  "filesystemReadEnabled",
+  "filesystemWriteEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "backendApiServerMiddlewareImplemented",
+  "apiEndpointImplementedByArdyn",
+  "serverImplementedByArdyn",
+  "processSpawnEnabled",
+  "processControlEnabled",
+  "blockedCliBypassEnabled"
+]);
+
+const CI_ENFORCEMENT_CONTRACT_KNOWN_KEYS = Object.freeze(new Set([
+  "reviewedAt",
+  "boundaryEntries",
+  "reportRunsChecks",
+  "authorizesRuntime",
+  "ciSecrets",
+  "ciWritePermissions",
+  "extraWorkflow",
+  "semgrepAsGate",
+  "fabricSecretInCi",
+  "fabricSidecarContact",
+  "ciRuntime",
+  "ciExecution",
+  "workflowExecution",
+  "ciPublish",
+  "ciDeploy",
+  "ciWriteToRepo",
+  "ciTokenMint",
+  "ciAutoMerge",
+  "shellRuntime",
+  "sqliteRuntime",
+  "matrixClientRuntime",
+  "fabricCoreTransportRuntime",
+  "secureDropRuntime",
+  "apiKey",
+  "connectorGrant",
+  "filesystemRead",
+  "filesystemWrite",
+  "envReader",
+  "commandExposureEnabled",
+  "blockedCliBypassEnabled",
+  "runtimeEffect",
+  // ponytail: unsafe runtime flags are known keys so the classifier can test
+  // them as unsafe rather than rejecting them as unknown top-level fields.
+  ...CI_ENFORCEMENT_CONTRACT_UNSAFE_FIELDS
+]));
+
+const CI_ENFORCEMENT_CONTRACT_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "authorizesRuntime",
+  "ciExecutionAuthorizationGranted",
+  "workflowFileCreationAuthorizationGranted",
+  "ciPublishAuthorizationGranted",
+  "ciDeployAuthorizationGranted",
+  "ciWriteToRepoAuthorizationGranted",
+  "ciSecretUseAuthorizationGranted",
+  "ciTokenMintAuthorizationGranted",
+  "ciAutoMergeAuthorizationGranted",
+  "semgrepGateAuthorizationGranted",
+  "fabricSecretInCiAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+
+const CI_ENFORCEMENT_CONTRACT_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification:
+      "hidden_ci_runtime_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["ciRuntime", "ciExecution", "workflowExecution"]
+  },
+  {
+    classification:
+      "hidden_ci_publish_deploy_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["ciPublish", "ciDeploy", "ciWriteToRepo"]
+  },
+  {
+    classification:
+      "hidden_ci_secret_token_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["ciSecrets", "ciTokenMint", "ciSecretUse"]
+  },
+  {
+    classification:
+      "hidden_shell_command_runtime_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["shellRuntime", "shellCommand", "commandExecution"]
+  },
+  {
+    classification:
+      "hidden_sqlite_embedded_db_query_runtime_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["sqliteRuntime", "embeddedDbRuntime", "databaseRuntime"]
+  },
+  {
+    classification:
+      "hidden_matrix_gateway_runtime_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["matrixClientRuntime", "matrixGateway", "externalGateway"]
+  },
+  {
+    classification:
+      "hidden_fabric_core_transport_runtime_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["fabricCoreTransportRuntime", "fabricTransport", "contentAddressedTransport"]
+  },
+  {
+    classification:
+      "hidden_secure_drop_implementation_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["secureDropRuntime", "secureDropImplementation", "secureDropDecrypt"]
+  },
+  {
+    classification:
+      "hidden_filesystem_access_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["filesystemRead", "filesystemWrite", "filesystemAccess"]
+  },
+  {
+    classification:
+      "hidden_auth_session_token_api_key_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["apiKey", "authToken", "sessionToken"]
+  },
+  {
+    classification:
+      "hidden_connector_grant_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["connectorGrant", "apiConnector", "integrationGrant"]
+  },
+  {
+    classification:
+      "hidden_env_secrets_exposure_semantics_ci_enforcement_contract_boundary_map_input_rejected",
+    fields: ["envReader", "envSecrets", "secretReader"]
+  }
+]);
+
+function ciEnforcementContractInputRecord(input) {
+  if (input === null || typeof input !== "object" || Array.isArray(input)) {
+    return MALFORMED_INPUT;
+  }
+  return input;
+}
+
+function ciEnforcementContractReviewedAt(inputRecord) {
+  if (inputRecord === MALFORMED_INPUT) {
+    return null;
+  }
+  const value = inputRecord.reviewedAt;
+  if (value === undefined) {
+    return "2026-07-06T00:00:00.000Z";
+  }
+  if (typeof value !== "string" || Number.isNaN(Date.parse(value))) {
+    return null;
+  }
+  return value;
+}
+
+function ciEnforcementContractClassification(inputRecord) {
+  const reviewedAt = ciEnforcementContractReviewedAt(inputRecord);
+  if (reviewedAt === null) {
+    return "malformed_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord === MALFORMED_INPUT) {
+    return "malformed_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.reportRunsChecks === true) {
+    return "report_runs_checks_true_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.authorizesRuntime === true) {
+    return "runtime_authorization_attempt_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  // CI-specific rejection cases
+  if (inputRecord.ciSecrets && typeof inputRecord.ciSecrets === "object") {
+    return "ci_with_secrets_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.ciWritePermissions === true) {
+    return "ci_with_write_permissions_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.extraWorkflow && typeof inputRecord.extraWorkflow === "object") {
+    return "extra_workflow_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.semgrepAsGate === true) {
+    return "semgrep_as_gate_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.fabricSecretInCi === true) {
+    return "fabric_secret_in_ci_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.fabricSidecarContact === true) {
+    return "fabric_sidecar_contact_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  // Hidden runtime semantics — any object-valued hidden field is rejected
+  for (const group of CI_ENFORCEMENT_CONTRACT_HIDDEN_FIELD_GROUPS) {
+    for (const field of group.fields) {
+      if (inputRecord[field] && typeof inputRecord[field] === "object") {
+        return group.classification;
+      }
+    }
+  }
+  if (inputRecord.commandExposureEnabled === true) {
+    return "command_exposure_attempt_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  if (inputRecord.blockedCliBypassEnabled === true) {
+    return "blocked_cli_bypass_attempt_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  // Check for unknown top-level keys
+  for (const key of Object.keys(inputRecord)) {
+    if (!CI_ENFORCEMENT_CONTRACT_KNOWN_KEYS.has(key)) {
+      return "unknown_top_level_field_ci_enforcement_contract_boundary_map_input_rejected";
+    }
+  }
+  // Check unsafe runtime flags at top level
+  for (const flag of CI_ENFORCEMENT_CONTRACT_UNSAFE_FIELDS) {
+    if (inputRecord[flag] === true) {
+      return "unsafe_ci_enforcement_runtime_flags_ci_enforcement_contract_boundary_map_input_rejected";
+    }
+  }
+  // Nested unsafe flags — reuse the cycle-guarded nested-true-claim walker
+  // (approvalEvaluatorCandidateNestedTrueClaim at index.mjs:8163), not a fresh clone.
+  // ponytail: the audit found 17 byte-identical clones; this is NOT an 18th.
+  if (
+    inputRecord.runtimeEffect &&
+    approvalEvaluatorCandidateNestedTrueClaim(
+      inputRecord.runtimeEffect,
+      (key) => CI_ENFORCEMENT_CONTRACT_UNSAFE_FIELDS.includes(key) ||
+        key === "runtimeEnabled" ||
+        key === "runtimeStarted" ||
+        key === "runtimeReady" ||
+        key === "runtimeCommandEnabled" ||
+        key === "runtimeCommandExposureEnabled" ||
+        key === "runtimeExecutionEnabled" ||
+        key === "runtimeExecuted" ||
+        key === "approvalGrantProduced" ||
+        key === "approvalGrantPersisted" ||
+        key === "approvalEvaluatorAuthoritative"
+    )
+  ) {
+    return "nested_unsafe_flags_ci_enforcement_contract_boundary_map_input_rejected";
+  }
+  // Boundary entry validation (if provided)
+  if (inputRecord.boundaryEntries !== undefined) {
+    if (!Array.isArray(inputRecord.boundaryEntries)) {
+      return "malformed_ci_enforcement_contract_boundary_map_input_rejected";
+    }
+    for (const entry of inputRecord.boundaryEntries) {
+      if (!isPlainObjectRecord(entry)) {
+        return "malformed_ci_enforcement_contract_boundary_map_input_rejected";
+      }
+      if (entry.boundaryFamily !== undefined && !CI_ENFORCEMENT_CONTRACT_BOUNDARY_FAMILIES.includes(entry.boundaryFamily)) {
+        return "unknown_boundary_family_ci_enforcement_contract_boundary_map_input_rejected";
+      }
+      if (entry.relatedSystem !== undefined && !CI_ENFORCEMENT_CONTRACT_RELATED_SYSTEMS.includes(entry.relatedSystem)) {
+        return "unknown_related_system_ci_enforcement_contract_boundary_map_input_rejected";
+      }
+      if (entry.currentStatus !== undefined && !CI_ENFORCEMENT_CONTRACT_STATUSES.includes(entry.currentStatus)) {
+        return "unknown_current_status_ci_enforcement_contract_boundary_map_input_rejected";
+      }
+      if (entry.explicitBlockedAuthorizationFlags && typeof entry.explicitBlockedAuthorizationFlags === "object") {
+        for (const authFlag of CI_ENFORCEMENT_CONTRACT_AUTHORIZATION_FIELDS) {
+          if (entry.explicitBlockedAuthorizationFlags[authFlag] === true) {
+            return "authorization_flags_enabled_ci_enforcement_contract_boundary_map_input_rejected";
+          }
+        }
+      }
+      if (entry.unsafeCiEnforcementRuntimeFlags && typeof entry.unsafeCiEnforcementRuntimeFlags === "object") {
+        for (const unsafeFlag of CI_ENFORCEMENT_CONTRACT_UNSAFE_FIELDS) {
+          if (entry.unsafeCiEnforcementRuntimeFlags[unsafeFlag] === true) {
+            return "unsafe_ci_enforcement_runtime_flags_ci_enforcement_contract_boundary_map_input_rejected";
+          }
+        }
+      }
+      if (entry.boundaryId !== undefined && entry.boundaryId !== null) {
+        const canonicalIds = ciEnforcementContractBoundaryEntries().map((e) => e.boundaryId);
+        if (typeof entry.boundaryId === "string" && !canonicalIds.includes(entry.boundaryId)) {
+          return "noncanonical_ci_enforcement_contract_boundary_map_input_rejected";
+        }
+      }
+    }
+  }
+  return VALID_CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function ciEnforcementContractAuthorizationFlags() {
+  return Object.fromEntries(
+    CI_ENFORCEMENT_CONTRACT_AUTHORIZATION_FIELDS.map((f) => [f, false])
+  );
+}
+
+function ciEnforcementContractUnsafeRuntimeFlags() {
+  return Object.fromEntries(
+    CI_ENFORCEMENT_CONTRACT_UNSAFE_FIELDS.map((f) => [f, false])
+  );
+}
+
+function ciEnforcementContractRuntimeEffect() {
+  return {
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalEvaluatorAuthoritative: false
+  };
+}
+
+function ciEnforcementContractBoundaryEntries() {
+  const authFlags = ciEnforcementContractAuthorizationFlags();
+  const unsafeFlags = ciEnforcementContractUnsafeRuntimeFlags();
+  const runtimeEffect = ciEnforcementContractRuntimeEffect();
+  const baseEntry = {
+    explicitBlockedAuthorizationFlags: authFlags,
+    unsafeCiEnforcementRuntimeFlags: unsafeFlags,
+    runtimeEffect,
+    nonAuthorizingProof: true,
+    ciEnforcementContractBoundaryMetadataOnly: true,
+    noLiveCiEnforcementRuntimePerformed: true
+  };
+  return [
+    {
+      boundaryId: "phase5-78.ardyn.ci_workflow_scope",
+      boundaryFamily: "ci_workflow_scope",
+      relatedSystem: "github-actions",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the required CI workflow scope contract.",
+        "Document exactly two workflows: ci.yml and security.yml.",
+        "Record allowed third-party actions pinned to exact versions."
+      ],
+      forbiddenCurrentBehavior: [
+        "Create workflow files under .github/.",
+        "Add triggers beyond push-to-main, pull_request, weekly schedule, and workflow_dispatch.",
+        "Use secrets in CI workflows."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Exactly two workflows: ci.yml (push to main + pull_request; concurrency cancel-in-progress) and security.yml (weekly schedule + workflow_dispatch)",
+        "permissions: contents: read",
+        "No secrets",
+        "Allowed third-party actions ONLY: actions/checkout, actions/setup-node, dtolnay/rust-toolchain, Swatinem/rust-cache — each pinned to exact version or commit SHA"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "phase-5.79-ci-enablement",
+      contractShape: {
+        workflowCount: "integer 2 (required)",
+        workflows: "array [ci.yml, security.yml] (required)",
+        triggers: "object (required: push, pull_request, schedule, workflow_dispatch only)",
+        permissions: "object (required: contents: read)",
+        secrets: "array (required: empty)",
+        allowedActions: "array (required, pinned versions)"
+      },
+      crossPhaseReferences: [
+        "5.48 area 7 (CI not asserted — this phase provides the contract)",
+        "5.69 (CI modification forbidden — this phase authorizes 5.79 to lift)",
+        "5.71 (same)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-78.ardyn.ci_job_matrix",
+      boundaryFamily: "ci_job_matrix",
+      relatedSystem: "github-actions",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the required CI job matrix contract.",
+        "Document three jobs: node, rust, node-windows."
+      ],
+      forbiddenCurrentBehavior: [
+        "Execute CI jobs.",
+        "Add jobs beyond node, rust, and node-windows.",
+        "Omit the node-windows job (required for Windows hazard coverage)."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "node job (ubuntu: npm ci; npm test; npm run report:phase-status smoke discarded to null)",
+        "rust job (ubuntu: cargo fmt --check; cargo clippy --workspace --all-targets -- -D warnings; cargo test --workspace)",
+        "node-windows job (windows-latest: npm ci; npm test) — included because development happens on Windows and the test-script glob has a known Windows/Node-20 expansion hazard"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "phase-5.79-ci-enablement",
+      contractShape: {
+        jobs: "array [node, rust, node-windows] (required)",
+        nodeJob: "object (required: ubuntu, npm ci, npm test)",
+        rustJob: "object (required: ubuntu, cargo fmt/clippy/test)",
+        nodeWindowsJob: "object (required: windows-latest, npm ci, npm test)"
+      },
+      crossPhaseReferences: [
+        "5.77 (Code Mode orchestration — CI runs these tests)",
+        "5.76 (embedded DB/query engine — CI runs these tests)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-78.ardyn.security_workflow_scope",
+      boundaryFamily: "security_workflow_scope",
+      relatedSystem: "github-actions",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the required security workflow scope contract.",
+        "Document npm audit, cargo audit, and osv-scanner checks."
+      ],
+      forbiddenCurrentBehavior: [
+        "Create security.yml.",
+        "Run security scans as PR-blocking gates.",
+        "Use secrets in security workflows."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "npm audit --audit-level=high",
+        "cargo audit",
+        "osv-scanner over both lockfiles (package-lock.json and Cargo.lock)",
+        "Cron-only, never blocking PRs"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "phase-5.79-ci-enablement",
+      contractShape: {
+        checks: "array [npm audit, cargo audit, osv-scanner] (required)",
+        trigger: "string 'schedule' (required, cron-only)",
+        blocksPRs: "boolean false (required, invariant)"
+      },
+      crossPhaseReferences: [
+        "5.69 (testing frameworks quality gates)",
+        "5.71 (maintenance governance)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-78.ardyn.test_invocation_portability",
+      boundaryFamily: "test_invocation_portability",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the test invocation portability contract.",
+        "Document the known Windows/Node-20 glob expansion hazard."
+      ],
+      forbiddenCurrentBehavior: [
+        "Execute tests on CI.",
+        "Accept non-portable test invocations.",
+        "Ignore the Windows/Node-20 glob expansion hazard."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "npm test invocation must run the identical test-file set on ubuntu and windows across the supported Node range",
+        "Record current hazard: literal glob on Windows cmd + Node 20",
+        "Require 5.79 to fix the hazard and update the report-test pinned package.json script strings in the same slice"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "phase-5.79-ci-enablement",
+      contractShape: {
+        portabilityRequirement: "string (required: identical test-file set on ubuntu+windows)",
+        knownHazard: "string (required: Windows cmd + Node 20 glob expansion)",
+        fixRequiredByPhase: "string 'phase-5.79' (required)"
+      },
+      crossPhaseReferences: [
+        "5.69 (testing frameworks quality gates)",
+        "tests/report-phase-status.test.mjs (pinned package.json script strings)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-78.ardyn.ci_offline_hermetic_guarantee",
+      boundaryFamily: "ci_offline_hermetic_guarantee",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the CI offline hermetic guarantee contract.",
+        "Document that fabric federation tests are hermetic (inject fetchImpl, fake tokens, loopback URLs)."
+      ],
+      forbiddenCurrentBehavior: [
+        "Set or provide ARDYN_FABRIC_* / FABRIC_TRANSPORT_D_* / registry secrets in CI.",
+        "Contact a live sidecar or registry from CI.",
+        "Wire federation into a runtime path via CI."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "CI runs fully OFFLINE",
+        "Fabric federation client tests are hermetic (inject fetchImpl, use fake tokens/loopback URLs — verified)",
+        "CI MUST NEVER set or provide ARDYN_FABRIC_* / FABRIC_TRANSPORT_D_* / registry secrets",
+        "CI MUST NEVER contact a live sidecar or registry",
+        "CI MUST NEVER wire federation into a runtime path",
+        "npm test already passes with NO fabric env set"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "phase-5.79-ci-enablement",
+      contractShape: {
+        offlineGuarantee: "boolean true (required)",
+        fabricEnvProhibited: "array (required: ARDYN_FABRIC_*, FABRIC_TRANSPORT_D_*, registry secrets)",
+        noLiveSidecarContact: "boolean true (required, invariant)",
+        noFederationWiring: "boolean true (required, invariant)"
+      },
+      crossPhaseReferences: [
+        "5.76B (fabric federation reconciliation — CI must not set fabric env)",
+        "docs/posture.md (fabric federation carve-out)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-78.ardyn.ci_forbidden_behavior",
+      boundaryFamily: "ci_forbidden_behavior",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the CI forbidden behavior contract.",
+        "Document all prohibited CI actions."
+      ],
+      forbiddenCurrentBehavior: [
+        "Publish artifacts.",
+        "Deploy.",
+        "Write to the repo.",
+        "Mint tokens.",
+        "Use secrets.",
+        "Run semgrep as a gate (semgrep stays a manual evidence command).",
+        "Auto-merge PRs.",
+        "Execute any blocked runtime surface."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "CI must never publish, deploy, write to the repo, mint tokens, use secrets, run semgrep as a gate, auto-merge, or execute any blocked runtime surface",
+        "Includes the ci_offline_hermetic_guarantee prohibitions"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "phase-5.79-ci-enablement",
+      contractShape: {
+        forbiddenActions: "array (required: publish, deploy, write, mint, secrets, semgrep-gate, auto-merge, runtime)",
+        semgrepRole: "string 'manual evidence' (required, never 'gate')"
+      },
+      crossPhaseReferences: [
+        "5.48 (not asserted — CI is check-execution only)",
+        "5.65 (audit — semgrep stays manual)",
+        "5.76B (fabric federation — CI must not contact live sidecar)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-78.ardyn.branch_protection_expectation",
+      boundaryFamily: "branch_protection_expectation",
+      relatedSystem: "github-actions",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the branch protection expectation metadata.",
+        "Document that enablement is a human console action by Josh."
+      ],
+      forbiddenCurrentBehavior: [
+        "Enable branch protection via CI or automation.",
+        "Auto-configure repository settings."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "main requires the node + rust checks once enabled",
+        "Enablement is a human console action by Josh, recorded as such"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "phase-5.79-ci-enablement",
+      contractShape: {
+        requiredChecks: "array [node, rust] (required)",
+        enablementMethod: "string 'human console action by Josh' (required)"
+      },
+      crossPhaseReferences: [],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-78.ardyn.ci_enablement_authorization",
+      boundaryFamily: "ci_enablement_authorization",
+      relatedSystem: "ardyn",
+      currentStatus: "blocked",
+      allowedCurrentBehavior: [
+        "Record the CI enablement authorization contract.",
+        "Document that 5.79 under Josh's authorization creates the workflow files."
+      ],
+      forbiddenCurrentBehavior: [
+        "Create workflow files.",
+        "Enable CI without explicit authorization.",
+        "Merge without Jules review."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Workflow files may be created ONLY by 5.79 under Josh's explicit authorization",
+        "Jules review required before merge of 5.79"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "phase-5.79-ci-enablement",
+      contractShape: {
+        authorizedPhase: "string 'phase-5.79' (required)",
+        authorizer: "string 'Josh' (required)",
+        julesReviewRequired: "boolean true (required)"
+      },
+      crossPhaseReferences: [
+        "5.48 area 7 (CI not asserted — 5.79 lifts)",
+        "5.69 (CI modification forbidden — 5.79 lifts)",
+        "5.71 (same)"
+      ],
+      ...baseEntry
+    }
+  ];
+}
+
+function ciEnforcementContractBoundaryMapSummary(entries) {
+  const families = CI_ENFORCEMENT_CONTRACT_BOUNDARY_FAMILIES;
+  const systems = CI_ENFORCEMENT_CONTRACT_RELATED_SYSTEMS;
+  const statuses = CI_ENFORCEMENT_CONTRACT_STATUSES;
+  const countByFamily = {};
+  const countByRelatedSystem = {};
+  const countByStatus = {};
+  for (const family of families) countByFamily[family] = 0;
+  for (const system of systems) countByRelatedSystem[system] = 0;
+  for (const status of statuses) countByStatus[status] = 0;
+  for (const entry of entries) {
+    countByFamily[entry.boundaryFamily] = (countByFamily[entry.boundaryFamily] || 0) + 1;
+    countByRelatedSystem[entry.relatedSystem] = (countByRelatedSystem[entry.relatedSystem] || 0) + 1;
+    countByStatus[entry.currentStatus] = (countByStatus[entry.currentStatus] || 0) + 1;
+  }
+  return {
+    boundaryEntryCount: entries.length,
+    boundaryFamilies: families,
+    relatedSystems: systems,
+    currentStatusValues: statuses,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    ciWorkflowScopeRecorded: true,
+    ciJobMatrixRecorded: true,
+    securityWorkflowScopeRecorded: true,
+    testInvocationPortabilityRecorded: true,
+    ciOfflineHermeticGuaranteeRecorded: true,
+    ciForbiddenBehaviorRecorded: true,
+    branchProtectionExpectationRecorded: true,
+    ciEnablementAuthorizationRecorded: true,
+    noGithubFilesCreated: true,
+    noSecretsInCi: true,
+    noWritePermissions: true,
+    noPublishDeploy: true,
+    noAutoMerge: true,
+    semgrepStaysManual: true,
+    fabricEnvProhibited: true,
+    noLiveSidecarContact: true,
+    ciEnablementByPhase579Only: true,
+    julesReviewRequired: true,
+    allBlockedAuthorizationFlagsFalse: true,
+    allUnsafeCiEnforcementRuntimeFlagsFalse: true,
+    allRuntimeEffectsFalse: true,
+    allEntriesNonAuthorizing: true
+  };
+}
+
+function ciEnforcementContractFalseRuntimeFields() {
+  const fields = {};
+  for (const flag of CI_ENFORCEMENT_CONTRACT_UNSAFE_FIELDS) {
+    fields[flag] = false;
+  }
+  for (const flag of CI_ENFORCEMENT_CONTRACT_AUTHORIZATION_FIELDS) {
+    fields[flag] = false;
+  }
+  return fields;
+}
+
+function ciEnforcementContractResult({
+  reviewedAt,
+  classification,
+  accepted,
+  boundaryEntries
+}) {
+  const summary = accepted
+    ? ciEnforcementContractBoundaryMapSummary(boundaryEntries)
+    : null;
+  return {
+    schema: CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion: CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_VERSION,
+    ciEnforcementContractKind: CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_KIND,
+    ciEnforcementContractMode: "review-only",
+    reviewedAt,
+    classification,
+    ciEnforcementContractBoundaryMapProduced: accepted,
+    boundaryEntries: accepted ? boundaryEntries : [],
+    boundaryMapSummary: summary,
+    recommendedNextPhase: accepted
+      ? "phase-5.79-ci-enablement"
+      : null,
+    ciEnforcementContractOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...(accepted ? {} : ciEnforcementContractFalseRuntimeFields()),
+    rejectionReasons: accepted ? [] : [
+      {
+        classification,
+        rejected: true,
+        runtimeAuthorized: false,
+        reportRunsChecks: false
+      }
+    ],
+    runtimeEffect: {
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      approvalEvaluatorAuthoritative: false
+    }
+  };
+}
+
+export function createCiEnforcementContractForReview(input = {}) {
+  const inputRecord = ciEnforcementContractInputRecord(input);
+  const reviewedAt = ciEnforcementContractReviewedAt(inputRecord);
+  const classification =
+    ciEnforcementContractClassification(inputRecord);
+  const accepted =
+    classification === VALID_CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_CLASSIFICATION;
+  const boundaryEntries = accepted
+    ? ciEnforcementContractBoundaryEntries()
+    : [];
+
+  return ciEnforcementContractResult({
+    reviewedAt,
+    classification,
+    accepted,
+    boundaryEntries
+  });
+}
