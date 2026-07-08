@@ -1,13 +1,17 @@
 name: CI
+
 on:
   push:
     branches: [main]
   pull_request:
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
+
 permissions:
   contents: read
+
 jobs:
   node:
     runs-on: ubuntu-latest
@@ -16,22 +20,17 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      # npm ci chmods the CLI bin (apps/cli/src/index.mjs) to 0755; source-guard tests compare content, not mode.
+      - run: git config core.fileMode false
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: debug after npm ci
-        run: |
-          echo "--- status porcelain AFTER npm ci ---"
-          git status --porcelain
-          echo "--- diff stat vs baseline AFTER npm ci ---"
-          git diff --stat 1e50b36ad77400686e09ba0c3998131d1911d83c -- apps/cli/src/index.mjs crates/ardyn-host/src/lib.rs crates/ardyn-host/src/stdio_runtime/mod.rs packages/fabric/src/index.mjs package.json || true
-          echo "--- raw diff package.json cat -A ---"
-          git diff -- package.json | cat -A | head -40 || true
       - run: node --test "tests/*.test.mjs"
       - run: npm run report:phase-status
         continue-on-error: true
+
   rust:
     runs-on: ubuntu-latest
     steps:
@@ -47,6 +46,7 @@ jobs:
       - run: cargo fmt --check
       - run: cargo clippy --workspace -- -D warnings
       - run: cargo test --workspace
+
   node-windows:
     runs-on: windows-latest
     steps:
@@ -54,6 +54,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - run: git config core.fileMode false
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
         with:
           node-version: 22
