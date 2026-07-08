@@ -364,7 +364,7 @@ test("Phase 5.78 CI command names remain rejected", async () => {
   }
 });
 
-test("Phase 5.78 does not change CLI, Rust, Fabric, package, or dependency source and creates no .github files", async () => {
+test("Phase 5.78 does not change CLI, Rust, Fabric, package, or dependency source and .github/workflows matches contract", async () => {
   const files = [
     "apps/cli/src/index.mjs",
     "crates/ardyn-host/src/lib.rs",
@@ -415,7 +415,13 @@ test("Phase 5.78 does not change CLI, Rust, Fabric, package, or dependency sourc
     assert.doesNotMatch(cliSource, new RegExp(command));
   }
 
-  // Assert no .github/workflows/ directory was created (the contract is about workflow files, not .github/ itself)
-  const { existsSync } = await import("node:fs");
-  assert.equal(existsSync(fileURLToPath(new URL("../.github/workflows/", import.meta.url))), false, "no .github/workflows/ directory should exist");
+  // ponytail: Phase 5.79 (CI enablement) now creates .github/workflows/ per the 5.78 contract.
+  // The 5.78 contract authorized this; the assertion is updated to verify the workflows match the contract.
+  const { existsSync, readdirSync } = await import("node:fs");
+  const workflowsDir = fileURLToPath(new URL("../.github/workflows/", import.meta.url));
+  assert.equal(existsSync(workflowsDir), true, ".github/workflows/ should exist (created by Phase 5.79)");
+  const workflowFiles = readdirSync(workflowsDir);
+  assert.ok(workflowFiles.includes("ci.yml"), "ci.yml should exist");
+  assert.ok(workflowFiles.includes("security.yml"), "security.yml should exist");
+  assert.equal(workflowFiles.length, 2, "exactly two workflow files");
 });

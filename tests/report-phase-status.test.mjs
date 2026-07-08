@@ -8200,16 +8200,16 @@ test("package exposes report:phase-status without replacing existing test script
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
 
-test("phase status report is Phase 5.78 CI enforcement contract boundary map and does not claim to run checks", async () => {
+test("phase status report is Phase 5.79 CI enablement per 5.78 contract and does not claim to run checks", async () => {
   const report = await runReport();
 
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.78",
+    id: "5.79",
     name:
-      "Review-only CI enforcement contract boundary map",
+      "Review-only CI enablement per 5.78 contract",
     executionPosture:
-      "ci-enforcement-contract-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only no-ci-runtime no-ci-execution no-workflow-files no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "ci-enablement-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only ci-workflows-present ci-check-execution-only no-ci-runtime no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation ci-check-execution-present no-release-deploy-publish-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -32381,6 +32381,10 @@ test("report inventories Phase 5.76 embedded DB/query-engine primitive contract 
     report.safetyPosture.phase578CiEnforcementContractBoundaryMap,
     true
   );
+  assert.equal(
+    report.safetyPosture.phase579CiEnablementBoundaryMap,
+    true
+  );
   assertSafetyFlags(report, phase576ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase576ExpectedFalseSafetyFlagNames, false);
 });
@@ -33696,4 +33700,43 @@ test("report inventories Phase 5.78 as CI enforcement contract boundary map", as
   assert.equal(inventory.safetyPosture.reportRunsChecks, false);
 
   assert.equal(report.safetyPosture.phase578CiEnforcementContractBoundaryMap, true);
+  assert.equal(report.safetyPosture.phase579CiEnablementBoundaryMap, true);
+});
+
+test("report inventories Phase 5.79 as CI enablement per 5.78 contract", async () => {
+  const report = await runReport();
+  const inventory = report.phase579CiEnablementBoundaryMapInventory;
+
+  assert.equal(inventory.statusLayer.document, "docs/phase-5-79-ci-enablement.md");
+  assert.equal(inventory.statusLayer.schema, "ardyn.phase-5.79.ci-enablement-boundary-map-result");
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 8);
+  assert.equal(inventory.statusLayer.reportRunsChecks, false);
+  assert.equal(inventory.statusLayer.ciWorkflowFilesCreated, true);
+  assert.equal(inventory.statusLayer.noSecretsInCi, true);
+  assert.equal(inventory.statusLayer.fabricEnvProhibited, true);
+  assert.equal(inventory.statusLayer.authorizedByJosh, true);
+  assert.equal(inventory.statusLayer.julesReviewRequired, true);
+  assert.equal(inventory.recommendedNextPhase, "phase-5.80-report-script-compaction");
+
+  assert.deepEqual(
+    inventory.docs.map(({ path, status }) => [path, status]),
+    [["docs/phase-5-79-ci-enablement.md", "present"]]
+  );
+  assert.deepEqual(
+    inventory.tests.map(({ path, status }) => [path, status]),
+    [
+      ["tests/phase5-79-ci-enablement.test.mjs", "present"],
+      ["tests/report-phase-status.test.mjs", "present"]
+    ]
+  );
+  assert.equal(inventory.machineReadableArtifacts[0].path, "tests/fixtures/host-policy/phase5-79/ci-enablement.json");
+  assert.equal(inventory.machineReadableArtifacts[0].status, "present");
+  assert.ok(inventory.validationCommands.includes("node --test tests/phase5-79-ci-enablement.test.mjs"));
+  assert.equal(inventory.safetyPosture.ciWorkflowFilesCreated, true);
+  assert.equal(inventory.safetyPosture.noSecretsInCi, true);
+  assert.equal(inventory.safetyPosture.fabricEnvProhibited, true);
+  assert.equal(inventory.safetyPosture.authorizedByJosh, true);
+  assert.equal(inventory.safetyPosture.julesReviewRequired, true);
+  assert.equal(inventory.safetyPosture.reportRunsChecks, false);
+  assert.equal(report.safetyPosture.phase579CiEnablementBoundaryMap, true);
 });

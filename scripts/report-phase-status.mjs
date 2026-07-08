@@ -364,6 +364,9 @@ const phase577CodeModeOrchestrationBoundaryMap = await readJson(
 const phase578CiEnforcementContractBoundaryMap = await readJson(
   "tests/fixtures/host-policy/phase5-78/ci-enforcement-contract.json"
 );
+const phase579CiEnablementBoundaryMap = await readJson(
+  "tests/fixtures/host-policy/phase5-79/ci-enablement.json"
+);
 const phase38FabricFamilySet = [
   "*",
   "locus",
@@ -3257,14 +3260,70 @@ const phase578SafetyFlags = {
   phase578FederationMjsSourceChanged: false
 };
 
+const phase579SafetyFlags = {
+  phase579CiEnablementBoundaryMapRecorded: true,
+  phase579CiEnablementBoundaryMapReviewOnly: true,
+  phase579CiEnablementBoundaryMapAuthoritative: false,
+  phase579CiEnablementBoundaryMapProduced: true,
+  phase579BoundaryEntriesRecorded: true,
+  phase579CiEnablementBoundaryMetadataOnly: true,
+  phase579NoLiveCiEnablementRuntimePerformed: true,
+  phase579CiWorkflowFilesCreated: true,
+  phase579CiJobMatrixEnabled: true,
+  phase579SecurityWorkflowEnabled: true,
+  phase579TestInvocationPortabilityFixed: true,
+  phase579CiOfflineHermeticVerified: true,
+  phase579CiForbiddenBehaviorAbsent: true,
+  phase579BranchProtectionPending: true,
+  phase579CiEnablementAuthorized: true,
+  phase579NoSecretsInCi: true,
+  phase579NoWritePermissions: true,
+  phase579NoPublishDeploy: true,
+  phase579NoAutoMerge: true,
+  phase579SemgrepStaysManual: true,
+  phase579FabricEnvProhibited: true,
+  phase579NoLiveSidecarContact: true,
+  phase579AuthorizedByJosh: true,
+  phase579JulesReviewRequired: true,
+  phase579AllBlockedAuthorizationFlagsFalse: true,
+  phase579AllUnsafeCiEnablementRuntimeFlagsFalse: true,
+  phase579AllRuntimeEffectsFalse: true,
+  phase579AllEntriesNonAuthorizing: true,
+  phase579ReportRunsChecks: false,
+  phase579RuntimeExecutionEnabled: false,
+  phase579CiRuntimeEnabled: false,
+  phase579CiExecutionEnabled: false,
+  phase579WorkflowExecutionEnabled: false,
+  phase579CiPublishedArtifacts: false,
+  phase579CiDeployEnabled: false,
+  phase579CiWriteToRepoEnabled: false,
+  phase579CiSecretUsed: false,
+  phase579CiTokenMinted: false,
+  phase579CiAutoMergeEnabled: false,
+  phase579SemgrepGateEnabled: false,
+  phase579FabricSecretInCiEnabled: false,
+  phase579FabricSidecarContactEnabled: false,
+  phase579ShellRuntimeEnabled: false,
+  phase579SqliteRuntimeEnabled: false,
+  phase579MatrixClientRuntimeEnabled: false,
+  phase579FabricCoreTransportRuntimeEnabled: false,
+  phase579SecureDropImplemented: false,
+  phase579CommandExposureEnabled: false,
+  phase579BlockedCliBypassEnabled: false,
+  phase579CliSourceChanged: false,
+  phase579RustSourceChanged: false,
+  phase579FabricSourceChanged: false,
+  phase579FederationMjsSourceChanged: false
+};
+
 const report = {
   schemaVersion: "ardyn.phase-status-report.v1",
   phase: {
-    id: "5.78",
+    id: "5.79",
     name:
-      "Review-only CI enforcement contract boundary map",
+      "Review-only CI enablement per 5.78 contract",
     executionPosture:
-      "ci-enforcement-contract-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only no-ci-runtime no-ci-execution no-workflow-files no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "ci-enablement-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only ci-workflows-present ci-check-execution-only no-ci-runtime no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation ci-check-execution-present no-release-deploy-publish-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   },
   reportMode: "local-summary-only",
   reportRunsChecks: false,
@@ -33388,6 +33447,81 @@ const report = {
       reportRunsChecks: false
     }
   },
+  phase579CiEnablementBoundaryMapInventory: {
+    statusLayer: {
+      document: "docs/phase-5-79-ci-enablement.md",
+      schema: phase579CiEnablementBoundaryMap.schema,
+      schemaVersion: phase579CiEnablementBoundaryMap.schemaVersion,
+      kind: phase579CiEnablementBoundaryMap.ciEnablementKind,
+      mode: phase579CiEnablementBoundaryMap.ciEnablementMode,
+      classification: phase579CiEnablementBoundaryMap.classification,
+      produced: phase579CiEnablementBoundaryMap.ciEnablementBoundaryMapProduced,
+      ...phase579CiEnablementBoundaryMap.boundaryMapSummary,
+      reportRunsChecks: phase579CiEnablementBoundaryMap.reportRunsChecks
+    },
+    recommendedNextPhase: phase579CiEnablementBoundaryMap.recommendedNextPhase,
+    docs: [
+      await localInventoryEntry(
+        "docs/phase-5-79-ci-enablement.md",
+        "Records the CI enablement per the 5.78 contract — two workflow files created, contract conformance table, local run evidence."
+      )
+    ],
+    tests: [
+      await localInventoryEntry(
+        "tests/phase5-79-ci-enablement.test.mjs",
+        "Pins the Phase 5.79 fixture, helper, workflow file conformance, and rejection cases."
+      ),
+      await localInventoryEntry(
+        "tests/report-phase-status.test.mjs",
+        "Pins the Phase 5.79 status inventory and safetyPosture flag."
+      )
+    ],
+    machineReadableArtifacts: [
+      await localInventoryEntry(
+        "tests/fixtures/host-policy/phase5-79/ci-enablement.json",
+        "Deterministic review-only CI enablement boundary map with 8 boundary families."
+      )
+    ],
+    validationCommands: [
+      "node --test tests/phase5-79-ci-enablement.test.mjs",
+      "node --test tests/phase5-78-ci-enforcement-contract.test.mjs",
+      "node --test tests/phase5-77-code-mode-orchestration.test.mjs",
+      "node --test tests/report-phase-status.test.mjs",
+      "npm test",
+      "npm run test:schemas",
+      "npm run report:phase-status",
+      "cargo test --workspace",
+      "cargo check --workspace",
+      "cargo fmt --check",
+      "cargo clippy --workspace -- -D warnings",
+      "semgrep --config auto .",
+      "npm audit --json",
+      "cargo audit",
+      "cargo machete",
+      "git diff --check"
+    ],
+    safetyPosture: {
+      ciEnablementBoundaryMapRecorded: true,
+      ciEnablementBoundaryMapReviewOnly: true,
+      ciEnablementBoundaryMapAuthoritative: false,
+      ciEnablementBoundaryMapProduced: true,
+      ciWorkflowFilesCreated: true,
+      noSecretsInCi: true,
+      noWritePermissions: true,
+      noPublishDeploy: true,
+      noAutoMerge: true,
+      semgrepStaysManual: true,
+      fabricEnvProhibited: true,
+      noLiveSidecarContact: true,
+      authorizedByJosh: true,
+      julesReviewRequired: true,
+      noCliSourceChange: true,
+      noRustSourceChange: true,
+      noFederationMjsBehaviorChange: true,
+      noHistoricalFixtureEdited: true,
+      reportRunsChecks: false
+    }
+  },
   safetyPosture: {
     nonExecuting: true,
     noSecrets: true,
@@ -33503,6 +33637,7 @@ const report = {
     phase576BFabricFederationReconciliation: true,
     phase577CodeModeOrchestrationBoundaryMap: true,
     phase578CiEnforcementContractBoundaryMap: true,
+    phase579CiEnablementBoundaryMap: true,
     noLocusRuntimeDependency: true,
     flags: {
       runtimeExecution: false,
