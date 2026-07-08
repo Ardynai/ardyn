@@ -20,6 +20,20 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: debug baseline diff
+        run: |
+          echo "git=$(git --version) autocrlf=$(git config --get core.autocrlf) filemode=$(git config --get core.filemode)"
+          echo "HEAD=$(git rev-parse HEAD)"
+          echo "--- ls-files --eol ---"
+          git ls-files --eol -- apps/cli/src/index.mjs crates/ardyn-host/src/lib.rs crates/ardyn-host/src/stdio_runtime/mod.rs packages/fabric/src/index.mjs package.json
+          echo "--- name-only vs baseline 1e50b36 ---"
+          git diff --name-only 1e50b36ad77400686e09ba0c3998131d1911d83c -- apps/cli/src/index.mjs crates/ardyn-host/src/lib.rs crates/ardyn-host/src/stdio_runtime/mod.rs packages/fabric/src/index.mjs package.json || true
+          echo "--- stat ---"
+          git diff --stat 1e50b36ad77400686e09ba0c3998131d1911d83c -- apps/cli/src/index.mjs crates/ardyn-host/src/lib.rs crates/ardyn-host/src/stdio_runtime/mod.rs packages/fabric/src/index.mjs package.json || true
+          echo "--- raw diff cat -A head ---"
+          git diff 1e50b36ad77400686e09ba0c3998131d1911d83c -- package.json packages/fabric/src/index.mjs apps/cli/src/index.mjs | cat -A | head -30 || true
+          echo "--- status porcelain ---"
+          git status --porcelain | head
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
         with:
           node-version: 22
