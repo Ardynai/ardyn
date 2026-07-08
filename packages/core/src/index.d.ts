@@ -11047,6 +11047,32 @@ export function createCiEnforcementContractForReview(
   input?: Record<string, unknown>
 ): CiEnforcementContractBoundaryMapResult;
 
+export interface CiEnablementBoundaryMapResult {
+  schema: "ardyn.phase-5.79.ci-enablement-boundary-map-result";
+  schemaVersion: "0.1.0";
+  ciEnablementKind: "ci-enablement-boundary-map";
+  ciEnablementMode: "review-only";
+  reviewedAt: string;
+  classification: string;
+  ciEnablementBoundaryMapProduced: boolean;
+  boundaryEntries: unknown[];
+  boundaryMapSummary: Record<string, unknown> | null;
+  recommendedNextPhase: string | null;
+  ciEnablementOnly: boolean;
+  reviewOnly: boolean;
+  metadataOnly: boolean;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: unknown[];
+  runtimeEffect: Record<string, boolean>;
+  [key: string]: unknown;
+}
+
+export function createCiEnablementForReview(
+  input?: Record<string, unknown>
+): CiEnablementBoundaryMapResult;
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";

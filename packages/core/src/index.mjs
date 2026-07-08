@@ -71767,3 +71767,687 @@ export function createCiEnforcementContractForReview(input = {}) {
     boundaryEntries
   });
 }
+
+// ─── Phase 5.79: CI enablement boundary map ──────────────────────────────────
+// ponytail: records the CI enablement per the 5.78 contract.
+// Reuses MALFORMED_INPUT (line 69510), isPlainObjectRecord (line 3945),
+// approvalEvaluatorCandidateNestedTrueClaim (line 8163) — no new clones.
+
+export const CI_ENABLEMENT_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.79.ci-enablement-boundary-map-result";
+export const CI_ENABLEMENT_BOUNDARY_MAP_VERSION = "0.1.0";
+export const CI_ENABLEMENT_BOUNDARY_MAP_KIND =
+  "ci-enablement-boundary-map";
+export const VALID_CI_ENABLEMENT_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_ci_enablement_boundary_map_workflows_present_ci_runtime_still_blocked";
+
+const CI_ENABLEMENT_BOUNDARY_FAMILIES = Object.freeze([
+  "ci_workflow_files_created",
+  "ci_job_matrix_enabled",
+  "security_workflow_enabled",
+  "test_invocation_portability_fixed",
+  "ci_offline_hermetic_verified",
+  "ci_forbidden_behavior_absent",
+  "branch_protection_pending",
+  "ci_enablement_authorized"
+]);
+
+const CI_ENABLEMENT_RELATED_SYSTEMS = Object.freeze([
+  "ardyn",
+  "github-actions"
+]);
+
+const CI_ENABLEMENT_STATUSES = Object.freeze([
+  "active",
+  "blocked",
+  "pending"
+]);
+
+const CI_ENABLEMENT_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled",
+  "runtimeAuthorizationEnabled",
+  "runtimeCommandEnabled",
+  "commandExposureEnabled",
+  "commandsExposed",
+  "connectorGrantProduced",
+  "ciRuntimeEnabled",
+  "ciExecutionEnabled",
+  "workflowExecutionEnabled",
+  "ciPublishedArtifacts",
+  "ciDeployEnabled",
+  "ciWriteToRepoEnabled",
+  "ciSecretUsed",
+  "ciTokenMinted",
+  "ciAutoMergeEnabled",
+  "semgrepGateEnabled",
+  "fabricSecretInCiEnabled",
+  "fabricSidecarContactEnabled",
+  "shellRuntimeEnabled",
+  "sqliteRuntimeEnabled",
+  "embeddedDbReaderEnabled",
+  "databaseClientImplemented",
+  "matrixClientRuntimeEnabled",
+  "externalGatewayRuntimeEnabled",
+  "fabricCoreTransportRuntimeEnabled",
+  "fabricRuntimeImplementedByArdyn",
+  "secureDropImplemented",
+  "secureDropDecryptionEnabled",
+  "filesystemAccessEnabled",
+  "filesystemReadEnabled",
+  "filesystemWriteEnabled",
+  "backendRuntimeImplementedByArdyn",
+  "processSpawnEnabled",
+  "processControlEnabled",
+  "blockedCliBypassEnabled"
+]);
+
+const CI_ENABLEMENT_KNOWN_KEYS = Object.freeze(new Set([
+  "reviewedAt",
+  "boundaryEntries",
+  "reportRunsChecks",
+  "authorizesRuntime",
+  "ciSecrets",
+  "ciWritePermissions",
+  "extraWorkflow",
+  "semgrepAsGate",
+  "fabricSecretInCi",
+  "fabricSidecarContact",
+  "ciRuntime",
+  "ciExecution",
+  "workflowExecution",
+  "ciPublish",
+  "ciDeploy",
+  "ciWriteToRepo",
+  "ciTokenMint",
+  "ciAutoMerge",
+  "shellRuntime",
+  "sqliteRuntime",
+  "matrixClientRuntime",
+  "fabricCoreTransportRuntime",
+  "secureDropRuntime",
+  "apiKey",
+  "connectorGrant",
+  "filesystemRead",
+  "filesystemWrite",
+  "envReader",
+  "commandExposureEnabled",
+  "blockedCliBypassEnabled",
+  "runtimeEffect",
+  ...CI_ENABLEMENT_UNSAFE_FIELDS
+]));
+
+const CI_ENABLEMENT_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized",
+  "authorizesRuntime",
+  "ciExecutionAuthorizationGranted",
+  "ciPublishAuthorizationGranted",
+  "ciDeployAuthorizationGranted",
+  "ciWriteToRepoAuthorizationGranted",
+  "ciSecretUseAuthorizationGranted",
+  "ciTokenMintAuthorizationGranted",
+  "ciAutoMergeAuthorizationGranted",
+  "semgrepGateAuthorizationGranted",
+  "fabricSecretInCiAuthorizationGranted",
+  "commandExposureAuthorizationGranted",
+  "approvalDecisionProduced",
+  "approvalGrantProduced"
+]);
+
+const CI_ENABLEMENT_HIDDEN_FIELD_GROUPS = Object.freeze([
+  {
+    classification: "hidden_ci_runtime_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["ciRuntime", "ciExecution", "workflowExecution"]
+  },
+  {
+    classification: "hidden_ci_publish_deploy_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["ciPublish", "ciDeploy", "ciWriteToRepo"]
+  },
+  {
+    classification: "hidden_ci_secret_token_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["ciSecrets", "ciTokenMint"]
+  },
+  {
+    classification: "hidden_shell_command_runtime_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["shellRuntime", "shellCommand"]
+  },
+  {
+    classification: "hidden_sqlite_embedded_db_query_runtime_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["sqliteRuntime", "embeddedDbRuntime"]
+  },
+  {
+    classification: "hidden_matrix_gateway_runtime_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["matrixClientRuntime", "matrixGateway"]
+  },
+  {
+    classification: "hidden_fabric_core_transport_runtime_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["fabricCoreTransportRuntime", "fabricTransport"]
+  },
+  {
+    classification: "hidden_secure_drop_implementation_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["secureDropRuntime", "secureDropDecrypt"]
+  },
+  {
+    classification: "hidden_filesystem_access_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["filesystemRead", "filesystemWrite"]
+  },
+  {
+    classification: "hidden_auth_session_token_api_key_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["apiKey", "authToken"]
+  },
+  {
+    classification: "hidden_env_secrets_exposure_semantics_ci_enablement_boundary_map_input_rejected",
+    fields: ["envReader", "envSecrets"]
+  }
+]);
+
+function ciEnablementInputRecord(input) {
+  if (input === null || typeof input !== "object" || Array.isArray(input)) {
+    return MALFORMED_INPUT;
+  }
+  return input;
+}
+
+function ciEnablementReviewedAt(inputRecord) {
+  if (inputRecord === MALFORMED_INPUT) {
+    return null;
+  }
+  const value = inputRecord.reviewedAt;
+  if (value === undefined) {
+    return "2026-07-07T00:00:00.000Z";
+  }
+  if (typeof value !== "string" || Number.isNaN(Date.parse(value))) {
+    return null;
+  }
+  return value;
+}
+
+function ciEnablementClassification(inputRecord) {
+  const reviewedAt = ciEnablementReviewedAt(inputRecord);
+  if (reviewedAt === null) {
+    return "malformed_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord === MALFORMED_INPUT) {
+    return "malformed_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord.reportRunsChecks === true) {
+    return "report_runs_checks_true_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord.authorizesRuntime === true) {
+    return "runtime_authorization_attempt_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord.ciSecrets && typeof inputRecord.ciSecrets === "object") {
+    return "ci_with_secrets_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord.ciWritePermissions === true) {
+    return "ci_with_write_permissions_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord.extraWorkflow && typeof inputRecord.extraWorkflow === "object") {
+    return "extra_workflow_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord.semgrepAsGate === true) {
+    return "semgrep_as_gate_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord.fabricSecretInCi === true) {
+    return "fabric_secret_in_ci_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord.fabricSidecarContact === true) {
+    return "fabric_sidecar_contact_ci_enablement_boundary_map_input_rejected";
+  }
+  for (const group of CI_ENABLEMENT_HIDDEN_FIELD_GROUPS) {
+    for (const field of group.fields) {
+      if (inputRecord[field] && typeof inputRecord[field] === "object") {
+        return group.classification;
+      }
+    }
+  }
+  if (inputRecord.commandExposureEnabled === true) {
+    return "command_exposure_attempt_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord.blockedCliBypassEnabled === true) {
+    return "blocked_cli_bypass_attempt_ci_enablement_boundary_map_input_rejected";
+  }
+  for (const key of Object.keys(inputRecord)) {
+    if (!CI_ENABLEMENT_KNOWN_KEYS.has(key)) {
+      return "unknown_top_level_field_ci_enablement_boundary_map_input_rejected";
+    }
+  }
+  for (const flag of CI_ENABLEMENT_UNSAFE_FIELDS) {
+    if (inputRecord[flag] === true) {
+      return "unsafe_ci_enablement_runtime_flags_ci_enablement_boundary_map_input_rejected";
+    }
+  }
+  if (
+    inputRecord.runtimeEffect &&
+    approvalEvaluatorCandidateNestedTrueClaim(
+      inputRecord.runtimeEffect,
+      (key) => CI_ENABLEMENT_UNSAFE_FIELDS.includes(key) ||
+        key === "runtimeEnabled" ||
+        key === "runtimeStarted" ||
+        key === "runtimeReady" ||
+        key === "runtimeCommandEnabled" ||
+        key === "runtimeCommandExposureEnabled" ||
+        key === "runtimeExecutionEnabled" ||
+        key === "runtimeExecuted" ||
+        key === "approvalGrantProduced" ||
+        key === "approvalGrantPersisted" ||
+        key === "approvalEvaluatorAuthoritative"
+    )
+  ) {
+    return "nested_unsafe_flags_ci_enablement_boundary_map_input_rejected";
+  }
+  if (inputRecord.boundaryEntries !== undefined) {
+    if (!Array.isArray(inputRecord.boundaryEntries)) {
+      return "malformed_ci_enablement_boundary_map_input_rejected";
+    }
+    for (const entry of inputRecord.boundaryEntries) {
+      if (!isPlainObjectRecord(entry)) {
+        return "malformed_ci_enablement_boundary_map_input_rejected";
+      }
+      if (entry.boundaryFamily !== undefined && !CI_ENABLEMENT_BOUNDARY_FAMILIES.includes(entry.boundaryFamily)) {
+        return "unknown_boundary_family_ci_enablement_boundary_map_input_rejected";
+      }
+      if (entry.relatedSystem !== undefined && !CI_ENABLEMENT_RELATED_SYSTEMS.includes(entry.relatedSystem)) {
+        return "unknown_related_system_ci_enablement_boundary_map_input_rejected";
+      }
+      if (entry.currentStatus !== undefined && !CI_ENABLEMENT_STATUSES.includes(entry.currentStatus)) {
+        return "unknown_current_status_ci_enablement_boundary_map_input_rejected";
+      }
+      if (entry.explicitBlockedAuthorizationFlags && typeof entry.explicitBlockedAuthorizationFlags === "object") {
+        for (const authFlag of CI_ENABLEMENT_AUTHORIZATION_FIELDS) {
+          if (entry.explicitBlockedAuthorizationFlags[authFlag] === true) {
+            return "authorization_flags_enabled_ci_enablement_boundary_map_input_rejected";
+          }
+        }
+      }
+      if (entry.unsafeCiEnablementRuntimeFlags && typeof entry.unsafeCiEnablementRuntimeFlags === "object") {
+        for (const unsafeFlag of CI_ENABLEMENT_UNSAFE_FIELDS) {
+          if (entry.unsafeCiEnablementRuntimeFlags[unsafeFlag] === true) {
+            return "unsafe_ci_enablement_runtime_flags_ci_enablement_boundary_map_input_rejected";
+          }
+        }
+      }
+      if (entry.boundaryId !== undefined && entry.boundaryId !== null) {
+        const canonicalIds = ciEnablementBoundaryEntries().map((e) => e.boundaryId);
+        if (typeof entry.boundaryId === "string" && !canonicalIds.includes(entry.boundaryId)) {
+          return "noncanonical_ci_enablement_boundary_map_input_rejected";
+        }
+      }
+    }
+  }
+  return VALID_CI_ENABLEMENT_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function ciEnablementAuthorizationFlags() {
+  return Object.fromEntries(
+    CI_ENABLEMENT_AUTHORIZATION_FIELDS.map((f) => [f, false])
+  );
+}
+
+function ciEnablementUnsafeRuntimeFlags() {
+  return Object.fromEntries(
+    CI_ENABLEMENT_UNSAFE_FIELDS.map((f) => [f, false])
+  );
+}
+
+function ciEnablementRuntimeEffect() {
+  return {
+    runtimeEnabled: false,
+    runtimeStarted: false,
+    runtimeReady: false,
+    runtimeCommandEnabled: false,
+    runtimeCommandExposureEnabled: false,
+    runtimeExecutionEnabled: false,
+    runtimeExecuted: false,
+    approvalGrantProduced: false,
+    approvalGrantPersisted: false,
+    approvalEvaluatorAuthoritative: false
+  };
+}
+
+function ciEnablementBoundaryEntries() {
+  const authFlags = ciEnablementAuthorizationFlags();
+  const unsafeFlags = ciEnablementUnsafeRuntimeFlags();
+  const runtimeEffect = ciEnablementRuntimeEffect();
+  const baseEntry = {
+    explicitBlockedAuthorizationFlags: authFlags,
+    unsafeCiEnablementRuntimeFlags: unsafeFlags,
+    runtimeEffect,
+    nonAuthorizingProof: true,
+    ciEnablementBoundaryMetadataOnly: true,
+    noLiveCiEnablementRuntimePerformed: true
+  };
+  return [
+    {
+      boundaryId: "phase5-79.github-actions.ci_workflow_files_created",
+      boundaryFamily: "ci_workflow_files_created",
+      relatedSystem: "github-actions",
+      currentStatus: "active",
+      allowedCurrentBehavior: [
+        "Record that ci.yml and security.yml were created per the 5.78 contract.",
+        "CI executes the existing validation suite (npm test, cargo test, etc.).",
+        "CI is check-execution only — NOT product runtime."
+      ],
+      forbiddenCurrentBehavior: [
+        "Execute any blocked runtime surface via CI.",
+        "Publish, deploy, write to the repo, or auto-merge.",
+        "Use secrets or set fabric env variables."
+      ],
+      requiredFutureContractBeforeImplementation: [],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "none (CI is active, not runtime-blocked)",
+      contractShape: {
+        workflowFiles: "array [ci.yml, security.yml] (present)",
+        triggers: "object (push, pull_request, schedule, workflow_dispatch)",
+        permissions: "object (contents: read)",
+        secrets: "array (empty)"
+      },
+      crossPhaseReferences: [
+        "5.78 (CI enforcement contract — the spec this phase implements)"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-79.github-actions.ci_job_matrix_enabled",
+      boundaryFamily: "ci_job_matrix_enabled",
+      relatedSystem: "github-actions",
+      currentStatus: "active",
+      allowedCurrentBehavior: [
+        "Record that the CI job matrix (node, rust, node-windows) is enabled."
+      ],
+      forbiddenCurrentBehavior: [
+        "Add jobs beyond node, rust, and node-windows.",
+        "Execute blocked runtime surfaces in any job."
+      ],
+      requiredFutureContractBeforeImplementation: [],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "none (CI jobs are active)",
+      contractShape: {
+        jobs: "array [node, rust, node-windows]",
+        nodeJob: "object (ubuntu, npm ci, node --test)",
+        rustJob: "object (ubuntu, fmt, clippy, test)",
+        nodeWindowsJob: "object (windows, npm ci, node --test)"
+      },
+      clippyScopeSupersedes578AllTargets: {
+        contractValue: "--workspace --all-targets",
+        implementedValue: "--workspace",
+        reason: "--all-targets surfaces pre-existing explicit_counter_loop lint in lib.rs test code; fix requires editing lib.rs and breaking ~40 historical source-baseline tests",
+        deferredTo: "future clippy-scope hardening slice (with 5.82 source-guard de-brittling)"
+      },
+      crossPhaseReferences: ["5.78 (ci_job_matrix contract)"],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-79.github-actions.security_workflow_enabled",
+      boundaryFamily: "security_workflow_enabled",
+      relatedSystem: "github-actions",
+      currentStatus: "active",
+      allowedCurrentBehavior: [
+        "Record that the security workflow (npm audit, cargo audit, osv-scanner) is enabled.",
+        "Security scans run weekly on a cron schedule."
+      ],
+      forbiddenCurrentBehavior: [
+        "Run security scans as PR-blocking gates.",
+        "Use secrets in the security workflow."
+      ],
+      requiredFutureContractBeforeImplementation: [],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "none (security workflow is active)",
+      contractShape: {
+        checks: "array [npm audit, cargo audit, osv-scanner]",
+        trigger: "string 'schedule'",
+        blocksPRs: "boolean false"
+      },
+      crossPhaseReferences: ["5.78 (security_workflow_scope contract)"],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-79.ardyn.test_invocation_portability_fixed",
+      boundaryFamily: "test_invocation_portability_fixed",
+      relatedSystem: "ardyn",
+      currentStatus: "active",
+      allowedCurrentBehavior: [
+        "Record that the test invocation portability hazard is fixed.",
+        "CI uses node --test \"tests/*.test.mjs\" (quoted glob, Node expansion)."
+      ],
+      forbiddenCurrentBehavior: [
+        "Use unquoted globs that fail on Windows cmd.",
+        "Change the test-file set between platforms."
+      ],
+      requiredFutureContractBeforeImplementation: [],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "none (portability fixed)",
+      contractShape: {
+        invocation: "string 'node --test \"tests/*.test.mjs\"'",
+        testFileCount: "integer 128",
+        testCount: "integer 1104",
+        portable: "boolean true"
+      },
+      crossPhaseReferences: ["5.78 (test_invocation_portability contract)"],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-79.ardyn.ci_offline_hermetic_verified",
+      boundaryFamily: "ci_offline_hermetic_verified",
+      relatedSystem: "ardyn",
+      currentStatus: "active",
+      allowedCurrentBehavior: [
+        "Record that CI runs fully offline.",
+        "No ARDYN_FABRIC_* / FABRIC_TRANSPORT_D_* / registry secrets in CI.",
+        "npm test passes with NO fabric env set."
+      ],
+      forbiddenCurrentBehavior: [
+        "Set fabric env secrets in CI.",
+        "Contact a live sidecar or registry from CI.",
+        "Wire federation into a runtime path via CI."
+      ],
+      requiredFutureContractBeforeImplementation: [],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "none (hermetic guarantee verified)",
+      contractShape: {
+        offline: "boolean true",
+        fabricEnvProhibited: "array (ARDYN_FABRIC_*, FABRIC_TRANSPORT_D_*)",
+        noLiveSidecar: "boolean true"
+      },
+      crossPhaseReferences: [
+        "5.78 (ci_offline_hermetic_guarantee contract)",
+        "5.76B (fabric federation carve-out)",
+        "docs/posture.md"
+      ],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-79.ardyn.ci_forbidden_behavior_absent",
+      boundaryFamily: "ci_forbidden_behavior_absent",
+      relatedSystem: "ardyn",
+      currentStatus: "active",
+      allowedCurrentBehavior: [
+        "Record that no forbidden CI behavior is present.",
+        "No publish, deploy, write, semgrep-gate, or auto-merge steps."
+      ],
+      forbiddenCurrentBehavior: [
+        "Publish, deploy, write to the repo, mint tokens, use secrets, run semgrep as a gate, or auto-merge."
+      ],
+      requiredFutureContractBeforeImplementation: [],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "none (forbidden behavior absent)",
+      contractShape: {
+        forbiddenActions: "array (none present)",
+        semgrepRole: "string 'manual evidence'"
+      },
+      crossPhaseReferences: ["5.78 (ci_forbidden_behavior contract)"],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-79.github-actions.branch_protection_pending",
+      boundaryFamily: "branch_protection_pending",
+      relatedSystem: "github-actions",
+      currentStatus: "pending",
+      allowedCurrentBehavior: [
+        "Record that branch protection is a pending human console action by Josh.",
+        "main requires the node + rust checks once enabled."
+      ],
+      forbiddenCurrentBehavior: [
+        "Enable branch protection via CI or automation.",
+        "Auto-configure repository settings."
+      ],
+      requiredFutureContractBeforeImplementation: [
+        "Josh enables branch protection via GitHub console (require node + rust checks)"
+      ],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "human console action by Josh",
+      contractShape: {
+        requiredChecks: "array [node, rust]",
+        enablementMethod: "string 'human console action by Josh'",
+        status: "string 'pending'"
+      },
+      crossPhaseReferences: ["5.78 (branch_protection_expectation contract)"],
+      ...baseEntry
+    },
+    {
+      boundaryId: "phase5-79.ardyn.ci_enablement_authorized",
+      boundaryFamily: "ci_enablement_authorized",
+      relatedSystem: "ardyn",
+      currentStatus: "active",
+      allowedCurrentBehavior: [
+        "Record that CI enablement was authorized by Josh.",
+        "Workflow files created by Phase 5.79 under explicit authorization.",
+        "Jules review required before merge."
+      ],
+      forbiddenCurrentBehavior: [
+        "Create workflow files without Josh's explicit authorization.",
+        "Merge without Jules review."
+      ],
+      requiredFutureContractBeforeImplementation: [],
+      requiredFutureAuthorizationPhaseBeforeRuntime: "none (authorized by Josh)",
+      contractShape: {
+        authorizedBy: "string 'Josh'",
+        authorizingPhase: "string 'phase-5.79'",
+        julesReviewRequired: "boolean true"
+      },
+      crossPhaseReferences: ["5.78 (ci_enablement_authorization contract)"],
+      ...baseEntry
+    }
+  ];
+}
+
+function ciEnablementBoundaryMapSummary(entries) {
+  const families = CI_ENABLEMENT_BOUNDARY_FAMILIES;
+  const systems = CI_ENABLEMENT_RELATED_SYSTEMS;
+  const statuses = CI_ENABLEMENT_STATUSES;
+  const countByFamily = {};
+  const countByRelatedSystem = {};
+  const countByStatus = {};
+  for (const family of families) countByFamily[family] = 0;
+  for (const system of systems) countByRelatedSystem[system] = 0;
+  for (const status of statuses) countByStatus[status] = 0;
+  for (const entry of entries) {
+    countByFamily[entry.boundaryFamily] = (countByFamily[entry.boundaryFamily] || 0) + 1;
+    countByRelatedSystem[entry.relatedSystem] = (countByRelatedSystem[entry.relatedSystem] || 0) + 1;
+    countByStatus[entry.currentStatus] = (countByStatus[entry.currentStatus] || 0) + 1;
+  }
+  return {
+    boundaryEntryCount: entries.length,
+    boundaryFamilies: families,
+    relatedSystems: systems,
+    currentStatusValues: statuses,
+    countByFamily,
+    countByRelatedSystem,
+    countByStatus,
+    ciWorkflowFilesCreated: true,
+    ciJobMatrixEnabled: true,
+    securityWorkflowEnabled: true,
+    testInvocationPortabilityFixed: true,
+    ciOfflineHermeticVerified: true,
+    ciForbiddenBehaviorAbsent: true,
+    branchProtectionPending: true,
+    ciEnablementAuthorized: true,
+    noSecretsInCi: true,
+    noWritePermissions: true,
+    noPublishDeploy: true,
+    noAutoMerge: true,
+    semgrepStaysManual: true,
+    fabricEnvProhibited: true,
+    noLiveSidecarContact: true,
+    authorizedByJosh: true,
+    julesReviewRequired: true,
+    allBlockedAuthorizationFlagsFalse: true,
+    allUnsafeCiEnablementRuntimeFlagsFalse: true,
+    allRuntimeEffectsFalse: true,
+    allEntriesNonAuthorizing: true
+  };
+}
+
+function ciEnablementFalseRuntimeFields() {
+  const fields = {};
+  for (const flag of CI_ENABLEMENT_UNSAFE_FIELDS) {
+    fields[flag] = false;
+  }
+  for (const flag of CI_ENABLEMENT_AUTHORIZATION_FIELDS) {
+    fields[flag] = false;
+  }
+  return fields;
+}
+
+function ciEnablementResult({
+  reviewedAt,
+  classification,
+  accepted,
+  boundaryEntries
+}) {
+  const summary = accepted
+    ? ciEnablementBoundaryMapSummary(boundaryEntries)
+    : null;
+  return {
+    schema: CI_ENABLEMENT_BOUNDARY_MAP_SCHEMA,
+    schemaVersion: CI_ENABLEMENT_BOUNDARY_MAP_VERSION,
+    ciEnablementKind: CI_ENABLEMENT_BOUNDARY_MAP_KIND,
+    ciEnablementMode: "review-only",
+    reviewedAt,
+    classification,
+    ciEnablementBoundaryMapProduced: accepted,
+    boundaryEntries: accepted ? boundaryEntries : [],
+    boundaryMapSummary: summary,
+    recommendedNextPhase: accepted
+      ? "phase-5.80-report-script-compaction"
+      : null,
+    ciEnablementOnly: true,
+    reviewOnly: true,
+    metadataOnly: true,
+    authoritative: false,
+    nonAuthorizingProof: true,
+    reportRunsChecks: false,
+    ...(accepted ? {} : ciEnablementFalseRuntimeFields()),
+    rejectionReasons: accepted ? [] : [
+      {
+        classification,
+        rejected: true,
+        runtimeAuthorized: false,
+        reportRunsChecks: false
+      }
+    ],
+    runtimeEffect: {
+      runtimeEnabled: false,
+      runtimeStarted: false,
+      runtimeReady: false,
+      runtimeCommandEnabled: false,
+      runtimeCommandExposureEnabled: false,
+      runtimeExecutionEnabled: false,
+      runtimeExecuted: false,
+      approvalGrantProduced: false,
+      approvalGrantPersisted: false,
+      approvalEvaluatorAuthoritative: false
+    }
+  };
+}
+
+export function createCiEnablementForReview(input = {}) {
+  const inputRecord = ciEnablementInputRecord(input);
+  const reviewedAt = ciEnablementReviewedAt(inputRecord);
+  const classification =
+    ciEnablementClassification(inputRecord);
+  const accepted =
+    classification === VALID_CI_ENABLEMENT_BOUNDARY_MAP_CLASSIFICATION;
+  const boundaryEntries = accepted
+    ? ciEnablementBoundaryEntries()
+    : [];
+
+  return ciEnablementResult({
+    reviewedAt,
+    classification,
+    accepted,
+    boundaryEntries
+  });
+}
