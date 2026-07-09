@@ -1,0 +1,141 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-78-ci-enforcement-contract-boundary.md",
+    "schema": "ardyn.phase-5.78.ci-enforcement-contract-boundary-map-result",
+    "schemaVersion": "0.1.0",
+    "kind": "ci-enforcement-contract-boundary-map",
+    "mode": "review-only",
+    "classification": "valid_ci_enforcement_contract_boundary_map_runtime_still_blocked",
+    "produced": true,
+    "boundaryEntryCount": 8,
+    "boundaryFamilies": [
+      "ci_workflow_scope",
+      "ci_job_matrix",
+      "security_workflow_scope",
+      "test_invocation_portability",
+      "ci_offline_hermetic_guarantee",
+      "ci_forbidden_behavior",
+      "branch_protection_expectation",
+      "ci_enablement_authorization"
+    ],
+    "relatedSystems": [
+      "ardyn",
+      "ardyn-subagent",
+      "github-actions"
+    ],
+    "currentStatusValues": [
+      "blocked",
+      "future_contract_required"
+    ],
+    "countByFamily": {
+      "ci_workflow_scope": 1,
+      "ci_job_matrix": 1,
+      "security_workflow_scope": 1,
+      "test_invocation_portability": 1,
+      "ci_offline_hermetic_guarantee": 1,
+      "ci_forbidden_behavior": 1,
+      "branch_protection_expectation": 1,
+      "ci_enablement_authorization": 1
+    },
+    "countByRelatedSystem": {
+      "ardyn": 4,
+      "ardyn-subagent": 0,
+      "github-actions": 4
+    },
+    "countByStatus": {
+      "blocked": 8,
+      "future_contract_required": 0
+    },
+    "ciWorkflowScopeRecorded": true,
+    "ciJobMatrixRecorded": true,
+    "securityWorkflowScopeRecorded": true,
+    "testInvocationPortabilityRecorded": true,
+    "ciOfflineHermeticGuaranteeRecorded": true,
+    "ciForbiddenBehaviorRecorded": true,
+    "branchProtectionExpectationRecorded": true,
+    "ciEnablementAuthorizationRecorded": true,
+    "noGithubFilesCreated": true,
+    "noSecretsInCi": true,
+    "noWritePermissions": true,
+    "noPublishDeploy": true,
+    "noAutoMerge": true,
+    "semgrepStaysManual": true,
+    "fabricEnvProhibited": true,
+    "noLiveSidecarContact": true,
+    "ciEnablementByPhase579Only": true,
+    "julesReviewRequired": true,
+    "allBlockedAuthorizationFlagsFalse": true,
+    "allUnsafeCiEnforcementRuntimeFlagsFalse": true,
+    "allRuntimeEffectsFalse": true,
+    "allEntriesNonAuthorizing": true,
+    "reportRunsChecks": false
+  },
+  "recommendedNextPhase": "phase-5.79-ci-enablement",
+  "docs": [
+    {
+      "path": "docs/phase-5-78-ci-enforcement-contract-boundary.md",
+      "status": "present",
+      "summary": "Records 8 CI enforcement contract boundary families \u2014 the contract for a future CI enablement (5.79), written before any workflow file exists."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase5-78-ci-enforcement-contract.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.78 fixture, helper, 8 boundary families, CI-specific rejection cases, and no-.github/workflows assertion."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.78 status inventory and safetyPosture flag."
+    }
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-78/ci-enforcement-contract.json",
+      "status": "present",
+      "summary": "Deterministic review-only CI enforcement contract boundary map with 8 boundary families."
+    }
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-78-ci-enforcement-contract.test.mjs",
+    "node --test tests/phase5-77-code-mode-orchestration.test.mjs",
+    "node --test tests/phase5-76-embedded-db-query-engine-primitive-contract-boundary-map.test.mjs",
+    "node --test tests/phase5-76b-fabric-federation-reconciliation.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "npm run report:phase-status",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "cargo clippy --workspace -- -D warnings",
+    "semgrep --config auto .",
+    "npm audit --json",
+    "cargo audit",
+    "cargo machete",
+    "git diff --check",
+    "git diff --cached --check"
+  ],
+  "safetyPosture": {
+    "ciEnforcementContractBoundaryMapRecorded": true,
+    "ciEnforcementContractBoundaryMapReviewOnly": true,
+    "ciEnforcementContractBoundaryMapAuthoritative": false,
+    "ciEnforcementContractBoundaryMapProduced": true,
+    "noGithubFilesCreated": true,
+    "noSecretsInCi": true,
+    "noWritePermissions": true,
+    "noPublishDeploy": true,
+    "noAutoMerge": true,
+    "semgrepStaysManual": true,
+    "fabricEnvProhibited": true,
+    "noLiveSidecarContact": true,
+    "ciEnablementByPhase579Only": true,
+    "julesReviewRequired": true,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true,
+    "noFederationMjsBehaviorChange": true,
+    "noHistoricalFixtureEdited": true,
+    "reportRunsChecks": false
+  }
+}

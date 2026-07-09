@@ -1,0 +1,301 @@
+{
+  "skeletonLayer": {
+    "document": "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+    "precedingPhase": "4.1L",
+    "layerId": "deliberately-blocked-rust-host-stdio-runtime-skeleton",
+    "scope": "internal-rust-library-skeleton-runtime-unavailable",
+    "moduleRoot": "crates/ardyn-host/src/stdio_runtime/mod.rs",
+    "crateModuleVisibility": "private",
+    "runtimeEnabled": false,
+    "runtimeImplemented": false,
+    "runtimeReadinessClaimed": false,
+    "runtimeApprovalGranted": false,
+    "executionAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "cliSourceChanged": false,
+    "appsCliIndexChanged": false,
+    "reportRunsChecks": false,
+    "freshExternalReviewRan": false,
+    "freshDevinReviewRan": false,
+    "runtimeBlocked": true
+  },
+  "skeletonFixture": {
+    "path": "tests/fixtures/host-policy/phase4-2a/blocked-stdio-runtime-skeleton-plan.json",
+    "status": "present",
+    "summary": "Expected Phase 4.2A blocked skeleton expectation fixture over reused 4.1J, 4.1K, and 4.1L evidence."
+  },
+  "skeletonMetadata": {
+    "schema": "ardyn.phase-4.2a.blocked-stdio-runtime-skeleton-plan",
+    "schemaVersion": "0.1.0",
+    "phase": "phase-4.2a-blocked-stdio-runtime-skeleton",
+    "fixtureKind": "deliberately-blocked-rust-host-stdio-runtime-skeleton-expectations",
+    "metadataGeneratedAt": "1970-01-01T00:00:00.000Z"
+  },
+  "reusedFixtures": {
+    "stdioCases": "tests/fixtures/stdio-harness/phase4-1j/expected-outcomes.json",
+    "validSingleEvent": "tests/fixtures/stdio-harness/phase4-1j/valid-single-event.jsonl",
+    "validMultipleEvents": "tests/fixtures/stdio-harness/phase4-1j/valid-multiple-events.jsonl",
+    "runtimeApprovalRequest": "tests/fixtures/stdio-harness/phase4-1j/runtime-approval-request-rejected.jsonl",
+    "contractGates": "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+    "readinessHandoff": "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json"
+  },
+  "rustSkeleton": {
+    "moduleRoot": "crates/ardyn-host/src/stdio_runtime/mod.rs",
+    "crateModuleVisibility": "private",
+    "helperFunctions": [
+      "stdio_runtime_skeleton_state",
+      "plan_stdio_runtime_frame",
+      "plan_stdio_runtime_gates",
+      "plan_stdio_runtime_gates_from_bundle",
+      "blocked_stdio_runtime_entrypoint",
+      "blocked_stdio_runtime_approval_request",
+      "blocked_stdio_runtime_execution_request"
+    ],
+    "testOnlyHelpers": [
+      "simulate_blocked_stdio_runtime_for_test"
+    ]
+  },
+  "cases": [
+    {
+      "name": "valid-single-event-maps-to-blocked-plan",
+      "inputFile": "tests/fixtures/stdio-harness/phase4-1j/valid-single-event.jsonl",
+      "expected": {
+        "inputClassification": "accepted_static_probe",
+        "entrypointStatus": "runtime_unavailable",
+        "blockingClassification": "runtime_unavailable",
+        "executed": false,
+        "runtimeEnabled": false,
+        "approvalGranted": false,
+        "runtimeApprovalGranted": false,
+        "processStdioOwned": false,
+        "stdoutWritten": false,
+        "stderrWritten": false,
+        "processControlUsed": false
+      }
+    },
+    {
+      "name": "well-formed-runtime-approval-request-stays-blocked",
+      "inputFile": "tests/fixtures/stdio-harness/phase4-1j/runtime-approval-request-rejected.jsonl",
+      "expected": {
+        "inputClassification": "rejected_runtime_approval_request",
+        "diagnosticCode": "runtime_request_rejected",
+        "entrypointStatus": "runtime_unavailable",
+        "executed": false,
+        "runtimeEnabled": false,
+        "approvalGranted": false,
+        "runtimeApprovalGranted": false,
+        "stdoutWritten": false,
+        "stderrWritten": false
+      }
+    }
+  ],
+  "docs": [
+    {
+      "path": "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+      "status": "present",
+      "summary": "Records Phase 4.2A as an internal Rust-host blocked stdio runtime skeleton with every runtime path unavailable."
+    },
+    {
+      "path": "docs/phase-4-1l-runtime-implementation-readiness.md",
+      "status": "present",
+      "summary": "Provides the Phase 4.1L readiness and 4.2A handoff evidence consumed by this phase."
+    },
+    {
+      "path": "docs/phase-4-1-runtime-proposal.md",
+      "status": "present",
+      "summary": "Updates the Phase 4 roadmap with 4.2A as blocked skeleton code rather than runtime enablement."
+    },
+    {
+      "path": "docs/phase-4-stdio-dry-run-event-emission.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.2A leaves finite TypeScript dry-run event emission unchanged."
+    },
+    {
+      "path": "docs/session-events-stdio-contract.md",
+      "status": "present",
+      "summary": "Links Phase 4.2A while preserving no live stdio transport or process stdio ownership."
+    },
+    {
+      "path": "docs/host-policy-preconditions.md",
+      "status": "present",
+      "summary": "Documents Phase 4.2A as blocked skeleton planning, not active runtime enforcement."
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "present",
+      "summary": "Records the private Rust skeleton module boundary without adding a live runtime architecture."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Documents Phase 4.2A scope and unchanged non-executing CLI/runtime posture."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.2A adds no CLI command, runtime command, stdout printer, file writer, or stdio ownership."
+    },
+    {
+      "path": "packages/core/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.2A adds no TypeScript core runtime helper API and cannot grant runtime approval."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents the internal blocked Rust-host stdio skeleton and unavailable runtime boundary."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 4.2A report metadata, skeleton inventory, runtime flags, and safety posture."
+    },
+    {
+      "path": "tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs",
+      "status": "present",
+      "summary": "Expected focused Phase 4.2A fixture, source-guard, CLI rejection, and blocked skeleton metadata tests."
+    },
+    {
+      "path": "tests/phase4-1l-runtime-implementation-readiness.test.mjs",
+      "status": "present",
+      "summary": "Keeps Phase 4.1L readiness handoff guard active after the blocked skeleton lands."
+    }
+  ],
+  "rustSourceInventory": [
+    {
+      "path": "crates/ardyn-host/src/lib.rs",
+      "status": "present",
+      "summary": "Expected private module registration only; no public runtime module or command surface."
+    },
+    {
+      "path": "crates/ardyn-host/src/stdio_runtime/mod.rs",
+      "status": "present",
+      "summary": "Expected internal blocked skeleton helpers and tests; every entrypoint returns runtime-unavailable or blocked status."
+    }
+  ],
+  "cliSourceInventory": [
+    {
+      "path": "apps/cli/src/index.mjs",
+      "status": "present",
+      "summary": "Expected unchanged CLI source; Phase 4.2A adds no runtime command."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsReportAndFocusedTestFiles": [
+      "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+      "tests/fixtures/host-policy/phase4-2a/blocked-stdio-runtime-skeleton-plan.json",
+      "tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "rustSkeletonSourceFiles": [
+      "crates/ardyn-host/src/lib.rs",
+      "crates/ardyn-host/src/stdio_runtime/mod.rs"
+    ],
+    "excludedCliRuntimeSourceFiles": [
+      "apps/cli/src/index.mjs"
+    ],
+    "cliSourceChangedByThisPhase": false,
+    "appsCliIndexChangedByThisPhase": false,
+    "reportRunsChecks": false,
+    "separateRuntimeImplementationApprovalRequired": true,
+    "separateRuntimeEnablementApprovalRequired": true
+  },
+  "runtimeLikeCommandRejectionProbes": [
+    "serve-runtime",
+    "stdio-runtime",
+    "replay-session-transcript",
+    "external-review-packet",
+    "review-packet",
+    "runtime-readiness-review",
+    "runtime-implementation-readiness",
+    "phase-4-2a-runtime-skeleton",
+    "approve-runtime",
+    "grant-runtime",
+    "enable-runtime",
+    "runtime-skeleton"
+  ],
+  "runtimeEffect": {
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeEnabled": false,
+    "runtimeApprovalGranted": false,
+    "cliRuntimeCommandAdded": false,
+    "approvalEvaluatorAdded": false,
+    "adapterRuntimeBehaviorAdded": false,
+    "contentFabricRuntimeBehaviorAdded": false
+  },
+  "nonExecutionInvariants": [
+    "apps-cli-index-unchanged",
+    "no-cli-runtime-command",
+    "no-live-stdin-loop",
+    "no-live-stdout-writer",
+    "no-live-stderr-writer",
+    "no-process-control",
+    "no-approval-evaluator",
+    "no-runtime-approval-grant",
+    "no-adapter-locus-mcp-openclaw-plugin-runtime",
+    "no-websocket-http-control-surface",
+    "runtime-unavailable-by-construction"
+  ],
+  "externalReview": {
+    "externalReviewPerformed": false,
+    "externalReviewReason": "No Devin or Jules external reviewer was available during local implementation; internal no-runtime review is required before merge.",
+    "targetedReviewQuestion": "Does the Phase 4.2A diff accidentally enable runtime behavior?"
+  },
+  "safetyPosture": {
+    "nonExecuting": true,
+    "blockedSkeletonOnly": true,
+    "internalRustSkeletonCodePresent": true,
+    "runtimeEnabled": false,
+    "runtimeImplemented": false,
+    "runtimeReadinessClaimed": false,
+    "runtimeApprovalGranted": false,
+    "executionAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "cliSourceChanged": false,
+    "appsCliIndexChanged": false,
+    "reportRunsChecks": false,
+    "noFreshExternalReview": true,
+    "noFreshDevinReview": true,
+    "runtimeBlocked": true,
+    "noRuntimeCommand": true,
+    "noPhase42ASkeletonCommand": true,
+    "noServeRuntime": true,
+    "noStdioRuntime": true,
+    "noReplaySessionTranscript": true,
+    "noLiveStdioRuntime": true,
+    "noStdinCommandLoop": true,
+    "noLiveStdioReader": true,
+    "noStdoutWriter": true,
+    "noStderrWriter": true,
+    "noProcessStdioOwnership": true,
+    "noProcessControl": true,
+    "noProcessKill": true,
+    "noListener": true,
+    "noServer": true,
+    "noSubprocessSpawning": true,
+    "noAdapterCalls": true,
+    "noLocusRuntimeDependency": true,
+    "noMcpCalls": true,
+    "noOpenClawCalls": true,
+    "noPluginExecution": true,
+    "noContentFabricRuntimeBehavior": true,
+    "noTranscriptPersistenceReplayRuntime": true,
+    "noFailureAuditRuntime": true,
+    "noCleanupRuntime": true,
+    "noApprovalEvaluator": true,
+    "noHostPolicyEnforcement": true,
+    "noWebSocketHttpControlSurface": true,
+    "noSecrets": true,
+    "noProductionSigningKeys": true,
+    "noRuntimeApprovalGrant": true,
+    "noCliCommandAdded": true,
+    "noFileWriterAdded": true,
+    "noStdoutPrinterAdded": true,
+    "noRuntimeBehaviorIntroduced": true
+  }
+}

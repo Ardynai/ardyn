@@ -11073,6 +11073,32 @@ export function createCiEnablementForReview(
   input?: Record<string, unknown>
 ): CiEnablementBoundaryMapResult;
 
+export interface ReportScriptCompactionBoundaryMapResult {
+  schema: "ardyn.phase-5.80.report-script-compaction-boundary-map-result";
+  schemaVersion: "0.1.0";
+  reportScriptCompactionKind: "report-script-compaction-boundary-map";
+  reportScriptCompactionMode: "review-only";
+  reviewedAt: string;
+  classification: string;
+  reportScriptCompactionBoundaryMapProduced: boolean;
+  boundaryEntries: unknown[];
+  boundaryMapSummary: Record<string, unknown> | null;
+  recommendedNextPhase: string | null;
+  reportScriptCompactionOnly: boolean;
+  reviewOnly: boolean;
+  metadataOnly: boolean;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: unknown[];
+  runtimeEffect: Record<string, boolean>;
+  [key: string]: unknown;
+}
+
+export function createReportScriptCompactionForReview(
+  input?: Record<string, unknown>
+): ReportScriptCompactionBoundaryMapResult;
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";

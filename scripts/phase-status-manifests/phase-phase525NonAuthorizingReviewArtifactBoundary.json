@@ -1,0 +1,574 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-25-non-authorizing-review-artifact-boundary.md",
+    "fixture": "tests/fixtures/host-policy/phase5-25/non-authorizing-review-artifact-boundary.json",
+    "sourcePrerequisiteEvaluationIntegrationDocument": "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+    "sourcePrerequisiteEvaluationIntegrationFixture": "tests/fixtures/host-policy/phase5-24/prerequisite-evaluation-integration-checkpoint.json",
+    "precedingPhase": "5.24",
+    "layerId": "non-authorizing-review-artifact-boundary",
+    "scope": "phase-5-non-authorizing-review-artifact-boundary-review-only-runtime-disabled",
+    "artifactBoundaryRecorded": true,
+    "boundaryKind": "non-authorizing-prerequisite-review-artifact-boundary",
+    "boundaryReviewOnly": true,
+    "boundaryAuthoritative": false,
+    "integratedReviewSummaryAccepted": true,
+    "missingPrerequisiteInputsRejected": true,
+    "malformedPrerequisiteInputsRejected": true,
+    "emptyPrerequisiteInputsRejected": true,
+    "conflictingPrerequisiteInputsRejected": true,
+    "stalePrerequisiteInputsRejected": true,
+    "revokedPrerequisiteInputsRejected": true,
+    "unknownPrerequisiteInputsRejected": true,
+    "duplicateInvalidPrerequisiteInputsRejected": true,
+    "validIntegratedSummariesProduceReviewArtifact": true,
+    "reviewArtifactIsApprovalGrant": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimePermissionGranted": false,
+    "commandExposurePermissionGranted": false,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "filesystemWatcherEnabled": false,
+    "externalSourceLookupEnabled": false,
+    "secretsEnvIngestionEnabled": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "processSpawnEnabled": false,
+    "processTerminationEnabled": false,
+    "runtimeSupervisionEnabled": false,
+    "runtimeTranscriptWritePerformed": false,
+    "runtimeAuditWritePerformed": false,
+    "adapterRuntimeBehaviorChanged": false,
+    "contentFabricRuntimeBehaviorChanged": false,
+    "webSocketHttpSurfaceEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false,
+    "cliSourceChanged": false,
+    "rustSourceChanged": false,
+    "reportRunsChecks": false
+  },
+  "docs": [
+    {
+      "path": "docs/phase-5-25-non-authorizing-review-artifact-boundary.md",
+      "status": "present",
+      "summary": "Records the Phase 5.25 non-authorizing review artifact boundary while runtime remains blocked."
+    },
+    {
+      "path": "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+      "status": "present",
+      "summary": "Provides the Phase 5.25 source integrated prerequisite review summary."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Marks Phase 5.25 as current docs/status mode while runtime execution remains blocked."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.25 adds no CLI command and preserves serve-runtime default-blocked behavior."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.25 changes no Rust-host runtime source and records a TypeScript review-artifact boundary helper only."
+    }
+  ],
+  "crossLinks": [
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+    "docs/phase-5-25-non-authorizing-review-artifact-boundary.md"
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-25/non-authorizing-review-artifact-boundary.json",
+      "status": "present",
+      "summary": "Records non-authorizing review artifact boundary cases while grants and runtime behavior remain disabled."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.25 report metadata, docs cross-links, boundary fixture, and runtime-disabled posture."
+    },
+    {
+      "path": "tests/phase5-25-non-authorizing-review-artifact-boundary.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.25 boundary helper, fixture shape, non-authorizing artifact, serve-runtime rejection, command rejection, and CLI source guard checks."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsStatusFiles": [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-24-prerequisite-evaluation-integration-checkpoint.md",
+      "docs/phase-5-25-non-authorizing-review-artifact-boundary.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "coreReviewOnlyFilesChanged": [
+      "packages/core/src/index.mjs",
+      "packages/core/src/index.d.ts"
+    ],
+    "machineReadableArtifactFiles": [
+      "tests/fixtures/host-policy/phase5-25/non-authorizing-review-artifact-boundary.json"
+    ],
+    "focusedTestFiles": [
+      "tests/phase5-25-non-authorizing-review-artifact-boundary.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "cliRuntimeSourceFilesChanged": [],
+    "rustRuntimeSourceFilesChanged": [],
+    "cliSourceChangedByThisPhase": false,
+    "appsCliIndexChangedByThisPhase": false,
+    "rustSourceChangedByThisPhase": false,
+    "filesystemWatcherAddedByThisPhase": false,
+    "externalSourceLookupAddedByThisPhase": false,
+    "secretsEnvIngestionAddedByThisPhase": false,
+    "approvalGrantProducedByThisPhase": false,
+    "runtimePermissionGrantedByThisPhase": false,
+    "commandExposurePermissionGrantedByThisPhase": false,
+    "runtimeEnabledByThisPhase": false,
+    "reportRunsChecks": false,
+    "separateApprovalGrantPhaseRequired": true,
+    "separateRuntimeEnablementApprovalRequired": true
+  },
+  "sourcePhase": {
+    "phase": "phase-5.24-prerequisite-evaluation-integration-checkpoint",
+    "reviewArtifactBoundaryPath": "packages/core/src/index.mjs#createPrerequisiteReviewArtifactBoundaryForReview",
+    "sourceIntegrationCheckpointPath": "packages/core/src/index.mjs#evaluatePrerequisiteIntegrationCheckpointForReview",
+    "sourceIntegrationFixture": "tests/fixtures/host-policy/phase5-24/prerequisite-evaluation-integration-checkpoint.json",
+    "runtimeEnabled": false,
+    "approvalGrantProduced": false
+  },
+  "artifactBoundarySummary": {
+    "artifactBoundaryRecorded": true,
+    "boundaryKind": "non-authorizing-prerequisite-review-artifact-boundary",
+    "boundaryReviewOnly": true,
+    "boundaryAuthoritative": false,
+    "integratedReviewSummaryAccepted": true,
+    "missingPrerequisiteInputsRejected": true,
+    "malformedPrerequisiteInputsRejected": true,
+    "emptyPrerequisiteInputsRejected": true,
+    "conflictingPrerequisiteInputsRejected": true,
+    "stalePrerequisiteInputsRejected": true,
+    "revokedPrerequisiteInputsRejected": true,
+    "unknownPrerequisiteInputsRejected": true,
+    "duplicateInvalidPrerequisiteInputsRejected": true,
+    "validIntegratedSummariesProduceReviewArtifact": true,
+    "reviewArtifactIsApprovalGrant": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimePermissionGranted": false,
+    "commandExposurePermissionGranted": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false
+  },
+  "artifactInputShape": {
+    "sourceInputsRequired": true,
+    "sourceKind": "inline-prerequisite-records",
+    "sourceMode": "in-memory",
+    "sourceIntegrationCheckpointRequired": true,
+    "validIntegratedSummaryRequired": true,
+    "conflictingInputPolicy": "fail-closed",
+    "duplicateInvalidInputPolicy": "fail-closed",
+    "filesystemWatcherAllowed": false,
+    "externalSourceLookupAllowed": false,
+    "secretsEnvIngestionAllowed": false,
+    "filePathAllowed": false,
+    "urlAllowed": false
+  },
+  "artifactResultShape": {
+    "schema": "ardyn.phase-5.25.prerequisite-review-artifact-boundary-result",
+    "schemaVersion": "0.1.0",
+    "boundaryKind": "non-authorizing-prerequisite-review-artifact-boundary",
+    "boundaryMode": "review-only",
+    "reviewOnly": true,
+    "authoritative": false,
+    "validIntegratedSummariesMayProduceReviewArtifact": true,
+    "reviewArtifactSchema": "ardyn.phase-5.25.non-authorizing-prerequisite-review-artifact",
+    "reviewArtifactIsApprovalGrant": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimePermissionGranted": false,
+    "commandExposurePermissionGranted": false,
+    "runtimeEffectAllFalse": true
+  },
+  "artifactBoundaryCases": [
+    {
+      "caseId": "missing-prerequisite-artifact-input-rejected",
+      "classification": "missing_prerequisite_review_artifact_input_rejected",
+      "reviewArtifactProduced": false,
+      "reviewArtifactIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "malformed-prerequisite-artifact-input-rejected",
+      "classification": "malformed_prerequisite_review_artifact_input_rejected",
+      "reviewArtifactProduced": false,
+      "reviewArtifactIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "empty-prerequisite-artifact-input-rejected",
+      "classification": "empty_prerequisite_review_artifact_input_rejected",
+      "reviewArtifactProduced": false,
+      "reviewArtifactIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "conflicting-prerequisite-artifact-input-rejected",
+      "classification": "conflicting_prerequisite_review_artifact_input_rejected",
+      "reviewArtifactProduced": false,
+      "reviewArtifactIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "stale-prerequisite-artifact-input-rejected",
+      "classification": "stale_prerequisite_review_artifact_input_rejected",
+      "reviewArtifactProduced": false,
+      "reviewArtifactIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "revoked-prerequisite-artifact-input-rejected",
+      "classification": "revoked_prerequisite_review_artifact_input_rejected",
+      "reviewArtifactProduced": false,
+      "reviewArtifactIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "unknown-prerequisite-artifact-input-rejected",
+      "classification": "unknown_prerequisite_review_artifact_input_rejected",
+      "reviewArtifactProduced": false,
+      "reviewArtifactIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "duplicate-invalid-prerequisite-artifact-input-rejected",
+      "classification": "duplicate_invalid_prerequisite_review_artifact_input_rejected",
+      "reviewArtifactProduced": false,
+      "reviewArtifactIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "valid-prerequisite-non-authorizing-review-artifact",
+      "classification": "valid_prerequisite_review_artifact_non_authorizing_runtime_still_blocked",
+      "reviewArtifactProduced": true,
+      "reviewArtifactIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    }
+  ],
+  "reviewArtifactBoundary": {
+    "reviewArtifactSchema": "ardyn.phase-5.25.non-authorizing-prerequisite-review-artifact",
+    "reviewArtifactMode": "review-only",
+    "reviewArtifactCanGrantApproval": false,
+    "reviewArtifactCanPersistGrant": false,
+    "reviewArtifactCanEnableRuntime": false,
+    "reviewArtifactCanExposeRuntimeCommand": false,
+    "reviewArtifactCanExecuteRuntime": false,
+    "reviewArtifactCanStartRuntime": false,
+    "reviewArtifactCanControlProcess": false,
+    "reviewArtifactCanUseFilesystemWatcher": false,
+    "reviewArtifactCanUseExternalSourceLookup": false,
+    "reviewArtifactCanUseSecretsOrEnv": false
+  },
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalEvaluatorAuthoritative": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "recognizedByCli": true,
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "No CLI review-artifact-boundary command is exposed.",
+    "No approval grant is produced or persisted.",
+    "No review artifact can be treated as runtime permission.",
+    "No review artifact can enable command exposure.",
+    "No runtime command exposure is enabled.",
+    "No runtime execution occurs.",
+    "No filesystem watcher is added.",
+    "No external source lookup is added.",
+    "No secrets or environment ingestion is added.",
+    "No Rust host implementation is added.",
+    "No process control is added."
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-25-non-authorizing-review-artifact-boundary.test.mjs",
+    "node --test tests/phase5-24-prerequisite-evaluation-integration-checkpoint.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status",
+    "fallow health --score --hotspots --targets --format json",
+    "fallow audit --format json"
+  ],
+  "safetyPosture": {
+    "artifactBoundaryRecorded": true,
+    "boundaryReviewOnly": true,
+    "boundaryAuthoritative": false,
+    "integratedReviewSummaryAccepted": true,
+    "missingPrerequisiteInputsRejected": true,
+    "malformedPrerequisiteInputsRejected": true,
+    "emptyPrerequisiteInputsRejected": true,
+    "conflictingPrerequisiteInputsRejected": true,
+    "stalePrerequisiteInputsRejected": true,
+    "revokedPrerequisiteInputsRejected": true,
+    "unknownPrerequisiteInputsRejected": true,
+    "duplicateInvalidPrerequisiteInputsRejected": true,
+    "validIntegratedSummariesProduceReviewArtifact": true,
+    "reviewArtifactIsApprovalGrant": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimePermissionGranted": false,
+    "commandExposurePermissionGranted": false,
+    "runtimeBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "filesystemWatcherEnabled": false,
+    "externalSourceLookupEnabled": false,
+    "secretsEnvIngestionEnabled": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "processSpawnEnabled": false,
+    "processTerminationEnabled": false,
+    "runtimeSupervisionEnabled": false,
+    "runtimeTranscriptWritePerformed": false,
+    "runtimeAuditWritePerformed": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true
+  }
+}

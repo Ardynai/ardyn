@@ -1,0 +1,109 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-80-report-script-compaction.md",
+    "schema": "ardyn.phase-5.80.report-script-compaction-boundary-map-result",
+    "schemaVersion": "0.1.0",
+    "kind": "report-script-compaction-boundary-map",
+    "mode": "review-only",
+    "classification": "valid_report_script_compaction_boundary_map_manifest_driven_byte_identical",
+    "produced": true,
+    "boundaryEntryCount": 5,
+    "boundaryFamilies": [
+      "manifest_extraction",
+      "generic_loader",
+      "byte_identity_verification",
+      "local_status_preservation",
+      "contributing_update"
+    ],
+    "relatedSystems": [
+      "ardyn"
+    ],
+    "currentStatusValues": [
+      "active"
+    ],
+    "countByFamily": {
+      "manifest_extraction": 1,
+      "generic_loader": 1,
+      "byte_identity_verification": 1,
+      "local_status_preservation": 1,
+      "contributing_update": 1
+    },
+    "countByRelatedSystem": {
+      "ardyn": 5
+    },
+    "countByStatus": {
+      "active": 5
+    },
+    "manifestExtractionRecorded": true,
+    "genericLoaderRecorded": true,
+    "byteIdentityVerified": true,
+    "localStatusPreserved": true,
+    "contributingUpdated": true,
+    "goldenSha256": "fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",
+    "newSha256": "fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",
+    "hashesIdentical": true,
+    "allBlockedAuthorizationFlagsFalse": true,
+    "allUnsafeReportScriptCompactionRuntimeFlagsFalse": true,
+    "allRuntimeEffectsFalse": true,
+    "allEntriesNonAuthorizing": true,
+    "reportRunsChecks": false
+  },
+  "recommendedNextPhase": "phase-5.81-report-test-compaction",
+  "docs": [
+    {
+      "path": "docs/phase-5-80-report-script-compaction.md",
+      "status": "present",
+      "summary": "Records the manifest-driven loader refactor with byte-identical output verified by SHA256."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase5-80-report-script-compaction.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.80 fixture, manifest count, index order, and golden hash procedure."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.80 status inventory and safetyPosture flag."
+    }
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-80/report-script-compaction.json",
+      "status": "present",
+      "summary": "Deterministic review-only report-script compaction boundary map with 5 boundary families."
+    }
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-80-report-script-compaction.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "npm run report:phase-status",
+    "cargo test --workspace",
+    "cargo fmt --check",
+    "cargo clippy --workspace -- -D warnings",
+    "semgrep --config auto .",
+    "npm audit --json",
+    "cargo audit",
+    "cargo machete",
+    "git diff --check"
+  ],
+  "safetyPosture": {
+    "reportScriptCompactionBoundaryMapRecorded": true,
+    "reportScriptCompactionBoundaryMapReviewOnly": true,
+    "reportScriptCompactionBoundaryMapAuthoritative": false,
+    "reportScriptCompactionBoundaryMapProduced": true,
+    "manifestDrivenLoader": true,
+    "byteIdentityVerified": true,
+    "goldenSha256": "fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",
+    "newSha256": "fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",
+    "hashesIdentical": true,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true,
+    "noFederationMjsBehaviorChange": true,
+    "noHistoricalFixtureEdited": true,
+    "reportRunsChecks": false
+  }
+}

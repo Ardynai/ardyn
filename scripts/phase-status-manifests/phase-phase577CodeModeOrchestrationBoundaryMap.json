@@ -1,0 +1,156 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-77-code-mode-orchestration-boundary.md",
+    "schema": "ardyn.phase-5.77.code-mode-orchestration-contract-boundary-map-result",
+    "schemaVersion": "0.1.0",
+    "kind": "code-mode-orchestration-contract-boundary-map",
+    "mode": "review-only",
+    "classification": "valid_code_mode_orchestration_contract_boundary_map_runtime_still_blocked",
+    "produced": true,
+    "boundaryEntryCount": 12,
+    "boundaryFamilies": [
+      "orchestrator_plan_contract",
+      "subagent_spawn_role_contract",
+      "fusion_pass_contract",
+      "judge_comparison_contract",
+      "synthesis_result_contract",
+      "front_desk_contract",
+      "toolkit_check_selection_contract",
+      "loop_semantics_contract",
+      "failure_abort_contract",
+      "audit_transcript_contract",
+      "human_approval_gate_contract",
+      "code_mode_blocked_runtime_list"
+    ],
+    "relatedSystems": [
+      "ardyn",
+      "ardyn-subagent",
+      "external-harness"
+    ],
+    "currentStatusValues": [
+      "blocked",
+      "future_contract_required"
+    ],
+    "countByFamily": {
+      "orchestrator_plan_contract": 1,
+      "subagent_spawn_role_contract": 1,
+      "fusion_pass_contract": 1,
+      "judge_comparison_contract": 1,
+      "synthesis_result_contract": 1,
+      "front_desk_contract": 1,
+      "toolkit_check_selection_contract": 1,
+      "loop_semantics_contract": 1,
+      "failure_abort_contract": 1,
+      "audit_transcript_contract": 1,
+      "human_approval_gate_contract": 1,
+      "code_mode_blocked_runtime_list": 1
+    },
+    "countByRelatedSystem": {
+      "ardyn": 11,
+      "ardyn-subagent": 1,
+      "external-harness": 0
+    },
+    "countByStatus": {
+      "blocked": 12,
+      "future_contract_required": 0
+    },
+    "orchestratorPlanContractRecorded": true,
+    "subagentSpawnRoleContractRecorded": true,
+    "fusionPassContractRecorded": true,
+    "judgeComparisonContractRecorded": true,
+    "synthesisResultContractRecorded": true,
+    "frontDeskContractRecorded": true,
+    "toolkitCheckSelectionContractRecorded": true,
+    "loopSemanticsContractRecorded": true,
+    "failureAbortContractRecorded": true,
+    "auditTranscriptContractRecorded": true,
+    "humanApprovalGateContractRecorded": true,
+    "codeModeBlockedRuntimeListRecorded": true,
+    "noModelApiCalls": true,
+    "noSubagentProcesses": true,
+    "noFrontDeskResponder": true,
+    "noJudgeFusionExecution": true,
+    "noLoopRuntime": true,
+    "noToolkitInvocation": true,
+    "maxIterationsPerLoopRequired": true,
+    "judgeContextIsolatedFromProducers": true,
+    "externalAgentDefaultDeny": true,
+    "frontDeskZeroApprovalAuthority": true,
+    "fabricFederationCarveOutReferenced": true,
+    "noBlanketFabricTransportClaim": true,
+    "allBlockedAuthorizationFlagsFalse": true,
+    "allUnsafeCodeModeOrchestrationRuntimeFlagsFalse": true,
+    "allRuntimeEffectsFalse": true,
+    "allEntriesNonAuthorizing": true,
+    "reportRunsChecks": false
+  },
+  "recommendedNextPhase": "phase-5.78-review-only-ci-enforcement-contract-boundary-map",
+  "docs": [
+    {
+      "path": "docs/phase-5-77-code-mode-orchestration-boundary.md",
+      "status": "present",
+      "summary": "Records 12 Code Mode orchestration boundary families with contract shapes (deeper than 5.68 capability flags) \u2014 all runtime-blocked."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase5-77-code-mode-orchestration.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.77 fixture, helper, 12 boundary families, contract shapes, cross-references, and rejection cases."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.77 status inventory and safetyPosture flag."
+    }
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-77/code-mode-orchestration.json",
+      "status": "present",
+      "summary": "Deterministic review-only Code Mode orchestration boundary map with 12 boundary families and contract shapes."
+    }
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-77-code-mode-orchestration.test.mjs",
+    "node --test tests/phase5-76-embedded-db-query-engine-primitive-contract-boundary-map.test.mjs",
+    "node --test tests/phase5-76b-fabric-federation-reconciliation.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "npm run report:phase-status",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "cargo clippy --workspace -- -D warnings",
+    "semgrep --config auto .",
+    "npm audit --json",
+    "cargo audit",
+    "cargo machete",
+    "git diff --check",
+    "git diff --cached --check"
+  ],
+  "safetyPosture": {
+    "codeModeOrchestrationBoundaryMapRecorded": true,
+    "codeModeOrchestrationBoundaryMapReviewOnly": true,
+    "codeModeOrchestrationBoundaryMapAuthoritative": false,
+    "codeModeOrchestrationBoundaryMapProduced": true,
+    "noModelApiCalls": true,
+    "noSubagentProcesses": true,
+    "noFrontDeskResponder": true,
+    "noJudgeFusionExecution": true,
+    "noLoopRuntime": true,
+    "noToolkitInvocation": true,
+    "maxIterationsPerLoopRequired": true,
+    "judgeContextIsolatedFromProducers": true,
+    "externalAgentDefaultDeny": true,
+    "frontDeskZeroApprovalAuthority": true,
+    "fabricFederationCarveOutReferenced": true,
+    "noBlanketFabricTransportClaim": true,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true,
+    "noFederationMjsBehaviorChange": true,
+    "noHistoricalFixtureEdited": true,
+    "reportRunsChecks": false
+  }
+}

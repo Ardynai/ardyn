@@ -1,0 +1,113 @@
+{
+  "schemaMigrationMetadata": {
+    "schema": "ardyn.schema-migration-metadata",
+    "schemaVersion": "0.1.0",
+    "artifactKinds": [
+      "manifest",
+      "task",
+      "planner_trace",
+      "approval_review_artifact",
+      "trace_diff",
+      "host_policy"
+    ],
+    "compatibilityStates": [
+      "compatible",
+      "upgrade_available",
+      "unsupported_major",
+      "malformed"
+    ],
+    "migrationRequiredFor": [
+      "unsupported_major",
+      "malformed"
+    ],
+    "migrationAvailableFor": [
+      "upgrade_available"
+    ],
+    "nonExecuting": true
+  },
+  "attestationPlanning": {
+    "schema": "ardyn.review-artifact-attestation-plan",
+    "schemaVersion": "0.1.0",
+    "digestAlgorithm": "sha256",
+    "canonicalization": "ardyn.stable-json-display-v1",
+    "verificationStatuses": [
+      "unsigned",
+      "planned",
+      "test_fixture_only",
+      "unsupported"
+    ],
+    "productionSigningKeys": false,
+    "realSigning": false,
+    "secrets": false,
+    "nonExecuting": true,
+    "contentFabricAlignment": "Review-artifact attestation planning keeps payloads separate from Content Fabric signing payloads and does not enable Content Fabric runtime behavior."
+  },
+  "cliCommands": [
+    {
+      "command": "ardyn review-artifact --file <file> --schema-status",
+      "writesFiles": false,
+      "network": false,
+      "summary": "Renders deterministic schema migration metadata and display status for one local review artifact."
+    },
+    {
+      "command": "ardyn review-artifact --file <file> --attestation-plan",
+      "writesFiles": false,
+      "network": false,
+      "summary": "Renders unsigned review-artifact attestation planning metadata for one local review artifact."
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "tests/fixtures/review-artifacts/phase3-7/current-compatible-review-artifact.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/review-artifacts/phase3-7/older-compatible-review-artifact.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/review-artifacts/phase3-7/unsupported-major-review-artifact.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/review-artifacts/phase3-7/malformed-review-artifact.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/review-artifacts/phase3-7/unsigned-attestation-plan.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/review-artifacts/phase3-7/test-fixture-only-attestation-plan.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/review-artifacts/phase3-7/migration-metadata-display.json",
+      "status": "present"
+    }
+  ],
+  "docs": [
+    {
+      "path": "docs/schema-migration-policy.md",
+      "status": "present",
+      "summary": "Documents Phase 3.7 schema migration metadata and compatibility records."
+    },
+    {
+      "path": "docs/review-artifact-attestation-plan.md",
+      "status": "present",
+      "summary": "Documents non-production review-artifact attestation planning."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/core-phase3-7-schema-attestation.test.mjs",
+      "status": "present",
+      "summary": "Covers schema migration metadata and attestation planning."
+    },
+    {
+      "path": "tests/cli-phase3.test.mjs",
+      "status": "present",
+      "summary": "Covers review-artifact schema-status and attestation-plan CLI output."
+    }
+  ]
+}

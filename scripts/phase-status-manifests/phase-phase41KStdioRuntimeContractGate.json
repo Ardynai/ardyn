@@ -1,0 +1,303 @@
+{
+  "contractGateLayer": {
+    "document": "docs/phase-4-1k-stdio-runtime-contract-gates.md",
+    "precedingPhase": "4.1J",
+    "layerId": "approval-gated-rust-host-stdio-runtime-contract-gates",
+    "scope": "public-rust-runtime-contract-gate-only",
+    "publicRustContractIntroduced": true,
+    "publicRustContractReviewOnly": true,
+    "runtimeImplementationApproved": false,
+    "runtimeImplementationEnabled": false,
+    "runtimeEnabled": false,
+    "processStdioOwnership": false,
+    "cliSourceChanged": false,
+    "reportRunsChecks": false,
+    "freshExternalReviewRan": false,
+    "freshDevinReviewRan": false,
+    "runtimeBlocked": true,
+    "runtimeReadinessClaimed": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "grantsRuntimeApproval": false
+  },
+  "publicRustContractSurface": {
+    "sourcePath": "crates/ardyn-host/src/lib.rs",
+    "publicRustContractIntroduced": true,
+    "contractSurfaceKind": "approval-gated-stdio-runtime-contract",
+    "runtimeImplementationApproved": false,
+    "runtimeImplementationEnabled": false,
+    "processStdioOwnershipAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "stdinReaderAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "hostPolicyEnforcementAvailable": false,
+    "helpers": [
+      {
+        "name": "stdio_transport_policy_contract",
+        "sourcePath": "crates/ardyn-host/src/lib.rs",
+        "role": "carried-forward public Rust stdio policy contract helper",
+        "runtimeImplementation": false
+      },
+      {
+        "name": "transport_harness_contract",
+        "sourcePath": "crates/ardyn-host/src/lib.rs",
+        "role": "carried-forward public Rust transport harness contract helper",
+        "runtimeImplementation": false
+      },
+      {
+        "name": "stdio_runtime_contract_gates",
+        "sourcePath": "crates/ardyn-host/src/lib.rs",
+        "role": "Phase 4.1K approval-gated public Rust runtime contract helper",
+        "runtimeImplementation": false
+      },
+      {
+        "name": "parse_stdio_runtime_contract_gates_json",
+        "sourcePath": "crates/ardyn-host/src/lib.rs",
+        "role": "Phase 4.1K contract-gate fixture parser",
+        "runtimeImplementation": false
+      },
+      {
+        "name": "classify_stdio_runtime_contract_gates_json",
+        "sourcePath": "crates/ardyn-host/src/lib.rs",
+        "role": "Phase 4.1K contract-gate blocked/runtime-unavailable classifier",
+        "runtimeImplementation": false
+      }
+    ]
+  },
+  "gateFixtures": [
+    {
+      "path": "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+      "status": "present",
+      "summary": "Expected Phase 4.1K gate fixture for the approval-gated public Rust-host stdio runtime contract and blocked runtime gates."
+    }
+  ],
+  "rustSourceInventory": [
+    {
+      "path": "crates/ardyn-host/src/lib.rs",
+      "status": "present",
+      "summary": "Expected public Rust contract helpers and tests for approval-gated stdio runtime contract gates; no process stdio ownership or runtime implementation is enabled by this report."
+    }
+  ],
+  "docs": [
+    {
+      "path": "docs/phase-4-1k-stdio-runtime-contract-gates.md",
+      "status": "present",
+      "summary": "Records Phase 4.1K as an approval-gated public Rust-host stdio runtime contract-gate layer with runtime still blocked."
+    },
+    {
+      "path": "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+      "status": "present",
+      "summary": "Links Phase 4.1K as the follow-up public contract-gate layer while preserving the Phase 4.1J private fixture-backed boundary posture."
+    },
+    {
+      "path": "docs/phase-4-1-runtime-proposal.md",
+      "status": "present",
+      "summary": "Updates the Phase 4.1 roadmap to place Phase 4.1K after Phase 4.1J as contract gates only."
+    },
+    {
+      "path": "docs/phase-4-stdio-dry-run-event-emission.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1K leaves the finite dry-run emitter unchanged."
+    },
+    {
+      "path": "docs/session-events-stdio-contract.md",
+      "status": "present",
+      "summary": "Links Phase 4.1K while preserving no live stdio runtime, no CLI command, and no process stdio ownership."
+    },
+    {
+      "path": "docs/host-policy-preconditions.md",
+      "status": "present",
+      "summary": "Documents Phase 4.1K contract gates as preconditions rather than active enforcement."
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "present",
+      "summary": "Records Phase 4.1K as public Rust contract-gate metadata without new runtime architecture."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Documents Phase 4.1K scope and unchanged non-executing CLI/runtime posture."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1K adds no CLI command, runtime command, stdout printer, file writer, or stdio ownership."
+    },
+    {
+      "path": "packages/core/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1K adds no TypeScript core runtime helper API and cannot grant runtime approval."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1K public Rust contract helpers remain approval-gated metadata and do not own process stdio."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 4.1K report metadata, public Rust contract-gate inventory, fixture/test paths, runtime flags, and safety posture."
+    },
+    {
+      "path": "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs",
+      "status": "present",
+      "summary": "Expected focused Phase 4.1K fixture/Rust contract-gate test path."
+    },
+    {
+      "path": "tests/phase4-1j-rust-host-stdio-boundary-fixtures.test.mjs",
+      "status": "present",
+      "summary": "Keeps Phase 4.1J fixture-backed boundary guard active after Phase 4.1K."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsReportSubagentOwnedFiles": [
+      "docs/phase-4-1k-stdio-runtime-contract-gates.md",
+      "README.md",
+      "apps/cli/README.md",
+      "packages/core/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/architecture.md",
+      "docs/host-policy-preconditions.md",
+      "docs/session-events-stdio-contract.md",
+      "docs/phase-4-stdio-dry-run-event-emission.md",
+      "docs/phase-4-1-runtime-proposal.md",
+      "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "rustAndFocusedTestOwnedByOtherWorkers": [
+      "crates/ardyn-host/src/lib.rs",
+      "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+      "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs"
+    ],
+    "excludedCliRuntimeSourceFiles": [
+      "apps/cli/src/index.mjs"
+    ],
+    "cliSourceChangedByThisPhase": false,
+    "productionRuntimeSourceChangedByThisSubagent": false,
+    "reportRunsChecks": false,
+    "separateRuntimeImplementationApprovalRequired": true
+  },
+  "runtimeLikeCommandRejectionProbes": [
+    "missing --dry-run",
+    "unknown arg",
+    "unsafe manifest URL",
+    "invalid JSON manifest",
+    "invalid JSON task",
+    "replay-session-transcript",
+    "policy-metadata",
+    "host-policy-export",
+    "serve-runtime",
+    "stdio-runtime",
+    "external-review-packet",
+    "review-packet",
+    "runtime-readiness-review",
+    "stdio-runtime-contract-gates",
+    "runtime-contract-gates",
+    "stdio-runtime-contract",
+    "public-stdio-runtime-contract",
+    "public-runtime-contract",
+    "fixture-backed-stdio-boundary",
+    "stdio-boundary",
+    "rust-host-stdio-harness",
+    "stdio-harness",
+    "runtime-harness",
+    "runtime-readiness",
+    "runtime-readiness-checkpoint",
+    "approve-runtime",
+    "grant-runtime",
+    "enable-runtime",
+    "approval-evaluator",
+    "transport-harness",
+    "stdin-reader",
+    "stdout-writer",
+    "stderr-writer",
+    "failure-audit",
+    "cleanup-runtime",
+    "kill-runtime"
+  ],
+  "runtimeEffect": {
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeImplementationApproved": false,
+    "runtimeImplementationEnabled": false,
+    "runtimeEnabled": false,
+    "runtimeReadinessClaimed": false,
+    "grantsRuntimeApproval": false,
+    "rustHostLiveStdioRuntimeAdded": false,
+    "cliCommandAdded": false,
+    "cliSourceChanged": false,
+    "productionRuntimeSourceChanged": false,
+    "processStdioOwnershipAdded": false,
+    "stdinReaderAdded": false,
+    "stdoutWriterAdded": false,
+    "stderrWriterAdded": false,
+    "approvalEvaluatorAdded": false,
+    "hostPolicyEnforcementAdded": false,
+    "failureAuditRuntimeAdded": false,
+    "cleanupRuntimeAdded": false,
+    "processKillAdded": false,
+    "reportRunsChecks": false,
+    "freshExternalReviewRan": false,
+    "freshDevinReviewRan": false
+  },
+  "safetyPosture": {
+    "nonExecuting": true,
+    "contractGateOnly": true,
+    "publicRustContractReviewOnly": true,
+    "runtimeImplementationApproved": false,
+    "runtimeImplementationEnabled": false,
+    "runtimeEnabled": false,
+    "processStdioOwnershipAvailable": false,
+    "cliSourceChanged": false,
+    "reportRunsChecks": false,
+    "noFreshExternalReview": true,
+    "noFreshDevinReview": true,
+    "runtimeBlocked": true,
+    "noLiveRuntime": true,
+    "noRuntimeCommand": true,
+    "noContractGateCommand": true,
+    "noBoundaryCommand": true,
+    "noHarnessCommand": true,
+    "noReviewDispositionCommand": true,
+    "noReviewPacketCommand": true,
+    "noRuntimeReadinessCommand": true,
+    "noServeRuntime": true,
+    "noStdioRuntime": true,
+    "noReplaySessionTranscript": true,
+    "noLiveStdioRuntime": true,
+    "noStdinCommandLoop": true,
+    "noLiveStdioReader": true,
+    "noStdoutWriter": true,
+    "noStderrWriter": true,
+    "noProcessStdioOwnership": true,
+    "noListener": true,
+    "noServer": true,
+    "noSubprocessSpawning": true,
+    "noAdapterCalls": true,
+    "noLocusRuntimeDependency": true,
+    "noMcpCalls": true,
+    "noOpenClawCalls": true,
+    "noPluginExecution": true,
+    "noContentFabricRuntimeBehavior": true,
+    "noContentFabricDownloadInstallEnable": true,
+    "noTranscriptPersistenceReplayRuntime": true,
+    "noFailureAuditRuntime": true,
+    "noCleanupRuntime": true,
+    "noProcessKill": true,
+    "noApprovalEvaluator": true,
+    "noHostPolicyEnforcement": true,
+    "noWebSocketHttpControlSurface": true,
+    "noSecrets": true,
+    "noProductionSigningKeys": true,
+    "noRuntimeApprovalGrant": true,
+    "noCliCommandAdded": true,
+    "noFileWriterAdded": true,
+    "noStdoutPrinterAdded": true,
+    "noRuntimeBehaviorIntroduced": true
+  }
+}

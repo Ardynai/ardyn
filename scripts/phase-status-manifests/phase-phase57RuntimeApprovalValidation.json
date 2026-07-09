@@ -1,0 +1,369 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-7-runtime-approval-validation.md",
+    "fixture": "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json",
+    "sourceRuntimeEnablePreconditionDocument": "docs/phase-5-6-runtime-enable-preconditions.md",
+    "sourceRuntimeEnablePreconditionFixture": "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json",
+    "precedingPhase": "5.6",
+    "layerId": "runtime-approval-validation-contract",
+    "scope": "approval-validation-contract-only-runtime-disabled",
+    "approvalValidationContractRecorded": true,
+    "missingApprovalRejected": true,
+    "invalidApprovalRejected": true,
+    "revokedApprovalRejected": true,
+    "validApprovalRecognizedAsPrerequisiteOnly": true,
+    "validApprovalEnablesRuntime": false,
+    "validApprovalStartsRuntime": false,
+    "canEnableRuntime": false,
+    "runtimeEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeCommandEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorImplemented": false,
+    "processControlEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorChanged": false,
+    "contentFabricRuntimeBehaviorChanged": false,
+    "webSocketHttpSurfaceEnabled": false,
+    "cliSourceChanged": false,
+    "rustSourceChanged": false,
+    "reportRunsChecks": false
+  },
+  "docs": [
+    {
+      "path": "docs/phase-5-7-runtime-approval-validation.md",
+      "status": "present",
+      "summary": "Records the Phase 5.7 runtime approval validation/rejection contract while runtime remains disabled."
+    },
+    {
+      "path": "docs/phase-5-6-runtime-enable-preconditions.md",
+      "status": "present",
+      "summary": "Provides the precondition gate that Phase 5.7 narrows for approval validation."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Marks Phase 5.7 as current docs/status mode while runtime execution remains blocked."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.7 adds no CLI command and preserves serve-runtime default-blocked behavior."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.7 changes no Rust-host runtime source and records approval validation only."
+    }
+  ],
+  "crossLinks": [
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    "docs/phase-5-3-command-surface-approval-preflight.md",
+    "docs/phase-5-4-disabled-command-exposure-plan.md",
+    "docs/phase-5-4a-jules-review-disposition.md",
+    "docs/phase-5-5-default-blocked-runtime-cli.md",
+    "docs/phase-5-6-runtime-enable-preconditions.md",
+    "docs/phase-5-7-runtime-approval-validation.md"
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json",
+      "status": "present",
+      "summary": "Records missing, invalid, revoked, and valid-prerequisite-only runtime approval cases."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.7 report metadata, docs cross-links, approval cases, and runtime-disabled posture."
+    },
+    {
+      "path": "tests/phase5-7-runtime-approval-validation.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.7 approval validation fixture shape, fail-closed cases, serve-runtime rejection, and source guard checks."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsStatusFiles": [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "docs/phase-5-7-runtime-approval-validation.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "machineReadableArtifactFiles": [
+      "tests/fixtures/host-policy/phase5-7/runtime-approval-validation-contract.json"
+    ],
+    "focusedTestFiles": [
+      "tests/phase5-7-runtime-approval-validation.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "cliRuntimeSourceFilesChanged": [],
+    "rustRuntimeSourceFilesChanged": [],
+    "cliSourceChangedByThisPhase": false,
+    "appsCliIndexChangedByThisPhase": false,
+    "rustSourceChangedByThisPhase": false,
+    "machineReadableArtifactsChangedByThisPhase": true,
+    "reportRunsChecks": false,
+    "separateRuntimeImplementationPhaseRequired": true,
+    "separateRuntimeEnablementApprovalRequired": true
+  },
+  "contractSummary": {
+    "approvalValidationContractRecorded": true,
+    "approvalRecordSchema": "ardyn.runtime-approval-record",
+    "approvalRecordSchemaVersion": "0.1.0",
+    "missingApprovalRejected": true,
+    "invalidApprovalRejected": true,
+    "revokedApprovalRejected": true,
+    "validApprovalRecognizedAsPrerequisiteOnly": true,
+    "validApprovalEnablesRuntime": false,
+    "validApprovalStartsRuntime": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorImplemented": false,
+    "requiresRemainingPhase56Preconditions": true,
+    "canEnableRuntime": false
+  },
+  "approvalRecordShape": {
+    "recordKind": "runtime-approval-record",
+    "requiredTopLevelFields": [
+      "schema",
+      "schemaVersion",
+      "recordKind",
+      "recordId",
+      "recordPhase",
+      "approvalStatus",
+      "scope",
+      "operatorConsent",
+      "validity",
+      "revocation",
+      "runtimeEffect",
+      "audit"
+    ],
+    "requiredScopeFields": [
+      "runtimeCommand",
+      "targetPhase",
+      "hostPolicyDigest",
+      "commandSurfaceDigest",
+      "allowedRuntimeMode"
+    ],
+    "requiredValidityFields": [
+      "notBefore",
+      "expiresAt",
+      "evaluatedAt",
+      "validAtEvaluation"
+    ],
+    "requiredRevocationFields": [
+      "revoked",
+      "revokedAt",
+      "revocationReason"
+    ],
+    "requiredRuntimeEffectFalseFields": [
+      "currentRecordEnablesRuntime",
+      "runtimeStarts",
+      "runtimeEnabled",
+      "runtimeCommandEnabled",
+      "runtimeExecutionEnabled",
+      "approvalGrantCreated"
+    ],
+    "validPrerequisiteRule": "valid_approval_record_is_necessary_but_not_sufficient_and_must_not_enable_runtime"
+  },
+  "approvalCases": [
+    {
+      "caseId": "missing-approval",
+      "classification": "missing_approval_rejected",
+      "approvalRecordPresent": false,
+      "approvalRecordValid": false,
+      "approvalRecordRevoked": false,
+      "rejected": true,
+      "prerequisiteSignalRecognized": false,
+      "rejectionReasons": [
+        "approval_record_missing"
+      ],
+      "runtimeEffect": {
+        "currentRecordEnablesRuntime": false,
+        "runtimeStarts": false,
+        "runtimeEnabled": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "approvalGrantCreated": false
+      }
+    },
+    {
+      "caseId": "invalid-approval",
+      "classification": "invalid_approval_rejected",
+      "approvalRecordPresent": true,
+      "approvalRecordValid": false,
+      "approvalRecordRevoked": false,
+      "rejected": true,
+      "prerequisiteSignalRecognized": false,
+      "invalidFields": [
+        "schema",
+        "scope.hostPolicyDigest",
+        "runtimeEffect.currentRecordEnablesRuntime"
+      ],
+      "rejectionReasons": [
+        "unsupported_or_malformed_schema",
+        "scope_digest_missing_or_mismatch",
+        "runtime_effect_claim_detected"
+      ],
+      "runtimeEffect": {
+        "currentRecordEnablesRuntime": false,
+        "runtimeStarts": false,
+        "runtimeEnabled": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "approvalGrantCreated": false
+      }
+    },
+    {
+      "caseId": "revoked-approval",
+      "classification": "revoked_approval_rejected",
+      "approvalRecordPresent": true,
+      "approvalRecordValid": false,
+      "approvalRecordRevoked": true,
+      "rejected": true,
+      "prerequisiteSignalRecognized": false,
+      "rejectionReasons": [
+        "approval_record_revoked"
+      ],
+      "runtimeEffect": {
+        "currentRecordEnablesRuntime": false,
+        "runtimeStarts": false,
+        "runtimeEnabled": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "approvalGrantCreated": false
+      }
+    },
+    {
+      "caseId": "valid-approval-prerequisite-only",
+      "classification": "valid_prerequisite_signal_runtime_still_blocked",
+      "approvalRecordPresent": true,
+      "approvalRecordValid": true,
+      "approvalRecordRevoked": false,
+      "rejected": false,
+      "prerequisiteSignalRecognized": true,
+      "rejectionReasons": [],
+      "remainingBlockers": [
+        "runtime-command-exposure-approval",
+        "host-policy-runtime-enforcement",
+        "stdio-safety-boundary",
+        "transcript-audit-confinement",
+        "process-control-boundary",
+        "rollback-kill-switch",
+        "positive-runtime-smokes"
+      ],
+      "runtimeEffect": {
+        "currentRecordEnablesRuntime": false,
+        "runtimeStarts": false,
+        "runtimeEnabled": false,
+        "runtimeCommandEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "approvalGrantCreated": false
+      }
+    }
+  ],
+  "validationRules": {
+    "missingApproval": "must_reject_before_runtime_enablement",
+    "invalidApproval": "must_reject_before_runtime_enablement",
+    "revokedApproval": "must_reject_before_runtime_enablement",
+    "validApproval": "may_count_only_as_prerequisite_signal",
+    "validApprovalCannotEnableRuntime": true,
+    "validApprovalCannotStartRuntime": true,
+    "validApprovalCannotExposeCommand": true,
+    "dryRunCannotBypassApproval": true,
+    "separateFutureRuntimeEnablementReviewRequired": true
+  },
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorEnabled": false,
+    "stdinLoopEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "recognizedByCli": true,
+    "exitCode": "nonzero",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "runtime-enabled-true",
+    "runtime-command-enabled-true",
+    "runtime-start",
+    "live-stdin-loop",
+    "runtime-stdout-stderr-writer",
+    "process-control",
+    "transcript-audit-runtime-write",
+    "adapter-runtime-behavior",
+    "content-fabric-runtime-behavior",
+    "websocket-http-runtime-surface",
+    "approval-grant-or-evaluator"
+  ],
+  "safetyPosture": {
+    "approvalValidationContractRecorded": true,
+    "missingApprovalRejected": true,
+    "invalidApprovalRejected": true,
+    "revokedApprovalRejected": true,
+    "validApprovalPrerequisiteOnly": true,
+    "validApprovalEnablesRuntime": false,
+    "validApprovalStartsRuntime": false,
+    "canEnableRuntime": false,
+    "runtimeBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorImplemented": false,
+    "noLiveStdinLoop": true,
+    "noStdoutStderrWriters": true,
+    "noProcessControl": true,
+    "noTranscriptWrite": true,
+    "noFailureAuditWrite": true,
+    "noAdapterRuntimeBehavior": true,
+    "noContentFabricRuntimeBehavior": true,
+    "noWebSocketHttpSurface": true,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true
+  }
+}

@@ -1,0 +1,682 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-26-review-artifact-evaluator-input-handoff.md",
+    "fixture": "tests/fixtures/host-policy/phase5-26/review-artifact-evaluator-input-handoff.json",
+    "sourceReviewArtifactBoundaryDocument": "docs/phase-5-25-non-authorizing-review-artifact-boundary.md",
+    "sourceReviewArtifactBoundaryFixture": "tests/fixtures/host-policy/phase5-25/non-authorizing-review-artifact-boundary.json",
+    "precedingPhase": "5.25",
+    "layerId": "review-artifact-evaluator-input-handoff",
+    "scope": "phase-5-review-artifact-evaluator-input-handoff-review-only-runtime-disabled",
+    "handoffRecorded": true,
+    "handoffKind": "review-artifact-evaluator-input-handoff",
+    "handoffReviewOnly": true,
+    "handoffAuthoritative": false,
+    "validReviewArtifactsProduceEvaluatorInputCandidate": true,
+    "missingReviewArtifactsRejected": true,
+    "malformedReviewArtifactsRejected": true,
+    "emptyReviewArtifactsRejected": true,
+    "conflictingReviewArtifactsRejected": true,
+    "staleReviewArtifactsRejected": true,
+    "revokedReviewArtifactsRejected": true,
+    "unknownReviewArtifactsRejected": true,
+    "duplicateInvalidReviewArtifactsRejected": true,
+    "authorizingLookingReviewArtifactsRejected": true,
+    "evaluatorInputCandidateIsApprovalGrant": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimePermissionGranted": false,
+    "commandExposurePermissionGranted": false,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "filesystemWatcherEnabled": false,
+    "externalSourceLookupEnabled": false,
+    "secretsEnvIngestionEnabled": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "processSpawnEnabled": false,
+    "processTerminationEnabled": false,
+    "runtimeSupervisionEnabled": false,
+    "runtimeTranscriptWritePerformed": false,
+    "runtimeAuditWritePerformed": false,
+    "adapterRuntimeBehaviorChanged": false,
+    "contentFabricRuntimeBehaviorChanged": false,
+    "webSocketHttpSurfaceEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false,
+    "cliSourceChanged": false,
+    "rustSourceChanged": false,
+    "reportRunsChecks": false
+  },
+  "docs": [
+    {
+      "path": "docs/phase-5-26-review-artifact-evaluator-input-handoff.md",
+      "status": "present",
+      "summary": "Records the Phase 5.26 review artifact evaluator-input handoff while runtime remains blocked."
+    },
+    {
+      "path": "docs/phase-5-25-non-authorizing-review-artifact-boundary.md",
+      "status": "present",
+      "summary": "Provides the Phase 5.26 source non-authorizing review artifact boundary."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Marks Phase 5.26 as current docs/status mode while runtime execution remains blocked."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.26 adds no CLI command and preserves serve-runtime default-blocked behavior."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.26 changes no Rust-host runtime source and records a TypeScript evaluator-input handoff helper only."
+    }
+  ],
+  "crossLinks": [
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-25-non-authorizing-review-artifact-boundary.md",
+    "docs/phase-5-26-review-artifact-evaluator-input-handoff.md"
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-26/review-artifact-evaluator-input-handoff.json",
+      "status": "present",
+      "summary": "Records review artifact evaluator-input handoff cases while grants and runtime behavior remain disabled."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.26 report metadata, docs cross-links, handoff fixture, and runtime-disabled posture."
+    },
+    {
+      "path": "tests/phase5-26-review-artifact-evaluator-input-handoff.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.26 handoff helper, fixture shape, non-authorizing evaluator-input candidate, serve-runtime rejection, command rejection, and CLI source guard checks."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsStatusFiles": [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-25-non-authorizing-review-artifact-boundary.md",
+      "docs/phase-5-26-review-artifact-evaluator-input-handoff.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "coreReviewOnlyFilesChanged": [
+      "packages/core/src/index.mjs",
+      "packages/core/src/index.d.ts"
+    ],
+    "machineReadableArtifactFiles": [
+      "tests/fixtures/host-policy/phase5-26/review-artifact-evaluator-input-handoff.json"
+    ],
+    "focusedTestFiles": [
+      "tests/phase5-26-review-artifact-evaluator-input-handoff.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "cliRuntimeSourceFilesChanged": [],
+    "rustRuntimeSourceFilesChanged": [],
+    "cliSourceChangedByThisPhase": false,
+    "appsCliIndexChangedByThisPhase": false,
+    "rustSourceChangedByThisPhase": false,
+    "filesystemWatcherAddedByThisPhase": false,
+    "externalSourceLookupAddedByThisPhase": false,
+    "secretsEnvIngestionAddedByThisPhase": false,
+    "approvalGrantProducedByThisPhase": false,
+    "runtimePermissionGrantedByThisPhase": false,
+    "commandExposurePermissionGrantedByThisPhase": false,
+    "runtimeEnabledByThisPhase": false,
+    "reportRunsChecks": false,
+    "separateApprovalGrantPhaseRequired": true,
+    "separateRuntimeEnablementApprovalRequired": true
+  },
+  "sourcePhase": {
+    "phase": "phase-5.25-non-authorizing-review-artifact-boundary",
+    "reviewArtifactBoundaryPath": "packages/core/src/index.mjs#createPrerequisiteReviewArtifactBoundaryForReview",
+    "evaluatorInputHandoffPath": "packages/core/src/index.mjs#createReviewArtifactEvaluatorInputHandoffForReview",
+    "sourceReviewArtifactFixture": "tests/fixtures/host-policy/phase5-25/non-authorizing-review-artifact-boundary.json",
+    "runtimeEnabled": false,
+    "approvalGrantProduced": false
+  },
+  "handoffSummary": {
+    "handoffRecorded": true,
+    "handoffKind": "review-artifact-evaluator-input-handoff",
+    "handoffReviewOnly": true,
+    "handoffAuthoritative": false,
+    "validReviewArtifactsProduceEvaluatorInputCandidate": true,
+    "missingReviewArtifactsRejected": true,
+    "malformedReviewArtifactsRejected": true,
+    "emptyReviewArtifactsRejected": true,
+    "conflictingReviewArtifactsRejected": true,
+    "staleReviewArtifactsRejected": true,
+    "revokedReviewArtifactsRejected": true,
+    "unknownReviewArtifactsRejected": true,
+    "duplicateInvalidReviewArtifactsRejected": true,
+    "authorizingLookingReviewArtifactsRejected": true,
+    "evaluatorInputCandidateIsApprovalGrant": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimePermissionGranted": false,
+    "commandExposurePermissionGranted": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false
+  },
+  "handoffInputShape": {
+    "reviewArtifactsRequired": true,
+    "reviewArtifactSchema": "ardyn.phase-5.25.non-authorizing-prerequisite-review-artifact",
+    "reviewArtifactMode": "review-only",
+    "sourceReviewArtifactRequired": true,
+    "validReviewArtifactRequired": true,
+    "authorizingLookingArtifactPolicy": "fail-closed",
+    "conflictingInputPolicy": "fail-closed",
+    "duplicateInvalidInputPolicy": "fail-closed",
+    "filesystemWatcherAllowed": false,
+    "externalSourceLookupAllowed": false,
+    "secretsEnvIngestionAllowed": false,
+    "filePathAllowed": false,
+    "urlAllowed": false
+  },
+  "handoffResultShape": {
+    "schema": "ardyn.phase-5.26.prerequisite-review-artifact-evaluator-input-handoff-result",
+    "schemaVersion": "0.1.0",
+    "handoffKind": "review-artifact-evaluator-input-handoff",
+    "handoffMode": "review-only",
+    "reviewOnly": true,
+    "authoritative": false,
+    "validReviewArtifactsMayProduceEvaluatorInputCandidate": true,
+    "evaluatorInputCandidateSchema": "ardyn.phase-5.26.review-artifact-evaluator-input-candidate",
+    "evaluatorInputCandidateIsApprovalGrant": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimePermissionGranted": false,
+    "commandExposurePermissionGranted": false,
+    "runtimeEffectAllFalse": true
+  },
+  "handoffCases": [
+    {
+      "caseId": "missing-review-artifact-handoff-input-rejected",
+      "classification": "missing_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "malformed-review-artifact-handoff-input-rejected",
+      "classification": "malformed_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "malformed-review-artifact-invalid-reviewed-at-rejected",
+      "classification": "malformed_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "empty-review-artifact-handoff-input-rejected",
+      "classification": "empty_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "conflicting-review-artifact-handoff-input-rejected",
+      "classification": "conflicting_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "stale-review-artifact-handoff-input-rejected",
+      "classification": "stale_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "revoked-review-artifact-handoff-input-rejected",
+      "classification": "revoked_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "unknown-review-artifact-handoff-input-rejected",
+      "classification": "unknown_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "duplicate-invalid-review-artifact-handoff-input-rejected",
+      "classification": "duplicate_invalid_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "authorizing-looking-review-artifact-handoff-input-rejected",
+      "classification": "authorizing_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "authorizing-looking-review-artifact-extra-runtime-effect-rejected",
+      "classification": "authorizing_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "authorizing-looking-review-artifact-extra-process-flag-rejected",
+      "classification": "authorizing_review_artifact_evaluator_input_handoff_rejected",
+      "evaluatorInputCandidateProduced": false,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "valid-review-artifact-evaluator-input-candidate",
+      "classification": "valid_review_artifact_evaluator_input_candidate_runtime_still_blocked",
+      "evaluatorInputCandidateProduced": true,
+      "evaluatorInputCandidateIsApprovalGrant": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimePermissionGranted": false,
+      "commandExposurePermissionGranted": false,
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    }
+  ],
+  "evaluatorInputCandidateBoundary": {
+    "candidateCanGrantApproval": false,
+    "candidateCanPersistGrant": false,
+    "candidateCanGrantRuntimePermission": false,
+    "candidateCanGrantCommandExposurePermission": false,
+    "candidateCanExposeRuntimeCommand": false,
+    "candidateCanStartRuntime": false,
+    "candidateCanExecuteRuntime": false,
+    "candidateCanBypassServeRuntimeBlock": false,
+    "candidateCanWriteRuntimeTranscript": false,
+    "candidateCanWriteRuntimeAudit": false
+  },
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalEvaluatorAuthoritative": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "exitCodeNonZero": true,
+    "stdoutEmpty": true,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": {
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimePermissionGranted": false,
+    "commandExposurePermissionGranted": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeStarted": false,
+    "runtimeExecuted": false,
+    "dryRunBypassesBlock": false,
+    "watcherEnabled": false,
+    "externalSourceLookupEnabled": false,
+    "secretsEnvIngestionEnabled": false,
+    "cliCommandAdded": false,
+    "rustHostImplementationAdded": false,
+    "processControlEnabled": false
+  },
+  "validationCommands": [
+    "node --test tests/phase5-26-review-artifact-evaluator-input-handoff.test.mjs",
+    "node --test tests/phase5-25-non-authorizing-review-artifact-boundary.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "npm run report:phase-status",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "fallow health --score --hotspots --targets --format json",
+    "fallow audit --format json"
+  ],
+  "safetyPosture": {
+    "handoffRecorded": true,
+    "handoffReviewOnly": true,
+    "handoffAuthoritative": false,
+    "validReviewArtifactsProduceEvaluatorInputCandidate": true,
+    "missingReviewArtifactsRejected": true,
+    "malformedReviewArtifactsRejected": true,
+    "emptyReviewArtifactsRejected": true,
+    "conflictingReviewArtifactsRejected": true,
+    "staleReviewArtifactsRejected": true,
+    "revokedReviewArtifactsRejected": true,
+    "unknownReviewArtifactsRejected": true,
+    "duplicateInvalidReviewArtifactsRejected": true,
+    "authorizingLookingReviewArtifactsRejected": true,
+    "evaluatorInputCandidateIsApprovalGrant": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimePermissionGranted": false,
+    "commandExposurePermissionGranted": false,
+    "runtimeBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "filesystemWatcherEnabled": false,
+    "externalSourceLookupEnabled": false,
+    "secretsEnvIngestionEnabled": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "processSpawnEnabled": false,
+    "processTerminationEnabled": false,
+    "runtimeSupervisionEnabled": false,
+    "runtimeTranscriptWritePerformed": false,
+    "runtimeAuditWritePerformed": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true
+  }
+}

@@ -1,0 +1,422 @@
+{
+  "failureAuditRecord": {
+    "document": "docs/phase-4-1e-failure-audit-kill-semantics.md",
+    "source": "packages/core/src/index.mjs",
+    "types": "packages/core/src/index.d.ts",
+    "fixture": "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json",
+    "schema": "ardyn.failure-audit-record",
+    "schemaVersion": "0.1.0",
+    "recordKind": "failure-audit-record",
+    "recordPhase": "phase-4.1e-failure-audit-kill-semantics",
+    "reviewedPhase": "4.1E",
+    "sourcePhase": "phase-4.1d-transcript-replay-contracts",
+    "classification": "static_contract_only",
+    "failureCategory": "contract-definition",
+    "terminalState": "not-run",
+    "exitCodeClassification": "not-applicable",
+    "stderrDiagnosticClassification": "clean_failure",
+    "redactionStatus": "redacted_safe",
+    "runtimeAvailabilityStatus": "runtime_unavailable",
+    "failureAuditRuntimeAvailable": false,
+    "cleanupRuntimeAvailable": false,
+    "processKillAvailable": false,
+    "processControlAvailable": false,
+    "signalHandlerAvailable": false,
+    "exitHandlerAvailable": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "consumedByLiveHostLoop": false
+  },
+  "redactedFailureDiagnostic": {
+    "fixture": "tests/fixtures/host-policy/phase4-1e/redacted-failure-diagnostic-record.json",
+    "classification": "redacted_failure",
+    "stderrDiagnosticClassification": "redacted_failure",
+    "redactionStatus": "redacted_safe",
+    "redactionCount": 1,
+    "rawDiagnosticIncluded": false
+  },
+  "runtimeAttempt": {
+    "fixture": "tests/fixtures/host-policy/phase4-1e/runtime-cleanup-kill-attempt-record.json",
+    "classification": "runtime_unavailable",
+    "sourceClassification": "cleanup_required",
+    "cleanupRuntimeAttempted": true,
+    "processKillAttempted": true,
+    "signalHandlerAttempted": true,
+    "failClosedExpected": true
+  },
+  "terminalStateRules": {
+    "deterministic": true,
+    "terminalCompletedRequiresSessionCompletedLast": true,
+    "terminalFailedMayUseSessionError": true,
+    "terminalAbortedRequiresFutureHostPolicyEvidence": true,
+    "terminalRejectedRequiresHostPolicyDenial": true,
+    "missingTerminalEventFailsClosed": true,
+    "terminalEventNotLastFailsClosed": true,
+    "duplicateTerminalEventFailsClosed": true,
+    "synthesizedTerminalEventsAllowed": false,
+    "partialOutputMayBecomeTranscriptEvidence": false
+  },
+  "stdoutCommitBoundary": {
+    "policyOnly": true,
+    "committedEventCount": 0,
+    "committedSequenceRange": {
+      "first": null,
+      "last": null
+    },
+    "terminalEventObserved": false,
+    "stdoutEndedWithFinalLf": false,
+    "partialFinalLineObserved": false,
+    "partialOutputMayBecomeTranscriptEvidence": false,
+    "synthesizedTerminalEventAllowed": false
+  },
+  "nonzeroExitMappingRules": {
+    "deterministic": true,
+    "osSignalBehaviorEvaluated": false,
+    "exitZeroRequiresTerminalCompleted": true,
+    "sessionErrorMapsToNonzero": true,
+    "missingTerminalEventMapsToNonzero": true,
+    "redactionFailureMapsToNonzero": true,
+    "cleanupFailureMapsToNonzero": true,
+    "unexpectedNonzeroFailsClosed": true
+  },
+  "cleanupKillSemantics": {
+    "cleanupRequirement": {
+      "required": false,
+      "reason": "no cleanup required for this static fixture",
+      "policyOnly": true,
+      "cleanupRuntimeAvailable": false,
+      "processKillAvailable": false,
+      "processControlAvailable": false,
+      "signalHandlerAvailable": false,
+      "signalHandlingRuntimeAvailable": false,
+      "exitHandlerAvailable": false,
+      "timeoutRuntimeAvailable": false
+    },
+    "killInterruptTimeoutSemantics": {
+      "policyOnly": true,
+      "killRuntimeAvailable": false,
+      "interruptRuntimeAvailable": false,
+      "timeoutRuntimeAvailable": false,
+      "signalHandlingRuntimeAvailable": false,
+      "processControlAvailable": false,
+      "killMaySynthesizeTerminalEvent": false,
+      "partialOutputMayBecomeTranscriptEvidence": false,
+      "failClosedOnUnsafeCleanup": true,
+      "expectedPolicy": "future Rust-host runtime must fail closed on kill, interrupt, timeout, or cleanup uncertainty"
+    },
+    "cleanupRuntimeAvailable": false,
+    "processKillAvailable": false,
+    "killRuntimeAvailable": false,
+    "interruptRuntimeAvailable": false,
+    "timeoutRuntimeAvailable": false,
+    "processControlAvailable": false
+  },
+  "transcriptPersistenceReplayImpact": {
+    "policyOnly": true,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "partialTranscriptMayBePersisted": false,
+    "replayPermitted": false,
+    "normalizedTranscriptRequiredBeforeReplay": true
+  },
+  "runtimeEffect": {
+    "currentContractEnablesRuntime": false,
+    "runtimeImplementationAvailable": false,
+    "runtimeCommandAvailable": false,
+    "failureAuditCommandAvailable": false,
+    "failureAuditRuntimeAvailable": false,
+    "cleanupRuntimeAvailable": false,
+    "processKillAvailable": false,
+    "processControlAvailable": false,
+    "signalHandlerAvailable": false,
+    "signalHandlingRuntimeAvailable": false,
+    "exitHandlerAvailable": false,
+    "exitMappingRuntimeAvailable": false,
+    "timeoutRuntimeAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "listenerAvailable": false,
+    "serverAvailable": false,
+    "subprocessSpawningAvailable": false,
+    "writesFiles": false,
+    "readsFiles": false,
+    "runsRuntime": false,
+    "consumedByLiveHostLoop": false,
+    "grantsRuntimeApproval": false
+  },
+  "classifications": [
+    "static_contract_only",
+    "clean_failure",
+    "redacted_failure",
+    "unredactable_failure",
+    "terminal_completed",
+    "terminal_failed",
+    "terminal_aborted",
+    "terminal_rejected",
+    "nonzero_exit_expected",
+    "nonzero_exit_unexpected",
+    "cleanup_required",
+    "cleanup_not_available",
+    "runtime_unavailable",
+    "malformed",
+    "unsupported_major"
+  ],
+  "failClosedClassifications": [
+    "unredactable_failure",
+    "nonzero_exit_unexpected",
+    "cleanup_not_available",
+    "runtime_unavailable",
+    "malformed",
+    "unsupported_major"
+  ],
+  "reviewOnlyDisplayBehavior": {
+    "failureAuditRecordsAreStaticArtifactsOnly": true,
+    "currentContractsDoNotEnableRuntime": true,
+    "futureRuntimeRequiresSeparateApprovedImplementationPhase": true,
+    "preserveDevinReviewForMajorRuntimeReadinessCheckpoint": true,
+    "reportRunsChecks": false,
+    "writesFiles": false,
+    "readsFiles": false,
+    "printsStdoutFromCli": false,
+    "consumedByLiveHostLoop": false
+  },
+  "cliCommandSurface": {
+    "commandAdded": false,
+    "failureAuditCommandAdded": false,
+    "emitFailureAuditCommandAdded": false,
+    "cleanupRuntimeCommandAdded": false,
+    "killRuntimeCommandAdded": false,
+    "exitRuntimeCommandAdded": false,
+    "signalHandlerCommandAdded": false,
+    "serveRuntimeCommandAdded": false,
+    "stdioRuntimeCommandAdded": false,
+    "fileWriterAdded": false,
+    "stdoutPrinterAdded": false,
+    "existingDryRunEmitterUnchanged": true
+  },
+  "apiSurface": {
+    "typescriptCoreStaticReviewHelpersAdded": true,
+    "typescriptCoreRuntimeApiAdded": false,
+    "rustRuntimeHelperAdded": false,
+    "rustStdioOwnerAdded": false,
+    "failureAuditRuntimeAdded": false,
+    "cleanupRuntimeAdded": false,
+    "processKillAdded": false,
+    "processControlAdded": false,
+    "signalHandlerAdded": false,
+    "exitHandlerAdded": false,
+    "timeoutRuntimeAdded": false,
+    "approvalEvaluatorAdded": false,
+    "secretsUsed": false
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/valid-static-failure-audit-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/redacted-failure-diagnostic-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/unredactable-failure-diagnostic-fail-closed-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/expected-nonzero-exit-mapping-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/unexpected-nonzero-exit-mapping-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/terminal-completed-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/terminal-failed-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/terminal-aborted-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/terminal-rejected-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/cleanup-required-policy-only-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/cleanup-not-available-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/runtime-cleanup-kill-attempt-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/malformed-failure-audit-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1e/unsupported-major-failure-audit-record.json",
+      "status": "present"
+    }
+  ],
+  "docs": [
+    {
+      "path": "docs/phase-4-1e-failure-audit-kill-semantics.md",
+      "status": "present",
+      "summary": "Defines Phase 4.1E failure-audit, terminal-state, kill/exit, and cleanup contracts as static review metadata only."
+    },
+    {
+      "path": "docs/phase-4-1d-transcript-replay-contracts.md",
+      "status": "present",
+      "summary": "Links Phase 4.1E after static transcript replay contracts while preserving no replay runtime."
+    },
+    {
+      "path": "docs/phase-4-1-runtime-proposal.md",
+      "status": "present",
+      "summary": "Updates the Phase 4.1 roadmap to identify Phase 4.1E as static failure-audit kill semantics."
+    },
+    {
+      "path": "docs/phase-4-stdio-dry-run-event-emission.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1E leaves the finite dry-run emitter unchanged."
+    },
+    {
+      "path": "docs/session-events-stdio-contract.md",
+      "status": "present",
+      "summary": "Links Phase 4.1E while preserving no live failure-audit runtime."
+    },
+    {
+      "path": "docs/host-policy-preconditions.md",
+      "status": "present",
+      "summary": "Documents failure-audit contracts as static preconditions, not enforcement."
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "present",
+      "summary": "Records Phase 4.1E TypeScript static helper contracts without process control."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Documents Phase 4.1E scope and unchanged non-executing CLI surface."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1E adds no failure-audit, cleanup, kill, or runtime command."
+    },
+    {
+      "path": "packages/core/README.md",
+      "status": "present",
+      "summary": "Documents Phase 4.1E static TypeScript review helpers as non-runtime APIs."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1E does not add Rust-host process control or cleanup runtime."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase4-1e-failure-audit-kill-semantics.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 4.1E fixtures, docs, report inventory, source guards, and rejected failure-audit/cleanup/runtime commands."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 4.1E report metadata and safety posture."
+    },
+    {
+      "path": "packages/core/src/index.mjs",
+      "status": "present",
+      "summary": "Contains static failure-audit review helpers without cleanup, kill, or runtime behavior."
+    },
+    {
+      "path": "packages/core/src/index.d.ts",
+      "status": "present",
+      "summary": "Declares Phase 4.1E static helper APIs and review-only metadata types."
+    }
+  ],
+  "invariantProbes": [
+    "missing --dry-run",
+    "unknown emit-session-events arg",
+    "unsafe manifest URL",
+    "invalid JSON manifest",
+    "invalid JSON task",
+    "replay-session-transcript",
+    "policy-metadata",
+    "host-policy-export",
+    "serve-runtime",
+    "stdio-runtime",
+    "failure-audit",
+    "failure-audit-record",
+    "emit-failure-audit",
+    "failure-audit-runtime",
+    "cleanup-runtime",
+    "run-cleanup",
+    "kill-runtime",
+    "kill-process",
+    "terminate-process",
+    "process-kill",
+    "exit-runtime",
+    "exit-handler",
+    "signal-handler",
+    "handle-signal",
+    "approval-evaluator",
+    "evaluate-approval"
+  ],
+  "safetyPosture": {
+    "nonExecuting": true,
+    "failureAuditContractOnly": true,
+    "reviewOnly": true,
+    "noLiveRuntime": true,
+    "noFailureAuditRuntime": true,
+    "noCleanupRuntime": true,
+    "noProcessKill": true,
+    "noProcessControl": true,
+    "noSignalHandler": true,
+    "noTimeoutRuntime": true,
+    "noLiveStdioRuntime": true,
+    "noStdinCommandLoop": true,
+    "noLiveStdioReader": true,
+    "noProcessStdioOwnership": true,
+    "noListener": true,
+    "noServer": true,
+    "noSubprocessSpawning": true,
+    "noAdapterCalls": true,
+    "noLocusRuntimeDependency": true,
+    "noMcpCalls": true,
+    "noOpenClawCalls": true,
+    "noPluginExecution": true,
+    "noContentFabricRuntimeBehavior": true,
+    "noContentFabricDownloadInstallEnable": true,
+    "noTranscriptPersistenceReplayRuntime": true,
+    "noReplayRuntime": true,
+    "noWebSocketHttpControlSurface": true,
+    "noSecrets": true,
+    "noProductionSigningKeys": true,
+    "noRuntimeApprovalGrant": true,
+    "noHostPolicyEnforcement": true,
+    "noApprovalEvaluator": true,
+    "noStdoutWriter": true,
+    "noStderrWriter": true,
+    "noCliCommandAdded": true,
+    "noFileWriterAdded": true,
+    "noStdoutPrinterAdded": true,
+    "noRuntimeBehaviorIntroduced": true
+  }
+}

@@ -1,0 +1,462 @@
+[
+  {
+    "key": "phase36Inventory",
+    "file": "phase-phase36.json"
+  },
+  {
+    "key": "phase37Inventory",
+    "file": "phase-phase37.json"
+  },
+  {
+    "key": "phase38Inventory",
+    "file": "phase-phase38.json"
+  },
+  {
+    "key": "phase39Inventory",
+    "file": "phase-phase39.json"
+  },
+  {
+    "key": "phase310Inventory",
+    "file": "phase-phase310.json"
+  },
+  {
+    "key": "phase40AInventory",
+    "file": "phase-phase40A.json"
+  },
+  {
+    "key": "phase40BInventory",
+    "file": "phase-phase40B.json"
+  },
+  {
+    "key": "phase40CInventory",
+    "file": "phase-phase40C.json"
+  },
+  {
+    "key": "phase40DInventory",
+    "file": "phase-phase40D.json"
+  },
+  {
+    "key": "phase40EInventory",
+    "file": "phase-phase40E.json"
+  },
+  {
+    "key": "phase40FInventory",
+    "file": "phase-phase40F.json"
+  },
+  {
+    "key": "phase40GInventory",
+    "file": "phase-phase40G.json"
+  },
+  {
+    "key": "phase40HInventory",
+    "file": "phase-phase40H.json"
+  },
+  {
+    "key": "phase40IInventory",
+    "file": "phase-phase40I.json"
+  },
+  {
+    "key": "phase41ProposalInventory",
+    "file": "phase-phase41Proposal.json"
+  },
+  {
+    "key": "phase41AApprovalRecordInventory",
+    "file": "phase-phase41AApprovalRecord.json"
+  },
+  {
+    "key": "phase41BTransportHarnessInventory",
+    "file": "phase-phase41BTransportHarness.json"
+  },
+  {
+    "key": "phase41CFramingRedactionInventory",
+    "file": "phase-phase41CFramingRedaction.json"
+  },
+  {
+    "key": "phase41DTranscriptReplayInventory",
+    "file": "phase-phase41DTranscriptReplay.json"
+  },
+  {
+    "key": "phase41EFailureAuditInventory",
+    "file": "phase-phase41EFailureAudit.json"
+  },
+  {
+    "key": "phase41FRuntimeReadinessCheckpointInventory",
+    "file": "phase-phase41FRuntimeReadinessCheckpoint.json"
+  },
+  {
+    "key": "phase41GExternalReviewPacketInventory",
+    "file": "phase-phase41GExternalReviewPacket.json"
+  },
+  {
+    "key": "phase41HExternalReviewDispositionInventory",
+    "file": "phase-phase41HExternalReviewDisposition.json"
+  },
+  {
+    "key": "phase41IRustHostStdioHarnessInventory",
+    "file": "phase-phase41IRustHostStdioHarness.json"
+  },
+  {
+    "key": "phase41JFixtureBackedStdioBoundaryInventory",
+    "file": "phase-phase41JFixtureBackedStdioBoundary.json"
+  },
+  {
+    "key": "phase41KStdioRuntimeContractGateInventory",
+    "file": "phase-phase41KStdioRuntimeContractGate.json"
+  },
+  {
+    "key": "phase41LRuntimeImplementationReadinessInventory",
+    "file": "phase-phase41LRuntimeImplementationReadiness.json"
+  },
+  {
+    "key": "phase42ADeliberatelyBlockedRuntimeSkeletonInventory",
+    "file": "phase-phase42ADeliberatelyBlockedRuntimeSkeleton.json"
+  },
+  {
+    "key": "phase42BLifecycleFailureAuditSkeletonInventory",
+    "file": "phase-phase42BLifecycleFailureAuditSkeleton.json"
+  },
+  {
+    "key": "phase42CRuntimeReadinessReviewGateInventory",
+    "file": "phase-phase42CRuntimeReadinessReviewGate.json"
+  },
+  {
+    "key": "phase42DExternalReviewDispositionPhase5HandoffInventory",
+    "file": "phase-phase42DExternalReviewDispositionPhase5Handoff.json"
+  },
+  {
+    "key": "phase51ControlledRuntimeImplementationApprovalInventory",
+    "file": "phase-phase51ControlledRuntimeImplementationApproval.json"
+  },
+  {
+    "key": "phase52GuardedRuntimeImplementationSliceInventory",
+    "file": "phase-phase52GuardedRuntimeImplementationSlice.json"
+  },
+  {
+    "key": "phase53CommandSurfaceApprovalPreflightInventory",
+    "file": "phase-phase53CommandSurfaceApprovalPreflight.json"
+  },
+  {
+    "key": "phase54DisabledCommandExposurePlanInventory",
+    "file": "phase-phase54DisabledCommandExposurePlan.json"
+  },
+  {
+    "key": "phase54AJulesReviewDispositionInventory",
+    "file": "phase-phase54AJulesReviewDisposition.json"
+  },
+  {
+    "key": "phase55DefaultBlockedRuntimeCliInventory",
+    "file": "phase-phase55DefaultBlockedRuntimeCli.json"
+  },
+  {
+    "key": "phase56RuntimeEnablePreconditionGateInventory",
+    "file": "phase-phase56RuntimeEnablePreconditionGate.json"
+  },
+  {
+    "key": "phase57RuntimeApprovalValidationInventory",
+    "file": "phase-phase57RuntimeApprovalValidation.json"
+  },
+  {
+    "key": "phase58RuntimeCommandExposureApprovalInventory",
+    "file": "phase-phase58RuntimeCommandExposureApproval.json"
+  },
+  {
+    "key": "phase59ApprovalEvaluatorGrantBoundaryInventory",
+    "file": "phase-phase59ApprovalEvaluatorGrantBoundary.json"
+  },
+  {
+    "key": "phase510RuntimeHostPolicyBoundaryInventory",
+    "file": "phase-phase510RuntimeHostPolicyBoundary.json"
+  },
+  {
+    "key": "phase511RuntimeStdioSafetyBoundaryInventory",
+    "file": "phase-phase511RuntimeStdioSafetyBoundary.json"
+  },
+  {
+    "key": "phase512RuntimeTranscriptAuditBoundaryInventory",
+    "file": "phase-phase512RuntimeTranscriptAuditBoundary.json"
+  },
+  {
+    "key": "phase513RuntimeProcessControlBoundaryInventory",
+    "file": "phase-phase513RuntimeProcessControlBoundary.json"
+  },
+  {
+    "key": "phase514RuntimeRollbackKillSwitchBoundaryInventory",
+    "file": "phase-phase514RuntimeRollbackKillSwitchBoundary.json"
+  },
+  {
+    "key": "phase515PositiveRuntimeSmokeRequirementInventory",
+    "file": "phase-phase515PositiveRuntimeSmokeRequirement.json"
+  },
+  {
+    "key": "phase516RuntimeEnableReadinessCheckpointInventory",
+    "file": "phase-phase516RuntimeEnableReadinessCheckpoint.json"
+  },
+  {
+    "key": "phase517GuardedRuntimeImplementationPlanInventory",
+    "file": "phase-phase517GuardedRuntimeImplementationPlan.json"
+  },
+  {
+    "key": "phase518ReviewOnlyApprovalEvaluatorSkeletonInventory",
+    "file": "phase-phase518ReviewOnlyApprovalEvaluatorSkeleton.json"
+  },
+  {
+    "key": "phase519ApprovalPrerequisiteReaderHardeningInventory",
+    "file": "phase-phase519ApprovalPrerequisiteReaderHardening.json"
+  },
+  {
+    "key": "phase520ApprovalPrerequisiteSourceIngestionPreflightInventory",
+    "file": "phase-phase520ApprovalPrerequisiteSourceIngestionPreflight.json"
+  },
+  {
+    "key": "phase521ApprovalPrerequisiteSourceSelectionInventory",
+    "file": "phase-phase521ApprovalPrerequisiteSourceSelection.json"
+  },
+  {
+    "key": "phase522ApprovalPrerequisiteSourceBundleInventory",
+    "file": "phase-phase522ApprovalPrerequisiteSourceBundle.json"
+  },
+  {
+    "key": "phase523PrerequisiteBundleConsumptionCheckpointInventory",
+    "file": "phase-phase523PrerequisiteBundleConsumptionCheckpoint.json"
+  },
+  {
+    "key": "phase524PrerequisiteEvaluationIntegrationCheckpointInventory",
+    "file": "phase-phase524PrerequisiteEvaluationIntegrationCheckpoint.json"
+  },
+  {
+    "key": "phase525NonAuthorizingReviewArtifactBoundaryInventory",
+    "file": "phase-phase525NonAuthorizingReviewArtifactBoundary.json"
+  },
+  {
+    "key": "phase526ReviewArtifactEvaluatorInputHandoffInventory",
+    "file": "phase-phase526ReviewArtifactEvaluatorInputHandoff.json"
+  },
+  {
+    "key": "phase527ApprovalEvaluatorCandidateIntakeCheckpointInventory",
+    "file": "phase-phase527ApprovalEvaluatorCandidateIntakeCheckpoint.json"
+  },
+  {
+    "key": "phase528ReviewOnlyEvaluatorPreflightCheckpointInventory",
+    "file": "phase-phase528ReviewOnlyEvaluatorPreflightCheckpoint.json"
+  },
+  {
+    "key": "phase529NonAuthorizingEvaluatorDecisionCandidateBoundaryInventory",
+    "file": "phase-phase529NonAuthorizingEvaluatorDecisionCandidateBoundary.json"
+  },
+  {
+    "key": "phase530NonAuthorizingEvaluatorDecisionCandidateInspectionArtifactInventory",
+    "file": "phase-phase530NonAuthorizingEvaluatorDecisionCandidateInspectionArtifact.json"
+  },
+  {
+    "key": "phase531HumanToolInspectionDispositionBoundaryInventory",
+    "file": "phase-phase531HumanToolInspectionDispositionBoundary.json"
+  },
+  {
+    "key": "phase532ReviewOnlyDispositionAggregationCheckpointInventory",
+    "file": "phase-phase532ReviewOnlyDispositionAggregationCheckpoint.json"
+  },
+  {
+    "key": "phase533ReviewOnlyAggregationInspectionHandoffInventory",
+    "file": "phase-phase533ReviewOnlyAggregationInspectionHandoff.json"
+  },
+  {
+    "key": "phase534ReviewOnlyHandoffReadinessArtifactInventory",
+    "file": "phase-phase534ReviewOnlyHandoffReadinessArtifact.json"
+  },
+  {
+    "key": "phase535ReviewOnlyReadinessInspectionCheckpointInventory",
+    "file": "phase-phase535ReviewOnlyReadinessInspectionCheckpoint.json"
+  },
+  {
+    "key": "phase536ReviewOnlyReadinessHandoffDispositionBoundaryInventory",
+    "file": "phase-phase536ReviewOnlyReadinessHandoffDispositionBoundary.json"
+  },
+  {
+    "key": "phase537ReviewOnlyHandoffDispositionInspectionCheckpointInventory",
+    "file": "phase-phase537ReviewOnlyHandoffDispositionInspectionCheckpoint.json"
+  },
+  {
+    "key": "phase538ReviewOnlyInspectionHandoffMetadataBoundaryInventory",
+    "file": "phase-phase538ReviewOnlyInspectionHandoffMetadataBoundary.json"
+  },
+  {
+    "key": "phase538ACleanupToolkitAdoptionInventory",
+    "file": "phase-phase538ACleanupToolkitAdoption.json"
+  },
+  {
+    "key": "phase539ReviewOnlyInspectionHandoffCheckpointInventory",
+    "file": "phase-phase539ReviewOnlyInspectionHandoffCheckpoint.json"
+  },
+  {
+    "key": "phase540ReviewOnlyCheckpointHandoffLayerInventory",
+    "file": "phase-phase540ReviewOnlyCheckpointHandoffLayer.json"
+  },
+  {
+    "key": "phase541ReviewOnlyMetadataHandoffCheckpointInventory",
+    "file": "phase-phase541ReviewOnlyMetadataHandoffCheckpoint.json"
+  },
+  {
+    "key": "phase542ReviewOnlyHandoffMetadataConsolidationLayerInventory",
+    "file": "phase-phase542ReviewOnlyHandoffMetadataConsolidationLayer.json"
+  },
+  {
+    "key": "phase543ReviewOnlyConsolidationCheckpointHandoffInventory",
+    "file": "phase-phase543ReviewOnlyConsolidationCheckpointHandoff.json"
+  },
+  {
+    "key": "phase544ReviewOnlyConsolidationMetadataCheckpointInventory",
+    "file": "phase-phase544ReviewOnlyConsolidationMetadataCheckpoint.json"
+  },
+  {
+    "key": "phase544APrototypePollutionHardeningInventory",
+    "file": "phase-phase544APrototypePollutionHardening.json"
+  },
+  {
+    "key": "phase545TargetConsumerPlanningMetadataInventory",
+    "file": "phase-phase545TargetConsumerPlanningMetadata.json"
+  },
+  {
+    "key": "phase546ConsumerContractReadinessMatrixInventory",
+    "file": "phase-phase546ConsumerContractReadinessMatrix.json"
+  },
+  {
+    "key": "phase547ConsumerContractGapIndexInventory",
+    "file": "phase-phase547ConsumerContractGapIndex.json"
+  },
+  {
+    "key": "phase548ProductionReadinessCoverageMatrixInventory",
+    "file": "phase-phase548ProductionReadinessCoverageMatrix.json"
+  },
+  {
+    "key": "phase549ConsumerDisplayAccessibilityContractMapInventory",
+    "file": "phase-phase549ConsumerDisplayAccessibilityContractMap.json"
+  },
+  {
+    "key": "phase550ConsumerDisplayFixtureSchemaBoundaryInventory",
+    "file": "phase-phase550ConsumerDisplayFixtureSchemaBoundary.json"
+  },
+  {
+    "key": "phase551ConsumerDisplayFixtureExamplePackInventory",
+    "file": "phase-phase551ConsumerDisplayFixtureExamplePack.json"
+  },
+  {
+    "key": "phase552ConsumerDisplayFixtureConformanceHandoffInventory",
+    "file": "phase-phase552ConsumerDisplayFixtureConformanceHandoff.json"
+  },
+  {
+    "key": "phase553ConsumerOwnedDisplayConformanceRunnerRequirementsInventory",
+    "file": "phase-phase553ConsumerOwnedDisplayConformanceRunnerRequirements.json"
+  },
+  {
+    "key": "phase554ConsumerOwnedDisplayConformanceRunnerTestPlanInventory",
+    "file": "phase-phase554ConsumerOwnedDisplayConformanceRunnerTestPlan.json"
+  },
+  {
+    "key": "phase555ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInventory",
+    "file": "phase-phase555ConsumerOwnedDisplayConformanceRunnerResultSchemaBoundary.json"
+  },
+  {
+    "key": "phase556ConsumerOwnedDisplayConformanceResultHandoffInventory",
+    "file": "phase-phase556ConsumerOwnedDisplayConformanceResultHandoff.json"
+  },
+  {
+    "key": "phase557ConsumerOwnedDisplayConformanceResultReviewIntakeBoundaryInventory",
+    "file": "phase-phase557ConsumerOwnedDisplayConformanceResultReviewIntakeBoundary.json"
+  },
+  {
+    "key": "phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundaryInventory",
+    "file": "phase-phase558ConsumerOwnedDisplayConformanceResultReviewPackageBoundary.json"
+  },
+  {
+    "key": "phase559FabricAwareApiBackendContractBoundaryMapInventory",
+    "file": "phase-phase559FabricAwareApiBackendContractBoundaryMap.json"
+  },
+  {
+    "key": "phase560InterAgentEncodedHandoffConformanceInventory",
+    "file": "phase-phase560InterAgentEncodedHandoffConformance.json"
+  },
+  {
+    "key": "phase561DatabaseStorageContractBoundaryMapInventory",
+    "file": "phase-phase561DatabaseStorageContractBoundaryMap.json"
+  },
+  {
+    "key": "phase562AuthPermissionsContractBoundaryMapInventory",
+    "file": "phase-phase562AuthPermissionsContractBoundaryMap.json"
+  },
+  {
+    "key": "phase563SecurityRlsInputSanitizationContractBoundaryMapInventory",
+    "file": "phase-phase563SecurityRlsInputSanitizationContractBoundaryMap.json"
+  },
+  {
+    "key": "phase564RateLimitingAbuseControlContractBoundaryMapInventory",
+    "file": "phase-phase564RateLimitingAbuseControlContractBoundaryMap.json"
+  },
+  {
+    "key": "phase565ErrorTrackingLoggingAuditIntegrityContractBoundaryMapInventory",
+    "file": "phase-phase565ErrorTrackingLoggingAuditIntegrityContractBoundaryMap.json"
+  },
+  {
+    "key": "phase566AvailabilityRecoveryContractBoundaryMapInventory",
+    "file": "phase-phase566AvailabilityRecoveryContractBoundaryMap.json"
+  },
+  {
+    "key": "phase567InfrastructureComplianceDataRetentionContractBoundaryMapInventory",
+    "file": "phase-phase567InfrastructureComplianceDataRetentionContractBoundaryMap.json"
+  },
+  {
+    "key": "phase568AgentModeProfileSkillhubCapabilityBoundaryMapInventory",
+    "file": "phase-phase568AgentModeProfileSkillhubCapabilityBoundaryMap.json"
+  },
+  {
+    "key": "phase569TestingFrameworksQualityGatesContractBoundaryMapInventory",
+    "file": "phase-phase569TestingFrameworksQualityGatesContractBoundaryMap.json"
+  },
+  {
+    "key": "phase570OperationsReliabilityContractBoundaryMapInventory",
+    "file": "phase-phase570OperationsReliabilityContractBoundaryMap.json"
+  },
+  {
+    "key": "phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapInventory",
+    "file": "phase-phase571MaintenanceGovernanceAdrDependencyPolicyContractBoundaryMap.json"
+  },
+  {
+    "key": "phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapInventory",
+    "file": "phase-phase572SecretsManagementKeyRotationExternalGatewayCredentialBoundaryMap.json"
+  },
+  {
+    "key": "phase573ExternalGatewayMatrixTransportContractBoundaryMapInventory",
+    "file": "phase-phase573ExternalGatewayMatrixTransportContractBoundaryMap.json"
+  },
+  {
+    "key": "phase574CommandSurfaceShellPrimitiveContractBoundaryMapInventory",
+    "file": "phase-phase574CommandSurfaceShellPrimitiveContractBoundaryMap.json"
+  },
+  {
+    "key": "phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdateInventory",
+    "file": "phase-phase575FabricCoreConsumerIntegrationReadinessBoundaryUpdate.json"
+  },
+  {
+    "key": "phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMapInventory",
+    "file": "phase-phase576EmbeddedDbQueryEnginePrimitiveContractBoundaryMap.json"
+  },
+  {
+    "key": "phase576BFabricFederationReconciliationInventory",
+    "file": "phase-phase576BFabricFederationReconciliation.json"
+  },
+  {
+    "key": "phase577CodeModeOrchestrationBoundaryMapInventory",
+    "file": "phase-phase577CodeModeOrchestrationBoundaryMap.json"
+  },
+  {
+    "key": "phase578CiEnforcementContractBoundaryMapInventory",
+    "file": "phase-phase578CiEnforcementContractBoundaryMap.json"
+  },
+  {
+    "key": "phase579CiEnablementBoundaryMapInventory",
+    "file": "phase-phase579CiEnablementBoundaryMap.json"
+  },
+  {
+    "key": "phase580ReportScriptCompactionBoundaryMapInventory",
+    "file": "phase-phase580ReportScriptCompactionBoundaryMap.json"
+  }
+]

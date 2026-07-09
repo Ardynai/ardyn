@@ -1,0 +1,407 @@
+{
+  "schema": "ardyn.phase-5.80.report-script-compaction-boundary-map-result",
+  "schemaVersion": "0.1.0",
+  "reportScriptCompactionKind": "report-script-compaction-boundary-map",
+  "reportScriptCompactionMode": "review-only",
+  "reviewedAt": "2026-07-08T00:00:00.000Z",
+  "classification": "valid_report_script_compaction_boundary_map_manifest_driven_byte_identical",
+  "reportScriptCompactionBoundaryMapProduced": true,
+  "boundaryEntries": [
+    {
+      "boundaryId": "phase5-80.ardyn.manifest_extraction",
+      "boundaryFamily": "manifest_extraction",
+      "relatedSystem": "ardyn",
+      "currentStatus": "active",
+      "allowedCurrentBehavior": [
+        "Record that 114 per-phase manifests + header + tail + index were extracted from the golden snapshot."
+      ],
+      "forbiddenCurrentBehavior": [
+        "Edit phase fixtures or docs during extraction."
+      ],
+      "requiredFutureContractBeforeImplementation": [],
+      "requiredFutureAuthorizationPhaseBeforeRuntime": "none (manifest extraction is active)",
+      "contractShape": {
+        "manifestCount": "integer 117",
+        "headerFile": "string",
+        "tailFile": "string",
+        "indexFile": "string"
+      },
+      "crossPhaseReferences": [
+        "5.79 (CI enablement — last phase before compaction)"
+      ],
+      "explicitBlockedAuthorizationFlags": {
+        "runtimeAuthorized": false,
+        "authorizesRuntime": false,
+        "commandExposureAuthorizationGranted": false,
+        "approvalDecisionProduced": false,
+        "approvalGrantProduced": false
+      },
+      "unsafeReportScriptCompactionRuntimeFlags": {
+        "runtimeExecutionEnabled": false,
+        "runtimeAuthorizationEnabled": false,
+        "runtimeCommandEnabled": false,
+        "commandExposureEnabled": false,
+        "commandsExposed": false,
+        "connectorGrantProduced": false,
+        "shellRuntimeEnabled": false,
+        "sqliteRuntimeEnabled": false,
+        "embeddedDbReaderEnabled": false,
+        "databaseClientImplemented": false,
+        "matrixClientRuntimeEnabled": false,
+        "externalGatewayRuntimeEnabled": false,
+        "fabricCoreTransportRuntimeEnabled": false,
+        "fabricRuntimeImplementedByArdyn": false,
+        "secureDropImplemented": false,
+        "secureDropDecryptionEnabled": false,
+        "filesystemAccessEnabled": false,
+        "filesystemReadEnabled": false,
+        "filesystemWriteEnabled": false,
+        "backendRuntimeImplementedByArdyn": false,
+        "processSpawnEnabled": false,
+        "processControlEnabled": false,
+        "blockedCliBypassEnabled": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      },
+      "nonAuthorizingProof": true,
+      "reportScriptCompactionBoundaryMetadataOnly": true,
+      "noLiveReportScriptCompactionRuntimePerformed": true
+    },
+    {
+      "boundaryId": "phase5-80.ardyn.generic_loader",
+      "boundaryFamily": "generic_loader",
+      "relatedSystem": "ardyn",
+      "currentStatus": "active",
+      "allowedCurrentBehavior": [
+        "Record that the loader reads manifests and assembles the report object."
+      ],
+      "forbiddenCurrentBehavior": [
+        "Hardcode per-phase data in the loader.",
+        "Import forbidden modules."
+      ],
+      "requiredFutureContractBeforeImplementation": [],
+      "requiredFutureAuthorizationPhaseBeforeRuntime": "none (loader is active)",
+      "contractShape": {
+        "loaderLines": "integer ~70",
+        "imports": "array [node:fs, node:fs/promises, node:path, node:url]"
+      },
+      "crossPhaseReferences": [],
+      "explicitBlockedAuthorizationFlags": {
+        "runtimeAuthorized": false,
+        "authorizesRuntime": false,
+        "commandExposureAuthorizationGranted": false,
+        "approvalDecisionProduced": false,
+        "approvalGrantProduced": false
+      },
+      "unsafeReportScriptCompactionRuntimeFlags": {
+        "runtimeExecutionEnabled": false,
+        "runtimeAuthorizationEnabled": false,
+        "runtimeCommandEnabled": false,
+        "commandExposureEnabled": false,
+        "commandsExposed": false,
+        "connectorGrantProduced": false,
+        "shellRuntimeEnabled": false,
+        "sqliteRuntimeEnabled": false,
+        "embeddedDbReaderEnabled": false,
+        "databaseClientImplemented": false,
+        "matrixClientRuntimeEnabled": false,
+        "externalGatewayRuntimeEnabled": false,
+        "fabricCoreTransportRuntimeEnabled": false,
+        "fabricRuntimeImplementedByArdyn": false,
+        "secureDropImplemented": false,
+        "secureDropDecryptionEnabled": false,
+        "filesystemAccessEnabled": false,
+        "filesystemReadEnabled": false,
+        "filesystemWriteEnabled": false,
+        "backendRuntimeImplementedByArdyn": false,
+        "processSpawnEnabled": false,
+        "processControlEnabled": false,
+        "blockedCliBypassEnabled": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      },
+      "nonAuthorizingProof": true,
+      "reportScriptCompactionBoundaryMetadataOnly": true,
+      "noLiveReportScriptCompactionRuntimePerformed": true
+    },
+    {
+      "boundaryId": "phase5-80.ardyn.byte_identity_verification",
+      "boundaryFamily": "byte_identity_verification",
+      "relatedSystem": "ardyn",
+      "currentStatus": "active",
+      "allowedCurrentBehavior": [
+        "Record that SHA256 golden == SHA256 new output."
+      ],
+      "forbiddenCurrentBehavior": [
+        "Modify the output to match the loader."
+      ],
+      "requiredFutureContractBeforeImplementation": [],
+      "requiredFutureAuthorizationPhaseBeforeRuntime": "none (verified)",
+      "contractShape": {
+        "goldenSha256": "string fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",
+        "newSha256": "string fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",
+        "identical": "boolean true"
+      },
+      "crossPhaseReferences": [],
+      "explicitBlockedAuthorizationFlags": {
+        "runtimeAuthorized": false,
+        "authorizesRuntime": false,
+        "commandExposureAuthorizationGranted": false,
+        "approvalDecisionProduced": false,
+        "approvalGrantProduced": false
+      },
+      "unsafeReportScriptCompactionRuntimeFlags": {
+        "runtimeExecutionEnabled": false,
+        "runtimeAuthorizationEnabled": false,
+        "runtimeCommandEnabled": false,
+        "commandExposureEnabled": false,
+        "commandsExposed": false,
+        "connectorGrantProduced": false,
+        "shellRuntimeEnabled": false,
+        "sqliteRuntimeEnabled": false,
+        "embeddedDbReaderEnabled": false,
+        "databaseClientImplemented": false,
+        "matrixClientRuntimeEnabled": false,
+        "externalGatewayRuntimeEnabled": false,
+        "fabricCoreTransportRuntimeEnabled": false,
+        "fabricRuntimeImplementedByArdyn": false,
+        "secureDropImplemented": false,
+        "secureDropDecryptionEnabled": false,
+        "filesystemAccessEnabled": false,
+        "filesystemReadEnabled": false,
+        "filesystemWriteEnabled": false,
+        "backendRuntimeImplementedByArdyn": false,
+        "processSpawnEnabled": false,
+        "processControlEnabled": false,
+        "blockedCliBypassEnabled": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      },
+      "nonAuthorizingProof": true,
+      "reportScriptCompactionBoundaryMetadataOnly": true,
+      "noLiveReportScriptCompactionRuntimePerformed": true
+    },
+    {
+      "boundaryId": "phase5-80.ardyn.local_status_preservation",
+      "boundaryFamily": "local_status_preservation",
+      "relatedSystem": "ardyn",
+      "currentStatus": "active",
+      "allowedCurrentBehavior": [
+        "Record that localStatus() access() checks are preserved at runtime."
+      ],
+      "forbiddenCurrentBehavior": [
+        "Hardcode status values without runtime checks."
+      ],
+      "requiredFutureContractBeforeImplementation": [],
+      "requiredFutureAuthorizationPhaseBeforeRuntime": "none (preserved)",
+      "contractShape": {
+        "method": "string access() with constants.R_OK",
+        "result": "string present (all files exist)"
+      },
+      "crossPhaseReferences": [],
+      "explicitBlockedAuthorizationFlags": {
+        "runtimeAuthorized": false,
+        "authorizesRuntime": false,
+        "commandExposureAuthorizationGranted": false,
+        "approvalDecisionProduced": false,
+        "approvalGrantProduced": false
+      },
+      "unsafeReportScriptCompactionRuntimeFlags": {
+        "runtimeExecutionEnabled": false,
+        "runtimeAuthorizationEnabled": false,
+        "runtimeCommandEnabled": false,
+        "commandExposureEnabled": false,
+        "commandsExposed": false,
+        "connectorGrantProduced": false,
+        "shellRuntimeEnabled": false,
+        "sqliteRuntimeEnabled": false,
+        "embeddedDbReaderEnabled": false,
+        "databaseClientImplemented": false,
+        "matrixClientRuntimeEnabled": false,
+        "externalGatewayRuntimeEnabled": false,
+        "fabricCoreTransportRuntimeEnabled": false,
+        "fabricRuntimeImplementedByArdyn": false,
+        "secureDropImplemented": false,
+        "secureDropDecryptionEnabled": false,
+        "filesystemAccessEnabled": false,
+        "filesystemReadEnabled": false,
+        "filesystemWriteEnabled": false,
+        "backendRuntimeImplementedByArdyn": false,
+        "processSpawnEnabled": false,
+        "processControlEnabled": false,
+        "blockedCliBypassEnabled": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      },
+      "nonAuthorizingProof": true,
+      "reportScriptCompactionBoundaryMetadataOnly": true,
+      "noLiveReportScriptCompactionRuntimePerformed": true
+    },
+    {
+      "boundaryId": "phase5-80.ardyn.contributing_update",
+      "boundaryFamily": "contributing_update",
+      "relatedSystem": "ardyn",
+      "currentStatus": "active",
+      "allowedCurrentBehavior": [
+        "Record that CONTRIBUTING's add-a-phase section now says: add one manifest + fixtures, zero script edits."
+      ],
+      "forbiddenCurrentBehavior": [
+        "Require script edits for new phases."
+      ],
+      "requiredFutureContractBeforeImplementation": [],
+      "requiredFutureAuthorizationPhaseBeforeRuntime": "none (CONTRIBUTING updated)",
+      "contractShape": {
+        "newRule": "string 'add one manifest + fixtures; zero script edits'"
+      },
+      "crossPhaseReferences": [],
+      "explicitBlockedAuthorizationFlags": {
+        "runtimeAuthorized": false,
+        "authorizesRuntime": false,
+        "commandExposureAuthorizationGranted": false,
+        "approvalDecisionProduced": false,
+        "approvalGrantProduced": false
+      },
+      "unsafeReportScriptCompactionRuntimeFlags": {
+        "runtimeExecutionEnabled": false,
+        "runtimeAuthorizationEnabled": false,
+        "runtimeCommandEnabled": false,
+        "commandExposureEnabled": false,
+        "commandsExposed": false,
+        "connectorGrantProduced": false,
+        "shellRuntimeEnabled": false,
+        "sqliteRuntimeEnabled": false,
+        "embeddedDbReaderEnabled": false,
+        "databaseClientImplemented": false,
+        "matrixClientRuntimeEnabled": false,
+        "externalGatewayRuntimeEnabled": false,
+        "fabricCoreTransportRuntimeEnabled": false,
+        "fabricRuntimeImplementedByArdyn": false,
+        "secureDropImplemented": false,
+        "secureDropDecryptionEnabled": false,
+        "filesystemAccessEnabled": false,
+        "filesystemReadEnabled": false,
+        "filesystemWriteEnabled": false,
+        "backendRuntimeImplementedByArdyn": false,
+        "processSpawnEnabled": false,
+        "processControlEnabled": false,
+        "blockedCliBypassEnabled": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      },
+      "nonAuthorizingProof": true,
+      "reportScriptCompactionBoundaryMetadataOnly": true,
+      "noLiveReportScriptCompactionRuntimePerformed": true
+    }
+  ],
+  "boundaryMapSummary": {
+    "boundaryEntryCount": 5,
+    "boundaryFamilies": [
+      "manifest_extraction",
+      "generic_loader",
+      "byte_identity_verification",
+      "local_status_preservation",
+      "contributing_update"
+    ],
+    "relatedSystems": [
+      "ardyn"
+    ],
+    "currentStatusValues": [
+      "active"
+    ],
+    "countByFamily": {
+      "manifest_extraction": 1,
+      "generic_loader": 1,
+      "byte_identity_verification": 1,
+      "local_status_preservation": 1,
+      "contributing_update": 1
+    },
+    "countByRelatedSystem": {
+      "ardyn": 5
+    },
+    "countByStatus": {
+      "active": 5
+    },
+    "manifestExtractionRecorded": true,
+    "genericLoaderRecorded": true,
+    "byteIdentityVerified": true,
+    "localStatusPreserved": true,
+    "contributingUpdated": true,
+    "goldenSha256": "fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",
+    "newSha256": "fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",
+    "hashesIdentical": true,
+    "allBlockedAuthorizationFlagsFalse": true,
+    "allUnsafeReportScriptCompactionRuntimeFlagsFalse": true,
+    "allRuntimeEffectsFalse": true,
+    "allEntriesNonAuthorizing": true
+  },
+  "recommendedNextPhase": "phase-5.81-report-test-compaction",
+  "reportScriptCompactionOnly": true,
+  "reviewOnly": true,
+  "metadataOnly": true,
+  "authoritative": false,
+  "nonAuthorizingProof": true,
+  "reportRunsChecks": false,
+  "rejectionReasons": [],
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalEvaluatorAuthoritative": false
+  }
+}
