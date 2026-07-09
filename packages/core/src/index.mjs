@@ -72925,3 +72925,226 @@ export function createSourceGuardHardeningForReview(input = {}) {
   const boundaryEntries=accepted?sourceGuardHardeningBoundaryEntries():[];
   return sourceGuardHardeningResult({reviewedAt,classification,accepted,boundaryEntries});
 }
+// ─── Phase 5.83: External-Reference Policy ─────────────────────────────────
+// Reuses MALFORMED_INPUT (line 69510), isPlainObjectRecord (line 3945),
+// approvalEvaluatorCandidateNestedTrueClaim (line 8163) — no new clones.
+
+export const EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.83.external-reference-policy-boundary-map-result";
+export const EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_VERSION = "0.1.0";
+export const EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_KIND =
+  "external-reference-policy-boundary-map";
+export const VALID_EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_external_reference_policy_boundary_map_allowlist_enforced_federation_invariants_machine_checked";
+
+const EXTERNAL_REFERENCE_POLICY_BOUNDARY_FAMILIES = Object.freeze([
+  "glossopetrae_reference",
+  "hermes_agent_import_block",
+  "cua_computer_use_reference",
+  "matrix_hiclaw_reference",
+  "codecrafters_shell_reference",
+  "codecrafters_sqlite_reference",
+  "fabric_core_multiverse_reference",
+  "fabric_federation_client_invariants",
+  "secure_drop_content_fabric_reference",
+  "openclaw_reference",
+  "goose_onyx_fainir_reference",
+  "fallow_advisory",
+  "dependency_allowlist",
+  "forbidden_dependency_patterns"
+]);
+const EXTERNAL_REFERENCE_POLICY_RELATED_SYSTEMS = Object.freeze(["ardyn"]);
+const EXTERNAL_REFERENCE_POLICY_STATUSES = Object.freeze(["active"]);
+
+const EXTERNAL_REFERENCE_POLICY_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled","runtimeAuthorizationEnabled","runtimeCommandEnabled",
+  "commandExposureEnabled","commandsExposed","connectorGrantProduced",
+  "shellRuntimeEnabled","sqliteRuntimeEnabled","embeddedDbReaderEnabled",
+  "databaseClientImplemented","matrixClientRuntimeEnabled","externalGatewayRuntimeEnabled",
+  "fabricCoreTransportRuntimeEnabled","fabricRuntimeImplementedByArdyn",
+  "secureDropImplemented","secureDropDecryptionEnabled",
+  "filesystemAccessEnabled","filesystemReadEnabled","filesystemWriteEnabled",
+  "backendRuntimeImplementedByArdyn","processSpawnEnabled","processControlEnabled",
+  "blockedCliBypassEnabled","dhtSwarmP2pEnabled","bitTorrentEnabled",
+  "trainingGpuDependencyAdded","mlFrameworkDependencyAdded"
+]);
+const EXTERNAL_REFERENCE_POLICY_KNOWN_KEYS = Object.freeze(new Set([
+  "reviewedAt","boundaryEntries","reportRunsChecks","authorizesRuntime",
+  "runtimeEffect",...EXTERNAL_REFERENCE_POLICY_UNSAFE_FIELDS
+]));
+const EXTERNAL_REFERENCE_POLICY_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized","authorizesRuntime","commandExposureAuthorizationGranted",
+  "approvalDecisionProduced","approvalGrantProduced"
+]);
+
+function externalReferencePolicyInputRecord(input) {
+  if (input === null || typeof input !== "object" || Array.isArray(input)) return MALFORMED_INPUT;
+  return input;
+}
+function externalReferencePolicyReviewedAt(inputRecord) {
+  if (inputRecord === MALFORMED_INPUT) return null;
+  const v = inputRecord.reviewedAt;
+  if (v === undefined) return "2026-07-09T00:00:00.000Z";
+  if (typeof v !== "string" || Number.isNaN(Date.parse(v))) return null;
+  return v;
+}
+function externalReferencePolicyClassification(inputRecord) {
+  const reviewedAt = externalReferencePolicyReviewedAt(inputRecord);
+  if (reviewedAt === null || inputRecord === MALFORMED_INPUT)
+    return "malformed_external_reference_policy_boundary_map_input_rejected";
+  if (inputRecord.reportRunsChecks === true)
+    return "report_runs_checks_true_external_reference_policy_boundary_map_input_rejected";
+  if (inputRecord.authorizesRuntime === true)
+    return "runtime_authorization_attempt_external_reference_policy_boundary_map_input_rejected";
+  for (const key of Object.keys(inputRecord))
+    if (!EXTERNAL_REFERENCE_POLICY_KNOWN_KEYS.has(key))
+      return "unknown_top_level_field_external_reference_policy_boundary_map_input_rejected";
+  for (const flag of EXTERNAL_REFERENCE_POLICY_UNSAFE_FIELDS)
+    if (inputRecord[flag] === true)
+      return "unsafe_external_reference_policy_runtime_flags_input_rejected";
+  if (inputRecord.runtimeEffect && approvalEvaluatorCandidateNestedTrueClaim(inputRecord.runtimeEffect,
+      (key) => EXTERNAL_REFERENCE_POLICY_UNSAFE_FIELDS.includes(key)||key==="runtimeEnabled"||key==="runtimeStarted"||key==="runtimeReady"||key==="runtimeCommandEnabled"||key==="runtimeCommandExposureEnabled"||key==="runtimeExecutionEnabled"||key==="runtimeExecuted"||key==="approvalGrantProduced"||key==="approvalGrantPersisted"||key==="approvalEvaluatorAuthoritative"))
+    return "nested_unsafe_flags_external_reference_policy_boundary_map_input_rejected";
+  return VALID_EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_CLASSIFICATION;
+}
+function externalReferencePolicyAuthFlags() {
+  return Object.fromEntries(EXTERNAL_REFERENCE_POLICY_AUTHORIZATION_FIELDS.map((f)=>[f,false]));
+}
+function externalReferencePolicyUnsafeFlags() {
+  return Object.fromEntries(EXTERNAL_REFERENCE_POLICY_UNSAFE_FIELDS.map((f)=>[f,false]));
+}
+
+const EXTERNAL_REFERENCE_POLICY_ENTRIES = Object.freeze([
+  {referenceFamily:"glossopetrae",source:"Phase 5.60 GLOSSOPETRAE encoded-handoff conformance (tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs)",status:"architecture_reference_only",unsafeFamilies:["encoded_handoff_runtime","codec_runtime","translator_runtime","stego_covert_channel"],allowedUsage:["Reference GLOSSOPETRAE as the gold-standard pattern for unsafe-field metadata + test-asserted rejections + CLI keyword probes."],forbiddenUsage:["Implement encoded-handoff runtime, codec, translator, or steganographic covert channel in Ardyn."],owningPhase:"5.60",testCoveragePointer:"tests/phase5-60-inter-agent-encoded-handoff-conformance.test.mjs"},
+  {referenceFamily:"hermes_agent",source:"NousResearch/hermes-agent (external repository)",status:"external_canonical_owner",unsafeFamilies:["hermes_agent_import","cua_driver_runtime","computer_use_runtime","agent_mode_runtime"],allowedUsage:["Reference hermes-agent as the harness that edits this repo; cite in docs."],forbiddenUsage:["Vendor or import hermes-agent code into Ardyn packages or apps.","Add hermes* as an npm dependency."],owningPhase:"5.83",testCoveragePointer:"tests/phase5-83-external-reference-policy.test.mjs (import guard + forbidden-pattern scan)"},
+  {referenceFamily:"cua_computer_use",source:"Phase 5.68 agent-mode/profile/skillhub capability boundary map",status:"taxonomy_reference_only",unsafeFamilies:["cua_driver_runtime","computer_use_runtime","agent_mode_runtime","profile_loader","skill_loader"],allowedUsage:["Record taxonomy metadata for CUA/computer-use capabilities."],forbiddenUsage:["Implement CUA driver, computer-use runtime, or agent-mode runtime in Ardyn.","Add cua* as a dependency."],owningPhase:"5.68",testCoveragePointer:"tests/phase5-68-agent-mode-profile-skillhub-capability-boundary-map.test.mjs"},
+  {referenceFamily:"matrix_hiclaw",source:"Phase 5.73 external gateway/Matrix transport contract boundary map",status:"taxonomy_reference_only",unsafeFamilies:["matrix_client_runtime","homeserver_connection","e2ee_key_session_handling","gateway_runtime"],allowedUsage:["Record taxonomy metadata for Matrix/external-gateway transport."],forbiddenUsage:["Implement Matrix client runtime, homeserver connection, or E2EE key handling.","Add matrix-js-sdk or @matrix-org/* as dependencies."],owningPhase:"5.73",testCoveragePointer:"tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs"},
+  {referenceFamily:"codecrafters_shell",source:"Phase 5.74 command-surface/shell primitive contract boundary map",status:"taxonomy_reference_only",unsafeFamilies:["shell_runtime","repl_runtime","command_parser_runtime","process_spawn","path_lookup"],allowedUsage:["Record taxonomy metadata for shell/command-surface primitives."],forbiddenUsage:["Implement shell runtime, REPL, command parser, or process spawning.","Add shell-related runtime dependencies."],owningPhase:"5.74",testCoveragePointer:"tests/phase5-74-command-surface-shell-primitive-contract-boundary-map.test.mjs"},
+  {referenceFamily:"codecrafters_sqlite",source:"Phase 5.76 embedded DB/query-engine primitive contract boundary map",status:"taxonomy_reference_only",unsafeFamilies:["sqlite_runtime","embedded_db_reader","query_engine_runtime","database_client","page_parser","btree_traversal"],allowedUsage:["Record taxonomy metadata for SQLite/embedded-DB primitives."],forbiddenUsage:["Implement SQLite runtime, embedded DB reader, or query executor.","Add sqlite-related runtime dependencies."],owningPhase:"5.76",testCoveragePointer:"tests/phase5-76-embedded-db-query-engine-primitive-contract-boundary-map.test.mjs"},
+  {referenceFamily:"fabric_core_multiverse",source:"Ardynai/multiverse packages/fabric-core (external repository)",status:"future_consumer_pending_contract",unsafeFamilies:["fabric_core_transport_runtime","content_addressed_transport","chunked_transfer","resumable_transfer","multi_source_transfer","bitTorrent_dht_swarm_p2p"],allowedUsage:["Reference fabric-core as the future producer for large-payload transfer; record future-consumer metadata only."],forbiddenUsage:["Import @multiverse/fabric-core into Ardyn.","Implement content-addressed, chunked, resumable, multi-source, or P2P transfer in Ardyn.","Add libp2p*, webtorrent, or similar P2P dependencies."],owningPhase:"5.75",testCoveragePointer:"tests/phase5-75-fabric-core-consumer-integration-readiness-boundary-update.test.mjs"},
+  {referenceFamily:"fabric_federation_client",source:"packages/fabric/src/federation.mjs (PR #4, authorized by Phase 5.76B)",status:"authorized_consumer_surface",unsafeFamilies:["fabric_federation_sidecar","registry_api","dht_swarm_p2p","secure_drop_decrypt"],allowedUsage:["Loopback-only HTTP sidecar federation client (isLoopbackFabricFederationUrl enforced).","Content-addressed verify (sha256) for uploaded/downloaded payloads.","Env-driven config (no hardcoded secrets)."],forbiddenUsage:["Non-loopback sidecar URLs (rejected by isLoopbackFabricFederationUrl).","Import @multiverse/fabric-core.","Join DHT/swarm/P2P networks.","Decrypt Secure Drop ciphertext.","Add new npm/cargo dependencies.","Commit secrets or hardcoded tokens."],owningPhase:"5.76B",testCoveragePointer:"tests/phase5-83-external-reference-policy.test.mjs (federation_invariants test group)"},
+  {referenceFamily:"secure_drop_content_fabric",source:"Secure Drop / Content Fabric (external concept, referenced in Phase 5.73)",status:"taxonomy_reference_only",unsafeFamilies:["secure_drop_implementation","secure_drop_decryption","content_fabric_signing"],allowedUsage:["Reference Secure Drop as a taxonomy concept in boundary maps."],forbiddenUsage:["Implement Secure Drop decryption or content-fabric signing runtime in Ardyn."],owningPhase:"5.73",testCoveragePointer:"tests/phase5-73-external-gateway-matrix-transport-contract-boundary-map.test.mjs"},
+  {referenceFamily:"openclaw",source:"OpenClaw (external project, referenced in boundary maps)",status:"advisory_only",unsafeFamilies:["openclaw_runtime"],allowedUsage:["Reference OpenClaw as an advisory taxonomy entry."],forbiddenUsage:["Import or vendor OpenClaw code.","Add openclaw* as a dependency."],owningPhase:"5.83",testCoveragePointer:"tests/phase5-83-external-reference-policy.test.mjs (forbidden-pattern scan)"},
+  {referenceFamily:"goose",source:"Goose (external project)",status:"advisory_only",unsafeFamilies:["goose_runtime"],allowedUsage:["Reference Goose as an advisory taxonomy entry."],forbiddenUsage:["Import or vendor Goose code.","Add goose as a dependency."],owningPhase:"5.83",testCoveragePointer:"tests/phase5-83-external-reference-policy.test.mjs (forbidden-pattern scan)"},
+  {referenceFamily:"onyx",source:"Onyx (external project)",status:"advisory_only",unsafeFamilies:["onyx_runtime"],allowedUsage:["Reference Onyx as an advisory taxonomy entry."],forbiddenUsage:["Import or vendor Onyx code.","Add onyx as a dependency."],owningPhase:"5.83",testCoveragePointer:"tests/phase5-83-external-reference-policy.test.mjs (forbidden-pattern scan)"},
+  {referenceFamily:"fainir",source:"Fainir (external project)",status:"advisory_only",unsafeFamilies:["fainir_runtime"],allowedUsage:["Reference Fainir as an advisory taxonomy entry."],forbiddenUsage:["Import or vendor Fainir code.","Add fainir as a dependency."],owningPhase:"5.83",testCoveragePointer:"tests/phase5-83-external-reference-policy.test.mjs (forbidden-pattern scan)"},
+  {referenceFamily:"fallow",source:"Fallow (external advisory tool, referenced in CI verification commands)",status:"advisory_only",unsafeFamilies:["fallow_runtime"],allowedUsage:["Run fallow health/audit as advisory evidence in CI verification commands."],forbiddenUsage:["Use Fallow Runtime or depend on it as a runtime component."],owningPhase:"5.83",testCoveragePointer:"tests/phase5-83-external-reference-policy.test.mjs (forbidden-pattern scan)"}
+]);
+
+const DEPENDENCY_ALLOWLIST_NPM = Object.freeze(["ajv"]);
+const DEPENDENCY_ALLOWLIST_CARGO = Object.freeze(["serde","serde_json","sha2"]);
+const FORBIDDEN_DEPENDENCY_PATTERNS = Object.freeze([
+  "libp2p*","*bittorrent*","*dht*","webtorrent",
+  "torch","tensorflow","jax","transformers",
+  "matrix-js-sdk","@matrix-org/*","hermes*","cua*",
+  "goose","onyx","fainir","openclaw*"
+]);
+
+function externalReferencePolicyBoundaryEntries() {
+  const authFlags = externalReferencePolicyAuthFlags();
+  const unsafeFlags = externalReferencePolicyUnsafeFlags();
+  const runtimeEffect = {runtimeEnabled:false,runtimeStarted:false,runtimeReady:false,runtimeCommandEnabled:false,runtimeCommandExposureEnabled:false,runtimeExecutionEnabled:false,runtimeExecuted:false,approvalGrantProduced:false,approvalGrantPersisted:false,approvalEvaluatorAuthoritative:false};
+  const base = {explicitBlockedAuthorizationFlags:authFlags,unsafeExternalReferencePolicyRuntimeFlags:unsafeFlags,runtimeEffect,nonAuthorizingProof:true,externalReferencePolicyBoundaryMetadataOnly:true,noLiveExternalReferencePolicyRuntimePerformed:true};
+  const entries = [];
+  for (const e of EXTERNAL_REFERENCE_POLICY_ENTRIES) {
+    entries.push({
+      boundaryId:`phase5-83.ardyn.${e.referenceFamily}`,
+      boundaryFamily:`${e.referenceFamily}_reference` === "glossopetrae_reference" ? "glossopetrae_reference" :
+        e.referenceFamily === "hermes_agent" ? "hermes_agent_import_block" :
+        e.referenceFamily === "cua_computer_use" ? "cua_computer_use_reference" :
+        e.referenceFamily === "matrix_hiclaw" ? "matrix_hiclaw_reference" :
+        e.referenceFamily === "codecrafters_shell" ? "codecrafters_shell_reference" :
+        e.referenceFamily === "codecrafters_sqlite" ? "codecrafters_sqlite_reference" :
+        e.referenceFamily === "fabric_core_multiverse" ? "fabric_core_multiverse_reference" :
+        e.referenceFamily === "fabric_federation_client" ? "fabric_federation_client_invariants" :
+        e.referenceFamily === "secure_drop_content_fabric" ? "secure_drop_content_fabric_reference" :
+        e.referenceFamily === "openclaw" ? "openclaw_reference" :
+        e.referenceFamily === "goose" ? "goose_onyx_fainir_reference" :
+        e.referenceFamily === "onyx" ? "goose_onyx_fainir_reference" :
+        e.referenceFamily === "fainir" ? "goose_onyx_fainir_reference" :
+        e.referenceFamily === "fallow" ? "fallow_advisory" : `${e.referenceFamily}_reference`,
+      relatedSystem:"ardyn",currentStatus:"active",
+      referenceFamily:e.referenceFamily,source:e.source,referenceStatus:e.status,
+      unsafeFamilies:Object.freeze([...e.unsafeFamilies]),
+      allowedCurrentBehavior:Object.freeze([...e.allowedUsage]),
+      forbiddenCurrentBehavior:Object.freeze([...e.forbiddenUsage]),
+      owningPhase:e.owningPhase,testCoveragePointer:e.testCoveragePointer,
+      requiredFutureContractBeforeImplementation:Object.freeze([]),
+      requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+      crossPhaseReferences:Object.freeze([]),
+      ...base
+    });
+  }
+  // Add dependency allowlist + forbidden patterns boundary entries
+  entries.push({
+    boundaryId:"phase5-83.ardyn.dependency_allowlist",
+    boundaryFamily:"dependency_allowlist",relatedSystem:"ardyn",currentStatus:"active",
+    referenceFamily:"dependency_allowlist",source:"package.json + crates/ardyn-host/Cargo.toml",referenceStatus:"active",
+    unsafeFamilies:Object.freeze([]),
+    allowedCurrentBehavior:Object.freeze([`npm devDependencies exactly: ${DEPENDENCY_ALLOWLIST_NPM.join(", ")}`,`cargo dependencies exactly: ${DEPENDENCY_ALLOWLIST_CARGO.join(", ")}`]),
+    forbiddenCurrentBehavior:Object.freeze(["Add any dependency not in the allowlist.","Add training/GPU deps (torch, tensorflow, jax, transformers)."]),
+    owningPhase:"5.83",testCoveragePointer:"tests/phase5-83-external-reference-policy.test.mjs (allowlist assertions)",
+    requiredFutureContractBeforeImplementation:Object.freeze([]),requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+    crossPhaseReferences:Object.freeze(["5.71 (maintenance/governance/ADR/dependency-policy)"]),
+    contractShape:{npmAllowlist:DEPENDENCY_ALLOWLIST_NPM,cargoAllowlist:DEPENDENCY_ALLOWLIST_CARGO},...base
+  });
+  entries.push({
+    boundaryId:"phase5-83.ardyn.forbidden_dependency_patterns",
+    boundaryFamily:"forbidden_dependency_patterns",relatedSystem:"ardyn",currentStatus:"active",
+    referenceFamily:"forbidden_dependency_patterns",source:"package-lock.json + Cargo.lock scan",referenceStatus:"active",
+    unsafeFamilies:Object.freeze([]),
+    allowedCurrentBehavior:Object.freeze(["Scan lockfiles for forbidden patterns and assert zero matches."]),
+    forbiddenCurrentBehavior:Object.freeze([...FORBIDDEN_DEPENDENCY_PATTERNS.map(p=>`Package name matching ${p} must not appear in lockfiles.`)]),
+    owningPhase:"5.83",testCoveragePointer:"tests/phase5-83-external-reference-policy.test.mjs (forbidden-pattern scan)",
+    requiredFutureContractBeforeImplementation:Object.freeze([]),requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+    crossPhaseReferences:Object.freeze([]),
+    contractShape:{forbiddenPatterns:FORBIDDEN_DEPENDENCY_PATTERNS},...base
+  });
+  return entries;
+}
+function externalReferencePolicySummary(entries) {
+  return {boundaryEntryCount:entries.length,
+    boundaryFamilies:EXTERNAL_REFERENCE_POLICY_BOUNDARY_FAMILIES,
+    relatedSystems:EXTERNAL_REFERENCE_POLICY_RELATED_SYSTEMS,
+    currentStatusValues:EXTERNAL_REFERENCE_POLICY_STATUSES,
+    countByFamily:Object.fromEntries(EXTERNAL_REFERENCE_POLICY_BOUNDARY_FAMILIES.map((f)=>[f, f==="goose_onyx_fainir_reference" ? 3 : 1])),
+    countByRelatedSystem:{ardyn:entries.length},
+    countByStatus:{active:entries.length},
+    glossopetraeReference:true,hermesAgentImportBlock:true,cuaComputerUseReference:true,
+    matrixHiclawReference:true,codecraftersShellReference:true,codecraftersSqliteReference:true,
+    fabricCoreMultiverseReference:true,fabricFederationClientInvariants:true,
+    secureDropContentFabricReference:true,openclawReference:true,
+    gooseOnyxFainirReference:true,fallowAdvisory:true,
+    dependencyAllowlist:true,forbiddenDependencyPatterns:true,
+    npmAllowlist:DEPENDENCY_ALLOWLIST_NPM,cargoAllowlist:DEPENDENCY_ALLOWLIST_CARGO,
+    forbiddenDependencyPatterns:FORBIDDEN_DEPENDENCY_PATTERNS,
+    federationInvariantsMachineChecked:true,
+    harnessVsImportDistinction:"hermes_agent is a blocked IMPORT reference — the policy blocks vendoring NousResearch/hermes-agent code into Ardyn; it does not restrict which harness edits the repo.",
+    allBlockedAuthorizationFlagsFalse:true,allUnsafeExternalReferencePolicyRuntimeFlagsFalse:true,
+    allRuntimeEffectsFalse:true,allEntriesNonAuthorizing:true};
+}
+function externalReferencePolicyFalseRuntimeFields() {
+  const f={};for(const flag of EXTERNAL_REFERENCE_POLICY_UNSAFE_FIELDS)f[flag]=false;
+  for(const flag of EXTERNAL_REFERENCE_POLICY_AUTHORIZATION_FIELDS)f[flag]=false;return f;
+}
+function externalReferencePolicyResult({reviewedAt,classification,accepted,boundaryEntries}) {
+  const summary=accepted?externalReferencePolicySummary(boundaryEntries):null;
+  return {schema:EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_SCHEMA,schemaVersion:EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_VERSION,
+    externalReferencePolicyKind:EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_KIND,externalReferencePolicyMode:"review-only",
+    reviewedAt,classification,externalReferencePolicyBoundaryMapProduced:accepted,
+    boundaryEntries:accepted?boundaryEntries:[],boundaryMapSummary:summary,
+    recommendedNextPhase:accepted?"phase-5.84-fabric-federation-prewiring-hardening":null,
+    externalReferencePolicyOnly:true,reviewOnly:true,metadataOnly:true,authoritative:false,
+    nonAuthorizingProof:true,reportRunsChecks:false,
+    ...(accepted?{}:externalReferencePolicyFalseRuntimeFields()),
+    rejectionReasons:accepted?[]:[{classification,rejected:true,runtimeAuthorized:false,reportRunsChecks:false}],
+    runtimeEffect:{runtimeEnabled:false,runtimeStarted:false,runtimeReady:false,runtimeCommandEnabled:false,runtimeCommandExposureEnabled:false,runtimeExecutionEnabled:false,runtimeExecuted:false,approvalGrantProduced:false,approvalGrantPersisted:false,approvalEvaluatorAuthoritative:false}};
+}
+export function createExternalReferencePolicyForReview(input = {}) {
+  const inputRecord=externalReferencePolicyInputRecord(input);
+  const reviewedAt=externalReferencePolicyReviewedAt(inputRecord);
+  const classification=externalReferencePolicyClassification(inputRecord);
+  const accepted=classification===VALID_EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_CLASSIFICATION;
+  const boundaryEntries=accepted?externalReferencePolicyBoundaryEntries():[];
+  return externalReferencePolicyResult({reviewedAt,classification,accepted,boundaryEntries});
+}
