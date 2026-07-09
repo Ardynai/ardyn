@@ -5951,7 +5951,8 @@
       "externalCiRan": false
     },
     "note": "The report renders local metadata only; it does not execute checks, spawn processes, write files, call network APIs, start live stdio or network transports, connect to Locus, or run runtime behavior.",
-    "phase580ReportScriptCompactionBoundaryMap": true
+    "phase580ReportScriptCompactionBoundaryMap": true,
+    "phase581ReportTestCompactionBoundaryMap": true
   },
   "externalCi": {
     "ran": false,

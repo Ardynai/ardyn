@@ -8155,14 +8155,22 @@ async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
 }
 
-async function runReport() {
+// ponytail: Phase 5.81 — memoized shared render. One spawn, reused by all tests.
+// Keep maxBuffer at 64MB with a guard test for early warning.
+async function spawnReport() {
   const { stdout, stderr } = await execFileAsync(process.execPath, [reportScriptPath], {
     cwd: repoRoot,
-    maxBuffer: 16 * 1024 * 1024
+    maxBuffer: 64 * 1024 * 1024
   });
 
   assert.equal(stderr, "");
   return JSON.parse(stdout);
+}
+
+const reportPromise = spawnReport();
+
+async function runReport() {
+  return reportPromise;
 }
 
 function assertAllFalse(record) {
@@ -8199,14 +8207,14 @@ test("package exposes report:phase-status without replacing existing test script
   );
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
-test("phase status report is Phase 5.80 report-script compaction and does not claim to run checks", async () => {
+test("phase status report is Phase 5.81 report-test compaction and does not claim to run checks", async () => {
   const report = await runReport();
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.80",
-    name: "Review-only report-script compaction (byte-identical, manifest-driven)",
+    id: "5.81",
+    name: "Review-only report-test compaction + suite performance",
     executionPosture:
-      "report-script-compaction-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only ci-workflows-present ci-check-execution-only no-ci-runtime no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation ci-check-execution-present no-release-deploy-publish-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "report-test-compaction-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only ci-workflows-present ci-check-execution-only no-ci-runtime no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation ci-check-execution-present no-release-deploy-publish-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -32386,6 +32394,10 @@ test("report inventories Phase 5.76 embedded DB/query-engine primitive contract 
     report.safetyPosture.phase580ReportScriptCompactionBoundaryMap,
     true
   );
+  assert.equal(
+    report.safetyPosture.phase581ReportTestCompactionBoundaryMap,
+    true
+  );
   assertSafetyFlags(report, phase576ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase576ExpectedFalseSafetyFlagNames, false);
 });
@@ -33478,6 +33490,29 @@ test("report script source does not import forbidden process, network, write, or
   }
 });
 
+test("report spawn exits cleanly with empty stderr (fresh independent spawn)", async () => {
+  // ponytail: Phase 5.81 — one independent fresh spawn to verify clean process behavior
+  const { stdout, stderr } = await execFileAsync(process.execPath, [reportScriptPath], {
+    cwd: repoRoot,
+    maxBuffer: 64 * 1024 * 1024
+  });
+  assert.equal(stderr, "");
+  assert.ok(stdout.length > 0);
+  const report = JSON.parse(stdout);
+  assert.equal(report.reportRunsChecks, false);
+});
+
+test("report output size stays under 50% of configured maxBuffer (early warning)", async () => {
+  // ponytail: Phase 5.81 — maxBuffer guard. If this fails, plan compaction.
+  const configuredMaxBuffer = 64 * 1024 * 1024;
+  const report = await runReport();
+  const reportSize = JSON.stringify(report).length;
+  assert.ok(
+    reportSize < configuredMaxBuffer * 0.5,
+    `Report size (${reportSize} bytes) exceeds 50% of maxBuffer (${configuredMaxBuffer} bytes). Plan compaction to avoid silent future outage.`
+  );
+});
+
 test("report inventories Phase 5.76B as Fabric Federation reconciliation side phase", async () => {
   const report = await runReport();
   const inventory = report.phase576BFabricFederationReconciliationInventory;
@@ -33757,4 +33792,21 @@ test("report inventories Phase 5.80 as report-script compaction (byte-identical,
   assert.equal(inventory.safetyPosture.byteIdentityVerified, true);
   assert.equal(inventory.safetyPosture.reportRunsChecks, false);
   assert.equal(report.safetyPosture.phase580ReportScriptCompactionBoundaryMap, true);
+  assert.equal(report.safetyPosture.phase581ReportTestCompactionBoundaryMap, true);
+});
+
+test("report inventories Phase 5.81 as report-test compaction + suite performance", async () => {
+  const report = await runReport();
+  const inventory = report.phase581ReportTestCompactionBoundaryMapInventory;
+  assert.equal(inventory.statusLayer.document, "docs/phase-5-81-report-test-compaction.md");
+  assert.equal(inventory.statusLayer.schema, "ardyn.phase-5.81.report-test-compaction-boundary-map-result");
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 4);
+  assert.equal(inventory.statusLayer.reportRunsChecks, false);
+  assert.equal(inventory.statusLayer.memoizedSharedRender, true);
+  assert.equal(inventory.statusLayer.maxbufferGuard, true);
+  assert.equal(inventory.recommendedNextPhase, "phase-5.82-source-guard-hardening");
+  assert.equal(inventory.safetyPosture.memoizedSharedRender, true);
+  assert.equal(inventory.safetyPosture.maxbufferGuard, true);
+  assert.equal(inventory.safetyPosture.reportRunsChecks, false);
+  assert.equal(report.safetyPosture.phase581ReportTestCompactionBoundaryMap, true);
 });

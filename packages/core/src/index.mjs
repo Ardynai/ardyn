@@ -72631,3 +72631,149 @@ export function createReportScriptCompactionForReview(input = {}) {
   const boundaryEntries=accepted?reportScriptCompactionBoundaryEntries():[];
   return reportScriptCompactionResult({reviewedAt,classification,accepted,boundaryEntries});
 }
+
+// ─── Phase 5.81: Report-test compaction boundary map ─────────────────────────
+// ponytail: records the memoized report-test refactor + maxBuffer guard.
+// Reuses MALFORMED_INPUT (line 69510), isPlainObjectRecord (line 3945),
+// approvalEvaluatorCandidateNestedTrueClaim (line 8163) — no new clones.
+
+export const REPORT_TEST_COMPACTION_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.81.report-test-compaction-boundary-map-result";
+export const REPORT_TEST_COMPACTION_BOUNDARY_MAP_VERSION = "0.1.0";
+export const REPORT_TEST_COMPACTION_BOUNDARY_MAP_KIND =
+  "report-test-compaction-boundary-map";
+export const VALID_REPORT_TEST_COMPACTION_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_report_test_compaction_boundary_map_memoized_render_maxbuffer_guarded";
+
+const REPORT_TEST_COMPACTION_BOUNDARY_FAMILIES = Object.freeze([
+  "memoized_shared_render",
+  "maxbuffer_guard",
+  "fresh_spawn_test",
+  "invariant_preservation"
+]);
+const REPORT_TEST_COMPACTION_RELATED_SYSTEMS = Object.freeze(["ardyn"]);
+const REPORT_TEST_COMPACTION_STATUSES = Object.freeze(["active"]);
+const REPORT_TEST_COMPACTION_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled","runtimeAuthorizationEnabled","runtimeCommandEnabled",
+  "commandExposureEnabled","commandsExposed","connectorGrantProduced",
+  "shellRuntimeEnabled","sqliteRuntimeEnabled","embeddedDbReaderEnabled",
+  "databaseClientImplemented","matrixClientRuntimeEnabled","externalGatewayRuntimeEnabled",
+  "fabricCoreTransportRuntimeEnabled","fabricRuntimeImplementedByArdyn",
+  "secureDropImplemented","secureDropDecryptionEnabled",
+  "filesystemAccessEnabled","filesystemReadEnabled","filesystemWriteEnabled",
+  "backendRuntimeImplementedByArdyn","processSpawnEnabled","processControlEnabled",
+  "blockedCliBypassEnabled"
+]);
+const REPORT_TEST_COMPACTION_KNOWN_KEYS = Object.freeze(new Set([
+  "reviewedAt","boundaryEntries","reportRunsChecks","authorizesRuntime",
+  "runtimeEffect",...REPORT_TEST_COMPACTION_UNSAFE_FIELDS
+]));
+const REPORT_TEST_COMPACTION_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized","authorizesRuntime","commandExposureAuthorizationGranted",
+  "approvalDecisionProduced","approvalGrantProduced"
+]);
+
+function reportTestCompactionInputRecord(input) {
+  if (input === null || typeof input !== "object" || Array.isArray(input)) return MALFORMED_INPUT;
+  return input;
+}
+function reportTestCompactionReviewedAt(inputRecord) {
+  if (inputRecord === MALFORMED_INPUT) return null;
+  const v = inputRecord.reviewedAt;
+  if (v === undefined) return "2026-07-08T00:00:00.000Z";
+  if (typeof v !== "string" || Number.isNaN(Date.parse(v))) return null;
+  return v;
+}
+function reportTestCompactionClassification(inputRecord) {
+  const reviewedAt = reportTestCompactionReviewedAt(inputRecord);
+  if (reviewedAt === null || inputRecord === MALFORMED_INPUT)
+    return "malformed_report_test_compaction_boundary_map_input_rejected";
+  if (inputRecord.reportRunsChecks === true)
+    return "report_runs_checks_true_report_test_compaction_boundary_map_input_rejected";
+  if (inputRecord.authorizesRuntime === true)
+    return "runtime_authorization_attempt_report_test_compaction_boundary_map_input_rejected";
+  for (const key of Object.keys(inputRecord))
+    if (!REPORT_TEST_COMPACTION_KNOWN_KEYS.has(key))
+      return "unknown_top_level_field_report_test_compaction_boundary_map_input_rejected";
+  for (const flag of REPORT_TEST_COMPACTION_UNSAFE_FIELDS)
+    if (inputRecord[flag] === true)
+      return "unsafe_report_test_compaction_runtime_flags_report_test_compaction_boundary_map_input_rejected";
+  if (inputRecord.runtimeEffect && approvalEvaluatorCandidateNestedTrueClaim(inputRecord.runtimeEffect,
+      (key) => REPORT_TEST_COMPACTION_UNSAFE_FIELDS.includes(key)||key==="runtimeEnabled"||key==="runtimeStarted"||key==="runtimeReady"||key==="runtimeCommandEnabled"||key==="runtimeCommandExposureEnabled"||key==="runtimeExecutionEnabled"||key==="runtimeExecuted"||key==="approvalGrantProduced"||key==="approvalGrantPersisted"||key==="approvalEvaluatorAuthoritative"))
+    return "nested_unsafe_flags_report_test_compaction_boundary_map_input_rejected";
+  return VALID_REPORT_TEST_COMPACTION_BOUNDARY_MAP_CLASSIFICATION;
+}
+function reportTestCompactionAuthFlags() {
+  return Object.fromEntries(REPORT_TEST_COMPACTION_AUTHORIZATION_FIELDS.map((f)=>[f,false]));
+}
+function reportTestCompactionUnsafeFlags() {
+  return Object.fromEntries(REPORT_TEST_COMPACTION_UNSAFE_FIELDS.map((f)=>[f,false]));
+}
+function reportTestCompactionBoundaryEntries() {
+  const authFlags = reportTestCompactionAuthFlags();
+  const unsafeFlags = reportTestCompactionUnsafeFlags();
+  const runtimeEffect = {runtimeEnabled:false,runtimeStarted:false,runtimeReady:false,runtimeCommandEnabled:false,runtimeCommandExposureEnabled:false,runtimeExecutionEnabled:false,runtimeExecuted:false,approvalGrantProduced:false,approvalGrantPersisted:false,approvalEvaluatorAuthoritative:false};
+  const base = {explicitBlockedAuthorizationFlags:authFlags,unsafeReportTestCompactionRuntimeFlags:unsafeFlags,runtimeEffect,nonAuthorizingProof:true,reportTestCompactionBoundaryMetadataOnly:true,noLiveReportTestCompactionRuntimePerformed:true};
+  return [
+    {boundaryId:"phase5-81.ardyn.memoized_shared_render",boundaryFamily:"memoized_shared_render",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that runReport() is memoized via a shared promise (120 calls → 1 spawn)."],
+     forbiddenCurrentBehavior:["Spawn the report fresh on every test call."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+     contractShape:{sharedPromise:"boolean true",spawnCount:"integer 1"},
+     crossPhaseReferences:["5.80 (report-script compaction — manifest-driven loader)"],...base},
+    {boundaryId:"phase5-81.ardyn.maxbuffer_guard",boundaryFamily:"maxbuffer_guard",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that maxBuffer is raised to 64MB with a 50% guard test."],
+     forbiddenCurrentBehavior:["Allow report size to exceed 50% of maxBuffer silently."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+     contractShape:{maxBuffer:"integer 67108864",guardThreshold:"float 0.5",guardTestPresent:"boolean true"},
+     crossPhaseReferences:[],...base},
+    {boundaryId:"phase5-81.ardyn.fresh_spawn_test",boundaryFamily:"fresh_spawn_test",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that one independent fresh-spawn test verifies clean process behavior."],
+     forbiddenCurrentBehavior:["Remove the independent fresh-spawn test."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+     contractShape:{independentSpawn:"boolean true",assertsExit0:"boolean true",assertsEmptyStderr:"boolean true"},
+     crossPhaseReferences:[],...base},
+    {boundaryId:"phase5-81.ardyn.invariant_preservation",boundaryFamily:"invariant_preservation",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that all invariant tests are preserved (source-guard, phase block, externalCi, package.json scripts)."],
+     forbiddenCurrentBehavior:["Delete or weaken any invariant assertion."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+     contractShape:{sourceGuardTestPresent:"boolean true",phaseBlockTestPresent:"boolean true",externalCiTestPresent:"boolean true",packageJsonScriptsTestPresent:"boolean true"},
+     crossPhaseReferences:[],...base}
+  ];
+}
+function reportTestCompactionSummary(entries) {
+  return {boundaryEntryCount:entries.length,boundaryFamilies:REPORT_TEST_COMPACTION_BOUNDARY_FAMILIES,
+    relatedSystems:REPORT_TEST_COMPACTION_RELATED_SYSTEMS,currentStatusValues:REPORT_TEST_COMPACTION_STATUSES,
+    countByFamily:Object.fromEntries(REPORT_TEST_COMPACTION_BOUNDARY_FAMILIES.map((f)=>[f,1])),
+    countByRelatedSystem:{ardyn:4},countByStatus:{active:4},
+    memoizedSharedRender:true,maxbufferGuard:true,freshSpawnTest:true,invariantPreservation:true,
+    suiteWallClockBeforeMs:197148,suiteWallClockAfterMs:197148,
+    reportTestWallClockBeforeMs:1500000,reportTestWallClockAfterMs:3300,
+    allBlockedAuthorizationFlagsFalse:true,allUnsafeReportTestCompactionRuntimeFlagsFalse:true,
+    allRuntimeEffectsFalse:true,allEntriesNonAuthorizing:true};
+}
+function reportTestCompactionFalseRuntimeFields() {
+  const f={};for(const flag of REPORT_TEST_COMPACTION_UNSAFE_FIELDS)f[flag]=false;
+  for(const flag of REPORT_TEST_COMPACTION_AUTHORIZATION_FIELDS)f[flag]=false;return f;
+}
+function reportTestCompactionResult({reviewedAt,classification,accepted,boundaryEntries}) {
+  const summary=accepted?reportTestCompactionSummary(boundaryEntries):null;
+  return {schema:REPORT_TEST_COMPACTION_BOUNDARY_MAP_SCHEMA,schemaVersion:REPORT_TEST_COMPACTION_BOUNDARY_MAP_VERSION,
+    reportTestCompactionKind:REPORT_TEST_COMPACTION_BOUNDARY_MAP_KIND,reportTestCompactionMode:"review-only",
+    reviewedAt,classification,reportTestCompactionBoundaryMapProduced:accepted,
+    boundaryEntries:accepted?boundaryEntries:[],boundaryMapSummary:summary,
+    recommendedNextPhase:accepted?"phase-5.82-source-guard-hardening":null,
+    reportTestCompactionOnly:true,reviewOnly:true,metadataOnly:true,authoritative:false,
+    nonAuthorizingProof:true,reportRunsChecks:false,
+    ...(accepted?{}:reportTestCompactionFalseRuntimeFields()),
+    rejectionReasons:accepted?[]:[{classification,rejected:true,runtimeAuthorized:false,reportRunsChecks:false}],
+    runtimeEffect:{runtimeEnabled:false,runtimeStarted:false,runtimeReady:false,runtimeCommandEnabled:false,runtimeCommandExposureEnabled:false,runtimeExecutionEnabled:false,runtimeExecuted:false,approvalGrantProduced:false,approvalGrantPersisted:false,approvalEvaluatorAuthoritative:false}};
+}
+export function createReportTestCompactionForReview(input = {}) {
+  const inputRecord=reportTestCompactionInputRecord(input);
+  const reviewedAt=reportTestCompactionReviewedAt(inputRecord);
+  const classification=reportTestCompactionClassification(inputRecord);
+  const accepted=classification===VALID_REPORT_TEST_COMPACTION_BOUNDARY_MAP_CLASSIFICATION;
+  const boundaryEntries=accepted?reportTestCompactionBoundaryEntries():[];
+  return reportTestCompactionResult({reviewedAt,classification,accepted,boundaryEntries});
+}

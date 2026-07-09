@@ -458,5 +458,9 @@
   {
     "key": "phase580ReportScriptCompactionBoundaryMapInventory",
     "file": "phase-phase580ReportScriptCompactionBoundaryMap.json"
+  },
+  {
+    "key": "phase581ReportTestCompactionBoundaryMapInventory",
+    "file": "phase-phase581ReportTestCompactionBoundaryMap.json"
   }
 ]

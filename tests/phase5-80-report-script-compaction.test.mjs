@@ -59,9 +59,10 @@ test("Phase 5.80 recommendedNextPhase is phase-5.81", async () => {
 test("Phase 5.80 manifest count equals phase inventory count", async () => {
   const index = JSON.parse(await readFile(new URL("../scripts/phase-status-manifests/index.json", import.meta.url), "utf8"));
   const files = readdirSync(manifestDir).filter(f => f.startsWith("phase-") && f.endsWith(".json") && f !== "index.json");
-  // 114 original phase manifests + 1 new 5.80 manifest = 115
-  assert.equal(index.length, 115);
-  assert.equal(files.length, 115);
+  // 114 original phase manifests + 1 5.80 + 1 5.81 = 116
+  // ponytail: updated by 5.81 to account for the new manifest
+  assert.equal(index.length, 116);
+  assert.equal(files.length, 116);
 });
 
 test("Phase 5.80 invalid cases fail closed", () => {

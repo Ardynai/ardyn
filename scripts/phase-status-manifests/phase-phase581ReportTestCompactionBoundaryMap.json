@@ -1,0 +1,106 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-81-report-test-compaction.md",
+    "schema": "ardyn.phase-5.81.report-test-compaction-boundary-map-result",
+    "schemaVersion": "0.1.0",
+    "kind": "report-test-compaction-boundary-map",
+    "mode": "review-only",
+    "classification": "valid_report_test_compaction_boundary_map_memoized_render_maxbuffer_guarded",
+    "produced": true,
+    "boundaryEntryCount": 4,
+    "boundaryFamilies": [
+      "memoized_shared_render",
+      "maxbuffer_guard",
+      "fresh_spawn_test",
+      "invariant_preservation"
+    ],
+    "relatedSystems": [
+      "ardyn"
+    ],
+    "currentStatusValues": [
+      "active"
+    ],
+    "countByFamily": {
+      "memoized_shared_render": 1,
+      "maxbuffer_guard": 1,
+      "fresh_spawn_test": 1,
+      "invariant_preservation": 1
+    },
+    "countByRelatedSystem": {
+      "ardyn": 4
+    },
+    "countByStatus": {
+      "active": 4
+    },
+    "memoizedSharedRender": true,
+    "maxbufferGuard": true,
+    "freshSpawnTest": true,
+    "invariantPreservation": true,
+    "suiteWallClockBeforeMs": 197148,
+    "suiteWallClockAfterMs": 197148,
+    "reportTestWallClockBeforeMs": 1500000,
+    "reportTestWallClockAfterMs": 3300,
+    "allBlockedAuthorizationFlagsFalse": true,
+    "allUnsafeReportTestCompactionRuntimeFlagsFalse": true,
+    "allRuntimeEffectsFalse": true,
+    "allEntriesNonAuthorizing": true,
+    "reportRunsChecks": false
+  },
+  "recommendedNextPhase": "phase-5.82-source-guard-hardening",
+  "docs": [
+    {
+      "path": "docs/phase-5-81-report-test-compaction.md",
+      "status": "present",
+      "summary": "Records the memoized report-test refactor + maxBuffer guard."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase5-81-report-test-compaction.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.81 fixture and rejection cases."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.81 status inventory and safetyPosture flag."
+    }
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-81/report-test-compaction.json",
+      "status": "present",
+      "summary": "Deterministic review-only report-test compaction boundary map."
+    }
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-81-report-test-compaction.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "npm run report:phase-status",
+    "cargo fmt --check",
+    "cargo clippy --workspace -- -D warnings",
+    "cargo test --workspace",
+    "semgrep --config auto .",
+    "npm audit --json",
+    "cargo audit",
+    "cargo machete",
+    "git diff --check"
+  ],
+  "safetyPosture": {
+    "reportTestCompactionBoundaryMapRecorded": true,
+    "reportTestCompactionBoundaryMapReviewOnly": true,
+    "reportTestCompactionBoundaryMapAuthoritative": false,
+    "reportTestCompactionBoundaryMapProduced": true,
+    "memoizedSharedRender": true,
+    "maxbufferGuard": true,
+    "freshSpawnTest": true,
+    "invariantPreservation": true,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true,
+    "noFederationMjsBehaviorChange": true,
+    "noHistoricalFixtureEdited": true,
+    "reportRunsChecks": false
+  }
+}

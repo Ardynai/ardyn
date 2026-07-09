@@ -1,0 +1,340 @@
+{
+  "schema": "ardyn.phase-5.81.report-test-compaction-boundary-map-result",
+  "schemaVersion": "0.1.0",
+  "reportTestCompactionKind": "report-test-compaction-boundary-map",
+  "reportTestCompactionMode": "review-only",
+  "reviewedAt": "2026-07-08T00:00:00.000Z",
+  "classification": "valid_report_test_compaction_boundary_map_memoized_render_maxbuffer_guarded",
+  "reportTestCompactionBoundaryMapProduced": true,
+  "boundaryEntries": [
+    {
+      "boundaryId": "phase5-81.ardyn.memoized_shared_render",
+      "boundaryFamily": "memoized_shared_render",
+      "relatedSystem": "ardyn",
+      "currentStatus": "active",
+      "allowedCurrentBehavior": [
+        "Record that runReport() is memoized via a shared promise (120 calls → 1 spawn)."
+      ],
+      "forbiddenCurrentBehavior": [
+        "Spawn the report fresh on every test call."
+      ],
+      "requiredFutureContractBeforeImplementation": [],
+      "requiredFutureAuthorizationPhaseBeforeRuntime": "none (active)",
+      "contractShape": {
+        "sharedPromise": "boolean true",
+        "spawnCount": "integer 1"
+      },
+      "crossPhaseReferences": [
+        "5.80 (report-script compaction — manifest-driven loader)"
+      ],
+      "explicitBlockedAuthorizationFlags": {
+        "runtimeAuthorized": false,
+        "authorizesRuntime": false,
+        "commandExposureAuthorizationGranted": false,
+        "approvalDecisionProduced": false,
+        "approvalGrantProduced": false
+      },
+      "unsafeReportTestCompactionRuntimeFlags": {
+        "runtimeExecutionEnabled": false,
+        "runtimeAuthorizationEnabled": false,
+        "runtimeCommandEnabled": false,
+        "commandExposureEnabled": false,
+        "commandsExposed": false,
+        "connectorGrantProduced": false,
+        "shellRuntimeEnabled": false,
+        "sqliteRuntimeEnabled": false,
+        "embeddedDbReaderEnabled": false,
+        "databaseClientImplemented": false,
+        "matrixClientRuntimeEnabled": false,
+        "externalGatewayRuntimeEnabled": false,
+        "fabricCoreTransportRuntimeEnabled": false,
+        "fabricRuntimeImplementedByArdyn": false,
+        "secureDropImplemented": false,
+        "secureDropDecryptionEnabled": false,
+        "filesystemAccessEnabled": false,
+        "filesystemReadEnabled": false,
+        "filesystemWriteEnabled": false,
+        "backendRuntimeImplementedByArdyn": false,
+        "processSpawnEnabled": false,
+        "processControlEnabled": false,
+        "blockedCliBypassEnabled": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      },
+      "nonAuthorizingProof": true,
+      "reportTestCompactionBoundaryMetadataOnly": true,
+      "noLiveReportTestCompactionRuntimePerformed": true
+    },
+    {
+      "boundaryId": "phase5-81.ardyn.maxbuffer_guard",
+      "boundaryFamily": "maxbuffer_guard",
+      "relatedSystem": "ardyn",
+      "currentStatus": "active",
+      "allowedCurrentBehavior": [
+        "Record that maxBuffer is raised to 64MB with a 50% guard test."
+      ],
+      "forbiddenCurrentBehavior": [
+        "Allow report size to exceed 50% of maxBuffer silently."
+      ],
+      "requiredFutureContractBeforeImplementation": [],
+      "requiredFutureAuthorizationPhaseBeforeRuntime": "none (active)",
+      "contractShape": {
+        "maxBuffer": "integer 67108864",
+        "guardThreshold": "float 0.5",
+        "guardTestPresent": "boolean true"
+      },
+      "crossPhaseReferences": [],
+      "explicitBlockedAuthorizationFlags": {
+        "runtimeAuthorized": false,
+        "authorizesRuntime": false,
+        "commandExposureAuthorizationGranted": false,
+        "approvalDecisionProduced": false,
+        "approvalGrantProduced": false
+      },
+      "unsafeReportTestCompactionRuntimeFlags": {
+        "runtimeExecutionEnabled": false,
+        "runtimeAuthorizationEnabled": false,
+        "runtimeCommandEnabled": false,
+        "commandExposureEnabled": false,
+        "commandsExposed": false,
+        "connectorGrantProduced": false,
+        "shellRuntimeEnabled": false,
+        "sqliteRuntimeEnabled": false,
+        "embeddedDbReaderEnabled": false,
+        "databaseClientImplemented": false,
+        "matrixClientRuntimeEnabled": false,
+        "externalGatewayRuntimeEnabled": false,
+        "fabricCoreTransportRuntimeEnabled": false,
+        "fabricRuntimeImplementedByArdyn": false,
+        "secureDropImplemented": false,
+        "secureDropDecryptionEnabled": false,
+        "filesystemAccessEnabled": false,
+        "filesystemReadEnabled": false,
+        "filesystemWriteEnabled": false,
+        "backendRuntimeImplementedByArdyn": false,
+        "processSpawnEnabled": false,
+        "processControlEnabled": false,
+        "blockedCliBypassEnabled": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      },
+      "nonAuthorizingProof": true,
+      "reportTestCompactionBoundaryMetadataOnly": true,
+      "noLiveReportTestCompactionRuntimePerformed": true
+    },
+    {
+      "boundaryId": "phase5-81.ardyn.fresh_spawn_test",
+      "boundaryFamily": "fresh_spawn_test",
+      "relatedSystem": "ardyn",
+      "currentStatus": "active",
+      "allowedCurrentBehavior": [
+        "Record that one independent fresh-spawn test verifies clean process behavior."
+      ],
+      "forbiddenCurrentBehavior": [
+        "Remove the independent fresh-spawn test."
+      ],
+      "requiredFutureContractBeforeImplementation": [],
+      "requiredFutureAuthorizationPhaseBeforeRuntime": "none (active)",
+      "contractShape": {
+        "independentSpawn": "boolean true",
+        "assertsExit0": "boolean true",
+        "assertsEmptyStderr": "boolean true"
+      },
+      "crossPhaseReferences": [],
+      "explicitBlockedAuthorizationFlags": {
+        "runtimeAuthorized": false,
+        "authorizesRuntime": false,
+        "commandExposureAuthorizationGranted": false,
+        "approvalDecisionProduced": false,
+        "approvalGrantProduced": false
+      },
+      "unsafeReportTestCompactionRuntimeFlags": {
+        "runtimeExecutionEnabled": false,
+        "runtimeAuthorizationEnabled": false,
+        "runtimeCommandEnabled": false,
+        "commandExposureEnabled": false,
+        "commandsExposed": false,
+        "connectorGrantProduced": false,
+        "shellRuntimeEnabled": false,
+        "sqliteRuntimeEnabled": false,
+        "embeddedDbReaderEnabled": false,
+        "databaseClientImplemented": false,
+        "matrixClientRuntimeEnabled": false,
+        "externalGatewayRuntimeEnabled": false,
+        "fabricCoreTransportRuntimeEnabled": false,
+        "fabricRuntimeImplementedByArdyn": false,
+        "secureDropImplemented": false,
+        "secureDropDecryptionEnabled": false,
+        "filesystemAccessEnabled": false,
+        "filesystemReadEnabled": false,
+        "filesystemWriteEnabled": false,
+        "backendRuntimeImplementedByArdyn": false,
+        "processSpawnEnabled": false,
+        "processControlEnabled": false,
+        "blockedCliBypassEnabled": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      },
+      "nonAuthorizingProof": true,
+      "reportTestCompactionBoundaryMetadataOnly": true,
+      "noLiveReportTestCompactionRuntimePerformed": true
+    },
+    {
+      "boundaryId": "phase5-81.ardyn.invariant_preservation",
+      "boundaryFamily": "invariant_preservation",
+      "relatedSystem": "ardyn",
+      "currentStatus": "active",
+      "allowedCurrentBehavior": [
+        "Record that all invariant tests are preserved (source-guard, phase block, externalCi, package.json scripts)."
+      ],
+      "forbiddenCurrentBehavior": [
+        "Delete or weaken any invariant assertion."
+      ],
+      "requiredFutureContractBeforeImplementation": [],
+      "requiredFutureAuthorizationPhaseBeforeRuntime": "none (active)",
+      "contractShape": {
+        "sourceGuardTestPresent": "boolean true",
+        "phaseBlockTestPresent": "boolean true",
+        "externalCiTestPresent": "boolean true",
+        "packageJsonScriptsTestPresent": "boolean true"
+      },
+      "crossPhaseReferences": [],
+      "explicitBlockedAuthorizationFlags": {
+        "runtimeAuthorized": false,
+        "authorizesRuntime": false,
+        "commandExposureAuthorizationGranted": false,
+        "approvalDecisionProduced": false,
+        "approvalGrantProduced": false
+      },
+      "unsafeReportTestCompactionRuntimeFlags": {
+        "runtimeExecutionEnabled": false,
+        "runtimeAuthorizationEnabled": false,
+        "runtimeCommandEnabled": false,
+        "commandExposureEnabled": false,
+        "commandsExposed": false,
+        "connectorGrantProduced": false,
+        "shellRuntimeEnabled": false,
+        "sqliteRuntimeEnabled": false,
+        "embeddedDbReaderEnabled": false,
+        "databaseClientImplemented": false,
+        "matrixClientRuntimeEnabled": false,
+        "externalGatewayRuntimeEnabled": false,
+        "fabricCoreTransportRuntimeEnabled": false,
+        "fabricRuntimeImplementedByArdyn": false,
+        "secureDropImplemented": false,
+        "secureDropDecryptionEnabled": false,
+        "filesystemAccessEnabled": false,
+        "filesystemReadEnabled": false,
+        "filesystemWriteEnabled": false,
+        "backendRuntimeImplementedByArdyn": false,
+        "processSpawnEnabled": false,
+        "processControlEnabled": false,
+        "blockedCliBypassEnabled": false
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      },
+      "nonAuthorizingProof": true,
+      "reportTestCompactionBoundaryMetadataOnly": true,
+      "noLiveReportTestCompactionRuntimePerformed": true
+    }
+  ],
+  "boundaryMapSummary": {
+    "boundaryEntryCount": 4,
+    "boundaryFamilies": [
+      "memoized_shared_render",
+      "maxbuffer_guard",
+      "fresh_spawn_test",
+      "invariant_preservation"
+    ],
+    "relatedSystems": [
+      "ardyn"
+    ],
+    "currentStatusValues": [
+      "active"
+    ],
+    "countByFamily": {
+      "memoized_shared_render": 1,
+      "maxbuffer_guard": 1,
+      "fresh_spawn_test": 1,
+      "invariant_preservation": 1
+    },
+    "countByRelatedSystem": {
+      "ardyn": 4
+    },
+    "countByStatus": {
+      "active": 4
+    },
+    "memoizedSharedRender": true,
+    "maxbufferGuard": true,
+    "freshSpawnTest": true,
+    "invariantPreservation": true,
+    "suiteWallClockBeforeMs": 197148,
+    "suiteWallClockAfterMs": 197148,
+    "reportTestWallClockBeforeMs": 1500000,
+    "reportTestWallClockAfterMs": 3300,
+    "allBlockedAuthorizationFlagsFalse": true,
+    "allUnsafeReportTestCompactionRuntimeFlagsFalse": true,
+    "allRuntimeEffectsFalse": true,
+    "allEntriesNonAuthorizing": true
+  },
+  "recommendedNextPhase": "phase-5.82-source-guard-hardening",
+  "reportTestCompactionOnly": true,
+  "reviewOnly": true,
+  "metadataOnly": true,
+  "authoritative": false,
+  "nonAuthorizingProof": true,
+  "reportRunsChecks": false,
+  "rejectionReasons": [],
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalEvaluatorAuthoritative": false
+  }
+}
