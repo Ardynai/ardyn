@@ -14,7 +14,10 @@ async function readDigestManifest() {
 }
 
 async function computeDigest(path) {
-  const content = await readFile(new URL(`../../${path}`, import.meta.url), "utf8");
+  // ponytail: normalize CRLF→LF before hashing so local-CRLF and CI-LF
+  // produce the same digest. .gitattributes eol=lf means CI checks out LF,
+  // but Windows working trees may have CRLF.
+  const content = (await readFile(new URL(`../../${path}`, import.meta.url), "utf8")).replace(/\r\n/g, "\n");
   return createHash("sha256").update(content).digest("hex");
 }
 
