@@ -1,9 +1,9 @@
 {
   "schemaVersion": "ardyn.phase-status-report.v1",
   "phase": {
-    "id": "5.80",
-    "name": "Review-only report-script compaction (byte-identical, manifest-driven)",
-    "executionPosture": "report-script-compaction-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only ci-workflows-present ci-check-execution-only no-ci-runtime no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation ci-check-execution-present no-release-deploy-publish-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+    "id": "5.81",
+    "name": "Review-only report-test compaction + suite performance",
+    "executionPosture": "report-test-compaction-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only ci-workflows-present ci-check-execution-only no-ci-runtime no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation ci-check-execution-present no-release-deploy-publish-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   },
   "reportMode": "local-summary-only",
   "reportRunsChecks": false,

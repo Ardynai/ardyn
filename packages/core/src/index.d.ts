@@ -11099,6 +11099,32 @@ export function createReportScriptCompactionForReview(
   input?: Record<string, unknown>
 ): ReportScriptCompactionBoundaryMapResult;
 
+export interface ReportTestCompactionBoundaryMapResult {
+  schema: "ardyn.phase-5.81.report-test-compaction-boundary-map-result";
+  schemaVersion: "0.1.0";
+  reportTestCompactionKind: "report-test-compaction-boundary-map";
+  reportTestCompactionMode: "review-only";
+  reviewedAt: string;
+  classification: string;
+  reportTestCompactionBoundaryMapProduced: boolean;
+  boundaryEntries: unknown[];
+  boundaryMapSummary: Record<string, unknown> | null;
+  recommendedNextPhase: string | null;
+  reportTestCompactionOnly: boolean;
+  reviewOnly: boolean;
+  metadataOnly: boolean;
+  authoritative: false;
+  nonAuthorizingProof: true;
+  reportRunsChecks: false;
+  rejectionReasons: unknown[];
+  runtimeEffect: Record<string, boolean>;
+  [key: string]: unknown;
+}
+
+export function createReportTestCompactionForReview(
+  input?: Record<string, unknown>
+): ReportTestCompactionBoundaryMapResult;
+
 export interface ReviewOnlyRuntimeApprovalEvaluatorResult {
   schema: "ardyn.phase-5.18.review-only-approval-evaluator-result";
   schemaVersion: "0.1.0";
