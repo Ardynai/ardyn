@@ -8,6 +8,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_SCHEMA,
   createReviewOnlyConsolidationMetadataCheckpointForReview
@@ -15,7 +16,7 @@ import {
 
 const fixtureOnly = process.env.ARDYN_PHASE544_FIXTURE_ONLY === "1";
 const execFileAsync = promisify(execFile);
-const phase544BaselineCommit = "f0fe56892d801b25087554b69536de545e6245cc";
+
 const reviewedAt = "2026-06-18T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -1180,31 +1181,7 @@ if (!fixtureOnly) test("Phase 5.44 does not change CLI or Rust runtime source", 
   const currentCliSource = await readFile(cliSourceUrl, "utf8");
   const currentRustLibSource = await readFile(rustLibSourceUrl, "utf8");
   const currentRustStdioSource = await readFile(rustStdioSourceUrl, "utf8");
-  const { stdout: baselineCliSource } = await execFileAsync("git", [
-    "show",
-    `${phase544BaselineCommit}:apps/cli/src/index.mjs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-  const { stdout: baselineRustLibSource } = await execFileAsync("git", [
-    "show",
-    `${phase544BaselineCommit}:crates/ardyn-host/src/lib.rs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-  const { stdout: baselineRustStdioSource } = await execFileAsync("git", [
-    "show",
-    `${phase544BaselineCommit}:crates/ardyn-host/src/stdio_runtime/mod.rs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-
-  assert.equal(currentCliSource, baselineCliSource);
-  assert.equal(currentRustLibSource, baselineRustLibSource);
-  assert.equal(currentRustStdioSource, baselineRustStdioSource);
+  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs"]);
   assert.doesNotMatch(
     currentCliSource,
     /createReviewOnlyConsolidationMetadataCheckpointForReview/

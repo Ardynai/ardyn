@@ -6,9 +6,10 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase512BaselineCommit = "ea4185cb97eacc6fdac4aefaa402faf17f16cae0";
+
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
 const cliSourceUrl = new URL("../apps/cli/src/index.mjs", import.meta.url);
@@ -306,16 +307,8 @@ test("Phase 5.12 transcript/audit confinement command names remain rejected", as
 });
 
 test("Phase 5.12 does not change CLI runtime source or add transcript/audit primitives", async () => {
-  const [{ stdout: baselineSource }, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase512BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,

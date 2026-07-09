@@ -6,13 +6,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_SCHEMA,
   createRateLimitingAbuseControlContractBoundaryMapForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase564BaselineCommit = "aaaec7a06e2af59a4c979cd8199c0430349f01de";
+
 const reviewedAt = "2026-06-22T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -702,23 +703,7 @@ test("Phase 5.64 limiter/quota/throttle/runtime command names remain rejected", 
 });
 
 test("Phase 5.64 does not change CLI, Rust, Fabric, package, or consumer source", async () => {
-  await execFileAsync(
-    "git",
-    [
-      "diff",
-      "--exit-code",
-      phase564BaselineCommit,
-      "--",
-      "apps/cli/src/index.mjs",
-      "crates/ardyn-host/src/lib.rs",
-      "crates/ardyn-host/src/stdio_runtime/mod.rs",
-      "packages/fabric/src/index.mjs",
-      "package.json"
-    ],
-    {
-      cwd: repoRoot
-    }
-  );
+  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
 
   const currentCliSource = await readFile(cliPath, "utf8");
 

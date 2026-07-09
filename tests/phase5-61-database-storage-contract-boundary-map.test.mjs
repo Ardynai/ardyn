@@ -6,13 +6,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   DATABASE_STORAGE_CONTRACT_BOUNDARY_MAP_SCHEMA,
   createDatabaseStorageContractBoundaryMapForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase561BaselineCommit = "e7bd4d1a3b1f0e2573926789b5bac84501de6979";
+
 const reviewedAt = "2026-06-22T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -599,23 +600,7 @@ test("Phase 5.61 database/storage/runtime command names remain rejected", async 
 });
 
 test("Phase 5.61 does not change CLI, Rust, Fabric, package, or consumer source", async () => {
-  await execFileAsync(
-    "git",
-    [
-      "diff",
-      "--exit-code",
-      phase561BaselineCommit,
-      "--",
-      "apps/cli/src/index.mjs",
-      "crates/ardyn-host/src/lib.rs",
-      "crates/ardyn-host/src/stdio_runtime/mod.rs",
-      "packages/fabric/src/index.mjs",
-      "package.json"
-    ],
-    {
-      cwd: repoRoot
-    }
-  );
+  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
 
   const currentCliSource = await readFile(cliPath, "utf8");
 

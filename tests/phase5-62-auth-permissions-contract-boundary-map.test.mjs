@@ -6,13 +6,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_SCHEMA,
   createAuthPermissionsContractBoundaryMapForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase562BaselineCommit = "cf658bf30d126b7ce67068dc022a369f92d42dff";
+
 const reviewedAt = "2026-06-22T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -639,23 +640,7 @@ test("Phase 5.62 auth/permissions/runtime command names remain rejected", async 
 });
 
 test("Phase 5.62 does not change CLI, Rust, Fabric, package, or consumer source", async () => {
-  await execFileAsync(
-    "git",
-    [
-      "diff",
-      "--exit-code",
-      phase562BaselineCommit,
-      "--",
-      "apps/cli/src/index.mjs",
-      "crates/ardyn-host/src/lib.rs",
-      "crates/ardyn-host/src/stdio_runtime/mod.rs",
-      "packages/fabric/src/index.mjs",
-      "package.json"
-    ],
-    {
-      cwd: repoRoot
-    }
-  );
+  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
 
   const currentCliSource = await readFile(cliPath, "utf8");
 

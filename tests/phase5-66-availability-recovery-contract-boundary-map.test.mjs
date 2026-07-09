@@ -6,13 +6,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_SCHEMA,
   createAvailabilityRecoveryContractBoundaryMapForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase566BaselineCommit = "b446f0ad7cafc3b6733e51b384f94e73d67576c4";
+
 const reviewedAt = "2026-06-24T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -614,21 +615,7 @@ test("Phase 5.66 does not change CLI, Rust, Fabric, package, or consumer source"
     "package.json"
   ];
 
-  for (const file of files) {
-    const [baseline, current] = await Promise.all([
-      execFileAsync("git", ["show", `${phase566BaselineCommit}:${file}`], {
-        cwd: repoRoot,
-        maxBuffer: 20 * 1024 * 1024
-      }),
-      readFile(new URL(`../${file}`, import.meta.url), "utf8")
-    ]);
-
-    assert.equal(
-      current.replaceAll("\r\n", "\n"),
-      baseline.stdout.replaceAll("\r\n", "\n"),
-      `${file} should not change`
-    );
-  }
+  await assertUnchanged(files);
 
   const currentCliSource = await readFile(cliPath, "utf8");
   assert.doesNotMatch(currentCliSource, /availability-recovery-contract-boundary-map/);

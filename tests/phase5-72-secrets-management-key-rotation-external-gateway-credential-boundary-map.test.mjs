@@ -4,13 +4,14 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_SCHEMA,
   createSecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase572BaselineCommit = "6688f3a0c867b577fc316f95752cc43b6011e66f";
+
 const reviewedAt = "2026-06-29T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -712,21 +713,7 @@ test("Phase 5.72 does not change CLI, Rust, Fabric, package, or consumer source"
     "package.json"
   ];
 
-  for (const file of files) {
-    const [baseline, current] = await Promise.all([
-      execFileAsync("git", ["show", `${phase572BaselineCommit}:${file}`], {
-        cwd: repoRoot,
-        maxBuffer: 20 * 1024 * 1024
-      }),
-      readFile(new URL(`../${file}`, import.meta.url), "utf8")
-    ]);
-
-    assert.equal(
-      current.replaceAll("\r\n", "\n"),
-      baseline.stdout.replaceAll("\r\n", "\n"),
-      `${file} should not change`
-    );
-  }
+  await assertUnchanged(files);
 
   const currentCliSource = await readFile(cliPath, "utf8");
   for (const command of commandProbes) {

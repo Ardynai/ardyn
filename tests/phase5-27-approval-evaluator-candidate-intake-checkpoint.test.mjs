@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_SCHEMA,
   createApprovalEvaluatorCandidateIntakeCheckpointForReview,
@@ -14,7 +15,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase527BaselineCommit = "d2296ac95141866665d657bb12abae48e0f1fec3";
+
 const reviewedAt = "2026-06-16T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -751,16 +752,8 @@ test("Phase 5.27 intake command names remain rejected", async () => {
 });
 
 test("Phase 5.27 does not change CLI runtime source or add intake runtime primitives", async () => {
-  const [baselineSource, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase527BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource.stdout);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,

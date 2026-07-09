@@ -4,13 +4,14 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_SCHEMA,
   createFabricCoreConsumerIntegrationReadinessBoundaryUpdateForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase575BaselineCommit = "f2b19206754ee5dd70a2f4cbebb77d5823b02672";
+
 const reviewedAt = "2026-07-01T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -678,21 +679,7 @@ test("Phase 5.75 does not change CLI, Rust, Fabric, package, or consumer source"
     "package.json"
   ];
 
-  for (const file of files) {
-    const [baseline, current] = await Promise.all([
-      execFileAsync("git", ["show", `${phase575BaselineCommit}:${file}`], {
-        cwd: repoRoot,
-        maxBuffer: 20 * 1024 * 1024
-      }),
-      readFile(new URL(`../${file}`, import.meta.url), "utf8")
-    ]);
-
-    assert.equal(
-      current.replaceAll("\r\n", "\n"),
-      baseline.stdout.replaceAll("\r\n", "\n"),
-      `${file} should not change`
-    );
-  }
+  await assertUnchanged(files);
 
   const packageJson = JSON.parse(await readFile(packageJsonUrl, "utf8"));
   const dependencies = {

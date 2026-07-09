@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_SCHEMA,
   bundleApprovalPrerequisiteSourcesForReview,
@@ -13,7 +14,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase523BaselineCommit = "76b6b01a396362650d03a7639bf2235ade424f90";
+
 const reviewedAt = "2026-06-15T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -441,13 +442,7 @@ test("Phase 5.23 bundle consumption command names remain rejected", async () => 
 
 test("Phase 5.23 does not change CLI runtime source or add consumption runtime primitives", async () => {
   const currentCliSource = await readFile(cliPath, "utf8");
-  const baselineCliSource = await execFileAsync(
-    "git",
-    ["show", `${phase523BaselineCommit}:apps/cli/src/index.mjs`],
-    { cwd: repoRoot }
-  );
-
-  assert.equal(currentCliSource, baselineCliSource.stdout);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
 
   const forbiddenSourcePatterns = [
     "createServer(",

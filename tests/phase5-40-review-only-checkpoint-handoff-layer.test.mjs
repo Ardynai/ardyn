@@ -7,13 +7,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_SCHEMA,
   createReviewOnlyCheckpointHandoffLayerForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase540BaselineCommit = "1b4e85823574a9f2032bb9e804326af329c0dfa4";
+
 const reviewedAt = "2026-06-17T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -760,31 +761,7 @@ test("Phase 5.40 does not change CLI or Rust runtime source", async () => {
   const currentCliSource = await readFile(cliSourceUrl, "utf8");
   const currentRustLibSource = await readFile(rustLibSourceUrl, "utf8");
   const currentRustStdioSource = await readFile(rustStdioSourceUrl, "utf8");
-  const { stdout: baselineCliSource } = await execFileAsync("git", [
-    "show",
-    `${phase540BaselineCommit}:apps/cli/src/index.mjs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-  const { stdout: baselineRustLibSource } = await execFileAsync("git", [
-    "show",
-    `${phase540BaselineCommit}:crates/ardyn-host/src/lib.rs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-  const { stdout: baselineRustStdioSource } = await execFileAsync("git", [
-    "show",
-    `${phase540BaselineCommit}:crates/ardyn-host/src/stdio_runtime/mod.rs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-
-  assert.equal(currentCliSource, baselineCliSource);
-  assert.equal(currentRustLibSource, baselineRustLibSource);
-  assert.equal(currentRustStdioSource, baselineRustStdioSource);
+  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs"]);
   assert.doesNotMatch(
     currentCliSource,
     /createReviewOnlyCheckpointHandoffLayerForReview/

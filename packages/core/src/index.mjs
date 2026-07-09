@@ -72777,3 +72777,151 @@ export function createReportTestCompactionForReview(input = {}) {
   const boundaryEntries=accepted?reportTestCompactionBoundaryEntries():[];
   return reportTestCompactionResult({reviewedAt,classification,accepted,boundaryEntries});
 }
+
+// ─── Phase 5.82: Source-guard hardening boundary map ────────────────────────
+// ponytail: records the git-baseline → sha256 digest-based source guard
+// conversion, clippy --all-targets restoration, core.fileMode workaround
+// removal, and lib.rs explicit_counter_loop lint fix.
+// Reuses MALFORMED_INPUT (line 69510), isPlainObjectRecord (line 3945),
+// approvalEvaluatorCandidateNestedTrueClaim (line 8163) — no new clones.
+
+export const SOURCE_GUARD_HARDENING_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.82.source-guard-hardening-boundary-map-result";
+export const SOURCE_GUARD_HARDENING_BOUNDARY_MAP_VERSION = "0.1.0";
+export const SOURCE_GUARD_HARDENING_BOUNDARY_MAP_KIND =
+  "source-guard-hardening-boundary-map";
+export const VALID_SOURCE_GUARD_HARDENING_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_source_guard_hardening_boundary_map_digest_based_clippy_all_targets_restored";
+
+const SOURCE_GUARD_HARDENING_BOUNDARY_FAMILIES = Object.freeze([
+  "digest_guard",
+  "clippy_all_targets_restored",
+  "ci_filemode_workaround_removed",
+  "lib_rs_lint_fixed"
+]);
+const SOURCE_GUARD_HARDENING_RELATED_SYSTEMS = Object.freeze(["ardyn"]);
+const SOURCE_GUARD_HARDENING_STATUSES = Object.freeze(["active"]);
+const SOURCE_GUARD_HARDENING_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled","runtimeAuthorizationEnabled","runtimeCommandEnabled",
+  "commandExposureEnabled","commandsExposed","connectorGrantProduced",
+  "shellRuntimeEnabled","sqliteRuntimeEnabled","embeddedDbReaderEnabled",
+  "databaseClientImplemented","matrixClientRuntimeEnabled","externalGatewayRuntimeEnabled",
+  "fabricCoreTransportRuntimeEnabled","fabricRuntimeImplementedByArdyn",
+  "secureDropImplemented","secureDropDecryptionEnabled",
+  "filesystemAccessEnabled","filesystemReadEnabled","filesystemWriteEnabled",
+  "backendRuntimeImplementedByArdyn","processSpawnEnabled","processControlEnabled",
+  "blockedCliBypassEnabled"
+]);
+const SOURCE_GUARD_HARDENING_KNOWN_KEYS = Object.freeze(new Set([
+  "reviewedAt","boundaryEntries","reportRunsChecks","authorizesRuntime",
+  "runtimeEffect",...SOURCE_GUARD_HARDENING_UNSAFE_FIELDS
+]));
+const SOURCE_GUARD_HARDENING_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized","authorizesRuntime","commandExposureAuthorizationGranted",
+  "approvalDecisionProduced","approvalGrantProduced"
+]);
+
+function sourceGuardHardeningInputRecord(input) {
+  if (input === null || typeof input !== "object" || Array.isArray(input)) return MALFORMED_INPUT;
+  return input;
+}
+function sourceGuardHardeningReviewedAt(inputRecord) {
+  if (inputRecord === MALFORMED_INPUT) return null;
+  const v = inputRecord.reviewedAt;
+  if (v === undefined) return "2026-07-09T00:00:00.000Z";
+  if (typeof v !== "string" || Number.isNaN(Date.parse(v))) return null;
+  return v;
+}
+function sourceGuardHardeningClassification(inputRecord) {
+  const reviewedAt = sourceGuardHardeningReviewedAt(inputRecord);
+  if (reviewedAt === null || inputRecord === MALFORMED_INPUT)
+    return "malformed_source_guard_hardening_boundary_map_input_rejected";
+  if (inputRecord.reportRunsChecks === true)
+    return "report_runs_checks_true_source_guard_hardening_boundary_map_input_rejected";
+  if (inputRecord.authorizesRuntime === true)
+    return "runtime_authorization_attempt_source_guard_hardening_boundary_map_input_rejected";
+  for (const key of Object.keys(inputRecord))
+    if (!SOURCE_GUARD_HARDENING_KNOWN_KEYS.has(key))
+      return "unknown_top_level_field_source_guard_hardening_boundary_map_input_rejected";
+  for (const flag of SOURCE_GUARD_HARDENING_UNSAFE_FIELDS)
+    if (inputRecord[flag] === true)
+      return "unsafe_source_guard_hardening_runtime_flags_source_guard_hardening_boundary_map_input_rejected";
+  if (inputRecord.runtimeEffect && approvalEvaluatorCandidateNestedTrueClaim(inputRecord.runtimeEffect,
+      (key) => SOURCE_GUARD_HARDENING_UNSAFE_FIELDS.includes(key)||key==="runtimeEnabled"||key==="runtimeStarted"||key==="runtimeReady"||key==="runtimeCommandEnabled"||key==="runtimeCommandExposureEnabled"||key==="runtimeExecutionEnabled"||key==="runtimeExecuted"||key==="approvalGrantProduced"||key==="approvalGrantPersisted"||key==="approvalEvaluatorAuthoritative"))
+    return "nested_unsafe_flags_source_guard_hardening_boundary_map_input_rejected";
+  return VALID_SOURCE_GUARD_HARDENING_BOUNDARY_MAP_CLASSIFICATION;
+}
+function sourceGuardHardeningAuthFlags() {
+  return Object.fromEntries(SOURCE_GUARD_HARDENING_AUTHORIZATION_FIELDS.map((f)=>[f,false]));
+}
+function sourceGuardHardeningUnsafeFlags() {
+  return Object.fromEntries(SOURCE_GUARD_HARDENING_UNSAFE_FIELDS.map((f)=>[f,false]));
+}
+function sourceGuardHardeningBoundaryEntries() {
+  const authFlags = sourceGuardHardeningAuthFlags();
+  const unsafeFlags = sourceGuardHardeningUnsafeFlags();
+  const runtimeEffect = {runtimeEnabled:false,runtimeStarted:false,runtimeReady:false,runtimeCommandEnabled:false,runtimeCommandExposureEnabled:false,runtimeExecutionEnabled:false,runtimeExecuted:false,approvalGrantProduced:false,approvalGrantPersisted:false,approvalEvaluatorAuthoritative:false};
+  const base = {explicitBlockedAuthorizationFlags:authFlags,unsafeSourceGuardHardeningRuntimeFlags:unsafeFlags,runtimeEffect,nonAuthorizingProof:true,sourceGuardHardeningBoundaryMetadataOnly:true,noLiveSourceGuardHardeningRuntimePerformed:true};
+  return [
+    {boundaryId:"phase5-82.ardyn.digest_guard",boundaryFamily:"digest_guard",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that git-baseline source guards are replaced by sha256 digest-based guards via tests/helpers/source-digests.mjs (assertUnchanged/refreshManifest) and tests/fixtures/source-guards/digests.json (9 guarded paths)."],
+     forbiddenCurrentBehavior:["Re-introduce git-baseline (commit-hash) source guards.","Allow a guarded file to change without a digest manifest update."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+     contractShape:{guardKind:"sha256 digest",assertUnchangedHelper:"boolean true",digestManifestPaths:"integer 9",gitBaselineGuardsRemaining:"integer 0"},
+     crossPhaseReferences:["5.79 (CI enablement — clippy scope superseded; --all-targets restored here)","5.81 (report-test compaction — invariant_preservation boundary preserved)"],...base},
+    {boundaryId:"phase5-82.ardyn.clippy_all_targets_restored",boundaryFamily:"clippy_all_targets_restored",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that clippy verification command is restored to 'cargo clippy --workspace --all-targets -- -D warnings' in both header.json and .github/workflows/ci.yml."],
+     forbiddenCurrentBehavior:["Run clippy without --all-targets.","Permit warnings in the clippy pass."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+     contractShape:{clippyCommand:"cargo clippy --workspace --all-targets -- -D warnings",allTargets:"boolean true",denyWarnings:"boolean true"},
+     crossPhaseReferences:["5.79 (CI enablement — clippy scope was limited; this phase supersedes that limitation)"],...base},
+    {boundaryId:"phase5-82.ardyn.ci_filemode_workaround_removed",boundaryFamily:"ci_filemode_workaround_removed",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that the 'git config core.fileMode false' workaround is removed from .github/workflows/ci.yml."],
+     forbiddenCurrentBehavior:["Re-introduce core.fileMode workarounds in CI.","Rely on filemode suppression instead of correct line-ending handling."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+     contractShape:{coreFileModeWorkaroundPresent:"boolean false",ciWorkflowClean:"boolean true"},
+     crossPhaseReferences:[],...base},
+    {boundaryId:"phase5-82.ardyn.lib_rs_lint_fixed",boundaryFamily:"lib_rs_lint_fixed",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that the clippy explicit_counter_loop lint in crates/ardyn-host/src/lib.rs is fixed (for (index, line) in ... enumerate() instead of manual counter)."],
+     forbiddenCurrentBehavior:["Re-introduce manual index counters where enumerate() is the clippy-preferred idiom."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (active)",
+     contractShape:{lintFixed:"boolean true",enumerateIdiom:"boolean true",behaviorPreserving:"boolean true"},
+     crossPhaseReferences:["5.79 (CI enablement — toolkit safe-fix applied)"],...base}
+  ];
+}
+function sourceGuardHardeningSummary(entries) {
+  return {boundaryEntryCount:entries.length,boundaryFamilies:SOURCE_GUARD_HARDENING_BOUNDARY_FAMILIES,
+    relatedSystems:SOURCE_GUARD_HARDENING_RELATED_SYSTEMS,currentStatusValues:SOURCE_GUARD_HARDENING_STATUSES,
+    countByFamily:Object.fromEntries(SOURCE_GUARD_HARDENING_BOUNDARY_FAMILIES.map((f)=>[f,1])),
+    countByRelatedSystem:{ardyn:4},countByStatus:{active:4},
+    digestGuard:true,clippyAllTargetsRestored:true,ciFilemodeWorkaroundRemoved:true,libRsLintFixed:true,
+    guardedPathCount:9,gitBaselineGuardsRemaining:0,
+    clippyScopeSupersessionFromPhase579:"5.79 clippy scope (limited targets) superseded — --all-targets restored",
+    allBlockedAuthorizationFlagsFalse:true,allUnsafeSourceGuardHardeningRuntimeFlagsFalse:true,
+    allRuntimeEffectsFalse:true,allEntriesNonAuthorizing:true};
+}
+function sourceGuardHardeningFalseRuntimeFields() {
+  const f={};for(const flag of SOURCE_GUARD_HARDENING_UNSAFE_FIELDS)f[flag]=false;
+  for(const flag of SOURCE_GUARD_HARDENING_AUTHORIZATION_FIELDS)f[flag]=false;return f;
+}
+function sourceGuardHardeningResult({reviewedAt,classification,accepted,boundaryEntries}) {
+  const summary=accepted?sourceGuardHardeningSummary(boundaryEntries):null;
+  return {schema:SOURCE_GUARD_HARDENING_BOUNDARY_MAP_SCHEMA,schemaVersion:SOURCE_GUARD_HARDENING_BOUNDARY_MAP_VERSION,
+    sourceGuardHardeningKind:SOURCE_GUARD_HARDENING_BOUNDARY_MAP_KIND,sourceGuardHardeningMode:"review-only",
+    reviewedAt,classification,sourceGuardHardeningBoundaryMapProduced:accepted,
+    boundaryEntries:accepted?boundaryEntries:[],boundaryMapSummary:summary,
+    recommendedNextPhase:accepted?"phase-5.83-external-reference-policy":null,
+    sourceGuardHardeningOnly:true,reviewOnly:true,metadataOnly:true,authoritative:false,
+    nonAuthorizingProof:true,reportRunsChecks:false,
+    ...(accepted?{}:sourceGuardHardeningFalseRuntimeFields()),
+    rejectionReasons:accepted?[]:[{classification,rejected:true,runtimeAuthorized:false,reportRunsChecks:false}],
+    runtimeEffect:{runtimeEnabled:false,runtimeStarted:false,runtimeReady:false,runtimeCommandEnabled:false,runtimeCommandExposureEnabled:false,runtimeExecutionEnabled:false,runtimeExecuted:false,approvalGrantProduced:false,approvalGrantPersisted:false,approvalEvaluatorAuthoritative:false}};
+}
+export function createSourceGuardHardeningForReview(input = {}) {
+  const inputRecord=sourceGuardHardeningInputRecord(input);
+  const reviewedAt=sourceGuardHardeningReviewedAt(inputRecord);
+  const classification=sourceGuardHardeningClassification(inputRecord);
+  const accepted=classification===VALID_SOURCE_GUARD_HARDENING_BOUNDARY_MAP_CLASSIFICATION;
+  const boundaryEntries=accepted?sourceGuardHardeningBoundaryEntries():[];
+  return sourceGuardHardeningResult({reviewedAt,classification,accepted,boundaryEntries});
+}

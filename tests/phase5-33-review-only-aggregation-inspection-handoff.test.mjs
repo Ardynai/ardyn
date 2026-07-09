@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SCHEMA,
   createApprovalEvaluatorCandidateIntakeCheckpointForReview,
@@ -20,7 +21,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase533BaselineCommit = "13e894a7eb1d321dc651e943f282a736c9d6dd88";
+
 const reviewedAt = "2026-06-16T00:00:00.000Z";
 const defaultReviewedAt = "1970-01-01T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
@@ -998,16 +999,8 @@ test("Phase 5.33 handoff command names remain rejected", async () => {
 });
 
 test("Phase 5.33 does not change CLI runtime source or add handoff commands", async () => {
-  const [baselineSource, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase533BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource.stdout);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,

@@ -8,13 +8,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   CONSUMER_CONTRACT_GAP_INDEX_SCHEMA,
   createConsumerContractGapIndexForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase547BaselineCommit = "2a59909a61810b662babfe933ca1bd533a85f8e8";
+
 const reviewedAt = "2026-06-19T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -509,23 +510,7 @@ test("Phase 5.47 gap index command names remain rejected", async () => {
 });
 
 test("Phase 5.47 does not change CLI, Rust, or Fabric runtime source", async () => {
-  await execFileAsync(
-    "git",
-    [
-      "diff",
-      "--exit-code",
-      phase547BaselineCommit,
-      "--",
-      "apps/cli/src/index.mjs",
-      "crates/ardyn-host/src/lib.rs",
-      "crates/ardyn-host/src/stdio_runtime/mod.rs",
-      "packages/fabric/src/index.mjs",
-      "package.json"
-    ],
-    {
-      cwd: repoRoot
-    }
-  );
+  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
 
   const currentCliSource = await readFile(cliPath, "utf8");
 

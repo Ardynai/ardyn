@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   CONSUMER_OWNED_DISPLAY_CONFORMANCE_RESULT_REVIEW_PACKAGE_BOUNDARY_SCHEMA,
   createConsumerOwnedDisplayConformanceResultReviewIntakeBoundaryForReview,
@@ -13,7 +14,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase558BaselineCommit = "3f38721d374b4a6ef8c97bfc10b9085cd9a4b79c";
+
 const reviewedAt = "2026-06-21T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -792,23 +793,7 @@ test("Phase 5.58 runner/result/import/export/validator/router/evaluator/approval
 });
 
 test("Phase 5.58 does not change CLI, Rust, Fabric, package, or consumer source", async () => {
-  await execFileAsync(
-    "git",
-    [
-      "diff",
-      "--exit-code",
-      phase558BaselineCommit,
-      "--",
-      "apps/cli/src/index.mjs",
-      "crates/ardyn-host/src/lib.rs",
-      "crates/ardyn-host/src/stdio_runtime/mod.rs",
-      "packages/fabric/src/index.mjs",
-      "package.json"
-    ],
-    {
-      cwd: repoRoot
-    }
-  );
+  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
 
   const currentCliSource = await readFile(cliPath, "utf8");
 

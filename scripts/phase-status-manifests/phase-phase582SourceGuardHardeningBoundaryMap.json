@@ -1,0 +1,104 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-82-source-guard-hardening.md",
+    "schema": "ardyn.phase-5.82.source-guard-hardening-boundary-map-result",
+    "schemaVersion": "0.1.0",
+    "kind": "source-guard-hardening-boundary-map",
+    "mode": "review-only",
+    "classification": "valid_source_guard_hardening_boundary_map_digest_based_clippy_all_targets_restored",
+    "produced": true,
+    "boundaryEntryCount": 4,
+    "boundaryFamilies": [
+      "digest_guard",
+      "clippy_all_targets_restored",
+      "ci_filemode_workaround_removed",
+      "lib_rs_lint_fixed"
+    ],
+    "relatedSystems": [
+      "ardyn"
+    ],
+    "currentStatusValues": [
+      "active"
+    ],
+    "countByFamily": {
+      "digest_guard": 1,
+      "clippy_all_targets_restored": 1,
+      "ci_filemode_workaround_removed": 1,
+      "lib_rs_lint_fixed": 1
+    },
+    "countByRelatedSystem": {
+      "ardyn": 4
+    },
+    "countByStatus": {
+      "active": 4
+    },
+    "digestGuard": true,
+    "clippyAllTargetsRestored": true,
+    "ciFilemodeWorkaroundRemoved": true,
+    "libRsLintFixed": true,
+    "guardedPathCount": 9,
+    "gitBaselineGuardsRemaining": 0,
+    "clippyScopeSupersessionFromPhase579": "5.79 clippy scope (limited targets) superseded — --all-targets restored",
+    "allBlockedAuthorizationFlagsFalse": true,
+    "allUnsafeSourceGuardHardeningRuntimeFlagsFalse": true,
+    "allRuntimeEffectsFalse": true,
+    "allEntriesNonAuthorizing": true,
+    "reportRunsChecks": false
+  },
+  "recommendedNextPhase": "phase-5.83-external-reference-policy",
+  "docs": [
+    {
+      "path": "docs/phase-5-82-source-guard-hardening.md",
+      "status": "present",
+      "summary": "Records the git-baseline → sha256 digest-based source guard conversion, clippy --all-targets restoration, core.fileMode workaround removal, and lib.rs lint fix."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase5-82-source-guard-hardening.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.82 fixture and rejection cases."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.82 status inventory and safetyPosture flag."
+    }
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-82/source-guard-hardening.json",
+      "status": "present",
+      "summary": "Deterministic review-only source-guard hardening boundary map."
+    }
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-82-source-guard-hardening.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "npm run report:phase-status",
+    "cargo fmt --check",
+    "cargo clippy --workspace --all-targets -- -D warnings",
+    "cargo test --workspace",
+    "semgrep --config auto .",
+    "npm audit --json",
+    "cargo audit",
+    "cargo machete",
+    "git diff --check"
+  ],
+  "safetyPosture": {
+    "sourceGuardHardeningBoundaryMapRecorded": true,
+    "sourceGuardHardeningBoundaryMapReviewOnly": true,
+    "sourceGuardHardeningBoundaryMapAuthoritative": false,
+    "sourceGuardHardeningBoundaryMapProduced": true,
+    "digestGuard": true,
+    "clippyAllTargetsRestored": true,
+    "ciFilemodeWorkaroundRemoved": true,
+    "libRsLintFixed": true,
+    "noCliSourceChange": true,
+    "noFederationMjsBehaviorChange": true,
+    "noHistoricalFixtureEdited": true,
+    "reportRunsChecks": false
+  }
+}

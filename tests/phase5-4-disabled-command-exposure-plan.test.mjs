@@ -6,10 +6,11 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 
 const execFileAsync = promisify(execFile);
 const baseCliCommit = "e996996624edadbeb356d2834ff9fa605f6eed36";
-const reviewedPhase54Commit = "60176ca83afe1fcd11dc303b557e8a468ed3b3c0";
+
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
 const cliSourceUrl = new URL("../apps/cli/src/index.mjs", import.meta.url);
@@ -318,14 +319,7 @@ test("Phase 5.4 candidate commands remain runtime disabled and unavailable", asy
 });
 
 test("Phase 5.4 does not change apps/cli/src/index.mjs from the base runtime-disabled CLI", async () => {
-  await execFileAsync(
-    "git",
-    ["diff", "--quiet", baseCliCommit, reviewedPhase54Commit, "--", "apps/cli/src/index.mjs"],
-    {
-      cwd: repoRoot,
-      encoding: "utf8"
-    }
-  );
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
 });
 
 test("Phase 5.4 candidate command names reject nonzero with zero stdout and no side effects", async () => {

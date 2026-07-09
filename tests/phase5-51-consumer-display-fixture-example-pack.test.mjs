@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   CONSUMER_DISPLAY_FIXTURE_EXAMPLE_PACK_SCHEMA,
   createConsumerDisplayFixtureExamplePackForReview,
@@ -13,7 +14,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase551BaselineCommit = "f3149cc717adc9a9a9a502038a661d1d596dcd58";
+
 const reviewedAt = "2026-06-20T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -490,23 +491,7 @@ test("Phase 5.51 display fixture example command names remain rejected", async (
 });
 
 test("Phase 5.51 does not change CLI, Rust, Fabric, or package runtime source", async () => {
-  await execFileAsync(
-    "git",
-    [
-      "diff",
-      "--exit-code",
-      phase551BaselineCommit,
-      "--",
-      "apps/cli/src/index.mjs",
-      "crates/ardyn-host/src/lib.rs",
-      "crates/ardyn-host/src/stdio_runtime/mod.rs",
-      "packages/fabric/src/index.mjs",
-      "package.json"
-    ],
-    {
-      cwd: repoRoot
-    }
-  );
+  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
 
   const currentCliSource = await readFile(cliPath, "utf8");
 

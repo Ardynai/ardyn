@@ -6,9 +6,10 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase513BaselineCommit = "995a2ccbb5f88a5e759af84fcb67ccc802ddd1ed";
+
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
 const cliSourceUrl = new URL("../apps/cli/src/index.mjs", import.meta.url);
@@ -301,16 +302,8 @@ test("Phase 5.13 process-control command names remain rejected", async () => {
 });
 
 test("Phase 5.13 does not change CLI runtime source or add process-control primitives", async () => {
-  const [{ stdout: baselineSource }, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase513BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,

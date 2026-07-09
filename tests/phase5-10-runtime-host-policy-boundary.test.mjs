@@ -6,9 +6,10 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase510BaselineCommit = "3d9f23dfb029ae73b686425ea9da91eec149f415";
+
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
 const cliSourceUrl = new URL("../apps/cli/src/index.mjs", import.meta.url);
@@ -278,16 +279,8 @@ test("Phase 5.10 host-policy command names remain rejected", async () => {
 });
 
 test("Phase 5.10 does not change CLI runtime source or add runtime primitives", async () => {
-  const [{ stdout: baselineSource }, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase510BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,
