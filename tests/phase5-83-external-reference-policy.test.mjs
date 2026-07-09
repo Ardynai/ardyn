@@ -278,7 +278,7 @@ test("Phase 5.83 every policy entry's owning-phase fixture or manifest exists", 
     "5.74": "tests/fixtures/host-policy/phase5-74/command-surface-shell-primitive-contract-boundary-map.json",
     "5.75": "tests/fixtures/host-policy/phase5-75/fabric-core-consumer-integration-readiness-boundary-update.json",
     "5.76": "tests/fixtures/host-policy/phase5-76/embedded-db-query-engine-primitive-contract-boundary-map.json",
-    "5.76B": "tests/fixtures/host-policy/phase5-76B/fabric-federation-reconciliation.json",
+    "5.76B": "tests/fixtures/host-policy/phase5-76b/fabric-federation-reconciliation.json",
     "5.83": "tests/fixtures/host-policy/phase5-83/external-reference-policy.json"
   };
   const fs = await import("node:fs/promises");
