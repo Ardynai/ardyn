@@ -7,13 +7,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_SCHEMA,
   createReviewOnlyHandoffDispositionInspectionCheckpointForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase537BaselineCommit = "03ccd8d30f5cff78c4fda750012bd7a5764b5752";
+
 const reviewedAt = "2026-06-17T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -822,14 +823,9 @@ test("Phase 5.37 handoff disposition inspection checkpoint command names remain 
 });
 
 test("Phase 5.37 does not change CLI runtime source or add checkpoint commands", async () => {
-  const { stdout: baselineSource } = await execFileAsync(
-    "git",
-    ["show", `${phase537BaselineCommit}:apps/cli/src/index.mjs`],
-    { cwd: repoRoot, encoding: "utf8", maxBuffer: 4 * 1024 * 1024 }
-  );
   const currentSource = await readFile(cliSourceUrl, "utf8");
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
 
-  assert.equal(currentSource, baselineSource);
   assert.doesNotMatch(currentSource, /phase-5-37/i);
   assert.doesNotMatch(currentSource, /handoff-disposition-inspection-checkpoint/i);
   assert.doesNotMatch(currentSource, /createReviewOnlyHandoffDispositionInspectionCheckpointForReview/);

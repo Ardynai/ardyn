@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   APPROVAL_PREREQUISITE_READER_SCHEMA,
   evaluateRuntimeApprovalPrerequisitesForReview,
@@ -13,7 +14,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase519BaselineCommit = "4b8a415449f577283c62aa01c9008f7dc6174ad9";
+
 const reviewedAt = "2026-06-15T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -525,16 +526,8 @@ test("Phase 5.19 reader command names remain rejected", async () => {
 });
 
 test("Phase 5.19 does not change CLI runtime source or add runtime primitives", async () => {
-  const [{ stdout: baselineSource }, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase519BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,

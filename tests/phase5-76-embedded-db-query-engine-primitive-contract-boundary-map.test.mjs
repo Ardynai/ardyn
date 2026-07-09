@@ -4,13 +4,14 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_SCHEMA,
   createEmbeddedDbQueryEnginePrimitiveContractBoundaryMapForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase576BaselineCommit = "29a7b98534042eed0c3cade1abcf31b62a562247";
+
 const reviewedAt = "2026-07-01T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -616,21 +617,7 @@ test("Phase 5.76 does not change CLI, Rust, Fabric, package, or dependency sourc
     "Cargo.lock"
   ];
 
-  for (const file of files) {
-    const [baseline, current] = await Promise.all([
-      execFileAsync("git", ["show", `${phase576BaselineCommit}:${file}`], {
-        cwd: repoRoot,
-        maxBuffer: 20 * 1024 * 1024
-      }),
-      readFile(new URL(`../${file}`, import.meta.url), "utf8")
-    ]);
-
-    assert.equal(
-      current.replaceAll("\r\n", "\n"),
-      baseline.stdout.replaceAll("\r\n", "\n"),
-      `${file} should not change`
-    );
-  }
+  await assertUnchanged(files);
 
   const packageJson = JSON.parse(await readFile(packageJsonUrl, "utf8"));
   const dependencies = {

@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_SCHEMA,
   createApprovalEvaluatorCandidateIntakeCheckpointForReview,
@@ -23,7 +24,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase536BaselineCommit = "7ddd3132c8770cea3c6881656085bdcf082394a1";
+
 const reviewedAt = "2026-06-16T00:00:00.000Z";
 const defaultReviewedAt = "1970-01-01T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
@@ -1107,16 +1108,8 @@ test("Phase 5.36 readiness handoff disposition command names remain rejected", a
 });
 
 test("Phase 5.36 does not change CLI runtime source or add disposition commands", async () => {
-  const [currentCliSource, baselineCliSource] = await Promise.all([
-    readFile(cliSourceUrl, "utf8"),
-    execFileAsync("git", ["show", `${phase536BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }).then(({ stdout }) => stdout)
-  ]);
-
-  assert.equal(currentCliSource, baselineCliSource);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentCliSource = await readFile(cliSourceUrl, "utf8");
   for (const forbiddenPattern of [
     /review-only-readiness-handoff-disposition/,
     /readiness-handoff-disposition/,

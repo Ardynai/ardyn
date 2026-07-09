@@ -8,13 +8,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   TARGET_CONSUMER_PLANNING_METADATA_SCHEMA,
   createTargetConsumerPlanningMetadataForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase545BaselineCommit = "e6352e0376db42ed2ee7fe2e4bf2984b79cdd7e4";
+
 const reviewedAt = "2026-06-19T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -591,38 +592,14 @@ test("Phase 5.45 planning command names remain rejected", async () => {
 
 test("Phase 5.45 does not change CLI, Rust, or Fabric runtime source", async () => {
   const currentCliSource = await readFile(cliSourceUrl, "utf8");
-  const currentRustLibSource = await readFile(rustLibSourceUrl, "utf8");
-  const currentRustStdioSource = await readFile(rustStdioSourceUrl, "utf8");
-  const fabricSourcePath = fileURLToPath(fabricSourceUrl);
-  const { stdout: baselineCliSource } = await execFileAsync("git", [
-    "show",
-    `${phase545BaselineCommit}:apps/cli/src/index.mjs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-  const { stdout: baselineRustLibSource } = await execFileAsync("git", [
-    "show",
-    `${phase545BaselineCommit}:crates/ardyn-host/src/lib.rs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-  const { stdout: baselineRustStdioSource } = await execFileAsync("git", [
-    "show",
-    `${phase545BaselineCommit}:crates/ardyn-host/src/stdio_runtime/mod.rs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-  await execFileAsync("git", ["diff", "--exit-code", "--", fabricSourcePath], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
 
-  assert.equal(currentCliSource, baselineCliSource);
-  assert.equal(currentRustLibSource, baselineRustLibSource);
-  assert.equal(currentRustStdioSource, baselineRustStdioSource);
+  await assertUnchanged([
+    "apps/cli/src/index.mjs",
+    "crates/ardyn-host/src/lib.rs",
+    "crates/ardyn-host/src/stdio_runtime/mod.rs",
+    "packages/fabric/src/index.mjs"
+  ]);
+
   assert.doesNotMatch(currentCliSource, /target-consumer-planning-metadata/);
   assert.doesNotMatch(currentCliSource, /secure-drop/);
 });

@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_SCHEMA,
   createApprovalEvaluatorCandidateIntakeCheckpointForReview,
@@ -17,7 +18,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase530BaselineCommit = "12cbe4c13865d09865cb4652967c156c31360026";
+
 const reviewedAt = "2026-06-16T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -869,16 +870,8 @@ test("Phase 5.30 inspection-artifact command names remain rejected", async () =>
 });
 
 test("Phase 5.30 does not change CLI runtime source or add evaluator execution", async () => {
-  const [baselineSource, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase530BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource.stdout);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,

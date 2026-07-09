@@ -4725,10 +4725,10 @@ mod tests {
         }
 
         let mut stdout = Vec::new();
-        let mut expected_sequence = 1_u64;
 
         for (index, line) in input.split_terminator('\n').enumerate() {
             let line_number = index + 1;
+            let expected_sequence = (index as u64) + 1;
             if line.is_empty() {
                 return Err(test_stdio_failure(
                     "blank_line",
@@ -4810,7 +4810,6 @@ mod tests {
             let line = serde_json::to_string(&output_event).expect("stdout event json");
             stdout.extend_from_slice(line.as_bytes());
             stdout.push(b'\n');
-            expected_sequence += 1;
         }
 
         Ok(stdout)

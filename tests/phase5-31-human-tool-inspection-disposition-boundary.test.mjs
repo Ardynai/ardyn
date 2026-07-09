@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_SCHEMA,
   createApprovalEvaluatorCandidateIntakeCheckpointForReview,
@@ -18,7 +19,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase531BaselineCommit = "8ebb88ee9ac6f69a428dce00de03961efdc73d6e";
+
 const reviewedAt = "2026-06-16T00:00:00.000Z";
 const defaultReviewedAt = "1970-01-01T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
@@ -928,16 +929,8 @@ test("Phase 5.31 disposition command names remain rejected", async () => {
 });
 
 test("Phase 5.31 does not change CLI runtime source or add evaluator execution", async () => {
-  const [baselineSource, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase531BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource.stdout);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,

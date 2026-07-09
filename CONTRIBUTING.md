@@ -32,6 +32,11 @@ change adds or changes a phase/contract, also update the relevant
 `docs/phase-*.md`, `tests/fixtures/**`, focused `tests/*.test.mjs`,
 `scripts/report-phase-status.mjs`, and `tests/report-phase-status.test.mjs`.
 
+New tests should import from `tests/helpers/` and use `assertUnchanged`
+(from `tests/helpers/source-digests.mjs`) instead of git-baseline
+(commit-hash) source guards. Digest-based guards are sha256-manifest-backed
+and do not require a specific commit hash.
+
 Run a full readability pass after roughly every five merged feature batches.
 That pass should refresh `docs/architecture.md`, `docs/ONBOARDING.md`, and the
 how-it-works pages while keeping behavior unchanged.

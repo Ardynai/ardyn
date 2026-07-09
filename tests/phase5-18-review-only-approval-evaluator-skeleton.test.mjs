@@ -6,13 +6,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_SCHEMA,
   evaluateRuntimeApprovalPrerequisitesForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase518BaselineCommit = "8edce9bea05e3f79280108b122550cbe527a3562";
+
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
 const cliSourceUrl = new URL("../apps/cli/src/index.mjs", import.meta.url);
@@ -382,16 +383,8 @@ test("Phase 5.18 evaluator command names remain rejected", async () => {
 });
 
 test("Phase 5.18 does not change CLI runtime source or add runtime primitives", async () => {
-  const [{ stdout: baselineSource }, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase518BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,

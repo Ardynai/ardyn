@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_SCHEMA,
   createCodeModeOrchestrationForReview
@@ -438,21 +439,7 @@ test("Phase 5.77 does not change CLI, Rust, Fabric, package, or dependency sourc
     "Cargo.lock"
   ];
 
-  for (const file of files) {
-    const [baseline, current] = await Promise.all([
-      execFileAsync("git", ["show", `e84bd8752e1d63f830de2f6f4958ffa3b6b3e754:${file}`], {
-        cwd: repoRoot,
-        maxBuffer: 20 * 1024 * 1024
-      }),
-      readFile(new URL(`../${file}`, import.meta.url), "utf8")
-    ]);
-
-    assert.equal(
-      current.replaceAll("\r\n", "\n"),
-      baseline.stdout.replaceAll("\r\n", "\n"),
-      `${file} should not change`
-    );
-  }
+  await assertUnchanged(files);
 
   const packageJson = JSON.parse(await readFile(packageJsonUrl, "utf8"));
   const dependencies = {

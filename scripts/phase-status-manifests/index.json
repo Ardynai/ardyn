@@ -462,5 +462,9 @@
   {
     "key": "phase581ReportTestCompactionBoundaryMapInventory",
     "file": "phase-phase581ReportTestCompactionBoundaryMap.json"
+  },
+  {
+    "key": "phase582SourceGuardHardeningBoundaryMapInventory",
+    "file": "phase-phase582SourceGuardHardeningBoundaryMap.json"
   }
 ]

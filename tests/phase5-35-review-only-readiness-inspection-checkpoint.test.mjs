@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_SCHEMA,
   createApprovalEvaluatorCandidateIntakeCheckpointForReview,
@@ -22,7 +23,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase535BaselineCommit = "919dc0982d1ed33b84b1172dedbc5ec8a28e2683";
+
 const reviewedAt = "2026-06-16T00:00:00.000Z";
 const defaultReviewedAt = "1970-01-01T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
@@ -1076,16 +1077,8 @@ test("Phase 5.35 readiness inspection checkpoint command names remain rejected",
 });
 
 test("Phase 5.35 does not change CLI runtime source or add readiness commands", async () => {
-  const [baselineSource, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase535BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource.stdout);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,

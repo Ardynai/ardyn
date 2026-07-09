@@ -8,13 +8,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_SCHEMA,
   createReviewOnlyConsolidationCheckpointHandoffForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase543BaselineCommit = "792596864cddd8a7754eaa11af5e748d99eaf702";
+
 const reviewedAt = "2026-06-18T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -1118,31 +1119,7 @@ test("Phase 5.43 does not change CLI or Rust runtime source", async () => {
   const currentCliSource = await readFile(cliSourceUrl, "utf8");
   const currentRustLibSource = await readFile(rustLibSourceUrl, "utf8");
   const currentRustStdioSource = await readFile(rustStdioSourceUrl, "utf8");
-  const { stdout: baselineCliSource } = await execFileAsync("git", [
-    "show",
-    `${phase543BaselineCommit}:apps/cli/src/index.mjs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-  const { stdout: baselineRustLibSource } = await execFileAsync("git", [
-    "show",
-    `${phase543BaselineCommit}:crates/ardyn-host/src/lib.rs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-  const { stdout: baselineRustStdioSource } = await execFileAsync("git", [
-    "show",
-    `${phase543BaselineCommit}:crates/ardyn-host/src/stdio_runtime/mod.rs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-
-  assert.equal(currentCliSource, baselineCliSource);
-  assert.equal(currentRustLibSource, baselineRustLibSource);
-  assert.equal(currentRustStdioSource, baselineRustStdioSource);
+  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs"]);
   assert.doesNotMatch(
     currentCliSource,
     /createReviewOnlyConsolidationCheckpointHandoffForReview/

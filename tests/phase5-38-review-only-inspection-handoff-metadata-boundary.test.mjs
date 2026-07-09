@@ -7,13 +7,14 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_SCHEMA,
   createReviewOnlyInspectionHandoffMetadataBoundaryForReview
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase538BaselineCommit = "12b48dd408ab56b04fc546433402e83a84b12f63";
+
 const reviewedAt = "2026-06-17T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
 const repoRoot = fileURLToPath(repoRootUrl);
@@ -752,15 +753,7 @@ test("Phase 5.38 inspection handoff metadata command names remain rejected", asy
 
 test("Phase 5.38 does not change CLI runtime source or add boundary commands", async () => {
   const currentSource = await readFile(cliSourceUrl, "utf8");
-  const { stdout: baselineSource } = await execFileAsync("git", [
-    "show",
-    `${phase538BaselineCommit}:apps/cli/src/index.mjs`
-  ], {
-    cwd: repoRoot,
-    maxBuffer: 1024 * 1024
-  });
-
-  assert.equal(currentSource, baselineSource);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
   assert.doesNotMatch(currentSource, /createReviewOnlyInspectionHandoffMetadataBoundaryForReview/);
   assert.doesNotMatch(currentSource, /inspection-handoff-metadata-boundary/);
 });

@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
+import { assertUnchanged } from "./helpers/source-digests.mjs";
 import {
   REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_SCHEMA,
   createApprovalEvaluatorCandidateIntakeCheckpointForReview,
@@ -19,7 +20,7 @@ import {
 } from "../packages/core/src/index.mjs";
 
 const execFileAsync = promisify(execFile);
-const phase532BaselineCommit = "054f5afa00a0544903022806561f89f643afcd82";
+
 const reviewedAt = "2026-06-16T00:00:00.000Z";
 const defaultReviewedAt = "1970-01-01T00:00:00.000Z";
 const repoRootUrl = new URL("../", import.meta.url);
@@ -935,16 +936,8 @@ test("Phase 5.32 aggregation command names remain rejected", async () => {
 });
 
 test("Phase 5.32 does not change CLI runtime source or add reviewer routing", async () => {
-  const [baselineSource, currentSource] = await Promise.all([
-    execFileAsync("git", ["show", `${phase532BaselineCommit}:apps/cli/src/index.mjs`], {
-      cwd: repoRoot,
-      encoding: "utf8",
-      maxBuffer: 1024 * 1024
-    }),
-    readFile(cliSourceUrl, "utf8")
-  ]);
-
-  assert.equal(currentSource, baselineSource.stdout);
+  await assertUnchanged(["apps/cli/src/index.mjs"]);
+  const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [
     /process\.stdin/,
