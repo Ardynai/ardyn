@@ -1,0 +1,170 @@
+{
+  "reviewTraceCommands": [
+    {
+      "command": "ardyn review-trace <left> <right>",
+      "mode": "default",
+      "writesFiles": false,
+      "summary": "Renders the non-executing trace review comparison in the default local review format."
+    },
+    {
+      "command": "ardyn review-trace --summary <left> <right>",
+      "mode": "summary",
+      "writesFiles": false,
+      "summary": "Renders a concise local summary of trace review changes."
+    },
+    {
+      "command": "ardyn review-trace --explain <left> <right>",
+      "mode": "explain",
+      "writesFiles": false,
+      "summary": "Renders reviewer-oriented local explanations for trace review changes."
+    }
+  ],
+  "traceReviewFixtures": [
+    {
+      "path": "tests/fixtures/trace-review/equal-left-approval-review-artifact.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/trace-review/equal-right-approval-review-artifact.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/trace-review/approval-status-changed-approval-review-artifact.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/trace-review/selected-capability-changed-approval-review-artifact.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/trace-review/unresolved-request-changed-approval-review-artifact.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/trace-review/invalid-review-artifact.json",
+      "status": "present"
+    }
+  ],
+  "exportErgonomics": {
+    "reportWritesFiles": false,
+    "reportOutputFileSupport": false,
+    "reviewTraceWritesFiles": false,
+    "reviewArtifactOutputCommand": "ardyn plan --review-artifact --output <file>",
+    "reviewArtifactOutputRequiresExplicitCliFlag": true,
+    "summary": "The report script is stdout-only local metadata; artifact file writes are only available through an explicit plan --review-artifact --output CLI request."
+  },
+  "reviewArtifactVersioning": {
+    "schema": "ardyn.approval-review-artifact",
+    "schemaVersion": "0.1.0",
+    "version": "0.1.0",
+    "compatibilityStates": [
+      "compatible",
+      "unsupported_major",
+      "malformed"
+    ],
+    "supportedMajor": {
+      "schemaVersion": 0,
+      "version": 0
+    },
+    "compatibleSameMajorDisplayOnly": true,
+    "fullArtifactValidationRequiresExactCurrentVersion": true,
+    "unsupportedMajorRejected": true,
+    "unknownFieldsPreservedForDisplay": true,
+    "deterministicFixtureTimestamps": {
+      "generatedAt": "2026-06-02T00:00:00.000Z",
+      "approvalDecisionCreatedAt": "1970-01-01T00:00:00.000Z"
+    }
+  },
+  "displayContract": {
+    "locusRuntimeDependency": false,
+    "displaySummaryHelper": "buildApprovalReviewArtifactDisplaySummary",
+    "normalizationHelper": "normalizeApprovalReviewArtifactForDisplay",
+    "versionValidationHelper": "validateApprovalReviewArtifactVersion",
+    "compatibilityHelper": "classifyApprovalReviewArtifactCompatibility",
+    "displaysPlannerTraces": true,
+    "displaysReviewArtifacts": true,
+    "displaysTraceDiffs": true,
+    "approvalStatusDisplayRulesDocumented": true,
+    "severityMappingDocumented": true,
+    "unknownFieldsAreInertMetadata": true
+  },
+  "docs": [
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Documents Phase 3.6 review-artifact versioning/display workflow, existing review-trace CLI usage, and non-executing posture."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents CLI review-trace modes and explicit review artifact export ergonomics."
+    },
+    {
+      "path": "docs/planner-policy-review.md",
+      "status": "present",
+      "summary": "Documents approval review artifact examples and policy boundaries."
+    },
+    {
+      "path": "docs/planner-trace-review-workflow.md",
+      "status": "present",
+      "summary": "Documents reviewer workflow for planner traces, approval artifacts, and trace-review fixtures."
+    },
+    {
+      "path": "docs/locus-trace-display-contract.md",
+      "status": "present",
+      "summary": "Documents Phase 3.6 Locus-facing display fields, severity mapping, and no runtime dependency."
+    },
+    {
+      "path": "docs/review-artifact-versioning-policy.md",
+      "status": "present",
+      "summary": "Documents Phase 3.6 review-artifact versioning and backward-compatible display policy."
+    },
+    {
+      "path": "docs/host-policy-preconditions.md",
+      "status": "present",
+      "summary": "Documents future host-policy preconditions without active runtime enforcement."
+    },
+    {
+      "path": "packages/core/README.md",
+      "status": "present",
+      "summary": "Documents core-package host-policy precondition posture."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/cli-phase3.test.mjs",
+      "status": "present",
+      "summary": "Covers CLI review-trace modes and explicit review artifact output ergonomics."
+    },
+    {
+      "path": "tests/core-phase3-4-review-artifacts.test.mjs",
+      "status": "present",
+      "summary": "Pins stable approval review artifact fixtures and safety validation."
+    },
+    {
+      "path": "tests/core-phase3-4-trace-comparison.test.mjs",
+      "status": "present",
+      "summary": "Covers approval artifact comparison, planner-trace normalization, and unsafe artifact rejection."
+    },
+    {
+      "path": "tests/core-phase3-5-trace-fixtures.test.mjs",
+      "status": "present",
+      "summary": "Covers Phase 3.5 trace-review fixtures."
+    },
+    {
+      "path": "tests/core-phase3-6-review-artifact-versioning.test.mjs",
+      "status": "present",
+      "summary": "Covers Phase 3.6 review-artifact versioning, unknown-field preservation, and display summaries."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Covers the Phase 3.6 local-summary-only status report output."
+    },
+    {
+      "path": "tests/host-policy-preconditions.test.mjs",
+      "status": "present",
+      "summary": "Covers host-policy precondition documentation and report inventory."
+    }
+  ]
+}

@@ -8199,17 +8199,14 @@ test("package exposes report:phase-status without replacing existing test script
   );
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
-
-test("phase status report is Phase 5.79 CI enablement per 5.78 contract and does not claim to run checks", async () => {
+test("phase status report is Phase 5.80 report-script compaction and does not claim to run checks", async () => {
   const report = await runReport();
-
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.79",
-    name:
-      "Review-only CI enablement per 5.78 contract",
+    id: "5.80",
+    name: "Review-only report-script compaction (byte-identical, manifest-driven)",
     executionPosture:
-      "ci-enablement-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only ci-workflows-present ci-check-execution-only no-ci-runtime no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation ci-check-execution-present no-release-deploy-publish-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
+      "report-script-compaction-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only ci-workflows-present ci-check-execution-only no-ci-runtime no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation ci-check-execution-present no-release-deploy-publish-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -32385,6 +32382,10 @@ test("report inventories Phase 5.76 embedded DB/query-engine primitive contract 
     report.safetyPosture.phase579CiEnablementBoundaryMap,
     true
   );
+  assert.equal(
+    report.safetyPosture.phase580ReportScriptCompactionBoundaryMap,
+    true
+  );
   assertSafetyFlags(report, phase576ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase576ExpectedFalseSafetyFlagNames, false);
 });
@@ -33739,4 +33740,21 @@ test("report inventories Phase 5.79 as CI enablement per 5.78 contract", async (
   assert.equal(inventory.safetyPosture.julesReviewRequired, true);
   assert.equal(inventory.safetyPosture.reportRunsChecks, false);
   assert.equal(report.safetyPosture.phase579CiEnablementBoundaryMap, true);
+  assert.equal(report.safetyPosture.phase580ReportScriptCompactionBoundaryMap, true);
+});
+
+test("report inventories Phase 5.80 as report-script compaction (byte-identical, manifest-driven)", async () => {
+  const report = await runReport();
+  const inventory = report.phase580ReportScriptCompactionBoundaryMapInventory;
+  assert.equal(inventory.statusLayer.document, "docs/phase-5-80-report-script-compaction.md");
+  assert.equal(inventory.statusLayer.schema, "ardyn.phase-5.80.report-script-compaction-boundary-map-result");
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 5);
+  assert.equal(inventory.statusLayer.reportRunsChecks, false);
+  assert.equal(inventory.statusLayer.byteIdentityVerified, true);
+  assert.equal(inventory.statusLayer.hashesIdentical, true);
+  assert.equal(inventory.recommendedNextPhase, "phase-5.81-report-test-compaction");
+  assert.equal(inventory.safetyPosture.manifestDrivenLoader, true);
+  assert.equal(inventory.safetyPosture.byteIdentityVerified, true);
+  assert.equal(inventory.safetyPosture.reportRunsChecks, false);
+  assert.equal(report.safetyPosture.phase580ReportScriptCompactionBoundaryMap, true);
 });

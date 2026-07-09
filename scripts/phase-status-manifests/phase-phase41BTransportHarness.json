@@ -1,0 +1,359 @@
+{
+  "transportHarnessContract": {
+    "document": "docs/phase-4-1b-transport-harness-contracts.md",
+    "source": "crates/ardyn-host/src/lib.rs",
+    "fixture": "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json",
+    "schema": "ardyn.transport-harness-contract",
+    "schemaVersion": "0.1.0",
+    "contractKind": "transport-harness-contract",
+    "contractPhase": "phase-4.1b-transport-harness-contracts",
+    "reviewedPhase": "4.1B",
+    "harnessKind": "rust-host-stdio-transport-harness-static-contract",
+    "harnessVersion": "0.1.0",
+    "classification": "static_contract_only",
+    "staticContractOnly": true,
+    "runtimeAvailable": false,
+    "currentContractEnablesRuntime": false,
+    "runtimeCommandAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "grantsRuntimeApproval": false,
+    "runtimeApprovalGranted": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "consumedByLiveHostLoop": false
+  },
+  "basedOnApprovalRecord": {
+    "document": "docs/phase-4-1a-host-policy-approval-records.md",
+    "fixture": "tests/fixtures/host-policy/phase4-1a/valid-review-only-host-policy-approval-record.json",
+    "schema": "ardyn.host-policy-approval-record",
+    "classification": "valid_review_record",
+    "operatorConsentNecessaryButNotSufficient": true,
+    "approvalRecordGrantsRuntime": false
+  },
+  "basedOnPolicyMetadata": {
+    "document": "docs/phase-4-stdio-dry-run-event-emission.md",
+    "fixture": "tests/fixtures/host-policy/phase4-0e/stdio-transport-policy-metadata.json",
+    "schema": "ardyn.stdio-transport-policy-metadata",
+    "schemaVersion": "0.1.0",
+    "runtimeStatus": "pre-runtime-policy-only",
+    "reviewOnly": true,
+    "digestAlgorithm": "sha256"
+  },
+  "harnessContractModel": {
+    "rustEnum": "TransportHarnessContractClassification",
+    "contractStruct": "TransportHarnessContract",
+    "serializer": "serialize_transport_harness_contract_json",
+    "parser": "parse_transport_harness_contract_json",
+    "classifier": "classify_transport_harness_contract_json",
+    "helper": "transport_harness_contract_json",
+    "format": "pretty-json-lf-terminated",
+    "finalLfRequired": true,
+    "crlfAllowed": false,
+    "classes": [
+      "static_contract_only",
+      "approval_missing",
+      "policy_metadata_missing",
+      "redaction_policy_missing",
+      "transcript_policy_missing",
+      "unsupported_version",
+      "malformed",
+      "runtime_unavailable"
+    ],
+    "exactCurrentStaticContractRequired": true,
+    "nonRuntimeReviewMetadataOnly": true
+  },
+  "supportedTransportModes": [
+    {
+      "name": "stdio-jsonl-session-events",
+      "direction": "stdout",
+      "metadataOnly": true,
+      "runtimeImplemented": false
+    },
+    {
+      "name": "stderr-diagnostics",
+      "direction": "stderr",
+      "metadataOnly": true,
+      "runtimeImplemented": false
+    },
+    {
+      "name": "stdin-command-stream",
+      "direction": "stdin",
+      "metadataOnly": true,
+      "runtimeImplemented": false
+    }
+  ],
+  "runtimeAvailability": {
+    "status": "runtime-unavailable",
+    "runtimeAvailable": false,
+    "serveRuntimeAvailable": false,
+    "stdioRuntimeAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdinCommandLoopAvailable": false,
+    "listenerAvailable": false,
+    "subprocessSpawningAvailable": false
+  },
+  "requiredReferences": {
+    "approvalRecordReference": {
+      "required": true,
+      "present": true,
+      "schema": "ardyn.host-policy-approval-record",
+      "schemaVersion": "0.1.0",
+      "recordPhase": "phase-4.1a-host-policy-approval-records",
+      "classification": "valid_review_record",
+      "runtimeCapability": "live-stdio-runtime",
+      "operatorConsentRequired": true,
+      "approvalRecordGrantsRuntime": false
+    },
+    "policyMetadataReference": {
+      "required": true,
+      "present": true,
+      "schema": "ardyn.stdio-transport-policy-metadata",
+      "schemaVersion": "0.1.0",
+      "metadataPhase": "phase-4.0e-rust-host-policy-metadata",
+      "contractPhase": "phase-4.0d-rust-host-transport-policy-contracts",
+      "runtimeStatus": "pre-runtime-policy-only",
+      "reviewOnly": true,
+      "digestAlgorithm": "sha256"
+    },
+    "stderrRedactionPolicyReference": {
+      "required": true,
+      "present": true,
+      "sourceSchema": "ardyn.stdio-transport-policy-metadata",
+      "sourceSchemaVersion": "0.1.0",
+      "sourceField": "policy.redaction",
+      "enforcementActive": false,
+      "requiredBeforeLiveRuntime": true,
+      "stackTracesAllowed": false,
+      "environmentDumpsAllowed": false,
+      "secretsAllowed": false,
+      "productionSigningKeysAllowed": false
+    },
+    "transcriptAuditOutputPolicyReference": {
+      "required": true,
+      "present": true,
+      "transcriptSchema": "ardyn.session-transcript",
+      "sessionEventSchema": "https://schemas.ardyn.ai/session-event.schema.json",
+      "normalizedTranscriptRequired": true,
+      "failureAuditRecordRequiredBeforeRuntime": true,
+      "transcriptPersistenceRuntimeImplemented": false,
+      "replayRuntimeImplemented": false,
+      "writesFilesInThisPhase": false
+    }
+  },
+  "reviewOnlyDisplayBehavior": {
+    "transportHarnessContractsAreStaticArtifactsOnly": true,
+    "approvalReferencesNecessaryButNotSufficient": true,
+    "currentContractsDoNotEnableRuntime": true,
+    "futureRuntimeRequiresSeparateApprovedImplementationPhase": true,
+    "preserveDevinReviewForMajorRuntimeReadinessCheckpoint": true,
+    "reportRunsChecks": false,
+    "writesFiles": false,
+    "printsStdoutFromCli": false,
+    "consumedByLiveHostLoop": false
+  },
+  "cliCommandSurface": {
+    "commandAdded": false,
+    "transportHarnessCommandAdded": false,
+    "serveRuntimeCommandAdded": false,
+    "stdioRuntimeCommandAdded": false,
+    "stdinReaderCommandAdded": false,
+    "stdoutWriterCommandAdded": false,
+    "stderrWriterCommandAdded": false,
+    "failureAuditCommandAdded": false,
+    "fileWriterAdded": false,
+    "stdoutPrinterAdded": false,
+    "existingDryRunEmitterUnchanged": true
+  },
+  "apiSurface": {
+    "rustStaticContractTypesAdded": true,
+    "rustRuntimeHelperAdded": false,
+    "rustStdioOwnerAdded": false,
+    "rustStdinReaderAdded": false,
+    "rustStdoutWriterAdded": false,
+    "rustStderrWriterAdded": false,
+    "typescriptCoreRuntimeApiAdded": false,
+    "hostPolicyEnforcementAdded": false,
+    "approvalEvaluatorAdded": false,
+    "transcriptReplayRuntimeAdded": false,
+    "failureAuditRuntimeAdded": false
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/host-policy/phase4-1b/valid-static-transport-harness-contract.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1b/missing-approval-reference-transport-harness-contract.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1b/missing-policy-metadata-reference-transport-harness-contract.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1b/missing-redaction-policy-reference-transport-harness-contract.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1b/missing-transcript-audit-policy-reference-transport-harness-contract.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1b/unsupported-major-transport-harness-contract.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1b/malformed-missing-contract-kind-transport-harness-contract.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1b/runtime-available-attempt-transport-harness-contract.json",
+      "status": "present"
+    }
+  ],
+  "docs": [
+    {
+      "path": "docs/phase-4-1b-transport-harness-contracts.md",
+      "status": "present",
+      "summary": "Defines Phase 4.1B transport harness contracts as static Rust-host review metadata only."
+    },
+    {
+      "path": "docs/phase-4-1a-host-policy-approval-records.md",
+      "status": "present",
+      "summary": "Links Phase 4.1B to approval records while preserving necessary-but-not-sufficient semantics."
+    },
+    {
+      "path": "docs/phase-4-1-runtime-proposal.md",
+      "status": "present",
+      "summary": "Updates the Phase 4.1 roadmap to identify Phase 4.1B as static transport harness contracts."
+    },
+    {
+      "path": "docs/phase-4-stdio-dry-run-event-emission.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1B leaves the finite dry-run emitter unchanged."
+    },
+    {
+      "path": "docs/session-events-stdio-contract.md",
+      "status": "present",
+      "summary": "Links Phase 4.1B while preserving no-live-runtime stdio boundaries."
+    },
+    {
+      "path": "docs/host-policy-preconditions.md",
+      "status": "present",
+      "summary": "Documents transport harness contracts as static preconditions, not enforcement."
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "present",
+      "summary": "Records Phase 4.1B Rust-host static contracts without process stdio ownership."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Documents Phase 4.1B scope and unchanged non-executing CLI surface."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1B adds no transport harness or runtime command."
+    },
+    {
+      "path": "packages/core/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1B adds no TypeScript core runtime API."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents Phase 4.1B Rust-host transport harness contracts as static metadata."
+    }
+  ],
+  "tests": [
+    {
+      "path": "crates/ardyn-host/src/lib.rs",
+      "status": "present",
+      "summary": "Contains Rust tests for deterministic transport harness JSON, classification, references, and fail-closed runtime attempts."
+    },
+    {
+      "path": "tests/phase4-1b-transport-harness-contracts.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 4.1B fixtures, docs, report inventory, source guards, and rejected transport/runtime commands."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 4.1B report metadata and safety posture."
+    }
+  ],
+  "invariantProbes": [
+    "missing --dry-run",
+    "unknown emit-session-events arg",
+    "unsafe manifest URL",
+    "invalid JSON manifest",
+    "invalid JSON task",
+    "replay-session-transcript",
+    "policy-metadata",
+    "host-policy-export",
+    "serve-runtime",
+    "stdio-runtime",
+    "approve-runtime",
+    "grant-runtime",
+    "host-policy-approval",
+    "operator-consent",
+    "enable-runtime",
+    "phase-4-1a-approval-records",
+    "transport-harness",
+    "transport-harness-contract",
+    "stdio-harness",
+    "host-transport-harness",
+    "phase-4-1b-transport-harness",
+    "phase-4.1b-transport-harness",
+    "start-transport-harness",
+    "run-transport-harness",
+    "enable-transport-harness",
+    "transport-runtime",
+    "stdio-transport",
+    "stdin-reader",
+    "stdout-writer",
+    "stderr-writer",
+    "failure-audit",
+    "emit-failure-audit"
+  ],
+  "safetyPosture": {
+    "nonExecuting": true,
+    "transportHarnessContractOnly": true,
+    "reviewOnly": true,
+    "noLiveStdioRuntime": true,
+    "noStdinCommandLoop": true,
+    "noLiveStdioReader": true,
+    "noProcessStdioOwnership": true,
+    "noListener": true,
+    "noServer": true,
+    "noSubprocessSpawning": true,
+    "noAdapterCalls": true,
+    "noLocusRuntimeDependency": true,
+    "noMcpCalls": true,
+    "noOpenClawCalls": true,
+    "noPluginExecution": true,
+    "noContentFabricRuntimeBehavior": true,
+    "noContentFabricDownloadInstallEnable": true,
+    "noTranscriptPersistenceReplayRuntime": true,
+    "noWebSocketHttpControlSurface": true,
+    "noSecrets": true,
+    "noProductionSigningKeys": true,
+    "noRuntimeApprovalGrant": true,
+    "noHostPolicyEnforcement": true,
+    "noApprovalEvaluator": true,
+    "noStdoutWriter": true,
+    "noStderrWriter": true,
+    "noFailureAuditRuntime": true,
+    "noCliCommandAdded": true,
+    "noFileWriterAdded": true,
+    "noStdoutPrinterAdded": true,
+    "noRuntimeBehaviorIntroduced": true
+  }
+}

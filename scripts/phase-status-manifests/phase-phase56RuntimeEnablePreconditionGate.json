@@ -1,0 +1,321 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-6-runtime-enable-preconditions.md",
+    "fixture": "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json",
+    "sourceDefaultBlockedRuntimeCliDocument": "docs/phase-5-5-default-blocked-runtime-cli.md",
+    "sourceDefaultBlockedRuntimeCliFixture": "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json",
+    "precedingPhase": "5.5",
+    "layerId": "runtime-enable-precondition-gate",
+    "scope": "runtime-enable-preconditions-only-runtime-disabled",
+    "runtimeEnablementGateRecorded": true,
+    "gateSatisfied": false,
+    "requiredPreconditionCount": 9,
+    "satisfiedPreconditionCount": 0,
+    "canEnableRuntime": false,
+    "runtimeEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeCommandEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorEnabled": false,
+    "processControlEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorChanged": false,
+    "contentFabricRuntimeBehaviorChanged": false,
+    "webSocketHttpSurfaceEnabled": false,
+    "cliSourceChanged": false,
+    "rustSourceChanged": false,
+    "reportRunsChecks": false
+  },
+  "docs": [
+    {
+      "path": "docs/phase-5-6-runtime-enable-preconditions.md",
+      "status": "present",
+      "summary": "Records the Phase 5.6 runtime enablement precondition gate while runtime remains disabled."
+    },
+    {
+      "path": "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "status": "present",
+      "summary": "Provides the default-blocked serve-runtime source boundary that Phase 5.6 preserves."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Marks Phase 5.6 as current docs/status mode while runtime execution remains blocked."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.6 adds no CLI command and preserves serve-runtime default-blocked behavior."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.6 changes no Rust-host runtime source and records preconditions only."
+    }
+  ],
+  "crossLinks": [
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    "docs/phase-5-3-command-surface-approval-preflight.md",
+    "docs/phase-5-4-disabled-command-exposure-plan.md",
+    "docs/phase-5-4a-jules-review-disposition.md",
+    "docs/phase-5-5-default-blocked-runtime-cli.md",
+    "docs/phase-5-6-runtime-enable-preconditions.md"
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json",
+      "status": "present",
+      "summary": "Records the required runtime enablement preconditions, all currently blocked and unsatisfied."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.6 report metadata, docs cross-links, blocked gate flags, and runtime-disabled posture."
+    },
+    {
+      "path": "tests/phase5-6-runtime-enable-preconditions.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.6 precondition fixture shape, blocked gate classification, serve-runtime rejection, and source guard checks."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsStatusFiles": [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "docs/phase-5-6-runtime-enable-preconditions.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "machineReadableArtifactFiles": [
+      "tests/fixtures/host-policy/phase5-6/runtime-enable-precondition-gate.json"
+    ],
+    "focusedTestFiles": [
+      "tests/phase5-6-runtime-enable-preconditions.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "cliRuntimeSourceFilesChanged": [],
+    "rustRuntimeSourceFilesChanged": [],
+    "cliSourceChangedByThisPhase": false,
+    "appsCliIndexChangedByThisPhase": false,
+    "rustSourceChangedByThisPhase": false,
+    "machineReadableArtifactsChangedByThisPhase": true,
+    "reportRunsChecks": false,
+    "separateRuntimeImplementationPhaseRequired": true,
+    "separateRuntimeEnablementApprovalRequired": true
+  },
+  "gateSummary": {
+    "runtimeEnablementGateRecorded": true,
+    "gateSatisfied": false,
+    "requiredPreconditionCount": 9,
+    "satisfiedPreconditionCount": 0,
+    "canEnableRuntime": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "requiresFutureReviewBeforeEnablement": true
+  },
+  "requiredPreconditions": [
+    {
+      "id": "runtime-enablement-approval",
+      "category": "approval",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "external-runtime-enablement-review-approve",
+        "explicit-runtime-enable-approval-record",
+        "runtime-enable-scope-boundary"
+      ],
+      "failureMode": "runtime_enablement_must_remain_false"
+    },
+    {
+      "id": "runtime-command-exposure-approval",
+      "category": "approval",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "approved-runtime-command-contract",
+        "approved-command-exposure-diff",
+        "serve-runtime-positive-and-negative-cli-smokes"
+      ],
+      "failureMode": "runtime_command_must_remain_default_blocked"
+    },
+    {
+      "id": "approval-record-validation-and-revocation",
+      "category": "approval",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "approval-record-schema-validation",
+        "revocation-and-expiry-behavior",
+        "fail-closed-invalid-approval-tests"
+      ],
+      "failureMode": "approval_grant_or_evaluator_must_not_exist"
+    },
+    {
+      "id": "host-policy-runtime-enforcement",
+      "category": "host-policy",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "host-policy-runtime-enforcement-tests",
+        "policy-denial-prevents-runtime-start",
+        "policy-mismatch-fails-before-stdio-loop"
+      ],
+      "failureMode": "host_policy_runtime_path_must_not_execute"
+    },
+    {
+      "id": "stdio-safety-boundary",
+      "category": "stdio-safety",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "bounded-stdin-loop-review",
+        "stdout-stderr-writer-redaction-review",
+        "framing-backpressure-and-eof-tests"
+      ],
+      "failureMode": "live_stdin_loop_and_runtime_writers_must_not_exist"
+    },
+    {
+      "id": "transcript-audit-confinement",
+      "category": "transcript-audit",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "transcript-write-path-confinement-tests",
+        "failure-audit-write-path-confinement-tests",
+        "redaction-and-retention-review"
+      ],
+      "failureMode": "transcript_and_audit_runtime_writes_must_not_exist"
+    },
+    {
+      "id": "process-control-boundary",
+      "category": "process-control",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "spawn-kill-signal-wait-boundary-review",
+        "terminal-state-transition-tests",
+        "process-control-denial-tests"
+      ],
+      "failureMode": "process_control_must_not_exist"
+    },
+    {
+      "id": "rollback-kill-switch",
+      "category": "rollback",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "default-off-kill-switch",
+        "rollback-command-or-config-plan",
+        "fail-closed-kill-switch-smokes"
+      ],
+      "failureMode": "runtime_enablement_must_be_immediately_reversible_before_launch"
+    },
+    {
+      "id": "positive-runtime-smokes",
+      "category": "validation",
+      "requiredBeforeRuntimeEnablement": true,
+      "satisfied": false,
+      "status": "blocked",
+      "requiredEvidence": [
+        "approved-positive-runtime-start-smoke",
+        "approved-positive-runtime-stop-smoke",
+        "approved-negative-policy-denial-smoke"
+      ],
+      "failureMode": "no_positive_runtime_smoke_exists"
+    }
+  ],
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorEnabled": false,
+    "stdinLoopEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "args": [
+      "serve-runtime"
+    ],
+    "dryRunArgs": [
+      "serve-runtime",
+      "--dry-run"
+    ],
+    "recognizedByCli": true,
+    "exitCode": "nonzero",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "runtime-enabled-true",
+    "runtime-command-enabled-true",
+    "runtime-start",
+    "live-stdin-loop",
+    "runtime-stdout-stderr-writer",
+    "process-control",
+    "transcript-audit-runtime-write",
+    "adapter-runtime-behavior",
+    "content-fabric-runtime-behavior",
+    "websocket-http-runtime-surface",
+    "approval-grant-or-evaluator"
+  ],
+  "safetyPosture": {
+    "runtimeEnablementGateRecorded": true,
+    "runtimeEnablementGateSatisfied": false,
+    "canEnableRuntime": false,
+    "runtimeBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorEnabled": false,
+    "noLiveStdinLoop": true,
+    "noStdoutStderrWriters": true,
+    "noProcessControl": true,
+    "noTranscriptWrite": true,
+    "noFailureAuditWrite": true,
+    "noAdapterRuntimeBehavior": true,
+    "noContentFabricRuntimeBehavior": true,
+    "noWebSocketHttpSurface": true,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true
+  }
+}

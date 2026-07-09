@@ -1,0 +1,502 @@
+{
+  "gateLayer": {
+    "document": "docs/phase-4-2c-runtime-readiness-review-gate.md",
+    "precedingPhase": "4.2B",
+    "layerId": "runtime-readiness-review-gate",
+    "scope": "external-review-packet-and-blocker-burn-down-runtime-still-blocked",
+    "fixture": "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json",
+    "readyForExternalReview": true,
+    "externalReviewComplete": false,
+    "runtimeReadinessApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeEnabled": false,
+    "runtimeBlocked": true,
+    "runtimeUnblockRequiresSeparatePhase": true,
+    "runtimeApprovalRequiresSeparatePhase": true,
+    "cliSourceChanged": false,
+    "appsCliIndexChanged": false,
+    "reportRunsChecks": false
+  },
+  "gateFixture": {
+    "path": "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json",
+    "status": "present",
+    "summary": "Expected Phase 4.2C runtime readiness review gate fixture with evidence links, blocker burn-down, external-review rules, and runtime-blocked flags."
+  },
+  "gateMetadata": {
+    "schema": "ardyn.phase-4.2c.runtime-readiness-review-gate",
+    "schemaVersion": "0.1.0",
+    "phase": "phase-4.2c-runtime-readiness-review-gate",
+    "artifactKind": "runtime-readiness-review-gate-and-external-review-packet",
+    "metadataGeneratedAt": "1970-01-01T00:00:00.000Z",
+    "currentState": "blocked_skeleton_current",
+    "nextAllowedState": "ready_for_external_review_runtime_still_blocked",
+    "prohibitedTransitions": [
+      "runtime_enabled",
+      "runtime_approved",
+      "runtime_command_available",
+      "external_review_complete_without_recorded_jules_or_devin_review",
+      "process_control_available",
+      "transcript_or_failure_audit_runtime_write_available"
+    ]
+  },
+  "readinessGate": {
+    "readyForExternalReview": true,
+    "runtimeReadinessApproved": false,
+    "runtimeEnablementApproved": false,
+    "runtimeEnabled": false,
+    "runtimeBlocked": true,
+    "externalReviewRequired": true,
+    "externalReviewComplete": false,
+    "runtimeUnblockRequiresSeparatePhase": true,
+    "runtimeApprovalRequiresSeparatePhase": true,
+    "status": "packet-ready-runtime-still-blocked",
+    "approvalBlockedBy": [
+      "fresh-external-review-incomplete",
+      "must-fix-before-any-enablement-blockers-open",
+      "runtime-implementation-approval-missing",
+      "runtime-enablement-approval-missing",
+      "runtime-command-surface-not-approved",
+      "host-policy-runtime-enforcement-not-implemented",
+      "rollback-and-kill-switch-not-implemented"
+    ]
+  },
+  "externalReview": {
+    "status": "packet-ready-runtime-still-blocked",
+    "externalReviewPerformed": false,
+    "externalReviewComplete": false,
+    "reviewer": null,
+    "reviewerSystem": null,
+    "reviewedBranch": null,
+    "reviewedCommit": null,
+    "reviewRecordPath": null,
+    "completionRequires": [
+      "reviewerSystem-is-Jules-or-Devin",
+      "reviewedBranch-is-codex/phase-4-2c-runtime-readiness-review-gate",
+      "reviewedCommit-is-current-branch-commit",
+      "reviewRecordPath-is-present",
+      "runtimeApprovalGranted-remains-false",
+      "runtimeEnabled-remains-false"
+    ],
+    "externalReviewReason": "No Jules or Devin external reviewer has reviewed the Phase 4.2C branch; this packet is ready for review while runtime remains blocked."
+  },
+  "reviewPacket": {
+    "document": "docs/phase-4-2c-runtime-readiness-review-gate.md",
+    "fixture": "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json",
+    "targetReviewers": [
+      "Jules",
+      "Devin"
+    ],
+    "questions": [
+      {
+        "id": "blocked-skeleton-runtime-behavior",
+        "question": "Does the blocked stdio runtime skeleton accidentally enable runtime behavior?"
+      },
+      {
+        "id": "lifecycle-failure-audit-side-effects",
+        "question": "Does the lifecycle/failure-audit skeleton accidentally add process control, transcript writes, or kill behavior?"
+      },
+      {
+        "id": "cli-runtime-command-unavailable",
+        "question": "Are CLI runtime commands still unavailable?"
+      },
+      {
+        "id": "readiness-gates-sufficient",
+        "question": "Are the readiness gates sufficient before any runtime enablement phase?"
+      },
+      {
+        "id": "pre-enablement-blockers",
+        "question": "What blockers must be fixed before controlled runtime enablement?"
+      }
+    ],
+    "claimsExternalReviewComplete": false,
+    "claimsRuntimeApproved": false,
+    "claimsRuntimeEnabled": false
+  },
+  "evidenceLinks": {
+    "rustHostStdioHarness": {
+      "doc": "docs/phase-4-1i-rust-host-stdio-harness.md",
+      "test": "tests/phase4-1i-rust-host-stdio-harness.test.mjs"
+    },
+    "fixtureBackedBoundaries": {
+      "doc": "docs/phase-4-1j-fixture-backed-stdio-boundaries.md",
+      "test": "tests/phase4-1j-rust-host-stdio-boundary-fixtures.test.mjs",
+      "fixtures": "tests/fixtures/stdio-harness/phase4-1j/expected-outcomes.json"
+    },
+    "contractGates": {
+      "doc": "docs/phase-4-1k-stdio-runtime-contract-gates.md",
+      "fixture": "tests/fixtures/host-policy/phase4-1k/stdio-runtime-contract-gates.json",
+      "test": "tests/phase4-1k-stdio-runtime-contract-gates.test.mjs"
+    },
+    "implementationReadiness": {
+      "doc": "docs/phase-4-1l-runtime-implementation-readiness.md",
+      "fixture": "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json",
+      "test": "tests/phase4-1l-runtime-implementation-readiness.test.mjs"
+    },
+    "blockedRuntimeSkeleton": {
+      "doc": "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+      "fixture": "tests/fixtures/host-policy/phase4-2a/blocked-stdio-runtime-skeleton-plan.json",
+      "test": "tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs"
+    },
+    "blockedLifecycleFailureAuditSkeleton": {
+      "doc": "docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md",
+      "fixture": "tests/fixtures/host-policy/phase4-2b/lifecycle-failure-audit-skeleton-plan.json",
+      "test": "tests/phase4-2b-blocked-lifecycle-failure-audit-skeleton.test.mjs"
+    },
+    "dryRunSmoke": {
+      "command": "node apps/cli/src/index.mjs emit-session-events --dry-run --manifest examples/minimal-manifest/ardyn.manifest.json --task examples/minimal-task/task.json",
+      "expectedExitCode": 0,
+      "expectedEventCount": 6,
+      "jsonlOnlyStdout": true,
+      "lfOnly": true,
+      "finalLf": true,
+      "zeroStderr": true
+    }
+  },
+  "blockerBurnDown": {
+    "mustFixBeforeAnyEnablement": [
+      {
+        "id": "fresh-jules-or-devin-review",
+        "classification": "must-fix-before-any-enablement",
+        "status": "open",
+        "evidencePaths": [
+          "docs/phase-4-2c-runtime-readiness-review-gate.md"
+        ],
+        "remainingRisk": "Runtime skeleton and lifecycle/failure-audit planning have not been reviewed by Jules or Devin on this branch.",
+        "requiredBeforeRuntimeEnablement": true,
+        "runtimeUnblockRequiresSeparateApproval": true,
+        "grantsRuntimeApproval": false,
+        "runtimeBehaviorIntroduced": false,
+        "owner": "external-reviewer",
+        "nextAction": "Send the 4.2C review packet to Jules or Devin and record the result in a future explicit review record.",
+        "reviewerQuestionId": "readiness-gates-sufficient"
+      },
+      {
+        "id": "runtime-implementation-approval",
+        "classification": "must-fix-before-any-enablement",
+        "status": "open",
+        "evidencePaths": [
+          "tests/fixtures/host-policy/phase4-1l/runtime-implementation-readiness.json"
+        ],
+        "remainingRisk": "Existing approval records are review artifacts only and do not grant runtime implementation or enablement.",
+        "requiredBeforeRuntimeEnablement": true,
+        "runtimeUnblockRequiresSeparateApproval": true,
+        "grantsRuntimeApproval": false,
+        "runtimeBehaviorIntroduced": false,
+        "owner": "host-policy",
+        "nextAction": "Create a separate explicit implementation approval artifact before writing live runtime code.",
+        "reviewerQuestionId": "pre-enablement-blockers"
+      },
+      {
+        "id": "runtime-command-surface-review",
+        "classification": "must-fix-before-any-enablement",
+        "status": "open",
+        "evidencePaths": [
+          "apps/cli/src/index.mjs"
+        ],
+        "remainingRisk": "No runtime command exists; any future command needs a separate allowlisted review.",
+        "requiredBeforeRuntimeEnablement": true,
+        "runtimeUnblockRequiresSeparateApproval": true,
+        "grantsRuntimeApproval": false,
+        "runtimeBehaviorIntroduced": false,
+        "owner": "cli",
+        "nextAction": "Keep runtime-like command probes rejected until a future enablement phase explicitly changes CLI source.",
+        "reviewerQuestionId": "cli-runtime-command-unavailable"
+      },
+      {
+        "id": "host-policy-runtime-enforcement",
+        "classification": "must-fix-before-any-enablement",
+        "status": "open",
+        "evidencePaths": [
+          "docs/host-policy-preconditions.md"
+        ],
+        "remainingRisk": "Host-policy enforcement is still design/static metadata, not runtime enforcement.",
+        "requiredBeforeRuntimeEnablement": true,
+        "runtimeUnblockRequiresSeparateApproval": true,
+        "grantsRuntimeApproval": false,
+        "runtimeBehaviorIntroduced": false,
+        "owner": "rust-host",
+        "nextAction": "Implement fail-closed runtime host-policy enforcement in a separate approved phase.",
+        "reviewerQuestionId": "pre-enablement-blockers"
+      },
+      {
+        "id": "rollback-kill-switch",
+        "classification": "must-fix-before-any-enablement",
+        "status": "open",
+        "evidencePaths": [
+          "docs/phase-4-1e-failure-audit-kill-semantics.md"
+        ],
+        "remainingRisk": "Cleanup, kill, timeout, and rollback behavior are static contracts or in-memory plans only.",
+        "requiredBeforeRuntimeEnablement": true,
+        "runtimeUnblockRequiresSeparateApproval": true,
+        "grantsRuntimeApproval": false,
+        "runtimeBehaviorIntroduced": false,
+        "owner": "runtime",
+        "nextAction": "Define and test rollback and kill-switch behavior in the first controlled enablement implementation.",
+        "reviewerQuestionId": "pre-enablement-blockers"
+      }
+    ],
+    "mustFixDuringFirstEnablementImplementation": [
+      "bounded-stdin-loop",
+      "stdout-jsonl-writer",
+      "stderr-diagnostic-writer",
+      "process-lifecycle-ownership",
+      "approval-evaluator",
+      "transcript-persistence-writer",
+      "failure-audit-writer",
+      "backpressure-and-partial-write-handling",
+      "terminal-state-and-nonzero-exit-mapping",
+      "positive-and-negative-runtime-smokes"
+    ],
+    "mustRemainGuardedAfterEnablement": [
+      "adapter-runtime-behavior",
+      "locus-mcp-openclaw-plugin-runtime-behavior",
+      "websocket-http-control-surface",
+      "content-fabric-runtime-behavior",
+      "secrets-and-production-signing-keys",
+      "plugin-install-torrent-download-code-pack-enablement",
+      "scope-bound-revocable-runtime-approval-grants",
+      "file-writes-outside-approved-transcript-and-audit-locations"
+    ]
+  },
+  "docs": [
+    {
+      "path": "docs/phase-4-2c-runtime-readiness-review-gate.md",
+      "status": "present",
+      "summary": "Records Phase 4.2C as a runtime readiness review gate, Jules/Devin packet, blocker burn-down, and explicit future enablement boundary."
+    },
+    {
+      "path": "docs/phase-4-2b-blocked-lifecycle-failure-audit-skeleton.md",
+      "status": "present",
+      "summary": "Provides the blocked lifecycle/failure-audit skeleton evidence consumed by this gate."
+    },
+    {
+      "path": "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
+      "status": "present",
+      "summary": "Provides the blocked runtime skeleton evidence consumed by this gate."
+    },
+    {
+      "path": "docs/phase-4-1l-runtime-implementation-readiness.md",
+      "status": "present",
+      "summary": "Provides implementation-readiness and blocker burn-down evidence consumed by this gate."
+    },
+    {
+      "path": "docs/phase-4-1-runtime-proposal.md",
+      "status": "present",
+      "summary": "Updates the Phase 4 roadmap with 4.2C as review-gate work rather than runtime enablement."
+    },
+    {
+      "path": "docs/phase-4-stdio-dry-run-event-emission.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.2C leaves finite TypeScript dry-run event emission unchanged."
+    },
+    {
+      "path": "docs/session-events-stdio-contract.md",
+      "status": "present",
+      "summary": "Links Phase 4.2C while preserving no live stdio transport or process stdio ownership."
+    },
+    {
+      "path": "docs/host-policy-preconditions.md",
+      "status": "present",
+      "summary": "Documents Phase 4.2C as a readiness gate, not active runtime enforcement."
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "present",
+      "summary": "Records the readiness gate boundary without adding live runtime architecture."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Documents Phase 4.2C scope and unchanged non-executing CLI/runtime posture."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.2C adds no readiness, external-review, or runtime CLI command."
+    },
+    {
+      "path": "packages/core/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.2C adds no TypeScript core runtime helper API and cannot grant runtime approval."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.2C keeps the private Rust-host skeleton blocked and review-gated."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 4.2C report metadata, readiness gate inventory, runtime flags, and safety posture."
+    },
+    {
+      "path": "tests/phase4-2c-runtime-readiness-review-gate.test.mjs",
+      "status": "present",
+      "summary": "Expected focused Phase 4.2C fixture, source-guard, external-review, and runtime rejection test path."
+    },
+    {
+      "path": "tests/phase4-2b-blocked-lifecycle-failure-audit-skeleton.test.mjs",
+      "status": "present",
+      "summary": "Keeps Phase 4.2B blocked lifecycle/failure-audit guard active after the review gate lands."
+    },
+    {
+      "path": "tests/phase4-2a-blocked-rust-stdio-runtime-skeleton.test.mjs",
+      "status": "present",
+      "summary": "Keeps Phase 4.2A blocked runtime skeleton guard active after the review gate lands."
+    }
+  ],
+  "rustSourceInventory": [
+    {
+      "path": "crates/ardyn-host/src/lib.rs",
+      "status": "present",
+      "summary": "Expected private stdio_runtime module registration and compile-fail public-boundary doctest."
+    },
+    {
+      "path": "crates/ardyn-host/src/stdio_runtime/mod.rs",
+      "status": "present",
+      "summary": "Expected internal blocked runtime skeleton; Phase 4.2C adds no live IO or process behavior."
+    }
+  ],
+  "cliSourceInventory": [
+    {
+      "path": "apps/cli/src/index.mjs",
+      "status": "present",
+      "summary": "Expected unchanged CLI source; Phase 4.2C adds no readiness, review, or runtime command."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsReportAndFocusedTestFiles": [
+      "docs/phase-4-2c-runtime-readiness-review-gate.md",
+      "tests/fixtures/host-policy/phase4-2c/runtime-readiness-review-gate.json",
+      "tests/phase4-2c-runtime-readiness-review-gate.test.mjs",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "rustBoundarySourceFiles": [
+      "crates/ardyn-host/src/lib.rs",
+      "crates/ardyn-host/src/stdio_runtime/mod.rs"
+    ],
+    "excludedCliRuntimeSourceFiles": [
+      "apps/cli/src/index.mjs"
+    ],
+    "cliSourceChangedByThisPhase": false,
+    "appsCliIndexChangedByThisPhase": false,
+    "reportRunsChecks": false,
+    "separateExternalReviewRequired": true,
+    "separateRuntimeImplementationApprovalRequired": true,
+    "separateRuntimeEnablementApprovalRequired": true
+  },
+  "runtimeLikeCommandRejectionProbes": [
+    "serve-runtime",
+    "stdio-runtime",
+    "replay-session-transcript",
+    "external-review-packet",
+    "review-packet",
+    "runtime-readiness-review",
+    "runtime-implementation-readiness",
+    "phase-4-2a-runtime-skeleton",
+    "runtime-skeleton",
+    "runtime-lifecycle",
+    "phase-4-2b-lifecycle-runtime",
+    "phase-4-2b-failure-audit",
+    "phase-4-2c-runtime-readiness-review-gate",
+    "phase-4-2c-readiness-gate",
+    "runtime-readiness-gate",
+    "readiness-gate",
+    "failure-audit-runtime",
+    "cleanup-runtime",
+    "kill-runtime",
+    "approve-runtime",
+    "grant-runtime",
+    "enable-runtime"
+  ],
+  "runtimeEffect": {
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "runtimeEnabled": false,
+    "runtimeApproved": false,
+    "runtimeReadinessApproved": false,
+    "runtimeEnablementApproved": false,
+    "cliRuntimeCommandAdded": false,
+    "readinessApprovalCommandAdded": false,
+    "externalReviewCommandAdded": false,
+    "approvalEvaluatorAdded": false,
+    "processControlAvailable": false,
+    "processStarted": false,
+    "processStopped": false,
+    "processKilled": false,
+    "signalSent": false,
+    "processPolled": false,
+    "processWaited": false,
+    "stdinRead": false,
+    "stdoutWritten": false,
+    "stderrWritten": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptWritten": false,
+    "failureAuditRuntimeAvailable": false,
+    "failureAuditWritten": false,
+    "cleanupRuntimeAvailable": false,
+    "processKillAvailable": false,
+    "signalHandlerAvailable": false,
+    "exitHandlerAvailable": false,
+    "timeoutRuntimeAvailable": false,
+    "adapterRuntimeBehaviorAdded": false,
+    "contentFabricRuntimeBehaviorAdded": false,
+    "webSocketHttpControlSurfaceAdded": false
+  },
+  "nonExecutionInvariants": [
+    "apps-cli-index-unchanged",
+    "no-cli-runtime-command",
+    "no-readiness-approval-command",
+    "no-external-review-command",
+    "no-live-stdin-loop",
+    "no-live-stdout-writer",
+    "no-live-stderr-writer",
+    "no-child-process-spawn",
+    "no-process-kill",
+    "no-process-signal",
+    "no-process-poll-or-wait",
+    "no-transcript-write-side-effect",
+    "no-failure-audit-write-side-effect",
+    "no-approval-evaluator",
+    "no-runtime-approval-grant",
+    "runtime-unavailable-by-construction",
+    "ready-for-external-review-is-not-runtime-approval"
+  ],
+  "safetyPosture": {
+    "readyForExternalReview": true,
+    "runtimeBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeApproved": false,
+    "runtimeReadinessApproved": false,
+    "runtimeEnablementApproved": false,
+    "externalReviewComplete": false,
+    "freshExternalReviewRan": false,
+    "freshDevinReviewRan": false,
+    "freshJulesReviewRan": false,
+    "runtimeBehaviorIntroduced": false,
+    "cliSourceChanged": false,
+    "appsCliIndexChanged": false,
+    "reportRunsChecks": false,
+    "noRuntimeCommand": true,
+    "noReadinessApprovalCommand": true,
+    "noExternalReviewCommand": true,
+    "noProcessControl": true,
+    "noProcessSpawn": true,
+    "noProcessKill": true,
+    "noProcessSignal": true,
+    "noTranscriptWrite": true,
+    "noFailureAuditWrite": true,
+    "noApprovalEvaluator": true,
+    "noRuntimeApprovalGrant": true,
+    "noWebSocketHttpControlSurface": true,
+    "noAdapterCalls": true,
+    "noLocusRuntimeDependency": true,
+    "noMcpCalls": true,
+    "noOpenClawCalls": true,
+    "noPluginExecution": true,
+    "noContentFabricRuntimeBehavior": true
+  }
+}

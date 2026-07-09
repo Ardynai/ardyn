@@ -1,0 +1,240 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-5-default-blocked-runtime-cli.md",
+    "fixture": "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json",
+    "sourceReviewDispositionDocument": "docs/phase-5-4a-jules-review-disposition.md",
+    "disabledCommandExposurePlanDocument": "docs/phase-5-4-disabled-command-exposure-plan.md",
+    "precedingPhase": "5.4A",
+    "layerId": "default-blocked-runtime-cli",
+    "scope": "cli-recognition-only-runtime-unavailable",
+    "defaultBlockedRuntimeCliRecorded": true,
+    "recognizedRuntimeCommand": "serve-runtime",
+    "runtimeCommandRecognizedByCli": true,
+    "runtimeEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureApproved": false,
+    "runtimeCommandSurfaceApproved": false,
+    "runtimeEnablementApproved": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorEnabled": false,
+    "dryRunBypassesBlock": false,
+    "stdoutEmptyWhileBlocked": true,
+    "deterministicUnavailableStderr": true,
+    "processControlEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorChanged": false,
+    "contentFabricRuntimeBehaviorChanged": false,
+    "rustSourceChanged": false,
+    "reportRunsChecks": false
+  },
+  "docs": [
+    {
+      "path": "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "status": "present",
+      "summary": "Records Phase 5.5 CLI recognition for serve-runtime while runtime remains unavailable and disabled."
+    },
+    {
+      "path": "docs/phase-5-4a-jules-review-disposition.md",
+      "status": "present",
+      "summary": "Provides the Jules approval disposition that allowed the next still-default-blocked CLI slice."
+    },
+    {
+      "path": "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "status": "present",
+      "summary": "Provides the disabled command exposure plan source for serve-runtime."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Marks Phase 5.5 as current docs/status mode while runtime execution remains blocked."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents serve-runtime as recognized but default-blocked with zero stdout and deterministic unavailable stderr."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.5 changes no Rust-host runtime source and keeps stdio_runtime private."
+    }
+  ],
+  "crossLinks": [
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    "docs/phase-5-3-command-surface-approval-preflight.md",
+    "docs/phase-5-4-disabled-command-exposure-plan.md",
+    "docs/phase-5-4a-jules-review-disposition.md",
+    "docs/phase-5-5-default-blocked-runtime-cli.md"
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json",
+      "status": "present",
+      "summary": "Records serve-runtime CLI recognition, exact blocked behavior, runtime-effect false fields, and remaining blockers."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.5 report metadata, docs cross-links, runtime-blocked flags, and docs/status ownership."
+    },
+    {
+      "path": "tests/phase5-5-default-blocked-runtime-cli.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.5 serve-runtime recognition, blocked stderr/stdout behavior, dry-run rejection, and source guard checks."
+    }
+  ],
+  "cliSourceInventory": [
+    {
+      "path": "apps/cli/src/index.mjs",
+      "status": "present",
+      "summary": "Changed only to recognize serve-runtime and return a default-blocked runtime-unavailable failure."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsStatusFiles": [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "docs/phase-5-5-default-blocked-runtime-cli.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "machineReadableArtifactFiles": [
+      "tests/fixtures/command-surface/phase5-5/default-blocked-runtime-cli.json"
+    ],
+    "focusedTestFiles": [
+      "tests/phase5-5-default-blocked-runtime-cli.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "cliRuntimeSourceFiles": [
+      "apps/cli/src/index.mjs"
+    ],
+    "rustRuntimeSourceFilesChanged": [],
+    "cliSourceChangedByThisPhase": true,
+    "appsCliIndexChangedByThisPhase": true,
+    "rustSourceChangedByThisPhase": false,
+    "machineReadableArtifactsChangedByThisPhase": true,
+    "reportRunsChecks": false,
+    "separateRuntimeEnablementRequired": true,
+    "separateRuntimeCommandEnablementRequired": true
+  },
+  "implementedCommandSurface": {
+    "commandName": "serve-runtime",
+    "recognizedByCli": true,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "defaultResult": "recognized_unavailable_nonzero_zero_stdout",
+    "dryRunResult": "recognized_unavailable_nonzero_zero_stdout",
+    "stdout": "",
+    "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",
+    "exitCode": "nonzero"
+  },
+  "blockedBehavior": {
+    "defaultInvocation": {
+      "args": [
+        "serve-runtime"
+      ],
+      "exitCode": "nonzero",
+      "stdout": "",
+      "stderrIncludes": "Runtime unavailable",
+      "writesFiles": false,
+      "readsRuntimeState": false
+    },
+    "dryRunInvocation": {
+      "args": [
+        "serve-runtime",
+        "--dry-run"
+      ],
+      "exitCode": "nonzero",
+      "stdout": "",
+      "stderrIncludes": "Runtime unavailable",
+      "dryRunBypassesBlock": false,
+      "writesFiles": false,
+      "readsRuntimeState": false
+    }
+  },
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorEnabled": false,
+    "stdinLoopEnabled": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false
+  },
+  "remainingBlockers": [
+    "runtime-enablement-review",
+    "approved-runtime-command-exposure-review",
+    "approval-record-validation-and-revocation",
+    "host-policy-runtime-enforcement",
+    "bounded-stdin-loop-review",
+    "stdout-stderr-writer-redaction-review",
+    "transcript-and-failure-audit-confinement-review",
+    "process-control-and-terminal-state-review",
+    "rollback-kill-switch-review",
+    "approved-positive-runtime-smokes"
+  ],
+  "nonExecutionInvariants": [
+    "phase5-5-default-blocked-cli-recognition-only",
+    "serve-runtime-recognized-but-runtime-unavailable",
+    "serve-runtime-dry-run-does-not-bypass-block",
+    "runtime-enabled-false",
+    "runtime-command-enabled-false",
+    "zero-stdout",
+    "safe-deterministic-stderr",
+    "no-live-stdin-stdout-stderr-runtime-writers",
+    "no-process-control",
+    "no-transcript-or-audit-runtime-side-effects",
+    "no-adapter-or-fabric-runtime-behavior"
+  ],
+  "safetyPosture": {
+    "defaultBlockedRuntimeCliRecorded": true,
+    "runtimeCommandRecognizedByCli": true,
+    "runtimeBlocked": true,
+    "runtimeUnavailable": true,
+    "dryRunBypassesBlock": false,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeCommandExposureApproved": false,
+    "runtimeCommandSurfaceApproved": false,
+    "runtimeEnablementApproved": false,
+    "approvalCommandEnabled": false,
+    "approvalGrantCreated": false,
+    "approvalEvaluatorEnabled": false,
+    "noProcessControl": true,
+    "noStdoutStderrWriters": true,
+    "noTranscriptWrite": true,
+    "noFailureAuditWrite": true,
+    "noAdapterRuntimeBehavior": true,
+    "noContentFabricRuntimeBehavior": true,
+    "noRustSourceChange": true,
+    "zeroStdoutWhileBlocked": true,
+    "deterministicUnavailableStderr": true
+  }
+}

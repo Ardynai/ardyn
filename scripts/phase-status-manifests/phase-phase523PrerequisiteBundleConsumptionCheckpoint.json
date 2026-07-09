@@ -1,0 +1,394 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+    "fixture": "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json",
+    "sourceApprovalPrerequisiteBundleDocument": "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+    "sourceApprovalPrerequisiteBundleFixture": "tests/fixtures/host-policy/phase5-22/approval-prerequisite-source-bundle-contract.json",
+    "precedingPhase": "5.22",
+    "layerId": "prerequisite-bundle-consumption-checkpoint",
+    "scope": "phase-5-prerequisite-bundle-consumption-checkpoint-review-only-runtime-disabled",
+    "consumptionCheckpointRecorded": true,
+    "checkpointKind": "approval-prerequisite-bundle-consumption-checkpoint",
+    "checkpointReviewOnly": true,
+    "checkpointAuthoritative": false,
+    "missingBundleRejected": true,
+    "malformedBundleRejected": true,
+    "conflictingBundleRejected": true,
+    "validBundleSummarizedForReviewOnlyEvaluation": true,
+    "bundleConsumptionReturnsCheckpointStateOnly": true,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "filesystemWatcherEnabled": false,
+    "externalSourceLookupEnabled": false,
+    "secretsEnvIngestionEnabled": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "processSpawnEnabled": false,
+    "processTerminationEnabled": false,
+    "runtimeSupervisionEnabled": false,
+    "runtimeTranscriptWritePerformed": false,
+    "runtimeAuditWritePerformed": false,
+    "adapterRuntimeBehaviorChanged": false,
+    "contentFabricRuntimeBehaviorChanged": false,
+    "webSocketHttpSurfaceEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false,
+    "cliSourceChanged": false,
+    "rustSourceChanged": false,
+    "reportRunsChecks": false
+  },
+  "docs": [
+    {
+      "path": "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+      "status": "present",
+      "summary": "Records the Phase 5.23 prerequisite bundle consumption checkpoint while runtime remains blocked."
+    },
+    {
+      "path": "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+      "status": "present",
+      "summary": "Provides the Phase 5.23 consumption-checkpoint handoff from source bundling."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Marks Phase 5.23 as current docs/status mode while runtime execution remains blocked."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.23 adds no CLI command and preserves serve-runtime default-blocked behavior."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.23 changes no Rust-host runtime source and records a TypeScript checkpoint helper only."
+    }
+  ],
+  "crossLinks": [
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+    "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md"
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json",
+      "status": "present",
+      "summary": "Records prerequisite bundle consumption checkpoint cases while grants and runtime behavior remain disabled."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.23 report metadata, docs cross-links, checkpoint fixture, and runtime-disabled posture."
+    },
+    {
+      "path": "tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.23 checkpoint helper, fixture shape, evaluator integration, serve-runtime rejection, command rejection, and CLI source guard checks."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsStatusFiles": [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-22-approval-prerequisite-source-bundle.md",
+      "docs/phase-5-23-prerequisite-bundle-consumption-checkpoint.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "coreReviewOnlyFilesChanged": [
+      "packages/core/src/index.mjs",
+      "packages/core/src/index.d.ts"
+    ],
+    "machineReadableArtifactFiles": [
+      "tests/fixtures/host-policy/phase5-23/prerequisite-bundle-consumption-checkpoint.json"
+    ],
+    "focusedTestFiles": [
+      "tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "cliRuntimeSourceFilesChanged": [],
+    "rustRuntimeSourceFilesChanged": [],
+    "cliSourceChangedByThisPhase": false,
+    "appsCliIndexChangedByThisPhase": false,
+    "rustSourceChangedByThisPhase": false,
+    "filesystemWatcherAddedByThisPhase": false,
+    "externalSourceLookupAddedByThisPhase": false,
+    "secretsEnvIngestionAddedByThisPhase": false,
+    "approvalGrantProducedByThisPhase": false,
+    "runtimeEnabledByThisPhase": false,
+    "reportRunsChecks": false,
+    "separateApprovalGrantPhaseRequired": true,
+    "separateRuntimeEnablementApprovalRequired": true
+  },
+  "sourcePhase": {
+    "phase": "phase-5.22-approval-prerequisite-source-bundle",
+    "bundlePath": "packages/core/src/index.mjs#bundleApprovalPrerequisiteSourcesForReview",
+    "checkpointPath": "packages/core/src/index.mjs#consumeApprovalPrerequisiteBundleForReview",
+    "readerPath": "packages/core/src/index.mjs#readApprovalPrerequisiteRecordsForReview",
+    "evaluatorPath": "packages/core/src/index.mjs#evaluateRuntimeApprovalPrerequisitesForReview",
+    "runtimeEnabled": false,
+    "approvalGrantProduced": false
+  },
+  "checkpointSummary": {
+    "consumptionCheckpointRecorded": true,
+    "checkpointKind": "approval-prerequisite-bundle-consumption-checkpoint",
+    "checkpointReviewOnly": true,
+    "checkpointAuthoritative": false,
+    "missingBundleRejected": true,
+    "malformedBundleRejected": true,
+    "conflictingBundleRejected": true,
+    "validBundleSummarizedForReviewOnlyEvaluation": true,
+    "bundleConsumptionReturnsCheckpointStateOnly": true,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false
+  },
+  "consumptionInputShape": {
+    "sourceBundleRequired": true,
+    "sourceBundleSchema": "ardyn.phase-5.22.approval-prerequisite-source-bundle-result",
+    "bundleKind": "approval-prerequisite-source-bundle",
+    "bundleModeRequired": "review-only",
+    "sourceBundleAcceptedRequired": true,
+    "bundledReaderInputRequired": true,
+    "conflictingBundlePolicy": "fail-closed",
+    "filesystemWatcherAllowed": false,
+    "externalSourceLookupAllowed": false,
+    "secretsEnvIngestionAllowed": false,
+    "filePathAllowed": false,
+    "urlAllowed": false
+  },
+  "consumptionResultShape": {
+    "schema": "ardyn.phase-5.23.approval-prerequisite-bundle-consumption-checkpoint-result",
+    "schemaVersion": "0.1.0",
+    "checkpointKind": "approval-prerequisite-bundle-consumption-checkpoint",
+    "checkpointMode": "review-only",
+    "reviewOnly": true,
+    "authoritative": false,
+    "checkpointStateOnly": true,
+    "validBundleMayFeedReviewOnlyEvaluator": true,
+    "rejectedBundleDoesNotFeedEvaluator": true,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimeEffectAllFalse": true
+  },
+  "bundleConsumptionCases": [
+    {
+      "caseId": "missing-bundle-rejected",
+      "classification": "missing_prerequisite_bundle_consumption_rejected",
+      "bundleConsumedForReview": false,
+      "evaluatorInputForwarded": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "malformed-bundle-rejected",
+      "classification": "malformed_prerequisite_bundle_consumption_rejected",
+      "bundleConsumedForReview": false,
+      "evaluatorInputForwarded": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "conflicting-bundle-rejected",
+      "classification": "conflicting_prerequisite_bundle_consumption_rejected",
+      "bundleConsumedForReview": false,
+      "evaluatorInputForwarded": false,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    },
+    {
+      "caseId": "valid-bundle-review-only-summary",
+      "classification": "valid_prerequisite_bundle_consumed_for_review_only_runtime_still_blocked",
+      "bundleConsumedForReview": true,
+      "evaluatorInputForwarded": true,
+      "reviewOnly": true,
+      "authoritative": false,
+      "approvalGrant": {
+        "produced": false,
+        "persisted": false,
+        "grantId": null
+      },
+      "runtimeEffect": {
+        "runtimeEnabled": false,
+        "runtimeStarted": false,
+        "runtimeReady": false,
+        "runtimeCommandEnabled": false,
+        "runtimeCommandExposureEnabled": false,
+        "runtimeExecutionEnabled": false,
+        "runtimeExecuted": false,
+        "approvalGrantProduced": false,
+        "approvalGrantPersisted": false,
+        "approvalEvaluatorAuthoritative": false
+      }
+    }
+  ],
+  "reviewEvaluatorIntegration": {
+    "validBundleMayFeedReviewEvaluator": true,
+    "rejectedBundleDoesNotFeedEvaluator": true,
+    "checkpointStillReviewOnly": true,
+    "evaluatorStillReviewOnly": true,
+    "checkpointCanProduceGrant": false,
+    "evaluatorCanProduceGrant": false,
+    "validBundleCanEnableRuntime": false,
+    "validBundleCanStartRuntime": false
+  },
+  "blockedRuntimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "approvalEvaluatorAuthoritative": false
+  },
+  "serveRuntimeBlockedBehavior": {
+    "recognizedByCli": true,
+    "exitCode": 1,
+    "stdout": "",
+    "stderrIncludes": [
+      "Runtime is unavailable by default.",
+      "runtimeEnabled=false"
+    ],
+    "dryRunBypassesBlock": false,
+    "runtimeExecution": false,
+    "writesFiles": false
+  },
+  "forbiddenBehavior": [
+    "No CLI bundle-consumption command is exposed.",
+    "No approval grant is produced or persisted.",
+    "No runtime command exposure is enabled.",
+    "No runtime execution occurs.",
+    "No filesystem watcher is added.",
+    "No external source lookup is added.",
+    "No secrets or environment ingestion is added.",
+    "No Rust host implementation is added.",
+    "No live stdin loop is added.",
+    "No runtime stdout or stderr writer is added.",
+    "No process control is added."
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-23-prerequisite-bundle-consumption-checkpoint.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "git diff --check",
+    "git diff --cached --check",
+    "npm run report:phase-status"
+  ],
+  "safetyPosture": {
+    "consumptionCheckpointRecorded": true,
+    "checkpointReviewOnly": true,
+    "checkpointAuthoritative": false,
+    "missingBundleRejected": true,
+    "malformedBundleRejected": true,
+    "conflictingBundleRejected": true,
+    "validBundleSummarizedForReviewOnlyEvaluation": true,
+    "bundleConsumptionReturnsCheckpointStateOnly": true,
+    "approvalGrantProduced": false,
+    "approvalGrantPersisted": false,
+    "runtimeBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeStarted": false,
+    "runtimeReady": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureEnabled": false,
+    "runtimeExecutionEnabled": false,
+    "runtimeExecuted": false,
+    "filesystemWatcherEnabled": false,
+    "externalSourceLookupEnabled": false,
+    "secretsEnvIngestionEnabled": false,
+    "liveStdinLoopEnabled": false,
+    "runtimeStdoutWriterEnabled": false,
+    "runtimeStderrWriterEnabled": false,
+    "processSpawnEnabled": false,
+    "processTerminationEnabled": false,
+    "runtimeSupervisionEnabled": false,
+    "runtimeTranscriptWritePerformed": false,
+    "runtimeAuditWritePerformed": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false,
+    "webSocketHttpSurfaceEnabled": false,
+    "serveRuntimeStillDefaultBlocked": true,
+    "dryRunBypassesBlock": false,
+    "canEnableRuntime": false,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true
+  }
+}

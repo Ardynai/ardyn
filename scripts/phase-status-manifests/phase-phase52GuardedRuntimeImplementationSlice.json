@@ -1,0 +1,286 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    "approvalSourceDocument": "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "externalReviewSourceDocument": "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+    "readinessSourceDocument": "docs/phase-4-2c-runtime-readiness-review-gate.md",
+    "precedingPhase": "5.1",
+    "layerId": "guarded-runtime-implementation-slice",
+    "scope": "guarded-private-rust-implementation-slice-runtime-enablement-blocked",
+    "implementationSliceStatusRecorded": true,
+    "runtimeImplementationMayExistBehindGuards": true,
+    "privateRustGuardedHelpersAdded": true,
+    "runtimeImplementationExposed": false,
+    "runtimeEnablementApproved": false,
+    "runtimeEnabled": false,
+    "runtimeCommandSurfaceEnabled": false,
+    "approvalGrantCreated": false,
+    "cliSourceChanged": false,
+    "appsCliIndexChanged": false,
+    "adapterRuntimeBehaviorChanged": false,
+    "contentFabricRuntimeBehaviorChanged": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "reportRunsChecks": false
+  },
+  "docs": [
+    {
+      "path": "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "status": "present",
+      "summary": "Records Phase 5.2 as the current guarded runtime implementation slice status while runtime enablement remains blocked."
+    },
+    {
+      "path": "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "status": "present",
+      "summary": "Provides the Phase 5.1 approval source for the Phase 5.2 guarded implementation slice."
+    },
+    {
+      "path": "docs/phase-5-3-command-surface-approval-preflight.md",
+      "status": "present",
+      "summary": "Documents the next Phase 5.3 command-surface approval preflight while runtime command exposure remains blocked."
+    },
+    {
+      "path": "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+      "status": "present",
+      "summary": "Provides the Jules external-review disposition source for Phase 5."
+    },
+    {
+      "path": "docs/phase-4-2c-runtime-readiness-review-gate.md",
+      "status": "present",
+      "summary": "Provides the reviewed readiness-gate source that remains historical evidence."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Marks Phase 5.2 as current docs/status mode while runtime commands remain blocked."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.2 adds no CLI runtime command or approval command exposure."
+    },
+    {
+      "path": "packages/core/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.2 adds no TypeScript core runtime API or runtime behavior."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.2 does not expose Rust-host runtime commands or enable runtime behavior."
+    }
+  ],
+  "crossLinks": [
+    "README.md",
+    "apps/cli/README.md",
+    "packages/core/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-4-2c-runtime-readiness-review-gate.md",
+    "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+    "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    "docs/phase-5-3-command-surface-approval-preflight.md"
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-2/guarded-runtime-default-blocked-boundary.json",
+      "status": "present",
+      "summary": "Records Phase 5.2 runtime-blocked-by-default approval-boundary requirements and deterministic blocked errors."
+    },
+    {
+      "path": "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json",
+      "status": "present",
+      "summary": "Records Phase 5.2 candidate runtime command names and rejection expectations."
+    }
+  ],
+  "guardedRustHelpers": {
+    "source": "crates/ardyn-host/src/stdio_runtime/mod.rs",
+    "modulePubliclyExported": false,
+    "helpers": [
+      "guarded_stdio_runtime_loop_budget",
+      "plan_guarded_stdio_runtime_loop",
+      "plan_guarded_redacted_writer",
+      "plan_stdio_runtime_approval_boundary_from_fixture_json"
+    ],
+    "liveStdinReads": false,
+    "liveStdoutStderrWrites": false,
+    "processControl": false,
+    "transcriptAuditWrites": false,
+    "approvalEvaluatorOrGrant": false
+  },
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.2 report metadata, docs cross-links, runtime-blocked flags, and docs/status ownership."
+    },
+    {
+      "path": "tests/phase5-2-runtime-default-blocked.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.2 blocked-runtime fixture semantics and candidate command rejection probes."
+    }
+  ],
+  "rustSourceInventory": [
+    {
+      "path": "crates/ardyn-host/src/stdio_runtime/mod.rs",
+      "status": "present",
+      "summary": "Contains private guarded runtime planning helpers and Rust tests; no public runtime surface is exported."
+    },
+    {
+      "path": "crates/ardyn-host/src/lib.rs",
+      "status": "present",
+      "summary": "Keeps stdio_runtime private through mod stdio_runtime and compile-fail public-boundary doctest."
+    }
+  ],
+  "cliSourceInventory": [
+    {
+      "path": "apps/cli/src/index.mjs",
+      "status": "present",
+      "summary": "Expected unchanged CLI source; Phase 5.2 adds no runtime, approval, or command-surface command."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsStatusFiles": [
+      "README.md",
+      "apps/cli/README.md",
+      "packages/core/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-4-2c-runtime-readiness-review-gate.md",
+      "docs/phase-4-2d-external-review-disposition-phase5-handoff.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "machineReadableArtifactFiles": [
+      "tests/fixtures/host-policy/phase5-2/guarded-runtime-default-blocked-boundary.json",
+      "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json"
+    ],
+    "focusedTestFiles": [
+      "tests/phase5-2-runtime-default-blocked.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "rustSourceFiles": [
+      "crates/ardyn-host/src/stdio_runtime/mod.rs"
+    ],
+    "excludedCliRuntimeSourceFiles": [
+      "apps/cli/src/index.mjs"
+    ],
+    "cliSourceChangedByThisPhase": false,
+    "appsCliIndexChangedByThisPhase": false,
+    "rustSourceChangedByThisPhase": true,
+    "machineReadableArtifactsChangedByThisPhase": true,
+    "reportRunsChecks": false,
+    "separateRuntimeCommandSurfaceApprovalRequired": true,
+    "separateRuntimeEnablementRequired": true
+  },
+  "approvalBoundaryFixture": {
+    "fixture": "tests/fixtures/host-policy/phase5-2/guarded-runtime-default-blocked-boundary.json",
+    "schema": "ardyn.phase-5.2.guarded-runtime-default-blocked-boundary",
+    "status": "blocked_by_default",
+    "runtimeBlocked": true,
+    "approvalBoundaryRequired": true,
+    "approvalGrantCreated": false,
+    "commandSurfaceExists": false
+  },
+  "commandSurfaceRejectionMatrix": {
+    "fixture": "tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json",
+    "schema": "ardyn.phase-5.2.runtime-command-rejection-matrix",
+    "status": "blocked",
+    "candidateCommands": [
+      "serve-runtime",
+      "stdio-runtime",
+      "replay-session-transcript",
+      "external-review-packet",
+      "review-packet",
+      "runtime-readiness-review",
+      "grant-runtime",
+      "runtime-implementation-approval",
+      "runtime-command-surface-review",
+      "controlled-runtime-implementation-approval",
+      "approve-runtime-implementation",
+      "approve-runtime-command",
+      "approve-runtime",
+      "enable-runtime",
+      "phase-5-runtime",
+      "phase-5-1-runtime",
+      "phase-5-2-runtime",
+      "phase-5-2-guarded-runtime",
+      "guarded-runtime-implementation",
+      "runtime-start",
+      "runtime-stop",
+      "runtime-status",
+      "runtime-rollback",
+      "runtime-failure-audit"
+    ],
+    "stdoutExpectation": "empty",
+    "stderrPrefix": "Usage: ardyn ",
+    "scratchDirectoryWrites": "none"
+  },
+  "runtimeLikeCommandRejectionProbes": [
+    "serve-runtime",
+    "stdio-runtime",
+    "replay-session-transcript",
+    "external-review-packet",
+    "review-packet",
+    "runtime-readiness-review",
+    "grant-runtime",
+    "runtime-implementation-approval",
+    "runtime-command-surface-review",
+    "controlled-runtime-implementation-approval",
+    "approve-runtime-implementation",
+    "approve-runtime-command",
+    "approve-runtime",
+    "enable-runtime",
+    "phase-5-runtime",
+    "phase-5-1-runtime",
+    "phase-5-2-runtime",
+    "phase-5-2-guarded-runtime",
+    "guarded-runtime-implementation",
+    "runtime-start",
+    "runtime-stop",
+    "runtime-status",
+    "runtime-rollback",
+    "runtime-failure-audit"
+  ],
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandSurfaceEnabled": false,
+    "runtimeEnablementApproved": false,
+    "approvalCommandEnabled": false,
+    "cliSourceChanged": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false
+  },
+  "nonExecutionInvariants": [
+    "phase5-2-private-rust-guarded-planning-only",
+    "runtime-enablement-remains-blocked",
+    "runtime-command-surface-remains-blocked",
+    "apps-cli-index-unchanged",
+    "no-approval-command",
+    "no-live-stdin-stdout-stderr-or-process-control",
+    "no-adapter-or-fabric-runtime-behavior"
+  ],
+  "safetyPosture": {
+    "guardedImplementationSliceStatusRecorded": true,
+    "runtimeBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandSurfaceEnabled": false,
+    "runtimeEnablementApproved": false,
+    "noRuntimeCommand": true,
+    "noApprovalCommand": true,
+    "noProcessControl": true,
+    "noStdoutStderrWriters": true,
+    "noTranscriptWrite": true,
+    "noFailureAuditWrite": true,
+    "noAdapterRuntimeBehavior": true,
+    "noContentFabricRuntimeBehavior": true
+  }
+}

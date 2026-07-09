@@ -1,0 +1,105 @@
+{
+  "harnessIdentity": {
+    "canonicalSlug": "ardyn",
+    "packageNamespace": "ardyn",
+    "manifestFacingHarnessId": "ardyn",
+    "keyringNamespace": "ardyn",
+    "fabricFamily": "ardyn",
+    "futureLocusConnectorExpectedId": "ardyn",
+    "multiverseIntegration": "optional-external",
+    "locusRuntimeDependency": false
+  },
+  "fabricFamilySet": [
+    "*",
+    "locus",
+    "multiverse",
+    "kortex-audio",
+    "locus-evolution-lab",
+    "somatic",
+    "ardyn"
+  ],
+  "staleSlugPolicy": {
+    "legacyArdynOsVariantsAcceptedAsCurrentHarnessId": false,
+    "acceptedAsCurrentHarnessId": false,
+    "allowedOnlyInNegativeTests": true
+  },
+  "locusDisplayContract": {
+    "freezeMarker": "PHASE_3_X_LOCUS_DISPLAY_CONTRACT_FROZEN",
+    "phase3xReadOnlyContractFrozen": true,
+    "locusMayDisplayPlannerTraces": true,
+    "locusMayDisplayReviewArtifacts": true,
+    "locusMayDisplayTraceDiffs": true,
+    "locusMayDisplaySchemaStatus": true,
+    "locusMayDisplayAttestationPlans": true,
+    "locusMayDisplaySessionEventFixtures": true,
+    "locusRuntimeDependency": false,
+    "approvalBypassAllowed": false,
+    "safetyBypassAllowed": false
+  },
+  "sessionEvents": {
+    "schema": "https://schemas.ardyn.ai/session-event.schema.json",
+    "schemaVersion": "0.1.0",
+    "sourceHarness": "ardyn",
+    "transportRoadmap": {
+      "firstFutureTransport": "stdio",
+      "stdioRuntimeImplemented": false,
+      "websocketRuntimeImplemented": false,
+      "httpRuntimeImplemented": false
+    },
+    "eventTypes": [
+      "session.started",
+      "session.heartbeat",
+      "session.capabilities",
+      "task.planned",
+      "approval.requested",
+      "approval.recorded",
+      "session.completed",
+      "session.error"
+    ],
+    "validExampleDirectory": "examples/session-events",
+    "invalidFixtures": [
+      "invalid-source-harness.json",
+      "invalid-safety-flag.json"
+    ],
+    "nonExecuting": true
+  },
+  "docs": [
+    {
+      "path": "docs/harness-identity.md",
+      "status": "present",
+      "summary": "Pins canonical Locus-facing slug and product boundaries."
+    },
+    {
+      "path": "docs/session-events-stdio-contract.md",
+      "status": "present",
+      "summary": "Documents future stdio-first session-event contract without runtime transport."
+    },
+    {
+      "path": "docs/content-fabric.md",
+      "status": "present",
+      "summary": "Documents reconciled Fabric family set and Locus byte-reference fixture policy."
+    },
+    {
+      "path": "docs/locus-trace-display-contract.md",
+      "status": "present",
+      "summary": "Contains the Phase 3.x read-only Locus display contract freeze marker."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase3-8-locus-family-alignment.test.mjs",
+      "status": "present",
+      "summary": "Covers slug consistency, Fabric family set, stale slug policy, and display freeze marker."
+    },
+    {
+      "path": "tests/session-event-schema.test.mjs",
+      "status": "present",
+      "summary": "Covers session-event schema examples, invalid fixtures, and false safety flags."
+    },
+    {
+      "path": "tests/fabric.test.mjs",
+      "status": "present",
+      "summary": "Covers reconciled Fabric family membership and rejection of legacy harness ids."
+    }
+  ]
+}

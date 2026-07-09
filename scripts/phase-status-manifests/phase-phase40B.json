@@ -1,0 +1,115 @@
+{
+  "command": {
+    "command": "ardyn emit-session-events --dry-run --manifest <manifest.json> --task <task.json>",
+    "status": "hardened-finite-dry-run-emitter",
+    "strictArgumentValidation": true,
+    "allowedArgs": [
+      "--dry-run",
+      "--manifest <path>",
+      "--task <path>"
+    ],
+    "rejectsUnknownArgs": true,
+    "rejectsDuplicateArgs": true,
+    "rejectsMissingArgValues": true,
+    "rejectsExtraPositionals": true,
+    "validatesArgsBeforeFileReads": true,
+    "successStdout": "JSONL only.",
+    "failureStdout": "empty",
+    "failureStderr": "plain diagnostics"
+  },
+  "negativeCliCoverage": {
+    "unreadableManifestFile": true,
+    "unreadableTaskFile": true,
+    "invalidJsonManifest": true,
+    "invalidJsonTask": true,
+    "schemaInvalidManifest": true,
+    "schemaInvalidTask": true,
+    "unsafeManifestPath": true,
+    "unsafeTaskPath": true,
+    "missingDryRun": true,
+    "extraUnknownArgs": true,
+    "failuresEmitPartialStdoutJsonl": false
+  },
+  "formatterHardening": {
+    "finalLfRequired": true,
+    "blankJsonlLinesAllowed": false,
+    "sparseEventSlotsRejected": true,
+    "malformedEventsRejectedBeforeSerialization": true,
+    "allEventSafetyFlagsRemainFalse": true
+  },
+  "goldenFixtures": [
+    {
+      "path": "tests/fixtures/stdio-dry-run/phase4-0b-minimal-session-events.jsonl",
+      "status": "present",
+      "summary": "Pins the minimal successful emit-session-events JSONL stream byte-for-byte with LF framing."
+    }
+  ],
+  "docs": [
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Documents Phase 4.0B dry-run hardening scope and stderr-only failure behavior."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents strict emit-session-events argument validation."
+    },
+    {
+      "path": "docs/phase-4-stdio-dry-run-event-emission.md",
+      "status": "present",
+      "summary": "Documents Phase 4.0B hardening, golden fixture coverage, and deferred runtime work."
+    },
+    {
+      "path": "docs/session-events-stdio-contract.md",
+      "status": "present",
+      "summary": "Cross-links Phase 4.0B hardening while preserving no-live-runtime boundaries."
+    },
+    {
+      "path": "docs/host-policy-preconditions.md",
+      "status": "present",
+      "summary": "Adds future Rust-host stdout/stderr ownership design notes without active runtime enforcement."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/cli-phase4-stdio-dry-run.test.mjs",
+      "status": "present",
+      "summary": "Covers strict args, negative CLI failures, zero stdout diagnostics, and runtime import guards."
+    },
+    {
+      "path": "tests/core-phase4-stdio-dry-run.test.mjs",
+      "status": "present",
+      "summary": "Covers golden JSONL fixture matching, no blank lines, final LF, and sparse event rejection."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 4.0B report metadata and local-summary-only safety posture."
+    }
+  ],
+  "futureRustHostPolicyDesign": {
+    "documented": true,
+    "activeRuntimeEnforcement": false,
+    "rustOwnsFutureStdoutStderrPolicy": true,
+    "stdoutReservedForFutureJsonlEvents": true,
+    "stderrReservedForFutureDiagnostics": true,
+    "requiresBackpressureAndPartialWritePolicyBeforeRuntime": true
+  },
+  "safetyPosture": {
+    "nonExecuting": true,
+    "noLiveStdioRuntime": true,
+    "noStdinCommandLoop": true,
+    "noListener": true,
+    "noServer": true,
+    "noSubprocessSpawning": true,
+    "noAdapterCalls": true,
+    "noLocusRuntimeDependency": true,
+    "noMcpCalls": true,
+    "noOpenClawCalls": true,
+    "noPluginExecution": true,
+    "noContentFabricDownloadInstallEnable": true,
+    "noSecrets": true,
+    "noProductionSigningKeys": true
+  }
+}

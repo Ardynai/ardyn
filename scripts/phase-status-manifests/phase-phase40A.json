@@ -1,0 +1,119 @@
+{
+  "command": {
+    "command": "ardyn emit-session-events --dry-run --manifest <manifest.json> --task <task.json>",
+    "status": "implemented-finite-dry-run-emitter",
+    "stdout": "LF-delimited JSONL session events with one JSON object per line.",
+    "stderr": "Plain diagnostics and errors only.",
+    "writesFiles": false,
+    "readsStdin": false,
+    "network": false,
+    "processSpawning": false,
+    "listener": false,
+    "adapterCalls": false,
+    "locusRuntimeDependency": false,
+    "mcpCalls": false,
+    "openClawCalls": false,
+    "pluginExecution": false,
+    "contentFabricRuntimeBehavior": false
+  },
+  "coreApi": [
+    "createStdioDryRunSessionEvents",
+    "formatSessionEventsJsonl",
+    "assertLocalFilePath",
+    "assertLocalJsonFilePath",
+    "readLocalJsonFile"
+  ],
+  "eventOrder": [
+    "session.started",
+    "session.heartbeat",
+    "session.capabilities",
+    "task.planned",
+    "approval.recorded",
+    "session.completed"
+  ],
+  "approvalRequiredEventInsertion": "approval.requested is inserted before approval.recorded when approval is required and selected capability ids exist.",
+  "framing": {
+    "format": "jsonl",
+    "newline": "lf",
+    "finalTrailingNewline": true,
+    "validatesEveryEventBeforeSerialization": true,
+    "malformedEventsRejected": true
+  },
+  "localPathPolicy": {
+    "appliesTo": [
+      "manifest",
+      "task",
+      "transcript",
+      "local-json-review-input"
+    ],
+    "rejectsUrlSchemes": true,
+    "rejectsFileUrls": true,
+    "rejectsUncAndNetworkPaths": true,
+    "rejectsWindowsDriveRelativePaths": true,
+    "rejectsStdinMarker": true,
+    "rejectsNulCrLf": true,
+    "requiresJsonExtensionForJsonInputs": true,
+    "absoluteLocalPathsAllowed": true
+  },
+  "docs": [
+    {
+      "path": "docs/phase-4-stdio-dry-run-event-emission.md",
+      "status": "present",
+      "summary": "Documents the Phase 4.0A dry-run JSONL event emitter contract, path policy, malformed handling, and deferred hardening."
+    },
+    {
+      "path": "docs/session-events-stdio-contract.md",
+      "status": "present",
+      "summary": "Cross-links the Phase 4.0A finite dry-run emitter while preserving no-live-runtime boundaries."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Documents the emit-session-events dry-run CLI command and non-executing behavior."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents the CLI command shape and stdout/stderr behavior."
+    },
+    {
+      "path": ".gitattributes",
+      "status": "present",
+      "summary": "Pins LF handling for source, JSON, schemas, markdown, and fixtures while preserving byte-reference Fabric fixtures."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/core-phase4-stdio-dry-run.test.mjs",
+      "status": "present",
+      "summary": "Covers deterministic event order, sequence numbers, JSONL framing, malformed rejection, safety flags, LF behavior, and path policy."
+    },
+    {
+      "path": "tests/cli-phase4-stdio-dry-run.test.mjs",
+      "status": "present",
+      "summary": "Covers stdout-only JSONL success, stderr-only failures, transcript path policy reuse, no file side effects, and no runtime imports."
+    }
+  ],
+  "safetyPosture": {
+    "nonExecuting": true,
+    "noLiveStdioRuntime": true,
+    "noStdinCommandLoop": true,
+    "noListener": true,
+    "noServer": true,
+    "noSubprocessSpawning": true,
+    "noAdapterCalls": true,
+    "noLocusRuntimeDependency": true,
+    "noMcpCalls": true,
+    "noOpenClawCalls": true,
+    "noPluginExecution": true,
+    "noContentFabricDownloadInstallEnable": true,
+    "allEventSafetyFlagsFalse": true
+  },
+  "deferredHardening": [
+    "Repo-root confinement for local inputs.",
+    "Transcript persistence or replay.",
+    "Dropped-line and duplicate-line handling across a live stream.",
+    "stderr redaction policy.",
+    "Rust-host ownership of stdout and stderr for a future live runtime."
+  ]
+}

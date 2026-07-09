@@ -1,0 +1,147 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-76b-fabric-federation-reconciliation.md",
+    "schema": "ardyn.phase-5.76b.fabric-federation-reconciliation-result",
+    "schemaVersion": "0.1.0",
+    "kind": "fabric-federation-reconciliation",
+    "mode": "review-only",
+    "classification": "valid_fabric_federation_reconciliation_consumer_client_present_unwired",
+    "produced": true,
+    "authorizedBy": "PR#4",
+    "authorizationDate": "2026-07-05",
+    "isSidePhase": true,
+    "sidePhasePrecedent": "5.44A",
+    "doesNotContinueMetadataChain": true,
+    "doesNotChangeRecommendedNextPhase": true,
+    "recommendedNextPhaseStaysPhase577": true,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true,
+    "noFederationMjsBehaviorChange": true,
+    "noHistoricalFixtureEdited": true,
+    "boundaryEntryCount": 1,
+    "boundaryFamilies": [
+      "fabric_federation_consumer_client"
+    ],
+    "relatedSystems": [
+      "ardyn"
+    ],
+    "currentStatusValues": [
+      "active_consumer_unwired"
+    ],
+    "countByFamily": {
+      "fabric_federation_consumer_client": 1
+    },
+    "countByRelatedSystem": {
+      "ardyn": 1
+    },
+    "countByStatus": {
+      "active_consumer_unwired": 1
+    },
+    "fabricFederationClientPresent": true,
+    "wiredIntoCli": false,
+    "wiredIntoHost": false,
+    "outOfProcess": true,
+    "sidecarLoopbackEnforced": true,
+    "registryRequiresHttpsWhenRemote": true,
+    "importsFabricCore": false,
+    "joinsDhtSwarmP2p": false,
+    "reimplementsTransport": false,
+    "decryptsSecureDropCiphertext": false,
+    "addsRuntimeDependency": false,
+    "secretsCommittedToRepo": false,
+    "closedSiblingDidAllowlist": true,
+    "receiveSideContentIdReverified": true,
+    "noFabricCoreImport": true,
+    "noDhtSwarmP2p": true,
+    "noSecureDropDecrypt": true,
+    "noCliHostWiring": true,
+    "allBlockedAuthorizationFlagsFalse": true,
+    "allUnsafeFabricFederationRuntimeFlagsFalse": true,
+    "allRuntimeEffectsFalse": true,
+    "allEntriesNonAuthorizing": true,
+    "reportRunsChecks": false
+  },
+  "docs": [
+    {
+      "path": "docs/phase-5-76b-fabric-federation-reconciliation.md",
+      "status": "present",
+      "summary": "Records the Fabric Federation consumer client reconciliation as a side phase that corrects the advertised posture without continuing the Phase 5 metadata chain or changing runtime posture."
+    },
+    {
+      "path": "docs/posture.md",
+      "status": "present",
+      "summary": "The single canonical current-posture statement with the federation carve-out."
+    },
+    {
+      "path": "docs/fabric-glossary.md",
+      "status": "present",
+      "summary": "Distinguishes the five concrete fabric things."
+    },
+    {
+      "path": "docs/content-fabric.md",
+      "status": "present",
+      "summary": "Amended to remove BitTorrent/P2P from remaining requirements and add the fabric-core/sidecar supersession note."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase5-76b-fabric-federation-reconciliation.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.76B fixture, helper, invariants, unwired assertions, no-fabric-core-import, no-deps-added, and rejection cases."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.76B status inventory and safetyPosture flag."
+    }
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-76b/fabric-federation-reconciliation.json",
+      "status": "present",
+      "summary": "Deterministic review-only Fabric Federation reconciliation boundary record with consumer client invariants."
+    }
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-76b-fabric-federation-reconciliation.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "node --test tests/fabric.test.mjs",
+    "node --test tests/host-policy-preconditions.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "npm run report:phase-status",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "cargo clippy --workspace -- -D warnings",
+    "semgrep --config auto .",
+    "npm audit --json",
+    "cargo audit",
+    "cargo machete",
+    "git diff --check",
+    "git diff --cached --check"
+  ],
+  "safetyPosture": {
+    "fabricFederationReconciliationRecorded": true,
+    "fabricFederationReconciliationReviewOnly": true,
+    "fabricFederationReconciliationAuthoritative": false,
+    "fabricFederationReconciliationProduced": true,
+    "fabricFederationClientPresent": true,
+    "wiredIntoCli": false,
+    "wiredIntoHost": false,
+    "outOfProcess": true,
+    "sidecarLoopbackEnforced": true,
+    "importsFabricCore": false,
+    "joinsDhtSwarmP2p": false,
+    "decryptsSecureDropCiphertext": false,
+    "addsRuntimeDependency": false,
+    "secretsCommittedToRepo": false,
+    "closedSiblingDidAllowlist": true,
+    "receiveSideContentIdReverified": true,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true,
+    "noFederationMjsBehaviorChange": true,
+    "noHistoricalFixtureEdited": true,
+    "reportRunsChecks": false
+  }
+}

@@ -1,0 +1,377 @@
+{
+  "transcriptPersistenceContract": {
+    "document": "docs/phase-4-1d-transcript-replay-contracts.md",
+    "source": "packages/core/src/index.mjs",
+    "types": "packages/core/src/index.d.ts",
+    "fixture": "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json",
+    "schema": "ardyn.transcript-persistence-contract",
+    "schemaVersion": "0.1.0",
+    "contractKind": "transcript-persistence-contract",
+    "contractPhase": "phase-4.1d-transcript-replay-contracts",
+    "reviewedPhase": "4.1D",
+    "transcriptArtifactKind": "ardyn.session-transcript",
+    "transcriptVersion": "0.1.0",
+    "sourceEventStreamReference": "stdio-jsonl-session-events.phase4.static",
+    "eventCount": 7,
+    "sequenceRange": {
+      "first": 1,
+      "last": 7
+    },
+    "eventDigest": {
+      "algorithm": "sha256",
+      "value": "sha256:875ccaabfc21962d5d1beeacfe434c70767ae8b984ca2c0c4a69e9c7797345cf"
+    },
+    "persistedAt": "1970-01-01T00:00:00.000Z",
+    "persistedAtIsDeterministicFixtureMetadataOnly": true,
+    "staticContractOnly": true,
+    "replayCompatibilityClassification": "replay_contract_only",
+    "replaySafetyStatus": "static-contract-only",
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "replayCommandAvailable": false,
+    "writesFiles": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "consumedByLiveHostLoop": false
+  },
+  "transcriptReplayContract": {
+    "document": "docs/phase-4-1d-transcript-replay-contracts.md",
+    "fixture": "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-replay-contract.json",
+    "schema": "ardyn.transcript-replay-contract",
+    "schemaVersion": "0.1.0",
+    "contractKind": "transcript-replay-contract",
+    "contractPhase": "phase-4.1d-transcript-replay-contracts",
+    "reviewedPhase": "4.1D",
+    "staticContractOnly": true,
+    "replayCompatibilityClassification": "replay_contract_only",
+    "replaySafetyStatus": "replay-runtime-unavailable",
+    "replayCommand": {
+      "name": "replay-session-transcript",
+      "implemented": false,
+      "rejectedByCli": true
+    },
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "replayCommandAvailable": false,
+    "writesFiles": false,
+    "runtimeBehaviorIntroduced": false,
+    "liveRuntimeBehaviorIntroduced": false,
+    "consumedByLiveHostLoop": false
+  },
+  "compatibilityRecord": {
+    "document": "docs/phase-4-1d-transcript-replay-contracts.md",
+    "fixture": "tests/fixtures/host-policy/phase4-1d/compatible-transcript-replay-record.json",
+    "schema": "ardyn.transcript-replay-compatibility-record",
+    "schemaVersion": "0.1.0",
+    "recordKind": "transcript-replay-compatibility-record",
+    "recordPhase": "phase-4.1d-transcript-replay-contracts",
+    "reviewedPhase": "4.1D",
+    "classification": "compatible",
+    "replaySafetyStatus": "static-compatible-review-only",
+    "eventCount": 7,
+    "sequenceRange": {
+      "first": 1,
+      "last": 7
+    },
+    "eventDigest": {
+      "algorithm": "sha256",
+      "value": "sha256:875ccaabfc21962d5d1beeacfe434c70767ae8b984ca2c0c4a69e9c7797345cf"
+    },
+    "replayRuntimeAvailable": false,
+    "replayCommandAvailable": false,
+    "writesFiles": false,
+    "consumedByLiveHostLoop": false
+  },
+  "basedOnFramingRedaction": {
+    "document": "docs/phase-4-1c-framing-redaction-contracts.md",
+    "fixture": "tests/fixtures/host-policy/phase4-1c/valid-static-framing-redaction-contract.json",
+    "schema": "ardyn.stdio-framing-redaction-contract",
+    "contractKind": "stdio-framing-redaction-contract",
+    "reviewedPhase": "4.1C",
+    "currentContractEnablesRuntime": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false
+  },
+  "normalizedTranscriptContract": {
+    "schema": "ardyn.session-transcript",
+    "schemaVersion": "0.1.0",
+    "helpers": [
+      "validateSessionTranscript",
+      "classifySessionTranscriptCompatibility",
+      "buildSessionTranscriptDisplaySummary",
+      "buildSessionTranscriptMigrationMetadata"
+    ],
+    "compatibilityClasses": [
+      "compatible",
+      "upgrade_available",
+      "unsupported_major",
+      "malformed"
+    ],
+    "normalizedTranscriptInputOnly": true,
+    "rawJsonlForensicOnly": true
+  },
+  "replayCompatibility": {
+    "classifier": "classifyTranscriptReplayCompatibilityForReview",
+    "persistenceHelper": "createTranscriptPersistenceContractForReview",
+    "replayContractHelper": "createTranscriptReplayContractForReview",
+    "compatibilityRecordHelper": "createTranscriptReplayCompatibilityRecordForReview",
+    "classifications": [
+      "replay_contract_only",
+      "compatible",
+      "upgrade_available",
+      "unsupported_major",
+      "malformed",
+      "digest_mismatch",
+      "sequence_gap",
+      "duplicate_sequence",
+      "out_of_order_sequence",
+      "replay_runtime_unavailable"
+    ],
+    "failClosedClassifications": [
+      "unsupported_major",
+      "malformed",
+      "digest_mismatch",
+      "sequence_gap",
+      "duplicate_sequence",
+      "out_of_order_sequence",
+      "replay_runtime_unavailable"
+    ]
+  },
+  "inertReplayReview": {
+    "normalizedTranscriptInputOnly": true,
+    "rawJsonlForensicOnly": true,
+    "noLiveReplayConsumer": true,
+    "noAdapters": true,
+    "noTaskExecution": true,
+    "noTranscriptPersistenceRuntime": true,
+    "noReplayRuntime": true,
+    "replaySessionTranscriptRejected": true
+  },
+  "runtimeEffect": {
+    "currentContractEnablesRuntime": false,
+    "runtimeImplementationAvailable": false,
+    "runtimeCommandAvailable": false,
+    "replayCommandAvailable": false,
+    "transcriptPersistenceRuntimeAvailable": false,
+    "transcriptReplayRuntimeAvailable": false,
+    "processStdioOwnershipAvailable": false,
+    "stdinReaderAvailable": false,
+    "stdoutWriterAvailable": false,
+    "stderrWriterAvailable": false,
+    "failureAuditRuntimeAvailable": false,
+    "approvalEvaluatorAvailable": false,
+    "writesFiles": false,
+    "readsFiles": false
+  },
+  "reviewOnlyDisplayBehavior": {
+    "transcriptReplayContractsAreStaticArtifactsOnly": true,
+    "currentContractsDoNotEnableRuntime": true,
+    "futureRuntimeRequiresSeparateApprovedImplementationPhase": true,
+    "preserveDevinReviewForMajorRuntimeReadinessCheckpoint": true,
+    "reportRunsChecks": false,
+    "writesFiles": false,
+    "readsFiles": false,
+    "printsStdoutFromCli": false,
+    "consumedByLiveHostLoop": false
+  },
+  "cliCommandSurface": {
+    "commandAdded": false,
+    "replaySessionTranscriptCommandAdded": false,
+    "persistSessionTranscriptCommandAdded": false,
+    "transcriptReplayCommandAdded": false,
+    "transcriptPersistenceCommandAdded": false,
+    "serveRuntimeCommandAdded": false,
+    "stdioRuntimeCommandAdded": false,
+    "fileWriterAdded": false,
+    "stdoutPrinterAdded": false,
+    "existingDryRunEmitterUnchanged": true,
+    "existingValidateSessionTranscriptUnchanged": true
+  },
+  "apiSurface": {
+    "typescriptCoreStaticReviewHelpersAdded": true,
+    "typescriptCoreRuntimeApiAdded": false,
+    "rustRuntimeHelperAdded": false,
+    "rustStdioOwnerAdded": false,
+    "rustTranscriptPersistenceRuntimeAdded": false,
+    "rustTranscriptReplayRuntimeAdded": false,
+    "approvalEvaluatorAdded": false,
+    "failureAuditRuntimeAdded": false,
+    "secretsUsed": false
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-persistence-contract.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/valid-static-transcript-replay-contract.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/compatible-transcript-replay-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/upgrade-available-transcript-replay-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/unsupported-major-transcript-replay-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/malformed-transcript-replay-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/digest-mismatch-transcript-replay-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/sequence-gap-transcript-replay-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/duplicate-sequence-transcript-replay-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/out-of-order-sequence-transcript-replay-record.json",
+      "status": "present"
+    },
+    {
+      "path": "tests/fixtures/host-policy/phase4-1d/runtime-available-attempt-transcript-replay-record.json",
+      "status": "present"
+    }
+  ],
+  "docs": [
+    {
+      "path": "docs/phase-4-1d-transcript-replay-contracts.md",
+      "status": "present",
+      "summary": "Defines Phase 4.1D transcript persistence and replay contracts as static review metadata only."
+    },
+    {
+      "path": "docs/phase-4-1c-framing-redaction-contracts.md",
+      "status": "present",
+      "summary": "Links Phase 4.1D to static framing/redaction contracts while preserving no live writer."
+    },
+    {
+      "path": "docs/phase-4-1-runtime-proposal.md",
+      "status": "present",
+      "summary": "Updates the Phase 4.1 roadmap to identify Phase 4.1D as static transcript replay contracts."
+    },
+    {
+      "path": "docs/phase-4-stdio-dry-run-event-emission.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1D leaves the finite dry-run emitter unchanged."
+    },
+    {
+      "path": "docs/session-events-stdio-contract.md",
+      "status": "present",
+      "summary": "Links Phase 4.1D while preserving no-live-runtime replay boundaries."
+    },
+    {
+      "path": "docs/host-policy-preconditions.md",
+      "status": "present",
+      "summary": "Documents transcript replay contracts as static preconditions, not enforcement."
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "present",
+      "summary": "Records Phase 4.1D TypeScript static helper contracts without persistence or replay runtime."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Documents Phase 4.1D scope and unchanged non-executing CLI surface."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1D adds no transcript replay or runtime command."
+    },
+    {
+      "path": "packages/core/README.md",
+      "status": "present",
+      "summary": "Documents Phase 4.1D static TypeScript review helpers as non-runtime APIs."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 4.1D does not add Rust-host persistence or replay runtime."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase4-1d-transcript-replay-contracts.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 4.1D fixtures, docs, report inventory, source guards, and rejected transcript replay/runtime commands."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 4.1D report metadata and safety posture."
+    },
+    {
+      "path": "packages/core/src/index.mjs",
+      "status": "present",
+      "summary": "Contains static transcript replay review helpers without file writes or replay runtime."
+    },
+    {
+      "path": "packages/core/src/index.d.ts",
+      "status": "present",
+      "summary": "Declares Phase 4.1D static helper APIs and review-only metadata types."
+    }
+  ],
+  "invariantProbes": [
+    "missing --dry-run",
+    "unknown emit-session-events arg",
+    "unsafe manifest URL",
+    "invalid JSON manifest",
+    "invalid JSON task",
+    "replay-session-transcript",
+    "persist-session-transcript",
+    "transcript-replay",
+    "transcript-persistence",
+    "transcript-replay-contract",
+    "transcript-persistence-contract",
+    "transcript-sidecar",
+    "sidecar-writer",
+    "serve-runtime",
+    "stdio-runtime"
+  ],
+  "safetyPosture": {
+    "nonExecuting": true,
+    "transcriptReplayContractOnly": true,
+    "reviewOnly": true,
+    "noLiveStdioRuntime": true,
+    "noStdinCommandLoop": true,
+    "noLiveStdioReader": true,
+    "noProcessStdioOwnership": true,
+    "noListener": true,
+    "noServer": true,
+    "noSubprocessSpawning": true,
+    "noAdapterCalls": true,
+    "noLocusRuntimeDependency": true,
+    "noMcpCalls": true,
+    "noOpenClawCalls": true,
+    "noPluginExecution": true,
+    "noContentFabricRuntimeBehavior": true,
+    "noContentFabricDownloadInstallEnable": true,
+    "noTranscriptPersistenceReplayRuntime": true,
+    "noReplayRuntime": true,
+    "noWebSocketHttpControlSurface": true,
+    "noSecrets": true,
+    "noProductionSigningKeys": true,
+    "noRuntimeApprovalGrant": true,
+    "noHostPolicyEnforcement": true,
+    "noApprovalEvaluator": true,
+    "noStdoutWriter": true,
+    "noStderrWriter": true,
+    "noFailureAuditRuntime": true,
+    "noCliCommandAdded": true,
+    "noFileWriterAdded": true,
+    "noStdoutPrinterAdded": true,
+    "noRuntimeBehaviorIntroduced": true
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-79-ci-enablement.md",
+    "schema": "ardyn.phase-5.79.ci-enablement-boundary-map-result",
+    "schemaVersion": "0.1.0",
+    "kind": "ci-enablement-boundary-map",
+    "mode": "review-only",
+    "classification": "valid_ci_enablement_boundary_map_workflows_present_ci_runtime_still_blocked",
+    "produced": true,
+    "boundaryEntryCount": 8,
+    "boundaryFamilies": [
+      "ci_workflow_files_created",
+      "ci_job_matrix_enabled",
+      "security_workflow_enabled",
+      "test_invocation_portability_fixed",
+      "ci_offline_hermetic_verified",
+      "ci_forbidden_behavior_absent",
+      "branch_protection_pending",
+      "ci_enablement_authorized"
+    ],
+    "relatedSystems": [
+      "ardyn",
+      "github-actions"
+    ],
+    "currentStatusValues": [
+      "active",
+      "blocked",
+      "pending"
+    ],
+    "countByFamily": {
+      "ci_workflow_files_created": 1,
+      "ci_job_matrix_enabled": 1,
+      "security_workflow_enabled": 1,
+      "test_invocation_portability_fixed": 1,
+      "ci_offline_hermetic_verified": 1,
+      "ci_forbidden_behavior_absent": 1,
+      "branch_protection_pending": 1,
+      "ci_enablement_authorized": 1
+    },
+    "countByRelatedSystem": {
+      "ardyn": 4,
+      "github-actions": 4
+    },
+    "countByStatus": {
+      "active": 7,
+      "blocked": 0,
+      "pending": 1
+    },
+    "ciWorkflowFilesCreated": true,
+    "ciJobMatrixEnabled": true,
+    "securityWorkflowEnabled": true,
+    "testInvocationPortabilityFixed": true,
+    "ciOfflineHermeticVerified": true,
+    "ciForbiddenBehaviorAbsent": true,
+    "branchProtectionPending": true,
+    "ciEnablementAuthorized": true,
+    "noSecretsInCi": true,
+    "noWritePermissions": true,
+    "noPublishDeploy": true,
+    "noAutoMerge": true,
+    "semgrepStaysManual": true,
+    "fabricEnvProhibited": true,
+    "noLiveSidecarContact": true,
+    "authorizedByJosh": true,
+    "julesReviewRequired": true,
+    "allBlockedAuthorizationFlagsFalse": true,
+    "allUnsafeCiEnablementRuntimeFlagsFalse": true,
+    "allRuntimeEffectsFalse": true,
+    "allEntriesNonAuthorizing": true,
+    "reportRunsChecks": false
+  },
+  "recommendedNextPhase": "phase-5.80-report-script-compaction",
+  "docs": [
+    {
+      "path": "docs/phase-5-79-ci-enablement.md",
+      "status": "present",
+      "summary": "Records the CI enablement per the 5.78 contract \u2014 two workflow files created, contract conformance table, local run evidence."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase5-79-ci-enablement.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.79 fixture, helper, workflow file conformance, and rejection cases."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.79 status inventory and safetyPosture flag."
+    }
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-79/ci-enablement.json",
+      "status": "present",
+      "summary": "Deterministic review-only CI enablement boundary map with 8 boundary families."
+    }
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-79-ci-enablement.test.mjs",
+    "node --test tests/phase5-78-ci-enforcement-contract.test.mjs",
+    "node --test tests/phase5-77-code-mode-orchestration.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "npm run report:phase-status",
+    "cargo test --workspace",
+    "cargo check --workspace",
+    "cargo fmt --check",
+    "cargo clippy --workspace -- -D warnings",
+    "semgrep --config auto .",
+    "npm audit --json",
+    "cargo audit",
+    "cargo machete",
+    "git diff --check"
+  ],
+  "safetyPosture": {
+    "ciEnablementBoundaryMapRecorded": true,
+    "ciEnablementBoundaryMapReviewOnly": true,
+    "ciEnablementBoundaryMapAuthoritative": false,
+    "ciEnablementBoundaryMapProduced": true,
+    "ciWorkflowFilesCreated": true,
+    "noSecretsInCi": true,
+    "noWritePermissions": true,
+    "noPublishDeploy": true,
+    "noAutoMerge": true,
+    "semgrepStaysManual": true,
+    "fabricEnvProhibited": true,
+    "noLiveSidecarContact": true,
+    "authorizedByJosh": true,
+    "julesReviewRequired": true,
+    "noCliSourceChange": true,
+    "noRustSourceChange": true,
+    "noFederationMjsBehaviorChange": true,
+    "noHistoricalFixtureEdited": true,
+    "reportRunsChecks": false
+  }
+}

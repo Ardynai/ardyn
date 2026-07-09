@@ -1,0 +1,255 @@
+{
+  "statusLayer": {
+    "document": "docs/phase-5-4a-jules-review-disposition.md",
+    "reviewedPhaseDocument": "docs/phase-5-4-disabled-command-exposure-plan.md",
+    "commandSurfacePreflightSourceDocument": "docs/phase-5-3-command-surface-approval-preflight.md",
+    "guardedImplementationSourceDocument": "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    "approvalSourceDocument": "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "precedingPhase": "5.4",
+    "layerId": "jules-review-disposition",
+    "scope": "docs-status-jules-review-disposition-runtime-enablement-blocked",
+    "julesReviewDispositionRecorded": true,
+    "julesVerdictApproved": true,
+    "requestChanges": false,
+    "accidentalCommandRuntimeExposureFound": false,
+    "testsSufficientBeforeNextDefaultBlockedCliImplementation": true,
+    "mayProceedToNextStillDefaultBlockedCliCommandImplementationPhase": true,
+    "runtimeCommandExposureApproved": false,
+    "runtimeCommandSurfaceApproved": false,
+    "runtimeCommandSurfaceEnabled": false,
+    "runtimeEnablementApproved": false,
+    "runtimeEnabled": false,
+    "approvalCommandEnabled": false,
+    "cliSourceChanged": false,
+    "appsCliIndexChanged": false,
+    "chmodCorrectionNeeded": false,
+    "chmodCorrectionApplied": false,
+    "appsCliIndexExpectedMode": "100644",
+    "appsCliIndexModeOnCurrentMain": "100644",
+    "rustSourceChanged": false,
+    "adapterRuntimeBehaviorChanged": false,
+    "contentFabricRuntimeBehaviorChanged": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "reportRunsChecks": false
+  },
+  "docs": [
+    {
+      "path": "docs/phase-5-4a-jules-review-disposition.md",
+      "status": "present",
+      "summary": "Records Jules's Phase 5.4 APPROVE review disposition while runtime and command exposure remain blocked."
+    },
+    {
+      "path": "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "status": "present",
+      "summary": "Provides the reviewed disabled command exposure plan and links to the Phase 5.4A disposition."
+    },
+    {
+      "path": "docs/phase-5-3-command-surface-approval-preflight.md",
+      "status": "present",
+      "summary": "Provides the preceding command-surface preflight source for the reviewed Phase 5.4 plan."
+    },
+    {
+      "path": "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "status": "present",
+      "summary": "Provides the guarded implementation-slice source that remains unexposed by Phase 5.4A."
+    },
+    {
+      "path": "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "status": "present",
+      "summary": "Provides the approval boundary source that still does not grant runtime enablement."
+    },
+    {
+      "path": "README.md",
+      "status": "present",
+      "summary": "Marks Phase 5.4A as current docs/status mode while runtime commands remain blocked."
+    },
+    {
+      "path": "apps/cli/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.4A adds no CLI command, chmod change, content change, or runtime behavior."
+    },
+    {
+      "path": "crates/ardyn-host/README.md",
+      "status": "present",
+      "summary": "Documents that Phase 5.4A exposes no Rust-host runtime commands and enables no runtime behavior."
+    }
+  ],
+  "crossLinks": [
+    "README.md",
+    "apps/cli/README.md",
+    "crates/ardyn-host/README.md",
+    "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+    "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+    "docs/phase-5-3-command-surface-approval-preflight.md",
+    "docs/phase-5-4-disabled-command-exposure-plan.md",
+    "docs/phase-5-4a-jules-review-disposition.md"
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/command-surface/phase5-4a/jules-review-disposition.json",
+      "status": "present",
+      "summary": "Records the Phase 5.4A Jules review disposition, chmod review result, and blocked runtime effect."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.4A report metadata, docs cross-links, runtime-blocked flags, and docs/status ownership."
+    },
+    {
+      "path": "tests/phase5-4a-jules-review-disposition.test.mjs",
+      "status": "present",
+      "summary": "Pins Phase 5.4A review-disposition fixture semantics, mode review, CLI content boundary, and command rejection checks."
+    },
+    {
+      "path": "tests/phase5-4-disabled-command-exposure-plan.test.mjs",
+      "status": "present",
+      "summary": "Retains the reviewed Phase 5.4 disabled command exposure fixture and command rejection checks."
+    }
+  ],
+  "cliSourceInventory": [
+    {
+      "path": "apps/cli/src/index.mjs",
+      "status": "present",
+      "summary": "Expected unchanged CLI source and mode 100644; Phase 5.4A adds no runtime, approval, or command-exposure command."
+    }
+  ],
+  "ownershipBoundary": {
+    "docsStatusFiles": [
+      "README.md",
+      "apps/cli/README.md",
+      "crates/ardyn-host/README.md",
+      "docs/phase-5-1-controlled-runtime-implementation-approval-handoff.md",
+      "docs/phase-5-2-guarded-runtime-implementation-slice.md",
+      "docs/phase-5-3-command-surface-approval-preflight.md",
+      "docs/phase-5-4-disabled-command-exposure-plan.md",
+      "docs/phase-5-4a-jules-review-disposition.md",
+      "scripts/report-phase-status.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "machineReadableArtifactFiles": [
+      "tests/fixtures/command-surface/phase5-4a/jules-review-disposition.json"
+    ],
+    "focusedTestFiles": [
+      "tests/phase5-4a-jules-review-disposition.test.mjs",
+      "tests/report-phase-status.test.mjs"
+    ],
+    "excludedCliRuntimeSourceFiles": [
+      "apps/cli/src/index.mjs"
+    ],
+    "cliSourceChangedByThisPhase": false,
+    "appsCliIndexChangedByThisPhase": false,
+    "chmodCorrectionNeededByThisPhase": false,
+    "chmodCorrectionAppliedByThisPhase": false,
+    "rustSourceChangedByThisPhase": false,
+    "machineReadableArtifactsChangedByThisPhase": true,
+    "reportRunsChecks": false,
+    "separateRuntimeCommandSurfaceApprovalRequired": true,
+    "separateRuntimeEnablementRequired": true
+  },
+  "julesReviewDisposition": {
+    "document": "docs/phase-5-4a-jules-review-disposition.md",
+    "fixture": "tests/fixtures/command-surface/phase5-4a/jules-review-disposition.json",
+    "schema": "ardyn.phase-5.4a.jules-review-disposition",
+    "phase": "phase-5.4a-jules-review-disposition",
+    "fixtureStatus": "present",
+    "reviewer": "Jules",
+    "verdict": "APPROVE",
+    "approved": true,
+    "requestChanges": false,
+    "reviewedPhase": "phase-5.4-disabled-command-exposure-plan",
+    "reviewedBranch": "codex/phase-5-4-disabled-command-exposure-plan",
+    "reviewedCommit": "60176ca83afe1fcd11dc303b557e8a468ed3b3c0",
+    "accidentalCommandRuntimeExposureFound": false,
+    "appsCliIndexContentIdenticalToBase": true,
+    "runtimeRemainsBlocked": true,
+    "commandExposureRemainsBlocked": true,
+    "testsSufficientBeforeNextDefaultBlockedCliImplementation": true,
+    "mayProceedToNextStillDefaultBlockedCliCommandImplementationPhase": true
+  },
+  "modeReview": {
+    "path": "apps/cli/src/index.mjs",
+    "expectedMode": "100644",
+    "modeOnCurrentMain": "100644",
+    "chmodCorrectionNeededOnCurrentMain": false,
+    "chmodCorrectionAppliedByPhase54A": false,
+    "contentChangedByPhase54A": false
+  },
+  "blockedCommandProbeNames": [
+    "serve-runtime",
+    "stdio-runtime",
+    "replay-session-transcript",
+    "external-review-packet",
+    "review-packet",
+    "runtime-readiness-review",
+    "grant-runtime",
+    "runtime-implementation-approval",
+    "disabled-command-exposure-plan",
+    "phase-5-4-disabled-command-exposure-plan",
+    "runtime-command-exposure-plan",
+    "expose-runtime-commands",
+    "runtime-command-exposure-review",
+    "jules-review-disposition",
+    "phase-5-4a-jules-review-disposition",
+    "runtime-review-disposition"
+  ],
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "commandExposedToday": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureApproved": false,
+    "runtimeCommandSurfaceApproved": false,
+    "runtimeCommandSurfaceEnabled": false,
+    "runtimeEnablementApproved": false,
+    "approvalCommandEnabled": false,
+    "cliSourceChanged": false,
+    "stdoutStderrWritersEnabled": false,
+    "processControlEnabled": false,
+    "transcriptAuditSideEffectsEnabled": false,
+    "adapterRuntimeBehaviorEnabled": false,
+    "contentFabricRuntimeBehaviorEnabled": false
+  },
+  "nonExecutionInvariants": [
+    "phase5-4a-review-disposition-only",
+    "runtime-enablement-remains-blocked",
+    "runtime-command-exposure-remains-blocked",
+    "runtime-command-surface-remains-blocked",
+    "apps-cli-index-content-unchanged",
+    "apps-cli-index-mode-is-100644",
+    "no-approval-command",
+    "no-live-stdin-stdout-stderr-or-process-control",
+    "no-transcript-or-audit-runtime-side-effects",
+    "no-adapter-or-fabric-runtime-behavior"
+  ],
+  "safetyPosture": {
+    "julesReviewDispositionRecorded": true,
+    "julesVerdictApproved": true,
+    "requestChanges": false,
+    "accidentalCommandRuntimeExposureFound": false,
+    "testsSufficientBeforeNextDefaultBlockedCliImplementation": true,
+    "mayProceedToNextStillDefaultBlockedCliCommandImplementationPhase": true,
+    "runtimeBlocked": true,
+    "commandExposureBlocked": true,
+    "runtimeEnabled": false,
+    "runtimeCommandEnabled": false,
+    "runtimeCommandExposureApproved": false,
+    "runtimeCommandSurfaceEnabled": false,
+    "runtimeCommandSurfaceApproved": false,
+    "runtimeEnablementApproved": false,
+    "noRuntimeCommand": true,
+    "noApprovalCommand": true,
+    "noProcessControl": true,
+    "noStdoutStderrWriters": true,
+    "noTranscriptWrite": true,
+    "noFailureAuditWrite": true,
+    "noAdapterRuntimeBehavior": true,
+    "noContentFabricRuntimeBehavior": true,
+    "noCliSourceContentChange": true,
+    "appsCliIndexMode100644": true,
+    "chmodCorrectionNeeded": false,
+    "chmodCorrectionApplied": false
+  }
+}

@@ -72451,3 +72451,183 @@ export function createCiEnablementForReview(input = {}) {
     boundaryEntries
   });
 }
+
+// ─── Phase 5.80: Report-script compaction boundary map ───────────────────────
+// ponytail: records the manifest-driven loader refactor with byte-identical output.
+// Reuses MALFORMED_INPUT (line 69510), isPlainObjectRecord (line 3945),
+// approvalEvaluatorCandidateNestedTrueClaim (line 8163) — no new clones.
+
+export const REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_SCHEMA =
+  "ardyn.phase-5.80.report-script-compaction-boundary-map-result";
+export const REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_VERSION = "0.1.0";
+export const REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_KIND =
+  "report-script-compaction-boundary-map";
+export const VALID_REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_CLASSIFICATION =
+  "valid_report_script_compaction_boundary_map_manifest_driven_byte_identical";
+
+const REPORT_SCRIPT_COMPACTION_BOUNDARY_FAMILIES = Object.freeze([
+  "manifest_extraction",
+  "generic_loader",
+  "byte_identity_verification",
+  "local_status_preservation",
+  "contributing_update"
+]);
+
+const REPORT_SCRIPT_COMPACTION_RELATED_SYSTEMS = Object.freeze(["ardyn"]);
+
+const REPORT_SCRIPT_COMPACTION_STATUSES = Object.freeze(["active"]);
+
+const REPORT_SCRIPT_COMPACTION_UNSAFE_FIELDS = Object.freeze([
+  "runtimeExecutionEnabled","runtimeAuthorizationEnabled","runtimeCommandEnabled",
+  "commandExposureEnabled","commandsExposed","connectorGrantProduced",
+  "shellRuntimeEnabled","sqliteRuntimeEnabled","embeddedDbReaderEnabled",
+  "databaseClientImplemented","matrixClientRuntimeEnabled","externalGatewayRuntimeEnabled",
+  "fabricCoreTransportRuntimeEnabled","fabricRuntimeImplementedByArdyn",
+  "secureDropImplemented","secureDropDecryptionEnabled",
+  "filesystemAccessEnabled","filesystemReadEnabled","filesystemWriteEnabled",
+  "backendRuntimeImplementedByArdyn","processSpawnEnabled","processControlEnabled",
+  "blockedCliBypassEnabled"
+]);
+
+const REPORT_SCRIPT_COMPACTION_KNOWN_KEYS = Object.freeze(new Set([
+  "reviewedAt","boundaryEntries","reportRunsChecks","authorizesRuntime",
+  "runtimeEffect",...REPORT_SCRIPT_COMPACTION_UNSAFE_FIELDS
+]));
+
+const REPORT_SCRIPT_COMPACTION_AUTHORIZATION_FIELDS = Object.freeze([
+  "runtimeAuthorized","authorizesRuntime","commandExposureAuthorizationGranted",
+  "approvalDecisionProduced","approvalGrantProduced"
+]);
+
+function reportScriptCompactionInputRecord(input) {
+  if (input === null || typeof input !== "object" || Array.isArray(input)) return MALFORMED_INPUT;
+  return input;
+}
+
+function reportScriptCompactionReviewedAt(inputRecord) {
+  if (inputRecord === MALFORMED_INPUT) return null;
+  const value = inputRecord.reviewedAt;
+  if (value === undefined) return "2026-07-08T00:00:00.000Z";
+  if (typeof value !== "string" || Number.isNaN(Date.parse(value))) return null;
+  return value;
+}
+
+function reportScriptCompactionClassification(inputRecord) {
+  const reviewedAt = reportScriptCompactionReviewedAt(inputRecord);
+  if (reviewedAt === null || inputRecord === MALFORMED_INPUT)
+    return "malformed_report_script_compaction_boundary_map_input_rejected";
+  if (inputRecord.reportRunsChecks === true)
+    return "report_runs_checks_true_report_script_compaction_boundary_map_input_rejected";
+  if (inputRecord.authorizesRuntime === true)
+    return "runtime_authorization_attempt_report_script_compaction_boundary_map_input_rejected";
+  for (const key of Object.keys(inputRecord))
+    if (!REPORT_SCRIPT_COMPACTION_KNOWN_KEYS.has(key))
+      return "unknown_top_level_field_report_script_compaction_boundary_map_input_rejected";
+  for (const flag of REPORT_SCRIPT_COMPACTION_UNSAFE_FIELDS)
+    if (inputRecord[flag] === true)
+      return "unsafe_report_script_compaction_runtime_flags_report_script_compaction_boundary_map_input_rejected";
+  if (inputRecord.runtimeEffect && approvalEvaluatorCandidateNestedTrueClaim(inputRecord.runtimeEffect,
+      (key) => REPORT_SCRIPT_COMPACTION_UNSAFE_FIELDS.includes(key)||key==="runtimeEnabled"||key==="runtimeStarted"||key==="runtimeReady"||key==="runtimeCommandEnabled"||key==="runtimeCommandExposureEnabled"||key==="runtimeExecutionEnabled"||key==="runtimeExecuted"||key==="approvalGrantProduced"||key==="approvalGrantPersisted"||key==="approvalEvaluatorAuthoritative"))
+    return "nested_unsafe_flags_report_script_compaction_boundary_map_input_rejected";
+  if (inputRecord.boundaryEntries !== undefined) {
+    if (!Array.isArray(inputRecord.boundaryEntries)) return "malformed_report_script_compaction_boundary_map_input_rejected";
+    for (const entry of inputRecord.boundaryEntries) {
+      if (!isPlainObjectRecord(entry)) return "malformed_report_script_compaction_boundary_map_input_rejected";
+      if (entry.boundaryFamily !== undefined && !REPORT_SCRIPT_COMPACTION_BOUNDARY_FAMILIES.includes(entry.boundaryFamily))
+        return "unknown_boundary_family_report_script_compaction_boundary_map_input_rejected";
+      if (entry.explicitBlockedAuthorizationFlags && typeof entry.explicitBlockedAuthorizationFlags === "object")
+        for (const f of REPORT_SCRIPT_COMPACTION_AUTHORIZATION_FIELDS)
+          if (entry.explicitBlockedAuthorizationFlags[f] === true)
+            return "authorization_flags_enabled_report_script_compaction_boundary_map_input_rejected";
+    }
+  }
+  return VALID_REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_CLASSIFICATION;
+}
+
+function reportScriptCompactionAuthorizationFlags() {
+  return Object.fromEntries(REPORT_SCRIPT_COMPACTION_AUTHORIZATION_FIELDS.map((f) => [f, false]));
+}
+function reportScriptCompactionUnsafeRuntimeFlags() {
+  return Object.fromEntries(REPORT_SCRIPT_COMPACTION_UNSAFE_FIELDS.map((f) => [f, false]));
+}
+
+function reportScriptCompactionBoundaryEntries() {
+  const authFlags = reportScriptCompactionAuthorizationFlags();
+  const unsafeFlags = reportScriptCompactionUnsafeRuntimeFlags();
+  const runtimeEffect = {runtimeEnabled:false,runtimeStarted:false,runtimeReady:false,runtimeCommandEnabled:false,runtimeCommandExposureEnabled:false,runtimeExecutionEnabled:false,runtimeExecuted:false,approvalGrantProduced:false,approvalGrantPersisted:false,approvalEvaluatorAuthoritative:false};
+  const base = {explicitBlockedAuthorizationFlags:authFlags,unsafeReportScriptCompactionRuntimeFlags:unsafeFlags,runtimeEffect,nonAuthorizingProof:true,reportScriptCompactionBoundaryMetadataOnly:true,noLiveReportScriptCompactionRuntimePerformed:true};
+  return [
+    {boundaryId:"phase5-80.ardyn.manifest_extraction",boundaryFamily:"manifest_extraction",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that 114 per-phase manifests + header + tail + index were extracted from the golden snapshot."],
+     forbiddenCurrentBehavior:["Edit phase fixtures or docs during extraction."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (manifest extraction is active)",
+     contractShape:{manifestCount:"integer 117",headerFile:"string",tailFile:"string",indexFile:"string"},
+     crossPhaseReferences:["5.79 (CI enablement — last phase before compaction)"],...base},
+    {boundaryId:"phase5-80.ardyn.generic_loader",boundaryFamily:"generic_loader",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that the loader reads manifests and assembles the report object."],
+     forbiddenCurrentBehavior:["Hardcode per-phase data in the loader.","Import forbidden modules."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (loader is active)",
+     contractShape:{loaderLines:"integer ~70",imports:"array [node:fs, node:fs/promises, node:path, node:url]"},
+     crossPhaseReferences:[],...base},
+    {boundaryId:"phase5-80.ardyn.byte_identity_verification",boundaryFamily:"byte_identity_verification",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that SHA256 golden == SHA256 new output."],
+     forbiddenCurrentBehavior:["Modify the output to match the loader."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (verified)",
+     contractShape:{goldenSha256:"string fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",newSha256:"string fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",identical:"boolean true"},
+     crossPhaseReferences:[],...base},
+    {boundaryId:"phase5-80.ardyn.local_status_preservation",boundaryFamily:"local_status_preservation",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that localStatus() access() checks are preserved at runtime."],
+     forbiddenCurrentBehavior:["Hardcode status values without runtime checks."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (preserved)",
+     contractShape:{method:"string access() with constants.R_OK",result:"string present (all files exist)"},
+     crossPhaseReferences:[],...base},
+    {boundaryId:"phase5-80.ardyn.contributing_update",boundaryFamily:"contributing_update",relatedSystem:"ardyn",currentStatus:"active",
+     allowedCurrentBehavior:["Record that CONTRIBUTING's add-a-phase section now says: add one manifest + fixtures, zero script edits."],
+     forbiddenCurrentBehavior:["Require script edits for new phases."],
+     requiredFutureContractBeforeImplementation:[],requiredFutureAuthorizationPhaseBeforeRuntime:"none (CONTRIBUTING updated)",
+     contractShape:{newRule:"string 'add one manifest + fixtures; zero script edits'"},
+     crossPhaseReferences:[],...base}
+  ];
+}
+
+function reportScriptCompactionBoundaryMapSummary(entries) {
+  return {boundaryEntryCount:entries.length,boundaryFamilies:REPORT_SCRIPT_COMPACTION_BOUNDARY_FAMILIES,
+    relatedSystems:REPORT_SCRIPT_COMPACTION_RELATED_SYSTEMS,currentStatusValues:REPORT_SCRIPT_COMPACTION_STATUSES,
+    countByFamily:Object.fromEntries(REPORT_SCRIPT_COMPACTION_BOUNDARY_FAMILIES.map((f)=>[f,1])),
+    countByRelatedSystem:{ardyn:5},countByStatus:{active:5},
+    manifestExtractionRecorded:true,genericLoaderRecorded:true,byteIdentityVerified:true,
+    localStatusPreserved:true,contributingUpdated:true,
+    goldenSha256:"fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",
+    newSha256:"fb3db82927400187a50c58a36112977f283ffecd0da36b0bd92ac0920bab5125",
+    hashesIdentical:true,
+    allBlockedAuthorizationFlagsFalse:true,allUnsafeReportScriptCompactionRuntimeFlagsFalse:true,
+    allRuntimeEffectsFalse:true,allEntriesNonAuthorizing:true};
+}
+
+function reportScriptCompactionFalseRuntimeFields() {
+  const f={};for(const flag of REPORT_SCRIPT_COMPACTION_UNSAFE_FIELDS)f[flag]=false;
+  for(const flag of REPORT_SCRIPT_COMPACTION_AUTHORIZATION_FIELDS)f[flag]=false;return f;
+}
+
+function reportScriptCompactionResult({reviewedAt,classification,accepted,boundaryEntries}) {
+  const summary=accepted?reportScriptCompactionBoundaryMapSummary(boundaryEntries):null;
+  return {schema:REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_SCHEMA,schemaVersion:REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_VERSION,
+    reportScriptCompactionKind:REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_KIND,reportScriptCompactionMode:"review-only",
+    reviewedAt,classification,reportScriptCompactionBoundaryMapProduced:accepted,
+    boundaryEntries:accepted?boundaryEntries:[],boundaryMapSummary:summary,
+    recommendedNextPhase:accepted?"phase-5.81-report-test-compaction":null,
+    reportScriptCompactionOnly:true,reviewOnly:true,metadataOnly:true,authoritative:false,
+    nonAuthorizingProof:true,reportRunsChecks:false,
+    ...(accepted?{}:reportScriptCompactionFalseRuntimeFields()),
+    rejectionReasons:accepted?[]:[{classification,rejected:true,runtimeAuthorized:false,reportRunsChecks:false}],
+    runtimeEffect:{runtimeEnabled:false,runtimeStarted:false,runtimeReady:false,runtimeCommandEnabled:false,runtimeCommandExposureEnabled:false,runtimeExecutionEnabled:false,runtimeExecuted:false,approvalGrantProduced:false,approvalGrantPersisted:false,approvalEvaluatorAuthoritative:false}};
+}
+
+export function createReportScriptCompactionForReview(input = {}) {
+  const inputRecord=reportScriptCompactionInputRecord(input);
+  const reviewedAt=reportScriptCompactionReviewedAt(inputRecord);
+  const classification=reportScriptCompactionClassification(inputRecord);
+  const accepted=classification===VALID_REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_CLASSIFICATION;
+  const boundaryEntries=accepted?reportScriptCompactionBoundaryEntries():[];
+  return reportScriptCompactionResult({reviewedAt,classification,accepted,boundaryEntries});
+}
