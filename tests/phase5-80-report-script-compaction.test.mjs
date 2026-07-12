@@ -61,8 +61,9 @@ test("Phase 5.80 manifest count equals phase inventory count", async () => {
   const files = readdirSync(manifestDir).filter(f => f.startsWith("phase-") && f.endsWith(".json") && f !== "index.json");
   // 114 original phase manifests + 1 5.80 + 1 5.81 + 1 5.82 = 117
   // ponytail: updated by 5.82 to account for the new manifest
-  assert.equal(index.length, 117);
-  assert.equal(files.length, 117);
+  // ponytail: Phase 5.83 added a manifest — count updated from 117 to 118
+  assert.equal(index.length, 118);
+  assert.equal(files.length, 118);
 });
 
 test("Phase 5.80 invalid cases fail closed", () => {

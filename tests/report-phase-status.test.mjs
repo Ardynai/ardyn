@@ -8207,14 +8207,14 @@ test("package exposes report:phase-status without replacing existing test script
   );
   assert.equal(packageJson.scripts["report:phase-status"], "node scripts/report-phase-status.mjs");
 });
-test("phase status report is Phase 5.82 source-guard hardening and does not claim to run checks", async () => {
+test("phase status report is Phase 5.83 external-reference policy and does not claim to run checks", async () => {
   const report = await runReport();
   assert.equal(report.schemaVersion, "ardyn.phase-status-report.v1");
   assert.deepEqual(report.phase, {
-    id: "5.82",
-    name: "Source-guard hardening (sha256 digest-based guards)",
+    id: "5.83",
+    name: "External-reference policy + dependency allowlist + federation invariants",
     executionPosture:
-      "source-guard-hardening-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only ci-workflows-present ci-check-execution-only no-ci-runtime no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation ci-check-execution-present no-release-deploy-publish-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass clippy-all-targets-restored core-filemode-workaround-removed source-guards-digest-based"
+      "external-reference-policy-boundary-map dependency-allowlist-enforced forbidden-dependency-patterns-scanned federation-invariants-machine-checked harness-vs-import-distinction-stated source-guard-hardening-boundary-map runtime-blocked review-only-metadata-except-authorized-fabric-federation-consumer fabric-federation-client-present-unwired loopback-sidecar-only ci-workflows-present ci-check-execution-only no-ci-runtime no-secrets-in-ci no-write-permissions no-publish-deploy no-auto-merge semgrep-stays-manual fabric-env-prohibited no-live-sidecar-contact no-sqlite-runtime no-embedded-db-reader no-database-client no-shell-command-runtime no-matrix-gateway no-fabric-core-import no-dht-swarm-p2p no-secure-drop-decrypt no-cli-host-wiring no-backend-api-server no-encoded-handoff-runtime no-logger-audit-telemetry-health no-infrastructure-deployment-compliance-automation ci-check-execution-present no-release-deploy-publish-automation no-filesystem-process-ui no-command-exposure no-blocked-cli-bypass clippy-all-targets-restored core-filemode-workaround-removed source-guards-digest-based"
   });
   assert.equal(report.reportMode, "local-summary-only");
   assert.equal(report.reportRunsChecks, false);
@@ -32402,6 +32402,10 @@ test("report inventories Phase 5.76 embedded DB/query-engine primitive contract 
     report.safetyPosture.phase582SourceGuardHardeningBoundaryMap,
     true
   );
+  assert.equal(
+    report.safetyPosture.phase583ExternalReferencePolicyBoundaryMap,
+    true
+  );
   assertSafetyFlags(report, phase576ExpectedTrueSafetyFlagNames, true);
   assertSafetyFlags(report, phase576ExpectedFalseSafetyFlagNames, false);
 });
@@ -33833,4 +33837,21 @@ test("report inventories Phase 5.82 as source-guard hardening (sha256 digest-bas
   assert.equal(inventory.safetyPosture.libRsLintFixed, true);
   assert.equal(inventory.safetyPosture.reportRunsChecks, false);
   assert.equal(report.safetyPosture.phase582SourceGuardHardeningBoundaryMap, true);
+});
+
+test("report inventories Phase 5.83 as external-reference policy + dependency allowlist + federation invariants", async () => {
+  const report = await runReport();
+  const inventory = report.phase583ExternalReferencePolicyBoundaryMapInventory;
+  assert.equal(inventory.statusLayer.document, "docs/external-reference-policy.md");
+  assert.equal(inventory.statusLayer.schema, "ardyn.phase-5.83.external-reference-policy-boundary-map-result");
+  assert.equal(inventory.statusLayer.boundaryEntryCount, 16);
+  assert.equal(inventory.statusLayer.reportRunsChecks, false);
+  assert.equal(inventory.statusLayer.dependencyAllowlist, true);
+  assert.equal(inventory.statusLayer.forbiddenDependencyPatterns, true);
+  assert.equal(inventory.statusLayer.federationInvariantsMachineChecked, true);
+  assert.equal(inventory.recommendedNextPhase, "phase-5.84-fabric-federation-prewiring-hardening");
+  assert.equal(inventory.safetyPosture.dependencyAllowlist, true);
+  assert.equal(inventory.safetyPosture.forbiddenDependencyPatterns, true);
+  assert.equal(inventory.safetyPosture.reportRunsChecks, false);
+  assert.equal(report.safetyPosture.phase583ExternalReferencePolicyBoundaryMap, true);
 });

@@ -1,0 +1,141 @@
+{
+  "statusLayer": {
+    "document": "docs/external-reference-policy.md",
+    "schema": "ardyn.phase-5.83.external-reference-policy-boundary-map-result",
+    "schemaVersion": "0.1.0",
+    "kind": "external-reference-policy-boundary-map",
+    "mode": "review-only",
+    "classification": "valid_external_reference_policy_boundary_map_allowlist_enforced_federation_invariants_machine_checked",
+    "produced": true,
+    "boundaryEntryCount": 16,
+    "boundaryFamilies": [
+      "glossopetrae_reference",
+      "hermes_agent_import_block",
+      "cua_computer_use_reference",
+      "matrix_hiclaw_reference",
+      "codecrafters_shell_reference",
+      "codecrafters_sqlite_reference",
+      "fabric_core_multiverse_reference",
+      "fabric_federation_client_invariants",
+      "secure_drop_content_fabric_reference",
+      "openclaw_reference",
+      "goose_onyx_fainir_reference",
+      "fallow_advisory",
+      "dependency_allowlist",
+      "forbidden_dependency_patterns"
+    ],
+    "relatedSystems": [
+      "ardyn"
+    ],
+    "currentStatusValues": [
+      "active"
+    ],
+    "countByFamily": {
+      "glossopetrae_reference": 1,
+      "hermes_agent_import_block": 1,
+      "cua_computer_use_reference": 1,
+      "matrix_hiclaw_reference": 1,
+      "codecrafters_shell_reference": 1,
+      "codecrafters_sqlite_reference": 1,
+      "fabric_core_multiverse_reference": 1,
+      "fabric_federation_client_invariants": 1,
+      "secure_drop_content_fabric_reference": 1,
+      "openclaw_reference": 1,
+      "goose_onyx_fainir_reference": 3,
+      "fallow_advisory": 1,
+      "dependency_allowlist": 1,
+      "forbidden_dependency_patterns": 1
+    },
+    "countByRelatedSystem": {
+      "ardyn": 16
+    },
+    "countByStatus": {
+      "active": 16
+    },
+    "glossopetraeReference": true,
+    "hermesAgentImportBlock": true,
+    "cuaComputerUseReference": true,
+    "matrixHiclawReference": true,
+    "codecraftersShellReference": true,
+    "codecraftersSqliteReference": true,
+    "fabricCoreMultiverseReference": true,
+    "fabricFederationClientInvariants": true,
+    "secureDropContentFabricReference": true,
+    "openclawReference": true,
+    "gooseOnyxFainirReference": true,
+    "fallowAdvisory": true,
+    "dependencyAllowlist": true,
+    "forbiddenDependencyPatterns": true,
+    "npmAllowlist": [
+      "ajv"
+    ],
+    "cargoAllowlist": [
+      "serde",
+      "serde_json",
+      "sha2"
+    ],
+    "federationInvariantsMachineChecked": true,
+    "harnessVsImportDistinction": "hermes_agent is a blocked IMPORT reference \u2014 the policy blocks vendoring NousResearch/hermes-agent code into Ardyn; it does not restrict which harness edits the repo.",
+    "allBlockedAuthorizationFlagsFalse": true,
+    "allUnsafeExternalReferencePolicyRuntimeFlagsFalse": true,
+    "allRuntimeEffectsFalse": true,
+    "allEntriesNonAuthorizing": true,
+    "reportRunsChecks": false
+  },
+  "recommendedNextPhase": "phase-5.84-fabric-federation-prewiring-hardening",
+  "docs": [
+    {
+      "path": "docs/external-reference-policy.md",
+      "status": "present",
+      "summary": "Canonical external-reference policy: reference families, dependency allowlists, forbidden patterns, federation invariants."
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/phase5-83-external-reference-policy.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.83 fixture, dependency allowlists, forbidden-pattern scans, CLI probes, import guards, federation invariants, and rejection cases."
+    },
+    {
+      "path": "tests/report-phase-status.test.mjs",
+      "status": "present",
+      "summary": "Pins the Phase 5.83 status inventory and safetyPosture flag."
+    }
+  ],
+  "machineReadableArtifacts": [
+    {
+      "path": "tests/fixtures/host-policy/phase5-83/external-reference-policy.json",
+      "status": "present",
+      "summary": "Deterministic review-only external-reference policy boundary map with 16 entries."
+    }
+  ],
+  "validationCommands": [
+    "node --test tests/phase5-83-external-reference-policy.test.mjs",
+    "node --test tests/report-phase-status.test.mjs",
+    "npm test",
+    "npm run test:schemas",
+    "npm run report:phase-status",
+    "cargo fmt --check",
+    "cargo check --workspace",
+    "cargo clippy --workspace --all-targets -- -D warnings",
+    "cargo test --workspace",
+    "semgrep --config auto .",
+    "npm audit --json",
+    "git diff --check"
+  ],
+  "safetyPosture": {
+    "externalReferencePolicyBoundaryMapRecorded": true,
+    "externalReferencePolicyBoundaryMapReviewOnly": true,
+    "externalReferencePolicyBoundaryMapAuthoritative": false,
+    "externalReferencePolicyBoundaryMapProduced": true,
+    "dependencyAllowlist": true,
+    "forbiddenDependencyPatterns": true,
+    "federationInvariantsMachineChecked": true,
+    "harnessVsImportDistinctionStated": true,
+    "noDependencyChange": true,
+    "noRuntimeSurfaceAdded": true,
+    "noFederationBehaviorChange": true,
+    "noHistoricalFixtureEdited": true,
+    "reportRunsChecks": false
+  }
+}

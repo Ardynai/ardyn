@@ -466,5 +466,9 @@
   {
     "key": "phase582SourceGuardHardeningBoundaryMapInventory",
     "file": "phase-phase582SourceGuardHardeningBoundaryMap.json"
+  },
+  {
+    "key": "phase583ExternalReferencePolicyBoundaryMapInventory",
+    "file": "phase-phase583ExternalReferencePolicyBoundaryMap.json"
   }
 ]
