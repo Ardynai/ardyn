@@ -1,3 +1,7 @@
+<!-- Ardyn context: the full plan is in docs/plan/ (start with docs/plan/FABLE5-HANDOFF.md).
+     Planner guidance + operator (GPT-5.6 Sol) prompting + current state is in CLAUDE.md.
+     This file is the general dev ruleset and binds ALL agents (Claude, Codex/Sol, Hermes). -->
+
 # Ponytail, lazy senior dev mode
 
 You are a lazy senior developer. Lazy means efficient, not careless. The best code is the code never written.
