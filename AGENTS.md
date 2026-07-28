@@ -33,10 +33,12 @@ Not lazy about: understanding the problem (read it fully and trace the real flow
 
 ## UI standard (respect for any UI work)
 
-When you build or edit UI — renderer, components, screens, styling — use the
-installed design skills and do it properly: run the anti-slop / craft skills
-(impeccable, taste-skill, ui-ux-pro-max) and lean on astryx's well-designed
-components and patterns as a quality baseline wherever they fit. Use Refero's
-free / offline guides — do NOT call the paid Refero
-MCP. Keep it consistent with this project's existing components and token system.
-Attach a screenshot of any new or changed surface to the PR.
+When you build or edit UI — renderer, components, screens, styling — do it
+properly. Where the anti-slop / craft skills are installed in your environment
+(impeccable, taste-skill, ui-ux-pro-max), run them. Where they are not, hold the
+same bar by hand: consistent spacing and type scale, real empty / loading /
+error / focus states, keyboard reachability and contrast, no placeholder filler.
+Lean on astryx's well-designed components and patterns as a quality baseline
+wherever they fit. Use Refero's free / offline guides — do NOT call the paid
+Refero MCP. Keep it consistent with this project's existing components and token
+system. Attach a screenshot of any new or changed surface to the PR.
