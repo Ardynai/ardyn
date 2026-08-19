@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { readFileSync, realpathSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 
 export const FABRIC_FEDERATION_DEFAULT_LOCAL_DID = "did:multiverse:ardyn";
@@ -467,6 +467,17 @@ function normalizeFederationConfig(options) {
       code: "invalid_registry_url",
     });
   }
+  // M4: MEDIUM-1 — registry host allowlist (if configured)
+  const registryHostAllowlist = options.registryHostAllowlist;
+  if (Array.isArray(registryHostAllowlist) && registryHostAllowlist.length > 0) {
+    const host = registryUrlValue.hostname;
+    if (!registryHostAllowlist.includes(host)) {
+      throw new FabricFederationError(
+        `Fabric registry host '${host}' is not in the allowlist: ${registryHostAllowlist.join(", ")}.`,
+        { code: "registry_host_not_allowed" }
+      );
+    }
+  }
 
   const localDid = requireText(options.localDid ?? FABRIC_FEDERATION_DEFAULT_LOCAL_DID, "localDid");
   assertDid(localDid, "local DID");
@@ -637,12 +648,32 @@ async function requestRaw(url, init, config, options = {}) {
       headers,
       method: init.method,
       signal: abort.signal,
+      redirect: "manual", // M4: HIGH-1 — no SSRF via redirect following
     });
+    // M4: HIGH-1 — treat any 3xx redirect as an error (no auto-following)
+    if (response.status >= 300 && response.status < 400) {
+      throw new FabricFederationError(
+        `Fabric federation redirect rejected (status ${response.status}) — redirect following disabled for SSRF safety.`,
+        { code: "redirect_blocked", status: response.status }
+      );
+    }
     if (!response.ok) {
       throw new FabricFederationError(`Fabric federation HTTP ${response.status}.`, {
         code: "http_error",
         status: response.status,
       });
+    }
+    // M4: INFO-3 — response-size cap to bound memory from a hostile loopback sidecar
+    const contentLength = parseInt(response.headers.get("content-length") ?? "0", 10);
+    const maxResponseBytes = normalizePositiveInteger(
+      options.maxResponseBytes ?? config.maxResponseBytes ?? 16 * 1024 * 1024,
+      "maxResponseBytes", 0
+    );
+    if (contentLength > 0 && contentLength > maxResponseBytes) {
+      throw new FabricFederationError(
+        `Fabric federation response exceeds size cap (${contentLength} > ${maxResponseBytes} bytes).`,
+        { code: "response_too_large", status: response.status }
+      );
     }
     return response;
   } finally {
@@ -911,6 +942,12 @@ function csvEnv(value) {
 
 function didFromIdentityFile(path) {
   if (!path) return undefined;
+  // M4: MEDIUM-2 — path confinement: reject ../ traversal (absolute paths allowed from env config)
+  if (path.includes("../") || path.includes("..\\")) {
+    throw new FabricFederationError("Fabric identity file path must not contain path traversal (../).", {
+      code: "identity_file_path_unconfined",
+    });
+  }
   let text;
   try {
     text = readFileSync(path, "utf8").trim();

@@ -3,7 +3,7 @@
   "crates/ardyn-host/src/lib.rs": "34c2372c901c0bc8f593da56328242c4c8ae103f1b4105ebd2b33f0013f12e6d",
   "crates/ardyn-host/src/stdio_runtime/mod.rs": "eec469740015bdc66a4ea423dcedf92878d26ad9e8f82a8a609b5d1ee05fed5e",
   "packages/fabric/src/index.mjs": "b27046152938382fc6c1b0c3346d0ed75d28c4a698a0aa2d1e44c646de3af301",
-  "packages/fabric/src/federation.mjs": "ea68f39950bd4e0f16dfde7679dcc95aa1650b1500a1451dedd586acdcaac5ce",
+  "packages/fabric/src/federation.mjs": "c745a7757b1c2b8362e085c9214c87a47b69d187fb552f1b4d2ced9398db3b73",
   "package.json": "7ec7898bd0ad4a3574aed3e6abd21b7bb32905008e1237188f63474c13e6f82a",
   "package-lock.json": "fa3b86747dd059141ec3fce2082f059d69b20b9aea1d87605d7f77650cc77019",
   "Cargo.toml": "d003e3c3a8fb6c563ae23d200664ecb1f982dab234e5bfa8e00e691b727407b6",
