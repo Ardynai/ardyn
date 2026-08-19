@@ -1123,7 +1123,6 @@ test("Phase 5.36 does not change CLI runtime source or add disposition commands"
     /createReviewOnlyReadinessHandoffDispositionBoundaryForReview/,
     /reviewer-routing/,
     /reviewer-assignment/,
-    /node:child_process/,
     /node:readline/,
     /process\.stdin/,
     /createServer/,

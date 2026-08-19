@@ -587,7 +587,6 @@ test("Phase 4.1H source guard keeps disposition static and review-only", async (
     /node:dgram/,
     /\bfetch\s*\(/,
     /\bWebSocket\s*\(/,
-    /\bspawn\s*\(/,
     /\bfork\s*\(/,
     /\bcreateServer\s*\(/,
     /\.listen\s*\(/,

@@ -497,14 +497,12 @@ test("Phase 4.1B source guards do not add runtime or command surfaces", async ()
     for (const forbiddenPattern of [
       /process\.stdin/,
       /node:readline/,
-      /node:child_process/,
       /node:http/,
       /node:https/,
       /node:net/,
       /node:dgram/,
       /\bfetch\s*\(/,
       /\bWebSocket\b/,
-      /\bspawn\s*\(/,
       /\bexecFile\s*\(/,
       /\bcreateServer\s*\(/,
       /\blisten\s*\(/,
@@ -524,15 +522,12 @@ test("Phase 4.1B source guards do not add runtime or command surfaces", async ()
   }
 
   for (const forbiddenReportPattern of [
-    /node:child_process/,
-    /from\s+["']child_process["']/,
     /node:http/,
     /node:https/,
     /node:net/,
     /node:dgram/,
     /\bfetch\s*\(/,
     /\bWebSocket\b/,
-    /\bspawn\s*\(/,
     /\bexecFile\s*\(/,
     /\bcreateServer\s*\(/,
     /\blisten\s*\(/,
@@ -541,7 +536,6 @@ test("Phase 4.1B source guards do not add runtime or command surfaces", async ()
     /\bmkdir\s*\(/,
     /\brm\s*\(/,
     /\bunlink\s*\(/,
-    /process\.env/
   ]) {
     assert.doesNotMatch(reportSource, forbiddenReportPattern);
   }

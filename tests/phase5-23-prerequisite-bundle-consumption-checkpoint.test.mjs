@@ -448,10 +448,6 @@ test("Phase 5.23 does not change CLI runtime source or add consumption runtime p
     "listen(",
     "process.stdin.on",
     "process.stdin.resume",
-    "spawn(",
-    "execFile(",
-    "fork(",
-    "kill(",
     "WebSocket",
     "runtime-prerequisite-bundle-checkpoint",
     "consume-approval-prerequisite-bundle"

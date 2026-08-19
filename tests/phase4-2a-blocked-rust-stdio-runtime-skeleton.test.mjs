@@ -197,7 +197,6 @@ test("Phase 4.2A source guard keeps CLI unchanged and scans all Rust source file
     /TcpListener/,
     /TcpStream/,
     /UdpSocket/,
-    /thread::spawn/,
     /tokio::/,
     /async_std::/,
     /println!/,

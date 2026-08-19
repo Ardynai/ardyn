@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { writeFile } from "node:fs/promises";
+import { spawn } from "node:child_process";
+import { createHash } from "node:crypto";
 
 import {
   assertLocalFilePath,
@@ -813,13 +815,15 @@ async function run(argv) {
     return;
   }
 
-  // M1: serve-runtime with --enable-runtime produces a runtime plan.
+  // M1: serve-runtime with --enable-runtime — REAL runtime with process spawning.
   // Without --enable-runtime, it fails (approval gate).
   if (command === "serve-runtime") {
     const enableRuntime = args.includes(ENABLE_RUNTIME_FLAG);
     const dryRun = args.includes("--dry-run");
     const approved = args.includes(APPROVE_FLAG);
     const manifestPath = readOption(args, "--manifest");
+    const commandArg = readOption(args, "--command");
+    const killAfterMs = parseInt(readOption(args, "--kill-after-ms") ?? "0", 10);
 
     if (!enableRuntime) {
       fail(createDefaultBlockedRuntimeCommandMessage("serve-runtime"));
@@ -844,21 +848,162 @@ async function run(argv) {
     const handshake = await createStaticHandshakeFromPath(manifestPath);
     const sessionId = `session-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 
+    // Redaction: mask token/secret/password patterns in stderr
+    function redactStderr(text) {
+      return text
+        .replace(/(?:token|secret|password|api_key|apikey)\s*=\s*[^\s]+/gi, "REDACTED")
+        .replace(/(?:Bearer)\s+[A-Za-z0-9._-]+/gi, "Bearer REDACTED");
+    }
+
+    // Dry-run: produce static plan, no process spawning
+    if (dryRun) {
+      printJson({
+        command: "serve-runtime",
+        dryRun: true,
+        runtimeEnabled: true,
+        approved: false,
+        approvalGateStatus: "dry-run-no-approval-needed",
+        killSwitchAvailable: true,
+        killSwitchDescription: "Send SIGTERM or use --kill-after-ms to stop the runtime session.",
+        manifestPath,
+        sessionId,
+        sessionPlan: {
+          sessionId,
+          frames: [],
+          maxFrames: 8,
+          lifecycle: "planned"
+        },
+        redaction: {
+          stderrRedactionEnabled: true,
+          redactionMode: "fail-closed",
+          unredactableHandling: "blocked"
+        },
+        transcriptAudit: {
+          replayEnabled: true,
+          auditEnabled: true,
+          transcriptPath: null,
+          events: []
+        },
+        failureAudit: {
+          enabled: true,
+          killOnFailure: true,
+          rollbackOnFailure: true,
+          activated: false
+        },
+        processesSpawned: false,
+        processResult: null,
+        killSwitchActivated: false,
+        executionEnabled: false,
+        plannedRuntime: handshake
+      });
+      return;
+    }
+
+    // Live execution: spawn process if --command is provided
+    let processResult = null;
+    let killSwitchActivated = false;
+    const transcriptEvents = [];
+
+    if (commandArg) {
+      // Parse command: "node -e ..." → cmd="node", args=["-e", ...]
+      const cmdParts = commandArg.split(" ");
+      const cmd = cmdParts[0];
+      const cmdArgs = cmdParts.slice(1);
+
+      const child = spawn(cmd, cmdArgs, {
+        cwd: process.cwd(),
+        env: { ...process.env },
+        stdio: ["pipe", "pipe", "pipe"]
+      });
+
+      let stdoutData = "";
+      let stderrData = "";
+      const frames = [];
+
+      // Kill switch: auto-kill after killAfterMs if set
+      let killTimer = null;
+      if (killAfterMs > 0) {
+        killTimer = setTimeout(() => {
+          try { child.kill("SIGTERM"); } catch {}
+          killSwitchActivated = true;
+        }, killAfterMs);
+      }
+
+      // Capture stdout as JSONL frames
+      child.stdout.on("data", (chunk) => {
+        const text = chunk.toString();
+        stdoutData += text;
+        // Parse JSONL frames
+        for (const line of text.split("\n")) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
+          try {
+            const frame = JSON.parse(trimmed);
+            frames.push(frame);
+            transcriptEvents.push({
+              type: "stdout_frame",
+              timestamp: new Date().toISOString(),
+              frame
+            });
+          } catch {
+            // Non-JSON line — record as raw
+            transcriptEvents.push({
+              type: "stdout_raw",
+              timestamp: new Date().toISOString(),
+              text: trimmed
+            });
+          }
+        }
+      });
+
+      // Capture stderr with redaction
+      child.stderr.on("data", (chunk) => {
+        const text = chunk.toString();
+        stderrData += text;
+        transcriptEvents.push({
+          type: "stderr",
+          timestamp: new Date().toISOString(),
+          text: redactStderr(text).trim()
+        });
+      });
+
+      // Wait for process to exit
+      const exitCode = await new Promise((resolve) => {
+        child.on("close", resolve);
+      });
+
+      if (killTimer) clearTimeout(killTimer);
+      const wasKilled = killSwitchActivated || (exitCode === null && child.killed);
+
+      processResult = {
+        exitCode: wasKilled ? -1 : exitCode,
+        stdout: stdoutData.trim(),
+        stderr: redactStderr(stderrData).trim(),
+        frames,
+        killed: wasKilled,
+        killedReason: wasKilled ? "kill_switch_timeout" : null
+      };
+    }
+
+    // Failure audit: activate on non-zero exit
+    const failureActivated = processResult && processResult.exitCode !== 0;
+
     printJson({
       command: "serve-runtime",
-      dryRun,
+      dryRun: false,
       runtimeEnabled: true,
-      approved: dryRun ? false : approved,
-      approvalGateStatus: dryRun ? "dry-run-no-approval-needed" : "approved",
+      approved: true,
+      approvalGateStatus: "approved",
       killSwitchAvailable: true,
-      killSwitchDescription: "Send SIGTERM or use --kill to stop the runtime session.",
+      killSwitchDescription: "Send SIGTERM or use --kill-after-ms to stop the runtime session.",
+      killSwitchActivated,
       manifestPath,
       sessionId,
       sessionPlan: {
         sessionId,
-        frames: [],
+        frames: processResult?.frames ?? [],
         maxFrames: 8,
-        lifecycle: dryRun ? "planned" : "starting"
+        lifecycle: processResult ? "completed" : "noop"
       },
       redaction: {
         stderrRedactionEnabled: true,
@@ -868,15 +1013,18 @@ async function run(argv) {
       transcriptAudit: {
         replayEnabled: true,
         auditEnabled: true,
-        transcriptPath: null
+        transcriptPath: null,
+        events: transcriptEvents
       },
       failureAudit: {
         enabled: true,
         killOnFailure: true,
-        rollbackOnFailure: true
+        rollbackOnFailure: true,
+        activated: failureActivated ?? false
       },
-      processesSpawned: false,
-      executionEnabled: !dryRun,
+      processesSpawned: processResult !== null,
+      processResult,
+      executionEnabled: true,
       plannedRuntime: handshake
     });
     return;

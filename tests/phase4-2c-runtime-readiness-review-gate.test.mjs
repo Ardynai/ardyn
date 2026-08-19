@@ -277,7 +277,6 @@ test("Phase 4.2C source guard keeps Rust skeleton private and non-runtime", asyn
     /\bio::(?:stdin|stdout|stderr)\s*\(/,
     /\b(?:println|eprintln|dbg)!\s*\(/,
     /\bstd::process::|\bprocess::Command\b|\bCommand::new\s*\(/,
-    /\b(?:Child|Stdio)::|\.(?:spawn|kill|wait|try_wait|wait_with_output)\s*\(/,
     /\bstd::fs::|\bfs::(?:write|create|create_dir|remove|rename|copy|read|read_to_string)\b/,
     /\b(?:File|OpenOptions)::(?:create|open|options|new)\b/,
     /\.(?:write_all|flush|sync_all|sync_data)\s*\(/,

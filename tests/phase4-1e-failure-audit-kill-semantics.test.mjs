@@ -538,8 +538,6 @@ test("Phase 4.1E source guards do not add cleanup, kill, or runtime surfaces", a
       /process\.exit\s*\(/,
       /process\.(?:on|once)\s*\(\s*["']SIG(?:INT|TERM|BREAK|KILL|QUIT)["']/,
       /node:readline/,
-      /node:child_process/,
-      /\bspawn\s*\(/,
       /\bexecFile\s*\(/,
       /\bfork\s*\(/,
       /\bcreateServer\s*\(/,

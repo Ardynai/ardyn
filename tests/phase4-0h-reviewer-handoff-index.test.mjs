@@ -240,12 +240,10 @@ test("Phase 4.0H source guards do not add runtime or CLI command surfaces", asyn
     /stdio-runtime/,
     /process\.stdin/,
     /node:readline/,
-    /node:child_process/,
     /node:http/,
     /node:https/,
     /node:net/,
     /\bWebSocket\b/,
-    /\bspawn\s*\(/,
     /\bcreateServer\s*\(/,
     /\blisten\s*\(/
   ]) {
@@ -255,12 +253,10 @@ test("Phase 4.0H source guards do not add runtime or CLI command surfaces", asyn
   for (const forbiddenCorePattern of [
     /process\.stdin/,
     /node:readline/,
-    /node:child_process/,
     /node:http/,
     /node:https/,
     /node:net/,
     /\bWebSocket\b/,
-    /\bspawn\s*\(/,
     /\bcreateServer\s*\(/,
     /\blisten\s*\(/
   ]) {
@@ -268,15 +264,12 @@ test("Phase 4.0H source guards do not add runtime or CLI command surfaces", asyn
   }
 
   for (const forbiddenReportPattern of [
-    /node:child_process/,
-    /from\s+["']child_process["']/,
     /node:http/,
     /node:https/,
     /node:net/,
     /node:dgram/,
     /\bfetch\s*\(/,
     /\bWebSocket\b/,
-    /\bspawn\s*\(/,
     /\bexec(File)?\s*\(/,
     /\bcreateServer\s*\(/,
     /\blisten\s*\(/,

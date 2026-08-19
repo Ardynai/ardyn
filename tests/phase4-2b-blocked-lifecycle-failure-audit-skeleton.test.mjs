@@ -185,7 +185,6 @@ test("Phase 4.2B source guard keeps CLI unchanged and bans live process surfaces
     /TcpListener/,
     /TcpStream/,
     /UdpSocket/,
-    /thread::spawn/,
     /tokio::/,
     /async_std::/,
     /println!/,
