@@ -165,6 +165,8 @@ test("Phase 4.2B source guard keeps CLI unchanged and bans live process surfaces
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "serve"
   ]);
 

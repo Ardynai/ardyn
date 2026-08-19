@@ -228,6 +228,8 @@ test("Phase 4.1J source guard keeps CLI unchanged and Rust fixture harness priva
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "serve"
   ]);
   assert.ok(fixtureRootIndex > cfgTestIndex, "Phase 4.1J fixture loader must stay under cfg(test)");

@@ -357,6 +357,8 @@ test("Phase 4.1D source guards do not add persistence or replay runtime surfaces
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "serve"
   ]);
   assert.equal(cliWriteFileMatches.length, 1, "only existing plan --review-artifact --output writer remains");

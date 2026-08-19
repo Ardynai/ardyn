@@ -931,6 +931,8 @@
     "policy-metadata",
     "host-policy-export",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "stdio-runtime",
     "runtime",
     "run",

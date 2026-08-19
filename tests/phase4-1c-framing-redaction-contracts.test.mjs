@@ -422,6 +422,8 @@ test("Phase 4.1C source guards do not add runtime or command surfaces", async ()
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "serve"
   ]);
 

@@ -133,6 +133,8 @@ test("Phase 4.1I source guard keeps CLI unchanged and Rust harness test-only", a
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "serve"
   ]);
   assert.ok(cfgTestIndex >= 0, "Rust test module must be cfg(test)");

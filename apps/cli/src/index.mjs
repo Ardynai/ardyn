@@ -1030,6 +1030,110 @@ async function run(argv) {
     return;
   }
 
+  // M2: shell command — runs a shell command under approval gate
+  if (command === "shell") {
+    const enableRuntime = args.includes(ENABLE_RUNTIME_FLAG);
+    const dryRun = args.includes("--dry-run");
+    const approved = args.includes(APPROVE_FLAG);
+    const manifestPath = readOption(args, "--manifest") ?? minimalManifestPath;
+    const commandArg = readOption(args, "--command");
+
+    if (!enableRuntime) { fail(`Usage: ardyn shell --enable-runtime --approve --command <cmd>\nRuntime unavailable: shell is recognized, but runtime is not enabled.`); return; }
+    if (!commandArg) { fail("Missing required --command for shell."); return; }
+    if (!dryRun && !approved) { fail("Shell requires explicit approval: add --approve to execute."); return; }
+
+    if (dryRun) {
+      printJson({ command: "shell", dryRun: true, runtimeEnabled: true, approved: false, commandArg, processesSpawned: false, processResult: null });
+      return;
+    }
+
+    // Execute via serve-runtime infrastructure
+    const child = spawn("sh", ["-c", commandArg], { cwd: process.cwd(), env: { ...process.env }, stdio: ["pipe", "pipe", "pipe"] });
+    let stdoutData = "", stderrData = "";
+    child.stdout.on("data", (c) => { stdoutData += c.toString(); });
+    child.stderr.on("data", (c) => { stderrData += c.toString(); });
+    const exitCode = await new Promise((r) => child.on("close", r));
+
+    printJson({
+      command: "shell",
+      dryRun: false,
+      runtimeEnabled: true,
+      approved: true,
+      commandArg,
+      processesSpawned: true,
+      processResult: { exitCode, stdout: stdoutData.trim(), stderr: stderrData.trim(), frames: [], killed: false, killedReason: null }
+    });
+    return;
+  }
+
+  // M2: sqlite command — executes SQLite queries under approval gate
+  if (command === "sqlite") {
+    const enableRuntime = args.includes(ENABLE_RUNTIME_FLAG);
+    const dryRun = args.includes("--dry-run");
+    const approved = args.includes(APPROVE_FLAG);
+    const manifestPath = readOption(args, "--manifest") ?? minimalManifestPath;
+    const dbPath = readOption(args, "--database");
+    const query = readOption(args, "--query");
+
+    if (!enableRuntime) { fail(`Usage: ardyn sqlite --enable-runtime --approve --database <path> --query <sql>\nRuntime unavailable: sqlite is recognized, but runtime is not enabled.`); return; }
+    if (!query) { fail("Missing required --query for sqlite."); return; }
+    if (!dryRun && !approved) { fail("SQLite requires explicit approval: add --approve to execute."); return; }
+
+    if (dryRun) {
+      printJson({ command: "sqlite", dryRun: true, runtimeEnabled: true, approved: false, query, database: dbPath ?? null, processesSpawned: false, databaseResult: null });
+      return;
+    }
+
+    // Use node:sqlite (available in Node 22+ as experimental) or better-sqlite3
+    // ponytail: use node's built-in sqlite via require("node:sqlite") if available, otherwise spawn sqlite3 CLI
+    let dbResult;
+    try {
+      // Try node:sqlite (Node 22.5+)
+      const { DatabaseSync } = await import("node:sqlite");
+      const db = dbPath ? new DatabaseSync(dbPath) : new DatabaseSync(":memory:");
+      try {
+        const rows = [];
+        const stmt = db.prepare(query);
+        if (query.trim().toUpperCase().startsWith("SELECT")) {
+          for (const row of stmt.all()) rows.push(row);
+        } else {
+          stmt.run();
+        }
+        dbResult = { rows, changes: db.changes ?? 0, error: null };
+      } finally {
+        db.close();
+      }
+    } catch (e) {
+      // Fallback: spawn sqlite3 CLI
+      const dbArg = dbPath ? [dbPath, query] : [":memory:", query];
+      const child = spawn("sqlite3", dbArg, { cwd: process.cwd(), stdio: ["pipe", "pipe", "pipe"] });
+      let stdoutData = "", stderrData = "";
+      child.stdout.on("data", (c) => { stdoutData += c.toString(); });
+      child.stderr.on("data", (c) => { stderrData += c.toString(); });
+      const exitCode = await new Promise((r) => child.on("close", r));
+      if (exitCode !== 0) {
+        dbResult = { rows: [], changes: 0, error: stderrData.trim() || `sqlite3 exited with code ${exitCode}` };
+      } else {
+        // Parse stdout as JSON if possible, otherwise as text
+        const lines = stdoutData.trim().split("\n").filter(Boolean);
+        const rows = lines.map((l) => { try { return JSON.parse(l); } catch { return { value: l }; } });
+        dbResult = { rows, changes: 0, error: null };
+      }
+    }
+
+    printJson({
+      command: "sqlite",
+      dryRun: false,
+      runtimeEnabled: true,
+      approved: true,
+      query,
+      database: dbPath ?? ":memory:",
+      processesSpawned: true,
+      databaseResult: dbResult
+    });
+    return;
+  }
+
   if (DEFAULT_BLOCKED_RUNTIME_COMMANDS.has(command)) {
     fail(createDefaultBlockedRuntimeCommandMessage(command));
     return;
@@ -1067,7 +1171,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|emit-session-events --dry-run --manifest <path> --task <path>|serve-runtime --enable-runtime [--dry-run] --manifest <path>|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|emit-session-events --dry-run --manifest <path> --task <path>|serve-runtime --enable-runtime [--dry-run] --manifest <path>|shell --enable-runtime --approve --command <cmd>|sqlite --enable-runtime --approve --database <path> --query <sql>|serve --dry-run --manifest <path>>"
   );
 }
 

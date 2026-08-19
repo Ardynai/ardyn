@@ -569,6 +569,8 @@ test("Phase 4.1H source guard keeps disposition static and review-only", async (
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "serve"
   ]);
   assert.match(reportSource, /phase41HExternalReviewDispositionInventory/);

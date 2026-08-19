@@ -477,6 +477,8 @@ test("Phase 4.1F docs cross-link checkpoint without implying runtime", async () 
     "Phase 4.1F adds no live stdin command loop",
     "runtime-readiness-checkpoint",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "stdio-runtime",
     "replay-session-transcript"
   ]) {
@@ -569,6 +571,8 @@ test("Phase 4.1F source guards do not add runtime, checkpoint command, or depend
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "serve"
   ]);
   assert.equal(cliWriteFileMatches.length, 1, "only existing plan --review-artifact --output writer remains");

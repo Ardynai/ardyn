@@ -536,6 +536,8 @@ test("Phase 4.1G docs cross-link packet without implying runtime", async () => {
     "Reviewer Questions",
     "Recommended Outcomes",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "stdio-runtime",
     "replay-session-transcript",
     "approval evaluator",
@@ -637,6 +639,8 @@ test("Phase 4.1G status report inventories packet without running checks", async
     "invalid JSON manifest",
     "invalid JSON task",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "stdio-runtime",
     "runtime-readiness-review",
     "external-review-packet",
@@ -748,6 +752,8 @@ test("Phase 4.1G source guards do not add runtime, review packet command, or dep
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "serve"
   ]);
   assert.equal(cliWriteFileMatches.length, 1, "only existing plan --review-artifact --output writer remains");

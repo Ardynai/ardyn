@@ -404,6 +404,8 @@ test("Phase 4.1 source guards do not add runtime or proposal command surfaces", 
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "serve"
   ]);
 

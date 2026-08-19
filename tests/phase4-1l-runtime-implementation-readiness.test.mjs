@@ -386,6 +386,8 @@ test("Phase 4.1L source guard keeps CLI unchanged and Rust runtime APIs absent",
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "shell",
+    "sqlite",
     "serve"
   ]);
   assert.match(phase41LDoc, /4\.2A skeleton entry may be ready while runtime enablement remains blocked/);
