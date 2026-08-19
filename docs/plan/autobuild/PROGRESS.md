@@ -13,6 +13,9 @@ Append one entry per completed work item (format in `LOOP-PROTOCOL.md`). Keep th
 ---
 
 ## Log
-### (run not started)
-- Operator: Kimi K3 on Hermes. Branch: `hermes/kimi-autobuild`. Base: main @ 4714189 (Phase 5.83).
-- Start at `docs/plan/autobuild/README.md` → `SECURITY-INVARIANTS.md` → `AUTOBUILD-ROADMAP.md` (M0 first).
+### 2026-08-19T01:35Z — M0.1: Fix security.yml rust-toolchain
+- Changed: `.github/workflows/security.yml` (added `with: toolchain: stable` + `components: rustfmt, clippy` + `cargo install cargo-audit --locked`), `tests/fixtures/source-guards/digests.json` (added ci.yml + security.yml), `tests/m0-security-yml-fix.test.mjs` (new)
+- Tests: 1159 → 1162 (pass)
+- Self-review: pass — fixes the root cause (missing toolchain spec), cargo-audit was never installed so it would have failed anyway
+- Commit: 55874d8
+- Notes: Also fixed a spurious file-mode change on apps/cli/src/index.mjs (100644 → 100755) that git detected
