@@ -1,0 +1,9 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "cd apps/console && npm install && npm run build",
+  "outputDirectory": "apps/console/.next",
+  "installCommand": "npm install",
+  "env": {
+    "ARDYN_CONSOLE_MODE": "vercel"
+  }
+}

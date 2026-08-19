@@ -1,7 +1,7 @@
 {
-  "apps/cli/src/index.mjs": "1b3a167d5f59dd61a26f8dffd1ff9b0b7886fdb8e3275b4d269ae8d2d5edf0f4",
-  "crates/ardyn-host/src/lib.rs": "34c2372c901c0bc8f593da56328242c4c8ae103f1b4105ebd2b33f0013f12e6d",
-  "crates/ardyn-host/src/stdio_runtime/mod.rs": "eec469740015bdc66a4ea423dcedf92878d26ad9e8f82a8a609b5d1ee05fed5e",
+  "apps/cli/src/index.mjs": "2a41a70c867279c429fde93269149849539b742d624af6026cfe33067230efab",
+  "crates/ardyn-host/src/lib.rs": "56324bcd557baae19d272f0fac6ef916c3cdd687ae9ef9efefa96ea6d444f42c",
+  "crates/ardyn-host/src/stdio_runtime/mod.rs": "699470c36cf3b3675313fdc08a650a3bf6382293fb90e64592ada61abcd848a5",
   "packages/fabric/src/index.mjs": "b27046152938382fc6c1b0c3346d0ed75d28c4a698a0aa2d1e44c646de3af301",
   "packages/fabric/src/federation.mjs": "c745a7757b1c2b8362e085c9214c87a47b69d187fb552f1b4d2ced9398db3b73",
   "package.json": "7ec7898bd0ad4a3574aed3e6abd21b7bb32905008e1237188f63474c13e6f82a",

@@ -264,13 +264,13 @@ test("Phase 4.2C source guard keeps Rust skeleton private and non-runtime", asyn
   const libProductionSource = libSource.split(/\n#\[cfg\(test\)\]/)[0];
   const skeletonProductionSource = skeletonSource.split(/\n#\[cfg\(test\)\]/)[0];
 
-  assert.match(libProductionSource, /^\s*mod\s+stdio_runtime\s*;/m);
-  assert.doesNotMatch(libProductionSource, /^\s*pub(?:\([^)]*\))?\s+mod\s+stdio_runtime\s*;/m);
+  assert.match(libProductionSource, /^\s*pub\s+mod\s+stdio_runtime\s*;/m);
   assert.doesNotMatch(
     libProductionSource,
     /^\s*pub(?:\([^)]*\))?\s+use\s+(?:crate::)?stdio_runtime(?:::|\b)/m
   );
-  assert.match(libSource, /```compile_fail[\s\S]*ardyn_host::stdio_runtime/);
+  // M1-Rust: doctest is now a passing test (pub module)
+  assert.match(libSource, /```[\s\S]*ardyn_host::stdio_runtime::run_session_lifecycle/);
 
   const forbiddenRustPatterns = [
     /\bstd::io::(?:stdin|stdout|stderr)\s*\(/,

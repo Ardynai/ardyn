@@ -824,6 +824,8 @@ async function run(argv) {
     const manifestPath = readOption(args, "--manifest");
     const commandArg = readOption(args, "--command");
     const killAfterMs = parseInt(readOption(args, "--kill-after-ms") ?? "0", 10);
+    const rustSession = args.includes("--rust-session");
+    const streamMode = args.includes("--stream");
 
     if (!enableRuntime) {
       fail(createDefaultBlockedRuntimeCommandMessage("serve-runtime"));
@@ -899,12 +901,44 @@ async function run(argv) {
       return;
     }
 
-    // Live execution: spawn process if --command is provided
+    // Live execution: spawn process if --command is provided, or Rust session if --rust-session
     let processResult = null;
     let killSwitchActivated = false;
     const transcriptEvents = [];
 
-    if (commandArg) {
+    if (rustSession) {
+      // M1-Rust: invoke the Rust host session lifecycle binary
+      const rustBin = "target/debug/session";
+      const rustArgs = ["--approved", "--max-frames", "8"];
+      const child = spawn(rustBin, rustArgs, {
+        cwd: process.cwd(),
+        env: { ...process.env },
+        stdio: ["pipe", "pipe", "pipe"]
+      });
+      let stdoutData = "";
+      let stderrData = "";
+      child.stdout.on("data", (c) => { stdoutData += c.toString(); });
+      child.stderr.on("data", (c) => { stderrData += c.toString(); });
+      const exitCode = await new Promise((r) => child.on("close", r));
+      let rustResult = null;
+      try { rustResult = JSON.parse(stdoutData.trim()); } catch {}
+      processResult = {
+        exitCode,
+        stdout: stdoutData.trim(),
+        stderr: stderrData.trim(),
+        frames: rustResult?.transcript_events ?? [],
+        killed: false,
+        killedReason: null,
+        rustSession: true,
+        rustSessionId: rustResult?.session_id ?? null,
+        rustStatus: rustResult?.status ?? "unknown"
+      };
+      transcriptEvents.push({
+        type: "rust_session",
+        timestamp: new Date().toISOString(),
+        data: rustResult
+      });
+    } else if (commandArg) {
       // Parse command: "node -e ..." → cmd="node", args=["-e", ...]
       const cmdParts = commandArg.split(" ");
       const cmd = cmdParts[0];
@@ -940,18 +974,27 @@ async function run(argv) {
           try {
             const frame = JSON.parse(trimmed);
             frames.push(frame);
-            transcriptEvents.push({
+            const evt = {
               type: "stdout_frame",
               timestamp: new Date().toISOString(),
               frame
-            });
+            };
+            transcriptEvents.push(evt);
+            // M6: SSE streaming — emit event immediately if --stream
+            if (streamMode) {
+              process.stdout.write(`event: frame\ndata: ${JSON.stringify(evt)}\n\n`);
+            }
           } catch {
             // Non-JSON line — record as raw
-            transcriptEvents.push({
+            const evt = {
               type: "stdout_raw",
               timestamp: new Date().toISOString(),
               text: trimmed
-            });
+            };
+            transcriptEvents.push(evt);
+            if (streamMode) {
+              process.stdout.write(`event: raw\ndata: ${JSON.stringify(evt)}\n\n`);
+            }
           }
         }
       });

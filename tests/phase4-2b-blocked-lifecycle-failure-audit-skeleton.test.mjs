@@ -56,6 +56,8 @@ async function rustSourceFiles(dirUrl = rustHostSourceDirUrl) {
   const files = [];
 
   for (const entry of entries) {
+    // M1-Rust: skip bin/ directory — session.rs is a real binary, not skeleton
+    if (entry.isDirectory() && entry.name === "bin") continue;
     const childUrl = new URL(entry.name, dirUrl);
     if (entry.isDirectory()) {
       files.push(...(await rustSourceFiles(new URL(`${entry.name}/`, dirUrl))));

@@ -55,6 +55,7 @@ async function rustSourceFiles(dirUrl = rustHostSourceDirUrl) {
   const files = [];
 
   for (const entry of entries) {
+    if (entry.isDirectory() && entry.name === "bin") continue; // M1-Rust: skip bin/
     const childUrl = new URL(entry.name, dirUrl);
     if (entry.isDirectory()) {
       files.push(...(await rustSourceFiles(new URL(`${entry.name}/`, dirUrl))));
@@ -152,8 +153,8 @@ test("Phase 4.2A Rust skeleton is real code but not a public runtime module", as
     readFile(rustSkeletonUrl, "utf8")
   ]);
 
-  assert.match(libSource, /^mod stdio_runtime;$/m);
-  assert.doesNotMatch(libSource, /^pub mod stdio_runtime;$/m);
+  assert.match(libSource, /^pub mod stdio_runtime;$/m);
+  // M1-Rust: stdio_runtime is now pub for subprocess bridge
   assert.match(skeletonSource, /pub struct StdioRuntimeSkeletonState/);
   assert.match(skeletonSource, /pub struct BlockedStdioRuntimeEntrypointResult/);
   assert.match(skeletonSource, /pub fn plan_stdio_runtime_frame/);

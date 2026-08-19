@@ -7,11 +7,15 @@
 //! The blocked stdio runtime skeleton remains private until a separately
 //! approved runtime enablement phase creates a public surface:
 //!
-//! ```compile_fail
-//! let _ = ardyn_host::stdio_runtime::blocked_stdio_runtime_entrypoint(b"");
+//! M1-Rust: stdio_runtime is now pub for the subprocess bridge.
+//! The blocked entrypoint still returns a blocked status.
+//!
+//! ```
+//! let result = ardyn_host::stdio_runtime::run_session_lifecycle(false, 0);
+//! assert_eq!(result.status, "blocked_approval_required");
 //! ```
 
-mod stdio_runtime;
+pub mod stdio_runtime;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
