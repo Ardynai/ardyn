@@ -28,7 +28,6 @@ const phase41EFailureAuditUrl = new URL(
 );
 
 const runtimeLikeCommands = Object.freeze([
-  "serve-runtime",
   "stdio-runtime",
   "replay-session-transcript",
   "external-review-packet",

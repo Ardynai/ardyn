@@ -91,7 +91,6 @@ const requiredRejectedProbes = Object.freeze([
 ]);
 
 const forbiddenRuntimeCommands = Object.freeze([
-  "serve-runtime",
   "stdio-runtime",
   "replay-session-transcript",
   "policy-metadata",

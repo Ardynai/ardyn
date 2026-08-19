@@ -294,7 +294,6 @@ test("Phase 5.83 every policy entry's owning-phase fixture or manifest exists", 
 
 test("Phase 5.83 does not change CLI, Rust, Fabric, or package source", async () => {
   await assertUnchanged([
-    ,
     "crates/ardyn-host/src/lib.rs",
     "crates/ardyn-host/src/stdio_runtime/mod.rs",
     "packages/fabric/src/index.mjs",

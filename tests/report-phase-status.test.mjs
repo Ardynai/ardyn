@@ -390,6 +390,7 @@ const phase41IOwnedFiles = [
   "docs/phase-4-1h-external-review-disposition.md"
 ];
 const phase41IExcludedCliRuntimeSourceFiles = [
+  "apps/cli/src/index.mjs"
 ];
 const phase41IDocFiles = [
   "docs/phase-4-1i-rust-host-stdio-harness.md",
@@ -12717,6 +12718,7 @@ test("report inventories Phase 4.1L runtime implementation readiness while runti
     ["apps/cli/src/index.mjs", "present"]
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
   assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
@@ -12861,6 +12863,7 @@ test("report inventories Phase 4.2A deliberately blocked runtime skeleton while 
     ["apps/cli/src/index.mjs", "present"]
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
   assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
@@ -12997,6 +13000,7 @@ test("report inventories Phase 4.2B blocked lifecycle and failure-audit skeleton
     ["apps/cli/src/index.mjs", "present"]
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
   assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
@@ -13196,6 +13200,7 @@ test("report inventories Phase 4.2C runtime readiness review gate while runtime 
     ["apps/cli/src/index.mjs", "present"]
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
   assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
@@ -13434,6 +13439,7 @@ test("report inventories Phase 4.2D Jules disposition and Phase 5 handoff while 
     ["apps/cli/src/index.mjs", "present"]
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
   assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
@@ -13596,6 +13602,7 @@ test("report inventories Phase 5.1 as approval to proceed with future implementa
     "tests/fixtures/command-surface/phase5-1/runtime-command-surface-review-matrix.json"
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedRustSourceFiles, [
     "crates/ardyn-host/src/lib.rs",
@@ -13757,6 +13764,7 @@ test("report inventories Phase 5.2 as guarded implementation-slice status with r
     "crates/ardyn-host/src/stdio_runtime/mod.rs"
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
   assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
@@ -13896,6 +13904,7 @@ test("report inventories Phase 5.3 as command-surface approval preflight with ru
     "tests/report-phase-status.test.mjs"
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
   assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
@@ -14052,6 +14061,7 @@ test("report inventories Phase 5.4 as disabled command exposure plan with runtim
     "tests/report-phase-status.test.mjs"
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
   assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
@@ -14253,6 +14263,7 @@ test("report inventories Phase 5.4A as Jules review disposition with runtime com
     "tests/report-phase-status.test.mjs"
   ]);
   assert.deepEqual(inventory.ownershipBoundary.excludedCliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, false);
   assert.equal(inventory.ownershipBoundary.appsCliIndexChangedByThisPhase, false);
@@ -14456,6 +14467,7 @@ test("report inventories Phase 5.5 as default-blocked runtime CLI with runtime u
     "tests/report-phase-status.test.mjs"
   ]);
   assert.deepEqual(inventory.ownershipBoundary.cliRuntimeSourceFiles, [
+    "apps/cli/src/index.mjs"
   ]);
   assert.deepEqual(inventory.ownershipBoundary.rustRuntimeSourceFilesChanged, []);
   assert.equal(inventory.ownershipBoundary.cliSourceChangedByThisPhase, true);

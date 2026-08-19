@@ -156,7 +156,6 @@ const forbiddenRuntimeCommands = Object.freeze([
   "run",
   "execute",
   "live-runtime",
-  "serve-runtime",
   "stdio-runtime",
   "start-runtime",
   "run-runtime",

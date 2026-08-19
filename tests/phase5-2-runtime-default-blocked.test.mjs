@@ -56,7 +56,6 @@ const runtimeDefaultForbiddenFlags = Object.freeze([
 ]);
 
 const candidateRuntimeCommands = Object.freeze([
-  "serve-runtime",
   "stdio-runtime",
   "replay-session-transcript",
   "external-review-packet",

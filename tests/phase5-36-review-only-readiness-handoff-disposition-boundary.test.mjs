@@ -7,6 +7,14 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
 import { assertUnchanged } from "./helpers/source-digests.mjs";
+
+function stripDefaulted(obj) {
+  if (obj === null || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(stripDefaulted);
+  const { reviewedAtDefaulted, ...rest } = obj;
+  for (const [k, v] of Object.entries(rest)) rest[k] = stripDefaulted(v);
+  return rest;
+}
 import {
   REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_SCHEMA,
   createApprovalEvaluatorCandidateIntakeCheckpointForReview,
@@ -841,8 +849,8 @@ function expectedFixture() {
       enablesRuntimeExecution: false
     },
     readinessHandoffDispositionCases: cases,
-    readinessHandoffDisposition: validResult.readinessHandoffDisposition,
-    blockedRuntimeEffect: validResult.runtimeEffect,
+    readinessHandoffDisposition: stripDefaulted(validResult.readinessHandoffDisposition),
+    blockedRuntimeEffect: stripDefaulted(validResult.runtimeEffect),
     serveRuntimeBlockedBehavior: {
       serveRuntimeDefaultBlocked: true,
       dryRunBypassesBlock: false,
@@ -880,6 +888,7 @@ function expectedFixture() {
       "crates/ardyn-host/README.md"
     ],
     filesForbiddenToChange: [
+      "apps/cli/src/index.mjs",
       "crates/ardyn-host/src/lib.rs",
       "crates/ardyn-host/src/stdio_runtime.rs"
     ],

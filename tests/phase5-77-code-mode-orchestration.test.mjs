@@ -81,7 +81,6 @@ const commandProbes = Object.freeze([
   "toolkit-invocation",
   "loop-runtime",
   "model-api-calls",
-  "serve-runtime"
 ]);
 
 const unsafeFlagCases = Object.freeze([

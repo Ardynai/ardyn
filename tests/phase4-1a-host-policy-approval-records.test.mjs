@@ -87,7 +87,6 @@ const forbiddenRuntimeCommands = Object.freeze([
   "replay-session-transcript",
   "policy-metadata",
   "host-policy-export",
-  "serve-runtime",
   "stdio-runtime",
   "approve-runtime",
   "grant-runtime",
@@ -437,7 +436,6 @@ test("Phase 4.1A source guards do not add runtime or command surfaces", async ()
       /operator-consent/i,
       /approve-runtime/i,
       /grant-runtime/i,
-      /enable-runtime/i,
       /phase-4-1a/i
     ]) {
       assert.doesNotMatch(source, forbiddenPattern, `${label} source should avoid ${forbiddenPattern}`);

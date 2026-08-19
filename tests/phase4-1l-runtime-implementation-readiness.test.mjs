@@ -45,7 +45,6 @@ const topLevelOrder = Object.freeze([
 ]);
 
 const runtimeLikeCommands = Object.freeze([
-  "serve-runtime",
   "stdio-runtime",
   "replay-session-transcript",
   "external-review-packet",

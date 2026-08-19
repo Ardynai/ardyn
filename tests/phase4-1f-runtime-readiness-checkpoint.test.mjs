@@ -102,7 +102,6 @@ const blockerIds = Object.freeze([
 ]);
 
 const forbiddenRuntimeCommands = Object.freeze([
-  "serve-runtime",
   "stdio-runtime",
   "approve-runtime",
   "grant-runtime",

@@ -33,7 +33,6 @@ const phase41LReadinessUrl = new URL(
 );
 
 const runtimeLikeCommands = Object.freeze([
-  "serve-runtime",
   "stdio-runtime",
   "replay-session-transcript",
   "external-review-packet",

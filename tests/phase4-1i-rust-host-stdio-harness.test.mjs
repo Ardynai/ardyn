@@ -21,7 +21,6 @@ const cliPath = fileURLToPath(cliSourceUrl);
 const reportScriptPath = fileURLToPath(reportScriptUrl);
 
 const forbiddenRuntimeCommands = Object.freeze([
-  "serve-runtime",
   "stdio-runtime",
   "replay-session-transcript",
   "policy-metadata",

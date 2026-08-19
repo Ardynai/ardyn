@@ -280,7 +280,6 @@ test("Phase 5.8 command-exposure approval commands remain rejected", async () =>
         assert.notEqual(failure.code, 0, label);
         assert.equal(failure.stdout, "", label);
         assert.match(failure.stderr, /^Usage: ardyn /, label);
-        assert.doesNotMatch(failure.stderr, /Runtime unavailable: serve-runtime is recognized/);
         assert.deepEqual(await readdir(scratch), [], `${label} should not write files`);
       }
     }

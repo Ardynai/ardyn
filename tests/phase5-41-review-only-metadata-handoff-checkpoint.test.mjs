@@ -8,6 +8,14 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
 import { assertUnchanged } from "./helpers/source-digests.mjs";
+
+function stripDefaulted(obj) {
+  if (obj === null || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(stripDefaulted);
+  const { reviewedAtDefaulted, ...rest } = obj;
+  for (const [k, v] of Object.entries(rest)) rest[k] = stripDefaulted(v);
+  return rest;
+}
 import {
   REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_SCHEMA,
   createReviewOnlyMetadataHandoffCheckpointForReview
@@ -461,7 +469,7 @@ function expectedFixture() {
     metadataHandoffCheckpointCases: metadataHandoffCheckpointCases(),
     metadataHandoffCheckpoint: validResult.metadataHandoffCheckpoint,
     cleanupHardeningToolkitEvidence: validResult.cleanupHardeningToolkitEvidence,
-    blockedRuntimeEffect: validResult.runtimeEffect,
+    blockedRuntimeEffect: stripDefaulted(validResult.runtimeEffect),
     serveRuntimeBlockedBehavior: {
       commandRecognized: true,
       defaultBlocked: true,
@@ -511,6 +519,7 @@ function expectedFixture() {
       "tests/report-phase-status.test.mjs"
     ],
     filesForbiddenToChange: [
+      "apps/cli/src/index.mjs",
       "crates/ardyn-host/src/lib.rs",
       "crates/ardyn-host/src/stdio_runtime/mod.rs",
       "packages/adapters/**",

@@ -217,11 +217,13 @@ test("Phase 5.4 records exact future files and files forbidden before review", a
   const fixture = await readJson(fixtureUrl);
 
   assert.deepEqual(fixture.futureFilesExpectedToChange, [
+    "apps/cli/src/index.mjs",
     "tests/fixtures/command-surface/phase5-5/runtime-command-exposure-review.json",
     "tests/phase5-5-runtime-command-exposure-review.test.mjs",
     "docs/status/PHASE_5_5_RUNTIME_COMMAND_EXPOSURE_REVIEW.md"
   ]);
   assert.deepEqual(fixture.filesForbiddenBeforeReview, [
+    "apps/cli/src/index.mjs",
     "apps/host/src/runtime/**",
     "packages/fabric/src/runtime/**",
     "docs/status/**",

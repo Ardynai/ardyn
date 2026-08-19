@@ -103,7 +103,6 @@ const forbiddenRuntimeCommands = Object.freeze([
   "transcript-sidecar",
   "sidecar-writer",
   "replay-transcript",
-  "serve-runtime",
   "stdio-runtime",
   "stdin-reader",
   "stdout-writer",

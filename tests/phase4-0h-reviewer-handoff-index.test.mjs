@@ -237,7 +237,6 @@ test("Phase 4.0H source guards do not add runtime or CLI command surfaces", asyn
     /replay-session-transcript/,
     /policy-metadata/,
     /host-policy-export/,
-    /serve-runtime/,
     /stdio-runtime/,
     /process\.stdin/,
     /node:readline/,

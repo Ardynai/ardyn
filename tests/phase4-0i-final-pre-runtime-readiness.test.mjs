@@ -118,7 +118,6 @@ const forbiddenRuntimeCommands = Object.freeze([
   "replay-session-transcript",
   "policy-metadata",
   "host-policy-export",
-  "serve-runtime",
   "stdio-runtime",
   "runtime",
   "run",

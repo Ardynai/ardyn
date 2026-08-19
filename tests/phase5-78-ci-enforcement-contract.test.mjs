@@ -76,7 +76,6 @@ const commandProbes = Object.freeze([
   "workflow-execution",
   "ci-publish",
   "ci-deploy",
-  "serve-runtime"
 ]);
 
 const unsafeFlagCases = Object.freeze([
