@@ -4,6 +4,7 @@
   "consumerDisplayFixtureConformanceHandoffKind": "consumer-display-fixture-conformance-handoff",
   "consumerDisplayFixtureConformanceHandoffMode": "review-only",
   "reviewedAt": "2026-06-20T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_consumer_display_fixture_conformance_handoff_runtime_still_blocked",
   "consumerDisplayFixtureConformanceHandoffProduced": true,
   "consumerDisplayFixtureConformanceHandoff": {

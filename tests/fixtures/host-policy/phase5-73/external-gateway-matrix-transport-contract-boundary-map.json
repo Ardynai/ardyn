@@ -4,6 +4,7 @@
   "externalGatewayMatrixTransportContractBoundaryMapKind": "external-gateway-matrix-transport-contract-boundary-map",
   "externalGatewayMatrixTransportContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-29T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_external_gateway_matrix_transport_contract_boundary_map_runtime_still_blocked",
   "externalGatewayMatrixTransportContractBoundaryMapProduced": true,
   "externalGatewayMatrixTransportContractBoundaryMap": {

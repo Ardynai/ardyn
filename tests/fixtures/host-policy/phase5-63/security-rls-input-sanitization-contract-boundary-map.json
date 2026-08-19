@@ -4,6 +4,7 @@
   "securityRlsInputSanitizationContractBoundaryMapKind": "security-rls-input-sanitization-contract-boundary-map",
   "securityRlsInputSanitizationContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-22T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_security_rls_input_sanitization_contract_boundary_map_runtime_still_blocked",
   "securityRlsInputSanitizationContractBoundaryMapProduced": true,
   "securityRlsInputSanitizationContractBoundaryMap": {

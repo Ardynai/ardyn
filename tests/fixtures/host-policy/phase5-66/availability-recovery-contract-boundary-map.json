@@ -4,6 +4,7 @@
   "availabilityRecoveryContractBoundaryMapKind": "availability-recovery-contract-boundary-map",
   "availabilityRecoveryContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-24T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_availability_recovery_contract_boundary_map_runtime_still_blocked",
   "availabilityRecoveryContractBoundaryMapProduced": true,
   "availabilityRecoveryContractBoundaryMap": {

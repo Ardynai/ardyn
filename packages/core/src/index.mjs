@@ -6062,6 +6062,7 @@ function sourcePreflightRejectionReasons(classification, sourceReports, readerRe
 
 function approvalPrerequisiteSourcePreflightResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   sourceInputs,
   sourceReports,
@@ -6084,6 +6085,7 @@ function approvalPrerequisiteSourcePreflightResult({
     preflightKind: APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_KIND,
     preflightMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     sourceInputsAccepted,
     readerInputForwarded: sourceInputsAccepted,
@@ -6156,11 +6158,13 @@ function approvalPrerequisiteSourceReaderClassification(readerResult) {
 
 export function preflightApprovalPrerequisiteSourcesForReview(input = {}) {
   const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const sourceInputs = approvalPrerequisiteSourceInputArray(input);
 
   if (sourceInputs.length === 0) {
     return approvalPrerequisiteSourcePreflightResult({
       reviewedAt,
+      reviewedAtDefaulted,
       classification: "missing_prerequisite_source_input_rejected",
       sourceInputs,
       sourceReports: [],
@@ -6178,6 +6182,7 @@ export function preflightApprovalPrerequisiteSourcesForReview(input = {}) {
   if (sourceBlockingClassification != null) {
     return approvalPrerequisiteSourcePreflightResult({
       reviewedAt,
+      reviewedAtDefaulted,
       classification: sourceBlockingClassification,
       sourceInputs,
       sourceReports,
@@ -6197,6 +6202,7 @@ export function preflightApprovalPrerequisiteSourcesForReview(input = {}) {
 
   return approvalPrerequisiteSourcePreflightResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     sourceInputs,
     sourceReports,
@@ -6438,6 +6444,7 @@ function approvalPrerequisiteSourceSelectionSelectedState({
 
 function approvalPrerequisiteSourceSelectionResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   sourceReports,
   selectedReport,
@@ -6457,6 +6464,7 @@ function approvalPrerequisiteSourceSelectionResult({
     selectionKind: APPROVAL_PREREQUISITE_SOURCE_SELECTION_KIND,
     selectionMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     sourceSelectionAccepted: accepted,
     readerInputForwarded: accepted,
@@ -6532,11 +6540,13 @@ function approvalPrerequisiteSourceSelectionDecision(sourceReports) {
 
 export function selectApprovalPrerequisiteSourcesForReview(input = {}) {
   const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const sourceInputs = approvalPrerequisiteSourceInputArray(input);
 
   if (sourceInputs.length === 0) {
     return approvalPrerequisiteSourceSelectionResult({
       reviewedAt,
+      reviewedAtDefaulted,
       classification: "missing_prerequisite_source_selection_rejected",
       sourceReports: [],
       selectedReport: null
@@ -6551,6 +6561,7 @@ export function selectApprovalPrerequisiteSourcesForReview(input = {}) {
 
   return approvalPrerequisiteSourceSelectionResult({
     reviewedAt,
+    reviewedAtDefaulted,
     sourceReports,
     ...decision
   });
@@ -6885,6 +6896,7 @@ function approvalPrerequisiteSourceBundleRejectionReasons({
 
 function approvalPrerequisiteSourceBundleResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   partReports,
   selectedReport,
@@ -6903,6 +6915,7 @@ function approvalPrerequisiteSourceBundleResult({
     bundleKind: APPROVAL_PREREQUISITE_SOURCE_BUNDLE_KIND,
     bundleMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     sourceBundleAccepted: accepted,
     readerInputForwarded: accepted,
@@ -6937,11 +6950,13 @@ function approvalPrerequisiteSourceBundleResult({
 
 export function bundleApprovalPrerequisiteSourcesForReview(input = {}) {
   const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const bundleParts = approvalPrerequisiteSourceBundleParts(input);
 
   if (bundleParts.length === 0) {
     return approvalPrerequisiteSourceBundleResult({
       reviewedAt,
+      reviewedAtDefaulted,
       classification: "missing_prerequisite_source_bundle_parts_rejected",
       partReports: [],
       selectedReport: null
@@ -6956,6 +6971,7 @@ export function bundleApprovalPrerequisiteSourcesForReview(input = {}) {
 
   return approvalPrerequisiteSourceBundleResult({
     reviewedAt,
+    reviewedAtDefaulted,
     partReports,
     ...decision
   });
@@ -7178,6 +7194,7 @@ function approvalPrerequisiteBundleConsumptionRejectionReasons({
 
 function approvalPrerequisiteBundleConsumptionResult({
   reviewedAt,
+  reviewedAtDefaulted,
   sourceBundle,
   classification
 }) {
@@ -7186,6 +7203,7 @@ function approvalPrerequisiteBundleConsumptionResult({
   const evaluator = approvalPrerequisiteBundleConsumptionEvaluator({
     accepted,
     reviewedAt,
+    reviewedAtDefaulted,
     sourceBundle
   });
 
@@ -7195,6 +7213,7 @@ function approvalPrerequisiteBundleConsumptionResult({
     checkpointKind: APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_KIND,
     checkpointMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     bundleConsumedForReview: accepted,
     evaluatorInputForwarded: accepted,
@@ -7219,12 +7238,14 @@ function approvalPrerequisiteBundleConsumptionResult({
 
 export function consumeApprovalPrerequisiteBundleForReview(input = {}) {
   const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const sourceBundle = approvalPrerequisiteBundleConsumptionSourceBundle(input);
   const classification =
     approvalPrerequisiteBundleConsumptionClassification(sourceBundle);
 
   return approvalPrerequisiteBundleConsumptionResult({
     reviewedAt,
+    reviewedAtDefaulted,
     sourceBundle,
     classification
   });
@@ -7466,6 +7487,7 @@ export function evaluatePrerequisiteIntegrationCheckpointForReview(
   input = {}
 ) {
   const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const sourceInputs = approvalPrerequisiteIntegrationSourceInputs(input);
   const sourceIngestionResults =
     approvalPrerequisiteIntegrationSourceIngestionResults({
@@ -7718,6 +7740,16 @@ function isUtcIsoTimestampWithMilliseconds(value) {
     UTC_ISO_TIMESTAMP_WITH_MILLISECONDS_PATTERN.test(value) &&
     Number.isFinite(timestamp) &&
     new Date(timestamp).toISOString() === value
+  );
+}
+
+function isReviewedAtDefaulted(inputRecord) {
+  return (
+    inputRecord === null ||
+    inputRecord === undefined ||
+    typeof inputRecord !== "object" ||
+    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") ||
+    !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
   );
 }
 
@@ -8024,6 +8056,7 @@ function reviewArtifactEvaluatorInputHandoffRejectionReasons({ accepted, classif
 
 export function createReviewArtifactEvaluatorInputHandoffForReview(input = {}) {
   const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const reviewArtifacts = input.reviewArtifacts;
   const classification =
     reviewArtifactEvaluatorInputHandoffClassification(reviewArtifacts);
@@ -8041,6 +8074,7 @@ export function createReviewArtifactEvaluatorInputHandoffForReview(input = {}) {
     handoffKind: PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_KIND,
     handoffMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     reviewArtifactAccepted: accepted,
     evaluatorInputCandidateProduced: accepted,
@@ -8475,6 +8509,7 @@ export function createApprovalEvaluatorCandidateIntakeCheckpointForReview(
   input = {}
 ) {
   const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const evaluatorInputCandidates = input.evaluatorInputCandidates;
   const classification = approvalEvaluatorCandidateIntakeClassification(
     evaluatorInputCandidates
@@ -8496,6 +8531,7 @@ export function createApprovalEvaluatorCandidateIntakeCheckpointForReview(
     checkpointKind: APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_KIND,
     checkpointMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     evaluatorInputCandidateAccepted: accepted,
     intakeCheckpointStateProduced: accepted,
@@ -9191,6 +9227,7 @@ export function createReviewOnlyEvaluatorPreflightCheckpointForReview(
   input = {}
 ) {
   const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const intakeCheckpointStates = input.intakeCheckpointStates;
   const classification = reviewOnlyEvaluatorPreflightClassification(
     intakeCheckpointStates
@@ -9211,6 +9248,7 @@ export function createReviewOnlyEvaluatorPreflightCheckpointForReview(
     checkpointKind: REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_KIND,
     checkpointMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     intakeCheckpointStateAccepted: accepted,
     preflightCheckpointStateProduced: accepted,
@@ -9870,6 +9908,7 @@ export function createNonAuthorizingEvaluatorDecisionCandidateBoundaryForReview(
   input = {}
 ) {
   const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const preflightCheckpointStates = input.preflightCheckpointStates;
   const classification = nonAuthorizingEvaluatorDecisionClassification(
     preflightCheckpointStates
@@ -9891,6 +9930,7 @@ export function createNonAuthorizingEvaluatorDecisionCandidateBoundaryForReview(
     boundaryKind: NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_BOUNDARY_KIND,
     boundaryMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     preflightCheckpointStateAccepted: accepted,
     decisionCandidateStateProduced: accepted,
@@ -10804,6 +10844,7 @@ export function createNonAuthorizingEvaluatorDecisionCandidateInspectionArtifact
   input = {}
 ) {
   const reviewedAt = approvalPrerequisiteSourceReviewedAt(input);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const decisionCandidateStates = input.decisionCandidateStates;
   const classification =
     nonAuthorizingEvaluatorDecisionCandidateInspectionClassification(
@@ -10829,6 +10870,7 @@ export function createNonAuthorizingEvaluatorDecisionCandidateInspectionArtifact
       NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_KIND,
     artifactMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     decisionCandidateStateAccepted: accepted,
     inspectionArtifactProduced: accepted,
@@ -11838,6 +11880,7 @@ function humanToolInspectionDispositionAcceptedOutput({
 
 function humanToolInspectionDispositionBoundaryResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   dispositionState,
@@ -11849,6 +11892,7 @@ function humanToolInspectionDispositionBoundaryResult({
     boundaryKind: HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_KIND,
     boundaryMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     inspectionArtifactAccepted: accepted,
     dispositionStateProduced: accepted,
@@ -11889,6 +11933,7 @@ export function createHumanToolInspectionDispositionBoundaryForReview(input = {}
   const inputRecord = humanToolInspectionDispositionBoundaryInputRecord(input);
   const reviewedAt =
     humanToolInspectionDispositionBoundaryReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const inspectionArtifacts =
     humanToolInspectionDispositionBoundaryInspectionArtifacts(inputRecord);
   const classification =
@@ -11907,6 +11952,7 @@ export function createHumanToolInspectionDispositionBoundaryForReview(input = {}
 
   return humanToolInspectionDispositionBoundaryResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     dispositionState,
@@ -12922,6 +12968,7 @@ function reviewOnlyDispositionAggregationAcceptedOutput({
 
 function reviewOnlyDispositionAggregationCheckpointResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   aggregationState,
@@ -12933,6 +12980,7 @@ function reviewOnlyDispositionAggregationCheckpointResult({
     checkpointKind: REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_KIND,
     checkpointMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     dispositionStateAccepted: accepted,
     aggregationStateProduced: accepted,
@@ -12979,6 +13027,7 @@ export function createReviewOnlyDispositionAggregationCheckpointForReview(
 ) {
   const inputRecord = reviewOnlyDispositionAggregationInputRecord(input);
   const reviewedAt = reviewOnlyDispositionAggregationReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const dispositionStates =
     reviewOnlyDispositionAggregationDispositionStates(inputRecord);
   const classification = reviewOnlyDispositionAggregationInputClassification(
@@ -12996,6 +13045,7 @@ export function createReviewOnlyDispositionAggregationCheckpointForReview(
 
   return reviewOnlyDispositionAggregationCheckpointResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     aggregationState,
@@ -14081,6 +14131,7 @@ function reviewOnlyAggregationInspectionHandoffAcceptedOutput({
 
 function reviewOnlyAggregationInspectionHandoffResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   inspectionHandoffState,
@@ -14092,6 +14143,7 @@ function reviewOnlyAggregationInspectionHandoffResult({
     handoffKind: REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_KIND,
     handoffMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     aggregationStateAccepted: accepted,
     inspectionHandoffStateProduced: accepted,
@@ -14141,6 +14193,7 @@ export function createReviewOnlyAggregationInspectionHandoffForReview(
   const inputRecord = reviewOnlyAggregationInspectionHandoffInputRecord(input);
   const reviewedAt =
     reviewOnlyAggregationInspectionHandoffReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const aggregationStates =
     reviewOnlyAggregationInspectionHandoffAggregationStates(inputRecord);
   const classification =
@@ -14160,6 +14213,7 @@ export function createReviewOnlyAggregationInspectionHandoffForReview(
 
   return reviewOnlyAggregationInspectionHandoffResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     inspectionHandoffState,
@@ -15291,6 +15345,7 @@ function reviewOnlyHandoffReadinessArtifactAcceptedOutput({
 
 function reviewOnlyHandoffReadinessArtifactResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   readinessArtifact,
@@ -15302,6 +15357,7 @@ function reviewOnlyHandoffReadinessArtifactResult({
     artifactKind: REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_KIND,
     artifactMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     handoffStateAccepted: accepted,
     readinessArtifactProduced: accepted,
@@ -15353,6 +15409,7 @@ function reviewOnlyHandoffReadinessArtifactResult({
 export function createReviewOnlyHandoffReadinessArtifactForReview(input = {}) {
   const inputRecord = reviewOnlyHandoffReadinessArtifactInputRecord(input);
   const reviewedAt = reviewOnlyHandoffReadinessArtifactReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const handoffStates =
     reviewOnlyHandoffReadinessArtifactHandoffStates(inputRecord);
   const classification =
@@ -15372,6 +15429,7 @@ export function createReviewOnlyHandoffReadinessArtifactForReview(input = {}) {
 
   return reviewOnlyHandoffReadinessArtifactResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     readinessArtifact,
@@ -16583,6 +16641,7 @@ function reviewOnlyReadinessInspectionCheckpointAcceptedOutput({
 
 function reviewOnlyReadinessInspectionCheckpointResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   readinessInspectionCheckpoint,
@@ -16594,6 +16653,7 @@ function reviewOnlyReadinessInspectionCheckpointResult({
     artifactKind: REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_KIND,
     artifactMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     readinessArtifactAccepted: accepted,
     readinessInspectionCheckpointProduced: accepted,
@@ -16648,6 +16708,7 @@ export function createReviewOnlyReadinessInspectionCheckpointForReview(
   const inputRecord = reviewOnlyReadinessInspectionCheckpointInputRecord(input);
   const reviewedAt =
     reviewOnlyReadinessInspectionCheckpointReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const readinessArtifacts =
     reviewOnlyReadinessInspectionCheckpointReadinessArtifacts(inputRecord);
   const classification =
@@ -16667,6 +16728,7 @@ export function createReviewOnlyReadinessInspectionCheckpointForReview(
 
   return reviewOnlyReadinessInspectionCheckpointResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     readinessInspectionCheckpoint,
@@ -17956,6 +18018,7 @@ function reviewOnlyReadinessHandoffDispositionAcceptedOutput({
 
 function reviewOnlyReadinessHandoffDispositionResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   readinessHandoffDisposition,
@@ -17967,6 +18030,7 @@ function reviewOnlyReadinessHandoffDispositionResult({
     boundaryKind: REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_KIND,
     boundaryMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     readinessInspectionCheckpointAccepted: accepted,
     readinessHandoffDispositionProduced: accepted,
@@ -18021,6 +18085,7 @@ export function createReviewOnlyReadinessHandoffDispositionBoundaryForReview(
   const inputRecord = reviewOnlyReadinessHandoffDispositionInputRecord(input);
   const reviewedAt =
     reviewOnlyReadinessHandoffDispositionReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const readinessInspectionCheckpoints =
     reviewOnlyReadinessHandoffDispositionCheckpoints(inputRecord);
   const classification =
@@ -18040,6 +18105,7 @@ export function createReviewOnlyReadinessHandoffDispositionBoundaryForReview(
 
   return reviewOnlyReadinessHandoffDispositionResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     readinessHandoffDisposition,
@@ -19387,6 +19453,7 @@ function reviewOnlyHandoffDispositionInspectionCheckpointAcceptedOutput({
 
 function reviewOnlyHandoffDispositionInspectionCheckpointResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   handoffDispositionInspectionCheckpoint,
@@ -19398,6 +19465,7 @@ function reviewOnlyHandoffDispositionInspectionCheckpointResult({
     checkpointKind: REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_KIND,
     checkpointMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     readinessHandoffDispositionAccepted: accepted,
     handoffDispositionInspectionCheckpointProduced: accepted,
@@ -19454,6 +19522,7 @@ export function createReviewOnlyHandoffDispositionInspectionCheckpointForReview(
     reviewOnlyHandoffDispositionInspectionCheckpointInputRecord(input);
   const reviewedAt =
     reviewOnlyHandoffDispositionInspectionCheckpointReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const readinessHandoffDispositions =
     reviewOnlyHandoffDispositionInspectionCheckpointDispositions(inputRecord);
   const classification =
@@ -19475,6 +19544,7 @@ export function createReviewOnlyHandoffDispositionInspectionCheckpointForReview(
 
   return reviewOnlyHandoffDispositionInspectionCheckpointResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     handoffDispositionInspectionCheckpoint,
@@ -20491,6 +20561,7 @@ function reviewOnlyInspectionHandoffMetadataBoundaryAcceptedOutput({
 
 function reviewOnlyInspectionHandoffMetadataBoundaryResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   inspectionHandoffMetadata,
@@ -20502,6 +20573,7 @@ function reviewOnlyInspectionHandoffMetadataBoundaryResult({
     boundaryKind: REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_KIND,
     boundaryMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     handoffDispositionInspectionCheckpointAccepted: accepted,
     inspectionHandoffMetadataProduced: accepted,
@@ -20558,6 +20630,7 @@ export function createReviewOnlyInspectionHandoffMetadataBoundaryForReview(
     reviewOnlyInspectionHandoffMetadataBoundaryInputRecord(input);
   const reviewedAt =
     reviewOnlyInspectionHandoffMetadataBoundaryReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const checkpoints =
     reviewOnlyInspectionHandoffMetadataBoundaryCheckpoints(inputRecord);
   const classification =
@@ -20579,6 +20652,7 @@ export function createReviewOnlyInspectionHandoffMetadataBoundaryForReview(
 
   return reviewOnlyInspectionHandoffMetadataBoundaryResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     inspectionHandoffMetadata,
@@ -21428,6 +21502,7 @@ function reviewOnlyInspectionHandoffCheckpointAcceptedOutput({
 
 function reviewOnlyInspectionHandoffCheckpointResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   inspectionHandoffCheckpoint,
@@ -21439,6 +21514,7 @@ function reviewOnlyInspectionHandoffCheckpointResult({
     checkpointKind: REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_KIND,
     checkpointMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     inspectionHandoffMetadataAccepted: accepted,
     inspectionHandoffCheckpointProduced: accepted,
@@ -21493,6 +21569,7 @@ export function createReviewOnlyInspectionHandoffCheckpointForReview(input = {})
   const inputRecord = reviewOnlyInspectionHandoffCheckpointInputRecord(input);
   const reviewedAt =
     reviewOnlyInspectionHandoffCheckpointReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const metadata = reviewOnlyInspectionHandoffCheckpointEntries(inputRecord);
   const classification =
     reviewOnlyInspectionHandoffCheckpointInputClassification(
@@ -21511,6 +21588,7 @@ export function createReviewOnlyInspectionHandoffCheckpointForReview(input = {})
 
   return reviewOnlyInspectionHandoffCheckpointResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     inspectionHandoffCheckpoint,
@@ -22339,6 +22417,7 @@ function reviewOnlyCheckpointHandoffLayerAcceptedOutput({
 
 function reviewOnlyCheckpointHandoffLayerResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   checkpointHandoffLayer,
@@ -22350,6 +22429,7 @@ function reviewOnlyCheckpointHandoffLayerResult({
     checkpointHandoffKind: REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_KIND,
     checkpointHandoffMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     inspectionHandoffCheckpointAccepted: accepted,
     checkpointHandoffLayerProduced: accepted,
@@ -22403,6 +22483,7 @@ function reviewOnlyCheckpointHandoffLayerResult({
 export function createReviewOnlyCheckpointHandoffLayerForReview(input = {}) {
   const inputRecord = reviewOnlyCheckpointHandoffLayerInputRecord(input);
   const reviewedAt = reviewOnlyCheckpointHandoffLayerReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const checkpoints = reviewOnlyCheckpointHandoffLayerEntries(inputRecord);
   const classification = reviewOnlyCheckpointHandoffLayerInputClassification(
     inputRecord,
@@ -22419,6 +22500,7 @@ export function createReviewOnlyCheckpointHandoffLayerForReview(input = {}) {
 
   return reviewOnlyCheckpointHandoffLayerResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     checkpointHandoffLayer,
@@ -23526,6 +23608,7 @@ function reviewOnlyMetadataHandoffCheckpointAcceptedOutput({
 
 function reviewOnlyMetadataHandoffCheckpointResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   metadataHandoffCheckpoint,
@@ -23538,6 +23621,7 @@ function reviewOnlyMetadataHandoffCheckpointResult({
       REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_KIND,
     metadataHandoffCheckpointMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     checkpointHandoffLayerAccepted: accepted,
     metadataHandoffCheckpointProduced: accepted,
@@ -23592,6 +23676,7 @@ export function createReviewOnlyMetadataHandoffCheckpointForReview(input = {}) {
   const inputRecord = reviewOnlyMetadataHandoffCheckpointInputRecord(input);
   const reviewedAt =
     reviewOnlyMetadataHandoffCheckpointReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const checkpoints = reviewOnlyMetadataHandoffCheckpointEntries(inputRecord);
   const classification =
     reviewOnlyMetadataHandoffCheckpointInputClassification(
@@ -23610,6 +23695,7 @@ export function createReviewOnlyMetadataHandoffCheckpointForReview(input = {}) {
 
   return reviewOnlyMetadataHandoffCheckpointResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     metadataHandoffCheckpoint,
@@ -24813,6 +24899,7 @@ function reviewOnlyHandoffMetadataConsolidationLayerAcceptedOutput({
 
 function reviewOnlyHandoffMetadataConsolidationLayerResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   handoffMetadataConsolidationLayer,
@@ -24825,6 +24912,7 @@ function reviewOnlyHandoffMetadataConsolidationLayerResult({
       REVIEW_ONLY_HANDOFF_METADATA_CONSOLIDATION_LAYER_KIND,
     handoffMetadataConsolidationLayerMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     metadataHandoffCheckpointAccepted: accepted,
     handoffMetadataConsolidationLayerProduced: accepted,
@@ -24882,6 +24970,7 @@ export function createReviewOnlyHandoffMetadataConsolidationLayerForReview(
     reviewOnlyHandoffMetadataConsolidationLayerInputRecord(input);
   const reviewedAt =
     reviewOnlyHandoffMetadataConsolidationLayerReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const metadataCheckpoints =
     reviewOnlyHandoffMetadataConsolidationLayerEntries(inputRecord);
   const classification =
@@ -24903,6 +24992,7 @@ export function createReviewOnlyHandoffMetadataConsolidationLayerForReview(
 
   return reviewOnlyHandoffMetadataConsolidationLayerResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     handoffMetadataConsolidationLayer,
@@ -26169,6 +26259,7 @@ function reviewOnlyConsolidationCheckpointHandoffAcceptedOutput({
 
 function reviewOnlyConsolidationCheckpointHandoffResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consolidationCheckpointHandoff,
@@ -26181,6 +26272,7 @@ function reviewOnlyConsolidationCheckpointHandoffResult({
       REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_KIND,
     consolidationCheckpointHandoffMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     sourceHandoffMetadataConsolidationLayerAccepted: accepted,
     consolidationCheckpointHandoffProduced: accepted,
@@ -26238,6 +26330,7 @@ export function createReviewOnlyConsolidationCheckpointHandoffForReview(
     reviewOnlyConsolidationCheckpointHandoffInputRecord(input);
   const reviewedAt =
     reviewOnlyConsolidationCheckpointHandoffReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const consolidationLayers =
     reviewOnlyConsolidationCheckpointHandoffEntries(inputRecord);
   const sourceDigest =
@@ -26263,6 +26356,7 @@ export function createReviewOnlyConsolidationCheckpointHandoffForReview(
 
   return reviewOnlyConsolidationCheckpointHandoffResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consolidationCheckpointHandoff,
@@ -27547,6 +27641,7 @@ function reviewOnlyConsolidationMetadataCheckpointAcceptedOutput({
 
 function reviewOnlyConsolidationMetadataCheckpointResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consolidationMetadataCheckpoint,
@@ -27559,6 +27654,7 @@ function reviewOnlyConsolidationMetadataCheckpointResult({
       REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_KIND,
     consolidationMetadataCheckpointMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     sourceConsolidationCheckpointHandoffAccepted: accepted,
     consolidationMetadataCheckpointProduced: accepted,
@@ -27617,6 +27713,7 @@ export function createReviewOnlyConsolidationMetadataCheckpointForReview(
     reviewOnlyConsolidationMetadataCheckpointInputRecord(input);
   const reviewedAt =
     reviewOnlyConsolidationMetadataCheckpointReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const sourceStates =
     reviewOnlyConsolidationMetadataCheckpointEntries(inputRecord);
   const sourceDigest =
@@ -27642,6 +27739,7 @@ export function createReviewOnlyConsolidationMetadataCheckpointForReview(
 
   return reviewOnlyConsolidationMetadataCheckpointResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consolidationMetadataCheckpoint,
@@ -28383,6 +28481,7 @@ function targetConsumerPlanningMetadataRejectionReasons({
 
 function targetConsumerPlanningMetadataResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   targetConsumerPlanningMetadata,
@@ -28394,6 +28493,7 @@ function targetConsumerPlanningMetadataResult({
     targetConsumerPlanningMetadataKind: TARGET_CONSUMER_PLANNING_METADATA_KIND,
     targetConsumerPlanningMetadataMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     sourceConsolidationMetadataCheckpointAccepted: accepted,
     targetConsumerPlanningMetadataProduced: accepted,
@@ -28430,6 +28530,7 @@ function targetConsumerPlanningMetadataResult({
 export function createTargetConsumerPlanningMetadataForReview(input = {}) {
   const inputRecord = targetConsumerPlanningMetadataInputRecord(input);
   const reviewedAt = targetConsumerPlanningMetadataReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const sourceStates = targetConsumerPlanningMetadataEntries(inputRecord);
   const sourceDigest = targetConsumerPlanningMetadataSourceDigest(inputRecord);
   const classification = targetConsumerPlanningMetadataInputClassification({
@@ -28451,6 +28552,7 @@ export function createTargetConsumerPlanningMetadataForReview(input = {}) {
 
   return targetConsumerPlanningMetadataResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     targetConsumerPlanningMetadata,
@@ -29418,6 +29520,7 @@ function consumerContractReadinessMatrixRejectionReasons({
 
 function consumerContractReadinessMatrixResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerContractReadinessMatrix,
@@ -29430,6 +29533,7 @@ function consumerContractReadinessMatrixResult({
       CONSUMER_CONTRACT_READINESS_MATRIX_KIND,
     consumerContractReadinessMatrixMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     sourceTargetConsumerPlanningMetadataAccepted: accepted,
     consumerContractReadinessMatrixProduced: accepted,
@@ -29463,6 +29567,7 @@ function consumerContractReadinessMatrixResult({
 export function createConsumerContractReadinessMatrixForReview(input = {}) {
   const inputRecord = consumerContractReadinessMatrixInputRecord(input);
   const reviewedAt = consumerContractReadinessMatrixReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const sourceStates = consumerContractReadinessMatrixEntries(inputRecord);
   const sourceDigest = consumerContractReadinessMatrixSourceDigest(inputRecord);
   const classification = consumerContractReadinessMatrixInputClassification({
@@ -29485,6 +29590,7 @@ export function createConsumerContractReadinessMatrixForReview(input = {}) {
 
   return consumerContractReadinessMatrixResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerContractReadinessMatrix,
@@ -30326,6 +30432,7 @@ function consumerContractGapIndexRejectionReasons({
 
 function consumerContractGapIndexResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerContractGapIndex,
@@ -30337,6 +30444,7 @@ function consumerContractGapIndexResult({
     consumerContractGapIndexKind: CONSUMER_CONTRACT_GAP_INDEX_KIND,
     consumerContractGapIndexMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     sourceConsumerContractReadinessMatrixAccepted: accepted,
     consumerContractGapIndexProduced: accepted,
@@ -30369,6 +30477,7 @@ function consumerContractGapIndexResult({
 export function createConsumerContractGapIndexForReview(input = {}) {
   const inputRecord = consumerContractGapIndexInputRecord(input);
   const reviewedAt = consumerContractGapIndexReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const sourceStates = consumerContractGapIndexEntries(inputRecord);
   const sourceDigest = consumerContractGapIndexSourceDigest(inputRecord);
   const classification = consumerContractGapIndexInputClassification({
@@ -30390,6 +30499,7 @@ export function createConsumerContractGapIndexForReview(input = {}) {
 
   return consumerContractGapIndexResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerContractGapIndex,
@@ -31538,6 +31648,7 @@ function productionReadinessCoverageMatrixRejectionReasons({
 
 function productionReadinessCoverageMatrixResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   productionReadinessCoverageMatrix
@@ -31549,6 +31660,7 @@ function productionReadinessCoverageMatrixResult({
       PRODUCTION_READINESS_COVERAGE_MATRIX_KIND,
     productionReadinessCoverageMatrixMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     productionReadinessCoverageMatrixProduced: accepted,
     productionReadinessCoverageMatrix,
@@ -31586,6 +31698,7 @@ function productionReadinessCoverageMatrixResult({
 export function createProductionReadinessCoverageMatrixForReview(input = {}) {
   const inputRecord = productionReadinessCoverageMatrixInputRecord(input);
   const reviewedAt = productionReadinessCoverageMatrixReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     productionReadinessCoverageMatrixInputClassification(inputRecord);
   const accepted =
@@ -31597,6 +31710,7 @@ export function createProductionReadinessCoverageMatrixForReview(input = {}) {
 
   return productionReadinessCoverageMatrixResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     productionReadinessCoverageMatrix
@@ -32406,6 +32520,7 @@ function consumerDisplayAccessibilityRejectionReasons({
 
 function consumerDisplayAccessibilityResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerDisplayAccessibilityContractMap
@@ -32417,6 +32532,7 @@ function consumerDisplayAccessibilityResult({
       CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_KIND,
     consumerDisplayAccessibilityContractMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     consumerDisplayAccessibilityContractMapProduced: accepted,
     consumerDisplayAccessibilityContractMap,
@@ -32453,6 +32569,7 @@ export function createConsumerDisplayAccessibilityContractMapForReview(
     consumerDisplayAccessibilityContractMapInputRecord(input);
   const reviewedAt =
     consumerDisplayAccessibilityContractMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     consumerDisplayAccessibilityContractMapInputClassification(inputRecord);
   const accepted =
@@ -32464,6 +32581,7 @@ export function createConsumerDisplayAccessibilityContractMapForReview(
 
   return consumerDisplayAccessibilityResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerDisplayAccessibilityContractMap
@@ -33011,6 +33129,7 @@ function consumerDisplayFixtureSchemaBoundaryRejectionReasons({
 
 function consumerDisplayFixtureSchemaBoundaryResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerDisplayFixtureSchemaBoundary
@@ -33022,6 +33141,7 @@ function consumerDisplayFixtureSchemaBoundaryResult({
       CONSUMER_DISPLAY_FIXTURE_SCHEMA_BOUNDARY_KIND,
     consumerDisplayFixtureSchemaBoundaryMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     consumerDisplayFixtureSchemaBoundaryProduced: accepted,
     consumerDisplayFixtureSchemaBoundary,
@@ -33059,6 +33179,7 @@ export function createConsumerDisplayFixtureSchemaBoundaryForReview(input = {}) 
   const inputRecord = consumerDisplayFixtureSchemaBoundaryInputRecord(input);
   const reviewedAt =
     consumerDisplayFixtureSchemaBoundaryReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     consumerDisplayFixtureSchemaBoundaryInputClassification(inputRecord);
   const accepted =
@@ -33070,6 +33191,7 @@ export function createConsumerDisplayFixtureSchemaBoundaryForReview(input = {}) 
 
   return consumerDisplayFixtureSchemaBoundaryResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerDisplayFixtureSchemaBoundary
@@ -33287,6 +33409,7 @@ function consumerDisplayFixtureExamplePackInputClassification(inputRecord) {
   }
 
   const reviewedAt = consumerDisplayFixtureExamplePackReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const examples = consumerDisplayFixtureExamplePackInputExamples(inputRecord);
 
   if (
@@ -33707,6 +33830,7 @@ function consumerDisplayFixtureExamplePackRejectionReasons({
 
 function consumerDisplayFixtureExamplePackResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerDisplayFixtureExamplePack
@@ -33718,6 +33842,7 @@ function consumerDisplayFixtureExamplePackResult({
       CONSUMER_DISPLAY_FIXTURE_EXAMPLE_PACK_KIND,
     consumerDisplayFixtureExamplePackMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     consumerDisplayFixtureExamplePackProduced: accepted,
     consumerDisplayFixtureExamplePack,
@@ -33758,6 +33883,7 @@ function consumerDisplayFixtureExamplePackResult({
 export function createConsumerDisplayFixtureExamplePackForReview(input = {}) {
   const inputRecord = consumerDisplayFixtureExamplePackInputRecord(input);
   const reviewedAt = consumerDisplayFixtureExamplePackReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     consumerDisplayFixtureExamplePackInputClassification(inputRecord);
   const accepted =
@@ -33769,6 +33895,7 @@ export function createConsumerDisplayFixtureExamplePackForReview(input = {}) {
 
   return consumerDisplayFixtureExamplePackResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerDisplayFixtureExamplePack
@@ -34479,6 +34606,7 @@ function consumerDisplayFixtureConformanceHandoffRejectionReasons({
 
 function consumerDisplayFixtureConformanceHandoffResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerDisplayFixtureConformanceHandoff
@@ -34490,6 +34618,7 @@ function consumerDisplayFixtureConformanceHandoffResult({
       CONSUMER_DISPLAY_FIXTURE_CONFORMANCE_HANDOFF_KIND,
     consumerDisplayFixtureConformanceHandoffMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     consumerDisplayFixtureConformanceHandoffProduced: accepted,
     consumerDisplayFixtureConformanceHandoff,
@@ -34544,6 +34673,7 @@ export function createConsumerDisplayFixtureConformanceHandoffForReview(
     consumerDisplayFixtureConformanceHandoffInputRecord(input);
   const reviewedAt =
     consumerDisplayFixtureConformanceHandoffReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     consumerDisplayFixtureConformanceHandoffInputClassification(inputRecord);
   const accepted =
@@ -34555,6 +34685,7 @@ export function createConsumerDisplayFixtureConformanceHandoffForReview(
 
   return consumerDisplayFixtureConformanceHandoffResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerDisplayFixtureConformanceHandoff
@@ -35412,6 +35543,7 @@ function consumerOwnedDisplayConformanceRunnerRequirementsRejectionReasons({
 
 function consumerOwnedDisplayConformanceRunnerRequirementsResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerOwnedDisplayConformanceRunnerRequirements
@@ -35425,6 +35557,7 @@ function consumerOwnedDisplayConformanceRunnerRequirementsResult({
       CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_REQUIREMENTS_KIND,
     consumerOwnedDisplayConformanceRunnerRequirementsMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     consumerOwnedDisplayConformanceRunnerRequirementsProduced: accepted,
     consumerOwnedDisplayConformanceRunnerRequirements,
@@ -35499,6 +35632,7 @@ export function createConsumerOwnedDisplayConformanceRunnerRequirementsForReview
     consumerOwnedDisplayConformanceRunnerRequirementsInputRecord(input);
   const reviewedAt =
     consumerOwnedDisplayConformanceRunnerRequirementsReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     consumerOwnedDisplayConformanceRunnerRequirementsInputClassification(
       inputRecord
@@ -35512,6 +35646,7 @@ export function createConsumerOwnedDisplayConformanceRunnerRequirementsForReview
 
   return consumerOwnedDisplayConformanceRunnerRequirementsResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerOwnedDisplayConformanceRunnerRequirements
@@ -36565,6 +36700,7 @@ function consumerOwnedDisplayConformanceRunnerTestPlanRejectionReasons({
 
 function consumerOwnedDisplayConformanceRunnerTestPlanResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerOwnedDisplayConformanceRunnerTestPlan
@@ -36577,6 +36713,7 @@ function consumerOwnedDisplayConformanceRunnerTestPlanResult({
       CONSUMER_OWNED_DISPLAY_CONFORMANCE_RUNNER_TEST_PLAN_KIND,
     consumerOwnedDisplayConformanceRunnerTestPlanMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     consumerOwnedDisplayConformanceRunnerTestPlanProduced: accepted,
     consumerOwnedDisplayConformanceRunnerTestPlan,
@@ -36654,6 +36791,7 @@ export function createConsumerOwnedDisplayConformanceRunnerTestPlanForReview(
     consumerOwnedDisplayConformanceRunnerTestPlanInputRecord(input);
   const reviewedAt =
     consumerOwnedDisplayConformanceRunnerTestPlanReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     consumerOwnedDisplayConformanceRunnerTestPlanInputClassification(inputRecord);
   const accepted =
@@ -36665,6 +36803,7 @@ export function createConsumerOwnedDisplayConformanceRunnerTestPlanForReview(
 
   return consumerOwnedDisplayConformanceRunnerTestPlanResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerOwnedDisplayConformanceRunnerTestPlan
@@ -37828,6 +37967,7 @@ function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryRejectionReaso
 
 function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
@@ -37842,6 +37982,7 @@ function consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryResult({
     consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryMode:
       "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryProduced: accepted,
     consumerOwnedDisplayConformanceRunnerResultSchemaBoundary,
@@ -37935,6 +38076,7 @@ export function createConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryF
     consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryReviewedAt(
       inputRecord
     );
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const classification =
     consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryInputClassification(
       inputRecord
@@ -37948,6 +38090,7 @@ export function createConsumerOwnedDisplayConformanceRunnerResultSchemaBoundaryF
 
   return consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerOwnedDisplayConformanceRunnerResultSchemaBoundary
@@ -39076,6 +39219,7 @@ function consumerOwnedDisplayConformanceResultHandoffRejectionReasons({
 
 function consumerOwnedDisplayConformanceResultHandoffResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerOwnedDisplayConformanceResultHandoff
@@ -39087,6 +39231,7 @@ function consumerOwnedDisplayConformanceResultHandoffResult({
       CONSUMER_OWNED_DISPLAY_CONFORMANCE_RESULT_HANDOFF_KIND,
     consumerOwnedDisplayConformanceResultHandoffMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     consumerOwnedDisplayConformanceResultHandoffProduced: accepted,
     consumerOwnedDisplayConformanceResultHandoff,
@@ -39176,6 +39321,7 @@ export function createConsumerOwnedDisplayConformanceResultHandoffForReview(
     consumerOwnedDisplayConformanceResultHandoffInputRecord(input);
   const reviewedAt =
     consumerOwnedDisplayConformanceResultHandoffReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     consumerOwnedDisplayConformanceResultHandoffInputClassification(
       inputRecord
@@ -39189,6 +39335,7 @@ export function createConsumerOwnedDisplayConformanceResultHandoffForReview(
 
   return consumerOwnedDisplayConformanceResultHandoffResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerOwnedDisplayConformanceResultHandoff
@@ -40371,6 +40518,7 @@ function consumerOwnedDisplayConformanceResultReviewIntakeBoundaryRejectionReaso
 
 function consumerOwnedDisplayConformanceResultReviewIntakeBoundaryResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerOwnedDisplayConformanceResultReviewIntakeBoundary
@@ -40385,6 +40533,7 @@ function consumerOwnedDisplayConformanceResultReviewIntakeBoundaryResult({
     consumerOwnedDisplayConformanceResultReviewIntakeBoundaryMode:
       "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     consumerOwnedDisplayConformanceResultReviewIntakeBoundaryProduced: accepted,
     consumerOwnedDisplayConformanceResultReviewIntakeBoundary,
@@ -40497,6 +40646,7 @@ export function createConsumerOwnedDisplayConformanceResultReviewIntakeBoundaryF
     consumerOwnedDisplayConformanceResultReviewIntakeBoundaryReviewedAt(
       inputRecord
     );
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const classification =
     consumerOwnedDisplayConformanceResultReviewIntakeBoundaryInputClassification(
       inputRecord
@@ -40510,6 +40660,7 @@ export function createConsumerOwnedDisplayConformanceResultReviewIntakeBoundaryF
 
   return consumerOwnedDisplayConformanceResultReviewIntakeBoundaryResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerOwnedDisplayConformanceResultReviewIntakeBoundary
@@ -41806,6 +41957,7 @@ function consumerOwnedDisplayConformanceResultReviewPackageBoundaryRejectionReas
 
 function consumerOwnedDisplayConformanceResultReviewPackageBoundaryResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   consumerOwnedDisplayConformanceResultReviewPackageBoundary
@@ -41820,6 +41972,7 @@ function consumerOwnedDisplayConformanceResultReviewPackageBoundaryResult({
     consumerOwnedDisplayConformanceResultReviewPackageBoundaryMode:
       "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     consumerOwnedDisplayConformanceResultReviewPackageBoundaryProduced: accepted,
     consumerOwnedDisplayConformanceResultReviewPackageBoundary,
@@ -41945,6 +42098,7 @@ export function createConsumerOwnedDisplayConformanceResultReviewPackageBoundary
     consumerOwnedDisplayConformanceResultReviewPackageBoundaryReviewedAt(
       inputRecord
     );
+  const reviewedAtDefaulted = isReviewedAtDefaulted(input);
   const classification =
     consumerOwnedDisplayConformanceResultReviewPackageBoundaryInputClassification(
       inputRecord
@@ -41958,6 +42112,7 @@ export function createConsumerOwnedDisplayConformanceResultReviewPackageBoundary
 
   return consumerOwnedDisplayConformanceResultReviewPackageBoundaryResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     consumerOwnedDisplayConformanceResultReviewPackageBoundary
@@ -42910,6 +43065,7 @@ function fabricAwareApiBackendContractBoundaryMapState(reviewedAt) {
 
 function fabricAwareApiBackendContractBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   fabricAwareApiBackendContractBoundaryMap
@@ -42921,6 +43077,7 @@ function fabricAwareApiBackendContractBoundaryMapResult({
       FABRIC_AWARE_API_BACKEND_CONTRACT_BOUNDARY_MAP_KIND,
     fabricAwareApiBackendContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     fabricAwareApiBackendContractBoundaryMapProduced: accepted,
     fabricAwareApiBackendContractBoundaryMap,
@@ -43017,6 +43174,7 @@ export function createFabricAwareApiBackendContractBoundaryMapForReview(
     fabricAwareApiBackendContractBoundaryMapInputRecord(input);
   const reviewedAt =
     fabricAwareApiBackendContractBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     fabricAwareApiBackendContractBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -43028,6 +43186,7 @@ export function createFabricAwareApiBackendContractBoundaryMapForReview(
 
   return fabricAwareApiBackendContractBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     fabricAwareApiBackendContractBoundaryMap
@@ -44559,6 +44718,7 @@ function interAgentEncodedHandoffConformanceState(reviewedAt) {
 
 function interAgentEncodedHandoffConformanceResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   interAgentEncodedHandoffConformance
@@ -44570,6 +44730,7 @@ function interAgentEncodedHandoffConformanceResult({
       INTER_AGENT_ENCODED_HANDOFF_CONFORMANCE_KIND,
     interAgentEncodedHandoffConformanceMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     interAgentEncodedHandoffConformanceProduced: accepted,
     interAgentEncodedHandoffConformance,
@@ -44661,6 +44822,7 @@ export function createInterAgentEncodedHandoffConformanceForReview(
     interAgentEncodedHandoffConformanceInputRecord(input);
   const reviewedAt =
     interAgentEncodedHandoffConformanceReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     interAgentEncodedHandoffConformanceInputClassification(inputRecord);
   const accepted =
@@ -44672,6 +44834,7 @@ export function createInterAgentEncodedHandoffConformanceForReview(
 
   return interAgentEncodedHandoffConformanceResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     interAgentEncodedHandoffConformance
@@ -46222,6 +46385,7 @@ function databaseStorageContractBoundaryMapState(reviewedAt) {
 
 function databaseStorageContractBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   databaseStorageContractBoundaryMap
@@ -46233,6 +46397,7 @@ function databaseStorageContractBoundaryMapResult({
       DATABASE_STORAGE_CONTRACT_BOUNDARY_MAP_KIND,
     databaseStorageContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     databaseStorageContractBoundaryMapProduced: accepted,
     databaseStorageContractBoundaryMap,
@@ -46318,6 +46483,7 @@ export function createDatabaseStorageContractBoundaryMapForReview(input = {}) {
     databaseStorageContractBoundaryMapInputRecord(input);
   const reviewedAt =
     databaseStorageContractBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     databaseStorageContractBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -46329,6 +46495,7 @@ export function createDatabaseStorageContractBoundaryMapForReview(input = {}) {
 
   return databaseStorageContractBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     databaseStorageContractBoundaryMap
@@ -47972,6 +48139,7 @@ function authPermissionsContractBoundaryMapState(reviewedAt) {
 
 function authPermissionsContractBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   authPermissionsContractBoundaryMap
@@ -47983,6 +48151,7 @@ function authPermissionsContractBoundaryMapResult({
       AUTH_PERMISSIONS_CONTRACT_BOUNDARY_MAP_KIND,
     authPermissionsContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     authPermissionsContractBoundaryMapProduced: accepted,
     authPermissionsContractBoundaryMap,
@@ -48086,6 +48255,7 @@ export function createAuthPermissionsContractBoundaryMapForReview(input = {}) {
     authPermissionsContractBoundaryMapInputRecord(input);
   const reviewedAt =
     authPermissionsContractBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     authPermissionsContractBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -48097,6 +48267,7 @@ export function createAuthPermissionsContractBoundaryMapForReview(input = {}) {
 
   return authPermissionsContractBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     authPermissionsContractBoundaryMap
@@ -49589,6 +49760,7 @@ function securityRlsInputSanitizationBoundaryMapState(reviewedAt) {
 
 function securityRlsInputSanitizationBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   securityRlsInputSanitizationContractBoundaryMap
@@ -49601,6 +49773,7 @@ function securityRlsInputSanitizationBoundaryMapResult({
       SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_KIND,
     securityRlsInputSanitizationContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     securityRlsInputSanitizationContractBoundaryMapProduced: accepted,
     securityRlsInputSanitizationContractBoundaryMap,
@@ -49650,6 +49823,7 @@ export function createSecurityRlsInputSanitizationContractBoundaryMapForReview(
     securityRlsInputSanitizationBoundaryMapInputRecord(input);
   const reviewedAt =
     securityRlsInputSanitizationBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     securityRlsInputSanitizationBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -49661,6 +49835,7 @@ export function createSecurityRlsInputSanitizationContractBoundaryMapForReview(
 
   return securityRlsInputSanitizationBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     securityRlsInputSanitizationContractBoundaryMap
@@ -51114,6 +51289,7 @@ function rateLimitingAbuseControlBoundaryMapState(reviewedAt) {
 
 function rateLimitingAbuseControlBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   rateLimitingAbuseControlContractBoundaryMap
@@ -51125,6 +51301,7 @@ function rateLimitingAbuseControlBoundaryMapResult({
       RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_KIND,
     rateLimitingAbuseControlContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     rateLimitingAbuseControlContractBoundaryMapProduced: accepted,
     rateLimitingAbuseControlContractBoundaryMap,
@@ -51173,6 +51350,7 @@ export function createRateLimitingAbuseControlContractBoundaryMapForReview(
   const inputRecord = rateLimitingAbuseControlBoundaryMapInputRecord(input);
   const reviewedAt =
     rateLimitingAbuseControlBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     rateLimitingAbuseControlBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -51184,6 +51362,7 @@ export function createRateLimitingAbuseControlContractBoundaryMapForReview(
 
   return rateLimitingAbuseControlBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     rateLimitingAbuseControlContractBoundaryMap
@@ -52624,6 +52803,7 @@ function errorTrackingLoggingAuditIntegrityBoundaryMapState(reviewedAt) {
 
 function errorTrackingLoggingAuditIntegrityBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   errorTrackingLoggingAuditIntegrityContractBoundaryMap
@@ -52636,6 +52816,7 @@ function errorTrackingLoggingAuditIntegrityBoundaryMapResult({
       ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_KIND,
     errorTrackingLoggingAuditIntegrityContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     errorTrackingLoggingAuditIntegrityContractBoundaryMapProduced: accepted,
     errorTrackingLoggingAuditIntegrityContractBoundaryMap,
@@ -52687,6 +52868,7 @@ export function createErrorTrackingLoggingAuditIntegrityContractBoundaryMapForRe
     errorTrackingLoggingAuditIntegrityBoundaryMapInputRecord(input);
   const reviewedAt =
     errorTrackingLoggingAuditIntegrityBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     errorTrackingLoggingAuditIntegrityBoundaryMapInputClassification(
       inputRecord
@@ -52700,6 +52882,7 @@ export function createErrorTrackingLoggingAuditIntegrityContractBoundaryMapForRe
 
   return errorTrackingLoggingAuditIntegrityBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     errorTrackingLoggingAuditIntegrityContractBoundaryMap
@@ -54134,6 +54317,7 @@ function availabilityRecoveryBoundaryMapState(reviewedAt) {
 
 function availabilityRecoveryBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   availabilityRecoveryContractBoundaryMap
@@ -54145,6 +54329,7 @@ function availabilityRecoveryBoundaryMapResult({
       AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_KIND,
     availabilityRecoveryContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     availabilityRecoveryContractBoundaryMapProduced: accepted,
     availabilityRecoveryContractBoundaryMap,
@@ -54195,6 +54380,7 @@ export function createAvailabilityRecoveryContractBoundaryMapForReview(
 ) {
   const inputRecord = availabilityRecoveryBoundaryMapInputRecord(input);
   const reviewedAt = availabilityRecoveryBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     availabilityRecoveryBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -54206,6 +54392,7 @@ export function createAvailabilityRecoveryContractBoundaryMapForReview(
 
   return availabilityRecoveryBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     availabilityRecoveryContractBoundaryMap
@@ -55892,6 +56079,7 @@ function infrastructureComplianceDataRetentionBoundaryMapState(reviewedAt) {
 
 function infrastructureComplianceDataRetentionBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   infrastructureComplianceDataRetentionContractBoundaryMap
@@ -55905,6 +56093,7 @@ function infrastructureComplianceDataRetentionBoundaryMapResult({
       INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_KIND,
     infrastructureComplianceDataRetentionContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     infrastructureComplianceDataRetentionContractBoundaryMapProduced: accepted,
     infrastructureComplianceDataRetentionContractBoundaryMap,
@@ -55959,6 +56148,7 @@ export function createInfrastructureComplianceDataRetentionContractBoundaryMapFo
     infrastructureComplianceDataRetentionBoundaryMapInputRecord(input);
   const reviewedAt =
     infrastructureComplianceDataRetentionBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     infrastructureComplianceDataRetentionBoundaryMapInputClassification(
       inputRecord
@@ -55972,6 +56162,7 @@ export function createInfrastructureComplianceDataRetentionContractBoundaryMapFo
 
   return infrastructureComplianceDataRetentionBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     infrastructureComplianceDataRetentionContractBoundaryMap
@@ -57656,6 +57847,7 @@ function agentModeProfileSkillhubCapabilityBoundaryMapState(reviewedAt) {
 
 function agentModeProfileSkillhubCapabilityBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   agentModeProfileSkillhubCapabilityBoundaryMap
@@ -57667,6 +57859,7 @@ function agentModeProfileSkillhubCapabilityBoundaryMapResult({
       AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_KIND,
     agentModeProfileSkillhubCapabilityBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     agentModeProfileSkillhubCapabilityBoundaryMapProduced: accepted,
     agentModeProfileSkillhubCapabilityBoundaryMap,
@@ -57721,6 +57914,7 @@ export function createAgentModeProfileSkillhubCapabilityBoundaryMapForReview(
     agentModeProfileSkillhubCapabilityBoundaryMapInputRecord(input);
   const reviewedAt =
     agentModeProfileSkillhubCapabilityBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     agentModeProfileSkillhubCapabilityBoundaryMapInputClassification(
       inputRecord
@@ -57734,6 +57928,7 @@ export function createAgentModeProfileSkillhubCapabilityBoundaryMapForReview(
 
   return agentModeProfileSkillhubCapabilityBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     agentModeProfileSkillhubCapabilityBoundaryMap
@@ -59159,6 +59354,7 @@ function testingFrameworksQualityGatesBoundaryMapState(reviewedAt) {
 
 function testingFrameworksQualityGatesBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   testingFrameworksQualityGatesContractBoundaryMap
@@ -59171,6 +59367,7 @@ function testingFrameworksQualityGatesBoundaryMapResult({
       TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_KIND,
     testingFrameworksQualityGatesContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     testingFrameworksQualityGatesContractBoundaryMapProduced: accepted,
     testingFrameworksQualityGatesContractBoundaryMap,
@@ -59223,6 +59420,7 @@ export function createTestingFrameworksQualityGatesContractBoundaryMapForReview(
     testingFrameworksQualityGatesBoundaryMapInputRecord(input);
   const reviewedAt =
     testingFrameworksQualityGatesBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     testingFrameworksQualityGatesBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -59234,6 +59432,7 @@ export function createTestingFrameworksQualityGatesContractBoundaryMapForReview(
 
   return testingFrameworksQualityGatesBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     testingFrameworksQualityGatesContractBoundaryMap
@@ -60648,6 +60847,7 @@ function operationsReliabilityBoundaryMapState(reviewedAt) {
 
 function operationsReliabilityBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   operationsReliabilityContractBoundaryMap
@@ -60659,6 +60859,7 @@ function operationsReliabilityBoundaryMapResult({
       OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_KIND,
     operationsReliabilityContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     operationsReliabilityContractBoundaryMapProduced: accepted,
     operationsReliabilityContractBoundaryMap,
@@ -60709,6 +60910,7 @@ export function createOperationsReliabilityContractBoundaryMapForReview(
 ) {
   const inputRecord = operationsReliabilityBoundaryMapInputRecord(input);
   const reviewedAt = operationsReliabilityBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     operationsReliabilityBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -60720,6 +60922,7 @@ export function createOperationsReliabilityContractBoundaryMapForReview(
 
   return operationsReliabilityBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     operationsReliabilityContractBoundaryMap
@@ -62024,6 +62227,7 @@ function maintenanceGovernanceBoundaryMapState(reviewedAt) {
 
 function maintenanceGovernanceBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap
@@ -62038,6 +62242,7 @@ function maintenanceGovernanceBoundaryMapResult({
     maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapMode:
       "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapProduced:
       accepted,
@@ -62095,6 +62300,7 @@ export function createMaintenanceGovernanceAdrDependencyPolicyContractBoundaryMa
 ) {
   const inputRecord = maintenanceGovernanceBoundaryMapInputRecord(input);
   const reviewedAt = maintenanceGovernanceBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     maintenanceGovernanceBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -62106,6 +62312,7 @@ export function createMaintenanceGovernanceAdrDependencyPolicyContractBoundaryMa
 
   return maintenanceGovernanceBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap
@@ -63544,6 +63751,7 @@ function secretsCredentialBoundaryMapState(reviewedAt) {
 
 function secretsCredentialBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
@@ -63558,6 +63766,7 @@ function secretsCredentialBoundaryMapResult({
     secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapMode:
       "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     secretsManagementKeyRotationExternalGatewayCredentialBoundaryMapProduced:
       accepted,
@@ -63619,6 +63828,7 @@ export function createSecretsManagementKeyRotationExternalGatewayCredentialBound
 ) {
   const inputRecord = secretsCredentialBoundaryMapInputRecord(input);
   const reviewedAt = secretsCredentialBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     secretsCredentialBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -63629,6 +63839,7 @@ export function createSecretsManagementKeyRotationExternalGatewayCredentialBound
 
   return secretsCredentialBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     secretsManagementKeyRotationExternalGatewayCredentialBoundaryMap
@@ -64980,6 +65191,7 @@ function externalGatewayMatrixBoundaryMapState(reviewedAt) {
 
 function externalGatewayMatrixBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   externalGatewayMatrixTransportContractBoundaryMap
@@ -64992,6 +65204,7 @@ function externalGatewayMatrixBoundaryMapResult({
       EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_KIND,
     externalGatewayMatrixTransportContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     externalGatewayMatrixTransportContractBoundaryMapProduced: accepted,
     externalGatewayMatrixTransportContractBoundaryMap,
@@ -65050,6 +65263,7 @@ export function createExternalGatewayMatrixTransportContractBoundaryMapForReview
   const inputRecord = externalGatewayMatrixBoundaryMapInputRecord(input);
   const reviewedAt =
     externalGatewayMatrixBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     externalGatewayMatrixBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -65061,6 +65275,7 @@ export function createExternalGatewayMatrixTransportContractBoundaryMapForReview
 
   return externalGatewayMatrixBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     externalGatewayMatrixTransportContractBoundaryMap
@@ -66541,6 +66756,7 @@ function commandSurfaceShellBoundaryMapState(reviewedAt) {
 
 function commandSurfaceShellBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   commandSurfaceShellPrimitiveContractBoundaryMap
@@ -66553,6 +66769,7 @@ function commandSurfaceShellBoundaryMapResult({
       COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND,
     commandSurfaceShellPrimitiveContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     commandSurfaceShellPrimitiveContractBoundaryMapProduced: accepted,
     commandSurfaceShellPrimitiveContractBoundaryMap,
@@ -66604,6 +66821,7 @@ export function createCommandSurfaceShellPrimitiveContractBoundaryMapForReview(
 ) {
   const inputRecord = commandSurfaceShellBoundaryMapInputRecord(input);
   const reviewedAt = commandSurfaceShellBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     commandSurfaceShellBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -66615,6 +66833,7 @@ export function createCommandSurfaceShellPrimitiveContractBoundaryMapForReview(
 
   return commandSurfaceShellBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     commandSurfaceShellPrimitiveContractBoundaryMap
@@ -67805,6 +68024,7 @@ function fabricCoreConsumerReadinessBoundaryUpdateState(reviewedAt) {
 
 function fabricCoreConsumerReadinessBoundaryUpdateResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   fabricCoreConsumerIntegrationReadinessBoundaryUpdate
@@ -67817,6 +68037,7 @@ function fabricCoreConsumerReadinessBoundaryUpdateResult({
       FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_KIND,
     fabricCoreConsumerIntegrationReadinessBoundaryUpdateMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     fabricCoreConsumerIntegrationReadinessBoundaryUpdateProduced: accepted,
     fabricCoreConsumerIntegrationReadinessBoundaryUpdate,
@@ -67873,6 +68094,7 @@ export function createFabricCoreConsumerIntegrationReadinessBoundaryUpdateForRev
     fabricCoreConsumerReadinessBoundaryUpdateInputRecord(input);
   const reviewedAt =
     fabricCoreConsumerReadinessBoundaryUpdateReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     fabricCoreConsumerReadinessBoundaryUpdateInputClassification(inputRecord);
   const accepted =
@@ -67884,6 +68106,7 @@ export function createFabricCoreConsumerIntegrationReadinessBoundaryUpdateForRev
 
   return fabricCoreConsumerReadinessBoundaryUpdateResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     fabricCoreConsumerIntegrationReadinessBoundaryUpdate
@@ -69258,6 +69481,7 @@ function embeddedDbQueryEngineBoundaryMapState(reviewedAt) {
 
 function embeddedDbQueryEngineBoundaryMapResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   embeddedDbQueryEnginePrimitiveContractBoundaryMap
@@ -69270,6 +69494,7 @@ function embeddedDbQueryEngineBoundaryMapResult({
       EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND,
     embeddedDbQueryEnginePrimitiveContractBoundaryMapMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     embeddedDbQueryEnginePrimitiveContractBoundaryMapProduced: accepted,
     embeddedDbQueryEnginePrimitiveContractBoundaryMap,
@@ -69326,6 +69551,7 @@ export function createEmbeddedDbQueryEnginePrimitiveContractBoundaryMapForReview
 ) {
   const inputRecord = embeddedDbQueryEngineBoundaryMapInputRecord(input);
   const reviewedAt = embeddedDbQueryEngineBoundaryMapReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     embeddedDbQueryEngineBoundaryMapInputClassification(inputRecord);
   const accepted =
@@ -69337,6 +69563,7 @@ export function createEmbeddedDbQueryEnginePrimitiveContractBoundaryMapForReview
 
   return embeddedDbQueryEngineBoundaryMapResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     embeddedDbQueryEnginePrimitiveContractBoundaryMap
@@ -69531,6 +69758,7 @@ function fabricFederationReconciliationReviewedAt(inputRecord) {
 
 function fabricFederationReconciliationClassification(inputRecord) {
   const reviewedAt = fabricFederationReconciliationReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   if (reviewedAt === null) {
     return "malformed_fabric_federation_reconciliation_input_rejected";
   }
@@ -69840,6 +70068,7 @@ function fabricFederationReconciliationFalseRuntimeFields() {
 
 function fabricFederationReconciliationResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   boundaryEntries
@@ -69853,6 +70082,7 @@ function fabricFederationReconciliationResult({
     fabricFederationReconciliationKind: FABRIC_FEDERATION_RECONCILIATION_KIND,
     fabricFederationReconciliationMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     fabricFederationReconciliationProduced: accepted,
     boundaryEntries: accepted ? boundaryEntries : [],
@@ -69891,6 +70121,7 @@ function fabricFederationReconciliationResult({
 export function createFabricFederationReconciliationForReview(input = {}) {
   const inputRecord = fabricFederationReconciliationInputRecord(input);
   const reviewedAt = fabricFederationReconciliationReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     fabricFederationReconciliationClassification(inputRecord);
   const accepted =
@@ -69901,6 +70132,7 @@ export function createFabricFederationReconciliationForReview(input = {}) {
 
   return fabricFederationReconciliationResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     boundaryEntries
@@ -70245,6 +70477,7 @@ function codeModeOrchestrationReviewedAt(inputRecord) {
 
 function codeModeOrchestrationClassification(inputRecord) {
   const reviewedAt = codeModeOrchestrationReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   if (reviewedAt === null) {
     return "malformed_code_mode_orchestration_contract_boundary_map_input_rejected";
   }
@@ -70929,6 +71162,7 @@ function codeModeOrchestrationFalseRuntimeFields() {
 
 function codeModeOrchestrationResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   boundaryEntries
@@ -70942,6 +71176,7 @@ function codeModeOrchestrationResult({
     codeModeOrchestrationKind: CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_KIND,
     codeModeOrchestrationMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     codeModeOrchestrationBoundaryMapProduced: accepted,
     boundaryEntries: accepted ? boundaryEntries : [],
@@ -70982,6 +71217,7 @@ function codeModeOrchestrationResult({
 export function createCodeModeOrchestrationForReview(input = {}) {
   const inputRecord = codeModeOrchestrationInputRecord(input);
   const reviewedAt = codeModeOrchestrationReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     codeModeOrchestrationClassification(inputRecord);
   const accepted =
@@ -70992,6 +71228,7 @@ export function createCodeModeOrchestrationForReview(input = {}) {
 
   return codeModeOrchestrationResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     boundaryEntries
@@ -71215,6 +71452,7 @@ function ciEnforcementContractReviewedAt(inputRecord) {
 
 function ciEnforcementContractClassification(inputRecord) {
   const reviewedAt = ciEnforcementContractReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   if (reviewedAt === null) {
     return "malformed_ci_enforcement_contract_boundary_map_input_rejected";
   }
@@ -71699,6 +71937,7 @@ function ciEnforcementContractFalseRuntimeFields() {
 
 function ciEnforcementContractResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   boundaryEntries
@@ -71712,6 +71951,7 @@ function ciEnforcementContractResult({
     ciEnforcementContractKind: CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_KIND,
     ciEnforcementContractMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     ciEnforcementContractBoundaryMapProduced: accepted,
     boundaryEntries: accepted ? boundaryEntries : [],
@@ -71752,6 +71992,7 @@ function ciEnforcementContractResult({
 export function createCiEnforcementContractForReview(input = {}) {
   const inputRecord = ciEnforcementContractInputRecord(input);
   const reviewedAt = ciEnforcementContractReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     ciEnforcementContractClassification(inputRecord);
   const accepted =
@@ -71762,6 +72003,7 @@ export function createCiEnforcementContractForReview(input = {}) {
 
   return ciEnforcementContractResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     boundaryEntries
@@ -71963,6 +72205,7 @@ function ciEnablementReviewedAt(inputRecord) {
 
 function ciEnablementClassification(inputRecord) {
   const reviewedAt = ciEnablementReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   if (reviewedAt === null) {
     return "malformed_ci_enablement_boundary_map_input_rejected";
   }
@@ -72383,6 +72626,7 @@ function ciEnablementFalseRuntimeFields() {
 
 function ciEnablementResult({
   reviewedAt,
+  reviewedAtDefaulted,
   classification,
   accepted,
   boundaryEntries
@@ -72396,6 +72640,7 @@ function ciEnablementResult({
     ciEnablementKind: CI_ENABLEMENT_BOUNDARY_MAP_KIND,
     ciEnablementMode: "review-only",
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     ciEnablementBoundaryMapProduced: accepted,
     boundaryEntries: accepted ? boundaryEntries : [],
@@ -72436,6 +72681,7 @@ function ciEnablementResult({
 export function createCiEnablementForReview(input = {}) {
   const inputRecord = ciEnablementInputRecord(input);
   const reviewedAt = ciEnablementReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification =
     ciEnablementClassification(inputRecord);
   const accepted =
@@ -72446,6 +72692,7 @@ export function createCiEnablementForReview(input = {}) {
 
   return ciEnablementResult({
     reviewedAt,
+    reviewedAtDefaulted,
     classification,
     accepted,
     boundaryEntries
@@ -72514,6 +72761,7 @@ function reportScriptCompactionReviewedAt(inputRecord) {
 
 function reportScriptCompactionClassification(inputRecord) {
   const reviewedAt = reportScriptCompactionReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   if (reviewedAt === null || inputRecord === MALFORMED_INPUT)
     return "malformed_report_script_compaction_boundary_map_input_rejected";
   if (inputRecord.reportRunsChecks === true)
@@ -72609,11 +72857,11 @@ function reportScriptCompactionFalseRuntimeFields() {
   for(const flag of REPORT_SCRIPT_COMPACTION_AUTHORIZATION_FIELDS)f[flag]=false;return f;
 }
 
-function reportScriptCompactionResult({reviewedAt,classification,accepted,boundaryEntries}) {
+function reportScriptCompactionResult({reviewedAt,reviewedAtDefaulted,classification,accepted,boundaryEntries}) {
   const summary=accepted?reportScriptCompactionBoundaryMapSummary(boundaryEntries):null;
   return {schema:REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_SCHEMA,schemaVersion:REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_VERSION,
     reportScriptCompactionKind:REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_KIND,reportScriptCompactionMode:"review-only",
-    reviewedAt,classification,reportScriptCompactionBoundaryMapProduced:accepted,
+    reviewedAt,reviewedAtDefaulted,classification,reportScriptCompactionBoundaryMapProduced:accepted,
     boundaryEntries:accepted?boundaryEntries:[],boundaryMapSummary:summary,
     recommendedNextPhase:accepted?"phase-5.81-report-test-compaction":null,
     reportScriptCompactionOnly:true,reviewOnly:true,metadataOnly:true,authoritative:false,
@@ -72626,10 +72874,11 @@ function reportScriptCompactionResult({reviewedAt,classification,accepted,bounda
 export function createReportScriptCompactionForReview(input = {}) {
   const inputRecord=reportScriptCompactionInputRecord(input);
   const reviewedAt=reportScriptCompactionReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification=reportScriptCompactionClassification(inputRecord);
   const accepted=classification===VALID_REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_CLASSIFICATION;
   const boundaryEntries=accepted?reportScriptCompactionBoundaryEntries():[];
-  return reportScriptCompactionResult({reviewedAt,classification,accepted,boundaryEntries});
+  return reportScriptCompactionResult({reviewedAt,reviewedAtDefaulted,classification,accepted,boundaryEntries});
 }
 
 // ─── Phase 5.81: Report-test compaction boundary map ─────────────────────────
@@ -72686,6 +72935,7 @@ function reportTestCompactionReviewedAt(inputRecord) {
 }
 function reportTestCompactionClassification(inputRecord) {
   const reviewedAt = reportTestCompactionReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   if (reviewedAt === null || inputRecord === MALFORMED_INPUT)
     return "malformed_report_test_compaction_boundary_map_input_rejected";
   if (inputRecord.reportRunsChecks === true)
@@ -72756,11 +73006,11 @@ function reportTestCompactionFalseRuntimeFields() {
   const f={};for(const flag of REPORT_TEST_COMPACTION_UNSAFE_FIELDS)f[flag]=false;
   for(const flag of REPORT_TEST_COMPACTION_AUTHORIZATION_FIELDS)f[flag]=false;return f;
 }
-function reportTestCompactionResult({reviewedAt,classification,accepted,boundaryEntries}) {
+function reportTestCompactionResult({reviewedAt,reviewedAtDefaulted,classification,accepted,boundaryEntries}) {
   const summary=accepted?reportTestCompactionSummary(boundaryEntries):null;
   return {schema:REPORT_TEST_COMPACTION_BOUNDARY_MAP_SCHEMA,schemaVersion:REPORT_TEST_COMPACTION_BOUNDARY_MAP_VERSION,
     reportTestCompactionKind:REPORT_TEST_COMPACTION_BOUNDARY_MAP_KIND,reportTestCompactionMode:"review-only",
-    reviewedAt,classification,reportTestCompactionBoundaryMapProduced:accepted,
+    reviewedAt,reviewedAtDefaulted,classification,reportTestCompactionBoundaryMapProduced:accepted,
     boundaryEntries:accepted?boundaryEntries:[],boundaryMapSummary:summary,
     recommendedNextPhase:accepted?"phase-5.82-source-guard-hardening":null,
     reportTestCompactionOnly:true,reviewOnly:true,metadataOnly:true,authoritative:false,
@@ -72772,10 +73022,11 @@ function reportTestCompactionResult({reviewedAt,classification,accepted,boundary
 export function createReportTestCompactionForReview(input = {}) {
   const inputRecord=reportTestCompactionInputRecord(input);
   const reviewedAt=reportTestCompactionReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification=reportTestCompactionClassification(inputRecord);
   const accepted=classification===VALID_REPORT_TEST_COMPACTION_BOUNDARY_MAP_CLASSIFICATION;
   const boundaryEntries=accepted?reportTestCompactionBoundaryEntries():[];
-  return reportTestCompactionResult({reviewedAt,classification,accepted,boundaryEntries});
+  return reportTestCompactionResult({reviewedAt,reviewedAtDefaulted,classification,accepted,boundaryEntries});
 }
 
 // ─── Phase 5.82: Source-guard hardening boundary map ────────────────────────
@@ -72834,6 +73085,7 @@ function sourceGuardHardeningReviewedAt(inputRecord) {
 }
 function sourceGuardHardeningClassification(inputRecord) {
   const reviewedAt = sourceGuardHardeningReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   if (reviewedAt === null || inputRecord === MALFORMED_INPUT)
     return "malformed_source_guard_hardening_boundary_map_input_rejected";
   if (inputRecord.reportRunsChecks === true)
@@ -72904,11 +73156,11 @@ function sourceGuardHardeningFalseRuntimeFields() {
   const f={};for(const flag of SOURCE_GUARD_HARDENING_UNSAFE_FIELDS)f[flag]=false;
   for(const flag of SOURCE_GUARD_HARDENING_AUTHORIZATION_FIELDS)f[flag]=false;return f;
 }
-function sourceGuardHardeningResult({reviewedAt,classification,accepted,boundaryEntries}) {
+function sourceGuardHardeningResult({reviewedAt,reviewedAtDefaulted,classification,accepted,boundaryEntries}) {
   const summary=accepted?sourceGuardHardeningSummary(boundaryEntries):null;
   return {schema:SOURCE_GUARD_HARDENING_BOUNDARY_MAP_SCHEMA,schemaVersion:SOURCE_GUARD_HARDENING_BOUNDARY_MAP_VERSION,
     sourceGuardHardeningKind:SOURCE_GUARD_HARDENING_BOUNDARY_MAP_KIND,sourceGuardHardeningMode:"review-only",
-    reviewedAt,classification,sourceGuardHardeningBoundaryMapProduced:accepted,
+    reviewedAt,reviewedAtDefaulted,classification,sourceGuardHardeningBoundaryMapProduced:accepted,
     boundaryEntries:accepted?boundaryEntries:[],boundaryMapSummary:summary,
     recommendedNextPhase:accepted?"phase-5.83-external-reference-policy":null,
     sourceGuardHardeningOnly:true,reviewOnly:true,metadataOnly:true,authoritative:false,
@@ -72920,10 +73172,11 @@ function sourceGuardHardeningResult({reviewedAt,classification,accepted,boundary
 export function createSourceGuardHardeningForReview(input = {}) {
   const inputRecord=sourceGuardHardeningInputRecord(input);
   const reviewedAt=sourceGuardHardeningReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification=sourceGuardHardeningClassification(inputRecord);
   const accepted=classification===VALID_SOURCE_GUARD_HARDENING_BOUNDARY_MAP_CLASSIFICATION;
   const boundaryEntries=accepted?sourceGuardHardeningBoundaryEntries():[];
-  return sourceGuardHardeningResult({reviewedAt,classification,accepted,boundaryEntries});
+  return sourceGuardHardeningResult({reviewedAt,reviewedAtDefaulted,classification,accepted,boundaryEntries});
 }
 // ─── Phase 5.83: External-Reference Policy ─────────────────────────────────
 // Reuses MALFORMED_INPUT (line 69510), isPlainObjectRecord (line 3945),
@@ -72990,6 +73243,7 @@ function externalReferencePolicyReviewedAt(inputRecord) {
 }
 function externalReferencePolicyClassification(inputRecord) {
   const reviewedAt = externalReferencePolicyReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   if (reviewedAt === null || inputRecord === MALFORMED_INPUT)
     return "malformed_external_reference_policy_boundary_map_input_rejected";
   if (inputRecord.reportRunsChecks === true)
@@ -73127,11 +73381,11 @@ function externalReferencePolicyFalseRuntimeFields() {
   const f={};for(const flag of EXTERNAL_REFERENCE_POLICY_UNSAFE_FIELDS)f[flag]=false;
   for(const flag of EXTERNAL_REFERENCE_POLICY_AUTHORIZATION_FIELDS)f[flag]=false;return f;
 }
-function externalReferencePolicyResult({reviewedAt,classification,accepted,boundaryEntries}) {
+function externalReferencePolicyResult({reviewedAt,reviewedAtDefaulted,classification,accepted,boundaryEntries}) {
   const summary=accepted?externalReferencePolicySummary(boundaryEntries):null;
   return {schema:EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_SCHEMA,schemaVersion:EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_VERSION,
     externalReferencePolicyKind:EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_KIND,externalReferencePolicyMode:"review-only",
-    reviewedAt,classification,externalReferencePolicyBoundaryMapProduced:accepted,
+    reviewedAt,reviewedAtDefaulted,classification,externalReferencePolicyBoundaryMapProduced:accepted,
     boundaryEntries:accepted?boundaryEntries:[],boundaryMapSummary:summary,
     recommendedNextPhase:accepted?"phase-5.84-fabric-federation-prewiring-hardening":null,
     externalReferencePolicyOnly:true,reviewOnly:true,metadataOnly:true,authoritative:false,
@@ -73143,8 +73397,9 @@ function externalReferencePolicyResult({reviewedAt,classification,accepted,bound
 export function createExternalReferencePolicyForReview(input = {}) {
   const inputRecord=externalReferencePolicyInputRecord(input);
   const reviewedAt=externalReferencePolicyReviewedAt(inputRecord);
+  const reviewedAtDefaulted = isReviewedAtDefaulted(inputRecord);
   const classification=externalReferencePolicyClassification(inputRecord);
   const accepted=classification===VALID_EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_CLASSIFICATION;
   const boundaryEntries=accepted?externalReferencePolicyBoundaryEntries():[];
-  return externalReferencePolicyResult({reviewedAt,classification,accepted,boundaryEntries});
+  return externalReferencePolicyResult({reviewedAt,reviewedAtDefaulted,classification,accepted,boundaryEntries});
 }

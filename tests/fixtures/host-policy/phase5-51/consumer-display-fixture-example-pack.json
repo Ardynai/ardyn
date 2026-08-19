@@ -4,6 +4,7 @@
   "consumerDisplayFixtureExamplePackKind": "consumer-display-fixture-example-pack",
   "consumerDisplayFixtureExamplePackMode": "review-only",
   "reviewedAt": "2026-06-20T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_consumer_display_fixture_example_pack_runtime_still_blocked",
   "consumerDisplayFixtureExamplePackProduced": true,
   "consumerDisplayFixtureExamplePack": {

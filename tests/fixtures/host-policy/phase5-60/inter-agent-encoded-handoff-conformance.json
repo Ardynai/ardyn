@@ -4,6 +4,7 @@
   "interAgentEncodedHandoffConformanceKind": "inter-agent-encoded-handoff-conformance",
   "interAgentEncodedHandoffConformanceMode": "review-only",
   "reviewedAt": "2026-06-22T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_inter_agent_encoded_handoff_conformance_runtime_still_blocked",
   "interAgentEncodedHandoffConformanceProduced": true,
   "interAgentEncodedHandoffConformance": {

@@ -4,6 +4,7 @@
   "consumerOwnedDisplayConformanceResultReviewPackageBoundaryKind": "consumer-owned-display-conformance-result-review-package-boundary",
   "consumerOwnedDisplayConformanceResultReviewPackageBoundaryMode": "review-only",
   "reviewedAt": "2026-06-21T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_consumer_owned_display_conformance_result_review_package_boundary_runtime_still_blocked",
   "consumerOwnedDisplayConformanceResultReviewPackageBoundaryProduced": true,
   "consumerOwnedDisplayConformanceResultReviewPackageBoundary": {

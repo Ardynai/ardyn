@@ -4,6 +4,7 @@
   "embeddedDbQueryEnginePrimitiveContractBoundaryMapKind": "embedded-db-query-engine-primitive-contract-boundary-map",
   "embeddedDbQueryEnginePrimitiveContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-07-01T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_embedded_db_query_engine_primitive_contract_boundary_map_runtime_still_blocked",
   "embeddedDbQueryEnginePrimitiveContractBoundaryMapProduced": true,
   "embeddedDbQueryEnginePrimitiveContractBoundaryMap": {

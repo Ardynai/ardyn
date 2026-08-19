@@ -4,6 +4,7 @@
   "consumerDisplayFixtureSchemaBoundaryKind": "consumer-display-fixture-schema-boundary",
   "consumerDisplayFixtureSchemaBoundaryMode": "review-only",
   "reviewedAt": "2026-06-20T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_consumer_display_fixture_schema_boundary_runtime_still_blocked",
   "consumerDisplayFixtureSchemaBoundaryProduced": true,
   "consumerDisplayFixtureSchemaBoundary": {

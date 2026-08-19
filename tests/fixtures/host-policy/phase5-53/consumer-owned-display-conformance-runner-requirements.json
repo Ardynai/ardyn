@@ -4,6 +4,7 @@
   "consumerOwnedDisplayConformanceRunnerRequirementsKind": "consumer-owned-display-conformance-runner-requirements",
   "consumerOwnedDisplayConformanceRunnerRequirementsMode": "review-only",
   "reviewedAt": "2026-06-20T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_consumer_owned_display_conformance_runner_requirements_runtime_still_blocked",
   "consumerOwnedDisplayConformanceRunnerRequirementsProduced": true,
   "consumerOwnedDisplayConformanceRunnerRequirements": {

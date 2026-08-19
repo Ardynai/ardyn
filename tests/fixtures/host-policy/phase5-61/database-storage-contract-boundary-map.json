@@ -4,6 +4,7 @@
   "databaseStorageContractBoundaryMapKind": "database-storage-contract-boundary-map",
   "databaseStorageContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-22T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_database_storage_contract_boundary_map_runtime_still_blocked",
   "databaseStorageContractBoundaryMapProduced": true,
   "databaseStorageContractBoundaryMap": {

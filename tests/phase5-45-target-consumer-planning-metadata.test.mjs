@@ -45,6 +45,7 @@ const expectedTopLevelKeys = Object.freeze([
   "targetConsumerPlanningMetadataKind",
   "targetConsumerPlanningMetadataMode",
   "reviewedAt",
+  "reviewedAtDefaulted",
   "classification",
   "sourceConsolidationMetadataCheckpointAccepted",
   "targetConsumerPlanningMetadataProduced",

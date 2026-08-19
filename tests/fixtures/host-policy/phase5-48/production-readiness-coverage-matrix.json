@@ -4,6 +4,7 @@
   "productionReadinessCoverageMatrixKind": "production-readiness-coverage-matrix",
   "productionReadinessCoverageMatrixMode": "review-only",
   "reviewedAt": "2026-06-20T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_production_readiness_coverage_matrix_runtime_still_blocked",
   "productionReadinessCoverageMatrixProduced": true,
   "productionReadinessCoverageMatrix": {

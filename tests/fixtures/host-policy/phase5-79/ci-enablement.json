@@ -4,6 +4,7 @@
   "ciEnablementKind": "ci-enablement-boundary-map",
   "ciEnablementMode": "review-only",
   "reviewedAt": "2026-07-07T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_ci_enablement_boundary_map_workflows_present_ci_runtime_still_blocked",
   "ciEnablementBoundaryMapProduced": true,
   "boundaryEntries": [

@@ -4,6 +4,7 @@
   "rateLimitingAbuseControlContractBoundaryMapKind": "rate-limiting-abuse-control-contract-boundary-map",
   "rateLimitingAbuseControlContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-22T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_rate_limiting_abuse_control_contract_boundary_map_runtime_still_blocked",
   "rateLimitingAbuseControlContractBoundaryMapProduced": true,
   "rateLimitingAbuseControlContractBoundaryMap": {

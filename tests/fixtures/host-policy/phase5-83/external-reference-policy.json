@@ -4,6 +4,7 @@
   "externalReferencePolicyKind": "external-reference-policy-boundary-map",
   "externalReferencePolicyMode": "review-only",
   "reviewedAt": "2026-07-09T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_external_reference_policy_boundary_map_allowlist_enforced_federation_invariants_machine_checked",
   "externalReferencePolicyBoundaryMapProduced": true,
   "boundaryEntries": [

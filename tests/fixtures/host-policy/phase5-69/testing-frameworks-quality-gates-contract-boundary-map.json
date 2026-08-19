@@ -4,6 +4,7 @@
   "testingFrameworksQualityGatesContractBoundaryMapKind": "testing-frameworks-quality-gates-contract-boundary-map",
   "testingFrameworksQualityGatesContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-27T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_testing_frameworks_quality_gates_contract_boundary_map_runtime_still_blocked",
   "testingFrameworksQualityGatesContractBoundaryMapProduced": true,
   "testingFrameworksQualityGatesContractBoundaryMap": {

@@ -4,6 +4,7 @@
   "errorTrackingLoggingAuditIntegrityContractBoundaryMapKind": "error-tracking-logging-audit-integrity-contract-boundary-map",
   "errorTrackingLoggingAuditIntegrityContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-23T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_error_tracking_logging_audit_integrity_contract_boundary_map_runtime_still_blocked",
   "errorTrackingLoggingAuditIntegrityContractBoundaryMapProduced": true,
   "errorTrackingLoggingAuditIntegrityContractBoundaryMap": {

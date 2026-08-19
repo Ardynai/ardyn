@@ -4,6 +4,7 @@
   "consumerDisplayAccessibilityContractMapKind": "consumer-display-accessibility-contract-map",
   "consumerDisplayAccessibilityContractMapMode": "review-only",
   "reviewedAt": "2026-06-20T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_consumer_display_accessibility_contract_map_runtime_still_blocked",
   "consumerDisplayAccessibilityContractMapProduced": true,
   "consumerDisplayAccessibilityContractMap": {

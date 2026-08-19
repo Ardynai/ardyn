@@ -4,6 +4,7 @@
   "consumerOwnedDisplayConformanceRunnerTestPlanKind": "consumer-owned-display-conformance-runner-test-plan",
   "consumerOwnedDisplayConformanceRunnerTestPlanMode": "review-only",
   "reviewedAt": "2026-06-20T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_consumer_owned_display_conformance_runner_test_plan_runtime_still_blocked",
   "consumerOwnedDisplayConformanceRunnerTestPlanProduced": true,
   "consumerOwnedDisplayConformanceRunnerTestPlan": {

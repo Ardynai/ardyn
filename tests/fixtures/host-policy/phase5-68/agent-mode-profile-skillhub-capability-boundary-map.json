@@ -4,6 +4,7 @@
   "agentModeProfileSkillhubCapabilityBoundaryMapKind": "agent-mode-profile-skillhub-capability-boundary-map",
   "agentModeProfileSkillhubCapabilityBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-25T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_agent_mode_profile_skillhub_capability_boundary_map_runtime_still_blocked",
   "agentModeProfileSkillhubCapabilityBoundaryMapProduced": true,
   "agentModeProfileSkillhubCapabilityBoundaryMap": {

@@ -4,6 +4,7 @@
   "authPermissionsContractBoundaryMapKind": "auth-permissions-contract-boundary-map",
   "authPermissionsContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-22T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_auth_permissions_contract_boundary_map_runtime_still_blocked",
   "authPermissionsContractBoundaryMapProduced": true,
   "authPermissionsContractBoundaryMap": {
