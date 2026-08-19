@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { isAbsolute, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import Ajv2020 from "ajv/dist/2020.js";
+import { UTC_ISO_TIMESTAMP_WITH_MILLISECONDS_PATTERN, isPlainObjectRecord, isUtcIsoTimestampWithMilliseconds, isReviewedAtDefaulted } from "./internal/utils.mjs";
 
 export const ARDYN_SCHEMA_VERSION = "0.1.0";
 export const ARDYN_PHASE = "phase-3-task-planning";
@@ -3942,9 +3943,6 @@ export function formatSessionEventsJsonl(events) {
   return `${lines.join("\n")}\n`;
 }
 
-function isPlainObjectRecord(value) {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
-}
 
 function jsonlRuntimeEffect() {
   return {
@@ -7729,29 +7727,7 @@ const PREREQUISITE_REVIEW_ARTIFACT_TRUE_RUNTIME_FIELDS = Object.freeze([
 const PREREQUISITE_REVIEW_ARTIFACT_AUTHORITATIVE_TRUE_FIELD_PATTERN =
   /(runtime|process|command|approvalGrant|watcher|lookup|secrets|env|stdin|stdout|stderr|writer|reader|webSocket|http|adapter|contentFabric)/i;
 
-const UTC_ISO_TIMESTAMP_WITH_MILLISECONDS_PATTERN =
-  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
-function isUtcIsoTimestampWithMilliseconds(value) {
-  const timestamp = Date.parse(value);
-
-  return (
-    typeof value === "string" &&
-    UTC_ISO_TIMESTAMP_WITH_MILLISECONDS_PATTERN.test(value) &&
-    Number.isFinite(timestamp) &&
-    new Date(timestamp).toISOString() === value
-  );
-}
-
-function isReviewedAtDefaulted(inputRecord) {
-  return (
-    inputRecord === null ||
-    inputRecord === undefined ||
-    typeof inputRecord !== "object" ||
-    !Object.prototype.hasOwnProperty.call(inputRecord, "reviewedAt") ||
-    !isUtcIsoTimestampWithMilliseconds(inputRecord.reviewedAt)
-  );
-}
 
 function reviewArtifactHandoffTopLevelTrueRuntimeClaim(artifact) {
   return Object.entries(artifact).some(
@@ -73403,3 +73379,6 @@ export function createExternalReferencePolicyForReview(input = {}) {
   const boundaryEntries=accepted?externalReferencePolicyBoundaryEntries():[];
   return externalReferencePolicyResult({reviewedAt,reviewedAtDefaulted,classification,accepted,boundaryEntries});
 }
+
+// M0.6: Re-export shared utilities from internal/utils.mjs
+export { isPlainObjectRecord, isUtcIsoTimestampWithMilliseconds, isReviewedAtDefaulted };
