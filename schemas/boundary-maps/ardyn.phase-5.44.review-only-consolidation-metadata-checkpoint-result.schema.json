@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.44.review-only-consolidation-metadata-checkpoint-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.44.review-only-consolidation-metadata-checkpoint-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "consolidationMetadataCheckpointKind",
+    "metadataGeneratedAt",
+    "sourcePhase",
+    "consolidationMetadataCheckpointSummary",
+    "consolidationMetadataCheckpointInputShape",
+    "consolidationMetadataCheckpointResultShape",
+    "consolidationMetadataCheckpointCases",
+    "nestedSourceRegressionCases",
+    "consolidationMetadataCheckpoint",
+    "cleanupHardeningToolkitEvidence",
+    "blockedRuntimeEffect",
+    "serveRuntimeBlockedBehavior",
+    "forbiddenBehavior",
+    "filesAllowedToChange",
+    "filesForbiddenToChange",
+    "validationCommands",
+    "optionalAdvisoryCommands"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.44.review-only-consolidation-metadata-checkpoint-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "consolidationMetadataCheckpointKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourcePhase": {
+      "type": "object"
+    },
+    "consolidationMetadataCheckpointSummary": {
+      "type": "object"
+    },
+    "consolidationMetadataCheckpointInputShape": {
+      "type": "object"
+    },
+    "consolidationMetadataCheckpointResultShape": {
+      "type": "object"
+    },
+    "consolidationMetadataCheckpointCases": {
+      "type": "array"
+    },
+    "nestedSourceRegressionCases": {
+      "type": "array"
+    },
+    "consolidationMetadataCheckpoint": {
+      "type": "object"
+    },
+    "cleanupHardeningToolkitEvidence": {
+      "type": "object"
+    },
+    "blockedRuntimeEffect": {
+      "type": "object"
+    },
+    "serveRuntimeBlockedBehavior": {
+      "type": "object"
+    },
+    "forbiddenBehavior": {
+      "type": "object"
+    },
+    "filesAllowedToChange": {
+      "type": "array"
+    },
+    "filesForbiddenToChange": {
+      "type": "array"
+    },
+    "validationCommands": {
+      "type": "array"
+    },
+    "optionalAdvisoryCommands": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

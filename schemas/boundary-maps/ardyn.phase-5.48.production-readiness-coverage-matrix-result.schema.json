@@ -1,0 +1,395 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.48.production-readiness-coverage-matrix-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.48.production-readiness-coverage-matrix-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "productionReadinessCoverageMatrixKind",
+    "productionReadinessCoverageMatrixMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "productionReadinessCoverageMatrixProduced",
+    "productionReadinessCoverageMatrix",
+    "matrixSummary",
+    "matrixRows",
+    "topProductionReadinessGaps",
+    "recommendedNextPhase",
+    "productionReadinessCoverageMatrixOnly",
+    "reviewOnly",
+    "authoritative",
+    "reviewArtifactOnly",
+    "productionInfrastructureImplemented",
+    "productionReadinessCoverageMatrixIsReviewerRouting",
+    "productionReadinessCoverageMatrixIsReviewerAssignment",
+    "productionReadinessCoverageMatrixIsEvaluatorExecution",
+    "productionReadinessCoverageMatrixIsEvaluatorResult",
+    "productionReadinessCoverageMatrixIsApprovalDecision",
+    "productionReadinessCoverageMatrixIsApprovalGrant",
+    "nonAuthorizingProof",
+    "commandRuntimeControlEnabled",
+    "commandExposurePermissionGranted",
+    "runtimePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "reviewerRoutingPerformed",
+    "reviewerAssignmentPerformed",
+    "evaluatorExecutionPerformed",
+    "evaluatorResultProduced",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "connectorGrantProduced",
+    "connectorIngestionAdded",
+    "liveRegistryConnectionEnabled",
+    "webSocketRuntimeEnabled",
+    "httpRuntimeEnabled",
+    "taskRuntimeExecutionEnabled",
+    "taskExecutionEnabled",
+    "mcpRuntimeExecutionEnabled",
+    "mcpToolExposureEnabled",
+    "fabricRuntimeSurfaceEnabled",
+    "contentFabricRuntimeBehaviorEnabled",
+    "adapterRuntimeBehaviorEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "fileSelectionEnabled",
+    "filesystemWatcherEnabled",
+    "filesystemScanningEnabled",
+    "secretVaultEnvAccessEnabled",
+    "st3ggVendored",
+    "processControlEnabled",
+    "liveStdinLoopEnabled",
+    "runtimeStdoutWriterEnabled",
+    "runtimeStderrWriterEnabled",
+    "transcriptRuntimeWritePerformed",
+    "auditRuntimeWritePerformed",
+    "mcpExecutionEnabled",
+    "httpRuntimeSurfaceEnabled",
+    "webSocketHttpSurfaceEnabled",
+    "databaseStorageRuntimeWritesEnabled",
+    "runtimeDatabaseWriteEnabled",
+    "storageRuntimeWriteEnabled",
+    "secretsRuntimeIngestionEnabled",
+    "externalServicesEnabled",
+    "networkServerEnabled",
+    "hostingDeploymentProvisioned",
+    "cloudComputeProvisioned",
+    "rateLimitingRuntimeEnabled",
+    "cachingCdnRuntimeEnabled",
+    "loadBalancingRuntimeEnabled",
+    "runtimeObservabilityEnabled",
+    "disasterRecoveryRuntimeEnabled",
+    "infrastructureMutationEnabled",
+    "complianceAttestationProduced",
+    "productionTestRuntimeEnabled",
+    "operationsMonitorEnabled",
+    "alertDispatchEnabled",
+    "retryCircuitBreakerRuntimeEnabled",
+    "serviceDiscoveryEnabled",
+    "liveServiceRegistryConnectionEnabled",
+    "scheduleEnforcementEnabled",
+    "backgroundPollingEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.48.production-readiness-coverage-matrix-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "productionReadinessCoverageMatrixKind": {
+      "type": "string"
+    },
+    "productionReadinessCoverageMatrixMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "productionReadinessCoverageMatrixProduced": {
+      "type": "boolean"
+    },
+    "productionReadinessCoverageMatrix": {
+      "type": "object"
+    },
+    "matrixSummary": {
+      "type": "object"
+    },
+    "matrixRows": {
+      "type": "array"
+    },
+    "topProductionReadinessGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "productionReadinessCoverageMatrixOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "reviewArtifactOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "productionInfrastructureImplemented": {
+      "type": "boolean"
+    },
+    "productionReadinessCoverageMatrixIsReviewerRouting": {
+      "type": "boolean"
+    },
+    "productionReadinessCoverageMatrixIsReviewerAssignment": {
+      "type": "boolean"
+    },
+    "productionReadinessCoverageMatrixIsEvaluatorExecution": {
+      "type": "boolean"
+    },
+    "productionReadinessCoverageMatrixIsEvaluatorResult": {
+      "type": "boolean"
+    },
+    "productionReadinessCoverageMatrixIsApprovalDecision": {
+      "type": "boolean"
+    },
+    "productionReadinessCoverageMatrixIsApprovalGrant": {
+      "type": "boolean"
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "commandExposurePermissionGranted": {
+      "type": "boolean"
+    },
+    "runtimePermissionGranted": {
+      "type": "boolean"
+    },
+    "runtimeCommandExposureEnabled": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "reviewerRoutingPerformed": {
+      "type": "boolean"
+    },
+    "reviewerAssignmentPerformed": {
+      "type": "boolean"
+    },
+    "evaluatorExecutionPerformed": {
+      "type": "boolean"
+    },
+    "evaluatorResultProduced": {
+      "type": "boolean"
+    },
+    "approvalDecisionProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantPersisted": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "connectorIngestionAdded": {
+      "type": "boolean"
+    },
+    "liveRegistryConnectionEnabled": {
+      "type": "boolean"
+    },
+    "webSocketRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "httpRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "taskRuntimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "mcpRuntimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "fabricRuntimeSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "contentFabricRuntimeBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "adapterRuntimeBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "secureDropCryptoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropTransportImplemented": {
+      "type": "boolean"
+    },
+    "secureDropStegoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropSendReceiveImplemented": {
+      "type": "boolean"
+    },
+    "secureDropInboxPollingEnabled": {
+      "type": "boolean"
+    },
+    "fileSelectionEnabled": {
+      "type": "boolean"
+    },
+    "filesystemWatcherEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "secretVaultEnvAccessEnabled": {
+      "type": "boolean"
+    },
+    "st3ggVendored": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "liveStdinLoopEnabled": {
+      "type": "boolean"
+    },
+    "runtimeStdoutWriterEnabled": {
+      "type": "boolean"
+    },
+    "runtimeStderrWriterEnabled": {
+      "type": "boolean"
+    },
+    "transcriptRuntimeWritePerformed": {
+      "type": "boolean"
+    },
+    "auditRuntimeWritePerformed": {
+      "type": "boolean"
+    },
+    "mcpExecutionEnabled": {
+      "type": "boolean"
+    },
+    "httpRuntimeSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "webSocketHttpSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "runtimeDatabaseWriteEnabled": {
+      "type": "boolean"
+    },
+    "storageRuntimeWriteEnabled": {
+      "type": "boolean"
+    },
+    "secretsRuntimeIngestionEnabled": {
+      "type": "boolean"
+    },
+    "externalServicesEnabled": {
+      "type": "boolean"
+    },
+    "networkServerEnabled": {
+      "type": "boolean"
+    },
+    "hostingDeploymentProvisioned": {
+      "type": "boolean"
+    },
+    "cloudComputeProvisioned": {
+      "type": "boolean"
+    },
+    "rateLimitingRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "cachingCdnRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "loadBalancingRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "runtimeObservabilityEnabled": {
+      "type": "boolean"
+    },
+    "disasterRecoveryRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "infrastructureMutationEnabled": {
+      "type": "boolean"
+    },
+    "complianceAttestationProduced": {
+      "type": "boolean"
+    },
+    "productionTestRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "operationsMonitorEnabled": {
+      "type": "boolean"
+    },
+    "alertDispatchEnabled": {
+      "type": "boolean"
+    },
+    "retryCircuitBreakerRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "liveServiceRegistryConnectionEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "backgroundPollingEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

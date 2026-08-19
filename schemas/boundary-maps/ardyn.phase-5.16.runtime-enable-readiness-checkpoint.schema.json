@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.16.runtime-enable-readiness-checkpoint.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.16.runtime-enable-readiness-checkpoint",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "sourcePhases",
+    "checkpointSummary",
+    "preconditionContracts",
+    "prerequisiteSignalStatus",
+    "liveRuntimeStatus",
+    "serveRuntimeBlockedBehavior",
+    "readinessDecision",
+    "forbiddenBehavior",
+    "filesAllowedToChange",
+    "filesForbiddenToChange",
+    "validationCommands"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.16.runtime-enable-readiness-checkpoint"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourcePhases": {
+      "type": "array"
+    },
+    "checkpointSummary": {
+      "type": "object"
+    },
+    "preconditionContracts": {
+      "type": "array"
+    },
+    "prerequisiteSignalStatus": {
+      "type": "object"
+    },
+    "liveRuntimeStatus": {
+      "type": "object"
+    },
+    "serveRuntimeBlockedBehavior": {
+      "type": "object"
+    },
+    "readinessDecision": {
+      "type": "object"
+    },
+    "forbiddenBehavior": {
+      "type": "array"
+    },
+    "filesAllowedToChange": {
+      "type": "array"
+    },
+    "filesForbiddenToChange": {
+      "type": "array"
+    },
+    "validationCommands": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

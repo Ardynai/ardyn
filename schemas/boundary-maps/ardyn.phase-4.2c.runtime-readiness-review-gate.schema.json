@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-4.2c.runtime-readiness-review-gate.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-4.2c.runtime-readiness-review-gate",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "currentState",
+    "nextAllowedState",
+    "prohibitedTransitions",
+    "readinessGate",
+    "externalReview",
+    "reviewPacket",
+    "evidenceLinks",
+    "blockerBurnDown",
+    "runtimeLikeCommandRejectionProbes",
+    "runtimeEffect",
+    "nonExecutionInvariants",
+    "safetyPosture"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-4.2c.runtime-readiness-review-gate"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "currentState": {
+      "type": "string"
+    },
+    "nextAllowedState": {
+      "type": "string"
+    },
+    "prohibitedTransitions": {
+      "type": "array"
+    },
+    "readinessGate": {
+      "type": "object"
+    },
+    "externalReview": {
+      "type": "object"
+    },
+    "reviewPacket": {
+      "type": "object"
+    },
+    "evidenceLinks": {
+      "type": "object"
+    },
+    "blockerBurnDown": {
+      "type": "object"
+    },
+    "runtimeLikeCommandRejectionProbes": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "nonExecutionInvariants": {
+      "type": "array"
+    },
+    "safetyPosture": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

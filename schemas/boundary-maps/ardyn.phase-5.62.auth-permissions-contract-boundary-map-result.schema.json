@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.62.auth-permissions-contract-boundary-map-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.62.auth-permissions-contract-boundary-map-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "authPermissionsContractBoundaryMapKind",
+    "authPermissionsContractBoundaryMapMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "authPermissionsContractBoundaryMapProduced",
+    "authPermissionsContractBoundaryMap",
+    "boundaryMapSummary",
+    "boundaryEntries",
+    "invalidBoundaryCasePolicy",
+    "topAuthPermissionsDatabaseStorageFabricApiBackendGaps",
+    "recommendedNextPhase",
+    "authPermissionsContractBoundaryMapOnly",
+    "reviewOnly",
+    "metadataOnly",
+    "authoritative",
+    "nonAuthorizingProof",
+    "reportRunsChecks",
+    "identityProviderImplemented",
+    "authenticationRuntimeImplemented",
+    "loginFlowImplemented",
+    "sessionRuntimeImplemented",
+    "tokenIssuerImplemented",
+    "apiKeyIssuerImplemented",
+    "roleEngineImplemented",
+    "permissionEvaluatorImplemented",
+    "authorizationEvaluatorImplemented",
+    "grantProducerImplemented",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "secretVaultEnvAccessEnabled",
+    "connectorGrantProduced",
+    "delegationEngineImplemented",
+    "revocationEngineImplemented",
+    "runtimeAuthorizationEnabled",
+    "policyEnforcementRuntimeImplemented",
+    "externalIdentityProviderIntegrated",
+    "keyringDidImplemented",
+    "databaseClientImplemented",
+    "databaseSchemaImplemented",
+    "databaseMigrationImplemented",
+    "rlsPolicyImplemented",
+    "storageAdapterImplemented",
+    "cacheEngineImplemented",
+    "cacheInvalidationRuntimeImplemented",
+    "transcriptWriterImplemented",
+    "auditWriterImplemented",
+    "filesystemWriteEnabled",
+    "importExportPathImplementedByArdyn",
+    "packageDistributionImplementedByArdyn",
+    "persistenceImplementedByArdyn",
+    "backendRuntimeImplementedByArdyn",
+    "apiEndpointImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "websocketHttpTransportImplementedByArdyn",
+    "fabricRuntimeImplementedByArdyn",
+    "encodedHandoffRuntimeImplementedByArdyn",
+    "codecImplemented",
+    "translatorRuntimeImplemented",
+    "commandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "runtimeExecutionEnabled",
+    "databaseStorageRuntimeWritesEnabled",
+    "secretsRuntimeIngestionEnabled",
+    "mcpToolExposureEnabled",
+    "taskExecutionEnabled",
+    "secureDropImplemented",
+    "st3ggVendored",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "backgroundPollingEnabled",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "uiFrontendBrowserRenderingImplemented",
+    "blockedCliBypassEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.62.auth-permissions-contract-boundary-map-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "authPermissionsContractBoundaryMapKind": {
+      "type": "string"
+    },
+    "authPermissionsContractBoundaryMapMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "authPermissionsContractBoundaryMapProduced": {
+      "type": "boolean"
+    },
+    "authPermissionsContractBoundaryMap": {
+      "type": "object"
+    },
+    "boundaryMapSummary": {
+      "type": "object"
+    },
+    "boundaryEntries": {
+      "type": "array"
+    },
+    "invalidBoundaryCasePolicy": {
+      "type": "object"
+    },
+    "topAuthPermissionsDatabaseStorageFabricApiBackendGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "authPermissionsContractBoundaryMapOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadataOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "reportRunsChecks": {
+      "type": "boolean"
+    },
+    "identityProviderImplemented": {
+      "type": "boolean"
+    },
+    "authenticationRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "loginFlowImplemented": {
+      "type": "boolean"
+    },
+    "sessionRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "tokenIssuerImplemented": {
+      "type": "boolean"
+    },
+    "apiKeyIssuerImplemented": {
+      "type": "boolean"
+    },
+    "roleEngineImplemented": {
+      "type": "boolean"
+    },
+    "permissionEvaluatorImplemented": {
+      "type": "boolean"
+    },
+    "authorizationEvaluatorImplemented": {
+      "type": "boolean"
+    },
+    "grantProducerImplemented": {
+      "type": "boolean"
+    },
+    "approvalDecisionProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantProduced": {
+      "type": "boolean"
+    },
+    "secretVaultEnvAccessEnabled": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "delegationEngineImplemented": {
+      "type": "boolean"
+    },
+    "revocationEngineImplemented": {
+      "type": "boolean"
+    },
+    "runtimeAuthorizationEnabled": {
+      "type": "boolean"
+    },
+    "policyEnforcementRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "externalIdentityProviderIntegrated": {
+      "type": "boolean"
+    },
+    "keyringDidImplemented": {
+      "type": "boolean"
+    },
+    "databaseClientImplemented": {
+      "type": "boolean"
+    },
+    "databaseSchemaImplemented": {
+      "type": "boolean"
+    },
+    "databaseMigrationImplemented": {
+      "type": "boolean"
+    },
+    "rlsPolicyImplemented": {
+      "type": "boolean"
+    },
+    "storageAdapterImplemented": {
+      "type": "boolean"
+    },
+    "cacheEngineImplemented": {
+      "type": "boolean"
+    },
+    "cacheInvalidationRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "transcriptWriterImplemented": {
+      "type": "boolean"
+    },
+    "auditWriterImplemented": {
+      "type": "boolean"
+    },
+    "filesystemWriteEnabled": {
+      "type": "boolean"
+    },
+    "importExportPathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packageDistributionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "persistenceImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "backendRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "apiEndpointImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "serverImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "websocketHttpTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "fabricRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "encodedHandoffRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "codecImplemented": {
+      "type": "boolean"
+    },
+    "translatorRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "commandExposureEnabled": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "secretsRuntimeIngestionEnabled": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "st3ggVendored": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "backgroundPollingEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "uiFrontendBrowserRenderingImplemented": {
+      "type": "boolean"
+    },
+    "blockedCliBypassEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

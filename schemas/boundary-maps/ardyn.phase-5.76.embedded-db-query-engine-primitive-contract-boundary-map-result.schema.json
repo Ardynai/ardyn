@@ -1,0 +1,491 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.76.embedded-db-query-engine-primitive-contract-boundary-map-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.76.embedded-db-query-engine-primitive-contract-boundary-map-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "embeddedDbQueryEnginePrimitiveContractBoundaryMapKind",
+    "embeddedDbQueryEnginePrimitiveContractBoundaryMapMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "embeddedDbQueryEnginePrimitiveContractBoundaryMapProduced",
+    "embeddedDbQueryEnginePrimitiveContractBoundaryMap",
+    "boundaryMapSummary",
+    "boundaryEntries",
+    "invalidBoundaryCasePolicy",
+    "topEmbeddedDbQueryEngineCodeModeFabricApiBackendGaps",
+    "recommendedNextPhase",
+    "embeddedDbQueryEnginePrimitiveContractBoundaryMapOnly",
+    "reviewOnly",
+    "metadataOnly",
+    "authoritative",
+    "nonAuthorizingProof",
+    "reportRunsChecks",
+    "runtimeExecutionEnabled",
+    "runtimeAuthorizationEnabled",
+    "runtimeCommandEnabled",
+    "commandExposureEnabled",
+    "commandsExposed",
+    "connectorGrantProduced",
+    "fabricRuntimeImplementedByArdyn",
+    "fabricRuntimeEnabled",
+    "websocketHttpTransportImplementedByArdyn",
+    "websocketRuntimeEnabled",
+    "httpTransportImplementedByArdyn",
+    "httpRuntimeEnabled",
+    "mcpRuntimeEnabled",
+    "mcpToolExposureEnabled",
+    "taskExecutionEnabled",
+    "secureDropImplemented",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "schedulePollingEnabled",
+    "filesystemAccessEnabled",
+    "filesystemReadEnabled",
+    "filesystemWriteEnabled",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "sqliteRuntimeEnabled",
+    "embeddedDbReaderEnabled",
+    "embeddedDbRuntimeEnabled",
+    "queryEngineRuntimeEnabled",
+    "databaseClientImplemented",
+    "databaseFileParserEnabled",
+    "pageParserEnabled",
+    "sqlParserRuntimeEnabled",
+    "queryExecutorEnabled",
+    "tableScanEnabled",
+    "fullTableScanEnabled",
+    "indexLookupEnabled",
+    "indexScanEnabled",
+    "btreeTraversalEnabled",
+    "transactionWalRuntimeEnabled",
+    "transactionRuntimeEnabled",
+    "walRuntimeEnabled",
+    "migrationSchemaChangeEnabled",
+    "databaseMigrationImplemented",
+    "storageAdapterImplemented",
+    "dbReadEnabled",
+    "dbWriteEnabled",
+    "dbReadWriteEnabled",
+    "databaseStorageRuntimeWritesEnabled",
+    "cacheRuntimeEnabled",
+    "cacheEngineImplemented",
+    "rlsRuntimeImplemented",
+    "queryAuditWriterImplemented",
+    "queryAuditRuntimeEnabled",
+    "shellRuntimeEnabled",
+    "commandRuntimeEnabled",
+    "matrixClientRuntimeEnabled",
+    "externalGatewayRuntimeEnabled",
+    "multiverseFabricCoreImportEnabled",
+    "fabricCoreNpmDependencyEnabled",
+    "fabricTransportDSidecarClientEnabled",
+    "fabricCoreTransportRuntimeEnabled",
+    "contentAddressedTransportEnabled",
+    "chunkedTransferEnabled",
+    "resumableTransferEnabled",
+    "multiSourceTransferEnabled",
+    "bittorrentDhtSwarmP2pEnabled",
+    "largePayloadTransferRuntimeEnabled",
+    "backendRuntimeImplementedByArdyn",
+    "backendApiServerMiddlewareImplemented",
+    "apiEndpointImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "transcriptWriterImplemented",
+    "auditWriterImplemented",
+    "importExportPathImplementedByArdyn",
+    "packageDistributionImplementedByArdyn",
+    "persistenceImplementedByArdyn",
+    "loggerRuntimeImplemented",
+    "auditWriterRuntimeImplemented",
+    "telemetryClientImplemented",
+    "healthCheckRuntimeImplemented",
+    "backupJobImplemented",
+    "restoreJobImplemented",
+    "failoverRuntimeImplemented",
+    "infrastructureAutomationImplemented",
+    "deploymentAutomationImplemented",
+    "complianceEnforcementImplemented",
+    "piiProcessingImplemented",
+    "retentionJobImplemented",
+    "exportJobImplemented",
+    "testingCiReleaseAutomationEnabled",
+    "encodedHandoffRuntimeImplementedByArdyn",
+    "codecRuntimeEnabled",
+    "translatorRuntimeEnabled",
+    "filesystemProcessRuntimeEnabled",
+    "uiRuntimeImplemented",
+    "blockedCliBypassEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.76.embedded-db-query-engine-primitive-contract-boundary-map-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "embeddedDbQueryEnginePrimitiveContractBoundaryMapKind": {
+      "type": "string"
+    },
+    "embeddedDbQueryEnginePrimitiveContractBoundaryMapMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "embeddedDbQueryEnginePrimitiveContractBoundaryMapProduced": {
+      "type": "boolean"
+    },
+    "embeddedDbQueryEnginePrimitiveContractBoundaryMap": {
+      "type": "object"
+    },
+    "boundaryMapSummary": {
+      "type": "object"
+    },
+    "boundaryEntries": {
+      "type": "array"
+    },
+    "invalidBoundaryCasePolicy": {
+      "type": "object"
+    },
+    "topEmbeddedDbQueryEngineCodeModeFabricApiBackendGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "embeddedDbQueryEnginePrimitiveContractBoundaryMapOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadataOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "reportRunsChecks": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "runtimeAuthorizationEnabled": {
+      "type": "boolean"
+    },
+    "runtimeCommandEnabled": {
+      "type": "boolean"
+    },
+    "commandExposureEnabled": {
+      "type": "boolean"
+    },
+    "commandsExposed": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "fabricRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "fabricRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "websocketHttpTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "websocketRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "httpTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "httpRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "mcpRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "schedulePollingEnabled": {
+      "type": "boolean"
+    },
+    "filesystemAccessEnabled": {
+      "type": "boolean"
+    },
+    "filesystemReadEnabled": {
+      "type": "boolean"
+    },
+    "filesystemWriteEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "sqliteRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "embeddedDbReaderEnabled": {
+      "type": "boolean"
+    },
+    "embeddedDbRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "queryEngineRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "databaseClientImplemented": {
+      "type": "boolean"
+    },
+    "databaseFileParserEnabled": {
+      "type": "boolean"
+    },
+    "pageParserEnabled": {
+      "type": "boolean"
+    },
+    "sqlParserRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "queryExecutorEnabled": {
+      "type": "boolean"
+    },
+    "tableScanEnabled": {
+      "type": "boolean"
+    },
+    "fullTableScanEnabled": {
+      "type": "boolean"
+    },
+    "indexLookupEnabled": {
+      "type": "boolean"
+    },
+    "indexScanEnabled": {
+      "type": "boolean"
+    },
+    "btreeTraversalEnabled": {
+      "type": "boolean"
+    },
+    "transactionWalRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "transactionRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "walRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "migrationSchemaChangeEnabled": {
+      "type": "boolean"
+    },
+    "databaseMigrationImplemented": {
+      "type": "boolean"
+    },
+    "storageAdapterImplemented": {
+      "type": "boolean"
+    },
+    "dbReadEnabled": {
+      "type": "boolean"
+    },
+    "dbWriteEnabled": {
+      "type": "boolean"
+    },
+    "dbReadWriteEnabled": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "cacheRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "cacheEngineImplemented": {
+      "type": "boolean"
+    },
+    "rlsRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "queryAuditWriterImplemented": {
+      "type": "boolean"
+    },
+    "queryAuditRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "shellRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "commandRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "matrixClientRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "externalGatewayRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "multiverseFabricCoreImportEnabled": {
+      "type": "boolean"
+    },
+    "fabricCoreNpmDependencyEnabled": {
+      "type": "boolean"
+    },
+    "fabricTransportDSidecarClientEnabled": {
+      "type": "boolean"
+    },
+    "fabricCoreTransportRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "contentAddressedTransportEnabled": {
+      "type": "boolean"
+    },
+    "chunkedTransferEnabled": {
+      "type": "boolean"
+    },
+    "resumableTransferEnabled": {
+      "type": "boolean"
+    },
+    "multiSourceTransferEnabled": {
+      "type": "boolean"
+    },
+    "bittorrentDhtSwarmP2pEnabled": {
+      "type": "boolean"
+    },
+    "largePayloadTransferRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "backendRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "backendApiServerMiddlewareImplemented": {
+      "type": "boolean"
+    },
+    "apiEndpointImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "serverImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "transcriptWriterImplemented": {
+      "type": "boolean"
+    },
+    "auditWriterImplemented": {
+      "type": "boolean"
+    },
+    "importExportPathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packageDistributionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "persistenceImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "loggerRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "auditWriterRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "telemetryClientImplemented": {
+      "type": "boolean"
+    },
+    "healthCheckRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "backupJobImplemented": {
+      "type": "boolean"
+    },
+    "restoreJobImplemented": {
+      "type": "boolean"
+    },
+    "failoverRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "infrastructureAutomationImplemented": {
+      "type": "boolean"
+    },
+    "deploymentAutomationImplemented": {
+      "type": "boolean"
+    },
+    "complianceEnforcementImplemented": {
+      "type": "boolean"
+    },
+    "piiProcessingImplemented": {
+      "type": "boolean"
+    },
+    "retentionJobImplemented": {
+      "type": "boolean"
+    },
+    "exportJobImplemented": {
+      "type": "boolean"
+    },
+    "testingCiReleaseAutomationEnabled": {
+      "type": "boolean"
+    },
+    "encodedHandoffRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "codecRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "translatorRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "filesystemProcessRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "uiRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "blockedCliBypassEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

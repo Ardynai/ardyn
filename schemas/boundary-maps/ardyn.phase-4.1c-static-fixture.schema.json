@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-4.1c-static-fixture.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-4.1c-static-fixture",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "fixtureKind",
+    "fixtureName",
+    "phase",
+    "input",
+    "expectedClassification",
+    "reviewOnly",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-4.1c-static-fixture"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "fixtureKind": {
+      "type": "string"
+    },
+    "fixtureName": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "input": {
+      "type": "string"
+    },
+    "expectedClassification": {
+      "type": "string"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

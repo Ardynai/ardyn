@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.host-policy-review-record-comparison.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.host-policy-review-record-comparison",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "comparisonPhase",
+    "artifactKind",
+    "equal",
+    "differenceCount",
+    "failClosed",
+    "manualReviewRequired",
+    "comparisonDecision",
+    "left",
+    "right",
+    "differences",
+    "nonExecuting",
+    "safety"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.host-policy-review-record-comparison"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "comparisonPhase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "equal": {
+      "type": "boolean"
+    },
+    "differenceCount": {
+      "type": "integer"
+    },
+    "failClosed": {
+      "type": "boolean"
+    },
+    "manualReviewRequired": {
+      "type": "boolean"
+    },
+    "comparisonDecision": {
+      "type": "object"
+    },
+    "left": {
+      "type": "object"
+    },
+    "right": {
+      "type": "object"
+    },
+    "differences": {
+      "type": "array"
+    },
+    "nonExecuting": {
+      "type": "boolean"
+    },
+    "safety": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

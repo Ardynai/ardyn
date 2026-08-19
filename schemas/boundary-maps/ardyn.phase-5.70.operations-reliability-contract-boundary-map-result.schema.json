@@ -1,0 +1,411 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.70.operations-reliability-contract-boundary-map-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.70.operations-reliability-contract-boundary-map-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "operationsReliabilityContractBoundaryMapKind",
+    "operationsReliabilityContractBoundaryMapMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "operationsReliabilityContractBoundaryMapProduced",
+    "operationsReliabilityContractBoundaryMap",
+    "boundaryMapSummary",
+    "boundaryEntries",
+    "invalidBoundaryCasePolicy",
+    "topOperationsReliabilityCodeModeFabricApiBackendGaps",
+    "recommendedNextPhase",
+    "operationsReliabilityContractBoundaryMapOnly",
+    "reviewOnly",
+    "metadataOnly",
+    "authoritative",
+    "nonAuthorizingProof",
+    "reportRunsChecks",
+    "runtimeExecutionEnabled",
+    "runtimeAuthorizationEnabled",
+    "runtimeCommandEnabled",
+    "commandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "connectorGrantProduced",
+    "fabricRuntimeImplementedByArdyn",
+    "websocketHttpTransportImplementedByArdyn",
+    "mcpToolExposureEnabled",
+    "taskExecutionEnabled",
+    "secureDropImplemented",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "filesystemWriteEnabled",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "retryEngineEnabled",
+    "idempotencyStoreEnabled",
+    "circuitBreakerEnabled",
+    "queueEnabled",
+    "schedulerEnabled",
+    "schedulerImplemented",
+    "leaseStoreEnabled",
+    "workerEnabled",
+    "backgroundWorkerEnabled",
+    "backgroundSubagentRuntimeEnabled",
+    "frontDeskModelRuntimeEnabled",
+    "modelRouterEnabled",
+    "processSupervisorImplemented",
+    "runbookExecutorEnabled",
+    "failoverRuntimeImplemented",
+    "operationMonitorEnabled",
+    "orchestrationRuntimeEnabled",
+    "fusionRuntimeEnabled",
+    "judgeRuntimeEnabled",
+    "computerUseRuntimeEnabled",
+    "cuaDriverRuntimeEnabled",
+    "skillhubRollbackRuntimeEnabled",
+    "skillhubInstallerEnabled",
+    "mcpRuntimeEnabled",
+    "toolRuntimeEnabled",
+    "pluginRuntimeEnabled",
+    "providerRuntimeEnabled",
+    "backendRuntimeImplementedByArdyn",
+    "backendApiServerMiddlewareImplemented",
+    "apiEndpointImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "databaseClientImplemented",
+    "databaseStorageRuntimeWritesEnabled",
+    "cacheEngineImplemented",
+    "rlsRuntimeImplemented",
+    "databaseMigrationImplemented",
+    "transcriptWriterImplemented",
+    "auditWriterImplemented",
+    "importExportPathImplementedByArdyn",
+    "packageDistributionImplementedByArdyn",
+    "persistenceImplementedByArdyn",
+    "loggerRuntimeImplemented",
+    "auditWriterRuntimeImplemented",
+    "telemetryClientImplemented",
+    "healthCheckRuntimeImplemented",
+    "backupJobImplemented",
+    "restoreJobImplemented",
+    "infrastructureAutomationImplemented",
+    "deploymentAutomationImplemented",
+    "complianceEnforcementImplemented",
+    "piiProcessingImplemented",
+    "retentionJobImplemented",
+    "exportJobImplemented",
+    "testingCiReleaseAutomationEnabled",
+    "hermesRuntimeEnabled",
+    "agentModeRuntimeEnabled",
+    "profileLoaderEnabled",
+    "skillLoaderEnabled",
+    "uiFrontendBrowserRenderingImplemented",
+    "blockedCliBypassEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.70.operations-reliability-contract-boundary-map-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "operationsReliabilityContractBoundaryMapKind": {
+      "type": "string"
+    },
+    "operationsReliabilityContractBoundaryMapMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "operationsReliabilityContractBoundaryMapProduced": {
+      "type": "boolean"
+    },
+    "operationsReliabilityContractBoundaryMap": {
+      "type": "object"
+    },
+    "boundaryMapSummary": {
+      "type": "object"
+    },
+    "boundaryEntries": {
+      "type": "array"
+    },
+    "invalidBoundaryCasePolicy": {
+      "type": "object"
+    },
+    "topOperationsReliabilityCodeModeFabricApiBackendGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "operationsReliabilityContractBoundaryMapOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadataOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "reportRunsChecks": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "runtimeAuthorizationEnabled": {
+      "type": "boolean"
+    },
+    "runtimeCommandEnabled": {
+      "type": "boolean"
+    },
+    "commandExposureEnabled": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "fabricRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "websocketHttpTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "filesystemWriteEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "retryEngineEnabled": {
+      "type": "boolean"
+    },
+    "idempotencyStoreEnabled": {
+      "type": "boolean"
+    },
+    "circuitBreakerEnabled": {
+      "type": "boolean"
+    },
+    "queueEnabled": {
+      "type": "boolean"
+    },
+    "schedulerEnabled": {
+      "type": "boolean"
+    },
+    "schedulerImplemented": {
+      "type": "boolean"
+    },
+    "leaseStoreEnabled": {
+      "type": "boolean"
+    },
+    "workerEnabled": {
+      "type": "boolean"
+    },
+    "backgroundWorkerEnabled": {
+      "type": "boolean"
+    },
+    "backgroundSubagentRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "frontDeskModelRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "modelRouterEnabled": {
+      "type": "boolean"
+    },
+    "processSupervisorImplemented": {
+      "type": "boolean"
+    },
+    "runbookExecutorEnabled": {
+      "type": "boolean"
+    },
+    "failoverRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "operationMonitorEnabled": {
+      "type": "boolean"
+    },
+    "orchestrationRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "fusionRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "judgeRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "computerUseRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "cuaDriverRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "skillhubRollbackRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "skillhubInstallerEnabled": {
+      "type": "boolean"
+    },
+    "mcpRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "toolRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "pluginRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "providerRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "backendRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "backendApiServerMiddlewareImplemented": {
+      "type": "boolean"
+    },
+    "apiEndpointImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "serverImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "databaseClientImplemented": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "cacheEngineImplemented": {
+      "type": "boolean"
+    },
+    "rlsRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "databaseMigrationImplemented": {
+      "type": "boolean"
+    },
+    "transcriptWriterImplemented": {
+      "type": "boolean"
+    },
+    "auditWriterImplemented": {
+      "type": "boolean"
+    },
+    "importExportPathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packageDistributionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "persistenceImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "loggerRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "auditWriterRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "telemetryClientImplemented": {
+      "type": "boolean"
+    },
+    "healthCheckRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "backupJobImplemented": {
+      "type": "boolean"
+    },
+    "restoreJobImplemented": {
+      "type": "boolean"
+    },
+    "infrastructureAutomationImplemented": {
+      "type": "boolean"
+    },
+    "deploymentAutomationImplemented": {
+      "type": "boolean"
+    },
+    "complianceEnforcementImplemented": {
+      "type": "boolean"
+    },
+    "piiProcessingImplemented": {
+      "type": "boolean"
+    },
+    "retentionJobImplemented": {
+      "type": "boolean"
+    },
+    "exportJobImplemented": {
+      "type": "boolean"
+    },
+    "testingCiReleaseAutomationEnabled": {
+      "type": "boolean"
+    },
+    "hermesRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "agentModeRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "profileLoaderEnabled": {
+      "type": "boolean"
+    },
+    "skillLoaderEnabled": {
+      "type": "boolean"
+    },
+    "uiFrontendBrowserRenderingImplemented": {
+      "type": "boolean"
+    },
+    "blockedCliBypassEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

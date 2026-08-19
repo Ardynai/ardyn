@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.59.fabric-aware-api-backend-contract-boundary-map-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.59.fabric-aware-api-backend-contract-boundary-map-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "fabricAwareApiBackendContractBoundaryMapKind",
+    "fabricAwareApiBackendContractBoundaryMapMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "fabricAwareApiBackendContractBoundaryMapProduced",
+    "fabricAwareApiBackendContractBoundaryMap",
+    "boundaryMapSummary",
+    "boundaryEntries",
+    "invalidBoundaryCasePolicy",
+    "topApiBackendFabricContractGaps",
+    "recommendedNextPhase",
+    "fabricAwareApiBackendContractBoundaryMapOnly",
+    "reviewOnly",
+    "metadataOnly",
+    "authoritative",
+    "nonAuthorizingProof",
+    "backendRuntimeImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "apiEndpointImplementedByArdyn",
+    "endpointImplementedByArdyn",
+    "httpServerImplementedByArdyn",
+    "websocketHttpTransportImplementedByArdyn",
+    "fabricRuntimeImplementedByArdyn",
+    "fabricBusBrokerTransportImplementedByArdyn",
+    "adapterRuntimeImplementedByArdyn",
+    "connectorGrantProduced",
+    "registryConnectionImplementedByArdyn",
+    "liveRegistryConnectionEnabled",
+    "taskExecutionImplementedByArdyn",
+    "taskExecutionEnabled",
+    "importExportPathImplementedByArdyn",
+    "packageDistributionImplementedByArdyn",
+    "packageWriterImplementedByArdyn",
+    "packageReaderImplementedByArdyn",
+    "packagePersistenceImplementedByArdyn",
+    "persistenceImplementedByArdyn",
+    "resultCollectorImplementedByArdyn",
+    "resultValidatorImplementedByArdyn",
+    "reviewRouterImplementedByArdyn",
+    "evaluatorImplementedByArdyn",
+    "evaluatorExecutionPerformed",
+    "approvalPathImplementedByArdyn",
+    "approvalDecisionProducedByArdyn",
+    "approvalGrantProducedByArdyn",
+    "commandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "runtimeExecutionEnabled",
+    "databaseStorageRuntimeWritesEnabled",
+    "secretsRuntimeIngestionEnabled",
+    "mcpToolExposureEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "fileSelectionEnabled",
+    "connectorIngestionAdded",
+    "secretVaultEnvAccessEnabled",
+    "st3ggVendored",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "backgroundPollingEnabled",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "externalLookupsEnabled",
+    "uiFrontendBrowserRenderingImplemented",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.59.fabric-aware-api-backend-contract-boundary-map-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "fabricAwareApiBackendContractBoundaryMapKind": {
+      "type": "string"
+    },
+    "fabricAwareApiBackendContractBoundaryMapMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "fabricAwareApiBackendContractBoundaryMapProduced": {
+      "type": "boolean"
+    },
+    "fabricAwareApiBackendContractBoundaryMap": {
+      "type": "object"
+    },
+    "boundaryMapSummary": {
+      "type": "object"
+    },
+    "boundaryEntries": {
+      "type": "array"
+    },
+    "invalidBoundaryCasePolicy": {
+      "type": "object"
+    },
+    "topApiBackendFabricContractGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "fabricAwareApiBackendContractBoundaryMapOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadataOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "backendRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "serverImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "apiEndpointImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "endpointImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "httpServerImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "websocketHttpTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "fabricRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "fabricBusBrokerTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "adapterRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "registryConnectionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "liveRegistryConnectionEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "importExportPathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packageDistributionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packageWriterImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packageReaderImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packagePersistenceImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "persistenceImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "resultCollectorImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "resultValidatorImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "reviewRouterImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "evaluatorImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "evaluatorExecutionPerformed": {
+      "type": "boolean"
+    },
+    "approvalPathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "approvalDecisionProducedByArdyn": {
+      "type": "boolean"
+    },
+    "approvalGrantProducedByArdyn": {
+      "type": "boolean"
+    },
+    "commandExposureEnabled": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "secretsRuntimeIngestionEnabled": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "secureDropCryptoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropTransportImplemented": {
+      "type": "boolean"
+    },
+    "secureDropStegoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropSendReceiveImplemented": {
+      "type": "boolean"
+    },
+    "secureDropInboxPollingEnabled": {
+      "type": "boolean"
+    },
+    "fileSelectionEnabled": {
+      "type": "boolean"
+    },
+    "connectorIngestionAdded": {
+      "type": "boolean"
+    },
+    "secretVaultEnvAccessEnabled": {
+      "type": "boolean"
+    },
+    "st3ggVendored": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "backgroundPollingEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "externalLookupsEnabled": {
+      "type": "boolean"
+    },
+    "uiFrontendBrowserRenderingImplemented": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

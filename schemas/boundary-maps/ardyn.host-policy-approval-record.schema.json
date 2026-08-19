@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.host-policy-approval-record.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.host-policy-approval-record",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "recordKind",
+    "recordPhase",
+    "reviewedPhase",
+    "approvalTarget",
+    "operatorConsent",
+    "runtimeCapabilityRequest",
+    "approvalStatus",
+    "validity",
+    "runtimeEffect",
+    "currentRecordRuntimeStatement",
+    "nonExecutionInvariantSummary",
+    "classification",
+    "denial",
+    "audit"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.host-policy-approval-record"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "recordKind": {
+      "type": "string"
+    },
+    "recordPhase": {
+      "type": "string"
+    },
+    "reviewedPhase": {
+      "type": "string"
+    },
+    "approvalTarget": {
+      "type": "object"
+    },
+    "operatorConsent": {
+      "type": "object"
+    },
+    "runtimeCapabilityRequest": {
+      "type": "object"
+    },
+    "approvalStatus": {
+      "type": "string"
+    },
+    "validity": {
+      "type": "object"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "currentRecordRuntimeStatement": {
+      "type": "string"
+    },
+    "nonExecutionInvariantSummary": {
+      "type": "object"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "denial": {
+      "type": "object"
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.71.maintenance-governance-adr-dependency-policy-contract-boundary-map-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.71.maintenance-governance-adr-dependency-policy-contract-boundary-map-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapKind",
+    "maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapProduced",
+    "maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap",
+    "boundaryMapSummary",
+    "boundaryEntries",
+    "invalidBoundaryCasePolicy",
+    "topMaintenanceGovernanceSecretsCodeModeFabricApiBackendGaps",
+    "recommendedNextPhase",
+    "maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapOnly",
+    "reviewOnly",
+    "metadataOnly",
+    "authoritative",
+    "nonAuthorizingProof",
+    "reportRunsChecks",
+    "runtimeExecutionEnabled",
+    "runtimeAuthorizationEnabled",
+    "runtimeCommandEnabled",
+    "commandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "connectorGrantProduced",
+    "fabricRuntimeImplementedByArdyn",
+    "websocketHttpTransportImplementedByArdyn",
+    "mcpToolExposureEnabled",
+    "taskExecutionEnabled",
+    "secureDropImplemented",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "filesystemWriteEnabled",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "adrGeneratorEnabled",
+    "diagramGeneratorEnabled",
+    "dependencyUpdateAutomationEnabled",
+    "dependencyUpdateBotEnabled",
+    "vulnerabilityPatchAutomationEnabled",
+    "releasePublishingEnabled",
+    "ciModificationEnabled",
+    "ciWorkflowModificationEnabled",
+    "policyEngineEnabled",
+    "waiverAutomationEnabled",
+    "adrGeneratorRuntimeEnabled",
+    "diagramGeneratorRuntimeEnabled",
+    "graphifyRuntimeMutationEnabled",
+    "graphifyRepoMutationEnabled",
+    "codeModeRuntimeEnabled",
+    "subagentRuntimeEnabled",
+    "julesAutomationEnabled",
+    "externalRepoImportEnabled",
+    "externalRepoVendoringEnabled",
+    "externalRepoCopyingEnabled",
+    "packageExportEnabled",
+    "packageDistributionImplementedByArdyn",
+    "deploymentAutomationImplemented",
+    "runtimeGovernanceEnabled",
+    "backendRuntimeImplementedByArdyn",
+    "backendApiServerMiddlewareImplemented",
+    "apiEndpointImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "databaseClientImplemented",
+    "databaseStorageRuntimeWritesEnabled",
+    "cacheEngineImplemented",
+    "rlsRuntimeImplemented",
+    "databaseMigrationImplemented",
+    "transcriptWriterImplemented",
+    "auditWriterImplemented",
+    "importExportPathImplementedByArdyn",
+    "persistenceImplementedByArdyn",
+    "loggerRuntimeImplemented",
+    "auditWriterRuntimeImplemented",
+    "telemetryClientImplemented",
+    "healthCheckRuntimeImplemented",
+    "backupJobImplemented",
+    "restoreJobImplemented",
+    "failoverRuntimeImplemented",
+    "infrastructureAutomationImplemented",
+    "complianceEnforcementImplemented",
+    "piiProcessingImplemented",
+    "retentionJobImplemented",
+    "exportJobImplemented",
+    "testingCiReleaseAutomationEnabled",
+    "hermesRuntimeEnabled",
+    "cuaDriverRuntimeEnabled",
+    "computerUseRuntimeEnabled",
+    "agentModeRuntimeEnabled",
+    "profileLoaderEnabled",
+    "skillLoaderEnabled",
+    "uiFrontendBrowserRenderingImplemented",
+    "blockedCliBypassEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.71.maintenance-governance-adr-dependency-policy-contract-boundary-map-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapKind": {
+      "type": "string"
+    },
+    "maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapProduced": {
+      "type": "boolean"
+    },
+    "maintenanceGovernanceAdrDependencyPolicyContractBoundaryMap": {
+      "type": "object"
+    },
+    "boundaryMapSummary": {
+      "type": "object"
+    },
+    "boundaryEntries": {
+      "type": "array"
+    },
+    "invalidBoundaryCasePolicy": {
+      "type": "object"
+    },
+    "topMaintenanceGovernanceSecretsCodeModeFabricApiBackendGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "maintenanceGovernanceAdrDependencyPolicyContractBoundaryMapOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadataOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "reportRunsChecks": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "runtimeAuthorizationEnabled": {
+      "type": "boolean"
+    },
+    "runtimeCommandEnabled": {
+      "type": "boolean"
+    },
+    "commandExposureEnabled": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "fabricRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "websocketHttpTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "filesystemWriteEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "adrGeneratorEnabled": {
+      "type": "boolean"
+    },
+    "diagramGeneratorEnabled": {
+      "type": "boolean"
+    },
+    "dependencyUpdateAutomationEnabled": {
+      "type": "boolean"
+    },
+    "dependencyUpdateBotEnabled": {
+      "type": "boolean"
+    },
+    "vulnerabilityPatchAutomationEnabled": {
+      "type": "boolean"
+    },
+    "releasePublishingEnabled": {
+      "type": "boolean"
+    },
+    "ciModificationEnabled": {
+      "type": "boolean"
+    },
+    "ciWorkflowModificationEnabled": {
+      "type": "boolean"
+    },
+    "policyEngineEnabled": {
+      "type": "boolean"
+    },
+    "waiverAutomationEnabled": {
+      "type": "boolean"
+    },
+    "adrGeneratorRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "diagramGeneratorRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "graphifyRuntimeMutationEnabled": {
+      "type": "boolean"
+    },
+    "graphifyRepoMutationEnabled": {
+      "type": "boolean"
+    },
+    "codeModeRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "subagentRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "julesAutomationEnabled": {
+      "type": "boolean"
+    },
+    "externalRepoImportEnabled": {
+      "type": "boolean"
+    },
+    "externalRepoVendoringEnabled": {
+      "type": "boolean"
+    },
+    "externalRepoCopyingEnabled": {
+      "type": "boolean"
+    },
+    "packageExportEnabled": {
+      "type": "boolean"
+    },
+    "packageDistributionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "deploymentAutomationImplemented": {
+      "type": "boolean"
+    },
+    "runtimeGovernanceEnabled": {
+      "type": "boolean"
+    },
+    "backendRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "backendApiServerMiddlewareImplemented": {
+      "type": "boolean"
+    },
+    "apiEndpointImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "serverImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "databaseClientImplemented": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "cacheEngineImplemented": {
+      "type": "boolean"
+    },
+    "rlsRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "databaseMigrationImplemented": {
+      "type": "boolean"
+    },
+    "transcriptWriterImplemented": {
+      "type": "boolean"
+    },
+    "auditWriterImplemented": {
+      "type": "boolean"
+    },
+    "importExportPathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "persistenceImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "loggerRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "auditWriterRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "telemetryClientImplemented": {
+      "type": "boolean"
+    },
+    "healthCheckRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "backupJobImplemented": {
+      "type": "boolean"
+    },
+    "restoreJobImplemented": {
+      "type": "boolean"
+    },
+    "failoverRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "infrastructureAutomationImplemented": {
+      "type": "boolean"
+    },
+    "complianceEnforcementImplemented": {
+      "type": "boolean"
+    },
+    "piiProcessingImplemented": {
+      "type": "boolean"
+    },
+    "retentionJobImplemented": {
+      "type": "boolean"
+    },
+    "exportJobImplemented": {
+      "type": "boolean"
+    },
+    "testingCiReleaseAutomationEnabled": {
+      "type": "boolean"
+    },
+    "hermesRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "cuaDriverRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "computerUseRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "agentModeRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "profileLoaderEnabled": {
+      "type": "boolean"
+    },
+    "skillLoaderEnabled": {
+      "type": "boolean"
+    },
+    "uiFrontendBrowserRenderingImplemented": {
+      "type": "boolean"
+    },
+    "blockedCliBypassEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

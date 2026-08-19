@@ -1,0 +1,459 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.73.external-gateway-matrix-transport-contract-boundary-map-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.73.external-gateway-matrix-transport-contract-boundary-map-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "externalGatewayMatrixTransportContractBoundaryMapKind",
+    "externalGatewayMatrixTransportContractBoundaryMapMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "externalGatewayMatrixTransportContractBoundaryMapProduced",
+    "externalGatewayMatrixTransportContractBoundaryMap",
+    "boundaryMapSummary",
+    "boundaryEntries",
+    "invalidBoundaryCasePolicy",
+    "topMatrixGatewayFabricCoreConsumerShellSqliteCodeModeFabricApiBackendGaps",
+    "recommendedNextPhase",
+    "externalGatewayMatrixTransportContractBoundaryMapOnly",
+    "reviewOnly",
+    "metadataOnly",
+    "authoritative",
+    "nonAuthorizingProof",
+    "reportRunsChecks",
+    "runtimeExecutionEnabled",
+    "runtimeAuthorizationEnabled",
+    "runtimeCommandEnabled",
+    "commandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "connectorGrantProduced",
+    "fabricRuntimeImplementedByArdyn",
+    "websocketHttpTransportImplementedByArdyn",
+    "httpTransportImplementedByArdyn",
+    "mcpRuntimeEnabled",
+    "mcpToolExposureEnabled",
+    "taskExecutionEnabled",
+    "secureDropImplemented",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "schedulePollingEnabled",
+    "filesystemWriteEnabled",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "matrixClientRuntimeEnabled",
+    "homeserverConnectionEnabled",
+    "matrixRoomJoinRuntimeEnabled",
+    "matrixRoomSendRuntimeEnabled",
+    "matrixRoomReadRuntimeEnabled",
+    "matrixRoomPollRuntimeEnabled",
+    "e2eeKeySessionHandlingEnabled",
+    "accessTokenLoaderEnabled",
+    "gatewayRuntimeEnabled",
+    "externalGatewayRuntimeEnabled",
+    "externalPlatformConnectorEnabled",
+    "messageIngestionRuntimeEnabled",
+    "messageExportRuntimeEnabled",
+    "contentAddressedTransportEnabled",
+    "chunkedTransferEnabled",
+    "resumableTransferEnabled",
+    "multiSourceTransferEnabled",
+    "bittorrentDhtSwarmP2pEnabled",
+    "largePayloadTransferRuntimeEnabled",
+    "fabricCoreProducerBehaviorEnabled",
+    "envIngestionEnabled",
+    "secretLoadingEnabled",
+    "vaultAccessEnabled",
+    "keyringRuntimeEnabled",
+    "didRuntimeEnabled",
+    "tokenLoaderEnabled",
+    "oauthFlowEnabled",
+    "sessionHandlingEnabled",
+    "shellRuntimeEnabled",
+    "pathLookupRuntimeEnabled",
+    "executableLookupRuntimeEnabled",
+    "shellHistoryRuntimeEnabled",
+    "sqliteRuntimeEnabled",
+    "embeddedDbRuntimeEnabled",
+    "queryEngineRuntimeEnabled",
+    "sqliteKeyRuntimeEnabled",
+    "backendRuntimeImplementedByArdyn",
+    "backendApiServerMiddlewareImplemented",
+    "apiEndpointImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "databaseClientImplemented",
+    "databaseStorageRuntimeWritesEnabled",
+    "cacheEngineImplemented",
+    "rlsRuntimeImplemented",
+    "databaseMigrationImplemented",
+    "transcriptWriterImplemented",
+    "auditWriterImplemented",
+    "importExportPathImplementedByArdyn",
+    "packageDistributionImplementedByArdyn",
+    "persistenceImplementedByArdyn",
+    "loggerRuntimeImplemented",
+    "auditWriterRuntimeImplemented",
+    "telemetryClientImplemented",
+    "healthCheckRuntimeImplemented",
+    "backupJobImplemented",
+    "restoreJobImplemented",
+    "failoverRuntimeImplemented",
+    "infrastructureAutomationImplemented",
+    "deploymentAutomationImplemented",
+    "complianceEnforcementImplemented",
+    "piiProcessingImplemented",
+    "retentionJobImplemented",
+    "exportJobImplemented",
+    "testingCiReleaseAutomationEnabled",
+    "encodedHandoffRuntimeImplementedByArdyn",
+    "codecRuntimeEnabled",
+    "translatorRuntimeEnabled",
+    "filesystemProcessRuntimeEnabled",
+    "blockedCliBypassEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.73.external-gateway-matrix-transport-contract-boundary-map-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "externalGatewayMatrixTransportContractBoundaryMapKind": {
+      "type": "string"
+    },
+    "externalGatewayMatrixTransportContractBoundaryMapMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "externalGatewayMatrixTransportContractBoundaryMapProduced": {
+      "type": "boolean"
+    },
+    "externalGatewayMatrixTransportContractBoundaryMap": {
+      "type": "object"
+    },
+    "boundaryMapSummary": {
+      "type": "object"
+    },
+    "boundaryEntries": {
+      "type": "array"
+    },
+    "invalidBoundaryCasePolicy": {
+      "type": "object"
+    },
+    "topMatrixGatewayFabricCoreConsumerShellSqliteCodeModeFabricApiBackendGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "externalGatewayMatrixTransportContractBoundaryMapOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadataOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "reportRunsChecks": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "runtimeAuthorizationEnabled": {
+      "type": "boolean"
+    },
+    "runtimeCommandEnabled": {
+      "type": "boolean"
+    },
+    "commandExposureEnabled": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "fabricRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "websocketHttpTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "httpTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "mcpRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "schedulePollingEnabled": {
+      "type": "boolean"
+    },
+    "filesystemWriteEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "matrixClientRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "homeserverConnectionEnabled": {
+      "type": "boolean"
+    },
+    "matrixRoomJoinRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "matrixRoomSendRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "matrixRoomReadRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "matrixRoomPollRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "e2eeKeySessionHandlingEnabled": {
+      "type": "boolean"
+    },
+    "accessTokenLoaderEnabled": {
+      "type": "boolean"
+    },
+    "gatewayRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "externalGatewayRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "externalPlatformConnectorEnabled": {
+      "type": "boolean"
+    },
+    "messageIngestionRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "messageExportRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "contentAddressedTransportEnabled": {
+      "type": "boolean"
+    },
+    "chunkedTransferEnabled": {
+      "type": "boolean"
+    },
+    "resumableTransferEnabled": {
+      "type": "boolean"
+    },
+    "multiSourceTransferEnabled": {
+      "type": "boolean"
+    },
+    "bittorrentDhtSwarmP2pEnabled": {
+      "type": "boolean"
+    },
+    "largePayloadTransferRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "fabricCoreProducerBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "envIngestionEnabled": {
+      "type": "boolean"
+    },
+    "secretLoadingEnabled": {
+      "type": "boolean"
+    },
+    "vaultAccessEnabled": {
+      "type": "boolean"
+    },
+    "keyringRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "didRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "tokenLoaderEnabled": {
+      "type": "boolean"
+    },
+    "oauthFlowEnabled": {
+      "type": "boolean"
+    },
+    "sessionHandlingEnabled": {
+      "type": "boolean"
+    },
+    "shellRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "pathLookupRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "executableLookupRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "shellHistoryRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "sqliteRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "embeddedDbRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "queryEngineRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "sqliteKeyRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "backendRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "backendApiServerMiddlewareImplemented": {
+      "type": "boolean"
+    },
+    "apiEndpointImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "serverImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "databaseClientImplemented": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "cacheEngineImplemented": {
+      "type": "boolean"
+    },
+    "rlsRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "databaseMigrationImplemented": {
+      "type": "boolean"
+    },
+    "transcriptWriterImplemented": {
+      "type": "boolean"
+    },
+    "auditWriterImplemented": {
+      "type": "boolean"
+    },
+    "importExportPathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packageDistributionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "persistenceImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "loggerRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "auditWriterRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "telemetryClientImplemented": {
+      "type": "boolean"
+    },
+    "healthCheckRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "backupJobImplemented": {
+      "type": "boolean"
+    },
+    "restoreJobImplemented": {
+      "type": "boolean"
+    },
+    "failoverRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "infrastructureAutomationImplemented": {
+      "type": "boolean"
+    },
+    "deploymentAutomationImplemented": {
+      "type": "boolean"
+    },
+    "complianceEnforcementImplemented": {
+      "type": "boolean"
+    },
+    "piiProcessingImplemented": {
+      "type": "boolean"
+    },
+    "retentionJobImplemented": {
+      "type": "boolean"
+    },
+    "exportJobImplemented": {
+      "type": "boolean"
+    },
+    "testingCiReleaseAutomationEnabled": {
+      "type": "boolean"
+    },
+    "encodedHandoffRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "codecRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "translatorRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "filesystemProcessRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "blockedCliBypassEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

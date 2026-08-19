@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.1.controlled-runtime-implementation-approval-boundary.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.1.controlled-runtime-implementation-approval-boundary",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "sourceDisposition",
+    "implementationApprovalScope",
+    "commandSurfaceReviewScope",
+    "remainingRuntimeBlockers",
+    "explicitlyForbiddenBehavior",
+    "rollbackExpectations",
+    "validationCommands",
+    "requiredFutureReviewBeforeRuntimeEnablement",
+    "runtimeLikeCommandRejectionProbes",
+    "runtimeEffect",
+    "nonExecutionInvariants",
+    "safetyPosture"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.1.controlled-runtime-implementation-approval-boundary"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourceDisposition": {
+      "type": "object"
+    },
+    "implementationApprovalScope": {
+      "type": "object"
+    },
+    "commandSurfaceReviewScope": {
+      "type": "object"
+    },
+    "remainingRuntimeBlockers": {
+      "type": "array"
+    },
+    "explicitlyForbiddenBehavior": {
+      "type": "array"
+    },
+    "rollbackExpectations": {
+      "type": "object"
+    },
+    "validationCommands": {
+      "type": "array"
+    },
+    "requiredFutureReviewBeforeRuntimeEnablement": {
+      "type": "object"
+    },
+    "runtimeLikeCommandRejectionProbes": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "nonExecutionInvariants": {
+      "type": "array"
+    },
+    "safetyPosture": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

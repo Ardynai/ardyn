@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.37.review-only-handoff-disposition-inspection-checkpoint-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.37.review-only-handoff-disposition-inspection-checkpoint-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "checkpointKind",
+    "metadataGeneratedAt",
+    "sourcePhase",
+    "handoffDispositionInspectionCheckpointSummary",
+    "handoffDispositionInspectionCheckpointInputShape",
+    "handoffDispositionInspectionCheckpointResultShape",
+    "handoffDispositionInspectionCheckpointCases",
+    "handoffDispositionInspectionCheckpoint",
+    "blockedRuntimeEffect",
+    "serveRuntimeBlockedBehavior",
+    "forbiddenBehavior",
+    "filesAllowedToChange",
+    "filesForbiddenToChange",
+    "validationCommands"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.37.review-only-handoff-disposition-inspection-checkpoint-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "checkpointKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourcePhase": {
+      "type": "object"
+    },
+    "handoffDispositionInspectionCheckpointSummary": {
+      "type": "object"
+    },
+    "handoffDispositionInspectionCheckpointInputShape": {
+      "type": "object"
+    },
+    "handoffDispositionInspectionCheckpointResultShape": {
+      "type": "object"
+    },
+    "handoffDispositionInspectionCheckpointCases": {
+      "type": "array"
+    },
+    "handoffDispositionInspectionCheckpoint": {
+      "type": "object"
+    },
+    "blockedRuntimeEffect": {
+      "type": "object"
+    },
+    "serveRuntimeBlockedBehavior": {
+      "type": "object"
+    },
+    "forbiddenBehavior": {
+      "type": "object"
+    },
+    "filesAllowedToChange": {
+      "type": "array"
+    },
+    "filesForbiddenToChange": {
+      "type": "array"
+    },
+    "validationCommands": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

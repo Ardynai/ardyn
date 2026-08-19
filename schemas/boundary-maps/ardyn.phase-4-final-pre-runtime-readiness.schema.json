@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-4-final-pre-runtime-readiness.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-4-final-pre-runtime-readiness",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "readinessPhase",
+    "phaseIntroduced",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "reviewRange",
+    "reviewedStartingSha",
+    "reviewedMilestone",
+    "runtimeStatus",
+    "readinessStatus",
+    "artifactCount",
+    "checklistCount",
+    "invariantCount",
+    "grantsRuntimeApproval",
+    "runtimeBehaviorIntroduced",
+    "liveRuntimeBehaviorIntroduced",
+    "phase41Implemented",
+    "reviewMetadataOnly",
+    "requiresSeparatePhase41Approval",
+    "phase41BlockedUnlessSeparatelyApproved",
+    "basedOnReviewerHandoffIndex",
+    "phaseMilestones",
+    "checklist",
+    "nonExecutionInvariantMatrix",
+    "representedArtifacts",
+    "safety"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-4-final-pre-runtime-readiness"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "readinessPhase": {
+      "type": "string"
+    },
+    "phaseIntroduced": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "reviewRange": {
+      "type": "object"
+    },
+    "reviewedStartingSha": {
+      "type": "string"
+    },
+    "reviewedMilestone": {
+      "type": "object"
+    },
+    "runtimeStatus": {
+      "type": "string"
+    },
+    "readinessStatus": {
+      "type": "string"
+    },
+    "artifactCount": {
+      "type": "integer"
+    },
+    "checklistCount": {
+      "type": "integer"
+    },
+    "invariantCount": {
+      "type": "integer"
+    },
+    "grantsRuntimeApproval": {
+      "type": "boolean"
+    },
+    "runtimeBehaviorIntroduced": {
+      "type": "boolean"
+    },
+    "liveRuntimeBehaviorIntroduced": {
+      "type": "boolean"
+    },
+    "phase41Implemented": {
+      "type": "boolean"
+    },
+    "reviewMetadataOnly": {
+      "type": "boolean"
+    },
+    "requiresSeparatePhase41Approval": {
+      "type": "boolean"
+    },
+    "phase41BlockedUnlessSeparatelyApproved": {
+      "type": "boolean"
+    },
+    "basedOnReviewerHandoffIndex": {
+      "type": "object"
+    },
+    "phaseMilestones": {
+      "type": "array"
+    },
+    "checklist": {
+      "type": "array"
+    },
+    "nonExecutionInvariantMatrix": {
+      "type": "array"
+    },
+    "representedArtifacts": {
+      "type": "array"
+    },
+    "safety": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

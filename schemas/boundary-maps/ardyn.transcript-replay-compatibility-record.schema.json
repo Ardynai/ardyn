@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.transcript-replay-compatibility-record.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.transcript-replay-compatibility-record",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "recordPhase",
+    "reviewedPhase",
+    "transcriptArtifact",
+    "sourceEventStreamReference",
+    "eventCount",
+    "sequenceRange",
+    "eventDigest",
+    "eventIndex",
+    "persistedAt",
+    "replayCompatibilityClassification",
+    "replaySafetyStatus",
+    "nonExecutionInvariantSummary",
+    "failureReasons",
+    "runtimeEffect",
+    "audit"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.transcript-replay-compatibility-record"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "recordPhase": {
+      "type": "string"
+    },
+    "reviewedPhase": {
+      "type": "string"
+    },
+    "transcriptArtifact": {
+      "type": "object"
+    },
+    "sourceEventStreamReference": {
+      "type": "object"
+    },
+    "eventCount": {
+      "type": "integer"
+    },
+    "sequenceRange": {
+      "type": "object"
+    },
+    "eventDigest": {
+      "type": "object"
+    },
+    "eventIndex": {
+      "type": "array"
+    },
+    "persistedAt": {
+      "type": "string"
+    },
+    "replayCompatibilityClassification": {
+      "type": "string"
+    },
+    "replaySafetyStatus": {
+      "type": "string"
+    },
+    "nonExecutionInvariantSummary": {
+      "type": "array"
+    },
+    "failureReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

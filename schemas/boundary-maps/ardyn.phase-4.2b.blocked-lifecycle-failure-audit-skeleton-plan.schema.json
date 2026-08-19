@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-4.2b.blocked-lifecycle-failure-audit-skeleton-plan.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-4.2b.blocked-lifecycle-failure-audit-skeleton-plan",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "fixtureKind",
+    "metadataGeneratedAt",
+    "reusedFixtures",
+    "rustLifecycleSkeleton",
+    "blockedLifecycleRequests",
+    "blockedWriteSideEffects",
+    "deterministicFailureAudit",
+    "runtimeEffect",
+    "nonExecutionInvariants",
+    "review"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-4.2b.blocked-lifecycle-failure-audit-skeleton-plan"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "fixtureKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "reusedFixtures": {
+      "type": "object"
+    },
+    "rustLifecycleSkeleton": {
+      "type": "object"
+    },
+    "blockedLifecycleRequests": {
+      "type": "array"
+    },
+    "blockedWriteSideEffects": {
+      "type": "object"
+    },
+    "deterministicFailureAudit": {
+      "type": "object"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "nonExecutionInvariants": {
+      "type": "array"
+    },
+    "review": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}
