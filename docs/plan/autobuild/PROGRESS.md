@@ -26,3 +26,10 @@ Append one entry per completed work item (format in `LOOP-PROTOCOL.md`). Keep th
 - Self-review: pass — guards now scan all .mjs under each dir, not just the barrel; DHT/swarm check kept on federation.mjs specifically since index.mjs has a policy string mentioning "swarm"
 - Commit: 82cff6e
 - Notes: The glob helper falls back to direct file read if no .mjs files found in a dir. This prepares for M0.6 modularization.
+
+### 2026-08-19T02:15Z — M0.3: Absent-input rejection for create*ForReview helpers
+- Changed: `packages/core/src/index.mjs` (added `isReviewedAtDefaulted()` helper + `reviewedAtDefaulted` field to 65 create*ForReview outputs), 40 regenerated fixtures, `scripts/regen-fixtures.mjs` (new tool), `tests/m0-absent-input-rejection.test.mjs` (new — 8 tests), `tests/phase5-45-*.test.mjs` (updated expectedTopLevelKeys), `tests/fixtures/source-guards/digests.json` (updated index.mjs digest)
+- Tests: 1167 → 1175 (pass)
+- Self-review: pass — fabrication is now explicit (reviewedAtDefaulted: true) rather than silent; backward compat maintained (backfilled value still present); all 3 helper patterns (A: hasOwnProperty, B: MALFORMED_INPUT, C: typeof check) covered
+- Commit: 96690fa
+- Notes: 4 compact-format functions (externalReferencePolicy, reportScriptCompaction, reportTestCompaction, sourceGuardHardening) needed manual patching due to single-line formatting. 3 multi-line ReviewedAt calls needed manual const insertion. Phase 5.45 expectedTopLevelKeys needed reviewedAtDefaulted added.
