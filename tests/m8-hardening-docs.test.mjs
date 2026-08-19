@@ -67,7 +67,7 @@ test("M8: console app has no secrets in client bundle", async () => {
       const fullPath = join(dir, entry.name);
       if (entry.isDirectory()) {
         await checkDir(fullPath);
-      } else if (entry.name.endsWith(".tsx") || entry.name.endsWith(".ts") || entry.name.endsWith(".css")) {
+      } else if (entry.name.endsWith(".jsx") || entry.name.endsWith(".js") || entry.name.endsWith(".css")) {
         const content = await readFile(fullPath, "utf8");
         assert.doesNotMatch(content, /(?:token|secret|password|api_key|apikey)\s*=\s*["'][^"']{8,}["']/i,
           `Console file ${entry.name} must not contain hardcoded secrets`);

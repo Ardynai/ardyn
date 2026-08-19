@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* Ardyn Console — dark theme (plain CSS, no Tailwind dependency for build) */
 
 :root {
   --bg-primary: #0a0a0f;
@@ -115,7 +115,6 @@ body {
   color: #c4c4c8;
 }
 
-/* Focus visible for accessibility */
 *:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;

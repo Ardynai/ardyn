@@ -46,14 +46,23 @@ metadata report that lists verification commands.
 
 ## Safety Boundaries
 
-ARDYN is currently review-only and runtime-blocked except for the authorized
-Fabric Federation consumer client (see `docs/posture.md`). Do not add live
-execution, process spawning, network listeners, plugin installation, adapter
-calls, approval grants, database writes, transcript/audit writers, or CI
-workflow changes unless the task explicitly asks for that behavior.
+ARDYN is in build mode: `serve-runtime` is enabled under explicit `--enable-runtime`
+and `--approve` flags (see `docs/plan/autobuild/SECURITY-INVARIANTS.md`). The
+Fabric Federation consumer client is hardened but NOT wired into CLI/host. Do not
+add live process spawning, network listeners, plugin installation, adapter calls,
+approval grants, database writes, or CI workflow changes unless the task explicitly
+asks for that behavior.
 
-The canonical current posture lives in `docs/posture.md`. No other file may
-contradict it.
+The canonical current posture lives in `docs/posture.md` (review-only, with the
+runtime enablement carve-out from the autobuild). No other file may contradict it.
 
 Follow `AGENTS.md`: prefer the smallest correct change, reuse existing patterns,
 and leave one runnable check for non-trivial logic.
+
+## Bootstrap Standard Assessment
+
+- Minimal-code ruleset committed (AGENTS.md + agent copies)? **yes**
+- Docs scaffold present (ARCHITECTURE / how-it-works / ONBOARDING / DECISIONS)? **yes**
+- Docs-upkeep + readability-pass cadence recorded in CONTRIBUTING? **yes** (above)
+- Areas found too tangled to document well: `packages/core/src/index.mjs` (73k-line monolith — modularization in progress)
+- Next recommended readability/docs action: continue modularizing index.mjs; add architecture diagram (docs/diagrams/)

@@ -5,7 +5,7 @@
   "packages/fabric/src/index.mjs": "b27046152938382fc6c1b0c3346d0ed75d28c4a698a0aa2d1e44c646de3af301",
   "packages/fabric/src/federation.mjs": "c745a7757b1c2b8362e085c9214c87a47b69d187fb552f1b4d2ced9398db3b73",
   "package.json": "7ec7898bd0ad4a3574aed3e6abd21b7bb32905008e1237188f63474c13e6f82a",
-  "package-lock.json": "fa3b86747dd059141ec3fce2082f059d69b20b9aea1d87605d7f77650cc77019",
+  "package-lock.json": "a7542fb049e46ed188d5b6c38537671ee89f4b64854be38a21871c7156fc85bf",
   "Cargo.toml": "d003e3c3a8fb6c563ae23d200664ecb1f982dab234e5bfa8e00e691b727407b6",
   "Cargo.lock": "0507724f3c99ab95ee25afd0d70aa6458cc7f7e19b4c7cc193a7d826c3de067a",
   ".github/workflows/security.yml": "902b2b22902223fca3fec8303048b762b29695c39ab7da334c28f88db81df7f4",

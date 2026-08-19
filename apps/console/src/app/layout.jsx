@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
+// next metadata
 import "./globals.css";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Ardyn Harness Console",
   description: "Web UI for operating and observing the Ardyn AI harness",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
