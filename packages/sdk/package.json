@@ -1,9 +1,11 @@
 {
   "name": "@ardyn/sdk",
   "version": "0.1.0",
-  "private": true,
-  "description": "ARDYN SDK scaffold.",
   "type": "module",
+  "main": "src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "description": "Consumer-facing SDK for the Ardyn AI harness",
   "license": "Apache-2.0"
 }
-
