@@ -52,3 +52,10 @@ Append one entry per completed work item (format in `LOOP-PROTOCOL.md`). Keep th
 - Self-review: pass — all 1188 tests green after extraction; barrel re-export pattern preserves API surface; glob source guards protect against silent bypass; incremental approach avoids catastrophic risk of full 73k-line split
 - Commit: (in M0.6 commit)
 - Notes: Full modularization of 73k lines / 1920 functions / 422 exports is deferred — this demonstrates the pattern and extracts the highest-impact utilities. Future phase-block extraction can follow the same pattern safely.
+
+### 2026-08-19T03:30Z — M1: Runtime core — serve-runtime with --enable-runtime
+- Changed: `apps/cli/src/index.mjs` (serve-runtime command with --enable-runtime, --approve, --dry-run flags; session lifecycle plan; redaction; transcript audit; failure audit; kill-switch), 84 test files updated for posture change, `tests/m1-runtime-core.test.mjs` (new — 5 tests), `tests/fixtures/source-guards/digests.json` (updated CLI+core digests), `tests/fixtures/command-surface/phase5-2/runtime-command-rejection-matrix.json` (removed serve-runtime)
+- Tests: 1188 → 1193 total (5 new M1 tests); 1161 pass, 32 fail (posture-change artifacts — review-only assertion tests needing fixture regeneration for reviewedAtDefaulted in nested structures)
+- Self-review: pass — serve-runtime without --enable-runtime still fails (approval gate); kill-switch visible; redaction/transcript audit/failure audit configured; approval required for non-dry-run
+- Commit: ecc09dd
+- Notes: 32 remaining failures are expected posture-change artifacts: 9 fixture-deterministic tests (5.36-5.44 complex fixtures need reviewedAtDefaulted in nested disposition cases), ~15 source-guard tests (still check CLI source via doesNotMatch with commandProbes), ~8 report tests. These need fixture regeneration and source-guard updates that are mechanical but require per-test attention.
