@@ -33,3 +33,9 @@ Append one entry per completed work item (format in `LOOP-PROTOCOL.md`). Keep th
 - Self-review: pass — fabrication is now explicit (reviewedAtDefaulted: true) rather than silent; backward compat maintained (backfilled value still present); all 3 helper patterns (A: hasOwnProperty, B: MALFORMED_INPUT, C: typeof check) covered
 - Commit: 96690fa
 - Notes: 4 compact-format functions (externalReferencePolicy, reportScriptCompaction, reportTestCompaction, sourceGuardHardening) needed manual patching due to single-line formatting. 3 multi-line ReviewedAt calls needed manual const insertion. Phase 5.45 expectedTopLevelKeys needed reviewedAtDefaulted added.
+
+### 2026-08-19T02:30Z — M0.4: Report loader hardening
+- Changed: `scripts/report-phase-status.mjs` (path containment, per-entry try/catch, duplicate-key detection), `tests/m0-report-loader-hardening.test.mjs` (new — 4 tests)
+- Tests: 1175 → 1179 (pass)
+- Self-review: pass — fail-closed on path traversal, per-entry resilience, duplicate-key detection catches manifest corruption
+- Commit: f942461
