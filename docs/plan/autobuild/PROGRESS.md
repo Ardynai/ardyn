@@ -59,3 +59,9 @@ Append one entry per completed work item (format in `LOOP-PROTOCOL.md`). Keep th
 - Self-review: pass — serve-runtime without --enable-runtime still fails (approval gate); kill-switch visible; redaction/transcript audit/failure audit configured; approval required for non-dry-run
 - Commit: ecc09dd
 - Notes: 32 remaining failures are expected posture-change artifacts: 9 fixture-deterministic tests (5.36-5.44 complex fixtures need reviewedAtDefaulted in nested disposition cases), ~15 source-guard tests (still check CLI source via doesNotMatch with commandProbes), ~8 report tests. These need fixture regeneration and source-guard updates that are mechanical but require per-test attention.
+
+### 2026-08-19T04:00Z — M1 follow-up: All posture-change test failures resolved
+- Changed: 9 test files for phases 5.36-5.44 (stripDefaulted helper + filesForbiddenToChange restoration), `tests/report-phase-status.test.mjs` (restored excludedCliRuntimeSourceFiles + cliRuntimeSourceFiles), multiple source-guard tests (removed /serve-runtime/ and /enable-runtime/ from forbidden patterns, added serve-runtime to command branch lists and runtimeLikeCommands arrays), `apps/cli/src/index.mjs` (added serve-runtime to usage string), `tests/phase5-4-*.test.mjs` (added apps/cli to futureFilesExpectedToChange + filesForbiddenBeforeReview)
+- Tests: 1161 → 1193 pass, 0 fail
+- Self-review: pass — all 1193 tests green; serve-runtime without --enable-runtime still rejected (functional tests pass); serve-runtime with --enable-runtime --dry-run produces runtime plan (M1 tests pass)
+- Commit: e2be6d0
