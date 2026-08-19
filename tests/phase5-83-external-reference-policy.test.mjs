@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
 import { assertUnchanged } from "./helpers/source-digests.mjs";
+import { assertDoesNotMatchGlob } from "./helpers/glob-source-guards.mjs";
 import {
   EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_SCHEMA,
   createExternalReferencePolicyForReview
@@ -232,21 +233,21 @@ test("Phase 5.83 federation_invariants: isLoopbackFabricFederationUrl rejects no
 });
 
 test("Phase 5.83 federation_invariants: federation.mjs not imported by CLI or host", async () => {
-  const cliSource = await readFile(fileURLToPath(new URL("../apps/cli/src/index.mjs", import.meta.url)), "utf8");
-  assert.doesNotMatch(cliSource, /federation\.mjs/i, "CLI must not import federation.mjs");
-  // Check host (lib.rs doesn't import JS — check index.mjs in packages/core doesn't import federation)
-  const coreSource = await readFile(fileURLToPath(new URL("../packages/core/src/index.mjs", import.meta.url)), "utf8");
-  assert.doesNotMatch(coreSource, /from\s+["'].*federation\.mjs["']/i, "core must not import federation.mjs");
+  // M0.2: glob-based — scans all .mjs under apps/cli/src and packages/core/src
+  await assertDoesNotMatchGlob([/federation\.mjs/i], ["apps/cli/src"], "CLI must not import federation.mjs");
+  await assertDoesNotMatchGlob([/from\s+["'].*federation\.mjs["']/i], ["packages/core/src"], "core must not import federation.mjs");
 });
 
 test("Phase 5.83 federation_invariants: no @multiverse/fabric-core import anywhere", async () => {
-  const fabricSource = await readFile(fileURLToPath(new URL("../packages/fabric/src/federation.mjs", import.meta.url)), "utf8");
-  assert.doesNotMatch(fabricSource, /@multiverse\/fabric-core/i, "federation.mjs must not import @multiverse/fabric-core");
+  await assertDoesNotMatchGlob([/@multiverse\/fabric-core/i], ["packages/fabric/src"], "federation.mjs must not import @multiverse/fabric-core");
 });
 
 test("Phase 5.83 federation_invariants: no DHT/swarm/P2P/BitTorrent in federation source", async () => {
-  const fabricSource = await readFile(fileURLToPath(new URL("../packages/fabric/src/federation.mjs", import.meta.url)), "utf8");
-  assert.doesNotMatch(fabricSource, /libp2p|bittorrent|dht|swarm|p2p/i, "federation.mjs must not reference DHT/swarm/P2P");
+  // M0.2: federation.mjs specifically — index.mjs has a policy string mentioning "swarm"
+  const { readFile: rf } = await import("node:fs/promises");
+  const { fileURLToPath: f2p } = await import("node:url");
+  const fedSource = await rf(f2p(new URL("../packages/fabric/src/federation.mjs", import.meta.url)), "utf8");
+  assert.doesNotMatch(fedSource, /libp2p|bittorrent|dht|swarm|p2p/i, "federation.mjs must not reference DHT/swarm/P2P");
 });
 
 test("Phase 5.83 federation_invariants: federation adds no npm deps", async () => {
@@ -256,15 +257,11 @@ test("Phase 5.83 federation_invariants: federation adds no npm deps", async () =
 });
 
 test("Phase 5.83 federation_invariants: no crypto decrypt of payloads in federation source", async () => {
-  const fabricSource = await readFile(fileURLToPath(new URL("../packages/fabric/src/federation.mjs", import.meta.url)), "utf8");
-  assert.doesNotMatch(fabricSource, /\.decrypt\s*\(/i, "federation.mjs must not call decrypt");
-  assert.doesNotMatch(fabricSource, /createDecipheriv/i, "federation.mjs must not use createDecipheriv");
+  await assertDoesNotMatchGlob([/\.decrypt\s*\(/i, /createDecipheriv/i], ["packages/fabric/src"], "federation.mjs must not decrypt");
 });
 
 test("Phase 5.83 federation_invariants: no hardcoded secrets in federation source", async () => {
-  const fabricSource = await readFile(fileURLToPath(new URL("../packages/fabric/src/federation.mjs", import.meta.url)), "utf8");
-  assert.doesNotMatch(fabricSource, /(?:token|secret|password|api_key|apikey)\s*=\s*["'][^"']{8,}["']/i,
-    "federation.mjs must not contain hardcoded secrets");
+  await assertDoesNotMatchGlob([/(?:token|secret|password|api_key|apikey)\s*=\s*["'][^"']{8,}["']/i], ["packages/fabric/src"], "federation.mjs must not contain hardcoded secrets");
 });
 
 // ─── Owning-phase fixture existence ──────────────────────────────────────────
