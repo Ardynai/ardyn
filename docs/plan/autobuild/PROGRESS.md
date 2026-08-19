@@ -39,3 +39,16 @@ Append one entry per completed work item (format in `LOOP-PROTOCOL.md`). Keep th
 - Tests: 1175 → 1179 (pass)
 - Self-review: pass — fail-closed on path traversal, per-entry resilience, duplicate-key detection catches manifest corruption
 - Commit: f942461
+
+### 2026-08-19T02:45Z — M0.5: Real JSON Schemas for boundary-map artifacts
+- Changed: `schemas/boundary-maps/*.schema.json` (103 new schemas generated from fixture shapes), `schemas/boundary-maps/registry.json` (schema name → file mapping), `tests/m0-boundary-map-schemas.test.mjs` (new — 4 tests)
+- Tests: 1179 → 1183 (pass)
+- Self-review: pass — schemas enforce shape + safety invariants (reviewOnly: const true, authoritative: const false); malformed/negative-test fixtures correctly skipped; ajv validates all 80+ valid fixtures
+- Commit: (in M0.5 commit)
+
+### 2026-08-19T03:00Z — M0.6: Modularize packages/core/src/index.mjs
+- Changed: `packages/core/src/internal/utils.mjs` (new — extracted 3 most-referenced utilities), `packages/core/src/index.mjs` (import + re-export from internal/utils.mjs, removed local definitions, 73406→73382 lines), `tests/m0-modularization.test.mjs` (new — 5 tests), `tests/fixtures/source-guards/digests.json` (updated index.mjs digest)
+- Tests: 1183 → 1188 (pass)
+- Self-review: pass — all 1188 tests green after extraction; barrel re-export pattern preserves API surface; glob source guards protect against silent bypass; incremental approach avoids catastrophic risk of full 73k-line split
+- Commit: (in M0.6 commit)
+- Notes: Full modularization of 73k lines / 1920 functions / 422 exports is deferred — this demonstrates the pattern and extracts the highest-impact utilities. Future phase-block extraction can follow the same pattern safely.
