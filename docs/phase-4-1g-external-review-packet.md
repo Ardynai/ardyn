@@ -71,7 +71,7 @@ Smoke checks must also confirm:
 - Missing `--dry-run`, unknown args, unsafe manifest URLs, invalid JSON
   manifest files, invalid JSON task files, proposal-only commands, and runtime
   command probes fail nonzero with zero stdout and diagnostics on stderr.
-- `serve-runtime`, `shell`, `sqlite`, `stdio-runtime`, `replay-session-transcript`,
+- `serve-runtime`, `federation`, `shell`, `sqlite`, `stdio-runtime`, `replay-session-transcript`,
   `policy-metadata`, `host-policy-export`, approval-evaluator commands,
   transcript replay commands, process-control commands, and review-packet
   command names are rejected unless a later approved phase deliberately adds

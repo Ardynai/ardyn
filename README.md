@@ -67,6 +67,8 @@ node apps/cli/src/index.mjs serve-runtime --enable-runtime --dry-run --manifest 
 
 ## Architecture
 
+![Architecture](docs/diagrams/architecture.svg)
+
 ```
 ardyn/
 ├── apps/

@@ -180,6 +180,7 @@
   },
   "blockedCommandProbeNames": [
     "serve-runtime",
+    "federation",
     "stdio-runtime",
     "replay-session-transcript",
     "external-review-packet",

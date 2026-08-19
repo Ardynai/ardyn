@@ -180,6 +180,7 @@ test("Phase 4.2A source guard keeps CLI unchanged and scans all Rust source file
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "federation",
     "shell",
     "sqlite",
     "serve"

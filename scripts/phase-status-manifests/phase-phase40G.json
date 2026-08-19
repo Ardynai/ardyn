@@ -136,6 +136,7 @@
     "policy-metadata",
     "host-policy-export",
     "serve-runtime",
+    "federation",
     "stdio-runtime"
   ],
   "safetyPosture": {

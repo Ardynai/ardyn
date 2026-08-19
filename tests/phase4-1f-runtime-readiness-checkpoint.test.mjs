@@ -477,6 +477,7 @@ test("Phase 4.1F docs cross-link checkpoint without implying runtime", async () 
     "Phase 4.1F adds no live stdin command loop",
     "runtime-readiness-checkpoint",
     "serve-runtime",
+    "federation",
     "shell",
     "sqlite",
     "stdio-runtime",
@@ -571,6 +572,7 @@ test("Phase 4.1F source guards do not add runtime, checkpoint command, or depend
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "federation",
     "shell",
     "sqlite",
     "serve"

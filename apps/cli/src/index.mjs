@@ -1030,6 +1030,54 @@ async function run(argv) {
     return;
   }
 
+  // M4: federation command — wires the hardened federation client into CLI
+  if (command === "federation") {
+    const subCommand = args[0] ?? "status";
+    const federationModule = await import("node:path").then(p => import(p.resolve(process.cwd(), "packages/fabric/src/federation.mjs")));
+    const config = federationModule.loadFabricFederationConfigFromEnv();
+
+    if (subCommand === "status") {
+      printJson({
+        command: "federation",
+        subCommand: "status",
+        wired: true,
+        loopbackOnly: true,
+        remoteHttps: true,
+        closedSiblingAllowlist: federationModule.FABRIC_FEDERATION_CLOSED_SIBLING_DIDS,
+        hardening: {
+          redirectManual: true,
+          hostAllowlist: true,
+          responseSizeCap: true,
+          identityConfinement: true,
+        },
+        config: {
+          localDid: config?.localDid ?? federationModule.FABRIC_FEDERATION_DEFAULT_LOCAL_DID,
+          registryUrl: config?.registryUrl ?? null,
+          // ponytail: never expose tokens or identity file paths
+        },
+      });
+      return;
+    }
+
+    if (subCommand === "config") {
+      printJson({
+        command: "federation",
+        subCommand: "config",
+        config: {
+          localDid: config?.localDid ?? federationModule.FABRIC_FEDERATION_DEFAULT_LOCAL_DID,
+          registryUrl: config?.registryUrl ?? null,
+          registryToken: undefined, // never expose
+          identityFile: undefined,   // never expose
+          allowlist: federationModule.FABRIC_FEDERATION_CLOSED_SIBLING_DIDS,
+        },
+      });
+      return;
+    }
+
+    fail(`Unknown federation subcommand: ${subCommand}. Use: status | config`);
+    return;
+  }
+
   // M2: shell command — runs a shell command under approval gate
   if (command === "shell") {
     const enableRuntime = args.includes(ENABLE_RUNTIME_FLAG);
@@ -1171,7 +1219,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|emit-session-events --dry-run --manifest <path> --task <path>|serve-runtime --enable-runtime [--dry-run] --manifest <path>|shell --enable-runtime --approve --command <cmd>|sqlite --enable-runtime --approve --database <path> --query <sql>|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|emit-session-events --dry-run --manifest <path> --task <path>|serve-runtime --enable-runtime [--dry-run] --manifest <path>|federation status|federation config|shell --enable-runtime --approve --command <cmd>|sqlite --enable-runtime --approve --database <path> --query <sql>|serve --dry-run --manifest <path>>"
   );
 }
 

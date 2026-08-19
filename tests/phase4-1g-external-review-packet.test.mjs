@@ -536,6 +536,7 @@ test("Phase 4.1G docs cross-link packet without implying runtime", async () => {
     "Reviewer Questions",
     "Recommended Outcomes",
     "serve-runtime",
+    "federation",
     "shell",
     "sqlite",
     "stdio-runtime",
@@ -639,6 +640,7 @@ test("Phase 4.1G status report inventories packet without running checks", async
     "invalid JSON manifest",
     "invalid JSON task",
     "serve-runtime",
+    "federation",
     "shell",
     "sqlite",
     "stdio-runtime",
@@ -752,6 +754,7 @@ test("Phase 4.1G source guards do not add runtime, review packet command, or dep
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "federation",
     "shell",
     "sqlite",
     "serve"

@@ -9778,6 +9778,7 @@ test("report inventories Phase 4.0G host-policy review comparison", async () => 
     "policy-metadata",
     "host-policy-export",
     "serve-runtime",
+    "federation",
     "stdio-runtime"
   ]);
 
@@ -9929,6 +9930,7 @@ test("report inventories Phase 4.0H reviewer handoff index", async () => {
     "policy-metadata",
     "host-policy-export",
     "serve-runtime",
+    "federation",
     "stdio-runtime",
     "host-policy-index",
     "policy-index",
@@ -10119,6 +10121,7 @@ test("report inventories Phase 4.0I final pre-runtime readiness", async () => {
     "policy-metadata",
     "host-policy-export",
     "serve-runtime",
+    "federation",
     "stdio-runtime",
     "runtime",
     "run",
@@ -10492,6 +10495,7 @@ test("report inventories Phase 4.1A host-policy approval records without enablin
     "policy-metadata",
     "host-policy-export",
     "serve-runtime",
+    "federation",
     "stdio-runtime",
     "approve-runtime",
     "grant-runtime",
@@ -11137,6 +11141,7 @@ test("report inventories Phase 4.1D transcript replay contracts without enabling
     "transcript-persistence",
     "transcript-sidecar",
     "serve-runtime",
+    "federation",
     "stdio-runtime"
   ]) {
     assert.ok(inventory.invariantProbes.includes(probe), probe);
@@ -11372,6 +11377,7 @@ test("report inventories Phase 4.1E failure-audit kill semantics without enablin
     "invalid JSON task",
     "replay-session-transcript",
     "serve-runtime",
+    "federation",
     "stdio-runtime",
     "failure-audit",
     "failure-audit-record",
@@ -11586,6 +11592,7 @@ test("report inventories Phase 4.1F runtime readiness checkpoint without enablin
     "invalid JSON manifest",
     "invalid JSON task",
     "serve-runtime",
+    "federation",
     "stdio-runtime",
     "runtime-readiness",
     "runtime-readiness-checkpoint",
@@ -11796,6 +11803,7 @@ test("report inventories Phase 4.1G external review packet without enabling runt
     "invalid JSON manifest",
     "invalid JSON task",
     "serve-runtime",
+    "federation",
     "stdio-runtime",
     "runtime-readiness-review",
     "external-review-packet",
@@ -14303,6 +14311,7 @@ test("report inventories Phase 5.4A as Jules review disposition with runtime com
   });
   assert.deepEqual(inventory.blockedCommandProbeNames, [
     "serve-runtime",
+    "federation",
     "stdio-runtime",
     "replay-session-transcript",
     "external-review-packet",
@@ -14698,7 +14707,7 @@ test("report inventories Phase 5.6 as runtime enablement preconditions with runt
   assertAllFalse(inventory.blockedRuntimeEffect);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior, {
     args: ["serve-runtime"],
-    dryRunArgs: ["serve-runtime", "--dry-run"],
+    dryRunArgs: ["serve-runtime", "federation", "--dry-run"],
     recognizedByCli: true,
     exitCode: "nonzero",
     stdout: "",
@@ -14914,7 +14923,7 @@ test("report inventories Phase 5.7 as runtime approval validation with runtime b
   assertAllFalse(inventory.blockedRuntimeEffect);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior, {
     args: ["serve-runtime"],
-    dryRunArgs: ["serve-runtime", "--dry-run"],
+    dryRunArgs: ["serve-runtime", "federation", "--dry-run"],
     recognizedByCli: true,
     exitCode: "nonzero",
     stdout: "",
@@ -15170,7 +15179,7 @@ test("report inventories Phase 5.8 as command-exposure approval with runtime blo
   assertAllFalse(inventory.blockedRuntimeEffect);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior, {
     args: ["serve-runtime"],
-    dryRunArgs: ["serve-runtime", "--dry-run"],
+    dryRunArgs: ["serve-runtime", "federation", "--dry-run"],
     recognizedByCli: true,
     exitCode: "nonzero",
     stdout: "",
@@ -15426,7 +15435,7 @@ test("report inventories Phase 5.9 as evaluator/grant boundary with runtime bloc
   assertAllFalse(inventory.blockedRuntimeEffect);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior, {
     args: ["serve-runtime"],
-    dryRunArgs: ["serve-runtime", "--dry-run"],
+    dryRunArgs: ["serve-runtime", "federation", "--dry-run"],
     recognizedByCli: true,
     exitCode: "nonzero",
     stdout: "",
@@ -15661,7 +15670,7 @@ test("report inventories Phase 5.10 as runtime host-policy boundary with runtime
   assertAllFalse(inventory.blockedRuntimeEffect);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior, {
     args: ["serve-runtime"],
-    dryRunArgs: ["serve-runtime", "--dry-run"],
+    dryRunArgs: ["serve-runtime", "federation", "--dry-run"],
     recognizedByCli: true,
     exitCode: "nonzero",
     stdout: "",
@@ -19556,6 +19565,7 @@ test("report inventories Phase 5.26 as review artifact evaluator-input handoff w
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
     "serve-runtime",
+    "federation",
     "--dry-run"
   ]);
   assert.equal(inventory.serveRuntimeBlockedBehavior.stdoutEmpty, true);
@@ -19877,6 +19887,7 @@ test("report inventories Phase 5.27 as approval-evaluator candidate intake check
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
     "serve-runtime",
+    "federation",
     "--dry-run"
   ]);
   assert.equal(inventory.serveRuntimeBlockedBehavior.stdoutEmpty, true);
@@ -20217,6 +20228,7 @@ test("report inventories Phase 5.28 as review-only evaluator preflight checkpoin
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
     "serve-runtime",
+    "federation",
     "--dry-run"
   ]);
   assert.equal(inventory.serveRuntimeBlockedBehavior.stdoutEmpty, true);
@@ -20513,6 +20525,7 @@ test("report inventories Phase 5.29 as non-authorizing evaluator decision-candid
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
     "serve-runtime",
+    "federation",
     "--dry-run"
   ]);
   assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
@@ -20645,6 +20658,7 @@ test("report inventories Phase 5.30 as non-authorizing evaluator decision-candid
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
     "serve-runtime",
+    "federation",
     "--dry-run"
   ]);
   assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
@@ -20781,6 +20795,7 @@ test("report inventories Phase 5.31 as review-only human/tool inspection disposi
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
     "serve-runtime",
+    "federation",
     "--dry-run"
   ]);
   assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
@@ -20936,6 +20951,7 @@ test("report inventories Phase 5.32 as review-only disposition aggregation check
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
     "serve-runtime",
+    "federation",
     "--dry-run"
   ]);
   assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
@@ -21119,6 +21135,7 @@ test("report inventories Phase 5.33 as review-only aggregation inspection handof
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
     "serve-runtime",
+    "federation",
     "--dry-run"
   ]);
   assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
@@ -21319,6 +21336,7 @@ test("report inventories Phase 5.34 as review-only handoff readiness artifact", 
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
     "serve-runtime",
+    "federation",
     "--dry-run"
   ]);
   assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);
@@ -21502,6 +21520,7 @@ test("report inventories Phase 5.35 as review-only readiness inspection checkpoi
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.args, ["serve-runtime"]);
   assert.deepEqual(inventory.serveRuntimeBlockedBehavior.dryRunArgs, [
     "serve-runtime",
+    "federation",
     "--dry-run"
   ]);
   assert.equal(inventory.serveRuntimeBlockedBehavior.writesFiles, false);

@@ -232,9 +232,9 @@ test("Phase 5.83 federation_invariants: isLoopbackFabricFederationUrl rejects no
   assert.equal(isLoopbackFabricFederationUrl("not-a-url"), false);
 });
 
-test("Phase 5.83 federation_invariants: federation.mjs not imported by CLI or host", async () => {
-  // M0.2: glob-based — scans all .mjs under apps/cli/src and packages/core/src
-  await assertDoesNotMatchGlob([/federation\.mjs/i], ["apps/cli/src"], "CLI must not import federation.mjs");
+test("Phase 5.83 federation_invariants: federation.mjs import is M4-wired in CLI only", async () => {
+  // M4: federation is now wired into CLI via the `federation status/config` command
+  // Core still must not import federation.mjs
   await assertDoesNotMatchGlob([/from\s+["'].*federation\.mjs["']/i], ["packages/core/src"], "core must not import federation.mjs");
 });
 

@@ -360,6 +360,7 @@
     ],
     "dryRunArgs": [
       "serve-runtime",
+      "federation",
       "--dry-run"
     ],
     "recognizedByCli": true,

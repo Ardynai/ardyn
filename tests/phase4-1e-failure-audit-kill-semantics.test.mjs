@@ -518,6 +518,7 @@ test("Phase 4.1E source guards do not add cleanup, kill, or runtime surfaces", a
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "federation",
     "shell",
     "sqlite",
     "serve"

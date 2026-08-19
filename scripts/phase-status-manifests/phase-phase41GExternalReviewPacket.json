@@ -931,6 +931,7 @@
     "policy-metadata",
     "host-policy-export",
     "serve-runtime",
+    "federation",
     "shell",
     "sqlite",
     "stdio-runtime",

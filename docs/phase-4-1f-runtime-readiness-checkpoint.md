@@ -131,7 +131,7 @@ loop, no secret handling, no production signing-key usage, no transcript
 persistence/replay runtime, no WebSocket/HTTP control surface, and no actual
 runtime execution behavior.
 
-It does not implement `serve-runtime`, `shell`, `sqlite`, `stdio-runtime`,
+It does not implement `serve-runtime`, `federation`, `shell`, `sqlite`, `stdio-runtime`,
 `replay-session-transcript`, `runtime-readiness-checkpoint`, or any checkpoint
 CLI command. Those names remain rejected as unknown commands with zero stdout.
 

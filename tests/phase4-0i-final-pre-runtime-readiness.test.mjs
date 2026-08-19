@@ -433,6 +433,7 @@ test("Phase 4.0I source guards do not add runtime or proposal command surfaces",
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "federation",
     "shell",
     "sqlite",
     "serve"
