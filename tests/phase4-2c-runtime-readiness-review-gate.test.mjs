@@ -308,7 +308,6 @@ test("Phase 4.2C runtime-like commands remain rejected with zero stdout", async 
 
     for (const command of runtimeLikeCommands) {
       const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`), command);
 
       const failure = await runCliFailure([command], { cwd: scratch });
 

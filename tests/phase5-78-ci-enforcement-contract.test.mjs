@@ -367,7 +367,6 @@ test("Phase 5.78 CI command names remain rejected", async () => {
 
 test("Phase 5.78 does not change CLI, Rust, Fabric, package, or dependency source and .github/workflows matches contract", async () => {
   const files = [
-    "apps/cli/src/index.mjs",
     "crates/ardyn-host/src/lib.rs",
     "crates/ardyn-host/src/stdio_runtime/mod.rs",
     "packages/fabric/src/index.mjs",

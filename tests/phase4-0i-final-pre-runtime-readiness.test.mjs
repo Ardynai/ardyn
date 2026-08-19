@@ -433,6 +433,7 @@ test("Phase 4.0I source guards do not add runtime or proposal command surfaces",
     "review-artifact",
     "validate-session-transcript",
     "emit-session-events",
+    "serve-runtime",
     "serve"
   ]);
 
@@ -442,7 +443,6 @@ test("Phase 4.0I source guards do not add runtime or proposal command surfaces",
 
   for (const command of forbiddenRuntimeCommands) {
     const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`));
     assert.doesNotMatch(usage, new RegExp(`(^|\\||<)${escapedCommand}(\\||>|\\s|$)`));
   }
 

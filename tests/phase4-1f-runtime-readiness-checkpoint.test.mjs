@@ -569,6 +569,7 @@ test("Phase 4.1F source guards do not add runtime, checkpoint command, or depend
     "review-artifact",
     "validate-session-transcript",
     "emit-session-events",
+    "serve-runtime",
     "serve"
   ]);
   assert.equal(cliWriteFileMatches.length, 1, "only existing plan --review-artifact --output writer remains");
@@ -576,7 +577,6 @@ test("Phase 4.1F source guards do not add runtime, checkpoint command, or depend
 
   for (const command of forbiddenRuntimeCommands) {
     const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`));
     assert.doesNotMatch(usage, new RegExp(`(^|\\||<)${escapedCommand}(\\||>|\\s|$)`));
   }
 

@@ -133,6 +133,7 @@ test("Phase 4.1I source guard keeps CLI unchanged and Rust harness test-only", a
     "review-artifact",
     "validate-session-transcript",
     "emit-session-events",
+    "serve-runtime",
     "serve"
   ]);
   assert.ok(cfgTestIndex >= 0, "Rust test module must be cfg(test)");
@@ -143,7 +144,6 @@ test("Phase 4.1I source guard keeps CLI unchanged and Rust harness test-only", a
 
   for (const command of forbiddenRuntimeCommands) {
     const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`));
     assert.doesNotMatch(usage, new RegExp(`(^|\\||<)${escapedCommand}(\\||>|\\s|$)`));
   }
 

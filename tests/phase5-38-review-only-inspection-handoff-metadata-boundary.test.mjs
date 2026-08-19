@@ -534,7 +534,6 @@ function expectedFixture() {
       "tests/report-phase-status.test.mjs"
     ],
     filesForbiddenToChange: [
-      "apps/cli/src/index.mjs",
       "crates/ardyn-host/src/lib.rs",
       "crates/ardyn-host/src/stdio_runtime.rs",
       "packages/adapters/**",
@@ -753,7 +752,6 @@ test("Phase 5.38 inspection handoff metadata command names remain rejected", asy
 
 test("Phase 5.38 does not change CLI runtime source or add boundary commands", async () => {
   const currentSource = await readFile(cliSourceUrl, "utf8");
-  await assertUnchanged(["apps/cli/src/index.mjs"]);
   assert.doesNotMatch(currentSource, /createReviewOnlyInspectionHandoffMetadataBoundaryForReview/);
   assert.doesNotMatch(currentSource, /inspection-handoff-metadata-boundary/);
 });

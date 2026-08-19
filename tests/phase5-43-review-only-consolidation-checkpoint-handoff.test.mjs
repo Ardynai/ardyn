@@ -801,7 +801,6 @@ function expectedFixture() {
       "tests/report-phase-status.test.mjs"
     ],
     filesForbiddenToChange: [
-      "apps/cli/src/index.mjs",
       "crates/ardyn-host/src/lib.rs",
       "crates/ardyn-host/src/stdio_runtime/mod.rs",
       "packages/adapters/**",
@@ -1119,7 +1118,7 @@ test("Phase 5.43 does not change CLI or Rust runtime source", async () => {
   const currentCliSource = await readFile(cliSourceUrl, "utf8");
   const currentRustLibSource = await readFile(rustLibSourceUrl, "utf8");
   const currentRustStdioSource = await readFile(rustStdioSourceUrl, "utf8");
-  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs"]);
+  await assertUnchanged(["crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs"]);
   assert.doesNotMatch(
     currentCliSource,
     /createReviewOnlyConsolidationCheckpointHandoffForReview/

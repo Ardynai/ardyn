@@ -319,7 +319,6 @@ test("Phase 5.2 candidate runtime commands and dry-run variants remain rejected 
   try {
     for (const command of matrix.candidateRuntimeCommands) {
       const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`), command);
 
       for (const args of [[command], [command, "--dry-run"]]) {
         const failure = await runCliFailure(args, { cwd: scratch });

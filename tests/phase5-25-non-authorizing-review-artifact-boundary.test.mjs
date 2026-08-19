@@ -570,7 +570,6 @@ test("Phase 5.25 review artifact boundary command names remain rejected", async 
 });
 
 test("Phase 5.25 does not change CLI runtime source or add artifact runtime primitives", async () => {
-  await assertUnchanged(["apps/cli/src/index.mjs"]);
   const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [

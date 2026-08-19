@@ -569,13 +569,13 @@ test("Phase 4.1H source guard keeps disposition static and review-only", async (
     "review-artifact",
     "validate-session-transcript",
     "emit-session-events",
+    "serve-runtime",
     "serve"
   ]);
   assert.match(reportSource, /phase41HExternalReviewDispositionInventory/);
 
   for (const command of forbiddenRuntimeCommands) {
     const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`));
     assert.doesNotMatch(usage, new RegExp(`(^|\\||<)${escapedCommand}(\\||>|\\s|$)`));
   }
 

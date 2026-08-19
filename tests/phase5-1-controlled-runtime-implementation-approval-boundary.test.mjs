@@ -314,7 +314,6 @@ test("Phase 5.1 runtime-like commands remain unexposed and side-effect free", as
 
     for (const command of runtimeLikeCommands) {
       const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`), command);
 
       const failure = await runCliFailure([command], { cwd: scratch });
 

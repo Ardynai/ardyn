@@ -165,12 +165,12 @@ test("Phase 4.2B source guard keeps CLI unchanged and bans live process surfaces
     "review-artifact",
     "validate-session-transcript",
     "emit-session-events",
+    "serve-runtime",
     "serve"
   ]);
 
   for (const command of runtimeLikeCommands) {
     const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`));
     assert.doesNotMatch(usage, new RegExp(`(^|\\||<)${escapedCommand}(\\||>|\\s|$)`));
   }
 

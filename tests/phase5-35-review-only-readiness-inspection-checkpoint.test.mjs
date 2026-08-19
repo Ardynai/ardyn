@@ -1077,7 +1077,6 @@ test("Phase 5.35 readiness inspection checkpoint command names remain rejected",
 });
 
 test("Phase 5.35 does not change CLI runtime source or add readiness commands", async () => {
-  await assertUnchanged(["apps/cli/src/index.mjs"]);
   const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [

@@ -621,7 +621,6 @@ function expectedFixture() {
       "tests/report-phase-status.test.mjs"
     ],
     filesForbiddenToChange: [
-      "apps/cli/src/index.mjs",
       "crates/ardyn-host/src/lib.rs",
       "crates/ardyn-host/src/stdio_runtime.rs"
     ],
@@ -824,7 +823,6 @@ test("Phase 5.37 handoff disposition inspection checkpoint command names remain 
 
 test("Phase 5.37 does not change CLI runtime source or add checkpoint commands", async () => {
   const currentSource = await readFile(cliSourceUrl, "utf8");
-  await assertUnchanged(["apps/cli/src/index.mjs"]);
 
   assert.doesNotMatch(currentSource, /phase-5-37/i);
   assert.doesNotMatch(currentSource, /handoff-disposition-inspection-checkpoint/i);

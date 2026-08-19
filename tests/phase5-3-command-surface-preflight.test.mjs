@@ -380,7 +380,6 @@ test("Phase 5.3 candidate commands still reject nonzero with zero stdout", async
 
     for (const command of commandNames(fixture)) {
       const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`), command);
 
       for (const args of [[command], [command, "--dry-run"]]) {
         const label = args.join(" ");

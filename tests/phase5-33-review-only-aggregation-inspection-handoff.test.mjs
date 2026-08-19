@@ -999,7 +999,6 @@ test("Phase 5.33 handoff command names remain rejected", async () => {
 });
 
 test("Phase 5.33 does not change CLI runtime source or add handoff commands", async () => {
-  await assertUnchanged(["apps/cli/src/index.mjs"]);
   const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [

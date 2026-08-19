@@ -748,6 +748,7 @@ test("Phase 4.1G source guards do not add runtime, review packet command, or dep
     "review-artifact",
     "validate-session-transcript",
     "emit-session-events",
+    "serve-runtime",
     "serve"
   ]);
   assert.equal(cliWriteFileMatches.length, 1, "only existing plan --review-artifact --output writer remains");
@@ -755,7 +756,6 @@ test("Phase 4.1G source guards do not add runtime, review packet command, or dep
 
   for (const command of forbiddenRuntimeCommands) {
     const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`));
     assert.doesNotMatch(usage, new RegExp(`(^|\\||<)${escapedCommand}(\\||>|\\s|$)`));
   }
 

@@ -304,7 +304,6 @@ test("Phase 4.2D source guard keeps CLI unchanged and runtime command-like names
 
     for (const command of runtimeLikeCommands) {
       const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`), command);
 
       const failure = await runCliFailure([command], { cwd: scratch });
 

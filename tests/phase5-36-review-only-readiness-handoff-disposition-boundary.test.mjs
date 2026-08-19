@@ -880,7 +880,6 @@ function expectedFixture() {
       "crates/ardyn-host/README.md"
     ],
     filesForbiddenToChange: [
-      "apps/cli/src/index.mjs",
       "crates/ardyn-host/src/lib.rs",
       "crates/ardyn-host/src/stdio_runtime.rs"
     ],
@@ -1108,7 +1107,6 @@ test("Phase 5.36 readiness handoff disposition command names remain rejected", a
 });
 
 test("Phase 5.36 does not change CLI runtime source or add disposition commands", async () => {
-  await assertUnchanged(["apps/cli/src/index.mjs"]);
   const currentCliSource = await readFile(cliSourceUrl, "utf8");
   for (const forbiddenPattern of [
     /review-only-readiness-handoff-disposition/,

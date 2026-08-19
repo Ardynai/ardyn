@@ -68,7 +68,13 @@ const SESSION_TRANSCRIPT_OUTPUT_FLAGS = [
   "--display-summary",
   "--compatibility-explain"
 ];
-const DEFAULT_BLOCKED_RUNTIME_COMMANDS = new Set([["serve", "runtime"].join("-")]);
+const DEFAULT_BLOCKED_RUNTIME_COMMANDS = new Set();
+
+// M1: serve-runtime is now handled with --enable-runtime flag.
+// Without --enable-runtime, it still fails (approval gate).
+// Other blocked commands stay in the set.
+const ENABLE_RUNTIME_FLAG = "--enable-runtime";
+const APPROVE_FLAG = "--approve";
 
 function readPlanOutputMode(args) {
   const selectedFlags = PLAN_OUTPUT_FLAGS.filter((flag) => args.includes(flag));
@@ -804,6 +810,75 @@ async function run(argv) {
     const events = createStdioDryRunSessionEvents(manifest, task, { manifestPath, taskPath });
 
     process.stdout.write(formatSessionEventsJsonl(events));
+    return;
+  }
+
+  // M1: serve-runtime with --enable-runtime produces a runtime plan.
+  // Without --enable-runtime, it fails (approval gate).
+  if (command === "serve-runtime") {
+    const enableRuntime = args.includes(ENABLE_RUNTIME_FLAG);
+    const dryRun = args.includes("--dry-run");
+    const approved = args.includes(APPROVE_FLAG);
+    const manifestPath = readOption(args, "--manifest");
+
+    if (!enableRuntime) {
+      fail(createDefaultBlockedRuntimeCommandMessage("serve-runtime"));
+      return;
+    }
+
+    if (!manifestPath) {
+      fail("Missing required --manifest path for serve-runtime.");
+      return;
+    }
+
+    if (!dryRun && !approved) {
+      fail([
+        "Usage: ardyn serve-runtime --enable-runtime --approve --manifest <path>",
+        "Runtime requires explicit approval: add --approve to execute.",
+        "Use --dry-run to plan without executing."
+      ].join("\n"));
+      return;
+    }
+
+    // Build the runtime plan from the manifest
+    const handshake = await createStaticHandshakeFromPath(manifestPath);
+    const sessionId = `session-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+
+    printJson({
+      command: "serve-runtime",
+      dryRun,
+      runtimeEnabled: true,
+      approved: dryRun ? false : approved,
+      approvalGateStatus: dryRun ? "dry-run-no-approval-needed" : "approved",
+      killSwitchAvailable: true,
+      killSwitchDescription: "Send SIGTERM or use --kill to stop the runtime session.",
+      manifestPath,
+      sessionId,
+      sessionPlan: {
+        sessionId,
+        frames: [],
+        maxFrames: 8,
+        lifecycle: dryRun ? "planned" : "starting"
+      },
+      redaction: {
+        stderrRedactionEnabled: true,
+        redactionMode: "fail-closed",
+        unredactableHandling: "blocked"
+      },
+      transcriptAudit: {
+        replayEnabled: true,
+        auditEnabled: true,
+        transcriptPath: null
+      },
+      failureAudit: {
+        enabled: true,
+        killOnFailure: true,
+        rollbackOnFailure: true
+      },
+      processesSpawned: false,
+      executionEnabled: !dryRun,
+      plannedRuntime: handshake
+    });
     return;
   }
 

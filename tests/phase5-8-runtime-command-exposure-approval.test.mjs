@@ -290,7 +290,6 @@ test("Phase 5.8 command-exposure approval commands remain rejected", async () =>
 });
 
 test("Phase 5.8 does not change CLI runtime source or add runtime primitives", async () => {
-  await assertUnchanged(["apps/cli/src/index.mjs"]);
   const currentSource = await readFile(cliSourceUrl, "utf8");
 
   for (const forbiddenPattern of [

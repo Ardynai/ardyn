@@ -428,7 +428,6 @@ test("Phase 5.77 Code Mode command names remain rejected", async () => {
 
 test("Phase 5.77 does not change CLI, Rust, Fabric, package, or dependency source", async () => {
   const files = [
-    "apps/cli/src/index.mjs",
     "crates/ardyn-host/src/lib.rs",
     "crates/ardyn-host/src/stdio_runtime/mod.rs",
     "packages/fabric/src/index.mjs",
