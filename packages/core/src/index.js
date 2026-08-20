@@ -7,12 +7,15 @@
 // - internal/utils.mjs: isPlainObjectRecord, isUtcIsoTimestampWithMilliseconds (M0.6)
 // - data-auth.mjs: createDatabase, checkPermission, grantPermission, revokePermission,
 //   checkRateLimit, getSecret, redactSecrets, sanitizeQuery (M3)
+// - validation.js: 53 validation/classification/formatting functions (re-export)
+// - create-review-helpers.js: 65 create*ForReview functions (re-export)
 //
 // Future extractions (per modularization plan):
-// - create-review-helpers.mjs: all 74 create*ForReview functions
-// - schema-validation.mjs: JSON Schema validation utilities
-// - boundary-map-helpers.mjs: boundary map generation/comparison
-// - phase-metadata.mjs: phase status and report helpers
+// - Move create*ForReview implementations from index.mjs → create-review-helpers.mjs
+// - Move validation implementations from index.mjs → validation.mjs
+// - Move schema-validation helpers → schema-validation.mjs
+// - Move phase-metadata helpers → phase-metadata.mjs
+// - Reduce index.mjs to constants + shared helpers only
 
 export * from "./index.mjs";
 export * from "./data-auth.mjs";

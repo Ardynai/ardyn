@@ -1,5 +1,6 @@
-// M6: Server-Sent Events endpoint for real-time session streaming
+// M6: SSE endpoint — reads from event buffer (bridges CLI→console)
 import { checkAuth, unauthorizedResponse } from "../../lib/auth.js";
+import { readEvents } from "../../lib/event-buffer.js";
 
 export async function GET(request) {
   const auth = checkAuth(request);
@@ -7,23 +8,25 @@ export async function GET(request) {
 
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
-    start(controller) {
+    async start(controller) {
       const send = (event, data) => {
         controller.enqueue(encoder.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`));
       };
 
       send("connected", { status: "ok", timestamp: new Date().toISOString() });
 
-      // Send periodic status updates
-      const interval = setInterval(() => {
-        send("status", {
-          runtimeEnabled: true,
-          approvalRequired: true,
-          timestamp: new Date().toISOString(),
-        });
-      }, 5000);
+      // Poll event buffer every 2 seconds for new events
+      let lastRead = Date.now();
+      const interval = setInterval(async () => {
+        try {
+          const events = await readEvents(lastRead);
+          for (const evt of events) {
+            send("session_event", evt);
+          }
+          lastRead = Date.now();
+        } catch {}
+      }, 2000);
 
-      // Clean up on close
       request.signal?.addEventListener("abort", () => {
         clearInterval(interval);
         controller.close();

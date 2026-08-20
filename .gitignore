@@ -6,3 +6,4 @@ coverage/
 config/secret/
 apps/console/.next/
 apps/console/node_modules/
+.ardyn-events/

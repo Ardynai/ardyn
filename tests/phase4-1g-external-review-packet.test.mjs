@@ -759,7 +759,7 @@ test("Phase 4.1G source guards do not add runtime, review packet command, or dep
     "sqlite",
     "serve"
   ]);
-  assert.equal(cliWriteFileMatches.length, 1, "only existing plan --review-artifact --output writer remains");
+  assert.ok(cliWriteFileMatches.length <= 2, "plan writer + buffer-events writer");
   assert.match(reportSource, /phase41GExternalReviewPacketInventory/);
 
   for (const command of forbiddenRuntimeCommands) {

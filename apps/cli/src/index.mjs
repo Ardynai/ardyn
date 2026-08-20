@@ -2,6 +2,7 @@
 import { writeFile } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
+import { join } from "node:path";
 
 import {
   assertLocalFilePath,
@@ -826,6 +827,7 @@ async function run(argv) {
     const killAfterMs = parseInt(readOption(args, "--kill-after-ms") ?? "0", 10);
     const rustSession = args.includes("--rust-session");
     const streamMode = args.includes("--stream");
+    const bufferEvents = args.includes("--buffer-events");
 
     if (!enableRuntime) {
       fail(createDefaultBlockedRuntimeCommandMessage("serve-runtime"));
@@ -983,6 +985,13 @@ async function run(argv) {
             // M6: SSE streaming — emit event immediately if --stream
             if (streamMode) {
               process.stdout.write(`event: frame\ndata: ${JSON.stringify(evt)}\n\n`);
+            }
+            // M6: Buffer events for console SSE bridge (uses already-imported writeFile)
+            if (bufferEvents) {
+              try {
+                const evtPath = join(process.cwd(), ".ardyn-events", "events.jsonl");
+                writeFile(evtPath, JSON.stringify(evt) + "\n", { flag: "a" }).catch(() => {});
+              } catch {}
             }
           } catch {
             // Non-JSON line — record as raw

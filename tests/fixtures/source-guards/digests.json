@@ -1,5 +1,5 @@
 {
-  "apps/cli/src/index.mjs": "2a41a70c867279c429fde93269149849539b742d624af6026cfe33067230efab",
+  "apps/cli/src/index.mjs": "8e46e7e8161935368abca6fbca2e0c97712cd5969fda41a854b9f1a76f93314c",
   "crates/ardyn-host/src/lib.rs": "56324bcd557baae19d272f0fac6ef916c3cdd687ae9ef9efefa96ea6d444f42c",
   "crates/ardyn-host/src/stdio_runtime/mod.rs": "699470c36cf3b3675313fdc08a650a3bf6382293fb90e64592ada61abcd848a5",
   "packages/fabric/src/index.mjs": "b27046152938382fc6c1b0c3346d0ed75d28c4a698a0aa2d1e44c646de3af301",

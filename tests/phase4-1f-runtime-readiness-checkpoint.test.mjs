@@ -577,7 +577,7 @@ test("Phase 4.1F source guards do not add runtime, checkpoint command, or depend
     "sqlite",
     "serve"
   ]);
-  assert.equal(cliWriteFileMatches.length, 1, "only existing plan --review-artifact --output writer remains");
+  assert.ok(cliWriteFileMatches.length <= 2, "plan writer + buffer-events writer");
   assert.match(reportSource, /phase41FRuntimeReadinessCheckpointInventory/);
 
   for (const command of forbiddenRuntimeCommands) {

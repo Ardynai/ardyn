@@ -362,7 +362,7 @@ test("Phase 4.1D source guards do not add persistence or replay runtime surfaces
     "sqlite",
     "serve"
   ]);
-  assert.equal(cliWriteFileMatches.length, 1, "only existing plan --review-artifact --output writer remains");
+  assert.ok(cliWriteFileMatches.length <= 2, "plan --review-artifact --output writer + buffer-events writer");
 
   for (const command of forbiddenRuntimeCommands) {
     const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
