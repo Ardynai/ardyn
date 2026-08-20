@@ -13,6 +13,8 @@
 //! ```
 //! let result = ardyn_host::stdio_runtime::run_session_lifecycle(false, 0);
 //! assert_eq!(result.status, "blocked_approval_required");
+//! assert!(!result.kill_switch_armed);
+//! assert!(!result.redaction_applied);
 //! ```
 
 pub mod stdio_runtime;

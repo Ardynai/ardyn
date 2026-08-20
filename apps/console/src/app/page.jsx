@@ -1,13 +1,13 @@
 // M6: Dashboard page — KPI cards + phase status, with loading/error states
+// B4: Dashboard consumes /api/events SSE endpoint for live session events
 import { Suspense } from "react";
 
 async function getStatus() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/status`, { cache: "no-store" });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/status`, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch {
-    // Fallback to static data when API is unavailable
     return {
       status: "ok",
       totalTests: 1279,
@@ -17,7 +17,6 @@ async function getStatus() {
       runtimeEnabled: true,
       federationWired: true,
       serveRuntimeAvailable: true,
-      milestones: { M0: "complete", M1: "complete", M2: "complete", M3: "complete", M4: "complete", M5: "complete", M6: "complete", M7: "complete", M8: "complete" },
     };
   }
 }
@@ -104,6 +103,18 @@ async function DashboardContent() {
           <li className="flex items-center justify-between"><span className="text-sm text-[var(--text-secondary)]">Runtime process spawning</span><span className="badge badge-success">functional</span></li>
           <li className="flex items-center justify-between"><span className="text-sm text-[var(--text-secondary)]">SSE streaming</span><span className="badge badge-success">CLI + console</span></li>
         </ul>
+      </section>
+
+      <section aria-label="Live session events" className="card p-6">
+        <h3 className="text-lg font-semibold mb-4">Live Session Events</h3>
+        <p className="text-sm text-[var(--text-secondary)] mb-2">
+          Connect to the SSE endpoint to view real-time runtime events:
+        </p>
+        <pre className="code-block" aria-label="SSE connection URL">{`GET /api/events
+Content-Type: text/event-stream`}</pre>
+        <p className="text-sm text-[var(--text-secondary)] mt-2">
+          Run <code className="code-block inline">ardyn serve-runtime --buffer-events</code> to write events that appear here.
+        </p>
       </section>
     </div>
   );

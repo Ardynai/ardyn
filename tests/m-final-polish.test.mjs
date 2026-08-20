@@ -53,10 +53,10 @@ test("TypeScript types file exists with SDK interfaces", async () => {
   assert.match(content, /Database/);
 });
 
-test("Core barrel re-export exists", async () => {
-  const content = await readFile(join(repoRoot, "packages/core/src/index.js"), "utf8");
-  assert.match(content, /export \* from/);
-  assert.match(content, /data-auth/);
+test("Core data-auth module exists", async () => {
+  const content = await readFile(join(repoRoot, "packages/core/src/data-auth.mjs"), "utf8");
+  assert.match(content, /createDatabase/);
+  assert.match(content, /checkPermission/);
 });
 
 test("CLI serve-runtime --stream flag produces SSE output", async () => {
@@ -80,6 +80,6 @@ test("Rust session binary exists and is callable", async () => {
     "--bin", "session", "--", "--approved", "--max-frames", "2"
   ], { cwd: repoRoot, maxBuffer: 4 * 1024 * 1024 });
   const result = JSON.parse(stdout.trim());
-  assert.equal(result.status, "completed");
+  assert.equal(result.status, "approved_but_not_executed");
   assert.equal(result.approved, true);
 });

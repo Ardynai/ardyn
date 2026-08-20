@@ -919,9 +919,18 @@ async function run(argv) {
       });
       let stdoutData = "";
       let stderrData = "";
+      let rustSpawnError = null;
+      // B1: handle spawn errors for Rust binary
+      child.on("error", (err) => {
+        rustSpawnError = err.message;
+        stderrData = err.message;
+      });
       child.stdout.on("data", (c) => { stdoutData += c.toString(); });
       child.stderr.on("data", (c) => { stderrData += c.toString(); });
-      const exitCode = await new Promise((r) => child.on("close", r));
+      const exitCode = await new Promise((resolve) => {
+        child.on("close", resolve);
+        child.on("error", () => resolve(-1));
+      });
       let rustResult = null;
       try { rustResult = JSON.parse(stdoutData.trim()); } catch {}
       processResult = {
@@ -933,7 +942,8 @@ async function run(argv) {
         killedReason: null,
         rustSession: true,
         rustSessionId: rustResult?.session_id ?? null,
-        rustStatus: rustResult?.status ?? "unknown"
+        rustStatus: rustResult?.status ?? "unknown",
+        spawnError: rustSpawnError
       };
       transcriptEvents.push({
         type: "rust_session",
@@ -955,6 +965,13 @@ async function run(argv) {
       let stdoutData = "";
       let stderrData = "";
       const frames = [];
+      let spawnError = null;
+
+      // B1: handle spawn errors (ENOENT, EACCES, etc.) without crashing CLI
+      child.on("error", (err) => {
+        spawnError = err.message;
+        stderrData = err.message;
+      });
 
       // Kill switch: auto-kill after killAfterMs if set
       let killTimer = null;
@@ -986,12 +1003,15 @@ async function run(argv) {
             if (streamMode) {
               process.stdout.write(`event: frame\ndata: ${JSON.stringify(evt)}\n\n`);
             }
-            // M6: Buffer events for console SSE bridge (uses already-imported writeFile)
+            // B4: Buffer events for console SSE bridge — includes buffered_at timestamp
             if (bufferEvents) {
-              try {
-                const evtPath = join(process.cwd(), ".ardyn-events", "events.jsonl");
-                writeFile(evtPath, JSON.stringify(evt) + "\n", { flag: "a" }).catch(() => {});
-              } catch {}
+              import("node:fs/promises").then((fs) => {
+                const bufferDir = join(process.cwd(), ".ardyn-events");
+                fs.mkdir(bufferDir, { recursive: true }).then(() => {
+                  const evtWithBuffer = { ...evt, buffered_at: new Date().toISOString() };
+                  writeFile(join(bufferDir, "events.jsonl"), JSON.stringify(evtWithBuffer) + "\n", { flag: "a" }).catch(() => {});
+                }).catch(() => {});
+              });
             }
           } catch {
             // Non-JSON line — record as raw
@@ -1019,21 +1039,24 @@ async function run(argv) {
         });
       });
 
-      // Wait for process to exit
+      // Wait for process to exit — handle spawn error case
       const exitCode = await new Promise((resolve) => {
+        if (spawnError) { resolve(-1); return; }
         child.on("close", resolve);
+        child.on("error", () => resolve(-1));
       });
 
       if (killTimer) clearTimeout(killTimer);
       const wasKilled = killSwitchActivated || (exitCode === null && child.killed);
 
       processResult = {
-        exitCode: wasKilled ? -1 : exitCode,
+        exitCode: spawnError ? -1 : (wasKilled ? -1 : exitCode),
         stdout: stdoutData.trim(),
         stderr: redactStderr(stderrData).trim(),
         frames,
         killed: wasKilled,
-        killedReason: wasKilled ? "kill_switch_timeout" : null
+        killedReason: wasKilled ? "kill_switch_timeout" : null,
+        spawnError: spawnError
       };
     }
 
@@ -1150,9 +1173,15 @@ async function run(argv) {
     // Execute via serve-runtime infrastructure
     const child = spawn("sh", ["-c", commandArg], { cwd: process.cwd(), env: { ...process.env }, stdio: ["pipe", "pipe", "pipe"] });
     let stdoutData = "", stderrData = "";
+    let shellSpawnError = null;
+    // B1: handle spawn errors for shell
+    child.on("error", (err) => { shellSpawnError = err.message; stderrData = err.message; });
     child.stdout.on("data", (c) => { stdoutData += c.toString(); });
     child.stderr.on("data", (c) => { stderrData += c.toString(); });
-    const exitCode = await new Promise((r) => child.on("close", r));
+    const exitCode = await new Promise((resolve) => {
+      child.on("close", resolve);
+      child.on("error", () => resolve(-1));
+    });
 
     printJson({
       command: "shell",
@@ -1161,7 +1190,7 @@ async function run(argv) {
       approved: true,
       commandArg,
       processesSpawned: true,
-      processResult: { exitCode, stdout: stdoutData.trim(), stderr: stderrData.trim(), frames: [], killed: false, killedReason: null }
+      processResult: { exitCode: shellSpawnError ? -1 : exitCode, stdout: stdoutData.trim(), stderr: stderrData.trim(), frames: [], killed: false, killedReason: null, spawnError: shellSpawnError }
     });
     return;
   }
@@ -1208,10 +1237,18 @@ async function run(argv) {
       const dbArg = dbPath ? [dbPath, query] : [":memory:", query];
       const child = spawn("sqlite3", dbArg, { cwd: process.cwd(), stdio: ["pipe", "pipe", "pipe"] });
       let stdoutData = "", stderrData = "";
+      let sqliteSpawnError = null;
+      // B1: handle spawn errors for sqlite3 fallback
+      child.on("error", (err) => { sqliteSpawnError = err.message; stderrData = err.message; });
       child.stdout.on("data", (c) => { stdoutData += c.toString(); });
       child.stderr.on("data", (c) => { stderrData += c.toString(); });
-      const exitCode = await new Promise((r) => child.on("close", r));
-      if (exitCode !== 0) {
+      const exitCode = await new Promise((resolve) => {
+        child.on("close", resolve);
+        child.on("error", () => resolve(-1));
+      });
+      if (sqliteSpawnError) {
+        dbResult = { rows: [], changes: 0, error: sqliteSpawnError };
+      } else if (exitCode !== 0) {
         dbResult = { rows: [], changes: 0, error: stderrData.trim() || `sqlite3 exited with code ${exitCode}` };
       } else {
         // Parse stdout as JSON if possible, otherwise as text

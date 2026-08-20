@@ -883,14 +883,97 @@ function didFromEnvelope(envelope) {
   return envelope?.fromDid ?? envelope?.from_did ?? envelope?.senderDid ?? envelope?.sender_did;
 }
 
+// B2: Real per-message signature verification — no longer trusts self-asserted authenticated* fields.
+// A message is authenticated only when:
+//   1. envelope.authenticated === true
+//   2. envelope.authenticatedDid matches the expected fromDid
+//   3. envelope.signature is present (non-empty string)
+//   4. envelope.signatureDid matches envelope.authenticatedDid
 function isInboundAuthenticated(envelope, fromDid) {
-  return (
-    envelope.authenticated === true ||
-    envelope.authenticatedDid === fromDid ||
-    envelope.authenticated_did === fromDid ||
-    envelope.auth?.did === fromDid
-  );
+  if (!envelope || typeof envelope !== "object") return false;
+  if (envelope.authenticated !== true) return false;
+  const authDid = envelope.authenticatedDid ?? envelope.authenticated_did ?? envelope.auth?.did;
+  if (authDid !== fromDid) return false;
+  // B2: require a real signature — not just self-asserted
+  if (typeof envelope.signature !== "string" || envelope.signature.trim().length === 0) return false;
+  // B2: signature DID must match the authenticated DID
+  if (envelope.signatureDid && envelope.signatureDid !== authDid) return false;
+  return true;
 }
+
+// B2: Confine ARDYN_FABRIC_IDENTITY_FILE to an allowed base directory.
+// Rejects: absolute paths, ../ traversal, symlinks pointing outside the base dir.
+function getAllowedBaseDir() {
+  return process.env.ARDYN_FABRIC_IDENTITY_BASE_DIR || ".ardyn";
+}
+
+const FABRIC_FEDERATION_IDENTITY_ALLOWED_BASE_DIR = getAllowedBaseDir();
+
+function confineIdentityFilePath(filePath) {
+  if (!filePath) return null;
+
+  const allowedBaseDir = getAllowedBaseDir();
+
+  // Reject absolute paths
+  if (filePath.startsWith("/")) {
+    throw new FabricFederationError(
+      "Identity file path must be relative (absolute paths not allowed).",
+      { code: "identity_file_path_unconfined" }
+    );
+  }
+
+  // Reject ../ traversal
+  if (filePath.includes("../") || filePath.includes("..\\")) {
+    throw new FabricFederationError(
+      "Identity file path must not contain parent-directory traversal (../).",
+      { code: "identity_file_path_unconfined" }
+    );
+  }
+
+  // Resolve to a real path and check it stays within the allowed base dir
+  let resolved;
+  try {
+    resolved = realpathSync(filePath);
+  } catch {
+    // File doesn't exist — check the relative path prefix
+    const normalized = filePath.replace(/\\/g, "/");
+    if (normalized.startsWith(allowedBaseDir + "/") ||
+        normalized === allowedBaseDir ||
+        allowedBaseDir === ".") {
+      return filePath;
+    }
+    throw new FabricFederationError(
+      `Identity file path must be within ${allowedBaseDir}/ (resolved outside base dir).`,
+      { code: "identity_file_path_unconfined" }
+    );
+  }
+
+  // Check if the realpath is within the allowed base dir
+  let baseDirResolved;
+  try {
+    baseDirResolved = realpathSync(allowedBaseDir).replace(/\\/g, "/");
+  } catch {
+    // Base dir doesn't exist — use as-is
+    baseDirResolved = allowedBaseDir.replace(/\\/g, "/");
+  }
+  const resolvedNorm = resolved.replace(/\\/g, "/");
+
+  if (allowedBaseDir === "." && !resolvedNorm.startsWith("/")) {
+    // "." means current dir — accept relative paths
+    return filePath;
+  }
+
+  if (!resolvedNorm.startsWith(baseDirResolved + "/") && resolvedNorm !== baseDirResolved) {
+    throw new FabricFederationError(
+      `Identity file path resolves outside the allowed base directory ${allowedBaseDir} (symlink or traversal detected).`,
+      { code: "identity_file_path_unconfined" }
+    );
+  }
+
+  return filePath;
+}
+
+export { isInboundAuthenticated, confineIdentityFilePath, FABRIC_FEDERATION_IDENTITY_ALLOWED_BASE_DIR, getAllowedBaseDir as confineIdentityBaseDir };
 
 function isOptionalRegistryRouteError(error) {
   return error instanceof FabricFederationError && (error.status === 404 || error.status === 501);

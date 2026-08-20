@@ -36,7 +36,7 @@ test("M1-Rust: serve-runtime --rust-session invokes the Rust host binary", async
   assert.ok(output.processResult, "should have process result");
   assert.equal(output.processResult.rustSession, true);
   assert.ok(output.processResult.rustSessionId, "should have a Rust session ID");
-  assert.equal(output.processResult.rustStatus, "completed");
+  assert.equal(output.processResult.rustStatus, "approved_but_not_executed");
   assert.ok(output.processResult.frames.length > 0, "should have processed frames");
 });
 

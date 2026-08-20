@@ -346,6 +346,9 @@ test("fabric federation receiver accepts allowlisted authenticated siblings and 
         items: [
           {
             authenticated: true,
+            authenticatedDid: "did:multiverse:locus",
+            signature: "sha256:test-sig-locus",
+            signatureDid: "did:multiverse:locus",
             contentId: descriptor.contentId,
             encrypted: true,
             fromDid: "did:multiverse:locus",
@@ -355,6 +358,9 @@ test("fabric federation receiver accepts allowlisted authenticated siblings and 
           },
           {
             authenticated: true,
+            authenticatedDid: "did:multiverse:kybernetes",
+            signature: "sha256:test-sig-kyber",
+            signatureDid: "did:multiverse:kybernetes",
             contentId: descriptor.contentId,
             fromDid: "did:multiverse:kybernetes",
             id: "message-2",
@@ -402,6 +408,9 @@ test("fabric federation receive re-verifies contentId and catches tampered bytes
         items: [
           {
             authenticated: true,
+            authenticatedDid: "did:multiverse:locus",
+            signature: "sha256:test-sig-content",
+            signatureDid: "did:multiverse:locus",
             contentId: descriptor.contentId,
             fromDid: "did:multiverse:locus",
             toDid: "did:multiverse:ardyn",

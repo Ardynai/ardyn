@@ -1,14 +1,14 @@
 {
-  "apps/cli/src/index.mjs": "8e46e7e8161935368abca6fbca2e0c97712cd5969fda41a854b9f1a76f93314c",
-  "crates/ardyn-host/src/lib.rs": "56324bcd557baae19d272f0fac6ef916c3cdd687ae9ef9efefa96ea6d444f42c",
-  "crates/ardyn-host/src/stdio_runtime/mod.rs": "699470c36cf3b3675313fdc08a650a3bf6382293fb90e64592ada61abcd848a5",
+  "apps/cli/src/index.mjs": "f564fb48e6210bba97717a9e505fe097c5efe834e46d46ddbd392118e0f23519",
+  "crates/ardyn-host/src/lib.rs": "00d0bd872d641a3d7fe40866df87bcd97678f879dc05072300567066fb4b34ae",
+  "crates/ardyn-host/src/stdio_runtime/mod.rs": "7c62bad044efec7bf4d79dba39fec20099bee3d0bfe492f62363036f0c4b7bab",
   "packages/fabric/src/index.mjs": "b27046152938382fc6c1b0c3346d0ed75d28c4a698a0aa2d1e44c646de3af301",
-  "packages/fabric/src/federation.mjs": "c745a7757b1c2b8362e085c9214c87a47b69d187fb552f1b4d2ced9398db3b73",
+  "packages/fabric/src/federation.mjs": "b4fc976206bab34f2ed4cc7b8e913a04a888920a9b2827b29e17468e0376f890",
   "package.json": "7ec7898bd0ad4a3574aed3e6abd21b7bb32905008e1237188f63474c13e6f82a",
   "package-lock.json": "3b02c6049ee1269cf8c1436f929a756f56f18272fcd28c33d95f9940bab41cbe",
   "Cargo.toml": "d003e3c3a8fb6c563ae23d200664ecb1f982dab234e5bfa8e00e691b727407b6",
   "Cargo.lock": "0507724f3c99ab95ee25afd0d70aa6458cc7f7e19b4c7cc193a7d826c3de067a",
   ".github/workflows/security.yml": "902b2b22902223fca3fec8303048b762b29695c39ab7da334c28f88db81df7f4",
   ".github/workflows/ci.yml": "e14c9366d216a318981aa8edb3939949c6aa18fde611a06add047f010a372efb",
-  "packages/core/src/index.mjs": "2ee02d10917f9e18de9d5c173c09864d48fff5dab704bf780b749400302f305f"
+  "packages/core/src/index.mjs": "4ee2e38b5d5ec932d4850fd67ba02b3f880455825a1c469a43b3853e5d104ccb"
 }

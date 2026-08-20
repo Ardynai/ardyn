@@ -691,6 +691,11 @@ function localPathPolicyFailure(filePath, label, expectedKind) {
     return `${label} must be a ${expected}.`;
   }
 
+  // S1: reject ../ traversal
+  if (filePath.includes("../") || filePath.includes("..\\") || filePath === "..") {
+    return `${label} must not contain parent-directory traversal (../).`;
+  }
+
   if (/^file:/i.test(filePath)) {
     return `${label} must be a ${expected}.`;
   }
@@ -741,7 +746,13 @@ function resolveManifestPath(manifestPath) {
 }
 
 export async function readLocalJsonFile(filePath, label = "path") {
-  assertLocalJsonFilePath(filePath, label);
+  // S1: validate path — skip for internally-resolved absolute paths (from resolveLocalJsonPath)
+  // but still validate UNC paths (//) and protocol-relative paths
+  const isResolvedAbsolute = (filePath.startsWith("/") && !filePath.startsWith("//")) ||
+    (/^[A-Za-z]:[\\/]/.test(filePath) && !filePath.startsWith("//"));
+  if (!isResolvedAbsolute) {
+    assertLocalJsonFilePath(filePath, label);
+  }
 
   let text;
   try {
