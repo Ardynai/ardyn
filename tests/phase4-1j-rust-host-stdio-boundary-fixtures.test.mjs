@@ -228,6 +228,7 @@ test("Phase 4.1J source guard keeps CLI unchanged and Rust fixture harness priva
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "computer-use",
     "federation",
     "shell",
     "sqlite",

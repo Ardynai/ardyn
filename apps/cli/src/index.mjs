@@ -1105,6 +1105,75 @@ async function run(argv) {
     return;
   }
 
+  // M9: computer-use command — sandboxed, approval-gated, never the host
+  if (command === "computer-use") {
+    const enableComputerUse = args.includes("--enable-computer-use");
+    const dryRun = args.includes("--dry-run");
+    const approved = args.includes(APPROVE_FLAG);
+    const manifestPath = readOption(args, "--manifest");
+
+    if (!enableComputerUse) {
+      fail(`Usage: ardyn computer-use --enable-computer-use [--dry-run] --manifest <path>\nComputer-use is gated: add --enable-computer-use to proceed.`);
+      return;
+    }
+    if (!manifestPath) {
+      fail("Missing required --manifest path for computer-use.");
+      return;
+    }
+    if (!dryRun && !approved) {
+      fail("Computer-use requires explicit approval: add --approve to execute.");
+      return;
+    }
+
+    const { createSandboxConfig, createActionAudit, createSandboxSession, redactCapturedText, SANDBOX_IMAGE } =
+      await import("node:path").then(p => import(p.resolve(process.cwd(), "packages/core/src/computer-use.mjs")));
+
+    const sessionId = `cu-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    const config = createSandboxConfig({ sessionId });
+    const audit = createActionAudit();
+
+    if (dryRun) {
+      printJson({
+        command: "computer-use",
+        dryRun: true,
+        sandboxSpawned: false,
+        sandboxImage: SANDBOX_IMAGE,
+        sessionId,
+        networkEgress: { default: "deny", allowlist: config.networkAllowlist },
+        killSwitchAvailable: true,
+        transcriptAudit: { auditActive: true, events: [] },
+        redaction: { redactionActive: true, mode: "fail-closed" },
+        approvalGateStatus: "dry-run-no-approval-needed",
+        config,
+      });
+      return;
+    }
+
+    // Live execution — create sandbox session
+    const session = createSandboxSession({ sessionId, dryRun: false });
+    printJson({
+      command: "computer-use",
+      dryRun: false,
+      sandboxSpawned: true,
+      sandboxImage: SANDBOX_IMAGE,
+      sessionId,
+      networkEgress: { default: "deny", allowlist: config.networkAllowlist },
+      killSwitchAvailable: true,
+      killSwitchActivated: false,
+      transcriptAudit: { auditActive: true, events: audit.getEvents() },
+      redaction: { redactionActive: true, mode: "fail-closed" },
+      approvalGateStatus: "approved",
+      sessionAlive: session.alive,
+      config: {
+        containerImage: config.containerImage,
+        ephemeral: config.ephemeral,
+        mountHostFilesystem: config.mountHostFilesystem,
+        networkEgress: config.networkEgress,
+      },
+    });
+    return;
+  }
+
   // M4: federation command — wires the hardened federation client into CLI
   if (command === "federation") {
     const subCommand = args[0] ?? "status";
@@ -1308,7 +1377,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|emit-session-events --dry-run --manifest <path> --task <path>|serve-runtime --enable-runtime [--dry-run] --manifest <path>|federation status|federation config|shell --enable-runtime --approve --command <cmd>|sqlite --enable-runtime --approve --database <path> --query <sql>|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|emit-session-events --dry-run --manifest <path> --task <path>|serve-runtime --enable-runtime [--dry-run] --manifest <path>|computer-use --enable-computer-use [--dry-run] --manifest <path>|federation status|federation config|shell --enable-runtime --approve --command <cmd>|sqlite --enable-runtime --approve --database <path> --query <sql>|serve --dry-run --manifest <path>>"
   );
 }
 

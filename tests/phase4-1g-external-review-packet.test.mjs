@@ -754,6 +754,7 @@ test("Phase 4.1G source guards do not add runtime, review packet command, or dep
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "computer-use",
     "federation",
     "shell",
     "sqlite",

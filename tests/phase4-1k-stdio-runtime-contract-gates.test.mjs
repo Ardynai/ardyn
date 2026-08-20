@@ -408,6 +408,7 @@ test("Phase 4.1K source guard keeps CLI command list unchanged", async () => {
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "computer-use",
     "federation",
     "shell",
     "sqlite",

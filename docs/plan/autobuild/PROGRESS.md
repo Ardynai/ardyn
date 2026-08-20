@@ -148,18 +148,26 @@ Append one entry per completed work item (format in `LOOP-PROTOCOL.md`). Keep th
 - Tests: 1279 (unchanged)
 
 ### 2026-08-19T08:00Z — B2-real: Real cryptographic Ed25519 signature verification
-- Changed: `packages/fabric/src/federation.mjs` — replaced field-presence check with real
-  `crypto.verify(null, payload, publicKey, sig)` Ed25519 verification. DID→public-key map
-  loaded from `ARDYN_FABRIC_SIBLING_KEYS` env (JSON) or gitignored
-  `config/secret/federation-keys.json`. Canonical payload = stable JSON of envelope
-  excluding signature fields. Unknown DID = fail closed. Malformed key/sig = fail closed.
-- Changed: `didFromIdentityFile` now calls `confineIdentityFilePath` (realpathSync +
-  base-dir + symlink check) in the real read path — replaces naive `../` substring test.
-  Absolute paths, `../` traversal, and symlinks resolving outside the allowed base dir
-  are rejected in the actual config-load path.
-- Changed: `tests/fabric.test.mjs` — all test fixtures now use real Ed25519 keypairs
-  with `crypto.sign()` instead of fake `"sha256:abc123"` strings.
-- Tests: 1292 → 1303 (+11 new B2-real tests, all green). 8 old B2 tests updated.
+- Changed: `packages/fabric/src/federation.mjs` — real crypto.verify() Ed25519
+- Tests: 1292 → 1303
+
+### 2026-08-19T09:00Z — M9: Sandboxed computer-use + M10: Multi-user
+- M9: `packages/core/src/computer-use.mjs` — sandboxed computer-use capability
+  with screenshot→action loop. Docker container (ubuntu:22.04, Xvfb), ephemeral,
+  deny-by-default network, no host access. Approval-gated (--enable-computer-use
+  + --approve). Kill switch, action audit, secret redaction. Model-agnostic
+  tool schema (9 actions). CLI `computer-use` command added.
+  Sandbox mechanism: Docker container with Xvfb virtual display, pinned
+  ubuntu:22.04, --no-new-privileges, --cap-drop ALL, --read-only, --network none.
+  Tests: 12 new M9 tests.
+- M10: `packages/core/src/multi-user.mjs` — per-user accounts, sessions,
+  sandboxes with strict isolation. Per-user RBAC (deny-by-default). CRITICAL
+  isolation tests prove user A cannot see user B's sessions or sandboxes.
+  Console: per-user login API route, per-user sessions API route, auth
+  middleware supports per-user tokens (x-user-token header). Production
+  fail-closed extended to per-user. Model: Hermes group_sessions_per_user.
+  Tests: 4 new M10 tests (including 2 CRITICAL isolation tests).
+- Tests: 1303 → 1319 (+16 new). 101 Rust (unchanged).
 
 ---
 

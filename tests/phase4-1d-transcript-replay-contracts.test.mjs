@@ -357,6 +357,7 @@ test("Phase 4.1D source guards do not add persistence or replay runtime surfaces
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "computer-use",
     "federation",
     "shell",
     "sqlite",

@@ -133,6 +133,7 @@ test("Phase 4.1I source guard keeps CLI unchanged and Rust harness test-only", a
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "computer-use",
     "federation",
     "shell",
     "sqlite",

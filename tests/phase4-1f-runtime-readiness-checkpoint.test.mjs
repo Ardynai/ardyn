@@ -572,6 +572,7 @@ test("Phase 4.1F source guards do not add runtime, checkpoint command, or depend
     "validate-session-transcript",
     "emit-session-events",
     "serve-runtime",
+    "computer-use",
     "federation",
     "shell",
     "sqlite",

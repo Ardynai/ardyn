@@ -56,3 +56,25 @@ Build per `UI-UX-BRIEF.md`: trace/artifact viewer, phase/status dashboard, fixtu
 
 ---
 When M0–M8 are done (or a budget cap is hit) with the targeted suite green and the invariants honored, write the final `PROGRESS.md` summary + "for Fable's review" section and STOP.
+
+
+## M9: Computer-use (sandboxed)
+- Sandboxed computer-use capability: screenshot → action agent loop
+- Actions: screenshot, click, double_click, type, key_press, scroll, mouse_move, drag, wait
+- Model-agnostic tool schema (any operator model can drive it)
+- Isolated ephemeral Docker container (ubuntu:22.04, Xvfb virtual display)
+- One fresh sandbox per session, destroyed on session end
+- No host filesystem, host env vars, host credentials, or Ardyn repo access
+- Network egress deny-by-default with allowlist
+- Approval gate: --enable-computer-use + --approve (default OFF)
+- Kill switch, transcript audit, secret redaction over captured text
+- Status: complete
+
+## M10: Multi-user
+- Per-user accounts and sessions with strict isolation
+- Per-user RBAC (deny-by-default permissions, per-user grants)
+- One user cannot see or control another user's sessions, sandboxes, or data
+- Console per-user login + per-user views + per-user API routes
+- Auth fails closed in production (extends B5 fix to per-user)
+- Model: Hermes group_sessions_per_user (per-user isolation in shared contexts)
+- Status: complete
