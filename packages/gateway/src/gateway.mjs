@@ -9,7 +9,15 @@
 // The gateway is a thin front door: any runtime/computer-use action still goes through
 // the SAME approval + kill + audit + redaction gates — the gateway never bypasses them.
 
-import { createHmac } from "node:crypto";
+import { createHmac, timingSafeEqual } from "node:crypto";
+
+// ── Constant-time comparison helper ──
+function safeCompare(a, b) {
+  const bufA = Buffer.from(a, "utf8");
+  const bufB = Buffer.from(b, "utf8");
+  if (bufA.length !== bufB.length) return false;
+  return timingSafeEqual(bufA, bufB);
+}
 
 // ── Channel adapter interface ──
 // Each adapter implements: platform, parseInbound, formatOutbound, verifyWebhook
@@ -42,7 +50,7 @@ export class TelegramAdapter {
     // Telegram uses a secret token in headers, not HMAC of body
     // For this implementation, we verify using the bot token as the secret
     const expected = createHmac("sha256", secret).update(body).digest("hex");
-    return expected === signature;
+    return safeCompare(expected, signature);
   }
 }
 
@@ -76,7 +84,7 @@ export class SlackAdapter {
   verifyWebhook({ body, signingSecret, timestamp, signature }) {
     const sigBase = `v0:${timestamp}:${body}`;
     const expected = `v0=${createHmac("sha256", signingSecret).update(sigBase).digest("hex")}`;
-    return expected === signature;
+    return safeCompare(expected, signature);
   }
 }
 
@@ -113,13 +121,13 @@ export class EmailAdapter {
 
 export function verifyTelegramWebhook({ body, secret, signature }) {
   const expected = createHmac("sha256", secret).update(body).digest("hex");
-  return expected === signature;
+  return safeCompare(expected, signature);
 }
 
 export function verifySlackWebhook({ body, signingSecret, timestamp, signature }) {
   const sigBase = `v0:${timestamp}:${body}`;
   const expected = `v0=${createHmac("sha256", signingSecret).update(sigBase).digest("hex")}`;
-  return expected === signature;
+  return safeCompare(expected, signature);
 }
 
 // ── User mapping ──

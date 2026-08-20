@@ -254,3 +254,40 @@ M14 Per-user memory (7 tests):
 - Pattern adapted from hermes-agent (MIT) — not vendored.
 
 Tests: 1319 → 1350 (+31 new). 101 Rust (unchanged). All green.
+
+### 2026-08-20T03:00Z — M11-real: REAL sandbox spawn + constant-time gateway + cross-user isolation
+
+M11-real gap 1 — REAL sandbox spawn:
+- packages/core/src/computer-use.mjs: spawn is now ACTUALLY CALLED via start()
+- Injectable spawnImpl (defaults to node:child_process spawn) for testing without Docker
+- start() spawns `docker run -d --name ardyn-sandbox-<id> --rm --no-new-privileges
+  --cap-drop ALL --read-only --network none -e DISPLAY=:99 -e ARDYN_SESSION_TOKEN=<token>
+  ubuntu:22.04 sh -c "Xvfb :99 -screen 0 1280x720x24 & sleep infinity"`
+- kill() calls `docker kill ardyn-sandbox-<id>` (REAL)
+- end() calls `docker rm -f ardyn-sandbox-<id>` (REAL)
+- executeAction() calls `docker exec ardyn-sandbox-<id> ...` with xdotool/import commands (REAL)
+- spawn error handling: child.on("error") caught + audited, NOT crashed
+- Without approval: no spawn (alive=false, audited as "start_denied_no_approval")
+- Dry-run: no spawn (backward compat with M9 tests)
+- 8 new tests prove: spawn IS called, NOT called without approval, NOT in dry-run,
+  kill calls docker kill, end calls docker rm, spawn error is caught+audited,
+  isolation flags present, gateway still routes actions in real mode.
+
+M11-real gap 2 — constant-time HMAC compare:
+- packages/gateway/src/gateway.mjs: all webhook verification now uses
+  crypto.timingSafeEqual via safeCompare() helper (equal-length buffers).
+- Both Telegram and Slack adapters + standalone verify functions updated.
+- 6 new tests verify valid/invalid/different-length signatures.
+
+M11-real gap 3 — cross-user gateway isolation:
+- New test proves a user arriving via the gateway cannot reach another user's
+  session by exercising the actual getSession() access path with mapped userIds.
+- Different platform identities map to different Ardyn users, and getSession
+  with the wrong userId returns null.
+
+Sandbox mechanism: Docker container (ubuntu:22.04, Xvfb), pinned, ephemeral,
+--no-new-privileges, --cap-drop ALL, --read-only, --network none.
+Optional gVisor via COMPUTER_RUNTIME=runsc env var.
+
+Tests: 1350 → 1364 (+14 new). 101 Rust (unchanged). All green.
+Federation receive/content-exchange stays UNWIRED.

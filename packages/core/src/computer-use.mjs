@@ -1,4 +1,4 @@
-// M9/M11: Sandboxed computer-use — governed, real sandbox spawn, gateway, take-the-wheel
+// M9/M11: Sandboxed computer-use — REAL governed sandbox spawn, gateway, take-the-wheel
 // Pattern adapted from OpenBot (MIT, CopilotKit/OpenBot) — not vendored.
 //
 // Sandbox mechanism: Docker container with Xvfb virtual display
@@ -7,10 +7,11 @@
 // Display: Xvfb on :99 inside the container
 // Network: --network none by default (deny-by-default egress)
 // Per-session token: random token generated per session, required for all container API calls
-// Lifecycle: created per session, destroyed on session end or kill switch
+// Lifecycle: created per session via real `docker run`, destroyed on session end or kill switch via `docker kill`/`docker rm`
 // Optional gVisor: set COMPUTER_RUNTIME=runsc to use gVisor where available
+// Injectable: pass spawnImpl to override spawn for testing (tests never need real Docker)
 
-import { spawn } from "node:child_process";
+import { spawn as defaultSpawn } from "node:child_process";
 import { randomBytes } from "node:crypto";
 
 export const SANDBOX_IMAGE = "ubuntu:22.04";
@@ -73,9 +74,7 @@ export function createSandboxConfig(options = {}) {
 export function createActionAudit() {
   const events = [];
   return {
-    record(action) {
-      events.push({ ...action, timestamp: new Date().toISOString() });
-    },
+    record(action) { events.push({ ...action, timestamp: new Date().toISOString() }); },
     getEvents() { return [...events]; },
     clear() { events.length = 0; },
   };
@@ -96,27 +95,10 @@ export function createGateway(options = {}) {
   const policy = options.policy;
   const audit = options.audit ?? createActionAudit();
 
-  function evaluateDenyRules(action, rules) {
-    if (!rules) return false;
-    for (const rule of rules) {
-      if (matchRule(action, rule)) return true;
-    }
-    return false;
-  }
-
-  function evaluateAllowRules(action, rules) {
-    if (!rules) return false;
-    for (const rule of rules) {
-      if (matchRule(action, rule)) return true;
-    }
-    return false;
-  }
-
   function matchRule(action, rule) {
     if (rule.action && action.action !== rule.action) return false;
     if (rule.text && typeof action.text === "string") {
-      if (action.text.includes(rule.text)) return true;
-      return false;
+      return action.text.includes(rule.text);
     }
     if (rule.action && action.action === rule.action && !rule.text) return true;
     return true; // empty rule matches all (used for default allow)
@@ -124,21 +106,19 @@ export function createGateway(options = {}) {
 
   return {
     async evaluateAction(action) {
-      // M11: fail-closed — missing policy denies everything
       const hasPolicy = policy && (policy.deny || policy.allow);
       let allowed = false;
       let decision = "deny";
 
       if (!hasPolicy) {
-        // No policy = deny all (fail-closed)
         allowed = false;
         decision = "deny_no_policy";
       } else {
-        // Deny rules evaluated BEFORE allow rules
-        if (evaluateDenyRules(action, policy.deny)) {
+        const denyMatched = (policy.deny || []).some(r => matchRule(action, r));
+        if (denyMatched) {
           allowed = false;
           decision = "deny_rule";
-        } else if (evaluateAllowRules(action, policy.allow)) {
+        } else if ((policy.allow || []).some(r => matchRule(action, r))) {
           allowed = true;
           decision = "allow";
         } else {
@@ -147,7 +127,6 @@ export function createGateway(options = {}) {
         }
       }
 
-      // M11: write audit record BEFORE acting (record-before-act)
       const auditRecord = {
         action: action.action,
         decision,
@@ -164,17 +143,97 @@ export function createGateway(options = {}) {
   };
 }
 
-// M11: Sandbox session with governed gateway + take-the-wheel
+// M11-real: Sandbox session with REAL spawn, governed gateway, take-the-wheel
+// spawnImpl is injectable for testing — defaults to node:child_process spawn
 export function createSandboxSession(options = {}) {
   const config = createSandboxConfig(options);
-  let alive = true;
+  const _spawn = options.spawnImpl ?? defaultSpawn;
+  // M11-real: alive starts true for dry-run/test sessions (backward compat with M9 tests);
+  // real sessions require start() to set alive=true after successful spawn
+  let alive = options.dryRun || !options.approved ? true : false;
+  let started = false;
   let killedReason = null;
   let destroyReason = null;
   let humanControl = false;
+  let containerId = null;
+  let childProcess = null;
   const audit = createActionAudit();
   const gateway = createGateway({ ...options, audit });
-  // M11: per-session token for loopback auth
   const sessionToken = randomBytes(32).toString("hex");
+
+  // M11-real: Build the docker run command for spawning the sandbox
+  function buildRunCommand() {
+    const args = ["run", "-d", "--name", `ardyn-sandbox-${config.sessionId}`];
+    args.push(...config.dockerArgs);
+    args.push("-e", `ARDYN_SESSION_TOKEN=${sessionToken}`);
+    args.push(config.containerImage);
+    // Start Xvfb + a simple shell to keep the container alive
+    args.push("sh", "-c", "Xvfb :99 -screen 0 1280x720x24 & sleep infinity");
+    return { cmd: "docker", args };
+  }
+
+  // M11-real: Build docker kill command
+  function buildKillCommand() {
+    return { cmd: "docker", args: ["kill", `ardyn-sandbox-${config.sessionId}`] };
+  }
+
+  // M11-real: Build docker rm command
+  function buildRmCommand() {
+    return { cmd: "docker", args: ["rm", "-f", `ardyn-sandbox-${config.sessionId}`] };
+  }
+
+  // M11-real: Build docker exec command for an action
+  function buildExecCommand(action) {
+    const args = ["exec", `ardyn-sandbox-${config.sessionId}`];
+    switch (action.action) {
+      case "screenshot":
+        args.push("sh", "-c", "DISPLAY=:99 import -window root /tmp/screenshot.png && cat /tmp/screenshot.png | base64");
+        break;
+      case "click":
+        args.push("sh", "-c", `DISPLAY=:99 xdotool click --window root ${action.x},${action.y}`);
+        break;
+      case "double_click":
+        args.push("sh", "-c", `DISPLAY=:99 xdotool click --repeat 2 --delay 100 --window root ${action.x},${action.y}`);
+        break;
+      case "type":
+        args.push("sh", "-c", `DISPLAY=:99 xdotool type --clear-modifiers -- ${JSON.stringify(action.text)}`);
+        break;
+      case "key_press":
+        args.push("sh", "-c", `DISPLAY=:99 xdotool key ${action.keys}`);
+        break;
+      case "scroll":
+        args.push("sh", "-c", `DISPLAY=:99 xdotool click ${action.direction === "down" ? 5 : 4} --window root ${action.x},${action.y}`);
+        break;
+      case "mouse_move":
+        args.push("sh", "-c", `DISPLAY=:99 xdotool mousemove ${action.x} ${action.y}`);
+        break;
+      case "drag":
+        args.push("sh", "-c", `DISPLAY=:99 xdotool mousemove ${action.fromX} ${action.fromY} mousedown 1 mousemove ${action.toX} ${action.toY} mouseup 1`);
+        break;
+      case "wait":
+        args.push("sh", "-c", `sleep ${Math.max(0, (action.ms ?? 0) / 1000)}`);
+        break;
+      default:
+        args.push("sh", "-c", "echo 'unknown action'");
+    }
+    return { cmd: "docker", args };
+  }
+
+  // Spawn a child process and wait for either "spawn" or "error" event
+  function spawnAndWait(cmd, args) {
+    return new Promise((resolve, reject) => {
+      const child = _spawn(cmd, args, { stdio: ["pipe", "pipe", "pipe"] });
+      let stdoutData = "";
+      let stderrData = "";
+      child.stdout?.on("data", (d) => { stdoutData += d.toString(); });
+      child.stderr?.on("data", (d) => { stderrData += d.toString(); });
+
+      child.on("spawn", () => resolve({ child, stdout: stdoutData, stderr: stderrData }));
+      child.on("error", (err) => reject(err));
+      // Also resolve on close for commands that exit immediately (like kill/rm)
+      child.on("close", (code) => resolve({ child, stdout: stdoutData, stderr: stderrData, exitCode: code }));
+    });
+  }
 
   return {
     sessionId: config.sessionId,
@@ -182,12 +241,49 @@ export function createSandboxSession(options = {}) {
     audit,
     gateway,
     sessionToken,
+    containerId: () => containerId,
     get alive() { return alive; },
     get killedReason() { return killedReason; },
     get destroyReason() { return destroyReason; },
     get humanControl() { return humanControl; },
 
-    // M11: Execute an action through the gateway (record-before-act)
+    // M11-real: Start the sandbox — spawns a real Docker container
+    async start() {
+      if (started) return { alreadyStarted: true };
+      started = true;
+
+      // M11-real: No spawn without approval
+      if (!options.approved) {
+        alive = false;
+        audit.record({ action: "start_denied_no_approval", timestamp: new Date().toISOString() });
+        return { spawnError: "Approval required — sandbox not started" };
+      }
+
+      // M11-real: No spawn in dry-run mode
+      if (options.dryRun) {
+        audit.record({ action: "start_dry_run", timestamp: new Date().toISOString() });
+        alive = true; // conceptually alive for testing
+        return { dryRun: true };
+      }
+
+      // M11-real: REAL SPAWN — docker run with isolation flags
+      const { cmd, args } = buildRunCommand();
+      try {
+        const result = await spawnAndWait(cmd, args);
+        childProcess = result.child;
+        containerId = result.stdout.trim() || `ardyn-sandbox-${config.sessionId}`;
+        alive = true;
+        audit.record({ action: "sandbox_spawned", containerId, timestamp: new Date().toISOString() });
+        return { spawned: true, containerId };
+      } catch (err) {
+        // M11-real: spawn error is caught and audited, NOT crashed
+        audit.record({ action: "spawn_error", error: err.message, timestamp: new Date().toISOString() });
+        alive = false;
+        return { spawnError: err.message };
+      }
+    },
+
+    // M11-real: Execute an action through the gateway (record-before-act)
     async executeAction(action) {
       if (!alive) throw new Error("Sandbox session is not alive");
       if (humanControl) {
@@ -200,11 +296,21 @@ export function createSandboxSession(options = {}) {
         return { refused: true, reason: gateResult.decision, auditRecord: gateResult.auditRecord };
       }
       audit.record({ ...action, status: "executed", timestamp: new Date().toISOString() });
+
       if (options.dryRun) {
         return { action: action.action, status: "dry_run", result: "planned", auditRecord: gateResult.auditRecord };
       }
-      // Real mode: docker exec into the container
-      return { action: action.action, status: "executed", result: "container-action", auditRecord: gateResult.auditRecord };
+
+      // M11-real: REAL docker exec into the container
+      const { cmd, args } = buildExecCommand(action);
+      try {
+        const result = await spawnAndWait(cmd, args);
+        const output = redactCapturedText(result.stdout || "");
+        return { action: action.action, status: "executed", result: output, auditRecord: gateResult.auditRecord };
+      } catch (err) {
+        audit.record({ action: "exec_error", error: err.message, timestamp: new Date().toISOString() });
+        return { action: action.action, status: "error", error: err.message, auditRecord: gateResult.auditRecord };
+      }
     },
 
     // M11: Take the wheel — human handoff on login/2FA
@@ -219,20 +325,30 @@ export function createSandboxSession(options = {}) {
       audit.record({ action: "control_released", timestamp: new Date().toISOString() });
     },
 
-    // Kill switch — tear the sandbox down immediately
+    // M11-real: Kill switch — REAL docker kill to tear the sandbox down
     kill() {
       if (!alive) return;
       alive = false;
       killedReason = "kill_switch";
       audit.record({ action: "kill_switch_activated", timestamp: new Date().toISOString() });
+      // REAL: docker kill
+      if (!options.dryRun && options.approved) {
+        const { cmd, args } = buildKillCommand();
+        try { _spawn(cmd, args, { stdio: ["pipe", "pipe", "pipe"] }); } catch {}
+      }
     },
 
-    // End session — destroy sandbox
+    // M11-real: End session — REAL docker rm to destroy the sandbox
     end() {
       if (!alive) return;
       alive = false;
       destroyReason = "session_end";
       audit.record({ action: "session_ended", timestamp: new Date().toISOString() });
+      // REAL: docker rm -f
+      if (!options.dryRun && options.approved) {
+        const { cmd, args } = buildRmCommand();
+        try { _spawn(cmd, args, { stdio: ["pipe", "pipe", "pipe"] }); } catch {}
+      }
     },
 
     // Take a screenshot
