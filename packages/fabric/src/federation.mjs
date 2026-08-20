@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, verify as cryptoVerify, createPublicKey, constants } from "node:crypto";
 import { readFileSync, realpathSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 
@@ -883,22 +883,70 @@ function didFromEnvelope(envelope) {
   return envelope?.fromDid ?? envelope?.from_did ?? envelope?.senderDid ?? envelope?.sender_did;
 }
 
-// B2: Real per-message signature verification — no longer trusts self-asserted authenticated* fields.
+// B2-real: Real cryptographic Ed25519 signature verification.
 // A message is authenticated only when:
 //   1. envelope.authenticated === true
 //   2. envelope.authenticatedDid matches the expected fromDid
-//   3. envelope.signature is present (non-empty string)
-//   4. envelope.signatureDid matches envelope.authenticatedDid
+//   3. A valid Ed25519 signature over the canonical payload verifies against the DID's registered public key
+// No field-presence shortcut — crypto.verify must actually pass.
+
+// Load DID → public key map from env (ARDYN_FABRIC_SIBLING_KEYS as JSON)
+// or from a gitignored config/secret/federation-keys.json file.
+function loadSiblingKeys() {
+  // Try env first
+  if (process.env.ARDYN_FABRIC_SIBLING_KEYS) {
+    try {
+      return JSON.parse(process.env.ARDYN_FABRIC_SIBLING_KEYS);
+    } catch {
+      return {};
+    }
+  }
+  // Try gitignored config file (never committed — config/secret/ is gitignored)
+  try {
+    const keysPath = "config/secret/federation-keys.json";
+    const text = readFileSync(keysPath, "utf8");
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
+// Canonical payload: stable JSON of the envelope excluding signature fields
+function canonicalSignedPayload(envelope) {
+  const { signature, signatureDid, ...rest } = envelope;
+  return JSON.stringify(rest, Object.keys(rest).sort());
+}
+
 function isInboundAuthenticated(envelope, fromDid) {
   if (!envelope || typeof envelope !== "object") return false;
   if (envelope.authenticated !== true) return false;
   const authDid = envelope.authenticatedDid ?? envelope.authenticated_did ?? envelope.auth?.did;
   if (authDid !== fromDid) return false;
-  // B2: require a real signature — not just self-asserted
+
+  // B2-real: require a real Ed25519 signature — no field-presence shortcut
   if (typeof envelope.signature !== "string" || envelope.signature.trim().length === 0) return false;
-  // B2: signature DID must match the authenticated DID
-  if (envelope.signatureDid && envelope.signatureDid !== authDid) return false;
-  return true;
+
+  // B2-real: look up the DID's public key from the configured closed map
+  const siblingKeys = loadSiblingKeys();
+  const registeredKeyBase64 = siblingKeys[fromDid];
+  if (!registeredKeyBase64) {
+    // Unknown DID — no key registered → fail closed
+    return false;
+  }
+
+  // B2-real: reconstruct the public key and verify the signature with node:crypto
+  try {
+    const publicKeyDer = Buffer.from(registeredKeyBase64, "base64");
+    const publicKey = createPublicKey({ key: publicKeyDer, format: "der", type: "spki" });
+    const payload = Buffer.from(canonicalSignedPayload(envelope), "utf8");
+    const signatureBytes = Buffer.from(envelope.signature, "base64");
+
+    const isValid = cryptoVerify(null, payload, publicKey, signatureBytes);
+    return isValid === true;
+  } catch {
+    // Malformed key or signature → fail closed
+    return false;
+  }
 }
 
 // B2: Confine ARDYN_FABRIC_IDENTITY_FILE to an allowed base directory.
@@ -1025,12 +1073,9 @@ function csvEnv(value) {
 
 function didFromIdentityFile(path) {
   if (!path) return undefined;
-  // M4: MEDIUM-2 — path confinement: reject ../ traversal (absolute paths allowed from env config)
-  if (path.includes("../") || path.includes("..\\")) {
-    throw new FabricFederationError("Fabric identity file path must not contain path traversal (../).", {
-      code: "identity_file_path_unconfined",
-    });
-  }
+  // B2-real: call confineIdentityFilePath to enforce realpathSync + base-dir + symlink checks
+  // This replaces the naive ../ substring test with real path confinement.
+  confineIdentityFilePath(path);
   let text;
   try {
     text = readFileSync(path, "utf8").trim();

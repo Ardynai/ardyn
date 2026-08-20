@@ -1,6 +1,7 @@
 // B2: Real per-message signature verification + identity-file path confinement
 import assert from "node:assert/strict";
-import { mkdtemp, writeFile, symlink, rm } from "node:fs/promises";
+import { generateKeyPairSync, sign } from "node:crypto";
+import { mkdtemp, writeFile, symlink, rm, mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -9,6 +10,28 @@ import {
   confineIdentityFilePath,
   FABRIC_FEDERATION_IDENTITY_ALLOWED_BASE_DIR,
 } from "../packages/fabric/src/federation.mjs";
+
+// Helper: generate a real Ed25519 keypair and sign an envelope
+function genKeyPair() {
+  const { publicKey, privateKey } = generateKeyPairSync("ed25519");
+  return {
+    publicKey: publicKey.export({ type: "spki", format: "der" }).toString("base64"),
+    privateKey,
+    publicKeyObj: publicKey,
+    privateKeyObj: privateKey,
+  };
+}
+
+function canonicalPayload(envelope) {
+  const { signature, signatureDid, ...rest } = envelope;
+  return JSON.stringify(rest, Object.keys(rest).sort());
+}
+
+function signEnvelope(envelope, privateKeyObj) {
+  const payload = Buffer.from(canonicalPayload(envelope), "utf8");
+  const sig = sign(null, payload, privateKeyObj);
+  return { ...envelope, signature: sig.toString("base64"), signatureDid: envelope.authenticatedDid };
+}
 
 test("B2: isInboundAuthenticated rejects self-asserted authenticated* fields without signature", () => {
   const msg = {
@@ -29,13 +52,18 @@ test("B2: isInboundAuthenticated rejects mismatched signature", () => {
 });
 
 test("B2: isInboundAuthenticated accepts valid signature from matching DID", () => {
-  const msg = {
+  const kp = genKeyPair();
+  process.env.ARDYN_FABRIC_SIBLING_KEYS = JSON.stringify({
+    "did:multiverse:ardyn": kp.publicKey,
+  });
+  const envelope = {
     authenticated: true,
     authenticatedDid: "did:multiverse:ardyn",
-    signature: "sha256:abc123",
-    signatureDid: "did:multiverse:ardyn",
+    fromDid: "did:multiverse:ardyn",
   };
-  assert.equal(isInboundAuthenticated(msg, "did:multiverse:ardyn"), true);
+  const signed = signEnvelope(envelope, kp.privateKeyObj);
+  assert.equal(isInboundAuthenticated(signed, "did:multiverse:ardyn"), true);
+  delete process.env.ARDYN_FABRIC_SIBLING_KEYS;
 });
 
 test("B2: isInboundAuthenticated rejects when authenticated is false", () => {

@@ -147,6 +147,20 @@ Append one entry per completed work item (format in `LOOP-PROTOCOL.md`). Keep th
 - Changed: `docs/posture.md` (rewritten to reflect build mode), `docs/plan/autobuild/PROGRESS.md` (this file)
 - Tests: 1279 (unchanged)
 
+### 2026-08-19T08:00Z — B2-real: Real cryptographic Ed25519 signature verification
+- Changed: `packages/fabric/src/federation.mjs` — replaced field-presence check with real
+  `crypto.verify(null, payload, publicKey, sig)` Ed25519 verification. DID→public-key map
+  loaded from `ARDYN_FABRIC_SIBLING_KEYS` env (JSON) or gitignored
+  `config/secret/federation-keys.json`. Canonical payload = stable JSON of envelope
+  excluding signature fields. Unknown DID = fail closed. Malformed key/sig = fail closed.
+- Changed: `didFromIdentityFile` now calls `confineIdentityFilePath` (realpathSync +
+  base-dir + symlink check) in the real read path — replaces naive `../` substring test.
+  Absolute paths, `../` traversal, and symlinks resolving outside the allowed base dir
+  are rejected in the actual config-load path.
+- Changed: `tests/fabric.test.mjs` — all test fixtures now use real Ed25519 keypairs
+  with `crypto.sign()` instead of fake `"sha256:abc123"` strings.
+- Tests: 1292 → 1303 (+11 new B2-real tests, all green). 8 old B2 tests updated.
+
 ---
 
 ## Final Summary
