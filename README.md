@@ -168,6 +168,12 @@ cd apps/console && npm install && npm run dev
 
 *Architecture: CLI → Core → Fabric → SDK, with Rust host, console, schemas, and trust boundaries.*
 
+**Additional diagrams:**
+- [User Flow](docs/diagrams/user-flow.svg) — how a user runs commands through the approval gate
+- [Data Flow](docs/diagrams/data-flow.svg) — how data moves through the runtime pipeline
+- [Deployment](docs/diagrams/deployment.svg) — local dev, Docker, and Vercel deployment options
+- [Security Boundaries](docs/diagrams/security-boundaries.svg) — 6 trust boundaries + security floor
+
 ```
 ardyn/
 ├── apps/

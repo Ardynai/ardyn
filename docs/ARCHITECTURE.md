@@ -4,6 +4,8 @@
 
 Ardyn is a monorepo with Node.js (CLI, core, fabric, SDK, console) and Rust (host scaffold) workspaces.
 
+**Visual diagrams:** [Architecture](diagrams/architecture.svg) | [User Flow](diagrams/user-flow.svg) | [Data Flow](diagrams/data-flow.svg) | [Deployment](diagrams/deployment.svg) | [Security Boundaries](diagrams/security-boundaries.svg)
+
 ```
 ardyn/
 ├── apps/cli/src/index.mjs         # CLI entry — 10 commands, path containment
