@@ -1,5 +1,5 @@
 // M6: API route — runtime control (authenticated, approval-gated)
-import { checkAuth, unauthorizedResponse } from "../../lib/auth.js";
+import { checkAuth, unauthorizedResponse } from "../../../lib/auth.js";
 
 export async function GET(request) {
   const auth = checkAuth(request);

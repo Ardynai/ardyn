@@ -1,6 +1,6 @@
 // M6: SSE endpoint — reads from event buffer (bridges CLI→console)
-import { checkAuth, unauthorizedResponse } from "../../lib/auth.js";
-import { readEvents } from "../../lib/event-buffer.js";
+import { checkAuth, unauthorizedResponse } from "../../../lib/auth.js";
+import { readEvents } from "../../../lib/event-buffer.js";
 
 export async function GET(request) {
   const auth = checkAuth(request);

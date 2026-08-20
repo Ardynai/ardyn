@@ -2,50 +2,50 @@
 export default function OnboardingPage() {
   const steps = [
     { num: 1, title: "Install Ardyn", code: "npm install @ardyn/core" },
-    { num: 2, title: "Create a manifest", code: 'echo \'{"schema":"ardyn.manifest","schemaVersion":"0.1.0","capabilities":[]}\' > ardyn.manifest.json' },
-    { num: 3, title: "Run doctor", code: "node apps/cli/src/index.mjs doctor" },
-    { num: 4, title: "Check identity", code: "node apps/cli/src/index.mjs identity" },
-    { num: 5, title: "Plan a task", code: "node apps/cli/src/index.mjs plan --manifest ardyn.manifest.json --task task.json --summary" },
-    { num: 6, title: "Dry-run serve", code: "node apps/cli/src/index.mjs serve --dry-run --manifest ardyn.manifest.json" },
-    { num: 7, title: "Runtime plan", code: "node apps/cli/src/index.mjs serve-runtime --enable-runtime --dry-run --manifest ardyn.manifest.json" },
+    { num: 2, title: "Load a manifest", code: 'import { loadManifest } from "@ardyn/core";\nconst manifest = await loadManifest("ardyn.manifest.json");' },
+    { num: 3, title: "Create a task plan", code: 'import { createTaskPlan } from "@ardyn/core";\nconst plan = await createTaskPlan(manifest, task);' },
+    { num: 4, title: "Run with approval", code: 'ardyn serve-runtime --enable-runtime --approve \\\n  --manifest ardyn.manifest.json --command "node script.js"' },
+    { num: 5, title: "View in console", code: "cd apps/console && npm run dev" },
   ];
 
   return (
     <div className="space-y-6">
+      <nav aria-label="Breadcrumb" className="text-sm text-[var(--text-secondary)]">
+        <a href="/" aria-label="Dashboard">Dashboard</a> › <span aria-current="page">Onboarding</span>
+      </nav>
       <div>
         <h2 className="text-2xl font-bold mb-1">Consumer Onboarding</h2>
-        <p className="text-sm text-[var(--text-secondary)]">
-          Get started with Ardyn in 10 minutes
-        </p>
+        <p className="text-sm text-[var(--text-secondary)]">Get started with Ardyn in 10 minutes</p>
       </div>
 
-      <div className="space-y-4">
-        {steps.map((step) => (
-          <div key={step.num} className="card p-5">
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[var(--accent)] flex items-center justify-center text-white font-bold text-sm">
-                {step.num}
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold mb-2">{step.title}</h3>
-                <div className="code-block">
-                  <code>{step.code}</code>
+      <ol role="list" className="space-y-4">
+        {steps.length === 0 ? (
+          <li role="status" className="card p-6"><p className="text-sm">No onboarding steps available.</p></li>
+        ) : (
+          steps.map((step) => (
+            <li key={step.num} className="card p-6" role="listitem" aria-label={`Step ${step.num}: ${step.title}`}>
+              <div className="flex items-start gap-4">
+                <span className="badge badge-info" aria-label={`Step ${step.num}`}>{step.num}</span>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold">{step.title}</h3>
+                  <pre className="code-block mt-2" aria-label={`Code for step ${step.num}`}>{step.code}</pre>
                 </div>
               </div>
-            </div>
-          </div>
-        ))}
-      </div>
+            </li>
+          ))
+        )}
+      </ol>
 
-      <div className="card p-6">
-        <h3 className="text-lg font-semibold mb-2">Next Steps</h3>
-        <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
-          <li>• Read the <a href="#" className="text-[var(--accent)] hover:underline">consumer quickstart</a> for integration patterns</li>
-          <li>• Browse the <a href="/fixtures" className="text-[var(--accent)] hover:underline">fixture gallery</a> to understand boundary maps</li>
-          <li>• Check the <a href="/federation" className="text-[var(--accent)] hover:underline">federation monitor</a> for transport invariants</li>
-          <li>• Review the <a href="/runtime" className="text-[var(--accent)] hover:underline">runtime control</a> for approval-gated execution</li>
+      <section aria-label="SDK display components" className="card p-6">
+        <h3 className="text-lg font-semibold mb-4">SDK Display Components</h3>
+        <ul role="list" className="space-y-2">
+          <li className="flex justify-between"><span className="text-sm">SessionTrace</span><span className="badge badge-success">accessible (aria-live, role=log)</span></li>
+          <li className="flex justify-between"><span className="text-sm">StatusBadge</span><span className="badge badge-success">accessible (aria-label)</span></li>
+          <li className="flex justify-between"><span className="text-sm">ManifestViewer</span><span className="badge badge-success">accessible (role=region)</span></li>
+          <li className="flex justify-between"><span className="text-sm">ApprovalGate</span><span className="badge badge-success">accessible (aria-disabled)</span></li>
+          <li className="flex justify-between"><span className="text-sm">TypeScript types</span><span className="badge badge-success">15+ interfaces</span></li>
         </ul>
-      </div>
+      </section>
     </div>
   );
 }

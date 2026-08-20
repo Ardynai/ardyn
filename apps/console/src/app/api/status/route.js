@@ -1,7 +1,7 @@
 // M6: API route — phase status (live data, authenticated)
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { checkAuth, unauthorizedResponse } from "../../lib/auth.js";
+import { checkAuth, unauthorizedResponse } from "../../../lib/auth.js";
 
 export async function GET(request) {
   const auth = checkAuth(request);

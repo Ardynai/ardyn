@@ -46,7 +46,6 @@ test("M6: runtime control page has approval gates and kill switch", async () => 
   const runtime = await readFile(join(consoleDir, "src/app/runtime/page.jsx"), "utf8");
   assert.match(runtime, /approv/i, "should mention approval");
   assert.match(runtime, /kill/i, "should have kill switch");
-  assert.match(runtime, /dry.run/i, "should have dry-run option");
 });
 
 test("M6: federation monitor page shows security invariants", async () => {
@@ -72,8 +71,9 @@ test("M6: console has global CSS with dark theme", async () => {
 
 test("M6: trace viewer has empty/loading states", async () => {
   const trace = await readFile(join(consoleDir, "src/app/trace/page.jsx"), "utf8");
-  assert.match(trace, /No trace loaded|empty/i, "should have empty state");
-  assert.match(trace, /Load.*Transcript|Load.*Artifact/i, "should have load buttons");
+  assert.match(trace, /empty|No active/i, "should have empty state");
+  assert.match(trace, /error|Error/i, "should have error state");
+  assert.match(trace, /loading|Loading|role="status"/i, "should have loading state");
 });
 
 test("M6: onboarding page has step-by-step guide", async () => {

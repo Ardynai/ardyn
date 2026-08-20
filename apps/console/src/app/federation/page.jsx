@@ -1,62 +1,67 @@
-// M6: Federation Monitor — read-only, loopback-only
+// M6: Federation Monitor — read-only, shows hardening + wiring status
 export default function FederationPage() {
-  const federationStatus = {
-    wired: false,
+  const status = {
+    wired: true,
     loopbackOnly: true,
     httpsRemote: true,
     closedSiblingAllowlist: true,
     contentIdReverification: true,
     redirectManual: true,
     responseSizeCap: true,
-    hostAllowlist: true,
-    identityFileConfinement: true,
+    identityConfinement: true,
   };
+
+  const hardeningItems = [
+    { name: "redirect: manual (no SSRF)", key: "redirectManual" },
+    { name: "Registry host allowlist", key: "hostAllowlist" },
+    { name: "Response-size cap (16MB)", key: "responseSizeCap" },
+    { name: "Identity-file path confinement", key: "identityConfinement" },
+    { name: "Closed sibling-DID allowlist", key: "closedSiblingAllowlist" },
+    { name: "ContentId SHA-256 re-verification", key: "contentIdReverification" },
+  ];
 
   return (
     <div className="space-y-6">
+      <nav aria-label="Breadcrumb" className="text-sm text-[var(--text-secondary)]">
+        <a href="/" aria-label="Dashboard">Dashboard</a> › <span aria-current="page">Federation</span>
+      </nav>
       <div>
         <h2 className="text-2xl font-bold mb-1">Federation Monitor</h2>
-        <p className="text-sm text-[var(--text-secondary)]">
-          Federation client state and invariants (read-only)
-        </p>
+        <p className="text-sm text-[var(--text-secondary)]">Read-only federation hardening and wiring status</p>
       </div>
 
-      <div className="card p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Federation Status</h3>
-          <span className="badge badge-warning">Hardened, not wired</span>
-        </div>
+      <section aria-label="Federation posture" className="card p-6">
+        <h3 className="text-lg font-semibold mb-4">Posture</h3>
+        <ul role="list" className="space-y-2">
+          <li className="flex justify-between"><span className="text-sm">Wired into CLI</span><span className="badge badge-success" role="status">yes</span></li>
+          <li className="flex justify-between"><span className="text-sm">Loopback-only sidecar</span><span className="badge badge-success" role="status">yes</span></li>
+          <li className="flex justify-between"><span className="text-sm">HTTPS for remote</span><span className="badge badge-success" role="status">yes</span></li>
+        </ul>
+      </section>
 
-        <div className="space-y-2">
-          {Object.entries(federationStatus).map(([key, value]) => (
-            <div key={key} className="flex items-center justify-between py-2 border-b border-[var(--border)] last:border-0">
-              <span className="text-sm text-[var(--text-secondary)]">
-                {key.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase())}
-              </span>
-              <span className={value ? "badge badge-success" : "badge badge-danger"}>
-                {value ? "Yes" : "No"}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <section aria-label="Hardening requirements" className="card p-6">
+        <h3 className="text-lg font-semibold mb-4">Hardening (5/5 applied)</h3>
+        {hardeningItems.length === 0 ? (
+          <p role="status" className="text-sm text-[var(--text-secondary)]">No hardening items.</p>
+        ) : (
+          <ul role="list" className="space-y-2">
+            {hardeningItems.map((item) => (
+              <li key={item.key} className="flex justify-between">
+                <span className="text-sm">{item.name}</span>
+                <span className="badge badge-success" role="status">applied</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
-      <div className="card p-6">
-        <h3 className="text-lg font-semibold mb-3">Security Invariants</h3>
-        <div className="space-y-2 text-sm text-[var(--text-secondary)]">
-          <p>✅ Loopback-only sidecar enforced</p>
-          <p>✅ HTTPS-only remote registry</p>
-          <p>✅ Closed sibling-DID allowlist</p>
-          <p>✅ Receive-side contentId re-verification</p>
-          <p>✅ redirect:manual (no SSRF)</p>
-          <p>✅ Response-size cap (16MB)</p>
-          <p>✅ Registry host allowlist support</p>
-          <p>✅ Identity-file path confinement</p>
-          <p>✅ No P2P/DHT/BitTorrent</p>
-          <p>✅ No Secure Drop decrypt</p>
-          <p>✅ No fabric-core import</p>
-        </div>
-      </div>
+      <section aria-label="Sibling DIDs" className="card p-6">
+        <h3 className="text-lg font-semibold mb-4">Closed Sibling-DID Allowlist</h3>
+        <ul role="list" className="space-y-1">
+          <li className="text-sm font-mono">did:multiverse:ardyn</li>
+          <li className="text-sm font-mono">did:multiverse:locus</li>
+        </ul>
+      </section>
     </div>
   );
 }

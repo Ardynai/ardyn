@@ -1,5 +1,5 @@
 // M6: API route — federation status (authenticated)
-import { checkAuth, unauthorizedResponse } from "../../lib/auth.js";
+import { checkAuth, unauthorizedResponse } from "../../../lib/auth.js";
 
 export async function GET(request) {
   const auth = checkAuth(request);
