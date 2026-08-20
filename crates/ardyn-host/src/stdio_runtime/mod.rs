@@ -1435,10 +1435,13 @@ pub struct TranscriptEvent {
 /// This function requires explicit approval — it will return a "blocked" result
 /// unless `approved` is true.
 pub fn run_session_lifecycle(approved: bool, max_frames: usize) -> SessionLifecycleResult {
-    let session_id = format!("rust-session-{}", std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .map(|d| d.as_millis())
-        .unwrap_or(0));
+    let session_id = format!(
+        "rust-session-{}",
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map(|d| d.as_millis())
+            .unwrap_or(0)
+    );
 
     if !approved {
         return SessionLifecycleResult {
@@ -1471,8 +1474,8 @@ pub fn run_session_lifecycle(approved: bool, max_frames: usize) -> SessionLifecy
         frames_processed: events.len(),
         approval_required: false,
         approved: true,
-        kill_switch_armed: false,  // B3: not armed — no real kill switch in Rust scaffold
-        redaction_applied: false,  // B3: not applied — no real redaction in Rust scaffold
+        kill_switch_armed: false, // B3: not armed — no real kill switch in Rust scaffold
+        redaction_applied: false, // B3: not applied — no real redaction in Rust scaffold
         transcript_events: events,
     }
 }
