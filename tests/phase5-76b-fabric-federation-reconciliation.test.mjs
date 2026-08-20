@@ -124,17 +124,11 @@ test("Phase 5.76B records federation consumer client invariants", async () => {
   );
 });
 
-test("Phase 5.76B federation is not imported by CLI or host", async () => {
-  // grep-based assertion: federation must not appear in CLI or Rust host source
-  const cliSource = await readRepoFile("../apps/cli/src/index.mjs");
+test("Phase 5.76B federation is M4-wired in CLI, not in Rust host", async () => {
+  // M4: federation is now wired into CLI via `federation status/config` command
   const hostSource = await readRepoFile("../crates/ardyn-host/src/lib.rs");
 
-  // ponytail: escaped regex — "federation" as a literal word, not a pattern
-  assert.doesNotMatch(
-    cliSource,
-    /federation/,
-    "federation must not be wired into CLI"
-  );
+  // Rust host still must not reference federation
   assert.doesNotMatch(
     hostSource,
     /federation/,

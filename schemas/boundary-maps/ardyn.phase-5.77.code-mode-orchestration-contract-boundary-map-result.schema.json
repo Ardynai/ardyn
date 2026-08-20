@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.77.code-mode-orchestration-contract-boundary-map-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.77.code-mode-orchestration-contract-boundary-map-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "codeModeOrchestrationKind",
+    "codeModeOrchestrationMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "codeModeOrchestrationBoundaryMapProduced",
+    "boundaryEntries",
+    "boundaryMapSummary",
+    "recommendedNextPhase",
+    "codeModeOrchestrationOnly",
+    "reviewOnly",
+    "metadataOnly",
+    "authoritative",
+    "nonAuthorizingProof",
+    "reportRunsChecks",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.77.code-mode-orchestration-contract-boundary-map-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "codeModeOrchestrationKind": {
+      "type": "string"
+    },
+    "codeModeOrchestrationMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "codeModeOrchestrationBoundaryMapProduced": {
+      "type": "boolean"
+    },
+    "boundaryEntries": {
+      "type": "array"
+    },
+    "boundaryMapSummary": {
+      "type": "object"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "codeModeOrchestrationOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadataOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "reportRunsChecks": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-4.1l.runtime-implementation-readiness.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-4.1l.runtime-implementation-readiness",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "sourcePhase",
+    "implementationReadiness",
+    "phase41EvidenceMap",
+    "blockerBurnDown",
+    "phase42AHandoff",
+    "reviewEvidence",
+    "validationPlan",
+    "smokeProbePlan",
+    "runtimeEffect",
+    "nonExecutionInvariants",
+    "audit"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-4.1l.runtime-implementation-readiness"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourcePhase": {
+      "type": "object"
+    },
+    "implementationReadiness": {
+      "type": "object"
+    },
+    "phase41EvidenceMap": {
+      "type": "array"
+    },
+    "blockerBurnDown": {
+      "type": "array"
+    },
+    "phase42AHandoff": {
+      "type": "object"
+    },
+    "reviewEvidence": {
+      "type": "object"
+    },
+    "validationPlan": {
+      "type": "array"
+    },
+    "smokeProbePlan": {
+      "type": "object"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "nonExecutionInvariants": {
+      "type": "array"
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

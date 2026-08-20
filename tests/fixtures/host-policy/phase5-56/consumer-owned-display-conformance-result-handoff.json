@@ -4,6 +4,7 @@
   "consumerOwnedDisplayConformanceResultHandoffKind": "consumer-owned-display-conformance-result-handoff",
   "consumerOwnedDisplayConformanceResultHandoffMode": "review-only",
   "reviewedAt": "2026-06-20T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_consumer_owned_display_conformance_result_handoff_runtime_still_blocked",
   "consumerOwnedDisplayConformanceResultHandoffProduced": true,
   "consumerOwnedDisplayConformanceResultHandoff": {

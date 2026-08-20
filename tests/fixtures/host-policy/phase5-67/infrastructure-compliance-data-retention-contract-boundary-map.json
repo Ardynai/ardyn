@@ -4,6 +4,7 @@
   "infrastructureComplianceDataRetentionContractBoundaryMapKind": "infrastructure-compliance-data-retention-contract-boundary-map",
   "infrastructureComplianceDataRetentionContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-24T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_infrastructure_compliance_data_retention_contract_boundary_map_runtime_still_blocked",
   "infrastructureComplianceDataRetentionContractBoundaryMapProduced": true,
   "infrastructureComplianceDataRetentionContractBoundaryMap": {

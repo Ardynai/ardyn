@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.2.guarded-runtime-default-blocked-boundary.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.2.guarded-runtime-default-blocked-boundary",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "sourceApprovalBoundary",
+    "runtimeDefaultState",
+    "approvalBoundaryChecks",
+    "blockedPathExpectedErrors",
+    "approvalGrantState",
+    "commandSurfaceState",
+    "sideEffectState",
+    "runtimeEffect",
+    "candidateRuntimeCommandsFixture",
+    "nonExecutionInvariants",
+    "validationCommands"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.2.guarded-runtime-default-blocked-boundary"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourceApprovalBoundary": {
+      "type": "object"
+    },
+    "runtimeDefaultState": {
+      "type": "object"
+    },
+    "approvalBoundaryChecks": {
+      "type": "object"
+    },
+    "blockedPathExpectedErrors": {
+      "type": "object"
+    },
+    "approvalGrantState": {
+      "type": "object"
+    },
+    "commandSurfaceState": {
+      "type": "object"
+    },
+    "sideEffectState": {
+      "type": "object"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "candidateRuntimeCommandsFixture": {
+      "type": "string"
+    },
+    "nonExecutionInvariants": {
+      "type": "array"
+    },
+    "validationCommands": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

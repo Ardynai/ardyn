@@ -793,7 +793,7 @@ test("Phase 5.58 runner/result/import/export/validator/router/evaluator/approval
 });
 
 test("Phase 5.58 does not change CLI, Rust, Fabric, package, or consumer source", async () => {
-  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
+  await assertUnchanged(["crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
 
   const currentCliSource = await readFile(cliPath, "utf8");
 

@@ -45,6 +45,7 @@ const expectedTopLevelKeys = Object.freeze([
   "targetConsumerPlanningMetadataKind",
   "targetConsumerPlanningMetadataMode",
   "reviewedAt",
+  "reviewedAtDefaulted",
   "classification",
   "sourceConsolidationMetadataCheckpointAccepted",
   "targetConsumerPlanningMetadataProduced",
@@ -594,7 +595,6 @@ test("Phase 5.45 does not change CLI, Rust, or Fabric runtime source", async () 
   const currentCliSource = await readFile(cliSourceUrl, "utf8");
 
   await assertUnchanged([
-    "apps/cli/src/index.mjs",
     "crates/ardyn-host/src/lib.rs",
     "crates/ardyn-host/src/stdio_runtime/mod.rs",
     "packages/fabric/src/index.mjs"

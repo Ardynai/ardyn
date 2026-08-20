@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.host-policy-review-record.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.host-policy-review-record",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "recordPhase",
+    "reviewedPhase",
+    "policyMetadataSchema",
+    "policyMetadataVersion",
+    "policyMetadataDigestAlgorithm",
+    "policyMetadataDigestHex",
+    "policyContractVersion",
+    "runtimeStatus",
+    "nonExecutionInvariants",
+    "compatibility",
+    "decision",
+    "diagnostics"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.host-policy-review-record"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "recordPhase": {
+      "type": "string"
+    },
+    "reviewedPhase": {
+      "type": "string"
+    },
+    "policyMetadataSchema": {
+      "type": "string"
+    },
+    "policyMetadataVersion": {
+      "type": "string"
+    },
+    "policyMetadataDigestAlgorithm": {
+      "type": "string"
+    },
+    "policyMetadataDigestHex": {
+      "type": "string"
+    },
+    "policyContractVersion": {
+      "type": "string"
+    },
+    "runtimeStatus": {
+      "type": "string"
+    },
+    "nonExecutionInvariants": {
+      "type": "array"
+    },
+    "compatibility": {
+      "type": "string"
+    },
+    "decision": {
+      "type": "object"
+    },
+    "diagnostics": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.20.approval-prerequisite-source-ingestion-preflight.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.20.approval-prerequisite-source-ingestion-preflight",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "sourcePhase",
+    "preflightSummary",
+    "sourceInputShape",
+    "preflightResultShape",
+    "sourcePreflightCases",
+    "readerIntegration",
+    "blockedRuntimeEffect",
+    "serveRuntimeBlockedBehavior",
+    "forbiddenBehavior",
+    "filesAllowedToChange",
+    "filesForbiddenToChange",
+    "validationCommands"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.20.approval-prerequisite-source-ingestion-preflight"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourcePhase": {
+      "type": "object"
+    },
+    "preflightSummary": {
+      "type": "object"
+    },
+    "sourceInputShape": {
+      "type": "object"
+    },
+    "preflightResultShape": {
+      "type": "object"
+    },
+    "sourcePreflightCases": {
+      "type": "array"
+    },
+    "readerIntegration": {
+      "type": "object"
+    },
+    "blockedRuntimeEffect": {
+      "type": "object"
+    },
+    "serveRuntimeBlockedBehavior": {
+      "type": "object"
+    },
+    "forbiddenBehavior": {
+      "type": "array"
+    },
+    "filesAllowedToChange": {
+      "type": "array"
+    },
+    "filesForbiddenToChange": {
+      "type": "array"
+    },
+    "validationCommands": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

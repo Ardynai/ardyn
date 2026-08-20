@@ -4,6 +4,7 @@
   "sourceGuardHardeningKind": "source-guard-hardening-boundary-map",
   "sourceGuardHardeningMode": "review-only",
   "reviewedAt": "2026-07-09T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_source_guard_hardening_boundary_map_digest_based_clippy_all_targets_restored",
   "sourceGuardHardeningBoundaryMapProduced": true,
   "boundaryEntries": [

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.stdio-transport-policy-metadata.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.stdio-transport-policy-metadata",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "metadataPhase",
+    "contractPhase",
+    "exportStatus",
+    "runtimeStatus",
+    "reviewOnly",
+    "serialization",
+    "policy",
+    "futureHostPolicyReviewRecord"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.stdio-transport-policy-metadata"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "metadataPhase": {
+      "type": "string"
+    },
+    "contractPhase": {
+      "type": "string"
+    },
+    "exportStatus": {
+      "type": "string"
+    },
+    "runtimeStatus": {
+      "type": "string"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "serialization": {
+      "type": "object"
+    },
+    "policy": {
+      "type": "object"
+    },
+    "futureHostPolicyReviewRecord": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-4.2d.external-review-disposition-phase5-handoff.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-4.2d.external-review-disposition-phase5-handoff",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "sourcePhase",
+    "julesReviewDisposition",
+    "blockerDisposition",
+    "phase5Handoff",
+    "runtimeLikeCommandRejectionProbes",
+    "runtimeEffect",
+    "nonExecutionInvariants",
+    "safetyPosture"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-4.2d.external-review-disposition-phase5-handoff"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourcePhase": {
+      "type": "object"
+    },
+    "julesReviewDisposition": {
+      "type": "object"
+    },
+    "blockerDisposition": {
+      "type": "object"
+    },
+    "phase5Handoff": {
+      "type": "object"
+    },
+    "runtimeLikeCommandRejectionProbes": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "nonExecutionInvariants": {
+      "type": "array"
+    },
+    "safetyPosture": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

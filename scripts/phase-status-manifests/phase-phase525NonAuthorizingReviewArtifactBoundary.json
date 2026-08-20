@@ -488,6 +488,7 @@
     ],
     "dryRunArgs": [
       "serve-runtime",
+      "federation",
       "--dry-run"
     ],
     "exitCode": 1,

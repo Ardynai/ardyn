@@ -4,6 +4,7 @@
   "fabricFederationReconciliationKind": "fabric-federation-reconciliation",
   "fabricFederationReconciliationMode": "review-only",
   "reviewedAt": "2026-07-05T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_fabric_federation_reconciliation_consumer_client_present_unwired",
   "fabricFederationReconciliationProduced": true,
   "boundaryEntries": [

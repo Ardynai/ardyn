@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.42.review-only-handoff-metadata-consolidation-layer-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.42.review-only-handoff-metadata-consolidation-layer-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "handoffMetadataConsolidationLayerKind",
+    "metadataGeneratedAt",
+    "sourcePhase",
+    "handoffMetadataConsolidationSummary",
+    "handoffMetadataConsolidationInputShape",
+    "handoffMetadataConsolidationResultShape",
+    "handoffMetadataConsolidationCases",
+    "nestedSourceRegressionCases",
+    "handoffMetadataConsolidationLayer",
+    "cleanupHardeningToolkitEvidence",
+    "blockedRuntimeEffect",
+    "serveRuntimeBlockedBehavior",
+    "forbiddenBehavior",
+    "filesAllowedToChange",
+    "filesForbiddenToChange",
+    "validationCommands",
+    "optionalAdvisoryCommands"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.42.review-only-handoff-metadata-consolidation-layer-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "handoffMetadataConsolidationLayerKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourcePhase": {
+      "type": "object"
+    },
+    "handoffMetadataConsolidationSummary": {
+      "type": "object"
+    },
+    "handoffMetadataConsolidationInputShape": {
+      "type": "object"
+    },
+    "handoffMetadataConsolidationResultShape": {
+      "type": "object"
+    },
+    "handoffMetadataConsolidationCases": {
+      "type": "array"
+    },
+    "nestedSourceRegressionCases": {
+      "type": "array"
+    },
+    "handoffMetadataConsolidationLayer": {
+      "type": "object"
+    },
+    "cleanupHardeningToolkitEvidence": {
+      "type": "object"
+    },
+    "blockedRuntimeEffect": {
+      "type": "object"
+    },
+    "serveRuntimeBlockedBehavior": {
+      "type": "object"
+    },
+    "forbiddenBehavior": {
+      "type": "object"
+    },
+    "filesAllowedToChange": {
+      "type": "array"
+    },
+    "filesForbiddenToChange": {
+      "type": "array"
+    },
+    "validationCommands": {
+      "type": "array"
+    },
+    "optionalAdvisoryCommands": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

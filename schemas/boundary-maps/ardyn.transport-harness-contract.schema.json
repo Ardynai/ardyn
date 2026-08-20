@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.transport-harness-contract.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.transport-harness-contract",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "contractKind",
+    "contractPhase",
+    "reviewedPhase",
+    "harnessKind",
+    "harnessVersion",
+    "supportedTransportModes",
+    "runtimeAvailability",
+    "approvalRecordReference",
+    "policyMetadataReference",
+    "stderrRedactionPolicyReference",
+    "transcriptAuditOutputPolicyReference",
+    "failClosedStartupPreconditions",
+    "runtimeEffect",
+    "nonExecutionInvariantSummary",
+    "classification",
+    "unsupportedRuntimeReasons",
+    "rejectedRuntimeReasons",
+    "audit"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.transport-harness-contract"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "contractKind": {
+      "type": "string"
+    },
+    "contractPhase": {
+      "type": "string"
+    },
+    "reviewedPhase": {
+      "type": "string"
+    },
+    "harnessKind": {
+      "type": "string"
+    },
+    "harnessVersion": {
+      "type": "string"
+    },
+    "supportedTransportModes": {
+      "type": "array"
+    },
+    "runtimeAvailability": {
+      "type": "object"
+    },
+    "approvalRecordReference": {
+      "type": "object"
+    },
+    "policyMetadataReference": {
+      "type": "object"
+    },
+    "stderrRedactionPolicyReference": {
+      "type": "object"
+    },
+    "transcriptAuditOutputPolicyReference": {
+      "type": "object"
+    },
+    "failClosedStartupPreconditions": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "nonExecutionInvariantSummary": {
+      "type": "object"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "unsupportedRuntimeReasons": {
+      "type": "array"
+    },
+    "rejectedRuntimeReasons": {
+      "type": "array"
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

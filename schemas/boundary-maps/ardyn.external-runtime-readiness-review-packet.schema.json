@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.external-runtime-readiness-review-packet.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.external-runtime-readiness-review-packet",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "artifactKind",
+    "packetPhase",
+    "reviewedPhase",
+    "metadataGeneratedAt",
+    "currentMainSha",
+    "reviewedPhaseRange",
+    "reviewPacketOnly",
+    "reviewMetadataOnly",
+    "reviewPacketVerdict",
+    "phaseSummaries",
+    "runtimeReadinessEvidenceMap",
+    "testAndSmokeCommands",
+    "nonRuntimeInvariantMatrix",
+    "blockedRuntimeSurfaces",
+    "reviewerQuestionCategories",
+    "reviewerOutcomeCategories",
+    "reviewerQuestions",
+    "recommendedOutcomes",
+    "runtimeEffect",
+    "audit"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.external-runtime-readiness-review-packet"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "packetPhase": {
+      "type": "string"
+    },
+    "reviewedPhase": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "currentMainSha": {
+      "type": "string"
+    },
+    "reviewedPhaseRange": {
+      "type": "object"
+    },
+    "reviewPacketOnly": {
+      "type": "boolean"
+    },
+    "reviewMetadataOnly": {
+      "type": "boolean"
+    },
+    "reviewPacketVerdict": {
+      "type": "object"
+    },
+    "phaseSummaries": {
+      "type": "array"
+    },
+    "runtimeReadinessEvidenceMap": {
+      "type": "array"
+    },
+    "testAndSmokeCommands": {
+      "type": "array"
+    },
+    "nonRuntimeInvariantMatrix": {
+      "type": "array"
+    },
+    "blockedRuntimeSurfaces": {
+      "type": "array"
+    },
+    "reviewerQuestionCategories": {
+      "type": "array"
+    },
+    "reviewerOutcomeCategories": {
+      "type": "array"
+    },
+    "reviewerQuestions": {
+      "type": "array"
+    },
+    "recommendedOutcomes": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

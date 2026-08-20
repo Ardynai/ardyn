@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.46.consumer-contract-readiness-matrix-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.46.consumer-contract-readiness-matrix-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "consumerContractReadinessMatrixKind",
+    "consumerContractReadinessMatrixMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "sourceTargetConsumerPlanningMetadataAccepted",
+    "consumerContractReadinessMatrixProduced",
+    "consumerContractReadinessMatrix",
+    "sourceTargetConsumerPlanningMetadataSummary",
+    "matrixSummary",
+    "matrixRows",
+    "targetConsumerIds",
+    "reviewOnly",
+    "authoritative",
+    "reviewArtifactOnly",
+    "consumerContractReadinessMatrixOnly",
+    "consumerContractReadinessMatrixIsReviewerRouting",
+    "consumerContractReadinessMatrixIsReviewerAssignment",
+    "consumerContractReadinessMatrixIsEvaluatorExecution",
+    "consumerContractReadinessMatrixIsEvaluatorResult",
+    "consumerContractReadinessMatrixIsApprovalDecision",
+    "consumerContractReadinessMatrixIsApprovalGrant",
+    "commandRuntimeControlEnabled",
+    "commandExposurePermissionGranted",
+    "runtimePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "reviewerRoutingPerformed",
+    "reviewerAssignmentPerformed",
+    "evaluatorExecutionPerformed",
+    "evaluatorResultProduced",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "connectorGrantProduced",
+    "connectorIngestionAdded",
+    "liveRegistryConnectionEnabled",
+    "webSocketRuntimeEnabled",
+    "httpRuntimeEnabled",
+    "taskRuntimeExecutionEnabled",
+    "taskExecutionEnabled",
+    "mcpRuntimeExecutionEnabled",
+    "mcpToolExposureEnabled",
+    "fabricRuntimeSurfaceEnabled",
+    "contentFabricRuntimeBehaviorEnabled",
+    "adapterRuntimeBehaviorEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "fileSelectionEnabled",
+    "filesystemWatcherEnabled",
+    "filesystemScanningEnabled",
+    "secretVaultEnvAccessEnabled",
+    "st3ggVendored",
+    "processControlEnabled",
+    "liveStdinLoopEnabled",
+    "runtimeStdoutWriterEnabled",
+    "runtimeStderrWriterEnabled",
+    "transcriptRuntimeWritePerformed",
+    "auditRuntimeWritePerformed",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.46.consumer-contract-readiness-matrix-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "consumerContractReadinessMatrixKind": {
+      "type": "string"
+    },
+    "consumerContractReadinessMatrixMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "sourceTargetConsumerPlanningMetadataAccepted": {
+      "type": "boolean"
+    },
+    "consumerContractReadinessMatrixProduced": {
+      "type": "boolean"
+    },
+    "consumerContractReadinessMatrix": {
+      "type": "object"
+    },
+    "sourceTargetConsumerPlanningMetadataSummary": {
+      "type": "object"
+    },
+    "matrixSummary": {
+      "type": "object"
+    },
+    "matrixRows": {
+      "type": "array"
+    },
+    "targetConsumerIds": {
+      "type": "array"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "reviewArtifactOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "consumerContractReadinessMatrixOnly": {
+      "type": "boolean"
+    },
+    "consumerContractReadinessMatrixIsReviewerRouting": {
+      "type": "boolean"
+    },
+    "consumerContractReadinessMatrixIsReviewerAssignment": {
+      "type": "boolean"
+    },
+    "consumerContractReadinessMatrixIsEvaluatorExecution": {
+      "type": "boolean"
+    },
+    "consumerContractReadinessMatrixIsEvaluatorResult": {
+      "type": "boolean"
+    },
+    "consumerContractReadinessMatrixIsApprovalDecision": {
+      "type": "boolean"
+    },
+    "consumerContractReadinessMatrixIsApprovalGrant": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "commandExposurePermissionGranted": {
+      "type": "boolean"
+    },
+    "runtimePermissionGranted": {
+      "type": "boolean"
+    },
+    "runtimeCommandExposureEnabled": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "reviewerRoutingPerformed": {
+      "type": "boolean"
+    },
+    "reviewerAssignmentPerformed": {
+      "type": "boolean"
+    },
+    "evaluatorExecutionPerformed": {
+      "type": "boolean"
+    },
+    "evaluatorResultProduced": {
+      "type": "boolean"
+    },
+    "approvalDecisionProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantPersisted": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "connectorIngestionAdded": {
+      "type": "boolean"
+    },
+    "liveRegistryConnectionEnabled": {
+      "type": "boolean"
+    },
+    "webSocketRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "httpRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "taskRuntimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "mcpRuntimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "fabricRuntimeSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "contentFabricRuntimeBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "adapterRuntimeBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "secureDropCryptoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropTransportImplemented": {
+      "type": "boolean"
+    },
+    "secureDropStegoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropSendReceiveImplemented": {
+      "type": "boolean"
+    },
+    "secureDropInboxPollingEnabled": {
+      "type": "boolean"
+    },
+    "fileSelectionEnabled": {
+      "type": "boolean"
+    },
+    "filesystemWatcherEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "secretVaultEnvAccessEnabled": {
+      "type": "boolean"
+    },
+    "st3ggVendored": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "liveStdinLoopEnabled": {
+      "type": "boolean"
+    },
+    "runtimeStdoutWriterEnabled": {
+      "type": "boolean"
+    },
+    "runtimeStderrWriterEnabled": {
+      "type": "boolean"
+    },
+    "transcriptRuntimeWritePerformed": {
+      "type": "boolean"
+    },
+    "auditRuntimeWritePerformed": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

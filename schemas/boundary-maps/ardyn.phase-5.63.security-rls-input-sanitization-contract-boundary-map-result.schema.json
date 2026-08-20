@@ -1,0 +1,387 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.63.security-rls-input-sanitization-contract-boundary-map-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.63.security-rls-input-sanitization-contract-boundary-map-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "securityRlsInputSanitizationContractBoundaryMapKind",
+    "securityRlsInputSanitizationContractBoundaryMapMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "securityRlsInputSanitizationContractBoundaryMapProduced",
+    "securityRlsInputSanitizationContractBoundaryMap",
+    "boundaryMapSummary",
+    "boundaryEntries",
+    "invalidBoundaryCasePolicy",
+    "topSecurityRlsAuthDatabaseFabricApiBackendGaps",
+    "recommendedNextPhase",
+    "securityRlsInputSanitizationContractBoundaryMapOnly",
+    "reviewOnly",
+    "metadataOnly",
+    "authoritative",
+    "nonAuthorizingProof",
+    "reportRunsChecks",
+    "sanitizerRuntimeImplemented",
+    "runtimeSanitizerImplemented",
+    "securityMiddlewareImplemented",
+    "backendSecurityMiddlewareImplemented",
+    "schemaValidatorAuthorizesRuntime",
+    "injectionPreventionRuntimeImplemented",
+    "rlsRuntimeImplemented",
+    "rlsPolicyImplemented",
+    "dataIsolationRuntimeImplemented",
+    "permissionEnforcementRuntimeImplemented",
+    "policyEnforcementRuntimeImplemented",
+    "secureTransportRuntimeImplemented",
+    "httpsHstsServerConfigImplemented",
+    "dependencyPatchAutomationEnabled",
+    "dependencySecurityScannerRuntimeEnabled",
+    "liveSecurityScannerEnabled",
+    "auditWriterImplemented",
+    "auditLogWriterImplemented",
+    "logWriterImplemented",
+    "tamperEvidentWriterImplemented",
+    "secretScannerRuntimeEnabled",
+    "connectorScannerRuntimeEnabled",
+    "externalLookupEnabled",
+    "databaseClientImplemented",
+    "databaseSchemaImplemented",
+    "databaseMigrationImplemented",
+    "storageAdapterImplemented",
+    "cacheEngineImplemented",
+    "cacheInvalidationRuntimeImplemented",
+    "transcriptWriterImplemented",
+    "filesystemWriteEnabled",
+    "importExportPathImplementedByArdyn",
+    "packageDistributionImplementedByArdyn",
+    "persistenceImplementedByArdyn",
+    "backendRuntimeImplementedByArdyn",
+    "apiEndpointImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "websocketHttpTransportImplementedByArdyn",
+    "fabricRuntimeImplementedByArdyn",
+    "encodedHandoffRuntimeImplementedByArdyn",
+    "codecImplemented",
+    "translatorRuntimeImplemented",
+    "commandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "runtimeExecutionEnabled",
+    "runtimeAuthorizationEnabled",
+    "databaseStorageRuntimeWritesEnabled",
+    "secretVaultEnvAccessEnabled",
+    "secretsRuntimeIngestionEnabled",
+    "connectorGrantProduced",
+    "mcpToolExposureEnabled",
+    "taskExecutionEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "st3ggVendored",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "backgroundPollingEnabled",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "uiFrontendBrowserRenderingImplemented",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "permissionEvaluatorImplemented",
+    "authorizationEvaluatorImplemented",
+    "blockedCliBypassEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.63.security-rls-input-sanitization-contract-boundary-map-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "securityRlsInputSanitizationContractBoundaryMapKind": {
+      "type": "string"
+    },
+    "securityRlsInputSanitizationContractBoundaryMapMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "securityRlsInputSanitizationContractBoundaryMapProduced": {
+      "type": "boolean"
+    },
+    "securityRlsInputSanitizationContractBoundaryMap": {
+      "type": "object"
+    },
+    "boundaryMapSummary": {
+      "type": "object"
+    },
+    "boundaryEntries": {
+      "type": "array"
+    },
+    "invalidBoundaryCasePolicy": {
+      "type": "object"
+    },
+    "topSecurityRlsAuthDatabaseFabricApiBackendGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "securityRlsInputSanitizationContractBoundaryMapOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadataOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "reportRunsChecks": {
+      "type": "boolean"
+    },
+    "sanitizerRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "runtimeSanitizerImplemented": {
+      "type": "boolean"
+    },
+    "securityMiddlewareImplemented": {
+      "type": "boolean"
+    },
+    "backendSecurityMiddlewareImplemented": {
+      "type": "boolean"
+    },
+    "schemaValidatorAuthorizesRuntime": {
+      "type": "boolean"
+    },
+    "injectionPreventionRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "rlsRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "rlsPolicyImplemented": {
+      "type": "boolean"
+    },
+    "dataIsolationRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "permissionEnforcementRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "policyEnforcementRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "secureTransportRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "httpsHstsServerConfigImplemented": {
+      "type": "boolean"
+    },
+    "dependencyPatchAutomationEnabled": {
+      "type": "boolean"
+    },
+    "dependencySecurityScannerRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "liveSecurityScannerEnabled": {
+      "type": "boolean"
+    },
+    "auditWriterImplemented": {
+      "type": "boolean"
+    },
+    "auditLogWriterImplemented": {
+      "type": "boolean"
+    },
+    "logWriterImplemented": {
+      "type": "boolean"
+    },
+    "tamperEvidentWriterImplemented": {
+      "type": "boolean"
+    },
+    "secretScannerRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "connectorScannerRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "externalLookupEnabled": {
+      "type": "boolean"
+    },
+    "databaseClientImplemented": {
+      "type": "boolean"
+    },
+    "databaseSchemaImplemented": {
+      "type": "boolean"
+    },
+    "databaseMigrationImplemented": {
+      "type": "boolean"
+    },
+    "storageAdapterImplemented": {
+      "type": "boolean"
+    },
+    "cacheEngineImplemented": {
+      "type": "boolean"
+    },
+    "cacheInvalidationRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "transcriptWriterImplemented": {
+      "type": "boolean"
+    },
+    "filesystemWriteEnabled": {
+      "type": "boolean"
+    },
+    "importExportPathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packageDistributionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "persistenceImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "backendRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "apiEndpointImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "serverImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "websocketHttpTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "fabricRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "encodedHandoffRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "codecImplemented": {
+      "type": "boolean"
+    },
+    "translatorRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "commandExposureEnabled": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "runtimeAuthorizationEnabled": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "secretVaultEnvAccessEnabled": {
+      "type": "boolean"
+    },
+    "secretsRuntimeIngestionEnabled": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "secureDropCryptoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropTransportImplemented": {
+      "type": "boolean"
+    },
+    "secureDropStegoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropSendReceiveImplemented": {
+      "type": "boolean"
+    },
+    "secureDropInboxPollingEnabled": {
+      "type": "boolean"
+    },
+    "st3ggVendored": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "backgroundPollingEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "uiFrontendBrowserRenderingImplemented": {
+      "type": "boolean"
+    },
+    "approvalDecisionProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantProduced": {
+      "type": "boolean"
+    },
+    "permissionEvaluatorImplemented": {
+      "type": "boolean"
+    },
+    "authorizationEvaluatorImplemented": {
+      "type": "boolean"
+    },
+    "blockedCliBypassEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

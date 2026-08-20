@@ -1,0 +1,27 @@
+# Files to exclude from Vercel deployment
+tests/
+crates/
+docs/
+scripts/
+.github/
+.git/
+*.md
+LICENSE
+Dockerfile
+.gitignore
+.gitattributes
+AGENTS.md
+CLAUDE.md
+DECISIONS.md
+CONTRIBUTING.md
+SECURITY.md
+SECURITY-INVARIANTS.md
+docs/plan/
+docs/diagrams/
+docs/how-it-works/
+docs/README-review-only-archive.md
+docs/production-readiness-report.md
+docs/cleanup-report.md
+docs/expert-user-panel-review.md
+docs/ARCHITECTURE.md
+docs/ONBOARDING.md

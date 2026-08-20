@@ -4,6 +4,7 @@
   "commandSurfaceShellPrimitiveContractBoundaryMapKind": "command-surface-shell-primitive-contract-boundary-map",
   "commandSurfaceShellPrimitiveContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-30T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_command_surface_shell_primitive_contract_boundary_map_runtime_still_blocked",
   "commandSurfaceShellPrimitiveContractBoundaryMapProduced": true,
   "commandSurfaceShellPrimitiveContractBoundaryMap": {

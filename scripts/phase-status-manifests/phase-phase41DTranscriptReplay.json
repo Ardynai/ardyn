@@ -338,6 +338,7 @@
     "transcript-sidecar",
     "sidecar-writer",
     "serve-runtime",
+    "federation",
     "stdio-runtime"
   ],
   "safetyPosture": {

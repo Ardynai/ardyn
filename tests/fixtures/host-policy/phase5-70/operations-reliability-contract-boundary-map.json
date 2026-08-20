@@ -4,6 +4,7 @@
   "operationsReliabilityContractBoundaryMapKind": "operations-reliability-contract-boundary-map",
   "operationsReliabilityContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-28T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_operations_reliability_contract_boundary_map_runtime_still_blocked",
   "operationsReliabilityContractBoundaryMapProduced": true,
   "operationsReliabilityContractBoundaryMap": {

@@ -689,6 +689,7 @@
     ],
     "dryRunArgs": [
       "serve-runtime",
+      "federation",
       "--dry-run"
     ],
     "stderr": "Usage: ardyn serve-runtime [--dry-run]\nRuntime unavailable: serve-runtime is recognized, but runtime is not enabled in Phase 5.5.\n",

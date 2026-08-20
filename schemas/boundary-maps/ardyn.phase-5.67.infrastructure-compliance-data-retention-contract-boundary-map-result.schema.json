@@ -1,0 +1,459 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.67.infrastructure-compliance-data-retention-contract-boundary-map-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.67.infrastructure-compliance-data-retention-contract-boundary-map-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "infrastructureComplianceDataRetentionContractBoundaryMapKind",
+    "infrastructureComplianceDataRetentionContractBoundaryMapMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "infrastructureComplianceDataRetentionContractBoundaryMapProduced",
+    "infrastructureComplianceDataRetentionContractBoundaryMap",
+    "boundaryMapSummary",
+    "boundaryEntries",
+    "invalidBoundaryCasePolicy",
+    "topInfrastructureComplianceAvailabilityObservabilitySecurityAuthDatabaseFabricApiBackendGaps",
+    "recommendedNextPhase",
+    "infrastructureComplianceDataRetentionContractBoundaryMapOnly",
+    "reviewOnly",
+    "metadataOnly",
+    "authoritative",
+    "nonAuthorizingProof",
+    "reportRunsChecks",
+    "infrastructureAutomationImplemented",
+    "deploymentAutomationImplemented",
+    "cloudProvisioningImplemented",
+    "environmentManagerImplemented",
+    "complianceAutomationImplemented",
+    "complianceEnforcementImplemented",
+    "complianceCertificationClaimed",
+    "gdprComplianceClaimed",
+    "ccpaComplianceClaimed",
+    "soc2ComplianceClaimed",
+    "piiProcessingImplemented",
+    "piiCollectionImplemented",
+    "dataRetentionJobImplemented",
+    "dataDeletionJobImplemented",
+    "dataExportJobImplemented",
+    "policyEngineImplemented",
+    "runtimeGovernanceImplemented",
+    "vendorIntegrationImplemented",
+    "externalServiceLookupEnabled",
+    "secretVaultEnvAccessEnabled",
+    "secretsRuntimeIngestionEnabled",
+    "backendRuntimeImplementedByArdyn",
+    "backendApiServerMiddlewareImplemented",
+    "apiEndpointImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "databaseClientImplemented",
+    "databaseStorageRuntimeWritesEnabled",
+    "databaseSchemaImplemented",
+    "databaseMigrationImplemented",
+    "rlsRuntimeImplemented",
+    "rlsPolicyImplemented",
+    "storageAdapterImplemented",
+    "cacheEngineImplemented",
+    "cacheInvalidationRuntimeImplemented",
+    "transcriptWriterImplemented",
+    "auditWriterImplemented",
+    "loggerRuntimeImplemented",
+    "logWriterImplemented",
+    "telemetryClientImplemented",
+    "externalSinkImplemented",
+    "importExportPathImplementedByArdyn",
+    "packageDistributionImplementedByArdyn",
+    "persistencePathImplementedByArdyn",
+    "persistenceImplementedByArdyn",
+    "websocketHttpTransportImplementedByArdyn",
+    "fabricRuntimeImplementedByArdyn",
+    "encodedHandoffRuntimeImplementedByArdyn",
+    "codecImplemented",
+    "translatorRuntimeImplemented",
+    "commandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "runtimeExecutionEnabled",
+    "runtimeAuthorizationEnabled",
+    "connectorGrantProduced",
+    "mcpToolExposureEnabled",
+    "taskExecutionEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "st3ggVendored",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "schedulerImplemented",
+    "backgroundPollingEnabled",
+    "pollingEnabled",
+    "filesystemWriteEnabled",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "uiFrontendBrowserRenderingImplemented",
+    "healthCheckerImplemented",
+    "healthCheckRuntimeImplemented",
+    "monitorImplemented",
+    "monitoringRuntimeImplemented",
+    "backupJobImplemented",
+    "restoreJobImplemented",
+    "failoverRuntimeImplemented",
+    "degradedModeRuntimeImplemented",
+    "recoveryAutomationImplemented",
+    "processSupervisorImplemented",
+    "processSupervisionRuntimeImplemented",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "permissionEvaluatorImplemented",
+    "authorizationEvaluatorImplemented",
+    "blockedCliBypassEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.67.infrastructure-compliance-data-retention-contract-boundary-map-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "infrastructureComplianceDataRetentionContractBoundaryMapKind": {
+      "type": "string"
+    },
+    "infrastructureComplianceDataRetentionContractBoundaryMapMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "infrastructureComplianceDataRetentionContractBoundaryMapProduced": {
+      "type": "boolean"
+    },
+    "infrastructureComplianceDataRetentionContractBoundaryMap": {
+      "type": "object"
+    },
+    "boundaryMapSummary": {
+      "type": "object"
+    },
+    "boundaryEntries": {
+      "type": "array"
+    },
+    "invalidBoundaryCasePolicy": {
+      "type": "object"
+    },
+    "topInfrastructureComplianceAvailabilityObservabilitySecurityAuthDatabaseFabricApiBackendGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "infrastructureComplianceDataRetentionContractBoundaryMapOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadataOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "reportRunsChecks": {
+      "type": "boolean"
+    },
+    "infrastructureAutomationImplemented": {
+      "type": "boolean"
+    },
+    "deploymentAutomationImplemented": {
+      "type": "boolean"
+    },
+    "cloudProvisioningImplemented": {
+      "type": "boolean"
+    },
+    "environmentManagerImplemented": {
+      "type": "boolean"
+    },
+    "complianceAutomationImplemented": {
+      "type": "boolean"
+    },
+    "complianceEnforcementImplemented": {
+      "type": "boolean"
+    },
+    "complianceCertificationClaimed": {
+      "type": "boolean"
+    },
+    "gdprComplianceClaimed": {
+      "type": "boolean"
+    },
+    "ccpaComplianceClaimed": {
+      "type": "boolean"
+    },
+    "soc2ComplianceClaimed": {
+      "type": "boolean"
+    },
+    "piiProcessingImplemented": {
+      "type": "boolean"
+    },
+    "piiCollectionImplemented": {
+      "type": "boolean"
+    },
+    "dataRetentionJobImplemented": {
+      "type": "boolean"
+    },
+    "dataDeletionJobImplemented": {
+      "type": "boolean"
+    },
+    "dataExportJobImplemented": {
+      "type": "boolean"
+    },
+    "policyEngineImplemented": {
+      "type": "boolean"
+    },
+    "runtimeGovernanceImplemented": {
+      "type": "boolean"
+    },
+    "vendorIntegrationImplemented": {
+      "type": "boolean"
+    },
+    "externalServiceLookupEnabled": {
+      "type": "boolean"
+    },
+    "secretVaultEnvAccessEnabled": {
+      "type": "boolean"
+    },
+    "secretsRuntimeIngestionEnabled": {
+      "type": "boolean"
+    },
+    "backendRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "backendApiServerMiddlewareImplemented": {
+      "type": "boolean"
+    },
+    "apiEndpointImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "serverImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "databaseClientImplemented": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "databaseSchemaImplemented": {
+      "type": "boolean"
+    },
+    "databaseMigrationImplemented": {
+      "type": "boolean"
+    },
+    "rlsRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "rlsPolicyImplemented": {
+      "type": "boolean"
+    },
+    "storageAdapterImplemented": {
+      "type": "boolean"
+    },
+    "cacheEngineImplemented": {
+      "type": "boolean"
+    },
+    "cacheInvalidationRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "transcriptWriterImplemented": {
+      "type": "boolean"
+    },
+    "auditWriterImplemented": {
+      "type": "boolean"
+    },
+    "loggerRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "logWriterImplemented": {
+      "type": "boolean"
+    },
+    "telemetryClientImplemented": {
+      "type": "boolean"
+    },
+    "externalSinkImplemented": {
+      "type": "boolean"
+    },
+    "importExportPathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packageDistributionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "persistencePathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "persistenceImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "websocketHttpTransportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "fabricRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "encodedHandoffRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "codecImplemented": {
+      "type": "boolean"
+    },
+    "translatorRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "commandExposureEnabled": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "runtimeAuthorizationEnabled": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "secureDropCryptoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropTransportImplemented": {
+      "type": "boolean"
+    },
+    "secureDropStegoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropSendReceiveImplemented": {
+      "type": "boolean"
+    },
+    "secureDropInboxPollingEnabled": {
+      "type": "boolean"
+    },
+    "st3ggVendored": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "schedulerImplemented": {
+      "type": "boolean"
+    },
+    "backgroundPollingEnabled": {
+      "type": "boolean"
+    },
+    "pollingEnabled": {
+      "type": "boolean"
+    },
+    "filesystemWriteEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "uiFrontendBrowserRenderingImplemented": {
+      "type": "boolean"
+    },
+    "healthCheckerImplemented": {
+      "type": "boolean"
+    },
+    "healthCheckRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "monitorImplemented": {
+      "type": "boolean"
+    },
+    "monitoringRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "backupJobImplemented": {
+      "type": "boolean"
+    },
+    "restoreJobImplemented": {
+      "type": "boolean"
+    },
+    "failoverRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "degradedModeRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "recoveryAutomationImplemented": {
+      "type": "boolean"
+    },
+    "processSupervisorImplemented": {
+      "type": "boolean"
+    },
+    "processSupervisionRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "approvalDecisionProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantProduced": {
+      "type": "boolean"
+    },
+    "permissionEvaluatorImplemented": {
+      "type": "boolean"
+    },
+    "authorizationEvaluatorImplemented": {
+      "type": "boolean"
+    },
+    "blockedCliBypassEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

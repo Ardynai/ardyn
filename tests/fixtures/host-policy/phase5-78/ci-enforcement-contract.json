@@ -4,6 +4,7 @@
   "ciEnforcementContractKind": "ci-enforcement-contract-boundary-map",
   "ciEnforcementContractMode": "review-only",
   "reviewedAt": "2026-07-06T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_ci_enforcement_contract_boundary_map_runtime_still_blocked",
   "ciEnforcementContractBoundaryMapProduced": true,
   "boundaryEntries": [

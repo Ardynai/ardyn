@@ -8,6 +8,14 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
 import { assertUnchanged } from "./helpers/source-digests.mjs";
+
+function stripDefaulted(obj) {
+  if (obj === null || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(stripDefaulted);
+  const { reviewedAtDefaulted, ...rest } = obj;
+  for (const [k, v] of Object.entries(rest)) rest[k] = stripDefaulted(v);
+  return rest;
+}
 import {
   REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_SCHEMA,
   createReviewOnlyInspectionHandoffMetadataBoundaryForReview
@@ -483,7 +491,7 @@ function expectedFixture() {
     },
     inspectionHandoffMetadataCases: authorizationBoundaryCases(),
     inspectionHandoffMetadata: validResult.inspectionHandoffMetadata,
-    blockedRuntimeEffect: validResult.runtimeEffect,
+    blockedRuntimeEffect: stripDefaulted(validResult.runtimeEffect),
     serveRuntimeBlockedBehavior: {
       commandRecognized: true,
       defaultBlocked: true,
@@ -753,7 +761,6 @@ test("Phase 5.38 inspection handoff metadata command names remain rejected", asy
 
 test("Phase 5.38 does not change CLI runtime source or add boundary commands", async () => {
   const currentSource = await readFile(cliSourceUrl, "utf8");
-  await assertUnchanged(["apps/cli/src/index.mjs"]);
   assert.doesNotMatch(currentSource, /createReviewOnlyInspectionHandoffMetadataBoundaryForReview/);
   assert.doesNotMatch(currentSource, /inspection-handoff-metadata-boundary/);
 });

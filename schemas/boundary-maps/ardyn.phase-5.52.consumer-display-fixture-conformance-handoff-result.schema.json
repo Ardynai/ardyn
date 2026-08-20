@@ -1,0 +1,463 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.52.consumer-display-fixture-conformance-handoff-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.52.consumer-display-fixture-conformance-handoff-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "consumerDisplayFixtureConformanceHandoffKind",
+    "consumerDisplayFixtureConformanceHandoffMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "consumerDisplayFixtureConformanceHandoffProduced",
+    "consumerDisplayFixtureConformanceHandoff",
+    "handoffSummary",
+    "phase550SchemaBoundaryReference",
+    "phase551ExamplePackReference",
+    "handoffEntries",
+    "invalidHandoffCasePolicy",
+    "topDisplayConformanceGaps",
+    "recommendedNextPhase",
+    "consumerDisplayFixtureConformanceHandoffOnly",
+    "reviewOnly",
+    "authoritative",
+    "reviewArtifactOnly",
+    "nonAuthorizingProof",
+    "commandRuntimeControlEnabled",
+    "commandExposurePermissionGranted",
+    "runtimePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "reviewerRoutingPerformed",
+    "reviewerAssignmentPerformed",
+    "evaluatorExecutionPerformed",
+    "evaluatorResultProduced",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "connectorGrantProduced",
+    "connectorIngestionAdded",
+    "liveRegistryConnectionEnabled",
+    "webSocketRuntimeEnabled",
+    "httpRuntimeEnabled",
+    "taskRuntimeExecutionEnabled",
+    "taskExecutionEnabled",
+    "mcpRuntimeExecutionEnabled",
+    "mcpToolExposureEnabled",
+    "fabricRuntimeSurfaceEnabled",
+    "contentFabricRuntimeBehaviorEnabled",
+    "adapterRuntimeBehaviorEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "fileSelectionEnabled",
+    "filesystemWatcherEnabled",
+    "filesystemScanningEnabled",
+    "secretVaultEnvAccessEnabled",
+    "st3ggVendored",
+    "processControlEnabled",
+    "liveStdinLoopEnabled",
+    "runtimeStdoutWriterEnabled",
+    "runtimeStderrWriterEnabled",
+    "transcriptRuntimeWritePerformed",
+    "auditRuntimeWritePerformed",
+    "mcpExecutionEnabled",
+    "httpRuntimeSurfaceEnabled",
+    "webSocketHttpSurfaceEnabled",
+    "databaseStorageRuntimeWritesEnabled",
+    "runtimeDatabaseWriteEnabled",
+    "storageRuntimeWriteEnabled",
+    "secretsRuntimeIngestionEnabled",
+    "externalServicesEnabled",
+    "networkServerEnabled",
+    "hostingDeploymentProvisioned",
+    "cloudComputeProvisioned",
+    "rateLimitingRuntimeEnabled",
+    "cachingCdnRuntimeEnabled",
+    "loadBalancingRuntimeEnabled",
+    "runtimeObservabilityEnabled",
+    "disasterRecoveryRuntimeEnabled",
+    "infrastructureMutationEnabled",
+    "complianceAttestationProduced",
+    "productionTestRuntimeEnabled",
+    "operationsMonitorEnabled",
+    "alertDispatchEnabled",
+    "retryCircuitBreakerRuntimeEnabled",
+    "serviceDiscoveryEnabled",
+    "liveServiceRegistryConnectionEnabled",
+    "scheduleEnforcementEnabled",
+    "backgroundPollingEnabled",
+    "uiFrontendBrowserCodeImplemented",
+    "consumerUiImplemented",
+    "displaySurfaceImplemented",
+    "browserRuntimeEnabled",
+    "interactiveControlEnabled",
+    "hiddenActionSemanticsEnabled",
+    "autoExecutionEnabled",
+    "colorOnlyStatusIndicatorAllowed",
+    "motionRequiredForStatusUnderstanding",
+    "accessibilityComplianceCertified",
+    "locusRuntimeDependencyAdded",
+    "multiverseRuntimeDependencyAdded",
+    "consumerRuntimeIntegrationAdded",
+    "renderingCodeImplemented",
+    "browserRenderingHarnessImplemented",
+    "fixtureImportCommandImplemented",
+    "fixtureExportCommandImplemented",
+    "fixtureImportExportCommandsImplemented",
+    "consumerOwnedRunnerImplemented",
+    "consumerConformanceRunnerImplemented",
+    "externalLookupsEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.52.consumer-display-fixture-conformance-handoff-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "consumerDisplayFixtureConformanceHandoffKind": {
+      "type": "string"
+    },
+    "consumerDisplayFixtureConformanceHandoffMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "consumerDisplayFixtureConformanceHandoffProduced": {
+      "type": "boolean"
+    },
+    "consumerDisplayFixtureConformanceHandoff": {
+      "type": "object"
+    },
+    "handoffSummary": {
+      "type": "object"
+    },
+    "phase550SchemaBoundaryReference": {
+      "type": "object"
+    },
+    "phase551ExamplePackReference": {
+      "type": "object"
+    },
+    "handoffEntries": {
+      "type": "array"
+    },
+    "invalidHandoffCasePolicy": {
+      "type": "object"
+    },
+    "topDisplayConformanceGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "consumerDisplayFixtureConformanceHandoffOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "reviewArtifactOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "commandExposurePermissionGranted": {
+      "type": "boolean"
+    },
+    "runtimePermissionGranted": {
+      "type": "boolean"
+    },
+    "runtimeCommandExposureEnabled": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "reviewerRoutingPerformed": {
+      "type": "boolean"
+    },
+    "reviewerAssignmentPerformed": {
+      "type": "boolean"
+    },
+    "evaluatorExecutionPerformed": {
+      "type": "boolean"
+    },
+    "evaluatorResultProduced": {
+      "type": "boolean"
+    },
+    "approvalDecisionProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantPersisted": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "connectorIngestionAdded": {
+      "type": "boolean"
+    },
+    "liveRegistryConnectionEnabled": {
+      "type": "boolean"
+    },
+    "webSocketRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "httpRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "taskRuntimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "mcpRuntimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "fabricRuntimeSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "contentFabricRuntimeBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "adapterRuntimeBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "secureDropCryptoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropTransportImplemented": {
+      "type": "boolean"
+    },
+    "secureDropStegoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropSendReceiveImplemented": {
+      "type": "boolean"
+    },
+    "secureDropInboxPollingEnabled": {
+      "type": "boolean"
+    },
+    "fileSelectionEnabled": {
+      "type": "boolean"
+    },
+    "filesystemWatcherEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "secretVaultEnvAccessEnabled": {
+      "type": "boolean"
+    },
+    "st3ggVendored": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "liveStdinLoopEnabled": {
+      "type": "boolean"
+    },
+    "runtimeStdoutWriterEnabled": {
+      "type": "boolean"
+    },
+    "runtimeStderrWriterEnabled": {
+      "type": "boolean"
+    },
+    "transcriptRuntimeWritePerformed": {
+      "type": "boolean"
+    },
+    "auditRuntimeWritePerformed": {
+      "type": "boolean"
+    },
+    "mcpExecutionEnabled": {
+      "type": "boolean"
+    },
+    "httpRuntimeSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "webSocketHttpSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "runtimeDatabaseWriteEnabled": {
+      "type": "boolean"
+    },
+    "storageRuntimeWriteEnabled": {
+      "type": "boolean"
+    },
+    "secretsRuntimeIngestionEnabled": {
+      "type": "boolean"
+    },
+    "externalServicesEnabled": {
+      "type": "boolean"
+    },
+    "networkServerEnabled": {
+      "type": "boolean"
+    },
+    "hostingDeploymentProvisioned": {
+      "type": "boolean"
+    },
+    "cloudComputeProvisioned": {
+      "type": "boolean"
+    },
+    "rateLimitingRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "cachingCdnRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "loadBalancingRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "runtimeObservabilityEnabled": {
+      "type": "boolean"
+    },
+    "disasterRecoveryRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "infrastructureMutationEnabled": {
+      "type": "boolean"
+    },
+    "complianceAttestationProduced": {
+      "type": "boolean"
+    },
+    "productionTestRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "operationsMonitorEnabled": {
+      "type": "boolean"
+    },
+    "alertDispatchEnabled": {
+      "type": "boolean"
+    },
+    "retryCircuitBreakerRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "liveServiceRegistryConnectionEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "backgroundPollingEnabled": {
+      "type": "boolean"
+    },
+    "uiFrontendBrowserCodeImplemented": {
+      "type": "boolean"
+    },
+    "consumerUiImplemented": {
+      "type": "boolean"
+    },
+    "displaySurfaceImplemented": {
+      "type": "boolean"
+    },
+    "browserRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "interactiveControlEnabled": {
+      "type": "boolean"
+    },
+    "hiddenActionSemanticsEnabled": {
+      "type": "boolean"
+    },
+    "autoExecutionEnabled": {
+      "type": "boolean"
+    },
+    "colorOnlyStatusIndicatorAllowed": {
+      "type": "boolean"
+    },
+    "motionRequiredForStatusUnderstanding": {
+      "type": "boolean"
+    },
+    "accessibilityComplianceCertified": {
+      "type": "boolean"
+    },
+    "locusRuntimeDependencyAdded": {
+      "type": "boolean"
+    },
+    "multiverseRuntimeDependencyAdded": {
+      "type": "boolean"
+    },
+    "consumerRuntimeIntegrationAdded": {
+      "type": "boolean"
+    },
+    "renderingCodeImplemented": {
+      "type": "boolean"
+    },
+    "browserRenderingHarnessImplemented": {
+      "type": "boolean"
+    },
+    "fixtureImportCommandImplemented": {
+      "type": "boolean"
+    },
+    "fixtureExportCommandImplemented": {
+      "type": "boolean"
+    },
+    "fixtureImportExportCommandsImplemented": {
+      "type": "boolean"
+    },
+    "consumerOwnedRunnerImplemented": {
+      "type": "boolean"
+    },
+    "consumerConformanceRunnerImplemented": {
+      "type": "boolean"
+    },
+    "externalLookupsEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

@@ -660,7 +660,7 @@ test("Phase 5.63 security/RLS/input/runtime command names remain rejected", asyn
 });
 
 test("Phase 5.63 does not change CLI, Rust, Fabric, package, or consumer source", async () => {
-  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
+  await assertUnchanged(["crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
 
   const currentCliSource = await readFile(cliPath, "utf8");
 

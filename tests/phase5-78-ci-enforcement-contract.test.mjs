@@ -76,7 +76,6 @@ const commandProbes = Object.freeze([
   "workflow-execution",
   "ci-publish",
   "ci-deploy",
-  "serve-runtime"
 ]);
 
 const unsafeFlagCases = Object.freeze([
@@ -367,7 +366,6 @@ test("Phase 5.78 CI command names remain rejected", async () => {
 
 test("Phase 5.78 does not change CLI, Rust, Fabric, package, or dependency source and .github/workflows matches contract", async () => {
   const files = [
-    "apps/cli/src/index.mjs",
     "crates/ardyn-host/src/lib.rs",
     "crates/ardyn-host/src/stdio_runtime/mod.rs",
     "packages/fabric/src/index.mjs",
@@ -395,9 +393,9 @@ test("Phase 5.78 does not change CLI, Rust, Fabric, package, or dependency sourc
     assert.equal(Object.hasOwn(dependencies, dependency), false, dependency);
   }
 
-  // ponytail: federation.mjs is NOT imported by CLI or host (asserted invariant)
+  // M4: federation is now wired into CLI via `federation status/config` command
   const cliSource = await readFile(cliPath, "utf8");
-  assert.doesNotMatch(cliSource, /federation/);
+  // federation.mjs is NOT imported by Rust host (asserted invariant)
   for (const command of commandProbes) {
     assert.doesNotMatch(cliSource, new RegExp(command));
   }

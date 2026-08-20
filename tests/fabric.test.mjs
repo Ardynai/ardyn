@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
+import { createHash, generateKeyPairSync, sign as cryptoSign } from "node:crypto";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -19,12 +19,32 @@ import {
   validateKeyringShape,
   validatePackManifest,
 } from "../packages/fabric/src/index.mjs";
+
 import {
   createFabricFederationClient,
   isLoopbackFabricFederationUrl,
   loadFabricFederationConfigFromEnv,
   verifyFabricCaContent,
 } from "../packages/fabric/src/federation.mjs";
+
+// B2-real: generate real Ed25519 keypairs for test fixtures
+const testKpLocus = generateKeyPairSync("ed25519");
+const testKpKyber = generateKeyPairSync("ed25519");
+process.env.ARDYN_FABRIC_SIBLING_KEYS = JSON.stringify({
+  "did:multiverse:locus": testKpLocus.publicKey.export({ type: "spki", format: "der" }).toString("base64"),
+  "did:multiverse:kybernetes": testKpKyber.publicKey.export({ type: "spki", format: "der" }).toString("base64"),
+});
+
+function canonicalPayload(envelope) {
+  const { signature, signatureDid, ...rest } = envelope;
+  return JSON.stringify(rest, Object.keys(rest).sort());
+}
+
+function signEnvelope(envelope, privateKeyObj) {
+  const payload = Buffer.from(canonicalPayload(envelope), "utf8");
+  const sig = cryptoSign(null, payload, privateKeyObj);
+  return { ...envelope, signature: sig.toString("base64"), signatureDid: envelope.authenticatedDid };
+}
 
 const root = process.cwd();
 const fixtureRoot = "packages/fabric/fixtures";
@@ -243,16 +263,19 @@ test("fabric federation client accepts loopback sidecar URLs and rejects remote 
 
 test("fabric federation env config reads the local secret identity DID without logging key material", async () => {
   const dir = await mkdtemp(join(tmpdir(), "ardyn-fabric-identity-"));
-  const identityPath = join(dir, "identity.json");
-  await writeFile(
-    identityPath,
-    JSON.stringify({
-      did: "did:multiverse:ardyn",
-      privateKey: "do-not-log-or-commit",
-    }),
-  );
-
+  const origCwd = process.cwd();
   try {
+    process.chdir(dir);
+    process.env.ARDYN_FABRIC_IDENTITY_BASE_DIR = dir;
+    const identityPath = "identity.json";
+    await writeFile(
+      join(dir, identityPath),
+      JSON.stringify({
+        did: "did:multiverse:ardyn",
+        privateKey: "do-not-log-or-commit",
+      }),
+    );
+
     const config = loadFabricFederationConfigFromEnv({
       ARDYN_FABRIC_IDENTITY_FILE: identityPath,
       ARDYN_FABRIC_REGISTRY_TOKEN: "registry-token",
@@ -263,7 +286,9 @@ test("fabric federation env config reads the local secret identity DID without l
 
     assert.equal(config.localDid, "did:multiverse:ardyn");
     assert.equal(config.privateKey, undefined);
+    delete process.env.ARDYN_FABRIC_IDENTITY_BASE_DIR;
   } finally {
+    process.chdir(origCwd);
     await rm(dir, { force: true, recursive: true });
   }
 });
@@ -344,22 +369,24 @@ test("fabric federation receiver accepts allowlisted authenticated siblings and 
     if (path === "/fabric/federation/inbox") {
       return jsonResponse({
         items: [
-          {
+          signEnvelope({
             authenticated: true,
+            authenticatedDid: "did:multiverse:locus",
             contentId: descriptor.contentId,
             encrypted: true,
             fromDid: "did:multiverse:locus",
             id: "message-1",
             secure: true,
             toDid: "did:multiverse:ardyn",
-          },
-          {
+          }, testKpLocus.privateKey),
+          signEnvelope({
             authenticated: true,
+            authenticatedDid: "did:multiverse:kybernetes",
             contentId: descriptor.contentId,
             fromDid: "did:multiverse:kybernetes",
             id: "message-2",
             toDid: "did:multiverse:ardyn",
-          },
+          }, testKpKyber.privateKey),
         ],
       });
     }
@@ -400,12 +427,13 @@ test("fabric federation receive re-verifies contentId and catches tampered bytes
     if (path === "/fabric/federation/inbox") {
       return jsonResponse({
         items: [
-          {
+          signEnvelope({
             authenticated: true,
+            authenticatedDid: "did:multiverse:locus",
             contentId: descriptor.contentId,
             fromDid: "did:multiverse:locus",
             toDid: "did:multiverse:ardyn",
-          },
+          }, testKpLocus.privateKey),
         ],
       });
     }

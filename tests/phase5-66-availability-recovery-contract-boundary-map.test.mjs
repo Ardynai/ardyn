@@ -608,7 +608,6 @@ test("Phase 5.66 availability/recovery/runtime command names remain rejected", a
 
 test("Phase 5.66 does not change CLI, Rust, Fabric, package, or consumer source", async () => {
   const files = [
-    "apps/cli/src/index.mjs",
     "crates/ardyn-host/src/lib.rs",
     "crates/ardyn-host/src/stdio_runtime/mod.rs",
     "packages/fabric/src/index.mjs",

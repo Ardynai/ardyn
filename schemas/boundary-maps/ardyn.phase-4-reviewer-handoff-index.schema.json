@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-4-reviewer-handoff-index.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-4-reviewer-handoff-index",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "indexPhase",
+    "phaseIntroduced",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "reviewRange",
+    "runtimeStatus",
+    "artifactCount",
+    "grantsRuntimeApproval",
+    "runtimeBehaviorIntroduced",
+    "liveRuntimeBehaviorIntroduced",
+    "reviewMetadataOnly",
+    "authoritativeRoles",
+    "evidenceOnlyRoles",
+    "safety",
+    "artifacts"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-4-reviewer-handoff-index"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "indexPhase": {
+      "type": "string"
+    },
+    "phaseIntroduced": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "reviewRange": {
+      "type": "object"
+    },
+    "runtimeStatus": {
+      "type": "string"
+    },
+    "artifactCount": {
+      "type": "integer"
+    },
+    "grantsRuntimeApproval": {
+      "type": "boolean"
+    },
+    "runtimeBehaviorIntroduced": {
+      "type": "boolean"
+    },
+    "liveRuntimeBehaviorIntroduced": {
+      "type": "boolean"
+    },
+    "reviewMetadataOnly": {
+      "type": "boolean"
+    },
+    "authoritativeRoles": {
+      "type": "array"
+    },
+    "evidenceOnlyRoles": {
+      "type": "array"
+    },
+    "safety": {
+      "type": "object"
+    },
+    "artifacts": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

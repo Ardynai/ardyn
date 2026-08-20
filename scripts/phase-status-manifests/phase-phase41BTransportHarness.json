@@ -299,6 +299,7 @@
     "policy-metadata",
     "host-policy-export",
     "serve-runtime",
+    "federation",
     "stdio-runtime",
     "approve-runtime",
     "grant-runtime",

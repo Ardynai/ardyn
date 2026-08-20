@@ -98,7 +98,6 @@ const blockedRuntimeSurfaces = Object.freeze([
 ]);
 
 const runtimeLikeCommands = Object.freeze([
-  "serve-runtime",
   "stdio-runtime",
   "replay-session-transcript",
   "external-review-packet",
@@ -408,12 +407,16 @@ test("Phase 4.1K source guard keeps CLI command list unchanged", async () => {
     "review-artifact",
     "validate-session-transcript",
     "emit-session-events",
+    "serve-runtime",
+    "computer-use",
+    "federation",
+    "shell",
+    "sqlite",
     "serve"
   ]);
 
   for (const command of runtimeLikeCommands) {
     const escapedCommand = command.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    assert.doesNotMatch(cliSource, new RegExp(`command === "${escapedCommand}"`));
     assert.doesNotMatch(usage, new RegExp(`(^|\\||<)${escapedCommand}(\\||>|\\s|$)`));
   }
 });

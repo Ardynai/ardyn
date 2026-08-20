@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.stdio-framing-redaction-contract.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.stdio-framing-redaction-contract",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "contractKind",
+    "contractPhase",
+    "reviewedPhase",
+    "jsonlFraming",
+    "stderrRedaction",
+    "validation",
+    "runtimeEffect",
+    "audit"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.stdio-framing-redaction-contract"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "contractKind": {
+      "type": "string"
+    },
+    "contractPhase": {
+      "type": "string"
+    },
+    "reviewedPhase": {
+      "type": "string"
+    },
+    "jsonlFraming": {
+      "type": "object"
+    },
+    "stderrRedaction": {
+      "type": "object"
+    },
+    "validation": {
+      "type": "object"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

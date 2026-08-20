@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.17.guarded-runtime-implementation-plan.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.17.guarded-runtime-implementation-plan",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "sourceCheckpoint",
+    "prerequisiteContracts",
+    "implementationPlanSummary",
+    "plannedImplementationSequence",
+    "prerequisiteContractStatus",
+    "runtimeBlockedStatus",
+    "serveRuntimeBlockedBehavior",
+    "planningDecision",
+    "forbiddenBehavior",
+    "filesAllowedToChange",
+    "filesForbiddenToChange",
+    "validationCommands"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.17.guarded-runtime-implementation-plan"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourceCheckpoint": {
+      "type": "object"
+    },
+    "prerequisiteContracts": {
+      "type": "array"
+    },
+    "implementationPlanSummary": {
+      "type": "object"
+    },
+    "plannedImplementationSequence": {
+      "type": "array"
+    },
+    "prerequisiteContractStatus": {
+      "type": "object"
+    },
+    "runtimeBlockedStatus": {
+      "type": "object"
+    },
+    "serveRuntimeBlockedBehavior": {
+      "type": "object"
+    },
+    "planningDecision": {
+      "type": "object"
+    },
+    "forbiddenBehavior": {
+      "type": "array"
+    },
+    "filesAllowedToChange": {
+      "type": "array"
+    },
+    "filesForbiddenToChange": {
+      "type": "array"
+    },
+    "validationCommands": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

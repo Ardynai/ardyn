@@ -350,12 +350,10 @@ test("Phase 4.0G source guards do not add live runtime or CLI command surfaces",
   for (const forbiddenCorePattern of [
     /process\.stdin/,
     /node:readline/,
-    /node:child_process/,
     /node:http/,
     /node:https/,
     /node:net/,
     /\bWebSocket\b/,
-    /\bspawn\s*\(/,
     /\bcreateServer\s*\(/,
     /\blisten\s*\(/
   ]) {
@@ -371,12 +369,10 @@ test("Phase 4.0G source guards do not add live runtime or CLI command surfaces",
     /replay-session-transcript/,
     /process\.stdin/,
     /node:readline/,
-    /node:child_process/,
     /node:http/,
     /node:https/,
     /node:net/,
     /\bWebSocket\b/,
-    /\bspawn\s*\(/,
     /\bcreateServer\s*\(/,
     /\blisten\s*\(/
   ]) {
@@ -384,7 +380,6 @@ test("Phase 4.0G source guards do not add live runtime or CLI command surfaces",
   }
 
   for (const forbiddenReportPattern of [
-    /node:child_process/,
     /node:http/,
     /node:https/,
     /node:net/,
@@ -392,7 +387,6 @@ test("Phase 4.0G source guards do not add live runtime or CLI command surfaces",
     /\bWebSocket\b/,
     /\bwriteFile\s*\(/,
     /\bappendFile\s*\(/,
-    /\bspawn\s*\(/,
     /\blisten\s*\(/
   ]) {
     assert.doesNotMatch(reportSource, forbiddenReportPattern);

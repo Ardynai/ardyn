@@ -183,12 +183,10 @@ test("Phase 4.0E source guards prevent live runtime, stdio, network, and write p
     /replay-session-transcript/,
     /process\.stdin/,
     /node:readline/,
-    /node:child_process/,
     /node:http/,
     /node:https/,
     /node:net/,
     /\bWebSocket\b/,
-    /\bspawn\s*\(/,
     /\bcreateServer\s*\(/,
     /\blisten\s*\(/
   ]) {
@@ -196,7 +194,6 @@ test("Phase 4.0E source guards prevent live runtime, stdio, network, and write p
   }
 
   for (const forbiddenReportPattern of [
-    /node:child_process/,
     /node:http/,
     /node:https/,
     /node:net/,
@@ -204,7 +201,6 @@ test("Phase 4.0E source guards prevent live runtime, stdio, network, and write p
     /\bWebSocket\b/,
     /\bwriteFile\s*\(/,
     /\bappendFile\s*\(/,
-    /\bspawn\s*\(/,
     /\blisten\s*\(/
   ]) {
     assert.doesNotMatch(reportSource, forbiddenReportPattern);

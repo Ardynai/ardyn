@@ -4,6 +4,7 @@
   "consumerContractReadinessMatrixKind": "consumer-contract-readiness-matrix",
   "consumerContractReadinessMatrixMode": "review-only",
   "reviewedAt": "2026-06-19T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_consumer_contract_readiness_matrix_runtime_still_blocked",
   "sourceTargetConsumerPlanningMetadataAccepted": true,
   "consumerContractReadinessMatrixProduced": true,

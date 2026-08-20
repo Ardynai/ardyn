@@ -4,6 +4,7 @@
   "fabricCoreConsumerIntegrationReadinessBoundaryUpdateKind": "fabric-core-consumer-integration-readiness-boundary-update",
   "fabricCoreConsumerIntegrationReadinessBoundaryUpdateMode": "review-only",
   "reviewedAt": "2026-07-01T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_fabric_core_consumer_integration_readiness_boundary_update_runtime_still_blocked",
   "fabricCoreConsumerIntegrationReadinessBoundaryUpdateProduced": true,
   "fabricCoreConsumerIntegrationReadinessBoundaryUpdate": {

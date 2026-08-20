@@ -671,6 +671,7 @@
     "policy-metadata",
     "host-policy-export",
     "serve-runtime",
+    "federation",
     "stdio-runtime",
     "host-policy-index",
     "policy-index",

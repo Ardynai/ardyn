@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-4.1k.stdio-runtime-contract-gates.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-4.1k.stdio-runtime-contract-gates",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "contractBoundary",
+    "externalReview",
+    "approvalState",
+    "gateChecklist",
+    "runtimeEffect",
+    "nonExecutionInvariants",
+    "audit"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-4.1k.stdio-runtime-contract-gates"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "contractBoundary": {
+      "type": "object"
+    },
+    "externalReview": {
+      "type": "object"
+    },
+    "approvalState": {
+      "type": "object"
+    },
+    "gateChecklist": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "nonExecutionInvariants": {
+      "type": "array"
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

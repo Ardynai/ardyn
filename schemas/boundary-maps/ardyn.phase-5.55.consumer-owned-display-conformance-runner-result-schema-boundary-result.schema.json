@@ -1,0 +1,527 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.55.consumer-owned-display-conformance-runner-result-schema-boundary-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.55.consumer-owned-display-conformance-runner-result-schema-boundary-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryKind",
+    "consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryProduced",
+    "consumerOwnedDisplayConformanceRunnerResultSchemaBoundary",
+    "resultSchemaBoundarySummary",
+    "phase550SchemaBoundaryReference",
+    "phase551ExamplePackReference",
+    "phase552ConformanceHandoffReference",
+    "phase553RunnerRequirementsReference",
+    "phase554TestPlanReference",
+    "phase554SubagentAuditTrailReconciliation",
+    "resultSchemaEntries",
+    "invalidResultSchemaCasePolicy",
+    "topDisplayConformanceRunnerResultSchemaGaps",
+    "recommendedNextPhase",
+    "consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryOnly",
+    "reviewOnly",
+    "authoritative",
+    "reviewArtifactOnly",
+    "nonAuthorizingProof",
+    "commandRuntimeControlEnabled",
+    "commandExposurePermissionGranted",
+    "runtimePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "reviewerRoutingPerformed",
+    "reviewerAssignmentPerformed",
+    "evaluatorExecutionPerformed",
+    "evaluatorResultProduced",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "connectorGrantProduced",
+    "connectorIngestionAdded",
+    "liveRegistryConnectionEnabled",
+    "webSocketRuntimeEnabled",
+    "httpRuntimeEnabled",
+    "taskRuntimeExecutionEnabled",
+    "taskExecutionEnabled",
+    "mcpRuntimeExecutionEnabled",
+    "mcpToolExposureEnabled",
+    "fabricRuntimeSurfaceEnabled",
+    "contentFabricRuntimeBehaviorEnabled",
+    "adapterRuntimeBehaviorEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "fileSelectionEnabled",
+    "filesystemWatcherEnabled",
+    "filesystemScanningEnabled",
+    "secretVaultEnvAccessEnabled",
+    "st3ggVendored",
+    "processControlEnabled",
+    "liveStdinLoopEnabled",
+    "runtimeStdoutWriterEnabled",
+    "runtimeStderrWriterEnabled",
+    "transcriptRuntimeWritePerformed",
+    "auditRuntimeWritePerformed",
+    "mcpExecutionEnabled",
+    "httpRuntimeSurfaceEnabled",
+    "webSocketHttpSurfaceEnabled",
+    "databaseStorageRuntimeWritesEnabled",
+    "runtimeDatabaseWriteEnabled",
+    "storageRuntimeWriteEnabled",
+    "secretsRuntimeIngestionEnabled",
+    "externalServicesEnabled",
+    "networkServerEnabled",
+    "hostingDeploymentProvisioned",
+    "cloudComputeProvisioned",
+    "rateLimitingRuntimeEnabled",
+    "cachingCdnRuntimeEnabled",
+    "loadBalancingRuntimeEnabled",
+    "runtimeObservabilityEnabled",
+    "disasterRecoveryRuntimeEnabled",
+    "infrastructureMutationEnabled",
+    "complianceAttestationProduced",
+    "productionTestRuntimeEnabled",
+    "operationsMonitorEnabled",
+    "alertDispatchEnabled",
+    "retryCircuitBreakerRuntimeEnabled",
+    "serviceDiscoveryEnabled",
+    "liveServiceRegistryConnectionEnabled",
+    "scheduleEnforcementEnabled",
+    "backgroundPollingEnabled",
+    "uiFrontendBrowserCodeImplemented",
+    "consumerUiImplemented",
+    "displaySurfaceImplemented",
+    "browserRuntimeEnabled",
+    "interactiveControlEnabled",
+    "hiddenActionSemanticsEnabled",
+    "autoExecutionEnabled",
+    "colorOnlyStatusIndicatorAllowed",
+    "motionRequiredForStatusUnderstanding",
+    "accessibilityComplianceCertified",
+    "locusRuntimeDependencyAdded",
+    "multiverseRuntimeDependencyAdded",
+    "consumerRuntimeIntegrationAdded",
+    "renderingCodeImplemented",
+    "browserRenderingHarnessImplemented",
+    "runnerImplementedByArdyn",
+    "resultProducerImplementedByArdyn",
+    "resultCollectorImplementedByArdyn",
+    "testHarnessImplementedByArdyn",
+    "consumerOwnedRunnerImplemented",
+    "consumerConformanceRunnerImplemented",
+    "fixtureImportCommandImplemented",
+    "fixtureExportCommandImplemented",
+    "fixtureImportExportCommandsImplemented",
+    "importExportCommandImplemented",
+    "packageExportImplemented",
+    "consumerSideCiImplemented",
+    "fixtureDiscoveryRuntimeImplemented",
+    "consumerRepoModifiedByArdyn",
+    "browserWcagAutomationImplemented",
+    "visualRegressionHarnessImplemented",
+    "screenReaderAutomationImplemented",
+    "externalLookupsEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.55.consumer-owned-display-conformance-runner-result-schema-boundary-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryKind": {
+      "type": "string"
+    },
+    "consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryProduced": {
+      "type": "boolean"
+    },
+    "consumerOwnedDisplayConformanceRunnerResultSchemaBoundary": {
+      "type": "object"
+    },
+    "resultSchemaBoundarySummary": {
+      "type": "object"
+    },
+    "phase550SchemaBoundaryReference": {
+      "type": "object"
+    },
+    "phase551ExamplePackReference": {
+      "type": "object"
+    },
+    "phase552ConformanceHandoffReference": {
+      "type": "object"
+    },
+    "phase553RunnerRequirementsReference": {
+      "type": "object"
+    },
+    "phase554TestPlanReference": {
+      "type": "object"
+    },
+    "phase554SubagentAuditTrailReconciliation": {
+      "type": "object"
+    },
+    "resultSchemaEntries": {
+      "type": "array"
+    },
+    "invalidResultSchemaCasePolicy": {
+      "type": "object"
+    },
+    "topDisplayConformanceRunnerResultSchemaGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "consumerOwnedDisplayConformanceRunnerResultSchemaBoundaryOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "reviewArtifactOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "commandExposurePermissionGranted": {
+      "type": "boolean"
+    },
+    "runtimePermissionGranted": {
+      "type": "boolean"
+    },
+    "runtimeCommandExposureEnabled": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "reviewerRoutingPerformed": {
+      "type": "boolean"
+    },
+    "reviewerAssignmentPerformed": {
+      "type": "boolean"
+    },
+    "evaluatorExecutionPerformed": {
+      "type": "boolean"
+    },
+    "evaluatorResultProduced": {
+      "type": "boolean"
+    },
+    "approvalDecisionProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantPersisted": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "connectorIngestionAdded": {
+      "type": "boolean"
+    },
+    "liveRegistryConnectionEnabled": {
+      "type": "boolean"
+    },
+    "webSocketRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "httpRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "taskRuntimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "mcpRuntimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "fabricRuntimeSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "contentFabricRuntimeBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "adapterRuntimeBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "secureDropCryptoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropTransportImplemented": {
+      "type": "boolean"
+    },
+    "secureDropStegoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropSendReceiveImplemented": {
+      "type": "boolean"
+    },
+    "secureDropInboxPollingEnabled": {
+      "type": "boolean"
+    },
+    "fileSelectionEnabled": {
+      "type": "boolean"
+    },
+    "filesystemWatcherEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "secretVaultEnvAccessEnabled": {
+      "type": "boolean"
+    },
+    "st3ggVendored": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "liveStdinLoopEnabled": {
+      "type": "boolean"
+    },
+    "runtimeStdoutWriterEnabled": {
+      "type": "boolean"
+    },
+    "runtimeStderrWriterEnabled": {
+      "type": "boolean"
+    },
+    "transcriptRuntimeWritePerformed": {
+      "type": "boolean"
+    },
+    "auditRuntimeWritePerformed": {
+      "type": "boolean"
+    },
+    "mcpExecutionEnabled": {
+      "type": "boolean"
+    },
+    "httpRuntimeSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "webSocketHttpSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "runtimeDatabaseWriteEnabled": {
+      "type": "boolean"
+    },
+    "storageRuntimeWriteEnabled": {
+      "type": "boolean"
+    },
+    "secretsRuntimeIngestionEnabled": {
+      "type": "boolean"
+    },
+    "externalServicesEnabled": {
+      "type": "boolean"
+    },
+    "networkServerEnabled": {
+      "type": "boolean"
+    },
+    "hostingDeploymentProvisioned": {
+      "type": "boolean"
+    },
+    "cloudComputeProvisioned": {
+      "type": "boolean"
+    },
+    "rateLimitingRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "cachingCdnRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "loadBalancingRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "runtimeObservabilityEnabled": {
+      "type": "boolean"
+    },
+    "disasterRecoveryRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "infrastructureMutationEnabled": {
+      "type": "boolean"
+    },
+    "complianceAttestationProduced": {
+      "type": "boolean"
+    },
+    "productionTestRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "operationsMonitorEnabled": {
+      "type": "boolean"
+    },
+    "alertDispatchEnabled": {
+      "type": "boolean"
+    },
+    "retryCircuitBreakerRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "liveServiceRegistryConnectionEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "backgroundPollingEnabled": {
+      "type": "boolean"
+    },
+    "uiFrontendBrowserCodeImplemented": {
+      "type": "boolean"
+    },
+    "consumerUiImplemented": {
+      "type": "boolean"
+    },
+    "displaySurfaceImplemented": {
+      "type": "boolean"
+    },
+    "browserRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "interactiveControlEnabled": {
+      "type": "boolean"
+    },
+    "hiddenActionSemanticsEnabled": {
+      "type": "boolean"
+    },
+    "autoExecutionEnabled": {
+      "type": "boolean"
+    },
+    "colorOnlyStatusIndicatorAllowed": {
+      "type": "boolean"
+    },
+    "motionRequiredForStatusUnderstanding": {
+      "type": "boolean"
+    },
+    "accessibilityComplianceCertified": {
+      "type": "boolean"
+    },
+    "locusRuntimeDependencyAdded": {
+      "type": "boolean"
+    },
+    "multiverseRuntimeDependencyAdded": {
+      "type": "boolean"
+    },
+    "consumerRuntimeIntegrationAdded": {
+      "type": "boolean"
+    },
+    "renderingCodeImplemented": {
+      "type": "boolean"
+    },
+    "browserRenderingHarnessImplemented": {
+      "type": "boolean"
+    },
+    "runnerImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "resultProducerImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "resultCollectorImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "testHarnessImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "consumerOwnedRunnerImplemented": {
+      "type": "boolean"
+    },
+    "consumerConformanceRunnerImplemented": {
+      "type": "boolean"
+    },
+    "fixtureImportCommandImplemented": {
+      "type": "boolean"
+    },
+    "fixtureExportCommandImplemented": {
+      "type": "boolean"
+    },
+    "fixtureImportExportCommandsImplemented": {
+      "type": "boolean"
+    },
+    "importExportCommandImplemented": {
+      "type": "boolean"
+    },
+    "packageExportImplemented": {
+      "type": "boolean"
+    },
+    "consumerSideCiImplemented": {
+      "type": "boolean"
+    },
+    "fixtureDiscoveryRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "consumerRepoModifiedByArdyn": {
+      "type": "boolean"
+    },
+    "browserWcagAutomationImplemented": {
+      "type": "boolean"
+    },
+    "visualRegressionHarnessImplemented": {
+      "type": "boolean"
+    },
+    "screenReaderAutomationImplemented": {
+      "type": "boolean"
+    },
+    "externalLookupsEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

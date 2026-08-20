@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.60.inter-agent-encoded-handoff-conformance-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.60.inter-agent-encoded-handoff-conformance-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "interAgentEncodedHandoffConformanceKind",
+    "interAgentEncodedHandoffConformanceMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "interAgentEncodedHandoffConformanceProduced",
+    "interAgentEncodedHandoffConformance",
+    "handoffConformanceSummary",
+    "handoffEntries",
+    "oneClickOptions",
+    "invalidHandoffCasePolicy",
+    "topInterAgentHandoffFabricApiBackendGaps",
+    "recommendedNextPhase",
+    "interAgentEncodedHandoffConformanceOnly",
+    "reviewOnly",
+    "metadataOnly",
+    "authoritative",
+    "nonAuthorizingProof",
+    "reportRunsChecks",
+    "encodedHandoffRuntimeImplementedByArdyn",
+    "codecImplemented",
+    "translatorRuntimeImplemented",
+    "encoderImplemented",
+    "decoderImplemented",
+    "conlangGeneratorImplemented",
+    "seedGeneratorImplemented",
+    "protocolRuntimeImplemented",
+    "covertChannelImplemented",
+    "stegoLayerImplemented",
+    "semanticStegoImplemented",
+    "tokenExploiterImplemented",
+    "guardrailEvasionImplemented",
+    "bypassPathImplemented",
+    "hiddenPayloadPathImplemented",
+    "transportImplementedByArdyn",
+    "fabricRuntimeImplementedByArdyn",
+    "backendRuntimeImplementedByArdyn",
+    "apiEndpointImplementedByArdyn",
+    "serverImplementedByArdyn",
+    "importExportPathImplementedByArdyn",
+    "packageDistributionImplementedByArdyn",
+    "persistenceImplementedByArdyn",
+    "commandExposureEnabled",
+    "commandRuntimeControlEnabled",
+    "runtimeExecutionEnabled",
+    "databaseStorageRuntimeWritesEnabled",
+    "secretsRuntimeIngestionEnabled",
+    "connectorGrantProduced",
+    "mcpToolExposureEnabled",
+    "taskExecutionEnabled",
+    "secureDropImplemented",
+    "st3ggVendored",
+    "serviceDiscoveryEnabled",
+    "scheduleEnforcementEnabled",
+    "backgroundPollingEnabled",
+    "filesystemScanningEnabled",
+    "processControlEnabled",
+    "uiFrontendBrowserRenderingImplemented",
+    "blockedCliBypassEnabled",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.60.inter-agent-encoded-handoff-conformance-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "interAgentEncodedHandoffConformanceKind": {
+      "type": "string"
+    },
+    "interAgentEncodedHandoffConformanceMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "interAgentEncodedHandoffConformanceProduced": {
+      "type": "boolean"
+    },
+    "interAgentEncodedHandoffConformance": {
+      "type": "object"
+    },
+    "handoffConformanceSummary": {
+      "type": "object"
+    },
+    "handoffEntries": {
+      "type": "array"
+    },
+    "oneClickOptions": {
+      "type": "array"
+    },
+    "invalidHandoffCasePolicy": {
+      "type": "object"
+    },
+    "topInterAgentHandoffFabricApiBackendGaps": {
+      "type": "array"
+    },
+    "recommendedNextPhase": {
+      "type": "string"
+    },
+    "interAgentEncodedHandoffConformanceOnly": {
+      "type": "boolean"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "metadataOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "nonAuthorizingProof": {
+      "type": "boolean"
+    },
+    "reportRunsChecks": {
+      "type": "boolean"
+    },
+    "encodedHandoffRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "codecImplemented": {
+      "type": "boolean"
+    },
+    "translatorRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "encoderImplemented": {
+      "type": "boolean"
+    },
+    "decoderImplemented": {
+      "type": "boolean"
+    },
+    "conlangGeneratorImplemented": {
+      "type": "boolean"
+    },
+    "seedGeneratorImplemented": {
+      "type": "boolean"
+    },
+    "protocolRuntimeImplemented": {
+      "type": "boolean"
+    },
+    "covertChannelImplemented": {
+      "type": "boolean"
+    },
+    "stegoLayerImplemented": {
+      "type": "boolean"
+    },
+    "semanticStegoImplemented": {
+      "type": "boolean"
+    },
+    "tokenExploiterImplemented": {
+      "type": "boolean"
+    },
+    "guardrailEvasionImplemented": {
+      "type": "boolean"
+    },
+    "bypassPathImplemented": {
+      "type": "boolean"
+    },
+    "hiddenPayloadPathImplemented": {
+      "type": "boolean"
+    },
+    "transportImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "fabricRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "backendRuntimeImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "apiEndpointImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "serverImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "importExportPathImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "packageDistributionImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "persistenceImplementedByArdyn": {
+      "type": "boolean"
+    },
+    "commandExposureEnabled": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "databaseStorageRuntimeWritesEnabled": {
+      "type": "boolean"
+    },
+    "secretsRuntimeIngestionEnabled": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "mcpToolExposureEnabled": {
+      "type": "boolean"
+    },
+    "taskExecutionEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "st3ggVendored": {
+      "type": "boolean"
+    },
+    "serviceDiscoveryEnabled": {
+      "type": "boolean"
+    },
+    "scheduleEnforcementEnabled": {
+      "type": "boolean"
+    },
+    "backgroundPollingEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "uiFrontendBrowserRenderingImplemented": {
+      "type": "boolean"
+    },
+    "blockedCliBypassEnabled": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.25.non-authorizing-review-artifact-boundary.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.25.non-authorizing-review-artifact-boundary",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "sourcePhase",
+    "artifactBoundarySummary",
+    "artifactInputShape",
+    "artifactResultShape",
+    "artifactBoundaryCases",
+    "reviewArtifactBoundary",
+    "blockedRuntimeEffect",
+    "serveRuntimeBlockedBehavior",
+    "forbiddenBehavior",
+    "filesAllowedToChange",
+    "filesForbiddenToChange",
+    "validationCommands"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.25.non-authorizing-review-artifact-boundary"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourcePhase": {
+      "type": "object"
+    },
+    "artifactBoundarySummary": {
+      "type": "object"
+    },
+    "artifactInputShape": {
+      "type": "object"
+    },
+    "artifactResultShape": {
+      "type": "object"
+    },
+    "artifactBoundaryCases": {
+      "type": "array"
+    },
+    "reviewArtifactBoundary": {
+      "type": "object"
+    },
+    "blockedRuntimeEffect": {
+      "type": "object"
+    },
+    "serveRuntimeBlockedBehavior": {
+      "type": "object"
+    },
+    "forbiddenBehavior": {
+      "type": "array"
+    },
+    "filesAllowedToChange": {
+      "type": "array"
+    },
+    "filesForbiddenToChange": {
+      "type": "array"
+    },
+    "validationCommands": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

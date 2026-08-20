@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-4-runtime-proposal.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-4-runtime-proposal",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "proposalPhase",
+    "phaseIntroduced",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "reviewRange",
+    "basedOnFinalReadiness",
+    "devinReviewPolicy",
+    "proposalStatus",
+    "runtimeStatus",
+    "implementationStatus",
+    "approvalStatus",
+    "roadmapStatus",
+    "grantsRuntimeApproval",
+    "runtimeApprovalGranted",
+    "runtimeBehaviorIntroduced",
+    "liveRuntimeBehaviorIntroduced",
+    "phase41RuntimeImplemented",
+    "consumedByLiveHostLoop",
+    "reviewMetadataOnly",
+    "proposalOnly",
+    "requiresSeparateImplementationApproval",
+    "requiresSeparateRuntimeImplementationApproval",
+    "approvalBoundary",
+    "proposalSections",
+    "requiredTestsBeforeRuntime",
+    "implementationRoadmap",
+    "representedArtifactCounts",
+    "proposalArtifacts",
+    "safety"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-4-runtime-proposal"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "proposalPhase": {
+      "type": "string"
+    },
+    "phaseIntroduced": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "reviewRange": {
+      "type": "object"
+    },
+    "basedOnFinalReadiness": {
+      "type": "object"
+    },
+    "devinReviewPolicy": {
+      "type": "object"
+    },
+    "proposalStatus": {
+      "type": "string"
+    },
+    "runtimeStatus": {
+      "type": "string"
+    },
+    "implementationStatus": {
+      "type": "string"
+    },
+    "approvalStatus": {
+      "type": "string"
+    },
+    "roadmapStatus": {
+      "type": "string"
+    },
+    "grantsRuntimeApproval": {
+      "type": "boolean"
+    },
+    "runtimeApprovalGranted": {
+      "type": "boolean"
+    },
+    "runtimeBehaviorIntroduced": {
+      "type": "boolean"
+    },
+    "liveRuntimeBehaviorIntroduced": {
+      "type": "boolean"
+    },
+    "phase41RuntimeImplemented": {
+      "type": "boolean"
+    },
+    "consumedByLiveHostLoop": {
+      "type": "boolean"
+    },
+    "reviewMetadataOnly": {
+      "type": "boolean"
+    },
+    "proposalOnly": {
+      "type": "boolean"
+    },
+    "requiresSeparateImplementationApproval": {
+      "type": "boolean"
+    },
+    "requiresSeparateRuntimeImplementationApproval": {
+      "type": "boolean"
+    },
+    "approvalBoundary": {
+      "type": "object"
+    },
+    "proposalSections": {
+      "type": "array"
+    },
+    "requiredTestsBeforeRuntime": {
+      "type": "array"
+    },
+    "implementationRoadmap": {
+      "type": "array"
+    },
+    "representedArtifactCounts": {
+      "type": "object"
+    },
+    "proposalArtifacts": {
+      "type": "array"
+    },
+    "safety": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

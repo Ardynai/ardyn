@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.failure-audit-record.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.failure-audit-record",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "recordKind",
+    "recordPhase",
+    "reviewedPhase",
+    "sourcePhase",
+    "classification",
+    "failureCategory",
+    "terminalState",
+    "exitCodeClassification",
+    "exitCodeMapping",
+    "terminalStateRules",
+    "stdoutCommitBoundary",
+    "nonzeroExitMappingRules",
+    "stderrDiagnosticClassification",
+    "stderrDiagnostic",
+    "redactionStatus",
+    "redactions",
+    "cleanupRequirement",
+    "killInterruptTimeoutSemantics",
+    "transcriptPersistenceReplayImpact",
+    "runtimeAvailabilityStatus",
+    "runtimeEffect",
+    "nonExecutionInvariantSummary",
+    "failClosed",
+    "failureReasons",
+    "recordDigest",
+    "audit"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.failure-audit-record"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "recordKind": {
+      "type": "string"
+    },
+    "recordPhase": {
+      "type": "string"
+    },
+    "reviewedPhase": {
+      "type": "string"
+    },
+    "sourcePhase": {
+      "type": "string"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "failureCategory": {
+      "type": "string"
+    },
+    "terminalState": {
+      "type": "string"
+    },
+    "exitCodeClassification": {
+      "type": "string"
+    },
+    "exitCodeMapping": {
+      "type": "object"
+    },
+    "terminalStateRules": {
+      "type": "object"
+    },
+    "stdoutCommitBoundary": {
+      "type": "object"
+    },
+    "nonzeroExitMappingRules": {
+      "type": "object"
+    },
+    "stderrDiagnosticClassification": {
+      "type": "string"
+    },
+    "stderrDiagnostic": {
+      "type": "object"
+    },
+    "redactionStatus": {
+      "type": "string"
+    },
+    "redactions": {
+      "type": "array"
+    },
+    "cleanupRequirement": {
+      "type": "object"
+    },
+    "killInterruptTimeoutSemantics": {
+      "type": "object"
+    },
+    "transcriptPersistenceReplayImpact": {
+      "type": "object"
+    },
+    "runtimeAvailabilityStatus": {
+      "type": "string"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "nonExecutionInvariantSummary": {
+      "type": "array"
+    },
+    "failClosed": {
+      "type": "boolean"
+    },
+    "failureReasons": {
+      "type": "array"
+    },
+    "recordDigest": {
+      "type": "object"
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

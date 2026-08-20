@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.45.target-consumer-planning-metadata-result.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.45.target-consumer-planning-metadata-result",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "targetConsumerPlanningMetadataKind",
+    "targetConsumerPlanningMetadataMode",
+    "reviewedAt",
+    "reviewedAtDefaulted",
+    "classification",
+    "sourceConsolidationMetadataCheckpointAccepted",
+    "targetConsumerPlanningMetadataProduced",
+    "targetConsumerPlanningMetadata",
+    "sourceConsolidationMetadataCheckpointSummary",
+    "targetConsumerPlanningSummary",
+    "targetConsumers",
+    "targetConsumerIds",
+    "secureDropFutureCapability",
+    "reviewOnly",
+    "authoritative",
+    "reviewArtifactOnly",
+    "targetConsumerPlanningMetadataOnly",
+    "targetConsumerPlanningMetadataIsReviewerRouting",
+    "targetConsumerPlanningMetadataIsReviewerAssignment",
+    "targetConsumerPlanningMetadataIsEvaluatorExecution",
+    "targetConsumerPlanningMetadataIsEvaluatorResult",
+    "targetConsumerPlanningMetadataIsApprovalDecision",
+    "targetConsumerPlanningMetadataIsApprovalGrant",
+    "commandRuntimeControlEnabled",
+    "commandExposurePermissionGranted",
+    "runtimePermissionGranted",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "reviewerRoutingPerformed",
+    "reviewerAssignmentPerformed",
+    "evaluatorExecutionPerformed",
+    "evaluatorResultProduced",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "connectorGrantProduced",
+    "connectorIngestionAdded",
+    "liveRegistryConnectionEnabled",
+    "webSocketRuntimeEnabled",
+    "httpRuntimeEnabled",
+    "taskRuntimeExecutionEnabled",
+    "mcpRuntimeExecutionEnabled",
+    "fabricRuntimeSurfaceEnabled",
+    "contentFabricRuntimeBehaviorEnabled",
+    "adapterRuntimeBehaviorEnabled",
+    "secureDropImplemented",
+    "secureDropCryptoImplemented",
+    "secureDropTransportImplemented",
+    "secureDropStegoImplemented",
+    "secureDropSendReceiveImplemented",
+    "secureDropInboxPollingEnabled",
+    "fileSelectionEnabled",
+    "filesystemWatcherEnabled",
+    "filesystemScanningEnabled",
+    "secretVaultEnvAccessEnabled",
+    "st3ggVendored",
+    "processControlEnabled",
+    "liveStdinLoopEnabled",
+    "runtimeStdoutWriterEnabled",
+    "runtimeStderrWriterEnabled",
+    "transcriptRuntimeWritePerformed",
+    "auditRuntimeWritePerformed",
+    "rejectionReasons",
+    "runtimeEffect"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.45.target-consumer-planning-metadata-result"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "targetConsumerPlanningMetadataKind": {
+      "type": "string"
+    },
+    "targetConsumerPlanningMetadataMode": {
+      "type": "string"
+    },
+    "reviewedAt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reviewedAtDefaulted": {
+      "type": "boolean"
+    },
+    "classification": {
+      "type": "string"
+    },
+    "sourceConsolidationMetadataCheckpointAccepted": {
+      "type": "boolean"
+    },
+    "targetConsumerPlanningMetadataProduced": {
+      "type": "boolean"
+    },
+    "targetConsumerPlanningMetadata": {
+      "type": "object"
+    },
+    "sourceConsolidationMetadataCheckpointSummary": {
+      "type": "object"
+    },
+    "targetConsumerPlanningSummary": {
+      "type": "object"
+    },
+    "targetConsumers": {
+      "type": "array"
+    },
+    "targetConsumerIds": {
+      "type": "array"
+    },
+    "secureDropFutureCapability": {
+      "type": "object"
+    },
+    "reviewOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "authoritative": {
+      "type": "boolean",
+      "const": false
+    },
+    "reviewArtifactOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "targetConsumerPlanningMetadataOnly": {
+      "type": "boolean"
+    },
+    "targetConsumerPlanningMetadataIsReviewerRouting": {
+      "type": "boolean"
+    },
+    "targetConsumerPlanningMetadataIsReviewerAssignment": {
+      "type": "boolean"
+    },
+    "targetConsumerPlanningMetadataIsEvaluatorExecution": {
+      "type": "boolean"
+    },
+    "targetConsumerPlanningMetadataIsEvaluatorResult": {
+      "type": "boolean"
+    },
+    "targetConsumerPlanningMetadataIsApprovalDecision": {
+      "type": "boolean"
+    },
+    "targetConsumerPlanningMetadataIsApprovalGrant": {
+      "type": "boolean"
+    },
+    "commandRuntimeControlEnabled": {
+      "type": "boolean"
+    },
+    "commandExposurePermissionGranted": {
+      "type": "boolean"
+    },
+    "runtimePermissionGranted": {
+      "type": "boolean"
+    },
+    "runtimeCommandExposureEnabled": {
+      "type": "boolean"
+    },
+    "runtimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "reviewerRoutingPerformed": {
+      "type": "boolean"
+    },
+    "reviewerAssignmentPerformed": {
+      "type": "boolean"
+    },
+    "evaluatorExecutionPerformed": {
+      "type": "boolean"
+    },
+    "evaluatorResultProduced": {
+      "type": "boolean"
+    },
+    "approvalDecisionProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantProduced": {
+      "type": "boolean"
+    },
+    "approvalGrantPersisted": {
+      "type": "boolean"
+    },
+    "connectorGrantProduced": {
+      "type": "boolean"
+    },
+    "connectorIngestionAdded": {
+      "type": "boolean"
+    },
+    "liveRegistryConnectionEnabled": {
+      "type": "boolean"
+    },
+    "webSocketRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "httpRuntimeEnabled": {
+      "type": "boolean"
+    },
+    "taskRuntimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "mcpRuntimeExecutionEnabled": {
+      "type": "boolean"
+    },
+    "fabricRuntimeSurfaceEnabled": {
+      "type": "boolean"
+    },
+    "contentFabricRuntimeBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "adapterRuntimeBehaviorEnabled": {
+      "type": "boolean"
+    },
+    "secureDropImplemented": {
+      "type": "boolean"
+    },
+    "secureDropCryptoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropTransportImplemented": {
+      "type": "boolean"
+    },
+    "secureDropStegoImplemented": {
+      "type": "boolean"
+    },
+    "secureDropSendReceiveImplemented": {
+      "type": "boolean"
+    },
+    "secureDropInboxPollingEnabled": {
+      "type": "boolean"
+    },
+    "fileSelectionEnabled": {
+      "type": "boolean"
+    },
+    "filesystemWatcherEnabled": {
+      "type": "boolean"
+    },
+    "filesystemScanningEnabled": {
+      "type": "boolean"
+    },
+    "secretVaultEnvAccessEnabled": {
+      "type": "boolean"
+    },
+    "st3ggVendored": {
+      "type": "boolean"
+    },
+    "processControlEnabled": {
+      "type": "boolean"
+    },
+    "liveStdinLoopEnabled": {
+      "type": "boolean"
+    },
+    "runtimeStdoutWriterEnabled": {
+      "type": "boolean"
+    },
+    "runtimeStderrWriterEnabled": {
+      "type": "boolean"
+    },
+    "transcriptRuntimeWritePerformed": {
+      "type": "boolean"
+    },
+    "auditRuntimeWritePerformed": {
+      "type": "boolean"
+    },
+    "rejectionReasons": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

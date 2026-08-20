@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.runtime-readiness-checkpoint.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.runtime-readiness-checkpoint",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "artifactKind",
+    "checkpointPhase",
+    "reviewedPhase",
+    "metadataGeneratedAt",
+    "reviewRange",
+    "checkpointOnly",
+    "reviewMetadataOnly",
+    "checkpointVerdict",
+    "readinessMatrix",
+    "consolidatedInventoryKeys",
+    "consolidatedArtifacts",
+    "fixtureCounts",
+    "requiredVerificationCommands",
+    "approvalBoundary",
+    "blockersBeforeRuntime",
+    "runtimeEffect",
+    "nonExecutionInvariantSummary",
+    "audit"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.runtime-readiness-checkpoint"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "checkpointPhase": {
+      "type": "string"
+    },
+    "reviewedPhase": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "reviewRange": {
+      "type": "object"
+    },
+    "checkpointOnly": {
+      "type": "boolean"
+    },
+    "reviewMetadataOnly": {
+      "type": "boolean"
+    },
+    "checkpointVerdict": {
+      "type": "object"
+    },
+    "readinessMatrix": {
+      "type": "array"
+    },
+    "consolidatedInventoryKeys": {
+      "type": "array"
+    },
+    "consolidatedArtifacts": {
+      "type": "array"
+    },
+    "fixtureCounts": {
+      "type": "object"
+    },
+    "requiredVerificationCommands": {
+      "type": "array"
+    },
+    "approvalBoundary": {
+      "type": "object"
+    },
+    "blockersBeforeRuntime": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "nonExecutionInvariantSummary": {
+      "type": "array"
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

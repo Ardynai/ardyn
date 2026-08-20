@@ -96,10 +96,23 @@ async function localStatus(path) {
   }
 }
 
+// M0.4: Path containment — reject ../ and absolute paths in {path,status} entries.
+// Trust boundary: manifest files are committed, but path values could be tampered
+// or corrupted. Fail closed by marking traversing paths as "blocked" rather than
+// reading them.
+function isPathContained(path) {
+  if (typeof path !== "string" || path.length === 0) return false;
+  // Reject absolute paths (Unix or Windows)
+  if (path.startsWith("/")) return false;
+  if (/^[A-Za-z]:[\\/]/.test(path)) return false;
+  // Reject path traversal
+  if (path.includes("../") || path.includes("..\\")) return false;
+  return true;
+}
+
 // Recursively walk an object and update any { path, status } entries that
 // look like localInventoryEntry or fixtureInventoryEntry outputs.
-// ponytail: This preserves the localStatus semantics without needing to
-// restructure the manifest format.
+// M0.4: Added path containment, per-entry try/catch for robustness.
 async function updateDynamicStatuses(obj) {
   if (Array.isArray(obj)) {
     for (const item of obj) {
@@ -108,7 +121,17 @@ async function updateDynamicStatuses(obj) {
   } else if (obj !== null && typeof obj === "object") {
     // If this object has a "path" and "status" field, update the status
     if (typeof obj.path === "string" && typeof obj.status === "string") {
-      obj.status = await localStatus(obj.path);
+      try {
+        if (!isPathContained(obj.path)) {
+          // ponytail: fail closed — mark as blocked rather than reading a traversing path
+          obj.status = "blocked";
+        } else {
+          obj.status = await localStatus(obj.path);
+        }
+      } catch {
+        // Per-entry error handling — don't let one bad entry crash the whole report
+        obj.status = "error";
+      }
     }
     // Recurse into all values
     for (const value of Object.values(obj)) {
@@ -120,6 +143,15 @@ async function updateDynamicStatuses(obj) {
 async function buildReport() {
   // Read the index to get manifest order
   const index = await readManifest("index.json");
+
+  // M0.4: Duplicate-key detection — reject manifests with duplicate keys
+  const seenKeys = new Set();
+  for (const entry of index) {
+    if (seenKeys.has(entry.key)) {
+      throw new Error(`Duplicate manifest key detected: "${entry.key}" in index.json`);
+    }
+    seenKeys.add(entry.key);
+  }
 
   // Read header
   const header = await readManifest("header.json");
@@ -136,6 +168,10 @@ async function buildReport() {
   // Read tail
   const tail = await readManifest("tail.json");
   for (const [key, value] of Object.entries(tail)) {
+    // M0.4: Detect duplicate keys between tail and existing report keys
+    if (key in report) {
+      throw new Error(`Duplicate key from tail.json overrides existing report key: "${key}"`);
+    }
     report[key] = value;
   }
 

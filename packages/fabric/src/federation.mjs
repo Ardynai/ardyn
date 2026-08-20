@@ -1,5 +1,5 @@
-import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { createHash, verify as cryptoVerify, createPublicKey, constants } from "node:crypto";
+import { readFileSync, realpathSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 
 export const FABRIC_FEDERATION_DEFAULT_LOCAL_DID = "did:multiverse:ardyn";
@@ -467,6 +467,17 @@ function normalizeFederationConfig(options) {
       code: "invalid_registry_url",
     });
   }
+  // M4: MEDIUM-1 — registry host allowlist (if configured)
+  const registryHostAllowlist = options.registryHostAllowlist;
+  if (Array.isArray(registryHostAllowlist) && registryHostAllowlist.length > 0) {
+    const host = registryUrlValue.hostname;
+    if (!registryHostAllowlist.includes(host)) {
+      throw new FabricFederationError(
+        `Fabric registry host '${host}' is not in the allowlist: ${registryHostAllowlist.join(", ")}.`,
+        { code: "registry_host_not_allowed" }
+      );
+    }
+  }
 
   const localDid = requireText(options.localDid ?? FABRIC_FEDERATION_DEFAULT_LOCAL_DID, "localDid");
   assertDid(localDid, "local DID");
@@ -637,12 +648,32 @@ async function requestRaw(url, init, config, options = {}) {
       headers,
       method: init.method,
       signal: abort.signal,
+      redirect: "manual", // M4: HIGH-1 — no SSRF via redirect following
     });
+    // M4: HIGH-1 — treat any 3xx redirect as an error (no auto-following)
+    if (response.status >= 300 && response.status < 400) {
+      throw new FabricFederationError(
+        `Fabric federation redirect rejected (status ${response.status}) — redirect following disabled for SSRF safety.`,
+        { code: "redirect_blocked", status: response.status }
+      );
+    }
     if (!response.ok) {
       throw new FabricFederationError(`Fabric federation HTTP ${response.status}.`, {
         code: "http_error",
         status: response.status,
       });
+    }
+    // M4: INFO-3 — response-size cap to bound memory from a hostile loopback sidecar
+    const contentLength = parseInt(response.headers.get("content-length") ?? "0", 10);
+    const maxResponseBytes = normalizePositiveInteger(
+      options.maxResponseBytes ?? config.maxResponseBytes ?? 16 * 1024 * 1024,
+      "maxResponseBytes", 0
+    );
+    if (contentLength > 0 && contentLength > maxResponseBytes) {
+      throw new FabricFederationError(
+        `Fabric federation response exceeds size cap (${contentLength} > ${maxResponseBytes} bytes).`,
+        { code: "response_too_large", status: response.status }
+      );
     }
     return response;
   } finally {
@@ -852,14 +883,145 @@ function didFromEnvelope(envelope) {
   return envelope?.fromDid ?? envelope?.from_did ?? envelope?.senderDid ?? envelope?.sender_did;
 }
 
-function isInboundAuthenticated(envelope, fromDid) {
-  return (
-    envelope.authenticated === true ||
-    envelope.authenticatedDid === fromDid ||
-    envelope.authenticated_did === fromDid ||
-    envelope.auth?.did === fromDid
-  );
+// B2-real: Real cryptographic Ed25519 signature verification.
+// A message is authenticated only when:
+//   1. envelope.authenticated === true
+//   2. envelope.authenticatedDid matches the expected fromDid
+//   3. A valid Ed25519 signature over the canonical payload verifies against the DID's registered public key
+// No field-presence shortcut — crypto.verify must actually pass.
+
+// Load DID → public key map from env (ARDYN_FABRIC_SIBLING_KEYS as JSON)
+// or from a gitignored config/secret/federation-keys.json file.
+function loadSiblingKeys() {
+  // Try env first
+  if (process.env.ARDYN_FABRIC_SIBLING_KEYS) {
+    try {
+      return JSON.parse(process.env.ARDYN_FABRIC_SIBLING_KEYS);
+    } catch {
+      return {};
+    }
+  }
+  // Try gitignored config file (never committed — config/secret/ is gitignored)
+  try {
+    const keysPath = "config/secret/federation-keys.json";
+    const text = readFileSync(keysPath, "utf8");
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
 }
+
+// Canonical payload: stable JSON of the envelope excluding signature fields
+function canonicalSignedPayload(envelope) {
+  const { signature, signatureDid, ...rest } = envelope;
+  return JSON.stringify(rest, Object.keys(rest).sort());
+}
+
+function isInboundAuthenticated(envelope, fromDid) {
+  if (!envelope || typeof envelope !== "object") return false;
+  if (envelope.authenticated !== true) return false;
+  const authDid = envelope.authenticatedDid ?? envelope.authenticated_did ?? envelope.auth?.did;
+  if (authDid !== fromDid) return false;
+
+  // B2-real: require a real Ed25519 signature — no field-presence shortcut
+  if (typeof envelope.signature !== "string" || envelope.signature.trim().length === 0) return false;
+
+  // B2-real: look up the DID's public key from the configured closed map
+  const siblingKeys = loadSiblingKeys();
+  const registeredKeyBase64 = siblingKeys[fromDid];
+  if (!registeredKeyBase64) {
+    // Unknown DID — no key registered → fail closed
+    return false;
+  }
+
+  // B2-real: reconstruct the public key and verify the signature with node:crypto
+  try {
+    const publicKeyDer = Buffer.from(registeredKeyBase64, "base64");
+    const publicKey = createPublicKey({ key: publicKeyDer, format: "der", type: "spki" });
+    const payload = Buffer.from(canonicalSignedPayload(envelope), "utf8");
+    const signatureBytes = Buffer.from(envelope.signature, "base64");
+
+    const isValid = cryptoVerify(null, payload, publicKey, signatureBytes);
+    return isValid === true;
+  } catch {
+    // Malformed key or signature → fail closed
+    return false;
+  }
+}
+
+// B2: Confine ARDYN_FABRIC_IDENTITY_FILE to an allowed base directory.
+// Rejects: absolute paths, ../ traversal, symlinks pointing outside the base dir.
+function getAllowedBaseDir() {
+  return process.env.ARDYN_FABRIC_IDENTITY_BASE_DIR || ".ardyn";
+}
+
+const FABRIC_FEDERATION_IDENTITY_ALLOWED_BASE_DIR = getAllowedBaseDir();
+
+function confineIdentityFilePath(filePath) {
+  if (!filePath) return null;
+
+  const allowedBaseDir = getAllowedBaseDir();
+
+  // Reject absolute paths
+  if (filePath.startsWith("/")) {
+    throw new FabricFederationError(
+      "Identity file path must be relative (absolute paths not allowed).",
+      { code: "identity_file_path_unconfined" }
+    );
+  }
+
+  // Reject ../ traversal
+  if (filePath.includes("../") || filePath.includes("..\\")) {
+    throw new FabricFederationError(
+      "Identity file path must not contain parent-directory traversal (../).",
+      { code: "identity_file_path_unconfined" }
+    );
+  }
+
+  // Resolve to a real path and check it stays within the allowed base dir
+  let resolved;
+  try {
+    resolved = realpathSync(filePath);
+  } catch {
+    // File doesn't exist — check the relative path prefix
+    const normalized = filePath.replace(/\\/g, "/");
+    if (normalized.startsWith(allowedBaseDir + "/") ||
+        normalized === allowedBaseDir ||
+        allowedBaseDir === ".") {
+      return filePath;
+    }
+    throw new FabricFederationError(
+      `Identity file path must be within ${allowedBaseDir}/ (resolved outside base dir).`,
+      { code: "identity_file_path_unconfined" }
+    );
+  }
+
+  // Check if the realpath is within the allowed base dir
+  let baseDirResolved;
+  try {
+    baseDirResolved = realpathSync(allowedBaseDir).replace(/\\/g, "/");
+  } catch {
+    // Base dir doesn't exist — use as-is
+    baseDirResolved = allowedBaseDir.replace(/\\/g, "/");
+  }
+  const resolvedNorm = resolved.replace(/\\/g, "/");
+
+  if (allowedBaseDir === "." && !resolvedNorm.startsWith("/")) {
+    // "." means current dir — accept relative paths
+    return filePath;
+  }
+
+  if (!resolvedNorm.startsWith(baseDirResolved + "/") && resolvedNorm !== baseDirResolved) {
+    throw new FabricFederationError(
+      `Identity file path resolves outside the allowed base directory ${allowedBaseDir} (symlink or traversal detected).`,
+      { code: "identity_file_path_unconfined" }
+    );
+  }
+
+  return filePath;
+}
+
+export { isInboundAuthenticated, confineIdentityFilePath, FABRIC_FEDERATION_IDENTITY_ALLOWED_BASE_DIR, getAllowedBaseDir as confineIdentityBaseDir };
 
 function isOptionalRegistryRouteError(error) {
   return error instanceof FabricFederationError && (error.status === 404 || error.status === 501);
@@ -911,6 +1073,9 @@ function csvEnv(value) {
 
 function didFromIdentityFile(path) {
   if (!path) return undefined;
+  // B2-real: call confineIdentityFilePath to enforce realpathSync + base-dir + symlink checks
+  // This replaces the naive ../ substring test with real path confinement.
+  confineIdentityFilePath(path);
   let text;
   try {
     text = readFileSync(path, "utf8").trim();

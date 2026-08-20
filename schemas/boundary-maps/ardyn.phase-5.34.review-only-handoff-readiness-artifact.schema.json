@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.phase-5.34.review-only-handoff-readiness-artifact.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.phase-5.34.review-only-handoff-readiness-artifact",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "phase",
+    "artifactKind",
+    "metadataGeneratedAt",
+    "sourcePhase",
+    "handoffReadinessArtifactSummary",
+    "handoffReadinessArtifactInputShape",
+    "handoffReadinessArtifactResultShape",
+    "handoffReadinessArtifactCases",
+    "handoffReadinessArtifact",
+    "blockedRuntimeEffect",
+    "serveRuntimeBlockedBehavior",
+    "forbiddenBehavior",
+    "filesAllowedToChange",
+    "filesForbiddenToChange",
+    "validationCommands"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.phase-5.34.review-only-handoff-readiness-artifact"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "sourcePhase": {
+      "type": "object"
+    },
+    "handoffReadinessArtifactSummary": {
+      "type": "object"
+    },
+    "handoffReadinessArtifactInputShape": {
+      "type": "object"
+    },
+    "handoffReadinessArtifactResultShape": {
+      "type": "object"
+    },
+    "handoffReadinessArtifactCases": {
+      "type": "array"
+    },
+    "handoffReadinessArtifact": {
+      "type": "object"
+    },
+    "blockedRuntimeEffect": {
+      "type": "object"
+    },
+    "serveRuntimeBlockedBehavior": {
+      "type": "object"
+    },
+    "forbiddenBehavior": {
+      "type": "object"
+    },
+    "filesAllowedToChange": {
+      "type": "array"
+    },
+    "filesForbiddenToChange": {
+      "type": "array"
+    },
+    "validationCommands": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

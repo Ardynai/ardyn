@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ardyn.ai/boundary-maps/ardyn.external-review-disposition-record.schema.json",
+  "title": "ARDYN Boundary Map: ardyn.external-review-disposition-record",
+  "description": "Auto-generated JSON Schema for boundary-map artifact validation. Enforces shape + safety invariants.",
+  "type": "object",
+  "required": [
+    "schema",
+    "schemaVersion",
+    "artifactKind",
+    "dispositionPhase",
+    "reviewedPhase",
+    "metadataGeneratedAt",
+    "currentMainSha",
+    "sourceReview",
+    "targetedFix",
+    "validationSummary",
+    "smokeProbeSummary",
+    "reviewOnlyBoundary",
+    "nextAllowedStep",
+    "stillBlockedRuntimeSurfaces",
+    "runtimeEffect",
+    "audit"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "ardyn.external-review-disposition-record"
+    },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "artifactKind": {
+      "type": "string"
+    },
+    "dispositionPhase": {
+      "type": "string"
+    },
+    "reviewedPhase": {
+      "type": "string"
+    },
+    "metadataGeneratedAt": {
+      "type": "string"
+    },
+    "currentMainSha": {
+      "type": "string"
+    },
+    "sourceReview": {
+      "type": "object"
+    },
+    "targetedFix": {
+      "type": "object"
+    },
+    "validationSummary": {
+      "type": "object"
+    },
+    "smokeProbeSummary": {
+      "type": "object"
+    },
+    "reviewOnlyBoundary": {
+      "type": "object"
+    },
+    "nextAllowedStep": {
+      "type": "object"
+    },
+    "stillBlockedRuntimeSurfaces": {
+      "type": "array"
+    },
+    "runtimeEffect": {
+      "type": "object"
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

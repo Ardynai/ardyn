@@ -1620,6 +1620,7 @@
     ],
     "dryRunArgs": [
       "serve-runtime",
+      "federation",
       "--dry-run"
     ],
     "defaultBlocked": true,

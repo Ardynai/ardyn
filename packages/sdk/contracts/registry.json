@@ -1,0 +1,42 @@
+{
+  "schema": "ardyn.contracts.registry",
+  "schemaVersion": "0.1.0",
+  "contracts": [
+    {
+      "name": "ardyn.manifest",
+      "version": "0.1.0",
+      "schema": "schemas/ardyn.manifest.schema.json",
+      "description": "ARDYN manifest — declares harness capabilities"
+    },
+    {
+      "name": "ardyn.capability",
+      "version": "0.1.0",
+      "schema": "schemas/capability.schema.json",
+      "description": "Capability declaration — a unit of harness functionality"
+    },
+    {
+      "name": "ardyn.task",
+      "version": "0.1.0",
+      "schema": "schemas/task.schema.json",
+      "description": "Task definition — input to the planning pipeline"
+    },
+    {
+      "name": "ardyn.session-event",
+      "version": "0.1.0",
+      "schema": "schemas/session-event.schema.json",
+      "description": "Session event — individual telemetry event in a session"
+    },
+    {
+      "name": "ardyn.session-transcript",
+      "version": "0.1.0",
+      "schema": "schemas/session-transcript.schema.json",
+      "description": "Session transcript — static review transcript for session telemetry"
+    },
+    {
+      "name": "ardyn.boundary-map",
+      "version": "0.1.0",
+      "schema": "schemas/boundary-maps/registry.json",
+      "description": "Boundary-map artifacts — 103 phase-specific schemas for review metadata"
+    }
+  ]
+}

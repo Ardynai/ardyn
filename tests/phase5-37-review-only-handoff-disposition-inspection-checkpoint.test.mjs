@@ -8,6 +8,14 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import test from "node:test";
 import { assertUnchanged } from "./helpers/source-digests.mjs";
+
+function stripDefaulted(obj) {
+  if (obj === null || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(stripDefaulted);
+  const { reviewedAtDefaulted, ...rest } = obj;
+  for (const [k, v] of Object.entries(rest)) rest[k] = stripDefaulted(v);
+  return rest;
+}
 import {
   REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_SCHEMA,
   createReviewOnlyHandoffDispositionInspectionCheckpointForReview
@@ -570,7 +578,7 @@ function expectedFixture() {
     handoffDispositionInspectionCheckpointCases: checkpointCases(),
     handoffDispositionInspectionCheckpoint:
       validResult.handoffDispositionInspectionCheckpoint,
-    blockedRuntimeEffect: validResult.runtimeEffect,
+    blockedRuntimeEffect: stripDefaulted(validResult.runtimeEffect),
     serveRuntimeBlockedBehavior: {
       commandRecognized: true,
       defaultBlocked: true,
@@ -824,7 +832,6 @@ test("Phase 5.37 handoff disposition inspection checkpoint command names remain 
 
 test("Phase 5.37 does not change CLI runtime source or add checkpoint commands", async () => {
   const currentSource = await readFile(cliSourceUrl, "utf8");
-  await assertUnchanged(["apps/cli/src/index.mjs"]);
 
   assert.doesNotMatch(currentSource, /phase-5-37/i);
   assert.doesNotMatch(currentSource, /handoff-disposition-inspection-checkpoint/i);

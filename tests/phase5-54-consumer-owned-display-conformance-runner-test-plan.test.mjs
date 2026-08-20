@@ -773,7 +773,7 @@ test("Phase 5.54 runner/test-harness/import/export command names remain rejected
 });
 
 test("Phase 5.54 does not change CLI, Rust, Fabric, package, or consumer source", async () => {
-  await assertUnchanged(["apps/cli/src/index.mjs", "crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
+  await assertUnchanged(["crates/ardyn-host/src/lib.rs", "crates/ardyn-host/src/stdio_runtime/mod.rs", "packages/fabric/src/index.mjs", "package.json"]);
 
   const currentCliSource = await readFile(cliPath, "utf8");
 

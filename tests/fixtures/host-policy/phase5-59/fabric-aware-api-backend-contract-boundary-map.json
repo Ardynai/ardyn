@@ -4,6 +4,7 @@
   "fabricAwareApiBackendContractBoundaryMapKind": "fabric-aware-api-backend-contract-boundary-map",
   "fabricAwareApiBackendContractBoundaryMapMode": "review-only",
   "reviewedAt": "2026-06-22T00:00:00.000Z",
+  "reviewedAtDefaulted": false,
   "classification": "valid_fabric_aware_api_backend_contract_boundary_map_runtime_still_blocked",
   "fabricAwareApiBackendContractBoundaryMapProduced": true,
   "fabricAwareApiBackendContractBoundaryMap": {
