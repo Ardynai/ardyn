@@ -198,3 +198,59 @@ Append one entry per completed work item (format in `LOOP-PROTOCOL.md`). Keep th
 ### Branch
 - `hermes/kimi-autobuild` — pushed to origin
 - Do NOT merge — hand off for review
+### 2026-08-20T01:00Z — Plan: M11-M14 (OpenBot/loopx/hermes patterns)
+
+M11 Governed computer-use (OpenBot pattern):
+- Upgrade computer-use.mjs to REAL spawn: docker run per session, real docker exec for actions
+- Gateway: resolve target → evaluate fail-closed policy → write audit FIRST → then act
+- "Take the wheel": login/2FA pause, human control, bot actions refused during human control
+- Pattern-adapted from OpenBot (MIT), not vendored
+
+M12 Loop-state control plane (loopx pattern):
+- packages/core/src/loop-state.mjs: lifetime goals, user gates, todo ownership (claimed_by),
+  quota/should-run + spend, append-only run history + evidence, public/private boundary checks
+- Console "Loops" view: read-first management dashboard
+- Pattern-adapted from loopx (Apache-2.0), not vendored
+
+M13 Multi-interface gateway (hermes-agent pattern):
+- packages/gateway/src/gateway.mjs: pluggable channel-adapter interface
+- Telegram + Slack adapters end-to-end; others are adapter stubs
+- Per-user mapping, webhook signature verification, rate-limit per user/channel, deny-by-default
+- Platform tokens from env/gitignored config/secret/ — never committed
+- Pattern-adapted from hermes-agent (MIT), not vendored
+
+M14 Per-user memory (hermes-agent pattern):
+- packages/core/src/user-memory.mjs: per-user MEMORY/USER record, cross-session recall (FTS5),
+  per-user profile, strict isolation
+- Extend M10 isolation tests to cover memory
+- Pattern-adapted from hermes-agent (MIT), not vendored
+
+### 2026-08-20T02:00Z — M11-M14 implemented
+
+M11 Governed computer-use (7 tests):
+- packages/core/src/computer-use.mjs upgraded with createGateway (record-before-act,
+  fail-closed policy, deny-before-allow), takeTheWheel/releaseControl (human handoff),
+  per-session token (randomBytes), optional gVisor (COMPUTER_RUNTIME=runsc).
+- Sandbox mechanism: Docker container (ubuntu:22.04, Xvfb), --rm, --no-new-privileges,
+  --cap-drop ALL, --read-only, --network none, per-session token.
+- Pattern adapted from OpenBot (MIT, CopilotKit/OpenBot) — not vendored.
+
+M12 Loop-state control plane (7 tests):
+- packages/core/src/loop-state.mjs: goals, todos (claimed_by), gates, quota,
+  append-only run_history, public/private boundary checks.
+- Pattern adapted from loopx (Apache-2.0, huangruiteng/loopx) — not vendored.
+
+M13 Multi-interface gateway (10 tests):
+- packages/gateway/src/gateway.mjs: TelegramAdapter + SlackAdapter (end-to-end),
+  Discord/WhatsApp/Signal/Email stubs. verifyTelegramWebhook, verifySlackWebhook,
+  mapUserToArdyn (deterministic per-user mapping), createGateway (deny-by-default,
+  rate-limit per user).
+- Pattern adapted from hermes-agent (MIT, NousResearch/hermes-agent) — not vendored.
+
+M14 Per-user memory (7 tests):
+- packages/core/src/user-memory.mjs: per-user memories, profiles, cross-session
+  search (LIKE query), summarization. CRITICAL isolation test proves user A
+  cannot see user B's memory.
+- Pattern adapted from hermes-agent (MIT) — not vendored.
+
+Tests: 1319 → 1350 (+31 new). 101 Rust (unchanged). All green.

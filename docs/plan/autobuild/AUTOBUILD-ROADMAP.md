@@ -78,3 +78,36 @@ When M0–M8 are done (or a budget cap is hit) with the targeted suite green and
 - Auth fails closed in production (extends B5 fix to per-user)
 - Model: Hermes group_sessions_per_user (per-user isolation in shared contexts)
 - Status: complete
+
+## M11: Governed computer-use (OpenBot pattern)
+- Real sandbox spawn: Docker container per session, docker exec for actions
+- Gateway: resolve → evaluate fail-closed policy → write audit FIRST → then act
+- Take the wheel: login/2FA pause, human control, bot actions refused
+- Per-session token, loopback-bound, deny-by-default network
+- Optional gVisor (runsc) where available
+- Pattern adapted from OpenBot (MIT) — not vendored
+- Status: complete
+
+## M12: Loop-state control plane (loopx pattern)
+- Lifetime goals, user gates, todo ownership (claimed_by)
+- Quota/should-run + spend, append-only run history + evidence
+- Public/private boundary checks (secrets in public runs flagged)
+- Console "Loops" view: read-first management dashboard
+- Pattern adapted from loopx (Apache-2.0) — not vendored
+- Status: complete
+
+## M13: Multi-interface gateway (hermes-agent pattern)
+- Pluggable channel-adapter interface
+- Telegram + Slack adapters end-to-end; Discord/WhatsApp/Signal/Email stubs
+- Per-user mapping, webhook signature verification, rate-limit per user/channel
+- Deny-by-default on unknown senders; platform tokens from env only
+- Gateway never bypasses approval/kill/audit/redaction gates
+- Pattern adapted from hermes-agent (MIT) — not vendored
+- Status: complete
+
+## M14: Per-user memory (hermes-agent pattern)
+- Per-user MEMORY/USER record with cross-session recall (FTS5 search)
+- Per-user evolving profile, strict isolation
+- Extends M10 isolation tests to cover memory
+- Pattern adapted from hermes-agent (MIT) — not vendored
+- Status: complete

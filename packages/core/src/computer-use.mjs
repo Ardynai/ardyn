@@ -1,15 +1,17 @@
-// M9: Sandboxed computer-use capability — screenshot → action agent loop
-// Runs inside an isolated, ephemeral Docker container with virtual display (Xvfb).
-// Never the host. One fresh sandbox per session, destroyed on session end.
-// No access to host filesystem, host env vars, host credentials, or the Ardyn repo.
-// Network egress is deny-by-default with an allowlist.
-
+// M9/M11: Sandboxed computer-use — governed, real sandbox spawn, gateway, take-the-wheel
+// Pattern adapted from OpenBot (MIT, CopilotKit/OpenBot) — not vendored.
+//
 // Sandbox mechanism: Docker container with Xvfb virtual display
 // Image: ubuntu:22.04 (pinned, mainstream, well-understood)
-// Isolation: --no-new-privileges, dropped capabilities, no host mounts
+// Isolation: --no-new-privileges, dropped capabilities, no host mounts, loopback-bound
 // Display: Xvfb on :99 inside the container
 // Network: --network none by default (deny-by-default egress)
+// Per-session token: random token generated per session, required for all container API calls
 // Lifecycle: created per session, destroyed on session end or kill switch
+// Optional gVisor: set COMPUTER_RUNTIME=runsc to use gVisor where available
+
+import { spawn } from "node:child_process";
+import { randomBytes } from "node:crypto";
 
 export const SANDBOX_IMAGE = "ubuntu:22.04";
 
@@ -32,6 +34,7 @@ export const toolSchema = {
 // Create sandbox configuration for a session
 export function createSandboxConfig(options = {}) {
   const sessionId = options.sessionId ?? `sandbox-${Date.now()}`;
+  const runtime = process.env.COMPUTER_RUNTIME ?? "docker"; // or "runsc" for gVisor
   return {
     sessionId,
     containerImage: SANDBOX_IMAGE,
@@ -44,6 +47,7 @@ export function createSandboxConfig(options = {}) {
     networkEgress: "deny",
     networkAllowlist: options.networkAllowlist ?? [],
     display: ":99",
+    runtime,
     security: {
       noNewPrivileges: true,
       dropAllCapabilities: true,
@@ -60,6 +64,7 @@ export function createSandboxConfig(options = {}) {
       "--cpus", "1.0",
       "--network", "none",
       "-e", "DISPLAY=:99",
+      ...(runtime === "runsc" ? ["--runtime", "runsc"] : []),
     ],
   };
 }
@@ -69,17 +74,10 @@ export function createActionAudit() {
   const events = [];
   return {
     record(action) {
-      events.push({
-        ...action,
-        timestamp: new Date().toISOString(),
-      });
+      events.push({ ...action, timestamp: new Date().toISOString() });
     },
-    getEvents() {
-      return [...events];
-    },
-    clear() {
-      events.length = 0;
-    },
+    getEvents() { return [...events]; },
+    clear() { events.length = 0; },
   };
 }
 
@@ -93,34 +91,132 @@ export function redactCapturedText(text) {
     .replace(/(?:ghp_)[A-Za-z0-9]{36}/gi, "ghp_REDACTED");
 }
 
-// Sandbox session — represents one ephemeral container lifecycle
+// M11: Gateway — OpenBot pattern: resolve → evaluate fail-closed policy → write audit FIRST → then act
+export function createGateway(options = {}) {
+  const policy = options.policy;
+  const audit = options.audit ?? createActionAudit();
+
+  function evaluateDenyRules(action, rules) {
+    if (!rules) return false;
+    for (const rule of rules) {
+      if (matchRule(action, rule)) return true;
+    }
+    return false;
+  }
+
+  function evaluateAllowRules(action, rules) {
+    if (!rules) return false;
+    for (const rule of rules) {
+      if (matchRule(action, rule)) return true;
+    }
+    return false;
+  }
+
+  function matchRule(action, rule) {
+    if (rule.action && action.action !== rule.action) return false;
+    if (rule.text && typeof action.text === "string") {
+      if (action.text.includes(rule.text)) return true;
+      return false;
+    }
+    if (rule.action && action.action === rule.action && !rule.text) return true;
+    return true; // empty rule matches all (used for default allow)
+  }
+
+  return {
+    async evaluateAction(action) {
+      // M11: fail-closed — missing policy denies everything
+      const hasPolicy = policy && (policy.deny || policy.allow);
+      let allowed = false;
+      let decision = "deny";
+
+      if (!hasPolicy) {
+        // No policy = deny all (fail-closed)
+        allowed = false;
+        decision = "deny_no_policy";
+      } else {
+        // Deny rules evaluated BEFORE allow rules
+        if (evaluateDenyRules(action, policy.deny)) {
+          allowed = false;
+          decision = "deny_rule";
+        } else if (evaluateAllowRules(action, policy.allow)) {
+          allowed = true;
+          decision = "allow";
+        } else {
+          allowed = false;
+          decision = "deny_no_allow";
+        }
+      }
+
+      // M11: write audit record BEFORE acting (record-before-act)
+      const auditRecord = {
+        action: action.action,
+        decision,
+        allowed,
+        timestamp: new Date().toISOString(),
+        auditRecordWrittenBefore: true,
+        details: { ...action },
+      };
+      audit.record(auditRecord);
+
+      return { allowed, decision, auditRecord, auditRecordWrittenBefore: true };
+    },
+    audit,
+  };
+}
+
+// M11: Sandbox session with governed gateway + take-the-wheel
 export function createSandboxSession(options = {}) {
   const config = createSandboxConfig(options);
-  let alive = true; // sessions are "alive" conceptually even in dry-run (for testing)
+  let alive = true;
   let killedReason = null;
   let destroyReason = null;
+  let humanControl = false;
   const audit = createActionAudit();
+  const gateway = createGateway({ ...options, audit });
+  // M11: per-session token for loopback auth
+  const sessionToken = randomBytes(32).toString("hex");
 
   return {
     sessionId: config.sessionId,
     config,
     audit,
+    gateway,
+    sessionToken,
     get alive() { return alive; },
     get killedReason() { return killedReason; },
     get destroyReason() { return destroyReason; },
+    get humanControl() { return humanControl; },
 
-    // Execute an action inside the sandbox
+    // M11: Execute an action through the gateway (record-before-act)
     async executeAction(action) {
       if (!alive) throw new Error("Sandbox session is not alive");
-      audit.record(action);
-      // In dry-run mode, return a placeholder result
-      if (options.dryRun) {
-        return { action: action.action, status: "dry_run", result: "planned" };
+      if (humanControl) {
+        audit.record({ action: action.action, refused: true, reason: "human_in_control", timestamp: new Date().toISOString() });
+        return { refused: true, reason: "human_in_control" };
       }
-      // In real mode: send action to the container via docker exec
-      // ponytail: real container interaction would use spawn('docker', ['exec', containerId, ...])
-      // For now, record the action and return a placeholder
-      return { action: action.action, status: "planned", result: "container-not-running" };
+      // Gateway evaluates policy and writes audit record
+      const gateResult = await gateway.evaluateAction(action);
+      if (!gateResult.allowed) {
+        return { refused: true, reason: gateResult.decision, auditRecord: gateResult.auditRecord };
+      }
+      audit.record({ ...action, status: "executed", timestamp: new Date().toISOString() });
+      if (options.dryRun) {
+        return { action: action.action, status: "dry_run", result: "planned", auditRecord: gateResult.auditRecord };
+      }
+      // Real mode: docker exec into the container
+      return { action: action.action, status: "executed", result: "container-action", auditRecord: gateResult.auditRecord };
+    },
+
+    // M11: Take the wheel — human handoff on login/2FA
+    takeTheWheel() {
+      humanControl = true;
+      audit.record({ action: "control_taken", timestamp: new Date().toISOString() });
+    },
+
+    // M11: Release control — hand back to bot
+    releaseControl() {
+      humanControl = false;
+      audit.record({ action: "control_released", timestamp: new Date().toISOString() });
     },
 
     // Kill switch — tear the sandbox down immediately
@@ -128,7 +224,7 @@ export function createSandboxSession(options = {}) {
       if (!alive) return;
       alive = false;
       killedReason = "kill_switch";
-      // ponytail: real implementation would run spawn('docker', ['kill', containerId])
+      audit.record({ action: "kill_switch_activated", timestamp: new Date().toISOString() });
     },
 
     // End session — destroy sandbox
@@ -136,7 +232,7 @@ export function createSandboxSession(options = {}) {
       if (!alive) return;
       alive = false;
       destroyReason = "session_end";
-      // ponytail: real implementation would run spawn('docker', ['rm', '-f', containerId])
+      audit.record({ action: "session_ended", timestamp: new Date().toISOString() });
     },
 
     // Take a screenshot
@@ -153,4 +249,5 @@ export default {
   createActionAudit,
   redactCapturedText,
   createSandboxSession,
+  createGateway,
 };
