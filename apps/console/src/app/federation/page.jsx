@@ -1,65 +1,94 @@
-// M6: Federation Monitor — read-only, shows hardening + wiring status
+// Ardyn Console — Federation Monitor
+// Read-only federation hardening status + sibling DID allowlist
 export default function FederationPage() {
-  const status = {
-    wired: true,
-    loopbackOnly: true,
-    httpsRemote: true,
-    closedSiblingAllowlist: true,
-    contentIdReverification: true,
-    redirectManual: true,
-    responseSizeCap: true,
-    identityConfinement: true,
-  };
+  const hardeningChecks = [
+    { name: "Loopback-only sidecar", status: "applied", level: "critical" },
+    { name: "HTTPS-only remote registry", status: "applied", level: "critical" },
+    { name: "Closed sibling-DID allowlist", status: "applied", level: "critical" },
+    { name: "Per-message signature verification", status: "applied", level: "critical" },
+    { name: "Identity-file path confinement", status: "applied", level: "high" },
+    { name: "Response-size cap", status: "applied", level: "high" },
+    { name: "Registry host allowlist", status: "applied", level: "high" },
+    { name: "Redirect: manual (no SSRF)", status: "applied", level: "high" },
+  ];
 
-  const hardeningItems = [
-    { name: "redirect: manual (no SSRF)", key: "redirectManual" },
-    { name: "Registry host allowlist", key: "hostAllowlist" },
-    { name: "Response-size cap (16MB)", key: "responseSizeCap" },
-    { name: "Identity-file path confinement", key: "identityConfinement" },
-    { name: "Closed sibling-DID allowlist", key: "closedSiblingAllowlist" },
-    { name: "ContentId SHA-256 re-verification", key: "contentIdReverification" },
+  const siblings = [
+    { did: "did:multiverse:ardyn", role: "self" },
+    { did: "did:multiverse:locus", role: "sibling" },
   ];
 
   return (
-    <div className="space-y-6">
-      <nav aria-label="Breadcrumb" className="text-sm text-[var(--text-secondary)]">
-        <a href="/" aria-label="Dashboard">Dashboard</a> › <span aria-current="page">Federation</span>
+    <div className="fade-in" style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}>
+      <nav aria-label="Breadcrumb" className="breadcrumb">
+        <span style={{ color: "var(--text-muted)" }}>Console</span>
+        <span style={{ color: "var(--text-muted)" }}>/</span>
+        <span aria-current="page" style={{ color: "var(--text-secondary)" }}>Federation</span>
       </nav>
-      <div>
-        <h2 className="text-2xl font-bold mb-1">Federation Monitor</h2>
-        <p className="text-sm text-[var(--text-secondary)]">Read-only federation hardening and wiring status</p>
+
+      <div className="page-header">
+        <h1 className="page-title">Federation</h1>
+        <p className="page-description">Hardened client — read-only status (content exchange stays unwired)</p>
       </div>
 
-      <section aria-label="Federation posture" className="card p-6">
-        <h3 className="text-lg font-semibold mb-4">Posture</h3>
-        <ul role="list" className="space-y-2">
-          <li className="flex justify-between"><span className="text-sm">Wired into CLI</span><span className="badge badge-success" role="status">yes</span></li>
-          <li className="flex justify-between"><span className="text-sm">Loopback-only sidecar</span><span className="badge badge-success" role="status">yes</span></li>
-          <li className="flex justify-between"><span className="text-sm">HTTPS for remote</span><span className="badge badge-success" role="status">yes</span></li>
+      {/* Status banner */}
+      <section className="card" style={{ padding: "var(--space-6)", borderColor: "var(--border-accent)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
+          <div style={{
+            width: "48px", height: "48px", borderRadius: "50%",
+            background: "var(--success-bg)", display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "24px", color: "var(--success)",
+          }}>
+            ⬡
+          </div>
+          <div>
+            <h2 style={{ fontSize: "var(--text-lg)", fontWeight: 600 }}>Hardened + Wired</h2>
+            <p style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)" }}>
+              8/8 hardening checks applied · content exchange intentionally unwired
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Hardening checks */}
+      <section className="card" style={{ padding: "var(--space-6)" }}>
+        <div className="section-header">
+          <div>
+            <h2 className="section-title">Hardening Checklist</h2>
+            <p className="section-subtitle">Pre-wiring security audit items</p>
+          </div>
+          <span className="badge badge-success">8/8 applied</span>
+        </div>
+        <ul style={{ listStyle: "none" }} role="list">
+          {hardeningChecks.map((check) => (
+            <li key={check.name} className="list-item">
+              <span style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+                <span className="status-dot status-dot-success" />
+                <span className="list-item-label">{check.name}</span>
+              </span>
+              <span style={{ display: "flex", gap: "var(--space-2)" }}>
+                <span className={`badge badge-${check.level === "critical" ? "danger" : "warning"}`}>{check.level}</span>
+                <span className="badge badge-success">{check.status}</span>
+              </span>
+            </li>
+          ))}
         </ul>
       </section>
 
-      <section aria-label="Hardening requirements" className="card p-6">
-        <h3 className="text-lg font-semibold mb-4">Hardening (5/5 applied)</h3>
-        {hardeningItems.length === 0 ? (
-          <p role="status" className="text-sm text-[var(--text-secondary)]">No hardening items.</p>
-        ) : (
-          <ul role="list" className="space-y-2">
-            {hardeningItems.map((item) => (
-              <li key={item.key} className="flex justify-between">
-                <span className="text-sm">{item.name}</span>
-                <span className="badge badge-success" role="status">applied</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
-      <section aria-label="Sibling DIDs" className="card p-6">
-        <h3 className="text-lg font-semibold mb-4">Closed Sibling-DID Allowlist</h3>
-        <ul role="list" className="space-y-1">
-          <li className="text-sm font-mono">did:multiverse:ardyn</li>
-          <li className="text-sm font-mono">did:multiverse:locus</li>
+      {/* Sibling DIDs */}
+      <section className="card" style={{ padding: "var(--space-6)" }}>
+        <div className="section-header">
+          <div>
+            <h2 className="section-title">Sibling DID Allowlist</h2>
+            <p className="section-subtitle">Closed allowlist — only these DIDs are trusted</p>
+          </div>
+        </div>
+        <ul style={{ listStyle: "none" }} role="list">
+          {siblings.map((sib) => (
+            <li key={sib.did} className="list-item">
+              <code style={{ fontFamily: "monospace", fontSize: "var(--text-sm)", color: "var(--accent)" }}>{sib.did}</code>
+              <span className={`badge badge-${sib.role === "self" ? "info" : "neutral"}`}>{sib.role}</span>
+            </li>
+          ))}
         </ul>
       </section>
     </div>
