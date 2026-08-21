@@ -1,39 +1,49 @@
-// M6: Trace Viewer — session trace with JSONL frame viewer, loading/empty/error states
+// Ardyn Console — Trace Viewer
+// Session trace viewer with JSONL frame display, loading/empty/error states
 export default function TracePage() {
   return (
-    <div className="space-y-6">
-      <nav aria-label="Breadcrumb" className="text-sm text-[var(--text-secondary)]">
-        <a href="/" aria-label="Dashboard">Dashboard</a> › <span aria-current="page">Trace</span>
+    <div className="fade-in" style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}>
+      <nav aria-label="Breadcrumb" className="breadcrumb">
+        <span style={{ color: "var(--text-muted)" }}>Console</span>
+        <span style={{ color: "var(--text-muted)" }}>/</span>
+        <span aria-current="page" style={{ color: "var(--text-secondary)" }}>Trace Viewer</span>
       </nav>
-      <div>
-        <h2 className="text-2xl font-bold mb-1">Trace Viewer</h2>
-        <p className="text-sm text-[var(--text-secondary)]">View session traces and JSONL frames from runtime executions</p>
+
+      <div className="page-header">
+        <h1 className="page-title">Trace Viewer</h1>
+        <p className="page-description">Session transcripts, JSONL frames, and replay</p>
       </div>
 
-      <section aria-label="Trace loading state" role="status" className="card p-6">
-        <h3 className="text-lg font-semibold mb-2">No active session</h3>
-        <p className="text-sm text-[var(--text-secondary)]">
-          Run <code className="code-block inline">ardyn serve-runtime --enable-runtime --approve --command "..."</code> to generate a trace.
+      {/* Empty state */}
+      <section className="card" style={{ padding: "var(--space-8)", textAlign: "center" }} role="status">
+        <div style={{ fontSize: "48px", opacity: 0.3, marginBottom: "var(--space-4)" }} aria-hidden="true">≡</div>
+        <h2 style={{ fontSize: "var(--text-lg)", fontWeight: 600, color: "var(--text-secondary)" }}>No trace loaded</h2>
+        <p style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)", marginTop: "var(--space-2)" }}>
+          Run a session with <code className="code-block inline">ardyn serve-runtime</code> to generate a transcript.
         </p>
+        <div style={{ marginTop: "var(--space-6)", display: "flex", gap: "var(--space-3)", justifyContent: "center" }}>
+          <button className="btn-ghost" aria-label="Load transcript from file">Load Transcript</button>
+          <button className="btn-ghost" aria-label="Replay last session">Replay Last</button>
+        </div>
       </section>
 
-      <section aria-label="Empty state" className="card p-6">
-        <h3 className="text-lg font-semibold mb-2">Empty state</h3>
-        <p className="text-sm text-[var(--text-secondary)]" role="status">
-          No frames in this session. A session with zero stdout output will show this message.
-        </p>
-      </section>
-
-      <section aria-label="Error state" className="card p-6" role="alert">
-        <h3 className="text-lg font-semibold mb-2 text-[var(--danger)]">Error state</h3>
-        <p className="text-sm text-[var(--text-secondary)]">
-          If the runtime encounters an error, the failure audit activates and the error details appear here.
-        </p>
-      </section>
-
-      <section aria-label="Sample trace frame" className="card p-6">
-        <h3 className="text-lg font-semibold mb-2">Sample JSONL Frame</h3>
-        <pre className="code-block" aria-label="JSON frame content">{`{"type":"stdout_frame","timestamp":"2026-08-19T12:00:00.000Z","frame":{"event":"start"}}`}</pre>
+      {/* Trace schema info */}
+      <section className="card" style={{ padding: "var(--space-6)" }}>
+        <div className="section-header">
+          <div>
+            <h2 className="section-title">Transcript Schema</h2>
+            <p className="section-subtitle">JSONL format for session replay</p>
+          </div>
+          <span className="badge badge-neutral">schema: session-transcript-v1</span>
+        </div>
+        <pre className="code-block">{`{
+  "sessionId": "sess-...",
+  "events": [
+    { "type": "frame", "timestamp": "...", "data": {...} },
+    { "type": "audit", "timestamp": "...", "decision": "allow|deny" },
+    { "type": "kill", "timestamp": "...", "reason": "kill_switch" }
+  ]
+}`}</pre>
       </section>
     </div>
   );

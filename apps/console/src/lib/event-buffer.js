@@ -4,25 +4,26 @@
 
 import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import { existsSync } from "node:fs";
 
-const BUFFER_DIR = join(process.cwd(), ".ardyn-events");
-const BUFFER_FILE = join(BUFFER_DIR, "events.jsonl");
+// Lazy-evaluate buffer paths so process.cwd() changes are respected
+function getBufferDir() { return join(process.cwd(), ".ardyn-events"); }
+function getBufferFile() { return join(getBufferDir(), "events.jsonl"); }
 
 export async function appendEvent(event) {
-  await mkdir(BUFFER_DIR, { recursive: true });
+  const bufferDir = getBufferDir();
+  await mkdir(bufferDir, { recursive: true });
   const line = JSON.stringify({ ...event, buffered_at: new Date().toISOString() }) + "\n";
   try {
-    const existing = await readFile(BUFFER_FILE, "utf8").catch(() => "");
-    await writeFile(BUFFER_FILE, existing + line);
+    const existing = await readFile(getBufferFile(), "utf8").catch(() => "");
+    await writeFile(getBufferFile(), existing + line);
   } catch {
-    await writeFile(BUFFER_FILE, line);
+    await writeFile(getBufferFile(), line);
   }
 }
 
 export async function readEvents(since = 0) {
   try {
-    const content = await readFile(BUFFER_FILE, "utf8");
+    const content = await readFile(getBufferFile(), "utf8");
     return content
       .trim()
       .split("\n")
@@ -39,6 +40,6 @@ export async function readEvents(since = 0) {
 
 export async function clearEvents() {
   try {
-    await writeFile(BUFFER_FILE, "");
+    await writeFile(getBufferFile(), "");
   } catch {}
 }

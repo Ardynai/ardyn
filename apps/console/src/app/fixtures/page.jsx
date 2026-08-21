@@ -1,47 +1,45 @@
-// M6: Fixture Gallery — browse boundary maps and phase records
+// Ardyn Console — Fixtures Gallery
+// Browse boundary maps, phase records, and test fixtures
 export default function FixturesPage() {
   const categories = [
-    { name: "Host Policy", count: 158, path: "tests/fixtures/host-policy/" },
-    { name: "Command Surface", count: 12, path: "tests/fixtures/command-surface/" },
-    { name: "Source Guards", count: 11, path: "tests/fixtures/source-guards/" },
-    { name: "Minimal Manifest", count: 1, path: "examples/minimal-manifest/" },
+    { name: "Host Policy", count: 158, path: "tests/fixtures/host-policy" },
+    { name: "Schema Validation", count: 103, path: "tests/fixtures/schemas" },
+    { name: "Source Guards", count: 24, path: "tests/fixtures/source-guards" },
+    { name: "Manifests", count: 12, path: "examples" },
+    { name: "Federation", count: 8, path: "packages/fabric/fixtures" },
+    { name: "Loop State", count: 7, path: "tests/fixtures/loop-state" },
   ];
 
   return (
-    <div className="space-y-6">
-      <nav aria-label="Breadcrumb" className="text-sm text-[var(--text-secondary)]">
-        <a href="/" aria-label="Dashboard">Dashboard</a> › <span aria-current="page">Fixtures</span>
+    <div className="fade-in" style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}>
+      <nav aria-label="Breadcrumb" className="breadcrumb">
+        <span style={{ color: "var(--text-muted)" }}>Console</span>
+        <span style={{ color: "var(--text-muted)" }}>/</span>
+        <span aria-current="page" style={{ color: "var(--text-secondary)" }}>Fixtures</span>
       </nav>
-      <div>
-        <h2 className="text-2xl font-bold mb-1">Fixture Gallery</h2>
-        <p className="text-sm text-[var(--text-secondary)]">Browse boundary-map fixtures and phase metadata records</p>
+
+      <div className="page-header">
+        <h1 className="page-title">Fixtures</h1>
+        <p className="page-description">Boundary maps, phase records, and test fixtures</p>
       </div>
 
-      <section aria-label="Fixture categories" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {categories.length === 0 ? (
-          <div role="status" aria-label="No fixtures" className="card p-6">
-            <p className="text-sm text-[var(--text-secondary)]">No fixtures found.</p>
-          </div>
-        ) : (
-          categories.map((cat) => (
-            <article key={cat.name} className="card p-5 card-hover" role="region" aria-label={`${cat.name} fixtures`}>
-              <h3 className="text-lg font-semibold">{cat.name}</h3>
-              <p className="kpi-value mt-2">{cat.count}</p>
-              <p className="text-xs text-[var(--text-secondary)] mt-1">{cat.path}</p>
-            </article>
-          ))
-        )}
+      <section aria-label="Fixture categories" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "var(--space-4)" }}>
+        {categories.map((cat) => (
+          <article key={cat.name} className="card card-hover" style={{ padding: "var(--space-6)" }} role="listitem">
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--space-3)" }}>
+              <h3 style={{ fontSize: "var(--text-base)", fontWeight: 600 }}>{cat.name}</h3>
+              <span className="badge badge-info">{cat.count}</span>
+            </div>
+            <code style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", fontFamily: "monospace" }}>{cat.path}</code>
+          </article>
+        ))}
       </section>
 
-      <section aria-label="Schema validation" className="card p-6">
-        <h3 className="text-lg font-semibold mb-4">JSON Schema Validation</h3>
-        <ul role="list" className="space-y-2">
-          <li className="flex justify-between"><span className="text-sm">Manifest schema</span><span className="badge badge-success">validated</span></li>
-          <li className="flex justify-between"><span className="text-sm">Task schema</span><span className="badge badge-success">validated</span></li>
-          <li className="flex justify-between"><span className="text-sm">Session event schema</span><span className="badge badge-success">validated</span></li>
-          <li className="flex justify-between"><span className="text-sm">Boundary-map schemas</span><span className="badge badge-success">103 schemas</span></li>
-        </ul>
-      </section>
+      {categories.length === 0 && (
+        <div className="card" style={{ padding: "var(--space-8)", textAlign: "center" }} role="status">
+          <p style={{ color: "var(--text-muted)" }}>No fixtures found.</p>
+        </div>
+      )}
     </div>
   );
 }
