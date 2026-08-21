@@ -124,6 +124,30 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 - Constant-time HMAC comparison for gateway webhook verification
 - No secrets committed; all tokens from env / gitignored `config/secret/`
 
+## Phase Documentation
+
+Pre-runtime phases (static contracts, no live runtime):
+- [Phase 4.0C — Pre-runtime Transport Policy](docs/phase-4-0c-pre-runtime-transport-policy.md)
+- [Phase 4.0D — Rust Host Transport Policy Contracts](docs/phase-4-0d-rust-host-transport-policy-contracts.md)
+- [Phase 4.0E — Rust Host Policy Metadata](docs/phase-4-0e-rust-host-policy-metadata.md)
+- [Phase 4.0F — Host Policy Review Records](docs/phase-4-0f-host-policy-review-records.md)
+- [Phase 4.0G — Host Policy Review Comparison](docs/phase-4-0g-host-policy-review-comparison.md)
+- [Phase 4.0H — Reviewer Handoff Index](docs/phase-4-0h-reviewer-handoff-index.md)
+- [Phase 4.0I — Final Pre-runtime Readiness](docs/phase-4-0i-final-pre-runtime-readiness.md)
+- [Phase 4 Stdio Dry-run Event Emission](docs/phase-4-stdio-dry-run-event-emission.md)
+
+Runtime proposal phases:
+- [Phase 4.1 — Runtime Proposal](docs/phase-4-1-runtime-proposal.md)
+- [Phase 4.1A — Host Policy Approval Records](docs/phase-4-1a-host-policy-approval-records.md)
+- [Phase 4.1B — Transport Harness Contracts](docs/phase-4-1b-transport-harness-contracts.md)
+- [Phase 4.1C — Framing and Redaction Contracts](docs/phase-4-1c-framing-redaction-contracts.md)
+- [Phase 4.1D — Transcript Replay Contracts](docs/phase-4-1d-transcript-replay-contracts.md)
+- [Phase 4.1E — Failure Audit and Kill Semantics](docs/phase-4-1e-failure-audit-kill-semantics.md)
+- [Phase 4.1F — Runtime Readiness Checkpoint](docs/phase-4-1f-runtime-readiness-checkpoint.md)
+- [Phase 4.1G — External Review Packet](docs/phase-4-1g-external-review-packet.md)
+- [Phase 4.1H — External Review Disposition](docs/phase-4-1h-external-review-disposition.md)
+- [Phase 4.1I — Rust Host Stdio Harness](docs/phase-4-1i-rust-host-stdio-harness.md)
+
 ## Roadmap
 
 - Federation content exchange (requires explicit authorization)
