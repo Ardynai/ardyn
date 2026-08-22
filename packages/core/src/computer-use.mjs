@@ -21,6 +21,7 @@ import {
   writeActionAuditRecord,
   redactCapturedText,
 } from "./processor-pipeline.mjs";
+import { metrics } from "./metrics.mjs";
 
 // M15: redaction moved to processor-pipeline.mjs; re-exported for compatibility
 // (CLI and tests import it from here).
@@ -130,6 +131,9 @@ export function createGateway(options = {}) {
       ctx.target = ctx.action; // pre transforms patch the effective action
 
       const pre = await runProcessors(processors, "pre", ctx);
+
+      // M16 metrics — aggregate outcome only; never label with action text/details
+      metrics.counter("ardyn_computer_use_actions_total", { outcome: pre.allowed ? "allowed" : "denied" });
 
       // Record-before-act invariant: exactly one authoritative row per evaluation,
       // even if a custom chain lacks or misorders the audit-record processor.
@@ -318,6 +322,7 @@ export function createSandboxSession(options = {}) {
         containerId = result.stdout.trim() || `ardyn-sandbox-${config.sessionId}`;
         alive = true;
         audit.record({ action: "sandbox_spawned", containerId, timestamp: new Date().toISOString() });
+        metrics.counter("ardyn_runtime_sessions_started_total");
         return { spawned: true, containerId };
       } catch (err) {
         // M11-real: spawn error is caught and audited, NOT crashed
@@ -376,6 +381,7 @@ export function createSandboxSession(options = {}) {
       alive = false;
       killedReason = "kill_switch";
       audit.record({ action: "kill_switch_activated", timestamp: new Date().toISOString() });
+      metrics.counter("ardyn_runtime_sessions_killed_total");
       // REAL: docker kill
       if (!options.dryRun && options.approved) {
         const { cmd, args } = buildKillCommand();
@@ -389,6 +395,7 @@ export function createSandboxSession(options = {}) {
       alive = false;
       destroyReason = "session_end";
       audit.record({ action: "session_ended", timestamp: new Date().toISOString() });
+      metrics.counter("ardyn_runtime_sessions_killed_total");
       // REAL: docker rm -f
       if (!options.dryRun && options.approved) {
         const { cmd, args } = buildRmCommand();

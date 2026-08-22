@@ -11,6 +11,7 @@
 
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { runProcessors } from "../../core/src/processor-pipeline.mjs";
+import { metrics } from "../../core/src/metrics.mjs";
 
 // ── Constant-time comparison helper ──
 function safeCompare(a, b) {
@@ -154,6 +155,9 @@ export function createGateway(options = {}) {
   const knownUsers = new Set();
   // M15: pluggable processor chain (same contract as the computer-use gateway).
   const processors = Array.isArray(options.processors) ? options.processors : [];
+  // M16: inject a cross-instance rate limiter (e.g. createDbRateLimiter(db)) for
+  // multi-instance deployments. Default is per-process only.
+  const customRateLimiter = typeof options.rateLimiter === "function" ? options.rateLimiter : null;
 
   return {
     adapters,
@@ -162,6 +166,8 @@ export function createGateway(options = {}) {
 
     // Handle an inbound message — deny-by-default on unknown senders
     handleInbound({ platform, platformUserId, body, signature, timestamp }) {
+      // M16 metrics — channel label only; never message content
+      metrics.counter("ardyn_gateway_messages_total", { platform: String(platform ?? "unknown") });
       const adapter = adapters[platform];
       if (!adapter) {
         return { allowed: false, reason: "unknown_platform" };
@@ -232,6 +238,11 @@ export function createGateway(options = {}) {
 
     // Rate limit per user
     checkRateLimit(userId) {
+      if (customRateLimiter) return customRateLimiter(userId, rateLimitPerUser);
+      // ponytail: in-memory per-process limiter — counts are NOT shared across
+      // instances; with N instances each user effectively gets N × rateLimitPerUser.
+      // Ceiling: single-instance correctness. Upgrade path: pass
+      // createDbRateLimiter(db) from data-auth.mjs as options.rateLimiter.
       const count = userRequestCounts.get(userId) ?? 0;
       if (count >= rateLimitPerUser) return false;
       userRequestCounts.set(userId, count + 1);

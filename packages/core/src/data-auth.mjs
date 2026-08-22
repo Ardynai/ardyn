@@ -63,6 +63,10 @@ export function revokePermission(db, role, capability) {
 // M3: Rate limiting — simple in-memory token bucket
 const rateLimitBuckets = new Map();
 export function checkRateLimit(key, maxRequests = 100, windowMs = 60000) {
+  // ponytail: in-memory per-process limiter — counts are NOT shared across
+  // instances; with N instances each key effectively gets N × maxRequests.
+  // Ceiling: single-instance correctness. Upgrade path: createDbRateLimiter(db)
+  // below, which is correct across instances sharing one SQLite DB.
   const now = Date.now();
   const bucket = rateLimitBuckets.get(key) ?? { count: 0, resetAt: now + windowMs };
   if (now > bucket.resetAt) {
@@ -72,6 +76,49 @@ export function checkRateLimit(key, maxRequests = 100, windowMs = 60000) {
   bucket.count++;
   rateLimitBuckets.set(key, bucket);
   return bucket.count <= maxRequests;
+}
+
+// M16: DB-backed fixed-window rate limiter — correct across MULTIPLE instances
+// sharing the same SQLite database. Each check runs inside BEGIN IMMEDIATE, so
+// concurrent instances serialize on SQLite's single-writer lock: counts are
+// shared and windows roll over exactly once, no matter which instance asks.
+export function createDbRateLimiter(db, { maxRequests = 100, windowMs = 60000, busyTimeoutMs = 5000 } = {}) {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS rate_limits (
+      key TEXT PRIMARY KEY,
+      count INTEGER NOT NULL,
+      reset_at INTEGER NOT NULL
+    );
+    PRAGMA busy_timeout = ${Number(busyTimeoutMs)};
+  `);
+  const select = db.prepare("SELECT count, reset_at FROM rate_limits WHERE key = ?");
+  const insert = db.prepare("INSERT INTO rate_limits (key, count, reset_at) VALUES (?, 1, ?)");
+  const bump = db.prepare("UPDATE rate_limits SET count = count + 1 WHERE key = ?");
+  const reset = db.prepare("UPDATE rate_limits SET count = 1, reset_at = ? WHERE key = ?");
+  return function checkDbRateLimit(key, maxRequestsOverride = maxRequests, windowMsOverride = windowMs) {
+    // ponytail: per-key window is fixed by the FIRST insert; windowMsOverride on
+    // later calls only applies at the next rollover. Fixed-window (not sliding).
+    // Upgrade path: token-bucket rows if burst smoothing is ever needed.
+    const now = Date.now();
+    db.exec("BEGIN IMMEDIATE");
+    try {
+      const row = select.get(key);
+      let count;
+      if (!row || now > row.reset_at) {
+        if (row) reset.run(now + windowMsOverride, key);
+        else insert.run(key, now + windowMsOverride);
+        count = 1;
+      } else {
+        bump.run(key);
+        count = row.count + 1;
+      }
+      db.exec("COMMIT");
+      return count <= maxRequestsOverride;
+    } catch (err) {
+      db.exec("ROLLBACK");
+      throw err;
+    }
+  };
 }
 
 // M3: Secrets management — env-only, never persisted

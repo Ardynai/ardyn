@@ -3,6 +3,8 @@
 // Model: Hermes group_sessions_per_user — each user gets their own isolated sessions.
 // One user can never see or control another user's sessions, sandboxes, or data.
 
+import { metrics } from "./metrics.mjs";
+
 export async function createMultiUserDatabase(dbPath = ":memory:") {
   const { DatabaseSync } = await import("node:sqlite");
   const db = new DatabaseSync(dbPath);
@@ -64,7 +66,11 @@ export function createUser(db, { username, passwordHash, role = "user" }) {
 
 export function authenticateUser(db, username, passwordHash) {
   const row = db.prepare("SELECT * FROM users WHERE username = ? AND password_hash = ?").get(username, passwordHash);
-  if (!row) return null;
+  if (!row) {
+    // M16 metrics — aggregate failure count only; never label with username
+    metrics.counter("ardyn_auth_failures_total");
+    return null;
+  }
   return { id: row.id, username: row.username, role: row.role };
 }
 
