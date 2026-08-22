@@ -9,6 +9,9 @@
     ".": {
       "types": "./src/index.d.ts",
       "default": "./src/index.mjs"
+    },
+    "./metrics": {
+      "default": "./src/metrics.mjs"
     }
   },
   "dependencies": {

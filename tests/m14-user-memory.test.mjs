@@ -1,9 +1,7 @@
 // M14: Per-user memory — per-user profile, cross-session recall, strict isolation
 import assert from "node:assert/strict";
-import { mkdtemp, rm } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
 import test from "node:test";
+import { makeTempSqliteDb } from "./helpers/sqlite-temp.mjs";
 import {
   createUserMemoryDatabase,
   saveMemory,
@@ -15,9 +13,9 @@ import {
 } from "../packages/core/src/user-memory.mjs";
 
 async function makeDb() {
-  const dir = await mkdtemp(join(tmpdir(), "ardyn-m14-"));
-  const db = await createUserMemoryDatabase(join(dir, "memory.db"));
-  return { db, dir, cleanup: () => rm(dir, { recursive: true, force: true }) };
+  // Unique temp dir per call; cleanup() closes the DB handle BEFORE removing
+  // the dir (with retries) — fixes the Windows EBUSY flakes. Assertions unchanged.
+  return makeTempSqliteDb(createUserMemoryDatabase, "memory");
 }
 
 // ── Per-user memory save/get ──
@@ -29,7 +27,7 @@ test("M14: saveMemory + getMemory — per-user storage", async () => {
     const mem = getMemory(db, { userId: "alice", key: "preference" });
     assert.ok(mem, "memory should be retrievable");
     assert.equal(mem.value, "prefers concise responses");
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });
 
 // ── CRITICAL: per-user isolation ──
@@ -48,7 +46,7 @@ test("M14: user A cannot see user B's memory (CRITICAL isolation test)", async (
     const bobSeeingAlice = getMemory(db, { userId: "bob", key: "secret" });
     assert.equal(bobSeeingAlice.value, "bob's secret", "bob must see his own, not alice's");
     assert.notEqual(bobSeeingAlice.value, "alice's secret", "bob must NOT see alice's memory");
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });
 
 // ── Cross-session search ──
@@ -67,7 +65,7 @@ test("M14: searchMemory searches across all memories for a user", async () => {
     for (const r of results) {
       assert.equal(r.userId, "alice", "search results must be scoped to the user");
     }
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });
 
 // ── User profile ──
@@ -80,7 +78,7 @@ test("M14: saveUserProfile + getUserProfile — per-user evolving profile", asyn
     assert.equal(profile.name, "Alice");
     assert.equal(profile.role, "developer");
     assert.equal(profile.preferences.theme, "dark");
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });
 
 test("M14: user profile is isolated per user", async () => {
@@ -95,7 +93,7 @@ test("M14: user profile is isolated per user", async () => {
       getUserProfile(db, { userId: "bob" }).name,
       "profiles must be different"
     );
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });
 
 // ── Memory summarization ──
@@ -108,5 +106,5 @@ test("M14: summarizeMemory returns a compact summary of user's memories", async 
     const summary = summarizeMemory(db, { userId: "alice" });
     assert.ok(summary.totalMemories >= 2, "summary should count memories");
     assert.ok(summary.keys, "summary should list keys");
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });

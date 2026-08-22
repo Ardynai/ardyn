@@ -81,9 +81,17 @@ export function createTodo(db, { goalId, title, description }) {
 
 export function claimTodo(db, { todoId, claimedBy }) {
   const now = new Date().toISOString();
-  db.prepare("UPDATE todos SET status = 'claimed', claimed_by = ?, updated_at = ? WHERE id = ?").run(claimedBy, now, todoId);
-  const row = db.prepare("SELECT * FROM todos WHERE id = ?").get(todoId);
-  return { id: row.id, status: row.status, claimedBy: row.claimed_by };
+  // M16: ATOMIC claim — only succeeds when the todo is unclaimed. Two instances
+  // sharing one DB can never both win; the loser gets ok:false, not a silent
+  // overwrite of someone else's claim.
+  const result = db.prepare(
+    "UPDATE todos SET status = 'claimed', claimed_by = ?, updated_at = ? WHERE id = ? AND (status = 'pending' OR claimed_by IS NULL)"
+  ).run(claimedBy, now, todoId);
+  if (result.changes === 0) {
+    const current = db.prepare("SELECT claimed_by FROM todos WHERE id = ?").get(todoId);
+    return { id: todoId, status: "claimed", claimedBy: current?.claimed_by ?? null, ok: false };
+  }
+  return { id: todoId, status: "claimed", claimedBy: claimedBy, ok: true };
 }
 
 export function releaseTodo(db, { todoId }) {
@@ -129,9 +137,12 @@ export function spendQuota(db, { goalId, amount = 1 }) {
   let row = db.prepare("SELECT spent FROM quota WHERE goal_id = ?").get(goalId);
   if (!row) {
     db.prepare("INSERT INTO quota (goal_id, spent, max) VALUES (?, 0, 10)").run(goalId);
-    row = { spent: 0 };
   }
-  db.prepare("UPDATE quota SET spent = spent + ? WHERE goal_id = ?").run(amount, goalId);
+  // M16: ATOMIC conditional spend — admitted only when spent+amount <= max.
+  // Two instances racing on the same goal can never overshoot the cap; the
+  // loser's UPDATE matches zero rows. Returns whether the spend was admitted.
+  const result = db.prepare("UPDATE quota SET spent = spent + ? WHERE goal_id = ? AND spent + ? <= max").run(amount, goalId, amount);
+  return result.changes > 0;
 }
 
 export function checkPublicPrivateBoundary(db, { goalId }) {
