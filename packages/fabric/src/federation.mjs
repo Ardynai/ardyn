@@ -395,7 +395,7 @@ async function getSidecarContent(config, contentId, options) {
       code: "response_content_id_mismatch",
     });
   }
-  return Buffer.from(await response.arrayBuffer());
+  return readBodyCapped(response, config, options);
 }
 
 async function postReachability(config, path, options) {
@@ -520,6 +520,8 @@ function normalizeFederationConfig(options) {
     registryToken: requireText(options.registryToken, "registryToken"),
     sidecarBaseUrl: trimTrailingSlash(sidecarBaseUrl),
     sidecarToken: requireText(options.sidecarToken, "sidecarToken"),
+    // M20: honor the configured streamed-response cap (was silently dropped).
+    maxResponseBytes: normalizePositiveInteger(options.maxResponseBytes ?? 16 * 1024 * 1024, "maxResponseBytes", 1),
     timeoutMs: normalizePositiveInteger(options.timeoutMs ?? 30_000, "timeout", 1),
   };
 }
@@ -611,7 +613,8 @@ function inboundEnvelopes(payload) {
 
 async function requestJson(url, init, config, options = {}) {
   const response = await requestRaw(url, init, config, options);
-  const text = await response.text();
+  const buffer = await readBodyCapped(response, config, options);
+  const text = buffer.toString("utf8");
   try {
     return text ? JSON.parse(text) : {};
   } catch {
@@ -690,6 +693,47 @@ function encodeBody(body) {
 
 function isByteBody(value) {
   return Buffer.isBuffer(value) || value instanceof Uint8Array;
+}
+
+// M20: response-size cap must count STREAMED bytes, not just content-length
+// (a hostile sidecar can omit or lie about the header). Receive is live now,
+// so every raw body read goes through this incremental guard.
+function maxResponseCap(options = {}, config = {}) {
+  const configured = options.maxResponseBytes ?? config.maxResponseBytes ?? 16 * 1024 * 1024;
+  // allow explicit 0 = unlimited? No — fail closed: minimum is 1 byte.
+  return normalizePositiveInteger(configured, "maxResponseBytes", 1);
+}
+
+async function readBodyCapped(response, config, options = {}) {
+  const maxBytes = maxResponseCap(options, config);
+  const hasStream = response.body && typeof response.body.getReader === "function";
+  if (!hasStream) {
+    const buffer = Buffer.from(await response.arrayBuffer());
+    if (buffer.byteLength > maxBytes) {
+      throw new FabricFederationError(
+        `Fabric federation response exceeds size cap (${buffer.byteLength} > ${maxBytes} bytes).`,
+        { code: "response_too_large" }
+      );
+    }
+    return buffer;
+  }
+  const reader = response.body.getReader();
+  const chunks = [];
+  let total = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value?.byteLength ?? 0;
+    if (total > maxBytes) {
+      try { reader.cancel(); } catch { /* already errored */ }
+      throw new FabricFederationError(
+        `Fabric federation streamed response exceeds size cap (${total} > ${maxBytes} bytes).`,
+        { code: "response_too_large" }
+      );
+    }
+    chunks.push(Buffer.from(value));
+  }
+  return Buffer.concat(chunks);
 }
 
 function registryUrl(config, path) {
