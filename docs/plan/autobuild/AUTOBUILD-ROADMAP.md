@@ -123,3 +123,17 @@ When M0–M8 are done (or a budget cap is hit) with the targeted suite green and
 - Ardyn bundles NO default model — this is the BYO-provider seam
 - Pattern adapted from Vision-Agents native-API-per-provider (MIT) — not vendored
 - Status: complete
+
+## M18: RAG per-user memory (Vision-Agents pattern)
+- Semantic recall for M14 memory: per-item embeddings + top-k cosine retrieval
+- Embeddings via the Batch-3 provider-adapter (openai /embeddings, gemini
+  :embedContent) with createAdapterEmbedder(); keys env/secret-file,
+  fail-closed; injected fakes in tests — NEVER torch/transformers
+- Vectors stored in SQLite rows (JSON); SQL user_id prefilter + in-process
+  cosine — no vector-DB dep. ponytail ceiling: O(n) over one user's items;
+  upgrade path sqlite-vec
+- Isolation floor: recall prefilters by user_id BEFORE scoring — user A's
+  query never returns user B's memory (CRITICAL tests, both directions)
+- Pre-M18 DBs migrated in place (idempotent ALTER TABLE)
+- Pattern adapted from Vision-Agents RAG pattern (MIT) — not vendored
+- Status: complete

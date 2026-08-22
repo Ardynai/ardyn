@@ -326,3 +326,45 @@ Full suite: 1380 tests — 1376 pass, 4 fail (the pre-existing Windows
 node:sqlite EBUSY cleanup failures on m10/m11-cleanup/m12/m14 — reproduce
 identically on a clean main worktree). Also ports the Windows pathToFileURL
 CLI import fix so m4-federation/m9-computer-use pass on Windows.
+
+### 2026-08-21T03:00Z — M18: RAG per-user memory — semantic recall with strict isolation
+
+Extended M14 per-user memory with real semantic recall, adapting Vision-Agents'
+RAG pattern (MIT — not vendored).
+
+Embeddings (no torch/transformers, ever):
+- provider-adapter.mjs extended: embed({model, input}) -> { vector, vectors }
+  for openai (/embeddings) and gemini (:embedContent, header key) + factory
+  createAdapterEmbedder({provider, model, apiKeyEnv, ...}) -> async (text) =>
+  number[]. Keys via env / gitignored config/secret/provider-keys.json,
+  fail-closed before any fetch, never logged/in errors (same hygiene as M17).
+  Tests use INJECTED fake embeddings only — no live API.
+
+Storage + retrieval (documented choice + ceiling):
+- user_memories gains embedding / embedding_model columns; idempotent
+  ensureMemoryEmbeddingColumns(db) migrates pre-M18 DBs in place and
+  self-heals companion tables. Legacy M14 functions unchanged.
+- Vectors stored IN the SQLite rows as JSON float arrays; recall prefilters
+  WHERE user_id = ? in SQL then ranks by in-process cosineSimilarity.
+  ponytail: O(n) over ONE user's items per query — fine at per-user scale;
+  upgrade path: sqlite-vec extension or chunked prefilter if ever needed.
+  No vector-DB dependency.
+- createMemoryStore(db, {embedFn, model}): remember() stores item WITH
+  embedding (embedding failure fails closed — no half-ready items);
+  recall({userId, query, k}) returns top-k {key, value, score}. Items saved
+  without embeddings are skipped by semantic recall (keyword path from M14
+  still works).
+
+Isolation floor:
+- recall candidates are filtered by user_id BEFORE scoring — cross-user
+  leakage is structurally impossible. CRITICAL test proves user A's query
+  never returns user B's memory even when B holds a globally higher-ranked
+  near-duplicate, both directions, plus a raw SQL scope assertion.
+
+Tests: tests/m18-rag-memory.test.mjs (+11): cosine basics incl. NaN guards;
+remember persists embedding+model; embedding failure fails closed; top-k
+ordering; missing-embedFn fails loud; legacy rows skipped; CRITICAL isolation;
+pre-M18 migration; adapter embed() request/response for openai + gemini;
+end-to-end store-on-adapter-embedder isolation roundtrip.
+Full suite: 1391 tests — 1387 pass, 4 fail (the documented pre-existing
+Windows node:sqlite EBUSY set; unchanged).

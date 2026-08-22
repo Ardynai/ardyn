@@ -79,6 +79,22 @@ const openaiFormat = {
       return null;
     }
   },
+  // M18 embeddings (RAG memory): uniform embed({model, input}) support
+  buildEmbedRequest({ baseUrl, apiKey, request }) {
+    return {
+      url: `${baseUrl.replace(/\/$/, "")}/embeddings`,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${apiKey}`,
+      },
+      body: { model: request.model, input: request.input },
+    };
+  },
+  parseEmbedResponse(json) {
+    const data = Array.isArray(json?.data) ? json.data : [];
+    const vectors = data.map(d => d.embedding ?? []);
+    return { vector: vectors[0] ?? [], vectors };
+  },
 };
 
 // Built-in format: Google Gemini (Generative Language API)
@@ -122,6 +138,20 @@ const geminiFormat = {
     } catch {
       return null;
     }
+  },
+  buildEmbedRequest({ baseUrl, apiKey, request }) {
+    return {
+      url: `${baseUrl.replace(/\/$/, "")}/models/${encodeURIComponent(request.model)}:embedContent`,
+      headers: {
+        "content-type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: { content: { parts: [{ text: request.input }] } },
+    };
+  },
+  parseEmbedResponse(json) {
+    const vector = json?.embedding?.values ?? [];
+    return { vector, vectors: [vector] };
   },
 };
 
@@ -214,6 +244,37 @@ export function createProviderAdapter(options = {}) {
       return { provider, model: req.model, ...parsed, raw };
     },
 
+    // Uniform embeddings call -> { provider, model, vector, vectors } (M18 RAG)
+    async embed(request) {
+      if (typeof format.buildEmbedRequest !== "function") {
+        throw new Error(`Provider "${provider}" does not support embeddings`);
+      }
+      const apiKey = resolveApiKey({ apiKeyEnv, secretFile, provider });
+      const req = { model: defaultModel, ...request };
+      if (!req.model) throw new Error(`Provider "${provider}" embed request requires a model`);
+      const built = format.buildEmbedRequest({
+        baseUrl: baseUrl ?? format.defaultBaseUrl,
+        apiKey,
+        request: req,
+      });
+      let res;
+      try {
+        res = await fetchImpl(built.url, {
+          method: "POST",
+          headers: built.headers,
+          body: JSON.stringify(built.body),
+        });
+      } catch (err) {
+        throw new Error(redact(`${provider} embed failed: ${err?.message ?? err}`, apiKey));
+      }
+      if (!res.ok) {
+        throw new Error(redact(`${provider} embed failed: HTTP ${res.status} ${res.statusText ?? ""}`.trim(), apiKey));
+      }
+      const raw = await res.json();
+      const parsed = format.parseEmbedResponse(raw);
+      return { provider, model: req.model, ...parsed };
+    },
+
     // Uniform streaming call -> async generator of { delta } chunks.
     async *stream(request) {
       const { apiKey, built, req } = await prepare({ ...request, stream: true });
@@ -236,6 +297,16 @@ export function createProviderAdapter(options = {}) {
         if (chunk) yield { provider, model: req.model, ...chunk };
       }
     },
+  };
+}
+
+// Embedder factory for RAG memory: returns async (text) => number[] using the
+// adapter's embed() (key from env/secret file — fail-closed, never logged).
+export function createAdapterEmbedder({ provider, model, baseUrl, apiKeyEnv, secretFile, fetchImpl } = {}) {
+  const adapter = createProviderAdapter({ provider, baseUrl, apiKeyEnv, secretFile, fetchImpl, model });
+  return async function embed(text) {
+    const res = await adapter.embed({ model, input: String(text ?? "") });
+    return res.vector;
   };
 }
 
