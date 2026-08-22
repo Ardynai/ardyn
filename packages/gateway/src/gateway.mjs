@@ -10,6 +10,7 @@
 // the SAME approval + kill + audit + redaction gates — the gateway never bypasses them.
 
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { runProcessors } from "../../core/src/processor-pipeline.mjs";
 
 // ── Constant-time comparison helper ──
 function safeCompare(a, b) {
@@ -151,10 +152,13 @@ export function createGateway(options = {}) {
   const rateLimitPerUser = options.rateLimitPerUser ?? 100;
   const userRequestCounts = new Map();
   const knownUsers = new Set();
+  // M15: pluggable processor chain (same contract as the computer-use gateway).
+  const processors = Array.isArray(options.processors) ? options.processors : [];
 
   return {
     adapters,
     rateLimitPerUser,
+    processors,
 
     // Handle an inbound message — deny-by-default on unknown senders
     handleInbound({ platform, platformUserId, body, signature, timestamp }) {
@@ -180,6 +184,50 @@ export function createGateway(options = {}) {
       }
 
       return { allowed: true, adapter, parsed: adapter.parseInbound(body) };
+    },
+
+    // M15: Run the pluggable processor chain around inbound message admission.
+    // Pre processors can deny/transform the message before the SAME deny-by-default
+    // handleInbound checks run; post processors transform the verdict (e.g. mask
+    // secrets in outbound text). Fail-closed: a broken processor denies.
+    async gateMessage(message) {
+      const ctx = {
+        phase: "pre",
+        action: {
+          action: "inbound_message",
+          platform: message.platform,
+          platformUserId: message.platformUserId,
+          text: message.text ?? "",
+        },
+        target: null,
+        result: null,
+        allowed: true,
+        decision: "allow",
+        auditPayloads: [],
+      };
+      ctx.target = ctx.action;
+
+      const pre = await runProcessors(processors, "pre", ctx);
+      if (!pre.allowed) {
+        return { allowed: false, refused: true, reason: pre.decision };
+      }
+
+      const verdict = this.handleInbound(message); // unchanged, authoritative
+
+      const postCtx = {
+        phase: "post",
+        action: ctx.action,
+        result: verdict,
+        target: verdict && typeof verdict === "object" ? verdict : null,
+        allowed: true,
+        decision: "allow",
+        auditPayloads: [],
+      };
+      const post = await runProcessors(processors, "post", postCtx);
+      if (!post.allowed) {
+        return { allowed: false, refused: true, reason: post.decision };
+      }
+      return postCtx.result;
     },
 
     // Rate limit per user

@@ -111,3 +111,16 @@ When M0–M8 are done (or a budget cap is hit) with the targeted suite green and
 - Extends M10 isolation tests to cover memory
 - Pattern adapted from hermes-agent (MIT) — not vendored
 - Status: complete
+
+## M15: Pluggable processor pipeline (Vision-Agents pattern)
+- Generalize the computer-use record-before-act gateway into a composable,
+  ordered pre/post processor chain; the same chain works for the chat gateway
+- Processor contract: { name, phase: "pre"|"post", process(ctx) ->
+  { action: allow|deny|transform, reason?, patch?, audit? } }
+- Fail-closed: missing/broken/throwing processor denies; deny is sticky;
+  audit record still written BEFORE acting (gateway invariant)
+- Built-ins composed from existing logic: policy-gate, audit-record,
+  redact-result (reuses redactCapturedText)
+- Computer-use stays sandboxed + approval-gated; no new CLI/runtime surface
+- Pattern adapted from Vision-Agents pluggable processors (MIT) — not vendored
+- Status: complete

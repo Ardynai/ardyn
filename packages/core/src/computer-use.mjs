@@ -13,6 +13,18 @@
 
 import { spawn as defaultSpawn } from "node:child_process";
 import { randomBytes } from "node:crypto";
+import {
+  runProcessors,
+  policyGateProcessor,
+  auditRecordProcessor,
+  redactResultProcessor,
+  writeActionAuditRecord,
+  redactCapturedText,
+} from "./processor-pipeline.mjs";
+
+// M15: redaction moved to processor-pipeline.mjs; re-exported for compatibility
+// (CLI and tests import it from here).
+export { redactCapturedText };
 
 export const SANDBOX_IMAGE = "ubuntu:22.04";
 
@@ -80,66 +92,98 @@ export function createActionAudit() {
   };
 }
 
-// Redact secrets in captured text (screenshots OCR, logs, etc.)
-export function redactCapturedText(text) {
-  if (!text || typeof text !== "string") return text;
-  return text
-    .replace(/(?:token|secret|password|api_key|apikey|api-key)\s*=\s*[^\s\n]+/gi, "REDACTED")
-    .replace(/(?:Bearer)\s+[A-Za-z0-9._-]+/gi, "Bearer REDACTED")
-    .replace(/(?:sk-)[A-Za-z0-9]{20,}/gi, "sk-REDACTED")
-    .replace(/(?:ghp_)[A-Za-z0-9]{36}/gi, "ghp_REDACTED");
-}
+// Redact secrets in captured text — moved to processor-pipeline.mjs (re-exported above).
 
-// M11: Gateway — OpenBot pattern: resolve → evaluate fail-closed policy → write audit FIRST → then act
+// M11/M15: Gateway — processor chain (fail-closed) → write audit FIRST → then act
+// Default chain: [policy-gate, audit-record] on pre + [redact-result] on post.
+// options.processors REPLACES the whole chain for full ordering control
+// (compose the exported built-in processors yourself when overriding).
 export function createGateway(options = {}) {
   const policy = options.policy;
   const audit = options.audit ?? createActionAudit();
-
-  function matchRule(action, rule) {
-    if (rule.action && action.action !== rule.action) return false;
-    if (rule.text && typeof action.text === "string") {
-      return action.text.includes(rule.text);
-    }
-    if (rule.action && action.action === rule.action && !rule.text) return true;
-    return true; // empty rule matches all (used for default allow)
-  }
+  const processors = Array.isArray(options.processors)
+    ? options.processors
+    : [
+        policyGateProcessor(policy),
+        auditRecordProcessor(audit),
+        redactResultProcessor(),
+      ];
 
   return {
-    async evaluateAction(action) {
-      const hasPolicy = policy && (policy.deny || policy.allow);
-      let allowed = false;
-      let decision = "deny";
+    audit,
+    processors,
 
-      if (!hasPolicy) {
-        allowed = false;
-        decision = "deny_no_policy";
-      } else {
-        const denyMatched = (policy.deny || []).some(r => matchRule(action, r));
-        if (denyMatched) {
-          allowed = false;
-          decision = "deny_rule";
-        } else if ((policy.allow || []).some(r => matchRule(action, r))) {
-          allowed = true;
-          decision = "allow";
-        } else {
-          allowed = false;
-          decision = "deny_no_allow";
-        }
+    // Runs all pre processors in declared order, writes the audit record BEFORE
+    // acting, then — when an executor is provided — executes and runs the post
+    // processors over the result. Without an executor it keeps the M11
+    // decision-only return shape.
+    async evaluateAction(action, execute) {
+      const ctx = {
+        phase: "pre",
+        action: { ...action },
+        target: null,
+        result: null,
+        allowed: true,
+        decision: "allow",
+        auditPayloads: [],
+      };
+      ctx.target = ctx.action; // pre transforms patch the effective action
+
+      const pre = await runProcessors(processors, "pre", ctx);
+
+      // Record-before-act invariant: exactly one authoritative row per evaluation,
+      // even if a custom chain lacks or misorders the audit-record processor.
+      if ((!ctx.auditRecord || ctx.auditWrittenDecision !== ctx.decision) &&
+          audit && typeof audit.record === "function") {
+        writeActionAuditRecord(audit, ctx);
+      }
+      const auditRecord = ctx.auditRecord;
+
+      if (!pre.allowed) {
+        return { allowed: false, decision: ctx.decision, reason: ctx.reason, auditRecord, auditRecordWrittenBefore: true };
       }
 
-      const auditRecord = {
-        action: action.action,
-        decision,
-        allowed,
-        timestamp: new Date().toISOString(),
-        auditRecordWrittenBefore: true,
-        details: { ...action },
-      };
-      audit.record(auditRecord);
+      if (!execute) {
+        return { allowed: true, decision: "allow", auditRecord, auditRecordWrittenBefore: true };
+      }
 
-      return { allowed, decision, auditRecord, auditRecordWrittenBefore: true };
+      // Execute with the effective (possibly transform-patched) action; executor
+      // errors are caught so the post chain still runs (and redacts error strings).
+      let result;
+      try {
+        result = await execute(ctx.action);
+      } catch (err) {
+        result = { status: "error", error: err?.message ?? String(err) };
+      }
+
+      const postCtx = {
+        phase: "post",
+        action: ctx.action,
+        result,
+        target: result && typeof result === "object" ? result : null,
+        allowed: true,
+        decision: "allow",
+        auditPayloads: [],
+      };
+      const post = await runProcessors(processors, "post", postCtx);
+      if (!post.allowed) {
+        // Fail closed on post: never release captured output through a broken chain.
+        result = {
+          ...(result && typeof result === "object" && result.action ? { action: result.action } : {}),
+          status: "error",
+          error: `post_processor_fail_closed:${post.decision}`,
+        };
+        audit.record({ action: "post_processor_fail_closed", processor: post.decision, timestamp: new Date().toISOString() });
+      }
+
+      return {
+        ...(result && typeof result === "object" ? result : { result }),
+        allowed: true,
+        decision: "allow",
+        auditRecord,
+        auditRecordWrittenBefore: true,
+      };
     },
-    audit,
   };
 }
 
@@ -283,34 +327,35 @@ export function createSandboxSession(options = {}) {
       }
     },
 
-    // M11-real: Execute an action through the gateway (record-before-act)
+    // M11-real/M15: Execute an action through the gateway processor pipeline
+    // (pre chain → audit-before-act → executor → post chain incl. redaction)
     async executeAction(action) {
       if (!alive) throw new Error("Sandbox session is not alive");
       if (humanControl) {
         audit.record({ action: action.action, refused: true, reason: "human_in_control", timestamp: new Date().toISOString() });
         return { refused: true, reason: "human_in_control" };
       }
-      // Gateway evaluates policy and writes audit record
-      const gateResult = await gateway.evaluateAction(action);
+      // Executor closure: run by the gateway between pre and post processors.
+      // Raw stdout is returned unredacted — the default post chain (redact-result) masks it.
+      const exec = async (effectiveAction) => {
+        audit.record({ ...effectiveAction, status: "executed", timestamp: new Date().toISOString() });
+        if (options.dryRun) {
+          return { action: effectiveAction.action, status: "dry_run", result: "planned" };
+        }
+        const { cmd, args } = buildExecCommand(effectiveAction);
+        try {
+          const result = await spawnAndWait(cmd, args);
+          return { action: effectiveAction.action, status: "executed", result: result.stdout || "" };
+        } catch (err) {
+          audit.record({ action: "exec_error", error: err.message, timestamp: new Date().toISOString() });
+          return { action: effectiveAction.action, status: "error", error: err.message };
+        }
+      };
+      const gateResult = await gateway.evaluateAction(action, exec);
       if (!gateResult.allowed) {
         return { refused: true, reason: gateResult.decision, auditRecord: gateResult.auditRecord };
       }
-      audit.record({ ...action, status: "executed", timestamp: new Date().toISOString() });
-
-      if (options.dryRun) {
-        return { action: action.action, status: "dry_run", result: "planned", auditRecord: gateResult.auditRecord };
-      }
-
-      // M11-real: REAL docker exec into the container
-      const { cmd, args } = buildExecCommand(action);
-      try {
-        const result = await spawnAndWait(cmd, args);
-        const output = redactCapturedText(result.stdout || "");
-        return { action: action.action, status: "executed", result: output, auditRecord: gateResult.auditRecord };
-      } catch (err) {
-        audit.record({ action: "exec_error", error: err.message, timestamp: new Date().toISOString() });
-        return { action: action.action, status: "error", error: err.message, auditRecord: gateResult.auditRecord };
-      }
+      return gateResult;
     },
 
     // M11: Take the wheel — human handoff on login/2FA
