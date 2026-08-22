@@ -319,6 +319,7 @@ test("M15: chat gateway gateMessage runs processors around inbound checks", asyn
   };
   const chat = gw.createGateway({
     adapters: { test: stubAdapter },
+    allowedSenders: [{ platform: "test", platformUserId: "u1" }],
     processors: [
       { name: "log-pre", phase: "pre", process: async () => { order.push("pre"); return { action: "allow" }; } },
       { name: "mask-out", phase: "post", process: async (ctx) => {
@@ -354,6 +355,7 @@ test("M15: chat gateway deny processor blocks admission (handleInbound never rea
   };
   const chat = gw.createGateway({
     adapters: { test: stubAdapter },
+    allowedSenders: [{ platform: "test", platformUserId: "u1" }],
     processors: [
       { name: "spam-block", phase: "pre", process: async (ctx) =>
         ctx.action.text?.includes("BUY NOW") ? { action: "deny", reason: "spam" } : { action: "allow" }
@@ -387,6 +389,7 @@ test("M15: chat gateway fails closed on broken processor", async () => {
   const gw = await import("../packages/gateway/src/gateway.mjs");
   const chat = gw.createGateway({
     adapters: {},
+    allowedSenders: [{ platform: "test", platformUserId: "u1" }],
     processors: [{ name: "broken", phase: "pre", process() { throw new Error("nope"); } }],
   });
   const verdict = await chat.gateMessage({ platform: "test", platformUserId: "u1", body: "{}", signature: "s", timestamp: "t", text: "" });

@@ -1,9 +1,9 @@
 {
-  "apps/cli/src/index.mjs": "686513bbbd0a7715ef3d38003c12e1952c432bb7a9f39cdeae711ed0bdd1a9d5",
+  "apps/cli/src/index.mjs": "88774bda8ec4e42955f8823a3881224d604062daa6f9a2e3b89fa5bafe47315b",
   "crates/ardyn-host/src/lib.rs": "00d0bd872d641a3d7fe40866df87bcd97678f879dc05072300567066fb4b34ae",
   "crates/ardyn-host/src/stdio_runtime/mod.rs": "b8bb983a5f09e788d396252af51970d5100c70bf7a3700efd38b8a747cffc3da",
   "packages/fabric/src/index.mjs": "b27046152938382fc6c1b0c3346d0ed75d28c4a698a0aa2d1e44c646de3af301",
-  "packages/fabric/src/federation.mjs": "6d2067d653cb16646f7f943422a524233723ad71662900af7aeba45b41c513e8",
+  "packages/fabric/src/federation.mjs": "4a3b20d63117bbf89687c6c8be0962c644cb8a970bf2d1cbc2d712bca38bbdf7",
   "package.json": "7ec7898bd0ad4a3574aed3e6abd21b7bb32905008e1237188f63474c13e6f82a",
   "package-lock.json": "3b02c6049ee1269cf8c1436f929a756f56f18272fcd28c33d95f9940bab41cbe",
   "Cargo.toml": "d003e3c3a8fb6c563ae23d200664ecb1f982dab234e5bfa8e00e691b727407b6",

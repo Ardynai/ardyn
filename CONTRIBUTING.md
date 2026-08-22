@@ -48,7 +48,7 @@ metadata report that lists verification commands.
 
 ARDYN is in build mode: `serve-runtime` is enabled under explicit `--enable-runtime`
 and `--approve` flags (see `docs/plan/autobuild/SECURITY-INVARIANTS.md`). The
-Fabric Federation consumer client is hardened but NOT wired into CLI/host. Do not
+Fabric Federation consumer client is hardened and WIRED into the CLI as a gated surface (federation send-handoff/receive-handoff behind --enable-federation-exchange --approve). Do not
 add live process spawning, network listeners, plugin installation, adapter calls,
 approval grants, database writes, or CI workflow changes unless the task explicitly
 asks for that behavior.

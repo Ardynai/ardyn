@@ -151,41 +151,52 @@ export function mapUserToArdyn({ platform, platformUserId, username }) {
 export function createGateway(options = {}) {
   const adapters = options.adapters ?? {};
   const rateLimitPerUser = options.rateLimitPerUser ?? 100;
-  const userRequestCounts = new Map();
+  // Credibility pass: deny-by-default is now REAL. Only explicitly registered
+  // senders (via options.allowedSenders or registerUser()) are admitted; every
+  // other sender is rejected as unknown_sender. No auto-registration.
   const knownUsers = new Set();
+  for (const entry of options.allowedSenders ?? []) {
+    knownUsers.add(typeof entry === "string" && entry.includes(":")
+      ? entry
+      : `${entry.platform ?? ""}:${entry.platformUserId ?? ""}`);
+  }
   // M15: pluggable processor chain (same contract as the computer-use gateway).
   const processors = Array.isArray(options.processors) ? options.processors : [];
   // M16: inject a cross-instance rate limiter (e.g. createDbRateLimiter(db)) for
   // multi-instance deployments. Default is per-process only.
   const customRateLimiter = typeof options.rateLimiter === "function" ? options.rateLimiter : null;
+  // Credibility pass: windowed limiter (count + resetAt), replacing the old
+  // lifetime counter that permanently locked users out. Expired buckets are
+  // swept lazily on each call so the map cannot grow unbounded.
+  const rateLimitWindowMs = options.rateLimitWindowMs ?? 60_000;
+  const rateBuckets = new Map();
+  let lastSweep = Date.now();
 
   return {
     adapters,
     rateLimitPerUser,
     processors,
+    knownUsers,
 
     // Handle an inbound message — deny-by-default on unknown senders
     handleInbound({ platform, platformUserId, body, signature, timestamp }) {
-      // M16 metrics — channel label only; never message content
-      metrics.counter("ardyn_gateway_messages_total", { platform: String(platform ?? "unknown") });
-      const adapter = adapters[platform];
-      if (!adapter) {
+      // M16 metrics — channel label only; never message content. Counted only
+      // for KNOWN platforms so junk strings cannot mint Prometheus series.
+      if (!adapters[platform]) {
         return { allowed: false, reason: "unknown_platform" };
       }
+      metrics.counter("ardyn_gateway_messages_total", { platform: String(platform) });
+      const adapter = adapters[platform];
 
       // Verify webhook signature
       if (!adapter.verifyWebhook({ body, signature, signingSecret: adapter.signingSecret ?? adapter.botToken, secret: adapter.botToken, timestamp })) {
         return { allowed: false, reason: "invalid_signature" };
       }
 
-      // Deny-by-default on unknown senders
+      // Deny-by-default on unknown senders: admission requires explicit
+      // registration (options.allowedSenders / registerUser()).
       const userKey = `${platform}:${platformUserId}`;
-      if (!knownUsers.has(userKey) && platformUserId !== "unknown-user") {
-        // In a real deployment, this would check the user DB
-        // For now, register the user on first contact
-        knownUsers.add(userKey);
-      }
-      if (platformUserId === "unknown-user" && signature === "invalid") {
+      if (!knownUsers.has(userKey)) {
         return { allowed: false, reason: "unknown_sender" };
       }
 
@@ -236,20 +247,29 @@ export function createGateway(options = {}) {
       return postCtx.result;
     },
 
-    // Rate limit per user
-    checkRateLimit(userId) {
+    // Rate limit per user — windowed (count + resetAt), lazily swept.
+    checkRateLimit(userId, now = Date.now()) {
       if (customRateLimiter) return customRateLimiter(userId, rateLimitPerUser);
       // ponytail: in-memory per-process limiter — counts are NOT shared across
       // instances; with N instances each user effectively gets N × rateLimitPerUser.
       // Ceiling: single-instance correctness. Upgrade path: pass
       // createDbRateLimiter(db) from data-auth.mjs as options.rateLimiter.
-      const count = userRequestCounts.get(userId) ?? 0;
-      if (count >= rateLimitPerUser) return false;
-      userRequestCounts.set(userId, count + 1);
-      return true;
+      if (now - lastSweep > rateLimitWindowMs) {
+        for (const [key, bucket] of rateBuckets) {
+          if (now > bucket.resetAt) rateBuckets.delete(key);
+        }
+        lastSweep = now;
+      }
+      const bucket = rateBuckets.get(userId);
+      if (!bucket || now > bucket.resetAt) {
+        rateBuckets.set(userId, { count: 1, resetAt: now + rateLimitWindowMs });
+        return true;
+      }
+      bucket.count += 1;
+      return bucket.count <= rateLimitPerUser;
     },
 
-    // Register a known user
+    // Register a known user (deny-by-default admission allowlist)
     registerUser(platform, platformUserId) {
       knownUsers.add(`${platform}:${platformUserId}`);
     },

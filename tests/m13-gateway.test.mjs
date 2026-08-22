@@ -87,22 +87,49 @@ test("M13: mapUserToArdyn different identities map to different users", () => {
 
 // ── Gateway: deny-by-default on unknown senders ──
 
-test("M13: gateway denies unknown senders by default", () => {
-  const gw = createGateway({ adapters: { telegram: new TelegramAdapter({ botToken: "t" }) } });
-  const result = gw.handleInbound({
-    platform: "telegram",
-    platformUserId: "unknown-user",
-    body: "{}",
-    signature: "invalid",
+test("M13: gateway denies validly-signed senders that are not on the allowlist", () => {
+  // CREDIBILITY PASS: the old test fed magic strings ("unknown-user"/"invalid")
+  // whose denial came from signature failure — vacuous. Now: real allowlist.
+  const botToken = "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11";
+  const gw = createGateway({ adapters: { telegram: new TelegramAdapter({ botToken }) } });
+  const body = JSON.stringify({ update_id: 1, message: { text: "hi", from: { id: 777 } } });
+  const goodSig = createHmac("sha256", botToken).update(body).digest("hex");
+
+  // Validly-signed but NOT registered → must be rejected as unknown_sender.
+  const stranger = gw.handleInbound({
+    platform: "telegram", platformUserId: "777", body, signature: goodSig,
   });
-  assert.equal(result.allowed, false, "unknown sender must be denied");
+  assert.equal(stranger.allowed, false, "validly-signed stranger must be denied");
+  assert.equal(stranger.reason, "unknown_sender");
+
+  // Registered sender with the SAME valid signature → admitted.
+  gw.registerUser("telegram", "777");
+  const known = gw.handleInbound({
+    platform: "telegram", platformUserId: "777", body, signature: goodSig,
+  });
+  assert.equal(known.allowed, true, "registered sender admitted");
 });
 
-test("M13: gateway rate-limits per user", () => {
-  const gw = createGateway({ adapters: {}, rateLimitPerUser: 2 });
-  assert.ok(gw.checkRateLimit("user-1"), "first request allowed");
-  assert.ok(gw.checkRateLimit("user-1"), "second request allowed");
-  assert.equal(gw.checkRateLimit("user-1"), false, "third request rate-limited");
-  // Different user is not rate-limited
-  assert.ok(gw.checkRateLimit("user-2"), "different user not rate-limited");
+test("M13: allowedSenders option seeds the admission allowlist", () => {
+  const botToken = "t";
+  const gw = createGateway({
+    adapters: { telegram: new TelegramAdapter({ botToken }) },
+    allowedSenders: [{ platform: "telegram", platformUserId: "42" }],
+  });
+  const body = JSON.stringify({ update_id: 2, message: {} });
+  const sig = createHmac("sha256", botToken).update(body).digest("hex");
+  assert.equal(gw.handleInbound({ platform: "telegram", platformUserId: "42", body, signature: sig }).allowed, true);
+  assert.equal(gw.handleInbound({ platform: "telegram", platformUserId: "43", body, signature: sig }).reason, "unknown_sender");
+});
+
+test("M13: gateway rate-limits per user (windowed — resets after the window)", () => {
+  const gw = createGateway({ adapters: {}, rateLimitPerUser: 2, rateLimitWindowMs: 1000 });
+  let t = 1_000_000;
+  assert.ok(gw.checkRateLimit("user-1", t), "first request allowed");
+  assert.ok(gw.checkRateLimit("user-1", t), "second request allowed");
+  assert.equal(gw.checkRateLimit("user-1", t), false, "third request in-window limited");
+  t += 1001; // window elapsed → bucket reset
+  assert.ok(gw.checkRateLimit("user-1", t), "window reset — requests flow again");
+  // different user unaffected
+  assert.ok(gw.checkRateLimit("user-2", t), "different user not rate-limited");
 });

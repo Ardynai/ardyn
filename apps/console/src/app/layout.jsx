@@ -93,7 +93,7 @@ export default function RootLayout({ children }) {
               </div>
               <div style={{ fontSize: "11px", color: "var(--success)", marginTop: "var(--space-1)", display: "flex", alignItems: "center", gap: "6px" }}>
                 <span className="status-dot status-dot-success" />
-                <span style={{ fontFamily: "monospace" }}>1364 tests green</span>
+                <span style={{ fontFamily: "monospace" }}>local-first · approval-gated</span>
               </div>
             </div>
           </nav>

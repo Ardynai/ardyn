@@ -5,6 +5,7 @@ import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
+import { redactSecretsDeep } from "./internal/redaction.mjs";
 
 // M3: Embedded database — in-process SQLite via node:sqlite
 export async function createDatabase(dbPath = ":memory:") {
@@ -130,9 +131,9 @@ export function getSecret(name) {
 }
 
 export function redactSecrets(text) {
-  return text
-    .replace(/(?:token|secret|password|api_key|apikey)\s*=\s*[^\s]+/gi, "REDACTED")
-    .replace(/(?:Bearer)\s+[A-Za-z0-9._-]+/gi, "Bearer REDACTED");
+  // Credibility pass: delegates to the single canonical redactor
+  // (internal/redaction.mjs). Export kept for backward compatibility.
+  return redactSecretsDeep(text);
 }
 
 // M3: Input sanitization — prevent SQL injection

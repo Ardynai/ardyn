@@ -33,3 +33,12 @@ Build mode relaxes the *staging* posture (runtime may now be built) but **never*
 - CUA / computer-use runtime stays reference-only unless a separate explicit authorization exists; do not enable a computer-use execution path in this run.
 
 When in doubt about whether something crosses the floor: treat it as blocked, log it, and continue elsewhere.
+
+## Planned-not-implemented flags (honesty register, 2026-08-22)
+
+The following identifiers appear in CLI/runtime OUTPUT but have NO machinery
+behind them yet. They are roadmap labels, not enforced controls:
+- `replayEnabled` — transcripts are recorded in-memory only; nothing persists or replays.
+- `rollbackOnFailure` / `killOnFailure` (failure-audit booleans) — reported values only; no rollback path exists.
+- Per-session sandbox token (`ARDYN_SESSION_TOKEN`) — generated and injected into the container but never verified by any API (no container API client exists).
+Any doc or output claiming these are ENFORCED is wrong until this register entry is removed.

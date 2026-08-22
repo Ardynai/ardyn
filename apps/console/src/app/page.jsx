@@ -2,21 +2,26 @@
 // KPI cards with signal-cyan accent, live events feed, system status
 import { Suspense } from "react";
 
+// Credibility pass: no fabricated numbers. When /api/status is unreachable the
+// dashboard renders "unavailable" — it never invents test counts.
+const UNAVAILABLE = "unavailable";
+
 async function getStatus() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/status`, { cache: "no-store" });
+    // Absolute URL via headers (relative fetch is illegal in RSC).
+    const { headers } = await import("next/headers");
+    const host = headers().get("host") ?? "127.0.0.1:3000";
+    const proto = host.startsWith("localhost") || host.startsWith("127.") ? "http" : "https";
+    const res = await fetch(`${proto}://${host}/api/status`, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch {
     return {
-      status: "ok",
-      totalTests: 1364,
-      passingTests: 1364,
-      failingTests: 0,
-      phases: 119,
+      status: "unreachable",
       runtimeEnabled: true,
       federationWired: true,
       serveRuntimeAvailable: true,
+      testSuite: { available: false },
     };
   }
 }
@@ -74,19 +79,23 @@ async function DashboardContent() {
       <section aria-label="Key metrics" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "var(--space-4)" }}>
         <article className="kpi-card card-hover" role="region" aria-label="Total tests">
           <div className="kpi-label">Total Tests</div>
-          <div className="kpi-value" aria-live="polite">{status.totalTests}</div>
+          <div className="kpi-value" aria-live="polite">
+            {status.testSuite?.available ? status.testSuite.totalTests : UNAVAILABLE}
+          </div>
           <div style={{ marginTop: "var(--space-2)", display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-            <span className="status-dot status-dot-success" />
-            <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)" }}>{status.passingTests} passing</span>
+            <span className={status.testSuite?.available ? "status-dot status-dot-success" : "status-dot"} />
+            <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)" }}>
+              {status.testSuite?.available ? `${status.testSuite.passingTests} passing` : "set ARDN_CONSOLE_TEST_COUNTS"}
+            </span>
           </div>
         </article>
 
         <article className="kpi-card card-hover" role="region" aria-label="Rust host tests">
           <div className="kpi-label">Rust Host</div>
-          <div className="kpi-value">101</div>
+          <div className="kpi-value">{UNAVAILABLE}</div>
           <div style={{ marginTop: "var(--space-2)", display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
             <span className="status-dot status-dot-success" />
-            <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)" }}>cargo test + clippy clean</span>
+            <span style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)" }}>run cargo test --workspace</span>
           </div>
         </article>
 
@@ -103,20 +112,20 @@ async function DashboardContent() {
         <article className="kpi-card card-hover" role="region" aria-label="Federation status">
           <div className="kpi-label">Federation</div>
           <div className="kpi-value" style={{ fontSize: "var(--text-lg)" }}>
-            {status.federationWired ? "Wired" : "Unwired"}
+            {status.federationWired ? "Wired (gated)" : "Unwired"}
           </div>
           <div style={{ marginTop: "var(--space-2)" }}>
-            <span className="badge badge-success">5/5 hardened</span>
+            <span className="badge badge-success">hardening enforced</span>
           </div>
         </article>
 
         <article className="kpi-card card-hover" role="region" aria-label="Test failures">
           <div className="kpi-label">Failures</div>
-          <div className="kpi-value" style={{ color: status.failingTests > 0 ? "var(--danger)" : "var(--success)" }}>
-            {status.failingTests}
+          <div className="kpi-value" style={{ color: status.testSuite?.failingTests > 0 ? "var(--danger)" : "var(--success)" }}>
+            {status.testSuite?.available ? status.testSuite.failingTests : UNAVAILABLE}
           </div>
           <div style={{ marginTop: "var(--space-2)" }}>
-            <span className="badge badge-success">all green</span>
+            {status.testSuite?.available ? <span className="badge badge-success">all green</span> : <span className="badge">n/a</span>}
           </div>
         </article>
       </section>
@@ -131,17 +140,17 @@ async function DashboardContent() {
         </div>
         <ul style={{ listStyle: "none" }} role="list">
           {[
-            { label: "Node test suite", value: `${status.passingTests}/${status.totalTests} pass`, badge: "success" },
-            { label: "Rust host (cargo test)", value: "101 pass", badge: "success" },
+            { label: "Node test suite", value: status.testSuite?.available ? `${status.testSuite.passingTests}/${status.testSuite.totalTests} pass` : UNAVAILABLE, badge: "info" },
+            { label: "Rust host (cargo test)", value: "run locally — not published here", badge: "info" },
             { label: "Source guards", value: "digest-based", badge: "success" },
-            { label: "JSON Schema validation", value: "103 schemas", badge: "success" },
-            { label: "Federation hardening", value: "5/5 applied", badge: "success" },
-            { label: "CLI commands", value: "13 working", badge: "success" },
+            { label: "Federation A2A exchange", value: "wired, approval-gated", badge: "success" },
+            { label: "HiClaw Matrix adapter", value: "raw-fetch, deny-by-default", badge: "success" },
+            { label: "CLI commands", value: "see ardyn --help", badge: "info" },
             { label: "Runtime process spawning", value: "functional", badge: "success" },
             { label: "SSE streaming", value: "CLI + console", badge: "success" },
             { label: "Computer-use sandbox", value: "governed + gated", badge: "success" },
             { label: "Multi-user isolation", value: "per-user RBAC", badge: "success" },
-            { label: "Gateway (Telegram + Slack)", value: "adapters ready", badge: "info" },
+            { label: "Gateway (Telegram/Slack/HiClaw)", value: "adapters ready", badge: "info" },
             { label: "Loop-state control plane", value: "goals + todos + quota", badge: "info" },
           ].map((item) => (
             <li key={item.label} className="list-item">
@@ -162,9 +171,9 @@ async function DashboardContent() {
             <h2 className="section-title">Live Session Events</h2>
             <p className="section-subtitle">Real-time runtime events streamed from the CLI</p>
           </div>
-          <span className="badge badge-info pulse-glow">
-            <span className="status-dot status-dot-info" />
-            SSE
+          <span className="badge" title="This panel is a stub — no client currently subscribes to /api/events">
+            <span className="status-dot" />
+            STUB
           </span>
         </div>
         <p style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)", marginBottom: "var(--space-3)" }}>
@@ -173,11 +182,12 @@ async function DashboardContent() {
         <pre className="code-block" aria-label="SSE connection URL">{`GET /api/events
 Content-Type: text/event-stream
 
-# EventSource connects automatically on page load
-# Events appear in real-time as the CLI writes them`}</pre>
+# NOTE (credibility pass): this panel is a STUB. The /api/events SSE route is
+# implemented server-side, but no client subscribes yet — nothing here updates
+# live. Wiring a real EventSource client is tracked as follow-up work.`}</pre>
         <div id="event-feed" className="event-feed" style={{ marginTop: "var(--space-4)" }} aria-label="Live event feed">
           <div className="event-item" style={{ color: "var(--text-muted)", fontStyle: "italic" }}>
-            Waiting for events… (connect via EventSource to /api/events)
+            Stub panel — no live subscription wired yet.
           </div>
         </div>
       </section>

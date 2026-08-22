@@ -41,9 +41,9 @@ SQLite queries — all under approval gates.
 
 | Constraint | Value |
 |---|---|
-| Wired into CLI | true (status/config commands) |
+| Wired into CLI | true (status/config + GATED A2A exchange: send-handoff/receive-handoff behind --enable-federation-exchange --approve) |
 | Wired into Rust host | false |
-| Content exchange (send/receive) | not wired (status/config only) |
+| Content exchange (send/receive) | WIRED, approval-gated (M20: closed sibling-DID allowlist, Ed25519-verified, GL1-encoded) |
 | Out-of-process | true |
 | Sidecar loopback enforced | true |
 | Registry requires HTTPS when remote | true |
@@ -76,17 +76,17 @@ SQLite queries — all under approval gates.
 
 ### What remains blocked
 
-- **Federation content exchange**: `sendFabricFederationContent` and
-  `startFabricFederationReceiver` exist in the federation module but are NOT
-  wired into the CLI. Only `federation status` and `federation config` work.
-  Content exchange requires explicit authorization.
+- **Federation content exchange**: WIRED since M20 as a gated surface —
+  `federation send-handoff` / `federation receive-handoff` run only behind
+  --enable-federation-exchange + --approve. Closed sibling-DID allowlist,
+  Ed25519 verification and streamed-byte size caps are enforced on every message.
 - **CUA/computer-use**: stays gated. Reference-only unless separately authorized.
 - **Secure Drop decryption**: never. Ardyn carries ciphertext only.
 - **P2P/DHT/BitTorrent/libp2p**: never. Not as dependency or runtime path.
 - **`@multiverse/fabric-core` import**: never. Consume, don't rebuild transport.
-- **Full index.mjs modularization**: 73k-line monolith. 4 modules extracted
-  (utils, data-auth, validation re-export, create-review-helpers re-export).
-  Full implementation extraction is incremental.
+- **Full index.mjs modularization**: ~69k-line monolith. The "modules" are
+  barrel RE-EXPORTS (utils/validation/create-review-helpers) — the monolith is
+  intact. Newer code (M15-M20) lives in real modules; full extraction is still open.
 
 ## Rule for Future Phases
 

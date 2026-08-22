@@ -11,14 +11,10 @@
 // Redact secrets in captured text (screenshots OCR, logs, exec stdout).
 // Moved here from computer-use.mjs so both gateways compose the same redaction;
 // computer-use.mjs re-exports it for backward compatibility.
-export function redactCapturedText(text) {
-  if (!text || typeof text !== "string") return text;
-  return text
-    .replace(/(?:token|secret|password|api_key|apikey|api-key)\s*=\s*[^\s\n]+/gi, "REDACTED")
-    .replace(/(?:Bearer)\s+[A-Za-z0-9._-]+/gi, "Bearer REDACTED")
-    .replace(/(?:sk-)[A-Za-z0-9]{20,}/gi, "sk-REDACTED")
-    .replace(/(?:ghp_)[A-Za-z0-9]{36}/gi, "ghp_REDACTED");
-}
+// Credibility pass: delegates to the single canonical redactor
+// (internal/redaction.mjs) — no more drifting copies.
+import { redactSecretsDeep as redactCapturedText } from "./internal/redaction.mjs";
+export { redactCapturedText };
 
 // Policy rule matching — moved verbatim from computer-use createGateway.
 export function matchPolicyRule(action, rule) {
