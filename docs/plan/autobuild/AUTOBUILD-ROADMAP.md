@@ -111,3 +111,15 @@ When M0–M8 are done (or a budget cap is hit) with the targeted suite green and
 - Extends M10 isolation tests to cover memory
 - Pattern adapted from hermes-agent (MIT) — not vendored
 - Status: complete
+
+## M17: Provider adapters (Vision-Agents pattern)
+- Uniform, model-agnostic BYO-model seam: createProviderAdapter({ provider,
+  baseUrl?, apiKeyEnv, fetchImpl? }) -> generate() + stream()
+- Dependency-free: globalThis.fetch only; fetchImpl injectable for tests
+- Shipped end-to-end: OpenAI-compatible + Gemini (SSE streaming both);
+  everything else plugs in via registerProviderFormat()
+- Keys from env / gitignored config/secret/provider-keys.json — never
+  committed, never logged, never in URLs/errors; missing key fails closed
+- Ardyn bundles NO default model — this is the BYO-provider seam
+- Pattern adapted from Vision-Agents native-API-per-provider (MIT) — not vendored
+- Status: complete

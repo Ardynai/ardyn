@@ -291,3 +291,38 @@ Optional gVisor via COMPUTER_RUNTIME=runsc env var.
 
 Tests: 1350 → 1364 (+14 new). 101 Rust (unchanged). All green.
 Federation receive/content-exchange stays UNWIRED.
+
+### 2026-08-21T02:00Z — M17: Provider adapters — uniform BYO-model seam
+
+Adapted Vision-Agents' native-API-per-provider idea (MIT — not vendored) into a
+thin, dependency-free provider adapter. Ardyn still bundles NO default model.
+
+- packages/core/src/provider-adapter.mjs (new): createProviderAdapter({
+  provider, baseUrl?, apiKeyEnv, fetchImpl? }) exposing generate(request) ->
+  { provider, model, text, usage, raw } and stream(request) -> async generator
+  of { delta } chunks. Uniform request shape { model, messages[{role,content}],
+  temperature?, maxTokens? }. Implemented with globalThis.fetch ONLY; fetchImpl
+  injectable so tests never touch the network.
+- Shipped end-to-end: openai (+openai-compatible alias) and gemini formats —
+  correct URLs/headers/bodies per provider (Bearer vs x-goog-api-key header;
+  key NEVER in URL/query string); role mapping (assistant->model, system ->
+  systemInstruction) for Gemini; SSE parsing for both stream endpoints
+  (:streamGenerateContent?alt=sse).
+- Pluggable interface for everything else: registerProviderFormat(name,
+  { buildRequest, parseResponse, parseStreamEvent }) + listProviderFormats().
+- Keys: env var (apiKeyEnv) first, gitignored config/secret/provider-keys.json
+  fallback ("<ENV_NAME>": "<key>", same convention as federation-keys.json).
+  Missing key FAILS CLOSED before any fetch call. Secrets never logged and
+  never appear in errors: errors carry env-var NAME / HTTP status only;
+  provider error bodies are NOT echoed; network-error messages are redacted
+  against the key value.
+
+Tests: tests/m17-provider-adapter.test.mjs (+10): request construction +
+response parsing for both providers via INJECTED fake fetch (no live API),
+SSE streaming for both, missing-key fail-closed with fetch-not-called,
+no-secret-in-errors (leaky provider body + evil network message), secret-file
+fallback, BYO-model required, custom provider registration, unknown provider.
+Full suite: 1380 tests — 1376 pass, 4 fail (the pre-existing Windows
+node:sqlite EBUSY cleanup failures on m10/m11-cleanup/m12/m14 — reproduce
+identically on a clean main worktree). Also ports the Windows pathToFileURL
+CLI import fix so m4-federation/m9-computer-use pass on Windows.
