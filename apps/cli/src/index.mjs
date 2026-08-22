@@ -1219,7 +1219,14 @@ async function run(argv) {
       return;
     }
 
-    fail(`Unknown federation subcommand: ${subCommand}. Use: status | config`);
+    // M20: gated A2A exchange (send-handoff/receive-handoff) — implementation
+    // lives in packages/fabric/src/handoff-cli.mjs to keep this CLI narrow.
+    if (subCommand === "send-handoff" || subCommand === "receive-handoff") {
+      const { runFederationExchangeCommand } = await import(pathToFileURL(join(process.cwd(), "packages/fabric/src/handoff-cli.mjs")).href);
+      await runFederationExchangeCommand({ subCommand, args, printJson, fail, readOption });
+      return;
+    }
+    fail(`Unknown federation subcommand: ${subCommand}. Use: status | config | send-handoff | receive-handoff`);
     return;
   }
 
@@ -1378,7 +1385,7 @@ async function run(argv) {
   }
 
   fail(
-    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|emit-session-events --dry-run --manifest <path> --task <path>|serve-runtime --enable-runtime [--dry-run] --manifest <path>|computer-use --enable-computer-use [--dry-run] --manifest <path>|federation status|federation config|shell --enable-runtime --approve --command <cmd>|sqlite --enable-runtime --approve --database <path> --query <sql>|serve --dry-run --manifest <path>>"
+    "Usage: ardyn <doctor|identity|capabilities --manifest <path>|plan [--trace|--summary|--explain|--review-artifact] --manifest <path> --task <path>|review-artifact --file <file> [--summary|--explain]|review-trace [--summary|--explain] --left <file> --right <file>|validate-session-transcript --file <file> [--summary|--explain|--schema-status|--display-summary|--compatibility-explain]|emit-session-events --dry-run --manifest <path> --task <path>|serve-runtime --enable-runtime [--dry-run] --manifest <path>|computer-use --enable-computer-use [--dry-run] --manifest <path>|federation status|federation config|federation send-handoff --enable-federation-exchange --approve --to <did> --payload <file|->|federation receive-handoff --enable-federation-exchange [--once]|shell --enable-runtime --approve --command <cmd>|sqlite --enable-runtime --approve --database <path> --query <sql>|serve --dry-run --manifest <path>>"
   );
 }
 
