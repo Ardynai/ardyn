@@ -291,3 +291,49 @@ Optional gVisor via COMPUTER_RUNTIME=runsc env var.
 
 Tests: 1350 → 1364 (+14 new). 101 Rust (unchanged). All green.
 Federation receive/content-exchange stays UNWIRED.
+
+### 2026-08-21T01:00Z — M16: Production-ops posture — Prometheus metrics + horizontal-scale correctness
+
+Part A — metrics (pattern adapted from Vision-Agents production-ops posture, MIT — not vendored):
+- packages/core/src/metrics.mjs (new): zero-dependency Prometheus registry
+  (counters/gauges, HELP/TYPE, label escaping) + process-wide singleton.
+  PRIVACY RULE: aggregate series + structural labels only (platform, outcome,
+  pseudonymous sha256-prefix user ids). Never usernames, message/action text,
+  tokens/secrets.
+- Instrumented: runtime sessions started/killed (sandbox start/kill/end),
+  computer-use actions allowed/denied (gateway decision), gateway messages per
+  channel (handleInbound platform label), auth failures (authenticateUser).
+- apps/console/src/app/api/metrics/route.js (new): GET /metrics emits
+  text/plain version=0.0.4; auth-gated via existing checkAuth; optional
+  ARDYN_MULTI_USER_DB_PATH enables ardyn_active_user_sessions gauge
+  (per-user counts, hashed ids). No new dependencies.
+- packages/core/package.json: added "./metrics" subpath export so the console
+  can import the registry without pulling the core barrel.
+
+Part B — horizontal-scale correctness audit (shared SQLite across instances):
+- Rate limiting MOVED to DB-backed: data-auth.mjs createDbRateLimiter(db) —
+  rate_limits table + BEGIN IMMEDIATE serialization; correct across instances
+  sharing one DB. Legacy in-memory checkRateLimit kept for single-process use,
+  now marked ponytail: ceiling (N instances = N × effective limit). Chat
+  gateway accepts options.rateLimiter injection (same default ceiling marked).
+- loop-state.mjs races fixed: claimTodo is now an atomic conditional UPDATE
+  (first claim wins; second instance gets ok:false instead of stealing), and
+  spendQuota is an atomic conditional increment (cap can never be exceeded by
+  racing instances; returns admission bool).
+- Audited as already correct cross-instance: sessions/sandboxes/memory/
+  permissions are all user/role-scoped SQL with UNIQUE constraints (no
+  double-grant rows possible); isolation holds from any instance.
+
+Fix (Windows): apps/cli dynamic imports wrapped in pathToFileURL().href
+(computer-use + federation commands) — pre-existing ERR_MODULE_NOT_FOUND
+"protocol c:" crash on Windows.
+
+Tests: tests/m16-metrics-and-scale.test.mjs (+22): valid Prometheus output +
+expected series; no secrets/usernames in any series; hashed per-user gauge;
+two simulated instances sharing one DB prove no-double-grant, intact per-user
+isolation, cross-instance rate limiting, no todo double-claim, quota cap never
+exceeded; chat-gateway limiter injection.
+Full suite: 1392 tests — 1388 pass, 4 fail. The 4 failures (m10-multi-user,
+m11-real-gateway CRITICAL cleanup EBUSY, m12-loop-state, m14-user-memory)
+reproduce IDENTICALLY on a clean main worktree: pre-existing Windows node:sqlite
+EBUSY temp-file cleanup races, unrelated to this change.

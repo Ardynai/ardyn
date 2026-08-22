@@ -111,3 +111,15 @@ When M0–M8 are done (or a budget cap is hit) with the targeted suite green and
 - Extends M10 isolation tests to cover memory
 - Pattern adapted from hermes-agent (MIT) — not vendored
 - Status: complete
+
+## M16: Production-ops posture (Vision-Agents pattern)
+- Prometheus /metrics on the console server (zero-dep text format, auth-gated)
+- Series: runtime sessions started/killed, computer-use actions allowed/denied,
+  gateway messages per channel, auth failures, per-user active sessions
+  (pseudonymous hashed ids) — aggregate labels only, never secrets/private data
+- Horizontal-scale correctness: DB-backed rate limiter (BEGIN IMMEDIATE) shared
+  across instances; in-memory limiter marked ponytail ceiling; loop-state
+  claimTodo/spendQuota made atomic (no double-claim, cap never exceeded);
+  per-user isolation verified from multiple instances sharing one DB
+- Pattern adapted from Vision-Agents production-ops posture (MIT) — not vendored
+- Status: complete

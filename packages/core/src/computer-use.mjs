@@ -13,6 +13,7 @@
 
 import { spawn as defaultSpawn } from "node:child_process";
 import { randomBytes } from "node:crypto";
+import { metrics } from "./metrics.mjs";
 
 export const SANDBOX_IMAGE = "ubuntu:22.04";
 
@@ -136,6 +137,9 @@ export function createGateway(options = {}) {
         details: { ...action },
       };
       audit.record(auditRecord);
+
+      // M16 metrics — aggregate outcome only; never label with action text/details
+      metrics.counter("ardyn_computer_use_actions_total", { outcome: allowed ? "allowed" : "denied" });
 
       return { allowed, decision, auditRecord, auditRecordWrittenBefore: true };
     },
@@ -274,6 +278,7 @@ export function createSandboxSession(options = {}) {
         containerId = result.stdout.trim() || `ardyn-sandbox-${config.sessionId}`;
         alive = true;
         audit.record({ action: "sandbox_spawned", containerId, timestamp: new Date().toISOString() });
+        metrics.counter("ardyn_runtime_sessions_started_total");
         return { spawned: true, containerId };
       } catch (err) {
         // M11-real: spawn error is caught and audited, NOT crashed
@@ -331,6 +336,7 @@ export function createSandboxSession(options = {}) {
       alive = false;
       killedReason = "kill_switch";
       audit.record({ action: "kill_switch_activated", timestamp: new Date().toISOString() });
+      metrics.counter("ardyn_runtime_sessions_killed_total");
       // REAL: docker kill
       if (!options.dryRun && options.approved) {
         const { cmd, args } = buildKillCommand();
@@ -344,6 +350,7 @@ export function createSandboxSession(options = {}) {
       alive = false;
       destroyReason = "session_end";
       audit.record({ action: "session_ended", timestamp: new Date().toISOString() });
+      metrics.counter("ardyn_runtime_sessions_killed_total");
       // REAL: docker rm -f
       if (!options.dryRun && options.approved) {
         const { cmd, args } = buildRmCommand();
