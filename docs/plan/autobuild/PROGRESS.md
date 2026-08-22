@@ -291,3 +291,46 @@ Optional gVisor via COMPUTER_RUNTIME=runsc env var.
 
 Tests: 1350 → 1364 (+14 new). 101 Rust (unchanged). All green.
 Federation receive/content-exchange stays UNWIRED.
+
+### 2026-08-21T00:00Z — M15: Pluggable pre/post processor pipeline for action gateways
+
+Adapted Vision-Agents' pluggable processors pattern (MIT — not vendored) into a
+composable, ordered processor chain shared by both gateways.
+
+- packages/core/src/processor-pipeline.mjs (new): processor contract
+  { name, phase: "pre"|"post", process(ctx) -> { action: allow|deny|transform,
+  reason?, patch?, audit? } }; runProcessors executes declared order, fail-closed
+  (missing/broken/throwing/invalid-result processor DENIES; deny is sticky so
+  later processors still run but cannot un-deny). redactCapturedText moved here;
+  computer-use re-exports it for compatibility.
+- Built-in processors composed from existing logic (no duplication):
+  policy-gate (wraps the fail-closed allow/deny eval, decisions unchanged:
+  deny_no_policy/deny_rule/deny_no_allow), audit-record (writes row BEFORE act),
+  redact-result (masks token/secret strings in captured text via existing
+  redactCapturedText).
+- packages/core/src/computer-use.mjs: createGateway rebuilt on the pipeline.
+  Default chain [policy-gate, audit-record] + post [redact-result];
+  options.processors replaces the chain for full ordering control.
+  evaluateAction(action, execute?) runs pre → writes audit BEFORE acting →
+  executes → runs post over the result; without executor keeps the M11
+  decision-only shape. Record-before-act invariant enforced by gateway fallback:
+  exactly one authoritative audit row even if a custom chain lacks/misorders
+  audit-record. Sandbox isolation flags + approval gating untouched; no new CLI
+  surface. Session exec stdout now flows through the post chain for redaction.
+- packages/gateway/src/gateway.mjs: createGateway accepts processors and adds
+  async gateMessage() running pre → SAME deny-by-default handleInbound checks
+  (unchanged, still sync) → post transforms on the verdict (e.g. mask secrets in
+  outbound text).
+- Fix (Windows): apps/cli dynamic imports used path.resolve() output as ESM
+  specifier → ERR_MODULE_NOT_FOUND "protocol c:". Now wrapped in
+  pathToFileURL().href (computer-use + federation commands).
+- Tests: tests/m15-processor-pipeline.test.mjs (+16): declared order across
+  phases, deny blocks action AND writes audit row, secret/token masking in
+  captured text (unit + real-mode session e2e), broken/missing/throwing/garbage
+  processors fail closed (pre AND post), transform patches effective action +
+  result, sticky deny, chat-gateway order/deny/redaction/fail-closed, legacy
+  shape intact, single-audit-row invariant.
+- Full suite: 1386 tests — 1382 pass, 4 fail. The 4 failures
+  (m10-multi-user, m11-real-gateway CRITICAL cleanup EBUSY, m12-loop-state,
+  m14-user-memory) reproduce IDENTICALLY on a clean main worktree — pre-existing
+  Windows node:sqlite temp-file unlink (EBUSY) issues, unrelated to this change.

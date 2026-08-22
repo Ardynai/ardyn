@@ -3,6 +3,7 @@ import { writeFile } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 
 import {
   assertLocalFilePath,
@@ -1126,7 +1127,7 @@ async function run(argv) {
     }
 
     const { createSandboxConfig, createActionAudit, createSandboxSession, redactCapturedText, SANDBOX_IMAGE } =
-      await import("node:path").then(p => import(p.resolve(process.cwd(), "packages/core/src/computer-use.mjs")));
+      await import(pathToFileURL(join(process.cwd(), "packages/core/src/computer-use.mjs")).href);
 
     const sessionId = `cu-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
     const config = createSandboxConfig({ sessionId });
@@ -1177,7 +1178,7 @@ async function run(argv) {
   // M4: federation command — wires the hardened federation client into CLI
   if (command === "federation") {
     const subCommand = args[0] ?? "status";
-    const federationModule = await import("node:path").then(p => import(p.resolve(process.cwd(), "packages/fabric/src/federation.mjs")));
+    const federationModule = await import(pathToFileURL(join(process.cwd(), "packages/fabric/src/federation.mjs")).href);
     const config = federationModule.loadFabricFederationConfigFromEnv();
 
     if (subCommand === "status") {
