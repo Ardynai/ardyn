@@ -19,6 +19,7 @@ import {
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { safeCloseDb, rmTempDir } from "./helpers/sqlite-temp.mjs";
 
 // ── Constant-time comparison tests ──
 
@@ -87,6 +88,7 @@ test("M11-real: user arriving via gateway CANNOT reach another user's session (C
     assert.notEqual(aliceMapping.ardynUserId, bobMapping.ardynUserId,
       "gateway must map different platform users to different Ardyn users");
   } finally {
-    await rm(dir, { recursive: true, force: true });
+    safeCloseDb(db); // close the SQLite handle BEFORE unlink (Windows EBUSY root cause)
+    await rmTempDir(dir);
   }
 });

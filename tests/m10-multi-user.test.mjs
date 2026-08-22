@@ -1,9 +1,9 @@
 // M10: Multi-user support — per-user isolation tests
 import assert from "node:assert/strict";
-import { mkdtemp, rm } from "node:fs/promises";
-import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { makeTempSqliteDb } from "./helpers/sqlite-temp.mjs";
 import {
   createMultiUserDatabase,
   createUser,
@@ -19,10 +19,10 @@ import {
 } from "../packages/core/src/multi-user.mjs";
 
 async function makeDb() {
-  const dir = await mkdtemp(join(tmpdir(), "ardyn-m10-"));
-  const dbPath = join(dir, "test.db");
-  const db = await createMultiUserDatabase(dbPath);
-  return { db, dir, cleanup: () => rm(dir, { recursive: true, force: true }) };
+  // Unique temp dir per call; cleanup() closes the DB handle BEFORE removing
+  // the dir (with retries) — see tests/helpers/sqlite-temp.mjs for the
+  // Windows EBUSY root-cause explanation. Assertions are unchanged.
+  return makeTempSqliteDb(createMultiUserDatabase);
 }
 
 // ── User accounts ──
@@ -36,7 +36,7 @@ test("M10: createUser creates a user with deny-by-default permissions", async ()
     // No permissions by default
     assert.equal(checkUserPermission(db, user.id, "runtime.execute"), false);
     assert.equal(checkUserPermission(db, user.id, "computer_use.run"), false);
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });
 
 test("M10: authenticateUser succeeds with correct credentials, fails with wrong", async () => {
@@ -49,7 +49,7 @@ test("M10: authenticateUser succeeds with correct credentials, fails with wrong"
     assert.equal(bad, null, "wrong credentials should fail");
     const unknown = authenticateUser(db, "eve", "anything");
     assert.equal(unknown, null, "unknown user should fail");
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });
 
 // ── Per-user session isolation ──
@@ -83,7 +83,7 @@ test("M10: user A cannot see user B's sessions (CRITICAL isolation test)", async
     const bobSessions = listUserSessions(db, bob.id);
     assert.equal(bobSessions.length, 1);
     assert.equal(bobSessions[0].id, bobSession.id);
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });
 
 // ── Per-user computer-use sandbox isolation ──
@@ -122,7 +122,7 @@ test("M10: user A cannot access user B's computer-use sandbox (CRITICAL isolatio
     assert.equal(aliceSandboxes.length, 1);
     const bobSandboxes = listUserSandboxes(db, bob.id);
     assert.equal(bobSandboxes.length, 1);
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });
 
 // ── Per-user permissions ──
@@ -136,7 +136,7 @@ test("M10: per-user RBAC — grant to alice doesn't grant to bob", async () => {
     grantUserPermission(db, alice.id, "computer_use.run");
     assert.equal(checkUserPermission(db, alice.id, "computer_use.run"), true);
     assert.equal(checkUserPermission(db, bob.id, "computer_use.run"), false, "bob must not inherit alice's grant");
-  } finally { cleanup(); }
+  } finally { await cleanup(); }
 });
 
 // ── Console auth fail-closed in production with per-user ──
