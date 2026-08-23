@@ -46,7 +46,8 @@ test("M13: Telegram webhook verification rejects invalid signature", () => {
 
 test("M13: Slack webhook verification accepts valid signature", () => {
   const signingSecret = "8f742231b10e8888abcd99e466st";
-  const timestamp = "1234567890";
+  // Correctness-cleanup: fresh timestamp (replay window now enforced).
+  const timestamp = String(Math.floor(Date.now() / 1000));
   const body = JSON.stringify({ type: "event_callback", event: { text: "hello" } });
   const sigBase = `v0:${timestamp}:${body}`;
   const hmac = createHmac("sha256", signingSecret).update(sigBase).digest("hex");

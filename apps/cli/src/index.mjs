@@ -703,7 +703,10 @@ async function run(argv) {
     }
 
     if (outputPath) {
-      assertLocalFilePath(outputPath, "--output");
+      // Correctness-cleanup: gated writes use the stricter containment guard
+      // (rejects Windows absolute/UNC/drive forms that assertLocalFilePath allowed).
+      const { assertContainedWritePath } = await import(pathToFileURL(join(process.cwd(), "packages/core/src/internal/paths.mjs")).href);
+      assertContainedWritePath(outputPath, "--output");
     }
 
     if (!manifestPath) {
@@ -1257,7 +1260,6 @@ async function run(argv) {
     const enableRuntime = args.includes(ENABLE_RUNTIME_FLAG);
     const dryRun = args.includes("--dry-run");
     const approved = args.includes(APPROVE_FLAG);
-    const manifestPath = readOption(args, "--manifest") ?? minimalManifestPath;
     const commandArg = readOption(args, "--command");
 
     if (!enableRuntime) { fail(`Usage: ardyn shell --enable-runtime --approve --command <cmd>\nRuntime unavailable: shell is recognized, but runtime is not enabled.`); return; }
@@ -1299,7 +1301,6 @@ async function run(argv) {
     const enableRuntime = args.includes(ENABLE_RUNTIME_FLAG);
     const dryRun = args.includes("--dry-run");
     const approved = args.includes(APPROVE_FLAG);
-    const manifestPath = readOption(args, "--manifest") ?? minimalManifestPath;
     const dbPath = readOption(args, "--database");
     const query = readOption(args, "--query");
 

@@ -15,10 +15,22 @@ import { metrics } from "../../core/src/metrics.mjs";
 
 // ── Constant-time comparison helper ──
 function safeCompare(a, b) {
+  // Fail-closed: undefined/null/non-string inputs deny instead of throwing.
+  if (typeof a !== "string" || typeof b !== "string") return false;
   const bufA = Buffer.from(a, "utf8");
   const bufB = Buffer.from(b, "utf8");
   if (bufA.length !== bufB.length) return false;
   return timingSafeEqual(bufA, bufB);
+}
+
+// Correctness-cleanup: Slack replay protection. A signed request older than
+// SLACK_REPLAY_WINDOW_SECONDS is rejected even with a valid signature.
+const SLACK_REPLAY_WINDOW_SECONDS = 5 * 60;
+
+function slackTimestampIsFresh(timestamp, nowMs = Date.now()) {
+  const ts = Number(timestamp);
+  if (!Number.isFinite(ts)) return false;
+  return Math.abs(nowMs / 1000 - ts) <= SLACK_REPLAY_WINDOW_SECONDS;
 }
 
 // ── Channel adapter interface ──
@@ -84,13 +96,14 @@ export class SlackAdapter {
   }
 
   verifyWebhook({ body, signingSecret, timestamp, signature }) {
+    // Replay protection: reject stale timestamps before verifying the HMAC.
+    if (!slackTimestampIsFresh(timestamp)) return false;
     const sigBase = `v0:${timestamp}:${body}`;
     const expected = `v0=${createHmac("sha256", signingSecret).update(sigBase).digest("hex")}`;
     return safeCompare(expected, signature);
   }
 }
 
-// Stub adapters for other platforms
 export class DiscordAdapter {
   constructor({ publicKey }) { this.platform = "discord"; this.publicKey = publicKey; }
   parseInbound(body) { return { platform: "discord", platformUserId: "", text: "" }; }
@@ -127,6 +140,9 @@ export function verifyTelegramWebhook({ body, secret, signature }) {
 }
 
 export function verifySlackWebhook({ body, signingSecret, timestamp, signature }) {
+  // Replay protection (correctness-cleanup): stale timestamps are rejected
+  // even when the HMAC is valid. Missing/undefined signature denies cleanly.
+  if (!slackTimestampIsFresh(timestamp)) return false;
   const sigBase = `v0:${timestamp}:${body}`;
   const expected = `v0=${createHmac("sha256", signingSecret).update(sigBase).digest("hex")}`;
   return safeCompare(expected, signature);

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { promisify } from "node:util";
@@ -466,10 +466,14 @@ test("ardyn plan --review-artifact prints stable non-executing approval artifact
 });
 
 test("ardyn plan --review-artifact --output writes only the requested review artifact file", async () => {
-  const exportDir = await mkdtemp(join(tmpdir(), "ardyn-review-artifact-"));
-  const outputPath = join(exportDir, "approval-review-artifact.json");
+  // Correctness-cleanup: --output is now containment-guarded, so the fixture
+  // uses a RELATIVE path inside the working directory (same assertions —
+  // "writes only the requested file" — under the stricter policy).
+  const relativeDir = join(".ardyn-test-review-artifact");
+  const outputPath = join(relativeDir, "approval-review-artifact.json");
 
   try {
+    await mkdir(relativeDir, { recursive: true });
     const expectedArtifact = await runCli([
       "plan",
       "--manifest",
@@ -491,7 +495,7 @@ test("ardyn plan --review-artifact --output writes only the requested review art
       outputPath
     ]);
 
-    assert.deepEqual(await readdir(exportDir), ["approval-review-artifact.json"]);
+    assert.deepEqual(await readdir(relativeDir), ["approval-review-artifact.json"]);
     assert.equal(await readFile(outputPath, "utf8"), expectedBytes);
     assert.deepEqual(summary, {
       command: "plan",
@@ -503,7 +507,7 @@ test("ardyn plan --review-artifact --output writes only the requested review art
     });
     assertAllFalse(summary.safety);
   } finally {
-    await rm(exportDir, { recursive: true, force: true });
+    await rm(relativeDir, { recursive: true, force: true });
   }
 });
 
