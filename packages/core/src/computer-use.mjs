@@ -375,31 +375,46 @@ export function createSandboxSession(options = {}) {
       audit.record({ action: "control_released", timestamp: new Date().toISOString() });
     },
 
-    // M11-real: Kill switch — REAL docker kill to tear the sandbox down
+    // M11-real: Kill switch — REAL docker kill to tear the sandbox down.
+    // Credibility pass: teardown spawns get 'error' listeners (a missing docker
+    // binary used to crash the process with an unhandled 'error' event) and
+    // failures are audited instead of silently swallowed.
     kill() {
       if (!alive) return;
       alive = false;
       killedReason = "kill_switch";
       audit.record({ action: "kill_switch_activated", timestamp: new Date().toISOString() });
       metrics.counter("ardyn_runtime_sessions_killed_total");
-      // REAL: docker kill
       if (!options.dryRun && options.approved) {
         const { cmd, args } = buildKillCommand();
-        try { _spawn(cmd, args, { stdio: ["pipe", "pipe", "pipe"] }); } catch {}
+        try {
+          const child = _spawn(cmd, args, { stdio: ["pipe", "pipe", "pipe"] });
+          child.on("error", (err) => {
+            audit.record({ action: "kill_error", error: err?.message ?? String(err), timestamp: new Date().toISOString() });
+          });
+        } catch (err) {
+          audit.record({ action: "kill_error", error: err?.message ?? String(err), timestamp: new Date().toISOString() });
+        }
       }
     },
 
-    // M11-real: End session — REAL docker rm to destroy the sandbox
+    // M11-real: End session — REAL docker rm to destroy the sandbox.
     end() {
       if (!alive) return;
       alive = false;
       destroyReason = "session_end";
       audit.record({ action: "session_ended", timestamp: new Date().toISOString() });
       metrics.counter("ardyn_runtime_sessions_killed_total");
-      // REAL: docker rm -f
       if (!options.dryRun && options.approved) {
         const { cmd, args } = buildRmCommand();
-        try { _spawn(cmd, args, { stdio: ["pipe", "pipe", "pipe"] }); } catch {}
+        try {
+          const child = _spawn(cmd, args, { stdio: ["pipe", "pipe", "pipe"] });
+          child.on("error", (err) => {
+            audit.record({ action: "end_error", error: err?.message ?? String(err), timestamp: new Date().toISOString() });
+          });
+        } catch (err) {
+          audit.record({ action: "end_error", error: err?.message ?? String(err), timestamp: new Date().toISOString() });
+        }
       }
     },
 

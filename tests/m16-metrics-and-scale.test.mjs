@@ -64,13 +64,20 @@ test("M16: runtime sessions started/killed counted", async () => {
 test("M16: gateway messages counted per channel (platform label only)", async () => {
   const gw = await import("../packages/gateway/src/gateway.mjs");
   const chat = gw.createGateway({
-    adapters: { telegram: new gw.TelegramAdapter({ botToken: "t" }) },
+    // Both channels explicitly configured — labels stay bounded by config.
+    adapters: {
+      telegram: new gw.TelegramAdapter({ botToken: "t" }),
+      slack: new gw.SlackAdapter({ signingSecret: "s" }),
+    },
   });
   chat.handleInbound({ platform: "telegram", platformUserId: "u1", body: "{}", signature: "bad" });
   chat.handleInbound({ platform: "slack", platformUserId: "u1", body: "{}", signature: "bad" });
+  // STRONGER (credibility pass): unknown platforms must NOT mint metric series.
+  chat.handleInbound({ platform: "junk-platform-xyz", platformUserId: "u1", body: "{}", signature: "bad" });
   const out = metrics.render();
   assert.match(out, /ardyn_gateway_messages_total\{platform="telegram"\} \d+/);
   assert.match(out, /ardyn_gateway_messages_total\{platform="slack"\} \d+/);
+  assert.doesNotMatch(out, /junk-platform-xyz/, "unknown platform must not become a label");
 });
 
 test("M16: auth failures counted without username labels", async () => {

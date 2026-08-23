@@ -179,6 +179,12 @@ export function startFabricFederationReceiver(clientOrConfig, handler, options =
     1_000,
   );
   const signal = options.signal;
+  // Credibility pass: receiver errors are surfaced via onError (default:
+  // console.error) instead of being silently swallowed — a dead receive loop
+  // must never look like a healthy one.
+  const onError = typeof options.onError === "function" ? options.onError : (error) => {
+    console.error(`[federation] receiver poll failed: ${error?.message ?? error}`);
+  };
   let stopped = false;
   let timer;
   let lastKeepaliveAt = 0;
@@ -191,20 +197,31 @@ export function startFabricFederationReceiver(clientOrConfig, handler, options =
 
   const tick = async () => {
     if (stopped || signal?.aborted) return;
-    const now = Date.now();
-    if (now - lastKeepaliveAt >= keepaliveEveryMs) {
-      await postReachability(config, config.paths.keepalive, { signal });
-      lastKeepaliveAt = now;
-    }
-    await pollInboundOnce(config, handler, { signal });
-    if (!stopped && !signal?.aborted) {
-      timer = setTimeout(() => {
-        tick().catch(() => undefined);
-      }, intervalMs);
+    try {
+      const now = Date.now();
+      if (now - lastKeepaliveAt >= keepaliveEveryMs) {
+        await postReachability(config, config.paths.keepalive, { signal });
+        lastKeepaliveAt = now;
+      }
+      await pollInboundOnce(config, handler, { signal });
+    } catch (error) {
+      // Self-healing: a transient failure must NOT kill the loop. Report it,
+      // then keep polling on schedule.
+      onError(error);
+    } finally {
+      if (!stopped && !signal?.aborted) {
+        timer = setTimeout(() => {
+          tick();
+        }, intervalMs);
+      }
     }
   };
 
-  const ready = postReachability(config, config.paths.register, { signal }).then(() => tick());
+  const ready = postReachability(config, config.paths.register, { signal })
+    // Self-healing: a failed initial registration is reported and retried by
+    // the keepalive cadence instead of killing the receiver before it starts.
+    .catch((error) => onError(error))
+    .then(() => tick());
   return { ready, stop };
 }
 
@@ -955,10 +972,27 @@ function loadSiblingKeys() {
   }
 }
 
-// Canonical payload: stable JSON of the envelope excluding signature fields
+// Canonical payload: stable JSON of the envelope excluding signature fields.
+// Credibility pass: recursive sorted-key canonicalization. The previous
+// `JSON.stringify(rest, Object.keys(rest).sort())` used an array replacer,
+// which filters keys at EVERY nesting level — nested fields were silently
+// unsigned. This canonicalizer sorts keys at all depths so the signature
+// covers the entire payload tree. MUST stay byte-identical with the copy in
+// handoff.mjs (pinned by tests/m20-federation-a2a.test.mjs).
+function canonicalJson(value) {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  if (value && typeof value === "object") {
+    const body = Object.keys(value).sort()
+      .map((k) => `${JSON.stringify(k)}:${canonicalJson(value[k])}`)
+      .join(",");
+    return `{${body}}`;
+  }
+  return JSON.stringify(value) ?? "null";
+}
+
 function canonicalSignedPayload(envelope) {
   const { signature, signatureDid, ...rest } = envelope;
-  return JSON.stringify(rest, Object.keys(rest).sort());
+  return canonicalJson(rest);
 }
 
 function isInboundAuthenticated(envelope, fromDid) {

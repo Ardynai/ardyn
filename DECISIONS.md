@@ -15,9 +15,9 @@ Standing decisions for the Ardyn project. These are not relitigated unless expli
 **Decision:** `serve-runtime` requires `--enable-runtime` flag to produce any output, and `--approve` for non-dry-run execution.
 **Rationale:** Security invariant — runtime must never execute implicitly. The approval gate is enforced in the CLI, not just documented.
 
-### D-003: Federation client hardened but NOT wired
+### D-003: Federation client hardened — later WIRED as a gated A2A surface (superseded by M20)
 **Date:** 2026-07-05 (PR #4) + 2026-08-19 (M4 hardening)
-**Decision:** `packages/fabric/src/federation.mjs` is present and hardened (redirect:manual, host allowlist, response cap, identity confinement) but is NOT imported by CLI or host.
+**Decision:** `packages/fabric/src/federation.mjs` is present and hardened (redirect:manual, host allowlist, response cap, identity confinement). UPDATE (M20): the CLI now imports it for a GATED A2A exchange (`--enable-federation-exchange --approve`); status/config remain ungated reads.
 **Rationale:** Security invariant — the federation client must be hardened before wiring. Hardening is complete; wiring requires explicit authorization.
 
 ### D-004: reviewedAtDefaulted field
@@ -43,5 +43,5 @@ Standing decisions for the Ardyn project. These are not relitigated unless expli
 **Rationale:** The boundary-map specs (5.61/5.76) describe the contract but don't mandate a specific implementation. Adding a DB engine requires a new dependency, which needs explicit approval per the dependency allowlist policy.
 
 ### D-B02: Federation client wiring
-**Decision:** BLOCKED — federation client is hardened but not wired into CLI/host.
+**Decision:** Originally BLOCKED; M20 authorized wiring behind explicit approval flags with closed sibling allowlists and Ed25519 verification enforced on every message.
 **Rationale:** Wiring requires explicit authorization. The pre-wiring hardening (M4) is complete.

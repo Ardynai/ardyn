@@ -86,11 +86,17 @@ export function createHiClawMatrixAdapter(options = {}) {
   const senderAllowlist = new Set(allowedSenders ?? [...byRoomId.values()].map(e => e.matrixUserId));
 
   function resolveTarget(target) {
+    // Credibility pass: outbound is now deny-by-default too — every target
+    // form must resolve to a room in the configured registry. (Previously the
+    // object/raw-room forms bypassed the allowlist entirely.)
     if (target && typeof target === "object") {
       const roomId = target.roomId ?? target.room_id;
       if (!roomId) throw new Error("send target object requires roomId");
-      const known = byRoomId.get(roomId);
-      return { roomId: String(roomId), mentionUserId: target.userId ?? known?.matrixUserId ?? null };
+      const known = byRoomId.get(String(roomId));
+      if (!known) {
+        throw new Error(`Refused: room "${String(roomId)}" is not in the configured rooms registry (outbound is deny-by-default).`);
+      }
+      return { roomId: known.roomId, mentionUserId: target.userId ?? known.matrixUserId };
     }
     const t = String(target ?? "");
     if (byName.has(t)) {
@@ -99,7 +105,10 @@ export function createHiClawMatrixAdapter(options = {}) {
     }
     if (t.startsWith("!")) {
       const known = byRoomId.get(t);
-      return { roomId: t, mentionUserId: known?.matrixUserId ?? null };
+      if (!known) {
+        throw new Error(`Refused: room "${t}" is not in the configured rooms registry (outbound is deny-by-default).`);
+      }
+      return { roomId: known.roomId, mentionUserId: known.matrixUserId };
     }
     throw new Error(`Unknown HiClaw target "${t}": not in the configured rooms registry`);
   }

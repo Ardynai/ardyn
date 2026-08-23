@@ -853,11 +853,12 @@ async function run(argv) {
     const handshake = await createStaticHandshakeFromPath(manifestPath);
     const sessionId = `session-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 
-    // Redaction: mask token/secret/password patterns in stderr
+    // Redaction: CREDIBILITY PASS — delegate to the single canonical redactor
+    // (packages/core/src/internal/redaction.mjs). Applied to stderr AND stdout
+    // frames so secrets never reach transcripts/audit/SSE.
+    const { redactSecretsDeep } = await import(pathToFileURL(join(process.cwd(), "packages/core/src/internal/redaction.mjs")).href);
     function redactStderr(text) {
-      return text
-        .replace(/(?:token|secret|password|api_key|apikey)\s*=\s*[^\s]+/gi, "REDACTED")
-        .replace(/(?:Bearer)\s+[A-Za-z0-9._-]+/gi, "Bearer REDACTED");
+      return redactSecretsDeep(text);
     }
 
     // Dry-run: produce static plan, no process spawning
@@ -997,7 +998,9 @@ async function run(argv) {
             const evt = {
               type: "stdout_frame",
               timestamp: new Date().toISOString(),
-              frame
+              // Credibility pass: stdout frames are REDACTED before reaching
+              // transcript/audit/SSE — previously recorded verbatim.
+              frame: (() => { try { return JSON.parse(redactStderr(JSON.stringify(frame))); } catch { return redactStderr(JSON.stringify(frame)); } })()
             };
             transcriptEvents.push(evt);
             // M6: SSE streaming — emit event immediately if --stream
@@ -1050,11 +1053,23 @@ async function run(argv) {
       if (killTimer) clearTimeout(killTimer);
       const wasKilled = killSwitchActivated || (exitCode === null && child.killed);
 
+      // Credibility pass: stdout (and parsed frames) are REDACTED before they
+      // reach processResult / sessionPlan / transcript output. Previously only
+      // stderr was masked, so secrets printed to stdout leaked verbatim.
+      const redactedStdout = redactStderr(stdoutData).trim();
+      const redactedFrames = frames.map((frame) => {
+        try {
+          return JSON.parse(redactStderr(JSON.stringify(frame)));
+        } catch {
+          return JSON.parse(JSON.stringify(redactStderr(JSON.stringify(frame))));
+        }
+      });
+
       processResult = {
         exitCode: spawnError ? -1 : (wasKilled ? -1 : exitCode),
-        stdout: stdoutData.trim(),
+        stdout: redactedStdout,
         stderr: redactStderr(stderrData).trim(),
-        frames,
+        frames: redactedFrames,
         killed: wasKilled,
         killedReason: wasKilled ? "kill_switch_timeout" : null,
         spawnError: spawnError
@@ -1150,12 +1165,19 @@ async function run(argv) {
       return;
     }
 
-    // Live execution — create sandbox session
-    const session = createSandboxSession({ sessionId, dryRun: false });
+    // Live execution — create sandbox session and START it for real.
+    // Credibility pass: the previous code printed sandboxSpawned:true for a
+    // session that was created but never started. Now the true state is
+    // reported (spawned / spawnError / alive), whatever it is.
+    const session = createSandboxSession({ sessionId, dryRun: false, approved: true });
+    const startResult = await session.start();
     printJson({
       command: "computer-use",
       dryRun: false,
-      sandboxSpawned: true,
+      started: Boolean(startResult.spawned),
+      spawnError: startResult.spawnError ?? null,
+      containerId: startResult.containerId ?? null,
+      sandboxSpawned: Boolean(startResult.spawned),
       sandboxImage: SANDBOX_IMAGE,
       sessionId,
       networkEgress: { default: "deny", allowlist: config.networkAllowlist },

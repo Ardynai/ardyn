@@ -5,7 +5,7 @@
 ![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)
 ![Rust](https://img.shields.io/badge/rust-stable-orange)
-![Tests](https://img.shields.io/badge/tests-1367%20Node%20%2B%20101%20Rust-brightgreen)
+![Tests](https://img.shields.io/badge/tests-1455%2B%20Node%20%2B%20102%20Rust-brightgreen)
 ![Status](https://img.shields.io/badge/status-alpha--build-yellow)
 
 ![Ardyn Architecture](docs/diagrams/architecture.svg)
@@ -20,29 +20,13 @@ Ardyn is an AI harness/framework that lets you define agent-system contracts —
 
 ## Why it matters
 
-Agent systems need more than prompts — they need contracts, approval gates, audit trails, and kill switches. Ardyn provides the infrastructure to run agents safely: every action is decided before it happens and recorded after. Computer-use runs in isolated sandboxes, never on the host. Federation is hardened but content exchange stays unwired until explicitly authorized.
+Agent systems need more than prompts — they need contracts, approval gates, audit trails, and kill switches. Ardyn provides the infrastructure to run agents safely: every action is decided before it happens and recorded after. Computer-use runs in isolated sandboxes, never on the host. Federation A2A handoff exchange is wired and live behind explicit approval flags (`--enable-federation-exchange --approve`) — nothing sends or receives without an operator's say-so.
 
 ## Console
 
-The Ardyn Harness Console is a Next.js 15 / React 19 web UI for operating and observing the harness. It features a distinctive "command-room" design with signal-cyan accent, deep void backgrounds, monospace data, and real loading/empty/error states.
+The Ardyn Harness Console is a Next.js 15 / React 19 web UI for operating and observing the harness: a "command-room" design with signal-cyan accent, deep void backgrounds, monospace data, and real loading/empty/error states.
 
-![Dashboard](docs/assets/console-dashboard.png)
-*Dashboard — KPI cards, system status, live SSE event feed*
-
-![Federation](docs/assets/console-federation.png)
-*Federation — hardening checklist, sibling DID allowlist*
-
-![Runtime](docs/assets/console-runtime.png)
-*Runtime — approval gate, kill switch, sandbox features*
-
-![Onboarding](docs/assets/console-onboarding.png)
-*Onboarding — 5-step integrator flow with SDK quickstart*
-
-![Trace Viewer](docs/assets/console-trace.png)
-*Trace Viewer — session transcript schema and replay*
-
-![Fixtures](docs/assets/console-fixtures.png)
-*Fixtures — boundary maps, phase records, test fixtures*
+> Note (credibility pass): earlier screenshots in this section were AI-generated mockups, not captures of the running app. They have been removed until real screenshots are captured from a built console. Run it yourself: `cd apps/console && npm run dev`.
 
 ## Quickstart
 
@@ -51,8 +35,8 @@ The Ardyn Harness Console is a Next.js 15 / React 19 web UI for operating and ob
 npm ci
 
 # Run tests (local green gate — replaces CI)
-node --test tests/*.test.mjs          # 1367 Node tests
-cargo test --manifest-path crates/ardyn-host/Cargo.toml  # 101 Rust tests
+node --test tests/*.test.mjs          # 1455+ Node tests (run node --test tests/*.test.mjs)
+cargo test --manifest-path crates/ardyn-host/Cargo.toml  # 102 Rust tests (lib + bin targets)
 
 # CLI usage
 node apps/cli/src/index.mjs doctor --manifest examples/minimal-manifest/ardyn.manifest.json
@@ -73,18 +57,22 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 
 | Component | Path | Description |
 |---|---|---|
-| CLI | `apps/cli/src/index.mjs` | 13 commands: doctor, identity, capabilities, plan, review-trace, review-artifact, validate-session-transcript, emit-session-events, serve-runtime, computer-use, federation, shell, sqlite |
-| Core | `packages/core/src/index.mjs` | 73k-line monolith with 128+ exports. Modularized into barrel re-exports: validation.js, create-review-helpers.js, data-helpers.js, schema-helpers.js |
-| Computer-use | `packages/core/src/computer-use.mjs` | Governed sandbox (Docker, ubuntu:22.04, Xvfb). Record-before-act gateway, take-the-wheel, per-session token |
+| CLI | `apps/cli/src/index.mjs` | 14 commands: doctor, identity, capabilities, plan, review-trace, review-artifact, validate-session-transcript, emit-session-events, serve-runtime, computer-use, federation (status/config/send-handoff/receive-handoff), shell, sqlite, serve |
+| Core | `packages/core/src/index.mjs` | ~69k-line monolith with 427 exports. NOTE: the "modularization" files (validation.js, create-review-helpers.js, data-helpers.js, schema-helpers.js) are barrel RE-EXPORTS — the monolith is intact; real extraction is still open work. New M15-M20 code lives in proper modules: processor-pipeline, metrics, glossopetrae-codec, user-memory, provider-adapter |
+| Processor pipeline | `packages/core/src/processor-pipeline.mjs` | Pluggable pre/post processors behind the action gateways (policy-gate, audit-record, redact-result built-ins); fail-closed on broken processors |
+| Provider adapter | `packages/core/src/provider-adapter.mjs` | Dependency-free BYO-model seam (OpenAI-compatible + Gemini; generate/stream/embed) over raw fetch |
+| Computer-use | `packages/core/src/computer-use.mjs` | Governed sandbox (Docker, ubuntu:22.04, Xvfb). Record-before-act gateway via the processor pipeline, take-the-wheel, per-session token |
 | Multi-user | `packages/core/src/multi-user.mjs` | Per-user accounts, sessions, sandboxes. Strict isolation (tested) |
-| Loop-state | `packages/core/src/loop-state.mjs` | Goals, todos (claimed_by), gates, quota, append-only run history |
-| User memory | `packages/core/src/user-memory.mjs` | Per-user memory + profile, cross-session search, strict isolation |
-| Gateway | `packages/gateway/src/gateway.mjs` | Telegram + Slack adapters, webhook verification (constant-time), per-user mapping |
-| Data/auth | `packages/core/src/data-auth.mjs` | SQLite DB, permissions, rate limiting, SQL injection prevention |
-| Federation | `packages/fabric/src/federation.mjs` | Hardened client (8/8 checks), real Ed25519 signature verification, content exchange UNWIRED |
+| Loop-state | `packages/core/src/loop-state.mjs` | Goals, todos (atomic claims), gates, quota (atomic spend), append-only run history |
+| User memory | `packages/core/src/user-memory.mjs` | Per-user memory + profile, keyword search + RAG semantic recall (embeddings stored per row; user_id-prefiltered top-k cosine), strict isolation |
+| Gateway | `packages/gateway/src/gateway.mjs` | Telegram + Slack adapters, webhook verification (constant-time), deny-by-default sender allowlist, windowed rate limiter, per-user mapping |
+| HiClaw Matrix | `packages/gateway/src/hiclaw-matrix.mjs` | Raw-fetch Matrix client for the HiClaw homeserver (send m.text txn PUTs + /sync receive); deny-by-default room/sender allowlists; NO Matrix SDK, no E2EE |
+| Data/auth | `packages/core/src/data-auth.mjs` | SQLite DB, permissions, DB-backed cross-instance rate limiter, secrets helpers |
+| Metrics | `packages/core/src/metrics.mjs` | Zero-dep Prometheus registry (`/metrics` on the console; aggregate labels only) |
+| Federation | `packages/fabric/src/federation.mjs` + `handoff.mjs` | Hardened client (real Ed25519 verification, streamed-byte size cap, loopback sidecar). A2A handoff exchange WIRED behind `--enable-federation-exchange --approve`; GLOSSOPETRAE-pattern GL1 codec (`packages/core/src/glossopetrae-codec.mjs`) |
 | Rust host | `crates/ardyn-host/` | Session lifecycle, stdio runtime, subprocess bridge binary |
-| Console | `apps/console/` | Next.js 15 / React 19 web UI with 6 pages + 7 API routes |
-| SDK | `packages/sdk/` | TypeScript types (15+ interfaces) |
+| Console | `apps/console/` | Next.js 15 / React 19 web UI with 6 pages + 8 API routes |
+| SDK | `packages/sdk/` | TypeScript types + minimal helpers (early stage — see package README) |
 | Display components | `packages/sdk/src/components/` | SessionTrace, StatusBadge, ManifestViewer, ApprovalGate |
 
 ## Configuration
@@ -112,17 +100,18 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 | Modularization | ✅ Complete | Barrel re-export modules (validation, helpers, data, schema) |
 | SSE CLI→console | ✅ Complete | Event buffer round-trip tested, live events on dashboard |
 | Vercel deployment | ⚠️ Blocked on Josh | Config ready (`vercel.json`, `.vercelignore`), needs `vercel login` (interactive browser auth) |
-| Console UI redesign | ✅ Complete | Command-room design with signal-cyan, real states, screenshots |
+| Console UI redesign | ✅ Complete | Command-room design with signal-cyan, real states (mockup screenshots removed pending real captures) |
 
 ## Security
 
 - Computer-use runs ONLY in isolated Docker containers, never the host
-- Every session is approval-gated + kill-switchable + audited + secret-redacted
-- Per-user isolation enforced AND tested (sessions, sandboxes, memory)
-- Federation content-exchange stays UNWIRED
+- Every session is approval-gated + kill-switchable + audited + secret-redacted (stdout AND stderr)
+- Per-user isolation enforced AND tested (sessions, sandboxes, memory incl. RAG recall)
+- Federation A2A exchange is WIRED but strictly gated: nothing sends/receives without `--enable-federation-exchange --approve`; closed sibling-DID allowlist + real Ed25519 verification on every message
 - Real Ed25519 signature verification for inbound federation messages
 - Constant-time HMAC comparison for gateway webhook verification
 - No secrets committed; all tokens from env / gitignored `config/secret/`
+- HiClaw Matrix adapter: raw fetch only — NO Matrix SDK, no E2EE; encrypted events are skipped, never decrypted
 
 ## Phase Documentation
 

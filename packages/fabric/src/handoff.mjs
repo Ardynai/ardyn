@@ -70,10 +70,23 @@ function loadSigningKey(localDid) {
 }
 
 // Mirror of federation.mjs canonicalSignedPayload(): envelope minus signature
-// fields, JSON-stringified with sorted top-level keys. MUST stay identical.
+// fields, recursively canonicalized (sorted keys at ALL depths — the old array-
+// replacer form left nested fields unsigned). MUST stay byte-identical with the
+// federation.mjs copy (pinned by tests/m20-federation-a2a.test.mjs).
+function canonicalJson(value) {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  if (value && typeof value === "object") {
+    const body = Object.keys(value).sort()
+      .map((k) => `${JSON.stringify(k)}:${canonicalJson(value[k])}`)
+      .join(",");
+    return `{${body}}`;
+  }
+  return JSON.stringify(value) ?? "null";
+}
+
 function canonicalSignedPayload(envelope) {
   const { signature, signatureDid, ...rest } = envelope;
-  return JSON.stringify(rest, Object.keys(rest).sort());
+  return canonicalJson(rest);
 }
 
 export function signHandoffEnvelope(envelope, signingKeyPemOrDerBase64) {

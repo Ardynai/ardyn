@@ -68,8 +68,13 @@ function checksumOf(canonical) {
   return createHash("sha256").update(canonical, "utf8").digest("hex").slice(0, 16);
 }
 
-// Invisible-character stego vectors (zero-width, bidi controls, C0/C1 except \n\r\t).
-const COVERT_CHAR_RE = /[\u200B-\u200F\u202A-\u202E\u2060-\u2064\uFEFF\u00AD\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/;
+// Invisible-character stego vectors (zero-width, bidi controls/overrides/
+// isolates, variation selectors, tag characters, C0/C1 except \n\r\t).
+// Credibility pass: adds variation selectors (FE00-FE0F), bidi isolates and
+// overrides (2066-2069, 202A-202E), and tag chars (E0000-E007F) that were
+// previously accepted — each is canonical-stable and therefore a working
+// covert channel if allowed through.
+const COVERT_CHAR_RE = /[\u200B-\u200F\u202A-\u202E\u205F\u2060-\u2069\uFE00-\uFE0F\uFEFF\u{E0000}-\u{E007F}\u{E0100}-\u{E01EF}\u00AD\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/u;
 
 export function containsCovertChars(text) {
   return COVERT_CHAR_RE.test(String(text ?? ""));
