@@ -14,6 +14,7 @@
  */
 
 export { assertLocalFilePath } from "./index.mjs";
+export { assertContainedWritePath } from "./internal/paths.mjs";
 export { assertLocalJsonFilePath } from "./index.mjs";
 export { validateApprovalReviewArtifact } from "./index.mjs";
 export { validateApprovalReviewArtifactVersion } from "./index.mjs";

@@ -32,10 +32,24 @@ export async function runFederationExchangeCommand({ subCommand, args = [], prin
   const federationModule = await import(pathToFileURL(join(cwd, "packages/fabric/src/federation.mjs")).href);
   const handoffModule = await import(pathToFileURL(join(cwd, "packages/fabric/src/handoff.mjs")).href);
   const config = federationModule.loadFabricFederationConfigFromEnv();
+
+  // Correctness-cleanup: FAIL-CLOSED credentials. Previously a missing env var
+  // produced Authorization: Bearer "unset" — silent garbage auth against the
+  // remote registry. Now we refuse locally, naming the missing variables.
+  const registryToken = process.env.ARDYN_FABRIC_REGISTRY_TOKEN;
+  const sidecarToken = process.env.ARDYN_FABRIC_SIDECAR_TOKEN ?? process.env.FABRIC_TRANSPORT_D_AUTH_TOKEN;
+  const missing = [];
+  if (!registryToken || !registryToken.trim()) missing.push("ARDYN_FABRIC_REGISTRY_TOKEN");
+  if (!sidecarToken || !sidecarToken.trim()) missing.push("ARDYN_FABRIC_SIDECAR_TOKEN (or FABRIC_TRANSPORT_D_AUTH_TOKEN)");
+  if (missing.length > 0) {
+    fail(`Refusing to contact the registry/sidecar without credentials. Set: ${missing.join(", ")}.`);
+    return;
+  }
+
   const client = federationModule.createFabricFederationClient({
     ...config,
-    registryToken: process.env.ARDYN_FABRIC_REGISTRY_TOKEN ?? "unset",
-    sidecarToken: process.env.ARDYN_FABRIC_SIDECAR_TOKEN ?? process.env.FABRIC_TRANSPORT_D_AUTH_TOKEN ?? "unset",
+    registryToken,
+    sidecarToken,
   });
   const handoff = handoffModule.createFederationHandoff({ client, localDid: config?.localDid });
 

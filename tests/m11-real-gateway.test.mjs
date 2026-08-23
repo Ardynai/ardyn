@@ -43,7 +43,8 @@ test("M11-real: Telegram webhook rejects different-length signatures (no crash)"
 
 test("M11-real: Slack webhook uses timingSafeEqual (valid sig passes)", () => {
   const signingSecret = "8f742231b10e8888abcd99e466st";
-  const timestamp = "1234567890";
+  // Correctness-cleanup: fresh timestamp (replay window now enforced).
+  const timestamp = String(Math.floor(Date.now() / 1000));
   const body = JSON.stringify({ type: "event_callback", event: { text: "hello" } });
   const sigBase = `v0:${timestamp}:${body}`;
   const hmac = createHmac("sha256", signingSecret).update(sigBase).digest("hex");
