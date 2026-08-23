@@ -26,7 +26,14 @@ Agent systems need more than prompts — they need contracts, approval gates, au
 
 The Ardyn Harness Console is a Next.js 15 / React 19 web UI for operating and observing the harness: a "command-room" design with signal-cyan accent, deep void backgrounds, monospace data, and real loading/empty/error states.
 
-> Note (credibility pass): earlier screenshots in this section were AI-generated mockups, not captures of the running app. They have been removed until real screenshots are captured from a built console. Run it yourself: `cd apps/console && npm run dev`.
+> Screenshots below are real captures of the running console (dark "command-room" theme). Run it yourself: `cd apps/console && npm run dev`.
+
+![Dashboard](docs/assets/console-dashboard.png)
+![Federation](docs/assets/console-federation.png)
+![Runtime](docs/assets/console-runtime.png)
+![Trace Viewer](docs/assets/console-trace.png)
+![Fixtures](docs/assets/console-fixtures.png)
+![Onboarding](docs/assets/console-onboarding.png)
 
 ## Quickstart
 
@@ -97,10 +104,10 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 | M12 | ✅ Complete | Loop-state control plane (goals, gates, todos, quota) |
 | M13 | ✅ Complete | Multi-interface gateway (Telegram + Slack adapters) |
 | M14 | ✅ Complete | Per-user memory (cross-session recall, isolated) |
-| Modularization | ✅ Complete | Barrel re-export modules (validation, helpers, data, schema) |
-| SSE CLI→console | ✅ Complete | Event buffer round-trip tested, live events on dashboard |
+| Modularization | ⚠️ Partial | Barrel re-export shims only; the ~69k-line `packages/core/src/index.mjs` monolith is intact (real split still open) |
+| SSE CLI→console | ⚠️ Partial | Server route + event buffer round-trip tested; console panel is a STUB (no EventSource client subscribes yet) |
 | Vercel deployment | ⚠️ Blocked on Josh | Config ready (`vercel.json`, `.vercelignore`), needs `vercel login` (interactive browser auth) |
-| Console UI redesign | ✅ Complete | Command-room design with signal-cyan, real states (mockup screenshots removed pending real captures) |
+| Console UI redesign | ✅ Complete | Command-room design with signal-cyan, real states; real screenshots in `docs/assets/` |
 
 ## Security
 
