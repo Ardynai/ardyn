@@ -2,7 +2,7 @@
 
 Status as of branch `feat/modularize-and-rollback`. Measured line counts, not estimates.
 
-## Baseline → current
+## RESULTS (measured on feat/finish-modularization)
 
 | | lines |
 |---|---|
