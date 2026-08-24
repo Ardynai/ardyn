@@ -20,15 +20,6 @@ export const ARDYN_SCHEMA_VERSION = "0.1.0";
 export const ARDYN_PHASE = "phase-3-task-planning";
 export const ARDYN_STDIO_DRY_RUN_PHASE = "phase-4.0a-stdio-event-dry-run";
 
-export const STDIO_FRAMING_REDACTION_CONTRACT_SCHEMA =
-  "ardyn.stdio-framing-redaction-contract";
-export const STDIO_FRAMING_REDACTION_CONTRACT_VERSION = "0.1.0";
-export const JSONL_WHOLE_LINE_BUNDLE_VALID = "valid_whole_line_bundle";
-export const JSONL_WHOLE_LINE_BUNDLE_BLANK_LINE_REJECTED = "blank_line_rejected";
-export const JSONL_WHOLE_LINE_BUNDLE_MISSING_FINAL_LF = "missing_final_lf";
-export const JSONL_WHOLE_LINE_BUNDLE_CRLF_REJECTED = "crlf_rejected";
-export const JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE = "malformed_json_line";
-export const JSONL_WHOLE_LINE_BUNDLE_PARTIAL_LINE_REJECTED = "partial_line_rejected";
 
 export { ARDYN_STDIO_FRAMING_REDACTION_PHASE, STDERR_REDACTION_SAFE, STDERR_REDACTION_UNREDACTABLE_FAIL_CLOSED, STDERR_REDACTION_MALFORMED } from "./internal/diagnostic-redaction.mjs";
 export { redactStderrDiagnosticForReview, classifyRedactionSafety } from "./internal/diagnostic-redaction.mjs";
@@ -3626,227 +3617,13 @@ export function formatSessionEventsJsonl(events) {
 }
 
 
-function jsonlRuntimeEffect() {
-  return {
-    currentContractEnablesRuntime: false,
-    processStdioOwnershipAvailable: false,
-    stdoutWriterAvailable: false,
-    stderrWriterAvailable: false,
-    stdinReaderAvailable: false,
-    runtimeCommandAvailable: false,
-    writesToStdout: false,
-    writesToStderr: false
-  };
-}
-
-function framingValidationRecord(classification, fields = {}) {
-  const valid = classification === JSONL_WHOLE_LINE_BUNDLE_VALID;
-
-  return {
-    schema: "ardyn.jsonl-whole-line-bundle-validation",
-    schemaVersion: "0.1.0",
-    phase: ARDYN_STDIO_FRAMING_REDACTION_PHASE,
-    classification,
-    valid,
-    lineCount: fields.lineCount ?? 0,
-    lfOnly: fields.lfOnly ?? true,
-    finalLf: fields.finalLf ?? false,
-    blankLinesAllowed: false,
-    partialLineEmissionAllowed: false,
-    oneJsonObjectPerLine: valid,
-    errors: fields.errors ?? [],
-    reviewOnly: true,
-    runtimeEffect: jsonlRuntimeEffect()
-  };
-}
-
-export function formatJsonlWholeLinesForReview(records) {
-  if (!Array.isArray(records) || records.length === 0) {
-    throw new Error("review JSONL records must contain at least one object.");
-  }
-
-  const lines = [];
-
-  for (let index = 0; index < records.length; index += 1) {
-    if (!Object.prototype.hasOwnProperty.call(records, index)) {
-      throw new Error(`review JSONL record ${index + 1} is missing.`);
-    }
-
-    const record = records[index];
-
-    if (!isPlainObjectRecord(record)) {
-      throw new Error(`review JSONL record ${index + 1} must be a JSON object.`);
-    }
-
-    lines.push(stableJsonStringify(record));
-  }
-
-  return `${lines.join("\n")}\n`;
-}
-
-export function validateJsonlWholeLineBundle(jsonl) {
-  if (typeof jsonl !== "string") {
-    return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE, {
-      errors: ["bundle must be a string"]
-    });
-  }
-
-  if (jsonl.includes("\r")) {
-    return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_CRLF_REJECTED, {
-      lfOnly: false,
-      finalLf: jsonl.endsWith("\n"),
-      errors: ["bundle must be LF-only and must not contain CR or CRLF"]
-    });
-  }
-
-  if (!jsonl.endsWith("\n")) {
-    return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_MISSING_FINAL_LF, {
-      finalLf: false,
-      errors: ["bundle must end with a final LF"]
-    });
-  }
-
-  const lines = jsonl.split("\n");
-  const contentLines = lines.slice(0, -1);
-
-  for (let index = 0; index < contentLines.length; index += 1) {
-    if (contentLines[index] === "") {
-      return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_BLANK_LINE_REJECTED, {
-        lineCount: contentLines.length,
-        finalLf: true,
-        errors: [`line ${index + 1} must not be blank`]
-      });
-    }
-  }
-
-  for (let index = 0; index < contentLines.length; index += 1) {
-    const line = contentLines[index];
-    const trimmed = line.trim();
-
-    if (trimmed !== line) {
-      return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE, {
-        lineCount: contentLines.length,
-        finalLf: true,
-        errors: [`line ${index + 1} must not contain leading or trailing whitespace`]
-      });
-    }
-
-    if (trimmed.startsWith("{") && !trimmed.endsWith("}")) {
-      return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_PARTIAL_LINE_REJECTED, {
-        lineCount: contentLines.length,
-        finalLf: true,
-        errors: [`line ${index + 1} is a partial JSON object`]
-      });
-    }
-
-    let parsed;
-    try {
-      parsed = JSON.parse(line);
-    } catch {
-      return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE, {
-        lineCount: contentLines.length,
-        finalLf: true,
-        errors: [`line ${index + 1} must contain exactly one valid JSON object`]
-      });
-    }
-
-    if (!isPlainObjectRecord(parsed)) {
-      return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE, {
-        lineCount: contentLines.length,
-        finalLf: true,
-        errors: [`line ${index + 1} must contain a JSON object`]
-      });
-    }
-  }
-
-  return framingValidationRecord(JSONL_WHOLE_LINE_BUNDLE_VALID, {
-    lineCount: contentLines.length,
-    finalLf: true
-  });
-}
 
 
 
-export function createStdioFramingRedactionContractForReview() {
-  return {
-    schema: STDIO_FRAMING_REDACTION_CONTRACT_SCHEMA,
-    schemaVersion: STDIO_FRAMING_REDACTION_CONTRACT_VERSION,
-    contractKind: "stdio-framing-redaction-contract",
-    contractPhase: ARDYN_STDIO_FRAMING_REDACTION_PHASE,
-    reviewedPhase: "4.1C",
-    jsonlFraming: {
-      exactlyOneJsonObjectPerLine: true,
-      jsonObjectOnly: true,
-      lfOnly: true,
-      finalLfRequired: true,
-      blankLinesAllowed: false,
-      crlfAllowed: false,
-      partialLineEmissionAllowed: false,
-      deterministicKeyOrder: "ascii-key-order-via-stable-json-display-v1",
-      helper: "formatJsonlWholeLinesForReview"
-    },
-    stderrRedaction: {
-      deterministicCodeRequired: true,
-      deterministicMessageRequired: true,
-      codePattern: "^[a-z][a-z0-9_.-]{2,63}$",
-      redactionTokenPolicy: "typed-redaction-placeholders",
-      helper: "redactStderrDiagnosticForReview",
-      classifier: "classifyRedactionSafety",
-      failClosedOnUnredactableDiagnostics: true,
-      redactedSubjects: [
-        "secrets",
-        "environment_variables",
-        "absolute_paths",
-        "user_home_paths",
-        "tokens",
-        "api_keys",
-        "stack_traces",
-        "raw_parse_details"
-      ]
-    },
-    validation: {
-      helper: "validateJsonlWholeLineBundle",
-      jsonlClassifications: [
-        JSONL_WHOLE_LINE_BUNDLE_VALID,
-        JSONL_WHOLE_LINE_BUNDLE_BLANK_LINE_REJECTED,
-        JSONL_WHOLE_LINE_BUNDLE_MISSING_FINAL_LF,
-        JSONL_WHOLE_LINE_BUNDLE_CRLF_REJECTED,
-        JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE,
-        JSONL_WHOLE_LINE_BUNDLE_PARTIAL_LINE_REJECTED
-      ],
-      redactionClassifications: [
-        STDERR_REDACTION_SAFE,
-        STDERR_REDACTION_UNREDACTABLE_FAIL_CLOSED,
-        STDERR_REDACTION_MALFORMED
-      ]
-    },
-    runtimeEffect: {
-      currentContractEnablesRuntime: false,
-      runtimeImplementationAvailable: false,
-      runtimeCommandAvailable: false,
-      processStdioOwnershipAvailable: false,
-      stdinReaderAvailable: false,
-      stdoutWriterAvailable: false,
-      stderrWriterAvailable: false,
-      failureAuditRuntimeAvailable: false,
-      approvalEvaluatorAvailable: false
-    },
-    audit: {
-      createdAt: "1970-01-01T00:00:00.000Z",
-      createdBy: "codex-phase-4.1c",
-      reviewer: "Codex",
-      devinReviewRequiredNow: false,
-      preserveDevinReviewFor: "major-runtime-readiness-checkpoint",
-      metadataOnly: true,
-      writesFiles: false,
-      runsRuntime: false
-    }
-  };
-}
 
-export function formatStdioFramingRedactionContractJsonForReview() {
-  return `${JSON.stringify(createStdioFramingRedactionContractForReview(), null, 2)}\n`;
-}
+
+
+
 
 const TRANSCRIPT_REPLAY_CLASSIFICATIONS = Object.freeze([
   TRANSCRIPT_REPLAY_CONTRACT_ONLY,
@@ -12167,3 +11944,4 @@ export { CONSUMER_DISPLAY_ACCESSIBILITY_CONTRACT_MAP_KIND, CONSUMER_DISPLAY_ACCE
 export { APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_KIND, APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_SCHEMA, APPROVAL_EVALUATOR_CANDIDATE_INTAKE_CHECKPOINT_VERSION, APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_KIND, APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_SCHEMA, APPROVAL_PREREQUISITE_BUNDLE_CONSUMPTION_CHECKPOINT_VERSION, APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_KIND, APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_SCHEMA, APPROVAL_PREREQUISITE_INTEGRATION_CHECKPOINT_VERSION, APPROVAL_PREREQUISITE_READER_KIND, APPROVAL_PREREQUISITE_READER_SCHEMA, APPROVAL_PREREQUISITE_READER_VERSION, APPROVAL_PREREQUISITE_SOURCE_BUNDLE_KIND, APPROVAL_PREREQUISITE_SOURCE_BUNDLE_SCHEMA, APPROVAL_PREREQUISITE_SOURCE_BUNDLE_VERSION, APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_KIND, APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_SCHEMA, APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_VERSION, APPROVAL_PREREQUISITE_SOURCE_SELECTION_KIND, APPROVAL_PREREQUISITE_SOURCE_SELECTION_SCHEMA, APPROVAL_PREREQUISITE_SOURCE_SELECTION_VERSION, CONSUMER_CONTRACT_GAP_INDEX_KIND, CONSUMER_CONTRACT_GAP_INDEX_SCHEMA, CONSUMER_CONTRACT_GAP_INDEX_VERSION, CONSUMER_CONTRACT_READINESS_MATRIX_KIND, CONSUMER_CONTRACT_READINESS_MATRIX_SCHEMA, CONSUMER_CONTRACT_READINESS_MATRIX_VERSION, HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_KIND, HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_SCHEMA, HUMAN_TOOL_INSPECTION_DISPOSITION_BOUNDARY_VERSION, NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_BOUNDARY_KIND, NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_BOUNDARY_SCHEMA, NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_BOUNDARY_VERSION, NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_KIND, NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_SCHEMA, NON_AUTHORIZING_EVALUATOR_DECISION_CANDIDATE_INSPECTION_ARTIFACT_VERSION, PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_KIND, PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_SCHEMA, PREREQUISITE_REVIEW_ARTIFACT_BOUNDARY_VERSION, PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_KIND, PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_SCHEMA, PREREQUISITE_REVIEW_ARTIFACT_EVALUATOR_INPUT_HANDOFF_VERSION, REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_KIND, REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_SCHEMA, REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_VERSION, REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_KIND, REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_SCHEMA, REVIEW_ONLY_CHECKPOINT_HANDOFF_LAYER_VERSION, REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_KIND, REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_SCHEMA, REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_VERSION, REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_KIND, REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_SCHEMA, REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_VERSION, REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_KIND, REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_SCHEMA, REVIEW_ONLY_DISPOSITION_AGGREGATION_CHECKPOINT_VERSION, REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_KIND, REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_SCHEMA, REVIEW_ONLY_EVALUATOR_PREFLIGHT_CHECKPOINT_VERSION, REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_KIND, REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_SCHEMA, REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_VERSION, REVIEW_ONLY_HANDOFF_METADATA_CONSOLIDATION_LAYER_KIND, REVIEW_ONLY_HANDOFF_METADATA_CONSOLIDATION_LAYER_SCHEMA, REVIEW_ONLY_HANDOFF_METADATA_CONSOLIDATION_LAYER_VERSION, REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_KIND, REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_SCHEMA, REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_VERSION, REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_KIND, REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_SCHEMA, REVIEW_ONLY_INSPECTION_HANDOFF_CHECKPOINT_VERSION, REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_KIND, REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_SCHEMA, REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_VERSION, REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_KIND, REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_SCHEMA, REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_VERSION, REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_KIND, REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_SCHEMA, REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_BOUNDARY_VERSION, REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_KIND, REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_SCHEMA, REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_VERSION, REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_KIND, REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_SCHEMA, REVIEW_ONLY_RUNTIME_APPROVAL_EVALUATOR_VERSION, TARGET_CONSUMER_PLANNING_METADATA_KIND, TARGET_CONSUMER_PLANNING_METADATA_SCHEMA, TARGET_CONSUMER_PLANNING_METADATA_VERSION, bundleApprovalPrerequisiteSourcesForReview, consumeApprovalPrerequisiteBundleForReview, createApprovalEvaluatorCandidateIntakeCheckpointForReview, createConsumerContractGapIndexForReview, createConsumerContractReadinessMatrixForReview, createHumanToolInspectionDispositionBoundaryForReview, createNonAuthorizingEvaluatorDecisionCandidateBoundaryForReview, createNonAuthorizingEvaluatorDecisionCandidateInspectionArtifactForReview, createPrerequisiteReviewArtifactBoundaryForReview, createReviewArtifactEvaluatorInputHandoffForReview, createReviewOnlyAggregationInspectionHandoffForReview, createReviewOnlyCheckpointHandoffLayerForReview, createReviewOnlyConsolidationCheckpointHandoffForReview, createReviewOnlyConsolidationMetadataCheckpointForReview, createReviewOnlyDispositionAggregationCheckpointForReview, createReviewOnlyEvaluatorPreflightCheckpointForReview, createReviewOnlyHandoffDispositionInspectionCheckpointForReview, createReviewOnlyHandoffMetadataConsolidationLayerForReview, createReviewOnlyHandoffReadinessArtifactForReview, createReviewOnlyInspectionHandoffCheckpointForReview, createReviewOnlyInspectionHandoffMetadataBoundaryForReview, createReviewOnlyMetadataHandoffCheckpointForReview, createReviewOnlyReadinessHandoffDispositionBoundaryForReview, createReviewOnlyReadinessInspectionCheckpointForReview, createTargetConsumerPlanningMetadataForReview, evaluatePrerequisiteIntegrationCheckpointForReview, evaluateRuntimeApprovalPrerequisitesForReview, preflightApprovalPrerequisiteSourcesForReview, readApprovalPrerequisiteRecordsForReview, selectApprovalPrerequisiteSourcesForReview } from "./review-artifacts.mjs";
 import { CONSUMER_CONTRACT_GAP_INDEX_UNSAFE_RUNTIME_TRUE_FIELDS } from "./review-artifacts.mjs";
 export { AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_KIND, AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_SCHEMA, AGENT_MODE_PROFILE_SKILLHUB_CAPABILITY_BOUNDARY_MAP_VERSION, AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_KIND, AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_SCHEMA, AVAILABILITY_RECOVERY_CONTRACT_BOUNDARY_MAP_VERSION, COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND, COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_SCHEMA, COMMAND_SURFACE_SHELL_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION, EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_KIND, EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_SCHEMA, EMBEDDED_DB_QUERY_ENGINE_PRIMITIVE_CONTRACT_BOUNDARY_MAP_VERSION, ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_KIND, ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_SCHEMA, ERROR_TRACKING_LOGGING_AUDIT_INTEGRITY_CONTRACT_BOUNDARY_MAP_VERSION, EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_KIND, EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_SCHEMA, EXTERNAL_GATEWAY_MATRIX_TRANSPORT_CONTRACT_BOUNDARY_MAP_VERSION, FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_KIND, FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_SCHEMA, FABRIC_CORE_CONSUMER_INTEGRATION_READINESS_BOUNDARY_UPDATE_VERSION, INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_KIND, INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_SCHEMA, INFRASTRUCTURE_COMPLIANCE_DATA_RETENTION_CONTRACT_BOUNDARY_MAP_VERSION, MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_KIND, MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_SCHEMA, MAINTENANCE_GOVERNANCE_ADR_DEPENDENCY_POLICY_CONTRACT_BOUNDARY_MAP_VERSION, OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_KIND, OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_SCHEMA, OPERATIONS_RELIABILITY_CONTRACT_BOUNDARY_MAP_VERSION, RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_KIND, RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_SCHEMA, RATE_LIMITING_ABUSE_CONTROL_CONTRACT_BOUNDARY_MAP_VERSION, SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_KIND, SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_SCHEMA, SECRETS_MANAGEMENT_KEY_ROTATION_EXTERNAL_GATEWAY_CREDENTIAL_BOUNDARY_MAP_VERSION, SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_KIND, SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_SCHEMA, SECURITY_RLS_INPUT_SANITIZATION_CONTRACT_BOUNDARY_MAP_VERSION, TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_KIND, TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_SCHEMA, TESTING_FRAMEWORKS_QUALITY_GATES_CONTRACT_BOUNDARY_MAP_VERSION, createAgentModeProfileSkillhubCapabilityBoundaryMapForReview, createAvailabilityRecoveryContractBoundaryMapForReview, createCommandSurfaceShellPrimitiveContractBoundaryMapForReview, createEmbeddedDbQueryEnginePrimitiveContractBoundaryMapForReview, createErrorTrackingLoggingAuditIntegrityContractBoundaryMapForReview, createExternalGatewayMatrixTransportContractBoundaryMapForReview, createFabricCoreConsumerIntegrationReadinessBoundaryUpdateForReview, createInfrastructureComplianceDataRetentionContractBoundaryMapForReview, createMaintenanceGovernanceAdrDependencyPolicyContractBoundaryMapForReview, createOperationsReliabilityContractBoundaryMapForReview, createRateLimitingAbuseControlContractBoundaryMapForReview, createSecretsManagementKeyRotationExternalGatewayCredentialBoundaryMapForReview, createSecurityRlsInputSanitizationContractBoundaryMapForReview, createTestingFrameworksQualityGatesContractBoundaryMapForReview } from "./boundary-maps/infrastructure.mjs";
+export { JSONL_WHOLE_LINE_BUNDLE_BLANK_LINE_REJECTED, JSONL_WHOLE_LINE_BUNDLE_CRLF_REJECTED, JSONL_WHOLE_LINE_BUNDLE_MALFORMED_JSON_LINE, JSONL_WHOLE_LINE_BUNDLE_MISSING_FINAL_LF, JSONL_WHOLE_LINE_BUNDLE_PARTIAL_LINE_REJECTED, JSONL_WHOLE_LINE_BUNDLE_VALID, STDIO_FRAMING_REDACTION_CONTRACT_SCHEMA, STDIO_FRAMING_REDACTION_CONTRACT_VERSION, createStdioFramingRedactionContractForReview, formatJsonlWholeLinesForReview, formatStdioFramingRedactionContractJsonForReview, validateJsonlWholeLineBundle } from "./stdio-framing-redaction.mjs";
