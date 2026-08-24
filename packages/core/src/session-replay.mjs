@@ -145,7 +145,10 @@ export function createSessionTools({ audit } = {}) {
           const undone = [];
           let failedRollback = false;
           for (const done of [...completed].reverse()) {
-            if (typeof done.compensate !== "function") {
+            // Compensation may be a function ({do,result}) => undoPayload, or a
+            // plain payload (e.g. {command}) handed to execute({kind:"undo"}).
+            const comp = done.compensate;
+            if (!comp) {
               record({
                 action: "rollback_failed",
                 index: done.index,
@@ -158,7 +161,9 @@ export function createSessionTools({ audit } = {}) {
             }
             try {
               const prevResult = results.find((r) => r.index === done.index)?.result;
-              const undoPayload = await done.compensate({ do: done.do, result: prevResult });
+              const undoPayload = typeof comp === "function"
+                ? await comp({ do: done.do, result: prevResult })
+                : comp;
               await execute({ kind: "undo", index: done.index, undo: undoPayload, label: done.label });
               undone.push(done);
               record({ action: "rollback_step", index: done.index, label: done.label });
