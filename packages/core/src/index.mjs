@@ -4637,16 +4637,6 @@ export function formatFailureAuditRecordJsonForReview(options = {}) {
   return `${JSON.stringify(createFailureAuditRecordForReview(options), null, 2)}\n`;
 }
 
-function reviewOnlyInspectionHandoffMetadataBoundaryPathValue(record, path) {
-  return path.reduce(
-    (current, key) =>
-      isPlainObjectRecord(current) &&
-      Object.prototype.hasOwnProperty.call(current, key)
-        ? current[key]
-        : undefined,
-    record
-  );
-}
 
 
 
