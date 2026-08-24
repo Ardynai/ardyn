@@ -948,3 +948,315 @@ function targetConsumerPlanningMetadataForbiddenBehavior() {
 
 
 export { commandSurfaceShellBoundaryMapForbiddenBehavior, externalGatewayMatrixBoundaryMapForbiddenBehavior, secretsCredentialBoundaryMapForbiddenBehavior, maintenanceGovernanceBoundaryMapForbiddenBehavior, operationsReliabilityBoundaryMapForbiddenBehavior, testingFrameworksQualityGatesBoundaryMapForbiddenBehavior, agentModeProfileSkillhubCapabilityBoundaryMapForbiddenBehavior, infrastructureComplianceDataRetentionBoundaryMapForbiddenBehavior, availabilityRecoveryBoundaryMapForbiddenBehavior, errorTrackingLoggingAuditIntegrityBoundaryMapForbiddenBehavior, rateLimitingAbuseControlBoundaryMapForbiddenBehavior, securityRlsInputSanitizationBoundaryMapForbiddenBehavior, authPermissionsContractBoundaryMapForbiddenBehavior, databaseStorageContractBoundaryMapForbiddenBehavior, interAgentEncodedHandoffConformanceForbiddenBehavior, fabricAwareApiBackendContractBoundaryMapForbiddenBehavior, productionReadinessCoverageMatrixForbiddenBehavior, consumerContractGapIndexForbiddenBehavior, consumerContractReadinessMatrixForbiddenBehavior, targetConsumerPlanningMetadataForbiddenBehavior };
+
+const REVIEW_ONLY_EVALUATOR_PREFLIGHT_REQUIRED_FALSE_FIELDS = Object.freeze([
+  "intakeCheckpointStateIsApprovalGrant",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "runtimePermissionGranted",
+  "commandExposurePermissionGranted",
+  "runtimeCommandExposureEnabled",
+  "runtimeExecutionEnabled"
+]);
+
+
+export { REVIEW_ONLY_EVALUATOR_PREFLIGHT_REQUIRED_FALSE_FIELDS };
+
+const NON_AUTHORIZING_EVALUATOR_DECISION_REQUIRED_FALSE_FIELDS = Object.freeze([
+  "evaluatorPreflightCheckpointStateIsApprovalGrant",
+  "approvalGrantProduced",
+  "approvalGrantPersisted",
+  "runtimePermissionGranted",
+  "commandExposurePermissionGranted",
+  "runtimeCommandExposureEnabled",
+  "runtimeExecutionEnabled",
+  "evaluatorExecutionRequested",
+  "evaluatorExecutionStarted",
+  "evaluatorExecutionEnabled",
+  "evaluatorExecuted"
+]);
+
+
+export { NON_AUTHORIZING_EVALUATOR_DECISION_REQUIRED_FALSE_FIELDS };
+
+const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_DECISION_CANDIDATE_SUMMARY_FIELDS =
+  Object.freeze([
+    "candidateKind",
+    "candidateMode",
+    "candidateClassification",
+    "reviewArtifactOnly",
+    "approvalDecisionProduced",
+    "approvalGrantProduced",
+    "runtimePermissionGranted",
+    "commandExposurePermissionGranted",
+    "evaluatorExecuted",
+    "runtimeEffectAllFalse"
+  ]);
+
+
+export { REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_DECISION_CANDIDATE_SUMMARY_FIELDS };
+
+const REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_CLEANUP_EVIDENCE_FIELDS =
+  Object.freeze([
+    "phase",
+    "evidenceMode",
+    "npmAuditRequired",
+    "cargoAuditRequired",
+    "cargoMacheteRequired",
+    "fallowStaticRequired",
+    "optionalAdvisoryChecksAllowed",
+    "megaLinterRun",
+    "broadTrunkRewriteRun",
+    "toolsInstalledByPhase542",
+    "fallowRuntimeUsed",
+    "runtimeExecutionEnabled",
+    "commandExposurePermissionGranted"
+  ]);
+
+
+export { REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_CLEANUP_EVIDENCE_FIELDS };
+
+const REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_RUNTIME_EFFECT_FIELDS =
+  Object.freeze([
+    "runtimeEnabled",
+    "runtimeStarted",
+    "runtimeReady",
+    "runtimeCommandEnabled",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "runtimeExecuted",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "approvalEvaluatorAuthoritative"
+  ]);
+
+
+export { REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_RUNTIME_EFFECT_FIELDS };
+
+const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_CLEANUP_EVIDENCE_FIELDS =
+  Object.freeze([
+    "phase",
+    "evidenceMode",
+    "npmAuditRequired",
+    "cargoAuditRequired",
+    "cargoMacheteRequired",
+    "fallowStaticRequired",
+    "optionalAdvisoryChecksAllowed",
+    "megaLinterRun",
+    "broadTrunkRewriteRun",
+    "toolsInstalledByPhase543",
+    "fallowRuntimeUsed",
+    "runtimeExecutionEnabled",
+    "commandExposurePermissionGranted"
+  ]);
+
+
+export { REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_CLEANUP_EVIDENCE_FIELDS };
+
+const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_RUNTIME_EFFECT_FIELDS =
+  Object.freeze([
+    "runtimeEnabled",
+    "runtimeStarted",
+    "runtimeReady",
+    "runtimeCommandEnabled",
+    "runtimeCommandExposureEnabled",
+    "runtimeExecutionEnabled",
+    "runtimeExecuted",
+    "approvalGrantProduced",
+    "approvalGrantPersisted",
+    "approvalEvaluatorAuthoritative"
+  ]);
+
+
+export { REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_RUNTIME_EFFECT_FIELDS };
+
+function approvalPrerequisiteSourceSelectionSignature(readerInput) {
+  return JSON.stringify(
+    approvalPrerequisiteStableValue(readerInput?.prerequisiteRecords ?? [])
+  );
+}
+
+
+export { approvalPrerequisiteSourceSelectionSignature };
+
+function approvalPrerequisiteStableValue(value) {
+  if (Array.isArray(value)) {
+    return value.map((entry) => approvalPrerequisiteStableValue(entry));
+  }
+
+  if (!isPlainObjectRecord(value)) {
+    return value;
+  }
+
+  return Object.fromEntries(
+    Object.keys(value)
+      .sort()
+      .map((key) => [key, approvalPrerequisiteStableValue(value[key])])
+  );
+}
+
+
+export { approvalPrerequisiteStableValue };
+
+function approvalPrerequisiteBundleConsumptionAcceptedSummary({
+  sourceBundle,
+  evaluator
+}) {
+  return {
+    selectedBundlePartId: sourceBundle.selectedBundlePartId,
+    readerRecordCount: sourceBundle.bundledReaderInput.prerequisiteRecords.length,
+    evaluatorClassification: evaluator.classification,
+    prerequisiteSignalRecognized: evaluator.prerequisiteSignalRecognized,
+    evaluatorReviewOnly: evaluator.reviewOnly,
+    evaluatorAuthoritative: evaluator.authoritative
+  };
+}
+
+
+export { approvalPrerequisiteBundleConsumptionAcceptedSummary };
+
+const APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_BUNDLE =
+  Object.freeze({
+    missing_prerequisite_source_bundle_parts_rejected:
+      "missing_prerequisite_integration_input_rejected",
+    missing_required_prerequisite_source_bundle_part_rejected:
+      "malformed_prerequisite_integration_input_rejected",
+    malformed_prerequisite_source_bundle_part_rejected:
+      "malformed_prerequisite_integration_input_rejected",
+    conflicting_prerequisite_source_bundle_parts_rejected:
+      "conflicting_prerequisite_integration_input_rejected",
+    stale_prerequisite_source_bundle_rejected:
+      "stale_prerequisite_integration_input_rejected",
+    revoked_prerequisite_source_bundle_rejected:
+      "revoked_prerequisite_integration_input_rejected",
+    unknown_prerequisite_source_bundle_rejected:
+      "unknown_prerequisite_integration_input_rejected",
+    malformed_prerequisite_source_bundle_rejected:
+      "malformed_prerequisite_integration_input_rejected",
+    empty_prerequisite_source_bundle_rejected:
+      "empty_prerequisite_integration_input_rejected"
+  });
+
+
+export { APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_BUNDLE };
+
+const APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_CONSUMPTION =
+  Object.freeze({
+    missing_prerequisite_bundle_consumption_rejected:
+      "missing_prerequisite_integration_input_rejected",
+    malformed_prerequisite_bundle_consumption_rejected:
+      "malformed_prerequisite_integration_input_rejected",
+    conflicting_prerequisite_bundle_consumption_rejected:
+      "conflicting_prerequisite_integration_input_rejected",
+    valid_prerequisite_bundle_consumed_for_review_only_runtime_still_blocked:
+      "valid_prerequisite_integration_review_summary_runtime_still_blocked"
+  });
+
+
+export { APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_CONSUMPTION };
+
+function approvalPrerequisiteIntegrationReviewSummary(evaluator) {
+  if (evaluator == null) {
+    return null;
+  }
+
+  return {
+    schema: evaluator.schema,
+    evaluatorKind: evaluator.evaluatorKind,
+    evaluationMode: evaluator.evaluationMode,
+    classification: evaluator.classification,
+    prerequisiteSignalRecognized: evaluator.prerequisiteSignalRecognized,
+    reviewOnly: evaluator.reviewOnly,
+    authoritative: evaluator.authoritative,
+    reviewSummaryIsApprovalGrant: false,
+    approvalGrantProduced: evaluator.approvalGrant.produced,
+    approvalGrantPersisted: evaluator.approvalGrant.persisted,
+    approvalGrantId: evaluator.approvalGrant.grantId,
+    runtimeEffectAllFalse: reviewOnlyRuntimeEffectAllFalse(evaluator.runtimeEffect)
+  };
+}
+
+
+export { approvalPrerequisiteIntegrationReviewSummary };
+
+const MALFORMED_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION =
+  "malformed_human_tool_inspection_disposition_boundary_input_rejected";
+
+
+export { MALFORMED_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION };
+
+function hasOwn(source, key) {
+  return Object.prototype.hasOwnProperty.call(source, key);
+}
+
+
+export { hasOwn };
+
+const MALFORMED_REVIEW_ONLY_DISPOSITION_AGGREGATION_CLASSIFICATION =
+  "malformed_review_only_disposition_aggregation_checkpoint_input_rejected";
+
+
+export { MALFORMED_REVIEW_ONLY_DISPOSITION_AGGREGATION_CLASSIFICATION };
+
+const MALFORMED_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION =
+  "malformed_review_only_aggregation_inspection_handoff_input_rejected";
+
+
+export { MALFORMED_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION };
+
+const MALFORMED_REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_CLASSIFICATION =
+  "malformed_review_only_handoff_readiness_artifact_input_rejected";
+
+
+export { MALFORMED_REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_CLASSIFICATION };
+
+const REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_FALSE_PATHS =
+  Object.freeze([
+    Object.freeze(["handoffIsReviewerRouting"]),
+    Object.freeze(["reviewerRoutingPerformed"]),
+    Object.freeze(["reviewerRoutingEnabled"])
+  ]);
+
+
+export { REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_FALSE_PATHS };
+
+const REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_NULL_PATHS =
+  Object.freeze([Object.freeze(["reviewerRouteId"])]);
+
+
+export { REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_NULL_PATHS };
+
+const MALFORMED_REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_CLASSIFICATION =
+  "malformed_review_only_readiness_inspection_checkpoint_input_rejected";
+
+
+export { MALFORMED_REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_CLASSIFICATION };
+
+const MALFORMED_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION =
+  "malformed_review_only_readiness_handoff_disposition_input_rejected";
+
+
+export { MALFORMED_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION };
+
+const MALFORMED_REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_CLASSIFICATION =
+  "malformed_review_only_handoff_disposition_inspection_checkpoint_input_rejected";
+
+
+export { MALFORMED_REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_CLASSIFICATION };
+
+const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_EXTERNAL_SYSTEM_KEYS =
+  Object.freeze([
+    "externalSystem",
+    "externalSystemLookup",
+    "externalRepo",
+    "externalRepository",
+    "externalSourceLookup",
+    "externalSourceUrl",
+    "externalSourceFilePath",
+    "buildYourOwnOpenClaw",
+    "goose",
+    "onyx"
+  ]);
+
+
+export { REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_EXTERNAL_SYSTEM_KEYS };
