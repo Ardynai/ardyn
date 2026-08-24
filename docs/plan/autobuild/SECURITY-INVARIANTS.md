@@ -44,3 +44,13 @@ UPDATE 2026-08-22 (finish-remaining batch): `replayEnabled` and `rollbackOnFailu
 
 UPDATE 2026-08-22b: ROLLBACK AUTO-INVOCATION IS LIVE in the runtime control plane — `serve-runtime --steps <file>` runs a gated multi-step sequence where each step is a real child process through the same spawn/redaction/audit path, and a mid-sequence failure AUTO-invokes the completed steps' compensations in reverse (`runWithRollback`). Fail-closed preserved: missing/failing compensation → `rollback_failed` audit + `partialState:true` + nonzero exit. Automatic rollback inside serve-runtime's single-command runs remains future work (no multi-step sequences exist yet) — the primitive is shipped and tested.
 Any doc or output claiming these are ENFORCED is wrong until this register entry is removed.
+
+UPDATE 2026-08-24 (final closeout, feat/final-closeout): modularization is COMPLETE —
+`packages/core/src/index.mjs` is now the ~4.2k runtime kernel (ajv registration +
+module-load side effects) plus a re-export barrel; all extractable families live in
+real modules. The frozen 429-export surface and every invariant above were re-verified
+green after each extraction group. No assertion was weakened or deleted; the only code
+removal outside move-and-re-export was a dead, unexported private helper
+(`reviewOnlyInspectionHandoffMetadataBoundaryPathValue`) duplicated by the live
+review-shared helper. Register status otherwise unchanged: the per-session sandbox
+token remains the sole planned-not-implemented flag.

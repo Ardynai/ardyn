@@ -65,7 +65,7 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 | Component | Path | Description |
 |---|---|---|
 | CLI | `apps/cli/src/index.mjs` | 14 commands: doctor, identity, capabilities, plan, review-trace, review-artifact, validate-session-transcript, emit-session-events, serve-runtime, computer-use, federation (status/config/send-handoff/receive-handoff), shell, sqlite, serve |
-| Core | `packages/core/src/index.mjs` + 5 real modules | ⚠️ Partial modularization — monolith **73,217 → 31,183 lines (−54.7%)**: review-artifacts pipeline, consumer-display maps, governance reports and the diagnostic-redaction engine now live in real modules (`review-artifacts.mjs`, `consumer-display.mjs`, `governance-reports.mjs`, `internal/diagnostic-redaction.mjs`, `internal/review-shared.mjs`); public surface frozen at 429 exports (snapshot-tested). Remaining: runtime kernel (intentional) + ~14 boundary-map singles — map in docs/plan/autobuild/MODULARIZATION-MAP.md. Newer code already modular: processor-pipeline, session-replay (replay+rollback), metrics, glossopetrae-codec, user-memory, provider-adapter |
+| Core | `packages/core/src/index.mjs` (kernel) + real modules | ✅ Modularization complete — monolith dissolved to the **~4.2k-line runtime kernel** (ajv schema registry + init side effects, intentional); all extractable families now live in `review-artifacts.mjs`, `consumer-display.mjs`, `governance-reports.mjs`, `stdio-framing-redaction.mjs`, `boundary-maps/*`, and `internal/*`. **68,913 → 4,182 measured lines (−93.9%)**; public surface frozen at 429 exports (snapshot-tested vs origin/main). Map: docs/plan/autobuild/MODULARIZATION-MAP.md. Newer code already modular: processor-pipeline, session-replay (replay+rollback), metrics, glossopetrae-codec, user-memory, provider-adapter |
 | Processor pipeline | `packages/core/src/processor-pipeline.mjs` | Pluggable pre/post processors behind the action gateways (policy-gate, audit-record, redact-result built-ins); fail-closed on broken processors |
 | Provider adapter | `packages/core/src/provider-adapter.mjs` | Dependency-free BYO-model seam (OpenAI-compatible + Gemini; generate/stream/embed) over raw fetch |
 | Computer-use | `packages/core/src/computer-use.mjs` | Governed sandbox (Docker, ubuntu:22.04, Xvfb). Record-before-act gateway via the processor pipeline, take-the-wheel, per-session token |
@@ -104,8 +104,8 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 | M12 | ✅ Complete | Loop-state control plane (goals, gates, todos, quota) |
 | M13 | ✅ Complete | Multi-interface gateway (Telegram + Slack adapters) |
 | M14 | ✅ Complete | Per-user memory (cross-session recall, isolated) |
-| Modularization | ⚠️ Partial | Barrel re-export shims only; the ~69k-line `packages/core/src/index.mjs` monolith is intact (real split still open) |
-| SSE CLI→console | ⚠️ Partial | Server route + event buffer round-trip tested; console panel is a STUB (no EventSource client subscribes yet) |
+| Modularization | ✅ Complete | packages/core/src/index.mjs is the ~4.2k runtime kernel (ajv registration + init side effects, intentional) + re-export barrel; every extractable family moved to real modules. 68,913 → 4,182 measured lines (−93.9%); 429 exports frozen and parity-tested vs origin/main |
+| SSE CLI→console | ✅ Complete | Server route + event buffer round-trip tested; live console panel (events-feed.jsx) subscribes via EventSource with reconnect + honest empty state |
 | Vercel deployment | ⚠️ Blocked on Josh | Config ready (`vercel.json`, `.vercelignore`), needs `vercel login` (interactive browser auth) |
 | Console UI redesign | ✅ Complete | Command-room design with signal-cyan, real states; real screenshots in `docs/assets/` |
 
