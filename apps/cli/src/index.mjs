@@ -852,6 +852,81 @@ async function run(argv) {
       return;
     }
 
+    // Part 2b: GATED MULTI-STEP action sequence with AUTO-ROLLBACK.
+    // Each step runs as a real child process through the same spawn/redaction/
+    // audit path; on mid-sequence failure the compensations of completed steps
+    // run in REVERSE via runWithRollback to restore the last known-good state.
+    // Missing/failing compensation → rollback_failed audit + partialState, loudly.
+    const stepsPath = readOption(args, "--steps");
+    if (stepsPath) {
+      const sessionToolsModule = await import(pathToFileURL(join(process.cwd(), "packages/core/src/session-replay.mjs")).href);
+      const { redactSecretsDeep } = await import(pathToFileURL(join(process.cwd(), "packages/core/src/internal/redaction.mjs")).href);
+      const { spawn: cpSpawn } = await import("node:child_process");
+
+      let sequence;
+      try {
+        const fsMod = await import("node:fs/promises");
+        sequence = JSON.parse(await fsMod.readFile(stepsPath, "utf8"));
+      } catch (err) {
+        fail(`--steps file could not be read/parsed: ${err.message}`);
+        return;
+      }
+      const rawSteps = Array.isArray(sequence) ? sequence : sequence.steps;
+      if (!Array.isArray(rawSteps) || rawSteps.length === 0) {
+        fail("--steps file must contain a non-empty steps array [{label, command, compensateCommand?}].");
+        return;
+      }
+
+      const audit = { _events: [], record(e) { this._events.push({ timestamp: new Date().toISOString(), ...e }); }, getEvents() { return [...this._events]; } };
+
+      // Spawn adapter: real child process, REDACTED stdout/stderr capture.
+      const spawnCapture = (command) => new Promise((resolve) => {
+        const child = cpSpawn(command, { shell: true, stdio: ["ignore", "pipe", "pipe"] });
+        let out = "";
+        let errOut = "";
+        child.stdout?.on("data", (d) => { out += d.toString(); });
+        child.stderr?.on("data", (d) => { errOut += d.toString(); });
+        child.on("error", (e) => resolve({ exitCode: -1, stdout: "", stderr: e.message }));
+        child.on("close", (code) => resolve({
+          exitCode: code ?? -1,
+          stdout: redactSecretsDeep(out).trim(),
+          stderr: redactSecretsDeep(errOut).trim(),
+        }));
+      });
+
+      const tools = sessionToolsModule.createSessionTools({ audit });
+      const report = await tools.runWithRollback({
+        approved: true, // CLI gate above already enforced --approve
+        steps: rawSteps.map((s) => ({
+          label: s.label ?? s.command,
+          do: { command: s.command },
+          compensate: s.compensateCommand ? { command: s.compensateCommand } : undefined,
+        })),
+        execute: async ({ kind, do: doPayload, undo }) => {
+          const command = kind === "do" ? doPayload.command : undo.command;
+          const r = await spawnCapture(command);
+          if (r.exitCode !== 0) throw new Error(`step failed (exit ${r.exitCode}): ${r.stderr || r.stdout || "no output"}`);
+          return r;
+        },
+      });
+
+      printJson({
+        command: "serve-runtime",
+        multiStep: true,
+        ok: report.ok,
+        failedAt: report.failedAt ?? null,
+        rolledBackToKnownGood: report.rolledBackToKnownGood ?? null,
+        partialState: report.partialState ?? false,
+        results: report.results.map((r) => ({
+          label: r.label, index: r.index, ok: r.ok,
+          stdoutPreview: redactSecretsDeep(String(r.result?.stdout ?? "")).slice(0, 200),
+        })),
+        audit: audit.getEvents().map((e) => ({ ...e, error: e.error ? redactSecretsDeep(e.error) : undefined })),
+      });
+      if (!report.ok) process.exitCode = 1;
+      return;
+    }
+
     // Part 2: GATED transcript replay — deterministic dry/echo re-run of a
     // recorded action sequence with divergence reporting. No process is
     // spawned; every replayed step is audited.
