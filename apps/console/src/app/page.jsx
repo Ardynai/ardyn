@@ -1,6 +1,7 @@
 // Ardyn Console — Dashboard
 // KPI cards with signal-cyan accent, live events feed, system status
 import { Suspense } from "react";
+import EventsFeed from "./events-feed.jsx";
 
 // Credibility pass: no fabricated numbers. When /api/status is unreachable the
 // dashboard renders "unavailable" — it never invents test counts.
@@ -171,25 +172,15 @@ async function DashboardContent() {
             <h2 className="section-title">Live Session Events</h2>
             <p className="section-subtitle">Real-time runtime events streamed from the CLI</p>
           </div>
-          <span className="badge" title="This panel is a stub — no client currently subscribes to /api/events">
-            <span className="status-dot" />
-            STUB
+          <span className="badge badge-info">
+            <span className="status-dot status-dot-info" />
+            SSE
           </span>
         </div>
         <p style={{ fontSize: "var(--text-sm)", color: "var(--text-muted)", marginBottom: "var(--space-3)" }}>
           Run <code className="code-block inline">ardyn serve-runtime --buffer-events --enable-runtime --approve</code> to write events.
         </p>
-        <pre className="code-block" aria-label="SSE connection URL">{`GET /api/events
-Content-Type: text/event-stream
-
-# NOTE (credibility pass): this panel is a STUB. The /api/events SSE route is
-# implemented server-side, but no client subscribes yet — nothing here updates
-# live. Wiring a real EventSource client is tracked as follow-up work.`}</pre>
-        <div id="event-feed" className="event-feed" style={{ marginTop: "var(--space-4)" }} aria-label="Live event feed">
-          <div className="event-item" style={{ color: "var(--text-muted)", fontStyle: "italic" }}>
-            Stub panel — no live subscription wired yet.
-          </div>
-        </div>
+        <EventsFeed />
       </section>
     </div>
   );
