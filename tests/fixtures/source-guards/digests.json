@@ -1,5 +1,5 @@
 {
-  "apps/cli/src/index.mjs": "bffb68457a79595f5c0ce8ef6402bbf0eb2f9326692d5b7a96b740d838aa004c",
+  "apps/cli/src/index.mjs": "1b3d78835b7308e26205286cb9fe52ad40dc660f4c599128be5e2bf4ba145421",
   "crates/ardyn-host/src/lib.rs": "00d0bd872d641a3d7fe40866df87bcd97678f879dc05072300567066fb4b34ae",
   "crates/ardyn-host/src/stdio_runtime/mod.rs": "b8bb983a5f09e788d396252af51970d5100c70bf7a3700efd38b8a747cffc3da",
   "packages/fabric/src/index.mjs": "b27046152938382fc6c1b0c3346d0ed75d28c4a698a0aa2d1e44c646de3af301",
@@ -10,5 +10,5 @@
   "Cargo.lock": "0507724f3c99ab95ee25afd0d70aa6458cc7f7e19b4c7cc193a7d826c3de067a",
   ".github/workflows/security.yml": "902b2b22902223fca3fec8303048b762b29695c39ab7da334c28f88db81df7f4",
   ".github/workflows/ci.yml": "f6f90e5fab26040d22c1dd4d18ee5a62763c23d0b475716df1f15d967b038749",
-  "packages/core/src/index.mjs": "4ee2e38b5d5ec932d4850fd67ba02b3f880455825a1c469a43b3853e5d104ccb"
+  "packages/core/src/index.mjs": "ed60bcf11201b25016ab414e06986894620c4b637df0a2a6becb4123b4e261b6"
 }
