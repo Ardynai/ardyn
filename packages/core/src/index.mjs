@@ -661,14 +661,6 @@ const SCHEMA_METADATA_BY_ARTIFACT_KIND = Object.freeze({
   }
 });
 
-function compareAscii(left, right) {
-  if (left === right) {
-    return 0;
-  }
-
-  return left < right ? -1 : 1;
-}
-
 function requireManifestValidator() {
   if (!manifestValidator) {
     throw new Error("ARDYN manifest schema was not registered.");
@@ -1130,27 +1122,6 @@ function createApprovalGate(manifest, task, selectedCapabilities) {
   };
 }
 
-function stableJsonValue(value) {
-  if (Array.isArray(value)) {
-    return value.map(stableJsonValue);
-  }
-
-  if (value && typeof value === "object") {
-    return Object.fromEntries(
-      Object.entries(value)
-        .filter(([, entryValue]) => entryValue !== undefined)
-        .sort(([left], [right]) => compareAscii(left, right))
-        .map(([key, entryValue]) => [key, stableJsonValue(entryValue)])
-    );
-  }
-
-  return value;
-}
-
-function stableJsonStringify(value) {
-  return JSON.stringify(stableJsonValue(value));
-}
-
 function semverMajor(value) {
   if (typeof value !== "string") {
     return null;
@@ -1168,15 +1139,6 @@ function validateSemverMajor(errors, value, path) {
   }
 
   return major;
-}
-
-function dataProperty(source, key) {
-  if (!source || typeof source !== "object") {
-    return undefined;
-  }
-
-  const descriptor = Object.getOwnPropertyDescriptor(source, key);
-  return descriptor && "value" in descriptor ? descriptor.value : undefined;
 }
 
 function safeDisplayValue(value, seen = new WeakSet()) {
@@ -5223,22 +5185,6 @@ export function formatFailureAuditRecordJsonForReview(options = {}) {
   return `${JSON.stringify(createFailureAuditRecordForReview(options), null, 2)}\n`;
 }
 
-const REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE = Object.freeze({
-  runtimeEnabled: false,
-  runtimeStarted: false,
-  runtimeReady: false,
-  runtimeCommandEnabled: false,
-  runtimeCommandExposureEnabled: false,
-  runtimeExecutionEnabled: false,
-  runtimeExecuted: false,
-  approvalGrantProduced: false,
-  approvalGrantPersisted: false,
-  approvalEvaluatorAuthoritative: false
-});
-
-const APPROVAL_PREREQUISITE_READER_DEFAULT_REVIEWED_AT =
-  "1970-01-01T00:00:00.000Z";
-
 const APPROVAL_PREREQUISITE_RECORD_EXPECTATIONS = Object.freeze([
   Object.freeze({
     key: "runtimeApprovalRecord",
@@ -5746,9 +5692,6 @@ export function evaluateRuntimeApprovalPrerequisitesForReview(input = {}) {
     runtimeEffect: { ...REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE }
   };
 }
-
-const APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT =
-  APPROVAL_PREREQUISITE_READER_DEFAULT_REVIEWED_AT;
 
 const APPROVAL_PREREQUISITE_SOURCE_KIND = "inline-prerequisite-records";
 const APPROVAL_PREREQUISITE_SOURCE_MODE = "in-memory";
@@ -7183,18 +7126,6 @@ function approvalPrerequisiteIntegrationSourceIngestionResults({
   });
 }
 
-function reviewOnlyRuntimeEffectAllFalse(runtimeEffect) {
-  return (
-    isPlainObjectRecord(runtimeEffect) &&
-    Object.keys(REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE).every(
-      (key) => runtimeEffect[key] === false
-    ) &&
-    Object.values(runtimeEffect).every(
-      (value) => value === false
-    )
-  );
-}
-
 function approvalPrerequisiteIntegrationSelectionSummary(sourceSelection) {
   return {
     classification: sourceSelection.classification,
@@ -8002,26 +7933,6 @@ function approvalEvaluatorCandidateTopLevelTrueClaim(candidate, fields) {
   return fields.some((field) => candidate[field] === true);
 }
 
-function approvalEvaluatorCandidateNestedTrueClaim(value, keyPredicate, seen = new Set()) {
-  if (Array.isArray(value)) {
-    return value.some((entry) =>
-      approvalEvaluatorCandidateNestedTrueClaim(entry, keyPredicate, seen)
-    );
-  }
-
-  if (!isPlainObjectRecord(value) || seen.has(value)) {
-    return false;
-  }
-
-  seen.add(value);
-
-  return Object.entries(value).some(
-    ([key, value]) =>
-      (value === true && keyPredicate(key)) ||
-      approvalEvaluatorCandidateNestedTrueClaim(value, keyPredicate, seen)
-  );
-}
-
 function approvalEvaluatorCandidateUnknown(candidate) {
   return (
     (typeof candidate.schema === "string" &&
@@ -8719,9 +8630,6 @@ const REVIEW_ONLY_EVALUATOR_PREFLIGHT_GRANT_TRUE_PATHS = Object.freeze([
   Object.freeze(["approvalGrant", "produced"]),
   Object.freeze(["approvalGrant", "persisted"])
 ]);
-
-const REVIEW_ONLY_EVALUATOR_PREFLIGHT_PROTOTYPE_POLLUTION_PATH_FIELDS =
-  Object.freeze(new Set(["__proto__", "constructor", "prototype"]));
 
 function reviewOnlyEvaluatorPreflightPathValue(record, path) {
   let current = record;
@@ -19605,9 +19513,6 @@ const REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_MALFORMED_CHECKS =
       )
   ]);
 
-const REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_GRANT_KEY_PATTERN =
-  /(^|_|\b)grant(ed|ing|Id|Produced|Persisted)?($|_|\b)/i;
-
 function reviewOnlyInspectionHandoffMetadataBoundaryKeyPresent(
   value,
   keys,
@@ -19629,34 +19534,6 @@ function reviewOnlyInspectionHandoffMetadataBoundaryKeyPresent(
     ([key, entry]) =>
       keys.includes(key) ||
       reviewOnlyInspectionHandoffMetadataBoundaryKeyPresent(entry, keys, seen)
-  );
-}
-
-function reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(
-  value,
-  keys,
-  seen = new Set()
-) {
-  if (Array.isArray(value)) {
-    return value.some((entry) =>
-      reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(entry, keys, seen)
-    );
-  }
-
-  if (!isPlainObjectRecord(value) || seen.has(value)) {
-    return false;
-  }
-
-  seen.add(value);
-
-  return Object.entries(value).some(
-    ([key, entry]) =>
-      (keys.includes(key) && entry === true) ||
-      reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent(
-        entry,
-        keys,
-        seen
-      )
   );
 }
 
@@ -19695,15 +19572,6 @@ function reviewOnlyInspectionHandoffMetadataBoundaryPathValue(record, path) {
         ? current[key]
         : undefined,
     record
-  );
-}
-
-function reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse(
-  runtimeEffect
-) {
-  return (
-    isPlainObjectRecord(runtimeEffect) &&
-    Object.values(runtimeEffect).every((value) => value === false)
   );
 }
 
@@ -22408,9 +22276,6 @@ const REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_REQUIRED_NULL_FIELDS =
     "approvalDecisionId",
     "approvalGrantId"
   ]);
-
-const REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_DIGEST_PATTERN =
-  /^sha256:[0-9a-f]{64}$/;
 
 const REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_REQUIRED_LITERAL_FIELDS =
   Object.freeze([
@@ -73214,3 +73079,4 @@ export function createExternalReferencePolicyForReview(input = {}) {
 
 // M0.6: Re-export shared utilities from internal/utils.mjs
 export { isPlainObjectRecord, isUtcIsoTimestampWithMilliseconds, isReviewedAtDefaulted };
+import { compareAscii, stableJsonValue, stableJsonStringify, dataProperty, REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE, APPROVAL_PREREQUISITE_READER_DEFAULT_REVIEWED_AT, APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT, reviewOnlyRuntimeEffectAllFalse, approvalEvaluatorCandidateNestedTrueClaim, REVIEW_ONLY_EVALUATOR_PREFLIGHT_PROTOTYPE_POLLUTION_PATH_FIELDS, REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_GRANT_KEY_PATTERN, reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent, reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse, REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_DIGEST_PATTERN } from "./internal/review-shared.mjs";
