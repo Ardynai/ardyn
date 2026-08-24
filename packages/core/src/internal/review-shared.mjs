@@ -138,9 +138,6 @@ function reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse(
 const REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_DIGEST_PATTERN =
   /^sha256:[0-9a-f]{64}$/;
 
-
-export { compareAscii, stableJsonValue, stableJsonStringify, dataProperty, REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE, APPROVAL_PREREQUISITE_READER_DEFAULT_REVIEWED_AT, APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT, reviewOnlyRuntimeEffectAllFalse, approvalEvaluatorCandidateNestedTrueClaim, REVIEW_ONLY_EVALUATOR_PREFLIGHT_PROTOTYPE_POLLUTION_PATH_FIELDS, REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_GRANT_KEY_PATTERN, reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent, reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse, REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_DIGEST_PATTERN };
-
 function commandSurfaceShellBoundaryMapForbiddenBehavior() {
   return [
     "shell runtime, REPL, prompt loop, command parser, tokenizer, builtin execution, command execution, process spawning, process control, terminal backend execution, stdin loop, stdout/stderr writers, pipes, redirection, completion, job control, background jobs, command history, history persistence, parameter expansion, or environment variable expansion",
@@ -946,9 +943,6 @@ function targetConsumerPlanningMetadataForbiddenBehavior() {
   };
 }
 
-
-export { commandSurfaceShellBoundaryMapForbiddenBehavior, externalGatewayMatrixBoundaryMapForbiddenBehavior, secretsCredentialBoundaryMapForbiddenBehavior, maintenanceGovernanceBoundaryMapForbiddenBehavior, operationsReliabilityBoundaryMapForbiddenBehavior, testingFrameworksQualityGatesBoundaryMapForbiddenBehavior, agentModeProfileSkillhubCapabilityBoundaryMapForbiddenBehavior, infrastructureComplianceDataRetentionBoundaryMapForbiddenBehavior, availabilityRecoveryBoundaryMapForbiddenBehavior, errorTrackingLoggingAuditIntegrityBoundaryMapForbiddenBehavior, rateLimitingAbuseControlBoundaryMapForbiddenBehavior, securityRlsInputSanitizationBoundaryMapForbiddenBehavior, authPermissionsContractBoundaryMapForbiddenBehavior, databaseStorageContractBoundaryMapForbiddenBehavior, interAgentEncodedHandoffConformanceForbiddenBehavior, fabricAwareApiBackendContractBoundaryMapForbiddenBehavior, productionReadinessCoverageMatrixForbiddenBehavior, consumerContractGapIndexForbiddenBehavior, consumerContractReadinessMatrixForbiddenBehavior, targetConsumerPlanningMetadataForbiddenBehavior };
-
 const REVIEW_ONLY_EVALUATOR_PREFLIGHT_REQUIRED_FALSE_FIELDS = Object.freeze([
   "intakeCheckpointStateIsApprovalGrant",
   "approvalGrantProduced",
@@ -958,9 +952,6 @@ const REVIEW_ONLY_EVALUATOR_PREFLIGHT_REQUIRED_FALSE_FIELDS = Object.freeze([
   "runtimeCommandExposureEnabled",
   "runtimeExecutionEnabled"
 ]);
-
-
-export { REVIEW_ONLY_EVALUATOR_PREFLIGHT_REQUIRED_FALSE_FIELDS };
 
 const NON_AUTHORIZING_EVALUATOR_DECISION_REQUIRED_FALSE_FIELDS = Object.freeze([
   "evaluatorPreflightCheckpointStateIsApprovalGrant",
@@ -976,9 +967,6 @@ const NON_AUTHORIZING_EVALUATOR_DECISION_REQUIRED_FALSE_FIELDS = Object.freeze([
   "evaluatorExecuted"
 ]);
 
-
-export { NON_AUTHORIZING_EVALUATOR_DECISION_REQUIRED_FALSE_FIELDS };
-
 const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_DECISION_CANDIDATE_SUMMARY_FIELDS =
   Object.freeze([
     "candidateKind",
@@ -992,9 +980,6 @@ const REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_DECISION_CANDIDATE_SUMMARY_FIELD
     "evaluatorExecuted",
     "runtimeEffectAllFalse"
   ]);
-
-
-export { REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_DECISION_CANDIDATE_SUMMARY_FIELDS };
 
 const REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_CLEANUP_EVIDENCE_FIELDS =
   Object.freeze([
@@ -1013,9 +998,6 @@ const REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_CLEANUP_EVIDENCE_FIELDS =
     "commandExposurePermissionGranted"
   ]);
 
-
-export { REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_CLEANUP_EVIDENCE_FIELDS };
-
 const REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_RUNTIME_EFFECT_FIELDS =
   Object.freeze([
     "runtimeEnabled",
@@ -1029,9 +1011,6 @@ const REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_RUNTIME_EFFECT_FIELDS =
     "approvalGrantPersisted",
     "approvalEvaluatorAuthoritative"
   ]);
-
-
-export { REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_RUNTIME_EFFECT_FIELDS };
 
 const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_CLEANUP_EVIDENCE_FIELDS =
   Object.freeze([
@@ -1050,9 +1029,6 @@ const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_CLEANUP_EVIDENCE_FIELDS =
     "commandExposurePermissionGranted"
   ]);
 
-
-export { REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_CLEANUP_EVIDENCE_FIELDS };
-
 const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_RUNTIME_EFFECT_FIELDS =
   Object.freeze([
     "runtimeEnabled",
@@ -1067,17 +1043,11 @@ const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_RUNTIME_EFFECT_FIELDS =
     "approvalEvaluatorAuthoritative"
   ]);
 
-
-export { REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_RUNTIME_EFFECT_FIELDS };
-
 function approvalPrerequisiteSourceSelectionSignature(readerInput) {
   return JSON.stringify(
     approvalPrerequisiteStableValue(readerInput?.prerequisiteRecords ?? [])
   );
 }
-
-
-export { approvalPrerequisiteSourceSelectionSignature };
 
 function approvalPrerequisiteStableValue(value) {
   if (Array.isArray(value)) {
@@ -1095,9 +1065,6 @@ function approvalPrerequisiteStableValue(value) {
   );
 }
 
-
-export { approvalPrerequisiteStableValue };
-
 function approvalPrerequisiteBundleConsumptionAcceptedSummary({
   sourceBundle,
   evaluator
@@ -1111,9 +1078,6 @@ function approvalPrerequisiteBundleConsumptionAcceptedSummary({
     evaluatorAuthoritative: evaluator.authoritative
   };
 }
-
-
-export { approvalPrerequisiteBundleConsumptionAcceptedSummary };
 
 const APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_BUNDLE =
   Object.freeze({
@@ -1137,9 +1101,6 @@ const APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_BUNDLE =
       "empty_prerequisite_integration_input_rejected"
   });
 
-
-export { APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_BUNDLE };
-
 const APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_CONSUMPTION =
   Object.freeze({
     missing_prerequisite_bundle_consumption_rejected:
@@ -1151,9 +1112,6 @@ const APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_CONSUMPTION =
     valid_prerequisite_bundle_consumed_for_review_only_runtime_still_blocked:
       "valid_prerequisite_integration_review_summary_runtime_still_blocked"
   });
-
-
-export { APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_CONSUMPTION };
 
 function approvalPrerequisiteIntegrationReviewSummary(evaluator) {
   if (evaluator == null) {
@@ -1176,39 +1134,21 @@ function approvalPrerequisiteIntegrationReviewSummary(evaluator) {
   };
 }
 
-
-export { approvalPrerequisiteIntegrationReviewSummary };
-
 const MALFORMED_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION =
   "malformed_human_tool_inspection_disposition_boundary_input_rejected";
-
-
-export { MALFORMED_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION };
 
 function hasOwn(source, key) {
   return Object.prototype.hasOwnProperty.call(source, key);
 }
 
-
-export { hasOwn };
-
 const MALFORMED_REVIEW_ONLY_DISPOSITION_AGGREGATION_CLASSIFICATION =
   "malformed_review_only_disposition_aggregation_checkpoint_input_rejected";
-
-
-export { MALFORMED_REVIEW_ONLY_DISPOSITION_AGGREGATION_CLASSIFICATION };
 
 const MALFORMED_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION =
   "malformed_review_only_aggregation_inspection_handoff_input_rejected";
 
-
-export { MALFORMED_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION };
-
 const MALFORMED_REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_CLASSIFICATION =
   "malformed_review_only_handoff_readiness_artifact_input_rejected";
-
-
-export { MALFORMED_REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_CLASSIFICATION };
 
 const REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_FALSE_PATHS =
   Object.freeze([
@@ -1217,32 +1157,17 @@ const REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_FALSE_PATHS =
     Object.freeze(["reviewerRoutingEnabled"])
   ]);
 
-
-export { REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_FALSE_PATHS };
-
 const REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_NULL_PATHS =
   Object.freeze([Object.freeze(["reviewerRouteId"])]);
-
-
-export { REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_NULL_PATHS };
 
 const MALFORMED_REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_CLASSIFICATION =
   "malformed_review_only_readiness_inspection_checkpoint_input_rejected";
 
-
-export { MALFORMED_REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_CLASSIFICATION };
-
 const MALFORMED_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION =
   "malformed_review_only_readiness_handoff_disposition_input_rejected";
 
-
-export { MALFORMED_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION };
-
 const MALFORMED_REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_CLASSIFICATION =
   "malformed_review_only_handoff_disposition_inspection_checkpoint_input_rejected";
-
-
-export { MALFORMED_REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_CLASSIFICATION };
 
 const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_EXTERNAL_SYSTEM_KEYS =
   Object.freeze([
@@ -1258,5 +1183,63 @@ const REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_EXTERNAL_SYSTEM_KEYS =
     "onyx"
   ]);
 
-
-export { REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_EXTERNAL_SYSTEM_KEYS };
+export {
+  APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_BUNDLE,
+  APPROVAL_PREREQUISITE_INTEGRATION_CLASSIFICATION_BY_CONSUMPTION,
+  APPROVAL_PREREQUISITE_READER_DEFAULT_REVIEWED_AT,
+  APPROVAL_PREREQUISITE_SOURCE_PREFLIGHT_DEFAULT_REVIEWED_AT,
+  MALFORMED_HUMAN_TOOL_INSPECTION_DISPOSITION_CLASSIFICATION,
+  MALFORMED_REVIEW_ONLY_AGGREGATION_INSPECTION_HANDOFF_CLASSIFICATION,
+  MALFORMED_REVIEW_ONLY_DISPOSITION_AGGREGATION_CLASSIFICATION,
+  MALFORMED_REVIEW_ONLY_HANDOFF_DISPOSITION_INSPECTION_CHECKPOINT_CLASSIFICATION,
+  MALFORMED_REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_CLASSIFICATION,
+  MALFORMED_REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_CLASSIFICATION,
+  MALFORMED_REVIEW_ONLY_READINESS_INSPECTION_CHECKPOINT_CLASSIFICATION,
+  NON_AUTHORIZING_EVALUATOR_DECISION_REQUIRED_FALSE_FIELDS,
+  REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_CLEANUP_EVIDENCE_FIELDS,
+  REVIEW_ONLY_CONSOLIDATION_CHECKPOINT_HANDOFF_RUNTIME_EFFECT_FIELDS,
+  REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_CLEANUP_EVIDENCE_FIELDS,
+  REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_EXTERNAL_SYSTEM_KEYS,
+  REVIEW_ONLY_CONSOLIDATION_METADATA_CHECKPOINT_RUNTIME_EFFECT_FIELDS,
+  REVIEW_ONLY_EVALUATOR_PREFLIGHT_PROTOTYPE_POLLUTION_PATH_FIELDS,
+  REVIEW_ONLY_EVALUATOR_PREFLIGHT_REQUIRED_FALSE_FIELDS,
+  REVIEW_ONLY_EVALUATOR_RUNTIME_EFFECT_FALSE,
+  REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_FALSE_PATHS,
+  REVIEW_ONLY_HANDOFF_READINESS_ARTIFACT_REVIEWER_ROUTING_NULL_PATHS,
+  REVIEW_ONLY_INSPECTION_HANDOFF_METADATA_BOUNDARY_GRANT_KEY_PATTERN,
+  REVIEW_ONLY_METADATA_HANDOFF_CHECKPOINT_DIGEST_PATTERN,
+  REVIEW_ONLY_READINESS_HANDOFF_DISPOSITION_DECISION_CANDIDATE_SUMMARY_FIELDS,
+  agentModeProfileSkillhubCapabilityBoundaryMapForbiddenBehavior,
+  approvalEvaluatorCandidateNestedTrueClaim,
+  approvalPrerequisiteBundleConsumptionAcceptedSummary,
+  approvalPrerequisiteIntegrationReviewSummary,
+  approvalPrerequisiteSourceSelectionSignature,
+  approvalPrerequisiteStableValue,
+  authPermissionsContractBoundaryMapForbiddenBehavior,
+  availabilityRecoveryBoundaryMapForbiddenBehavior,
+  commandSurfaceShellBoundaryMapForbiddenBehavior,
+  compareAscii,
+  consumerContractGapIndexForbiddenBehavior,
+  consumerContractReadinessMatrixForbiddenBehavior,
+  dataProperty,
+  databaseStorageContractBoundaryMapForbiddenBehavior,
+  errorTrackingLoggingAuditIntegrityBoundaryMapForbiddenBehavior,
+  externalGatewayMatrixBoundaryMapForbiddenBehavior,
+  fabricAwareApiBackendContractBoundaryMapForbiddenBehavior,
+  hasOwn,
+  infrastructureComplianceDataRetentionBoundaryMapForbiddenBehavior,
+  interAgentEncodedHandoffConformanceForbiddenBehavior,
+  maintenanceGovernanceBoundaryMapForbiddenBehavior,
+  operationsReliabilityBoundaryMapForbiddenBehavior,
+  productionReadinessCoverageMatrixForbiddenBehavior,
+  rateLimitingAbuseControlBoundaryMapForbiddenBehavior,
+  reviewOnlyInspectionHandoffMetadataBoundaryKeyTruePresent,
+  reviewOnlyInspectionHandoffMetadataBoundaryRuntimeEffectAllFalse,
+  reviewOnlyRuntimeEffectAllFalse,
+  secretsCredentialBoundaryMapForbiddenBehavior,
+  securityRlsInputSanitizationBoundaryMapForbiddenBehavior,
+  stableJsonStringify,
+  stableJsonValue,
+  targetConsumerPlanningMetadataForbiddenBehavior,
+  testingFrameworksQualityGatesBoundaryMapForbiddenBehavior,
+};
