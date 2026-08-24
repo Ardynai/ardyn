@@ -852,6 +852,45 @@ async function run(argv) {
       return;
     }
 
+    // Part 2: GATED transcript replay — deterministic dry/echo re-run of a
+    // recorded action sequence with divergence reporting. No process is
+    // spawned; every replayed step is audited.
+    const replayPath = readOption(args, "--replay");
+    if (replayPath) {
+      const { redactSecretsDeep } = await import(pathToFileURL(join(process.cwd(), "packages/core/src/internal/redaction.mjs")).href);
+      const sessionToolsModule = await import(pathToFileURL(join(process.cwd(), "packages/core/src/session-replay.mjs")).href);
+      let recorded;
+      try {
+        const fsMod = await import("node:fs/promises");
+        recorded = JSON.parse(await fsMod.readFile(replayPath, "utf8"));
+      } catch (err) {
+        fail(`--replay file could not be read/parsed: ${err.message}`);
+        return;
+      }
+      const events = Array.isArray(recorded) ? recorded : recorded.events ?? [];
+      const audit = { _events: [], record(e) { this._events.push({ timestamp: new Date().toISOString(), ...e }); }, getEvents() { return [...this._events]; } };
+      const tools = sessionToolsModule.createSessionTools({ audit });
+      const report = await tools.replayTranscript({
+        events,
+        approved: true, // the CLI gate above already enforced --approve
+        execute: async (step) => ({ echo: true, step, exitCode: 0 }),
+      });
+      printJson({
+        command: "serve-runtime",
+        replay: true,
+        replayFile: replayPath,
+        ok: report.ok,
+        totalSteps: report.totalSteps,
+        divergences: report.divergences.map((d) => ({
+          index: d.index,
+          expected: d.expected,
+          actual: JSON.parse(redactSecretsDeep(JSON.stringify(d.actual))),
+        })),
+        audit: audit.getEvents(),
+      });
+      return;
+    }
+
     // Build the runtime plan from the manifest
     const handshake = await createStaticHandshakeFromPath(manifestPath);
     const sessionId = `session-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
