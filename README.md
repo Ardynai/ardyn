@@ -65,7 +65,7 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 | Component | Path | Description |
 |---|---|---|
 | CLI | `apps/cli/src/index.mjs` | 14 commands: doctor, identity, capabilities, plan, review-trace, review-artifact, validate-session-transcript, emit-session-events, serve-runtime, computer-use, federation (status/config/send-handoff/receive-handoff), shell, sqlite, serve |
-| Core | `packages/core/src/index.mjs` | ~69k-line monolith with 427 exports. NOTE: the "modularization" files (validation.js, create-review-helpers.js, data-helpers.js, schema-helpers.js) are barrel RE-EXPORTS — the monolith is intact; real extraction is still open work. New M15-M20 code lives in proper modules: processor-pipeline, metrics, glossopetrae-codec, user-memory, provider-adapter |
+| Core | `packages/core/src/index.mjs` | ⚠️ Partial modularization: ~68.9k-line monolith with 427 exports. First REAL extraction landed (diagnostic-redaction family → `internal/diagnostic-redaction.mjs`); remaining "modules" (validation.js etc.) are still barrel RE-EXPORTS — monolith intact, full split open. Newer code lives in proper modules: processor-pipeline, session-replay (replay+rollback), metrics, glossopetrae-codec, user-memory, provider-adapter |
 | Processor pipeline | `packages/core/src/processor-pipeline.mjs` | Pluggable pre/post processors behind the action gateways (policy-gate, audit-record, redact-result built-ins); fail-closed on broken processors |
 | Provider adapter | `packages/core/src/provider-adapter.mjs` | Dependency-free BYO-model seam (OpenAI-compatible + Gemini; generate/stream/embed) over raw fetch |
 | Computer-use | `packages/core/src/computer-use.mjs` | Governed sandbox (Docker, ubuntu:22.04, Xvfb). Record-before-act gateway via the processor pipeline, take-the-wheel, per-session token |
@@ -116,6 +116,7 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 - Per-user isolation enforced AND tested (sessions, sandboxes, memory incl. RAG recall)
 - Federation A2A exchange is WIRED but strictly gated: nothing sends/receives without `--enable-federation-exchange --approve`; closed sibling-DID allowlist + real Ed25519 verification on every message
 - Real Ed25519 signature verification for inbound federation messages
+- Transcript REPLAY (`serve-runtime --replay`, dry/echo divergence report) and ROLLBACK-on-failure (reverse compensations; fail-closed on unsafe undo) shipped and tested
 - Constant-time HMAC comparison for gateway webhook verification
 - No secrets committed; all tokens from env / gitignored `config/secret/`
 - HiClaw Matrix adapter: raw fetch only — NO Matrix SDK, no E2EE; encrypted events are skipped, never decrypted

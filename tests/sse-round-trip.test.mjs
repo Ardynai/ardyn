@@ -64,10 +64,15 @@ test("SSE: event-buffer filters by timestamp (only new events)", async () => {
 });
 
 test("SSE: console dashboard references /api/events endpoint", async () => {
+  // Credibility follow-up: the client moved into events-feed.jsx — assertions
+  // now check BOTH files (STRONGER than the old single-file grep).
   const { readFile } = await import("node:fs/promises");
   const { join } = await import("node:path");
   const dashboard = await readFile(join(process.cwd(), "apps/console/src/app/page.jsx"), "utf8");
-  assert.match(dashboard, /api\/events/, "dashboard must reference /api/events endpoint");
   assert.match(dashboard, /Live Session Events/, "dashboard must have a Live Events section");
-  assert.match(dashboard, /EventSource|SSE|event-stream/, "dashboard must reference SSE/EventSource");
+  assert.match(dashboard, /EventsFeed/, "dashboard must render the EventsFeed client");
+  const feed = await readFile(join(process.cwd(), "apps/console/src/app/events-feed.jsx"), "utf8");
+  assert.match(feed, /api\/events/, "feed client must subscribe to /api/events");
+  assert.match(feed, /new EventSource/, "feed client must use EventSource");
+  assert.match(feed, /no events yet/, "honest empty state required");
 });

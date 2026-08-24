@@ -38,7 +38,7 @@ When in doubt about whether something crosses the floor: treat it as blocked, lo
 
 The following identifiers appear in CLI/runtime OUTPUT but have NO machinery
 behind them yet. They are roadmap labels, not enforced controls:
-- `replayEnabled` — transcripts are recorded in-memory only; nothing persists or replays.
-- `rollbackOnFailure` / `killOnFailure` (failure-audit booleans) — reported values only; no rollback path exists.
 - Per-session sandbox token (`ARDYN_SESSION_TOKEN`) — generated and injected into the container but never verified by any API (no container API client exists).
+
+UPDATE 2026-08-22 (finish-remaining batch): `replayEnabled` and `rollbackOnFailure` are now IMPLEMENTED and removed from this register — replay via `serve-runtime --replay <transcript>` (dry deterministic re-run + divergence report, gated by `--enable-runtime --approve`, audited per step) and rollback via `session-replay.runWithRollback` (reverse compensations; missing/failing compensation fails CLOSED with loud `rollback_failed` audit). Automatic rollback inside serve-runtime's single-command runs remains future work (no multi-step sequences exist yet) — the primitive is shipped and tested.
 Any doc or output claiming these are ENFORCED is wrong until this register entry is removed.
