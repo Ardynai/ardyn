@@ -11563,3 +11563,50 @@ export function createStaticHandshake(
 export function createStaticHandshakeFromPath(manifestPath: string): Promise<StaticHandshake>;
 export function createDoctorReport(): object;
 export function manifestPathToUrl(manifestPath: string): string;
+
+// ─── Final-closeout additions: names previously missing declarations ─────────
+// (runtime surface unchanged — these 33 exports existed; d.ts now matches it)
+
+export declare const CI_ENABLEMENT_BOUNDARY_MAP_KIND: string;
+export declare const CI_ENABLEMENT_BOUNDARY_MAP_SCHEMA: string;
+export declare const CI_ENABLEMENT_BOUNDARY_MAP_VERSION: string;
+export declare const VALID_CI_ENABLEMENT_BOUNDARY_MAP_CLASSIFICATION: string;
+
+export declare const CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_KIND: string;
+export declare const CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_SCHEMA: string;
+export declare const CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_VERSION: string;
+export declare const VALID_CI_ENFORCEMENT_CONTRACT_BOUNDARY_MAP_CLASSIFICATION: string;
+
+export declare const CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_KIND: string;
+export declare const CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_SCHEMA: string;
+export declare const CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_VERSION: string;
+export declare const VALID_CODE_MODE_ORCHESTRATION_BOUNDARY_MAP_CLASSIFICATION: string;
+
+export declare const EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_KIND: string;
+export declare const EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_SCHEMA: string;
+export declare const EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_VERSION: string;
+export declare const VALID_EXTERNAL_REFERENCE_POLICY_BOUNDARY_MAP_CLASSIFICATION: string;
+
+export declare const REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_KIND: string;
+export declare const REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_SCHEMA: string;
+export declare const REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_VERSION: string;
+export declare const VALID_REPORT_SCRIPT_COMPACTION_BOUNDARY_MAP_CLASSIFICATION: string;
+
+export declare const REPORT_TEST_COMPACTION_BOUNDARY_MAP_KIND: string;
+export declare const REPORT_TEST_COMPACTION_BOUNDARY_MAP_SCHEMA: string;
+export declare const REPORT_TEST_COMPACTION_BOUNDARY_MAP_VERSION: string;
+export declare const VALID_REPORT_TEST_COMPACTION_BOUNDARY_MAP_CLASSIFICATION: string;
+
+export declare const SOURCE_GUARD_HARDENING_BOUNDARY_MAP_KIND: string;
+export declare const SOURCE_GUARD_HARDENING_BOUNDARY_MAP_SCHEMA: string;
+export declare const SOURCE_GUARD_HARDENING_BOUNDARY_MAP_VERSION: string;
+export declare const VALID_SOURCE_GUARD_HARDENING_BOUNDARY_MAP_CLASSIFICATION: string;
+
+export declare const VALID_FABRIC_FEDERATION_RECONCILIATION_CLASSIFICATION: string;
+
+export declare function createSourceGuardHardeningForReview(input?: object): object;
+export declare function createExternalReferencePolicyForReview(input?: object): object;
+
+export declare function isPlainObjectRecord(value: unknown): value is Record<string, unknown>;
+export declare function isUtcIsoTimestampWithMilliseconds(value: unknown): boolean;
+export declare function isReviewedAtDefaulted(inputRecord: unknown): boolean;
