@@ -115,13 +115,13 @@ test("M21-B: federation route reports wired+gated posture (post-M20)", async () 
   delete process.env.ARDYN_CONSOLE_API_KEY;
   const res = await federationRoute.GET(req());
   const body = await res.json();
-  assert.equal(body.wired ?? body.federationWired ?? null, expectWiredValue(body), "wiring flag must reflect M20");
-  function expectWiredValue(b) {
-    // Accept either shape but it MUST claim wired=true in some field.
-    const flag = b.wired ?? b.federationWired ?? b.exchange?.wired;
-    assert.ok(flag === true || flag === false, "route must expose a wiring flag");
-    return flag;
-  }
+  // Strengthened (review pass 2026-08-25): previously a tautology — the flag
+  // was compared against a recomputation of itself. The post-M20 contract is
+  // wired=true; assert it explicitly, and pin the closed sibling set size.
+  assert.equal(body.wired, true, "federation exchange is WIRED post-M20");
+  assert.equal(body.gated, true, "exchange must be gated");
+  assert.ok(Array.isArray(body.closedSiblingAllowlist) && body.closedSiblingAllowlist.length === 9,
+    "closed sibling allowlist must list all 9 federation DIDs");
 });
 
 test("M21-B: events route streams SSE content-type (behavioral smoke)", async () => {

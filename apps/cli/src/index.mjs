@@ -3,7 +3,7 @@ import { writeFile } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
-import { pathToFileURL } from "node:url";
+import { pathToFileURL, fileURLToPath } from "node:url";
 
 import {
   assertLocalFilePath,
@@ -73,6 +73,16 @@ const SESSION_TRANSCRIPT_OUTPUT_FLAGS = [
   "--compatibility-explain"
 ];
 const DEFAULT_BLOCKED_RUNTIME_COMMANDS = new Set();
+
+// Resolve repo-rooted internal modules relative to THIS file, not process.cwd()
+// (correctness fix: the CLI previously failed with ERR_MODULE_NOT_FOUND when
+// invoked from any directory other than the repo root).
+const CLI_SRC_DIR = fileURLToPath(new URL(".", import.meta.url)); // <repo>/apps/cli/src
+const REPO_ROOT = join(CLI_SRC_DIR, "..", "..", "..");
+function importRepoModule(relativePath) {
+  return import(pathToFileURL(join(REPO_ROOT, relativePath)).href);
+}
+const REDACTION_MODULE_PATH = "packages/core/src/internal/redaction.mjs";
 
 // M1: serve-runtime is now handled with --enable-runtime flag.
 // Without --enable-runtime, it still fails (approval gate).
@@ -705,7 +715,7 @@ async function run(argv) {
     if (outputPath) {
       // Correctness-cleanup: gated writes use the stricter containment guard
       // (rejects Windows absolute/UNC/drive forms that assertLocalFilePath allowed).
-      const { assertContainedWritePath } = await import(pathToFileURL(join(process.cwd(), "packages/core/src/internal/paths.mjs")).href);
+      const { assertContainedWritePath } = await importRepoModule("packages/core/src/internal/paths.mjs");
       assertContainedWritePath(outputPath, "--output");
     }
 
@@ -859,8 +869,14 @@ async function run(argv) {
     // Missing/failing compensation → rollback_failed audit + partialState, loudly.
     const stepsPath = readOption(args, "--steps");
     if (stepsPath) {
-      const sessionToolsModule = await import(pathToFileURL(join(process.cwd(), "packages/core/src/session-replay.mjs")).href);
-      const { redactSecretsDeep } = await import(pathToFileURL(join(process.cwd(), "packages/core/src/internal/redaction.mjs")).href);
+      // Security gate: --steps spawns REAL processes, so --dry-run must never
+      // satisfy the approval requirement for this branch.
+      if (dryRun) {
+        fail("--steps cannot be combined with --dry-run: multi-step sequences execute real processes and require --approve.");
+        return;
+      }
+      const sessionToolsModule = await importRepoModule("packages/core/src/session-replay.mjs");
+      const { redactSecretsDeep } = await importRepoModule(REDACTION_MODULE_PATH);
       const { spawn: cpSpawn } = await import("node:child_process");
 
       let sequence;
@@ -896,7 +912,7 @@ async function run(argv) {
 
       const tools = sessionToolsModule.createSessionTools({ audit });
       const report = await tools.runWithRollback({
-        approved: true, // CLI gate above already enforced --approve
+        approved: Boolean(approved), // gate above: --dry-run refused for --steps, so approved is required here
         steps: rawSteps.map((s) => ({
           label: s.label ?? s.command,
           do: { command: s.command },
@@ -932,8 +948,14 @@ async function run(argv) {
     // spawned; every replayed step is audited.
     const replayPath = readOption(args, "--replay");
     if (replayPath) {
-      const { redactSecretsDeep } = await import(pathToFileURL(join(process.cwd(), "packages/core/src/internal/redaction.mjs")).href);
-      const sessionToolsModule = await import(pathToFileURL(join(process.cwd(), "packages/core/src/session-replay.mjs")).href);
+      // Consistency gate: replay is a dry echo (never spawns), but it still
+      // requires explicit approval and does not accept --dry-run as approval.
+      if (dryRun) {
+        fail("--replay cannot be combined with --dry-run: transcript replay requires --approve.");
+        return;
+      }
+      const { redactSecretsDeep } = await importRepoModule(REDACTION_MODULE_PATH);
+      const sessionToolsModule = await importRepoModule("packages/core/src/session-replay.mjs");
       let recorded;
       try {
         const fsMod = await import("node:fs/promises");
@@ -947,7 +969,7 @@ async function run(argv) {
       const tools = sessionToolsModule.createSessionTools({ audit });
       const report = await tools.replayTranscript({
         events,
-        approved: true, // the CLI gate above already enforced --approve
+        approved: Boolean(approved), // gates above: --approve required, --dry-run refused
         execute: async (step) => ({ echo: true, step, exitCode: 0 }),
       });
       printJson({
@@ -973,7 +995,7 @@ async function run(argv) {
     // Redaction: CREDIBILITY PASS — delegate to the single canonical redactor
     // (packages/core/src/internal/redaction.mjs). Applied to stderr AND stdout
     // frames so secrets never reach transcripts/audit/SSE.
-    const { redactSecretsDeep } = await import(pathToFileURL(join(process.cwd(), "packages/core/src/internal/redaction.mjs")).href);
+    const { redactSecretsDeep } = await importRepoModule(REDACTION_MODULE_PATH);
     function redactStderr(text) {
       return redactSecretsDeep(text);
     }
@@ -1259,7 +1281,7 @@ async function run(argv) {
     }
 
     const { createSandboxConfig, createActionAudit, createSandboxSession, redactCapturedText, SANDBOX_IMAGE } =
-      await import(pathToFileURL(join(process.cwd(), "packages/core/src/computer-use.mjs")).href);
+      await importRepoModule("packages/core/src/computer-use.mjs");
 
     const sessionId = `cu-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
     const config = createSandboxConfig({ sessionId });
@@ -1317,7 +1339,7 @@ async function run(argv) {
   // M4: federation command — wires the hardened federation client into CLI
   if (command === "federation") {
     const subCommand = args[0] ?? "status";
-    const federationModule = await import(pathToFileURL(join(process.cwd(), "packages/fabric/src/federation.mjs")).href);
+    const federationModule = await importRepoModule("packages/fabric/src/federation.mjs");
     const config = federationModule.loadFabricFederationConfigFromEnv();
 
     if (subCommand === "status") {
@@ -1336,7 +1358,7 @@ async function run(argv) {
         },
         config: {
           localDid: config?.localDid ?? federationModule.FABRIC_FEDERATION_DEFAULT_LOCAL_DID,
-          registryUrl: config?.registryUrl ?? null,
+          registryUrl: config?.registryBaseUrl ?? null, // fix: loader field is registryBaseUrl
           // ponytail: never expose tokens or identity file paths
         },
       });
@@ -1349,7 +1371,7 @@ async function run(argv) {
         subCommand: "config",
         config: {
           localDid: config?.localDid ?? federationModule.FABRIC_FEDERATION_DEFAULT_LOCAL_DID,
-          registryUrl: config?.registryUrl ?? null,
+          registryUrl: config?.registryBaseUrl ?? null, // fix: loader field is registryBaseUrl
           registryToken: undefined, // never expose
           identityFile: undefined,   // never expose
           allowlist: federationModule.FABRIC_FEDERATION_CLOSED_SIBLING_DIDS,
@@ -1361,7 +1383,7 @@ async function run(argv) {
     // M20: gated A2A exchange (send-handoff/receive-handoff) — implementation
     // lives in packages/fabric/src/handoff-cli.mjs to keep this CLI narrow.
     if (subCommand === "send-handoff" || subCommand === "receive-handoff") {
-      const { runFederationExchangeCommand } = await import(pathToFileURL(join(process.cwd(), "packages/fabric/src/handoff-cli.mjs")).href);
+      const { runFederationExchangeCommand } = await importRepoModule("packages/fabric/src/handoff-cli.mjs");
       await runFederationExchangeCommand({ subCommand, args, printJson, fail, readOption });
       return;
     }
@@ -1386,6 +1408,7 @@ async function run(argv) {
     }
 
     // Execute via serve-runtime infrastructure
+    const { redactSecretsDeep } = await importRepoModule(REDACTION_MODULE_PATH);
     const child = spawn("sh", ["-c", commandArg], { cwd: process.cwd(), env: { ...process.env }, stdio: ["pipe", "pipe", "pipe"] });
     let stdoutData = "", stderrData = "";
     let shellSpawnError = null;
@@ -1403,9 +1426,9 @@ async function run(argv) {
       dryRun: false,
       runtimeEnabled: true,
       approved: true,
-      commandArg,
+      commandArg: redactSecretsDeep(commandArg),
       processesSpawned: true,
-      processResult: { exitCode: shellSpawnError ? -1 : exitCode, stdout: stdoutData.trim(), stderr: stderrData.trim(), frames: [], killed: false, killedReason: null, spawnError: shellSpawnError }
+      processResult: { exitCode: shellSpawnError ? -1 : exitCode, stdout: redactSecretsDeep(stdoutData.trim()), stderr: redactSecretsDeep(stderrData.trim()), frames: [], killed: false, killedReason: null, spawnError: shellSpawnError ? redactSecretsDeep(shellSpawnError) : null }
     });
     return;
   }
@@ -1429,20 +1452,32 @@ async function run(argv) {
 
     // Use node:sqlite (available in Node 22+ as experimental) or better-sqlite3
     // ponytail: use node's built-in sqlite via require("node:sqlite") if available, otherwise spawn sqlite3 CLI
+    const { redactSecretsDeep } = await importRepoModule(REDACTION_MODULE_PATH);
     let dbResult;
     try {
       // Try node:sqlite (Node 22.5+)
       const { DatabaseSync } = await import("node:sqlite");
       const db = dbPath ? new DatabaseSync(dbPath) : new DatabaseSync(":memory:");
       try {
+        // Correctness fix: detect row-returning statements by leading keyword,
+        // not just "SELECT" — WITH…SELECT / PRAGMA / EXPLAIN previously ran
+        // but silently discarded their rows. Write statements take .run() so
+        // real change counts are reported (db.changes was always undefined).
+        // ponytail ceiling: INSERT … RETURNING misclassifies as a write.
+        const rowReturning = /^\s*(?:select|with|pragma|explain|values|table)\b/i.test(query);
         const rows = [];
         const stmt = db.prepare(query);
-        if (query.trim().toUpperCase().startsWith("SELECT")) {
+        let changes = 0;
+        if (rowReturning) {
           for (const row of stmt.all()) rows.push(row);
         } else {
-          stmt.run();
+          // ponytail ceiling: node:sqlite prepare() executes only the FIRST
+          // statement of a multi-statement string; callers should issue one
+          // statement per invocation (matches the documented CLI pattern).
+          const runInfo = stmt.run();
+          changes = runInfo?.changes ?? 0;
         }
-        dbResult = { rows, changes: db.changes ?? 0, error: null };
+        dbResult = { rows, changes, error: null };
       } finally {
         db.close();
       }
@@ -1463,7 +1498,7 @@ async function run(argv) {
       if (sqliteSpawnError) {
         dbResult = { rows: [], changes: 0, error: sqliteSpawnError };
       } else if (exitCode !== 0) {
-        dbResult = { rows: [], changes: 0, error: stderrData.trim() || `sqlite3 exited with code ${exitCode}` };
+        dbResult = { rows: [], changes: 0, error: redactSecretsDeep(stderrData.trim()) || `sqlite3 exited with code ${exitCode}` };
       } else {
         // Parse stdout as JSON if possible, otherwise as text
         const lines = stdoutData.trim().split("\n").filter(Boolean);
@@ -1477,10 +1512,12 @@ async function run(argv) {
       dryRun: false,
       runtimeEnabled: true,
       approved: true,
-      query,
+      query: redactSecretsDeep(query),
       database: dbPath ?? ":memory:",
       processesSpawned: true,
-      databaseResult: dbResult
+      databaseResult: dbResult && dbResult.error
+        ? { ...dbResult, error: redactSecretsDeep(String(dbResult.error)) }
+        : dbResult
     });
     return;
   }
