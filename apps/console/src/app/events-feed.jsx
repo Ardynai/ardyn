@@ -18,7 +18,17 @@ export default function EventsFeed() {
     const connect = () => {
       if (disposed) return;
       setConnState((s) => (s === "error" ? "reconnecting" : "connecting"));
-      const es = new EventSource("/api/events");
+      // U5: EventSource cannot send headers. In a secured deployment the page
+      // can be served with `window.__ARDYN_EVENTS_TOKEN__` (an operator-injected
+      // short-lived token) and it is appended as ?token=; otherwise the plain
+      // endpoint is used (open in dev / header-authenticated deployments).
+      const injectedToken = typeof window !== "undefined" && typeof window.__ARDYN_EVENTS_TOKEN__ === "string"
+        ? window.__ARDYN_EVENTS_TOKEN__
+        : null;
+      const url = injectedToken
+        ? `/api/events?token=${encodeURIComponent(injectedToken)}`
+        : "/api/events";
+      const es = new EventSource(url);
       esRef.current = es;
 
       es.addEventListener("connected", () => {
