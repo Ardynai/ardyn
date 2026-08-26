@@ -1266,28 +1266,25 @@ async function run(argv) {
     const dryRun = args.includes("--dry-run");
     const approved = args.includes(APPROVE_FLAG);
     const manifestPath = readOption(args, "--manifest");
+    // U9: real teardown switch for containers left running by a live start.
+    const killSessionId = readOption(args, "--kill");
 
     if (!enableComputerUse) {
-      fail(`Usage: ardyn computer-use --enable-computer-use [--dry-run] --manifest <path>\nComputer-use is gated: add --enable-computer-use to proceed.`);
-      return;
-    }
-    if (!manifestPath) {
-      fail("Missing required --manifest path for computer-use.");
-      return;
-    }
-    if (!dryRun && !approved) {
-      fail("Computer-use requires explicit approval: add --approve to execute.");
+      fail(`Usage: ardyn computer-use --enable-computer-use [--dry-run] --manifest <path>\n       ardyn computer-use --enable-computer-use --kill <sessionId>\nComputer-use is gated: add --enable-computer-use to proceed.`);
       return;
     }
 
     const { createSandboxConfig, createActionAudit, createSandboxSession, redactCapturedText, SANDBOX_IMAGE } =
       await importRepoModule("packages/core/src/computer-use.mjs");
 
-    const sessionId = `cu-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-    const config = createSandboxConfig({ sessionId });
-    const audit = createActionAudit();
-
     if (dryRun) {
+      if (!manifestPath) {
+        fail("Missing required --manifest path for computer-use.");
+        return;
+      }
+      const sessionId = `cu-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+      const config = createSandboxConfig({ sessionId });
+      const audit = createActionAudit();
       printJson({
         command: "computer-use",
         dryRun: true,
@@ -1303,6 +1300,41 @@ async function run(argv) {
       });
       return;
     }
+
+    // U9: --kill <sessionId> tears down the detached container that a live
+    // `computer-use` run left behind (docker rm -f). Gated like every other
+    // executing surface: requires --approve.
+    if (killSessionId) {
+      if (!approved) {
+        fail("computer-use --kill requires explicit approval: add --approve to tear down the sandbox container.");
+        return;
+      }
+      const { teardownSandbox } = await importRepoModule("packages/core/src/computer-use.mjs");
+      const result = await teardownSandbox(killSessionId);
+      printJson({
+        command: "computer-use",
+        killed: result.ok,
+        sessionId: killSessionId,
+        container: result.container ?? null,
+        error: result.error ?? null,
+        audit: result.audit.getEvents(),
+      });
+      if (!result.ok) process.exitCode = 1;
+      return;
+    }
+
+    if (!manifestPath) {
+      fail("Missing required --manifest path for computer-use.");
+      return;
+    }
+    if (!approved) {
+      fail("Computer-use requires explicit approval: add --approve to execute.");
+      return;
+    }
+
+    const sessionId = `cu-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    const config = createSandboxConfig({ sessionId });
+    const audit = createActionAudit();
 
     // Live execution — create sandbox session and START it for real.
     // Credibility pass: the previous code printed sandboxSpawned:true for a
@@ -1320,7 +1352,9 @@ async function run(argv) {
       sandboxImage: SANDBOX_IMAGE,
       sessionId,
       networkEgress: { default: "deny", allowlist: config.networkAllowlist },
-      killSwitchAvailable: true,
+      // U9: the switch is now REAL — `computer-use --kill <this-session-id>`.
+      killSwitchAvailable: Boolean(startResult.spawned),
+      killCommand: startResult.spawned ? `node apps/cli/src/index.mjs computer-use --enable-computer-use --approve --kill ${sessionId}` : null,
       killSwitchActivated: false,
       transcriptAudit: { auditActive: true, events: audit.getEvents() },
       redaction: { redactionActive: true, mode: "fail-closed" },

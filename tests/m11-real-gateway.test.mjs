@@ -23,22 +23,26 @@ import { safeCloseDb, rmTempDir } from "./helpers/sqlite-temp.mjs";
 
 // ── Constant-time comparison tests ──
 
-test("M11-real: Telegram webhook uses timingSafeEqual (valid sig passes)", () => {
-  const botToken = "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11";
+test("M11-real: Telegram webhook uses timingSafeEqual on the secret-token header (valid passes)", () => {
+  // U7 fix: real Telegram scheme — the setWebhook secret arrives in a header.
   const body = JSON.stringify({ update_id: 1, message: { text: "hello" } });
-  const hmac = createHmac("sha256", botToken).update(body).digest("hex");
-  assert.ok(verifyTelegramWebhook({ body, secret: botToken, signature: hmac }));
+  const secret = "m11-real-webhook-secret-0123456789";
+  assert.ok(verifyTelegramWebhook({ body, secret, headers: { "x-telegram-bot-api-secret-token": secret } }));
 });
 
-test("M11-real: Telegram webhook uses timingSafeEqual (invalid sig fails)", () => {
+test("M11-real: Telegram webhook denies wrong header value", () => {
   const body = JSON.stringify({ update_id: 1 });
-  assert.equal(verifyTelegramWebhook({ body, secret: "secret", signature: "0".repeat(64) }), false);
+  assert.equal(verifyTelegramWebhook({
+    body, secret: "secret", headers: { "x-telegram-bot-api-secret-token": "0".repeat(64) },
+  }), false);
 });
 
-test("M11-real: Telegram webhook rejects different-length signatures (no crash)", () => {
+test("M11-real: Telegram webhook rejects different-length tokens (no crash)", () => {
   const body = JSON.stringify({ update_id: 1 });
-  // Short signature should not crash timingSafeEqual
-  assert.equal(verifyTelegramWebhook({ body, secret: "secret", signature: "abc" }), false);
+  // Short token should not crash timingSafeEqual
+  assert.equal(verifyTelegramWebhook({
+    body, secret: "secret", headers: { "x-telegram-bot-api-secret-token": "abc" },
+  }), false);
 });
 
 test("M11-real: Slack webhook uses timingSafeEqual (valid sig passes)", () => {

@@ -1,8 +1,29 @@
 // M11-real: Real sandbox spawn — injectable, gated, killed, isolated
+// U2 fix: spawnAndWait now resolves on process CLOSE (never the earlier
+// "spawn" event), so the fixtures below emit realistic child-process lifetimes:
+// stdout data → close(exitCode). start() must verify the docker run exit code
+// and capture the REAL container id before reporting success.
 import assert from "node:assert/strict";
 import test from "node:test";
 
 // ── Injectable spawn: tests verify spawn IS called with correct args ──
+
+// Fake child whose lifetime matches real child_process semantics: data events,
+// then exactly one terminal event (error OR close). Data is delivered via
+// process.nextTick so it deterministically precedes the close timer under any
+// scheduler (node:test included).
+function fakeChild({ exitCode = 0, stdout = "", stderr = "", errorMessage = null } = {}) {
+  return {
+    pid: errorMessage ? undefined : 12345,
+    on(event, cb) {
+      if (event === "error" && errorMessage) process.nextTick(() => cb(new Error(errorMessage)));
+      if (event === "close" && !errorMessage) process.nextTick(() => cb(exitCode));
+    },
+    kill: () => {},
+    stdout: { on: (_ev, cb) => { if (stdout) process.nextTick(() => cb(Buffer.from(stdout))); } },
+    stderr: { on: (_ev, cb) => { if (stderr) process.nextTick(() => cb(Buffer.from(stderr))); } },
+  };
+}
 
 test("M11-real: createSandboxSession calls spawnImpl on start (not dry-run)", async () => {
   const { default: cu } = await import("../packages/core/src/computer-use.mjs");
@@ -10,14 +31,7 @@ test("M11-real: createSandboxSession calls spawnImpl on start (not dry-run)", as
   const fakeSpawn = (cmd, args, opts) => {
     const call = { cmd, args, opts };
     spawnCalls.push(call);
-    // Return a fake child process
-    return {
-      pid: 12345,
-      on: (event, cb) => { if (event === "spawn") setTimeout(cb, 0); },
-      kill: () => {},
-      stdout: { on: () => {} },
-      stderr: { on: () => {} },
-    };
+    return fakeChild({ stdout: "abc123containerid\n" });
   };
   const session = cu.createSandboxSession({
     sessionId: "test-real-spawn",
@@ -25,16 +39,41 @@ test("M11-real: createSandboxSession calls spawnImpl on start (not dry-run)", as
     approved: true,
     spawnImpl: fakeSpawn,
   });
-  await session.start();
+  const result = await session.start();
   assert.equal(spawnCalls.length, 1, "spawnImpl must be called exactly once on start");
   const call = spawnCalls[0];
   assert.equal(call.cmd, "docker", "must spawn docker");
   assert.ok(call.args.includes("run"), "must use docker run");
   assert.ok(call.args.includes("--rm"), "must have --rm for ephemeral");
   assert.ok(call.args.includes("--network"), "must restrict network");
-  assert.ok(call.args.includes("--no-new-privileges"), "must drop privileges");
+  // U2: portable no-new-privileges form (--security-opt) works on legacy
+  // engines and Docker 29+ alike, unlike the removed --no-new-privileges flag.
+  assert.ok(call.args.includes("--security-opt"), "must drop privileges");
+  assert.ok(call.args.includes("no-new-privileges"), "must drop privileges");
   assert.ok(call.args.includes("--cap-drop"), "must drop capabilities");
   assert.ok(call.args.includes("--read-only"), "must be read-only root");
+  // U2 fix: success only after docker run exits 0 AND prints a container id.
+  assert.equal(result.spawned, true);
+  assert.equal(result.containerId, "abc123containerid", "must capture the REAL printed container id");
+  assert.equal(session.containerId(), "abc123containerid");
+});
+
+test("M11-real: docker run failure (nonzero exit) reports honest spawnError", async () => {
+  // U2 fix: a failed pull/bad flag can no longer masquerade as a live sandbox.
+  const { default: cu } = await import("../packages/core/src/computer-use.mjs");
+  const session = cu.createSandboxSession({
+    sessionId: "test-run-failure",
+    dryRun: false,
+    approved: true,
+    spawnImpl: () => fakeChild({ exitCode: 125, stderr: "Unable to find image ardyn-sandbox:22.04" }),
+  });
+  const result = await session.start();
+  assert.equal(result.spawned, undefined, "failed run must not report spawned:true");
+  assert.match(result.spawnError, /docker run failed \(exit 125\)/);
+  assert.match(result.spawnError, /Unable to find image/);
+  assert.equal(session.alive, false);
+  const errEvent = session.audit.getEvents().find((e) => e.action === "spawn_error");
+  assert.ok(errEvent, "run failure must be audited");
 });
 
 test("M11-real: createSandboxSession does NOT spawn without approval", async () => {
@@ -72,13 +111,13 @@ test("M11-real: kill switch calls spawnImpl to destroy container", async () => {
   const fakeSpawn = (cmd, args) => {
     if (args && args[0] === "kill") {
       killCalls.push({ cmd, args });
-      return { pid: 1, on: () => {}, kill: () => {} };
+      return fakeChild({});
     }
     if (args && args[0] === "rm") {
       killCalls.push({ cmd, args });
-      return { pid: 1, on: () => {}, kill: () => {} };
+      return fakeChild({});
     }
-    return { pid: 12345, on: (e, cb) => { if (e === "spawn") setTimeout(cb, 0); }, kill: () => {} };
+    return fakeChild({ stdout: "cid-test-kill\n" });
   };
   const session = cu.createSandboxSession({
     sessionId: "test-kill",
@@ -102,9 +141,9 @@ test("M11-real: end() calls spawnImpl to remove container", async () => {
   const fakeSpawn = (cmd, args) => {
     if (args && args[0] === "rm") {
       rmCalls.push({ cmd, args });
-      return { pid: 1, on: () => {}, kill: () => {} };
+      return fakeChild({});
     }
-    return { pid: 12345, on: (e, cb) => { if (e === "spawn") setTimeout(cb, 0); }, kill: () => {} };
+    return fakeChild({ stdout: "cid-test-end\n" });
   };
   const session = cu.createSandboxSession({
     sessionId: "test-end",
@@ -122,23 +161,11 @@ test("M11-real: end() calls spawnImpl to remove container", async () => {
 
 test("M11-real: spawn error is caught and audited, not crashed", async () => {
   const { default: cu } = await import("../packages/core/src/computer-use.mjs");
-  const fakeSpawn = (cmd, args, opts) => {
-    const child = {
-      pid: undefined,
-      on: (event, cb) => {
-        if (event === "error") setTimeout(() => cb(new Error("docker not found")), 0);
-      },
-      kill: () => {},
-      stdout: { on: () => {} },
-      stderr: { on: () => {} },
-    };
-    return child;
-  };
   const session = cu.createSandboxSession({
     sessionId: "test-spawn-error",
     dryRun: false,
     approved: true,
-    spawnImpl: fakeSpawn,
+    spawnImpl: () => fakeChild({ errorMessage: "docker not found" }),
   });
   const result = await session.start();
   assert.ok(result.spawnError, "must capture spawn error");
@@ -152,14 +179,11 @@ test("M11-real: spawn error is caught and audited, not crashed", async () => {
 
 test("M11-real: sandbox has per-session token and no host mounts", async () => {
   const { default: cu } = await import("../packages/core/src/computer-use.mjs");
-  const fakeSpawn = (cmd, args, opts) => {
-    return { pid: 1, on: (e, cb) => { if (e === "spawn") setTimeout(cb, 0); }, kill: () => {}, stdout: { on: () => {} }, stderr: { on: () => {} } };
-  };
   const session = cu.createSandboxSession({
     sessionId: "test-isolation",
     dryRun: false,
     approved: true,
-    spawnImpl: fakeSpawn,
+    spawnImpl: () => fakeChild({ stdout: "cid-isolation\n" }),
   });
   await session.start();
   assert.ok(session.sessionToken, "must have per-session token");
@@ -175,9 +199,9 @@ test("M11-real: executeAction routes through gateway even in real mode", async (
   const { default: cu } = await import("../packages/core/src/computer-use.mjs");
   const fakeSpawn = (cmd, args) => {
     if (args[0] === "exec") {
-      return { pid: 1, on: (e, cb) => { if (e === "spawn") setTimeout(cb, 0); if (e === "close") setTimeout(() => cb(0), 0); }, kill: () => {}, stdout: { on: () => {}, destroy: () => {} }, stderr: { on: () => {}, destroy: () => {} } };
+      return fakeChild({ stdout: "exec-ok-payload" });
     }
-    return { pid: 1, on: (e, cb) => { if (e === "spawn") setTimeout(cb, 0); }, kill: () => {}, stdout: { on: () => {} }, stderr: { on: () => {} } };
+    return fakeChild({ stdout: "cid-gateway-real\n" });
   };
   const session = cu.createSandboxSession({
     sessionId: "test-gateway-real",
@@ -187,9 +211,10 @@ test("M11-real: executeAction routes through gateway even in real mode", async (
     policy: { deny: [{ action: "type", text: "rm -rf" }], allow: [{}] },
   });
   await session.start();
-  // Allowed action
+  // Allowed action — U2 fix: exec result now carries the captured stdout.
   const ok = await session.executeAction({ action: "screenshot" });
   assert.notEqual(ok.refused, true, "screenshot should be allowed");
+  assert.equal(ok.result, "exec-ok-payload", "action result must carry captured stdout (close-resolution)");
   // Denied action
   const denied = await session.executeAction({ action: "type", text: "rm -rf /" });
   assert.equal(denied.refused, true, "rm -rf must be denied by gateway");

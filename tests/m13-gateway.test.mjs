@@ -31,17 +31,20 @@ test("M13: SlackAdapter implements channel adapter interface", () => {
 
 // ── Webhook signature verification ──
 
-test("M13: Telegram webhook verification accepts valid signature", () => {
-  const botToken = "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11";
+test("M13: Telegram webhook verification accepts the real secret-token header", () => {
+  // U7 fix: Telegram delivers its setWebhook secret in the
+  // X-Telegram-Bot-Api-Secret-Token header; verification constant-compares it.
   const body = JSON.stringify({ update_id: 1, message: { text: "hello" } });
-  const secret = botToken;
-  const hmac = createHmac("sha256", secret).update(body).digest("hex");
-  assert.ok(verifyTelegramWebhook({ body, secret, signature: hmac }));
+  const secret = "ardyn-webhook-secret-0123456789abcdef";
+  assert.ok(verifyTelegramWebhook({ body, secret, headers: { "x-telegram-bot-api-secret-token": secret } }));
 });
 
-test("M13: Telegram webhook verification rejects invalid signature", () => {
+test("M13: Telegram webhook verification denies wrong/missing/garbage credentials", () => {
   const body = JSON.stringify({ update_id: 1 });
-  assert.equal(verifyTelegramWebhook({ body, secret: "wrong", signature: "deadbeef" }), false);
+  const secret = "ardyn-webhook-secret-0123456789abcdef";
+  assert.equal(verifyTelegramWebhook({ body, secret, headers: { "x-telegram-bot-api-secret-token": "wrong" } }), false);
+  assert.equal(verifyTelegramWebhook({ body, secret, headers: {} }), false, "missing header must deny");
+  assert.equal(verifyTelegramWebhook({ body, secret, signature: undefined }), false, "no credentials must deny");
 });
 
 test("M13: Slack webhook verification accepts valid signature", () => {
@@ -91,36 +94,37 @@ test("M13: mapUserToArdyn different identities map to different users", () => {
 test("M13: gateway denies validly-signed senders that are not on the allowlist", () => {
   // CREDIBILITY PASS: the old test fed magic strings ("unknown-user"/"invalid")
   // whose denial came from signature failure — vacuous. Now: real allowlist.
-  const botToken = "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11";
-  const gw = createGateway({ adapters: { telegram: new TelegramAdapter({ botToken }) } });
+  // U7: Telegram admission now requires the real secret-token header.
+  const secret = "tg-webhook-secret-99887766554433221100";
+  const gw = createGateway({ adapters: { telegram: new TelegramAdapter({ botToken: "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11", webhookSecret: secret }) } });
   const body = JSON.stringify({ update_id: 1, message: { text: "hi", from: { id: 777 } } });
-  const goodSig = createHmac("sha256", botToken).update(body).digest("hex");
+  const headers = { "x-telegram-bot-api-secret-token": secret };
 
-  // Validly-signed but NOT registered → must be rejected as unknown_sender.
+  // Authenticated (real header) but NOT registered → unknown_sender.
   const stranger = gw.handleInbound({
-    platform: "telegram", platformUserId: "777", body, signature: goodSig,
+    platform: "telegram", platformUserId: "777", body, headers,
   });
-  assert.equal(stranger.allowed, false, "validly-signed stranger must be denied");
+  assert.equal(stranger.allowed, false, "validly-authenticated stranger must be denied");
   assert.equal(stranger.reason, "unknown_sender");
 
-  // Registered sender with the SAME valid signature → admitted.
+  // Registered sender, same authentication → admitted.
   gw.registerUser("telegram", "777");
   const known = gw.handleInbound({
-    platform: "telegram", platformUserId: "777", body, signature: goodSig,
+    platform: "telegram", platformUserId: "777", body, headers,
   });
   assert.equal(known.allowed, true, "registered sender admitted");
 });
 
 test("M13: allowedSenders option seeds the admission allowlist", () => {
-  const botToken = "t";
+  const secret = "tg-webhook-secret-aabbccddeeff00112233";
   const gw = createGateway({
-    adapters: { telegram: new TelegramAdapter({ botToken }) },
+    adapters: { telegram: new TelegramAdapter({ botToken: "t", webhookSecret: secret }) },
     allowedSenders: [{ platform: "telegram", platformUserId: "42" }],
   });
   const body = JSON.stringify({ update_id: 2, message: {} });
-  const sig = createHmac("sha256", botToken).update(body).digest("hex");
-  assert.equal(gw.handleInbound({ platform: "telegram", platformUserId: "42", body, signature: sig }).allowed, true);
-  assert.equal(gw.handleInbound({ platform: "telegram", platformUserId: "43", body, signature: sig }).reason, "unknown_sender");
+  const headers = { "x-telegram-bot-api-secret-token": secret };
+  assert.equal(gw.handleInbound({ platform: "telegram", platformUserId: "42", body, headers }).allowed, true);
+  assert.equal(gw.handleInbound({ platform: "telegram", platformUserId: "43", body, headers }).reason, "unknown_sender");
 });
 
 test("M13: gateway rate-limits per user (windowed — resets after the window)", () => {

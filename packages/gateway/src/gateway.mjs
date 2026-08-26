@@ -1,7 +1,10 @@
 // M13: Multi-interface gateway — pluggable channel adapters
 // Pattern adapted from hermes-agent (MIT, NousResearch/hermes-agent) — not vendored.
 // One gateway process, shared slash-command surface across interfaces.
-// Telegram + Slack adapters implemented end-to-end; others are adapter stubs.
+// U7 honesty: Telegram and Slack are REAL verify+send LIBRARIES (Telegram
+// verifies its actual secret-token header; both adapters can deliver via
+// injectable fetch). They are NOT a running service: nothing here binds an
+// HTTP listener, so webhook RECEIPT still requires operator wiring.
 //
 // Each inbound message is authenticated and mapped to an Ardyn user (M10 multi-user).
 // Per-user isolation holds across every channel.
@@ -34,12 +37,20 @@ function slackTimestampIsFresh(timestamp, nowMs = Date.now()) {
 }
 
 // ── Channel adapter interface ──
-// Each adapter implements: platform, parseInbound, formatOutbound, verifyWebhook
+// Each adapter implements: platform, parseInbound, formatOutbound, verifyWebhook,
+// send (real outbound delivery via injectable fetch).
 
 export class TelegramAdapter {
-  constructor({ botToken }) {
+  constructor({ botToken, webhookSecret, fetchImpl } = {}) {
     this.platform = "telegram";
     this.botToken = botToken; // from env ARDYN_TELEGRAM_BOT_TOKEN — never committed
+    // U7: the webhook secret is INDEPENDENT of the bot token — it is the
+    // secret_token you generate when calling setWebhook. Falls back to the
+    // bot token only if the operator has not configured one.
+    this.webhookSecret = webhookSecret ?? botToken;
+    // Injectable for tests; defaults to global fetch. Missing token fails at
+    // send time with a clear error naming the env var (fail-closed).
+    this._fetch = fetchImpl ?? globalThis.fetch?.bind(globalThis) ?? null;
   }
 
   parseInbound(body) {
@@ -60,18 +71,42 @@ export class TelegramAdapter {
     return { method: "sendMessage", text, parse_mode: "Markdown" };
   }
 
-  verifyWebhook({ body, secret, signature }) {
-    // Telegram uses a secret token in headers, not HMAC of body
-    // For this implementation, we verify using the bot token as the secret
-    const expected = createHmac("sha256", secret).update(body).digest("hex");
-    return safeCompare(expected, signature);
+  // U7 fix: Telegram authenticates webhooks with the secret token IT generated
+  // at setWebhook time, delivered in the X-Telegram-Bot-Api-Secret-Token
+  // header — constant-compared against the configured secret. (The previous
+  // HMAC-over-body scheme no genuine Telegram delivery would ever satisfy.)
+  verifyWebhook({ headers, secret, body, signature }) {
+    const headerName = Object.keys(headers ?? {}).find(
+      (k) => k.toLowerCase() === "x-telegram-bot-api-secret-token"
+    );
+    const provided = headerName ? headers[headerName] : signature;
+    void body; // Telegram's scheme does not sign the body
+    return safeCompare(provided, secret);
+  }
+
+  // Real outbound delivery: POST sendMessage to the Telegram Bot API.
+  async send(chatId, text) {
+    if (!this.botToken || typeof this.botToken !== "string") {
+      throw new Error("telegram_send_missing_token: set ARDYN_TELEGRAM_BOT_TOKEN (or pass botToken)");
+    }
+    if (!this._fetch) throw new Error("telegram_send_no_fetch_implementation");
+    const res = await this._fetch(`https://api.telegram.org/bot${this.botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" }),
+    });
+    const payload = await res.json().catch(() => ({}));
+    return { ok: res.ok && payload?.ok === true, status: res.status, payload };
   }
 }
 
 export class SlackAdapter {
-  constructor({ signingSecret }) {
+  constructor({ signingSecret, botToken, fetchImpl } = {}) {
     this.platform = "slack";
     this.signingSecret = signingSecret; // from env ARDYN_SLACK_SIGNING_SECRET — never committed
+    // U7: real outbound delivery needs a Bot User OAuth Token (xoxb-…).
+    this.botToken = botToken;
+    this._fetch = fetchImpl ?? globalThis.fetch?.bind(globalThis) ?? null;
   }
 
   parseInbound(body) {
@@ -101,6 +136,24 @@ export class SlackAdapter {
     const sigBase = `v0:${timestamp}:${body}`;
     const expected = `v0=${createHmac("sha256", signingSecret).update(sigBase).digest("hex")}`;
     return safeCompare(expected, signature);
+  }
+
+  // Real outbound delivery: POST chat.postMessage to the Slack Web API.
+  async send(channelId, text) {
+    if (!this.botToken || typeof this.botToken !== "string") {
+      throw new Error("slack_send_missing_token: pass botToken (xoxb-…) to SlackAdapter");
+    }
+    if (!this._fetch) throw new Error("slack_send_no_fetch_implementation");
+    const res = await this._fetch("https://slack.com/api/chat.postMessage", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json; charset=utf-8",
+        authorization: `Bearer ${this.botToken}`,
+      },
+      body: JSON.stringify({ channel: channelId, text }),
+    });
+    const payload = await res.json().catch(() => ({}));
+    return { ok: res.ok && payload?.ok === true, status: res.status, payload };
   }
 }
 
@@ -134,9 +187,15 @@ export class EmailAdapter {
 
 // ── Webhook verification functions (callable directly) ──
 
-export function verifyTelegramWebhook({ body, secret, signature }) {
-  const expected = createHmac("sha256", secret).update(body).digest("hex");
-  return safeCompare(expected, signature);
+export function verifyTelegramWebhook({ headers, secret, body, signature }) {
+  // U7 fix: real Telegram scheme — constant-compare the
+  // X-Telegram-Bot-Api-Secret-Token header against the configured secret.
+  const headerName = Object.keys(headers ?? {}).find(
+    (k) => k.toLowerCase() === "x-telegram-bot-api-secret-token"
+  );
+  const provided = headerName ? headers[headerName] : signature;
+  void body; // Telegram's scheme does not sign the body
+  return safeCompare(provided, secret);
 }
 
 export function verifySlackWebhook({ body, signingSecret, timestamp, signature }) {
@@ -195,19 +254,23 @@ export function createGateway(options = {}) {
     knownUsers,
 
     // Handle an inbound message — deny-by-default on unknown senders
-    handleInbound({ platform, platformUserId, body, signature, timestamp }) {
+    handleInbound({ platform, platformUserId, body, headers, signature, timestamp }) {
       // M16 metrics — channel label only; never message content. Counted only
       // for KNOWN platforms so junk strings cannot mint Prometheus series.
       if (!adapters[platform]) {
         return { allowed: false, reason: "unknown_platform" };
       }
-      metrics.counter("ardyn_gateway_messages_total", { platform: String(platform) });
       const adapter = adapters[platform];
 
-      // Verify webhook signature
-      if (!adapter.verifyWebhook({ body, signature, signingSecret: adapter.signingSecret ?? adapter.botToken, secret: adapter.botToken, timestamp })) {
+      // Verify webhook signature (Telegram reads the secret-token header and
+      // compares against the adapter's configured webhookSecret).
+      if (!adapter.verifyWebhook({ body, headers, signature, signingSecret: adapter.signingSecret ?? adapter.webhookSecret ?? adapter.botToken, secret: adapter.webhookSecret ?? adapter.botToken, timestamp })) {
         return { allowed: false, reason: "invalid_signature" };
       }
+
+      // U15 fix: only ADMITTED messages count toward ardyn_gateway_messages_total —
+      // rejected junk (bad signature / unregistered sender) no longer mints
+      // traffic the gateway never accepted.
 
       // Deny-by-default on unknown senders: admission requires explicit
       // registration (options.allowedSenders / registerUser()).
@@ -216,6 +279,7 @@ export function createGateway(options = {}) {
         return { allowed: false, reason: "unknown_sender" };
       }
 
+      metrics.counter("ardyn_gateway_messages_total", { platform: String(platform) });
       return { allowed: true, adapter, parsed: adapter.parseInbound(body) };
     },
 
