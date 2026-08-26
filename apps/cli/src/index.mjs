@@ -72,8 +72,6 @@ const SESSION_TRANSCRIPT_OUTPUT_FLAGS = [
   "--display-summary",
   "--compatibility-explain"
 ];
-const DEFAULT_BLOCKED_RUNTIME_COMMANDS = new Set();
-
 // Resolve repo-rooted internal modules relative to THIS file, not process.cwd()
 // (correctness fix: the CLI previously failed with ERR_MODULE_NOT_FOUND when
 // invoked from any directory other than the repo root).
@@ -1266,28 +1264,25 @@ async function run(argv) {
     const dryRun = args.includes("--dry-run");
     const approved = args.includes(APPROVE_FLAG);
     const manifestPath = readOption(args, "--manifest");
+    // U9: real teardown switch for containers left running by a live start.
+    const killSessionId = readOption(args, "--kill");
 
     if (!enableComputerUse) {
-      fail(`Usage: ardyn computer-use --enable-computer-use [--dry-run] --manifest <path>\nComputer-use is gated: add --enable-computer-use to proceed.`);
-      return;
-    }
-    if (!manifestPath) {
-      fail("Missing required --manifest path for computer-use.");
-      return;
-    }
-    if (!dryRun && !approved) {
-      fail("Computer-use requires explicit approval: add --approve to execute.");
+      fail(`Usage: ardyn computer-use --enable-computer-use [--dry-run] --manifest <path>\n       ardyn computer-use --enable-computer-use --kill <sessionId>\nComputer-use is gated: add --enable-computer-use to proceed.`);
       return;
     }
 
     const { createSandboxConfig, createActionAudit, createSandboxSession, redactCapturedText, SANDBOX_IMAGE } =
       await importRepoModule("packages/core/src/computer-use.mjs");
 
-    const sessionId = `cu-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-    const config = createSandboxConfig({ sessionId });
-    const audit = createActionAudit();
-
     if (dryRun) {
+      if (!manifestPath) {
+        fail("Missing required --manifest path for computer-use.");
+        return;
+      }
+      const sessionId = `cu-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+      const config = createSandboxConfig({ sessionId });
+      const audit = createActionAudit();
       printJson({
         command: "computer-use",
         dryRun: true,
@@ -1303,6 +1298,41 @@ async function run(argv) {
       });
       return;
     }
+
+    // U9: --kill <sessionId> tears down the detached container that a live
+    // `computer-use` run left behind (docker rm -f). Gated like every other
+    // executing surface: requires --approve.
+    if (killSessionId) {
+      if (!approved) {
+        fail("computer-use --kill requires explicit approval: add --approve to tear down the sandbox container.");
+        return;
+      }
+      const { teardownSandbox } = await importRepoModule("packages/core/src/computer-use.mjs");
+      const result = await teardownSandbox(killSessionId);
+      printJson({
+        command: "computer-use",
+        killed: result.ok,
+        sessionId: killSessionId,
+        container: result.container ?? null,
+        error: result.error ?? null,
+        audit: result.audit.getEvents(),
+      });
+      if (!result.ok) process.exitCode = 1;
+      return;
+    }
+
+    if (!manifestPath) {
+      fail("Missing required --manifest path for computer-use.");
+      return;
+    }
+    if (!approved) {
+      fail("Computer-use requires explicit approval: add --approve to execute.");
+      return;
+    }
+
+    const sessionId = `cu-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    const config = createSandboxConfig({ sessionId });
+    const audit = createActionAudit();
 
     // Live execution — create sandbox session and START it for real.
     // Credibility pass: the previous code printed sandboxSpawned:true for a
@@ -1320,7 +1350,9 @@ async function run(argv) {
       sandboxImage: SANDBOX_IMAGE,
       sessionId,
       networkEgress: { default: "deny", allowlist: config.networkAllowlist },
-      killSwitchAvailable: true,
+      // U9: the switch is now REAL — `computer-use --kill <this-session-id>`.
+      killSwitchAvailable: Boolean(startResult.spawned),
+      killCommand: startResult.spawned ? `node apps/cli/src/index.mjs computer-use --enable-computer-use --approve --kill ${sessionId}` : null,
       killSwitchActivated: false,
       transcriptAudit: { auditActive: true, events: audit.getEvents() },
       redaction: { redactionActive: true, mode: "fail-closed" },
@@ -1407,9 +1439,15 @@ async function run(argv) {
       return;
     }
 
-    // Execute via serve-runtime infrastructure
+    // Execute via serve-runtime infrastructure.
+    // U16: Windows-first repo — use the platform shell instead of assuming a
+    // POSIX `sh` exists (stock Windows has none; the command silently died
+    // with a spawnError there).
     const { redactSecretsDeep } = await importRepoModule(REDACTION_MODULE_PATH);
-    const child = spawn("sh", ["-c", commandArg], { cwd: process.cwd(), env: { ...process.env }, stdio: ["pipe", "pipe", "pipe"] });
+    const isWindows = process.platform === "win32";
+    const shellCmd = isWindows ? process.env.ComSpec ?? "cmd.exe" : "sh";
+    const shellArgs = isWindows ? ["/d", "/s", "/c", commandArg] : ["-c", commandArg];
+    const child = spawn(shellCmd, shellArgs, { cwd: process.cwd(), env: { ...process.env }, stdio: ["pipe", "pipe", "pipe"] });
     let stdoutData = "", stderrData = "";
     let shellSpawnError = null;
     // B1: handle spawn errors for shell
@@ -1428,6 +1466,7 @@ async function run(argv) {
       approved: true,
       commandArg: redactSecretsDeep(commandArg),
       processesSpawned: true,
+      shell: isWindows ? "cmd" : "sh",
       processResult: { exitCode: shellSpawnError ? -1 : exitCode, stdout: redactSecretsDeep(stdoutData.trim()), stderr: redactSecretsDeep(stderrData.trim()), frames: [], killed: false, killedReason: null, spawnError: shellSpawnError ? redactSecretsDeep(shellSpawnError) : null }
     });
     return;
@@ -1522,10 +1561,6 @@ async function run(argv) {
     return;
   }
 
-  if (DEFAULT_BLOCKED_RUNTIME_COMMANDS.has(command)) {
-    fail(createDefaultBlockedRuntimeCommandMessage(command));
-    return;
-  }
 
   if (command === "serve") {
     const dryRun = args.includes("--dry-run");

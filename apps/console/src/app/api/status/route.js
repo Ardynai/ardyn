@@ -1,6 +1,6 @@
 // Credibility pass: phase status route.
 // No fabricated numbers. Test counts are only reported when the operator
-// provides them via ARDN_CONSOLE_TEST_COUNTS (JSON: {totalTests,passingTests,
+// provides them via ARDYN_CONSOLE_TEST_COUNTS (JSON: {totalTests,passingTests,
 // failingTests}); otherwise the field is explicitly "unavailable".
 import { checkAuth, unauthorizedResponse } from "../../../lib/auth.js";
 
@@ -8,7 +8,7 @@ export async function GET(request) {
   const auth = checkAuth(request);
   if (!auth.authenticated) return unauthorizedResponse();
 
-  let testSuite = { available: false, note: "set ARDN_CONSOLE_TEST_COUNTS to publish suite results here" };
+  let testSuite = { available: false, note: "set ARDYN_CONSOLE_TEST_COUNTS to publish suite results here" };
   const raw = process.env.ARDYN_CONSOLE_TEST_COUNTS;
   if (raw) {
     try {

@@ -2,6 +2,35 @@
 // In production (NODE_ENV=production): fails closed — requires ARDYN_CONSOLE_API_KEY or per-user auth
 // In dev: open if no key configured
 
+import { timingSafeEqual } from "node:crypto";
+
+function safeEq(a, b) {
+  if (typeof a !== "string" || typeof b !== "string") return false;
+  const bufA = Buffer.from(a, "utf8");
+  const bufB = Buffer.from(b, "utf8");
+  if (bufA.length !== bufB.length) return false;
+  return timingSafeEqual(bufA, bufB);
+}
+
+// U5: EventSource cannot send custom headers, so the live-events feed can
+// authenticate with a short-lived `?token=` query parameter instead. The
+// token is constant-time compared against the console API key and every
+// configured per-user token. Fails closed when nothing is configured.
+export function verifyEventsToken(token) {
+  const apiKey = process.env.ARDYN_CONSOLE_API_KEY;
+  if (!apiKey || typeof token !== "string" || token.length === 0) return { ok: false };
+  if (safeEq(token, apiKey)) return { ok: true, mode: "authenticated", userId: null };
+  if (process.env.ARDYN_CONSOLE_USER_TOKENS) {
+    try {
+      const tokens = JSON.parse(process.env.ARDYN_CONSOLE_USER_TOKENS);
+      for (const [userId, userToken] of Object.entries(tokens)) {
+        if (safeEq(token, userToken)) return { ok: true, mode: "user", userId };
+      }
+    } catch {}
+  }
+  return { ok: false };
+}
+
 export function checkAuth(request) {
   const apiKey = process.env.ARDYN_CONSOLE_API_KEY;
   const isProduction = process.env.NODE_ENV === "production";

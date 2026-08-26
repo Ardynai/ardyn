@@ -3,8 +3,13 @@
   "version": "0.1.0",
   "type": "module",
   "main": "src/index.mjs",
+  "types": "src/index.d.ts",
   "exports": {
-    ".": "./src/index.mjs"
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.mjs"
+    },
+    "./components": "./src/components/index.js"
   },
   "description": "Consumer-facing SDK for the Ardyn AI harness",
   "license": "Apache-2.0"

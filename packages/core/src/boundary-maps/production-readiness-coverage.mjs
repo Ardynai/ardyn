@@ -493,7 +493,7 @@ function productionReadinessCoverageMatrixRows() {
         "Cloud compute is a future runtime concern; Ardyn currently has no workers, queues, functions, containers, or hosted compute.",
       currentStatus: "deferred",
       currentEvidenceInRepo: [
-        "docs/architecture.md",
+        "docs/ARCHITECTURE.md",
         "docs/phase-4-2a-deliberately-blocked-rust-host-stdio-runtime-skeleton.md",
         "crates/ardyn-host/README.md"
       ],
@@ -773,7 +773,7 @@ function productionReadinessCoverageMatrixRows() {
         "Infrastructure and compliance are documented as boundaries; no IaC, cloud policy enforcement, or compliance attestation is produced.",
       currentStatus: "partial",
       currentEvidenceInRepo: [
-        "docs/architecture.md",
+        "docs/ARCHITECTURE.md",
         "docs/adapter-boundaries.md",
         "docs/host-policy-preconditions.md"
       ],

@@ -8,7 +8,7 @@ import test from "node:test";
 
 // Import the functions under test
 const federationModule = await import("../packages/fabric/src/federation.mjs");
-const { isInboundAuthenticated, loadFabricFederationConfigFromEnv } = federationModule;
+const { isInboundAuthenticated, loadFabricFederationConfigFromEnv, canonicalSignedPayload } = federationModule;
 
 // Helper: generate a real Ed25519 keypair
 function genKeyPair() {
@@ -23,8 +23,8 @@ function genKeyPair() {
 
 // Helper: canonical signed payload (stable JSON of envelope excluding signature fields)
 function canonicalPayload(envelope) {
-  const { signature, signatureDid, ...rest } = envelope;
-  return JSON.stringify(rest, Object.keys(rest).sort());
+  // U15: sign with the PRODUCTION recursive canonicalizer.
+  return canonicalSignedPayload(envelope);
 }
 
 // Helper: sign an envelope with Ed25519
@@ -133,9 +133,8 @@ test("B2-real: missing signature fails (no field-presence shortcut)", () => {
 
 test("B2-real: garbage signature fails", () => {
   const kp = genKeyPair();
-  process.env.ARDYN_FABRIC_SIBRIC_KEYS = JSON.stringify({
-    "did:multiverse:locus": kp.publicKey,
-  });
+  // U15 fix: the old fixture also set a typo'd ARDYN_FABRIC_SIBRIC_KEYS env
+  // (dead assignment that leaked into sibling tests). Removed.
   process.env.ARDYN_FABRIC_SIBLING_KEYS = JSON.stringify({
     "did:multiverse:locus": kp.publicKey,
   });
@@ -148,9 +147,12 @@ test("B2-real: garbage signature fails", () => {
     signature: "garbage-not-a-real-signature",
     signatureDid: "did:multiverse:locus",
   };
-  const result = isInboundAuthenticated(envelope, "did:multiverse:locus");
-  assert.equal(result, false, "garbage signature must fail");
-  delete process.env.ARDYN_FABRIC_SIBLING_KEYS;
+  try {
+    const result = isInboundAuthenticated(envelope, "did:multiverse:locus");
+    assert.equal(result, false, "garbage signature must fail");
+  } finally {
+    delete process.env.ARDYN_FABRIC_SIBLING_KEYS;
+  }
 });
 
 test("B2-real: no keys configured at all fails (fail-closed)", () => {

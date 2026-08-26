@@ -397,7 +397,7 @@
       "summary": "Links Phase 4.1 as a proposal-only approval-boundary design, not active host-policy enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Records the future Rust-host ownership design without adding process stdio ownership."
     },

@@ -54,3 +54,5 @@ removal outside move-and-re-export was a dead, unexported private helper
 (`reviewOnlyInspectionHandoffMetadataBoundaryPathValue`) duplicated by the live
 review-shared helper. Register status otherwise unchanged: the per-session sandbox
 token remains the sole planned-not-implemented flag.
+
+UPDATE 2026-08-25 (fix/close-ulist): computer-use is now REAL end-to-end — capable sandbox image (ardyn-sandbox:22.04, built from docker/sandbox.Dockerfile), action-field validation with base64 text transport, exit-code-verified spawn with real container-id capture, and a working teardown switch (`computer-use --kill <sessionId>`). Telegram verification uses the real secret-token header scheme; Telegram/Slack gained outbound send via injectable fetch (webhook RECEIPT still requires operator wiring — no listener is bundled). Register status otherwise unchanged: the per-session sandbox token remains the sole planned-not-implemented flag.

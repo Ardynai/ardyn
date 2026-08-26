@@ -142,14 +142,18 @@ test("M21: kill()/end() handle docker spawn errors without unhandled rejections"
   const { default: cu } = await import("../packages/core/src/computer-use.mjs");
   const listeners = [];
   const fakeSpawn = (cmd, args) => ({
-    // `docker run` succeeds; kill/rm fail with ENOENT-style errors.
+    // U2 contract: `docker run` succeeds via a close(0) event carrying the
+    // container id; kill/rm fail with ENOENT-style errors on their error path.
     on(event, cb) {
       listeners.push([args?.[0], event]);
       if (event === "error" && args?.[0] !== "run") setImmediate(() => cb(new Error("spawn docker ENOENT")));
-      if (event === "spawn" && args?.[0] === "run") setImmediate(cb);
+      if (event === "close" && args?.[0] === "run") process.nextTick(() => cb(0));
     },
     kill() {},
-    stdout: { on() {} }, stderr: { on() {} },
+    // data is registered before close in spawnAndWait, so this nextTick fires
+    // before the close nextTick — deterministic data-before-close.
+    stdout: { on(_e, cb) { if (args?.[0] === "run") process.nextTick(() => cb(Buffer.from("cid-m21\n"))); } },
+    stderr: { on() {} },
   });
   const makeSession = () => cu.createSandboxSession({
     sessionId: `m21-teardown-${Math.random().toString(36).slice(2, 7)}`, dryRun: false, approved: true, spawnImpl: fakeSpawn,

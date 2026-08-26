@@ -3,6 +3,8 @@
 // Lifetime goals, user gates, todo ownership (claimed_by), quota/should-run + spend,
 // append-only run history + evidence, public/private boundary checks.
 
+import { redactSecretsDeep } from "./internal/redaction.mjs";
+
 export async function createLoopStateDatabase(dbPath = ":memory:") {
   const { DatabaseSync } = await import("node:sqlite");
   const db = new DatabaseSync(dbPath);
@@ -146,10 +148,13 @@ export function spendQuota(db, { goalId, amount = 1 }) {
 }
 
 export function checkPublicPrivateBoundary(db, { goalId }) {
-  // Check if any public run has private-looking data (secrets in evidence)
+  // Check if any public run has private-looking data (secrets in evidence).
+  // U15: delegate to THE canonical redactor instead of a drifted inline
+  // regex — the old copy missed Bearer/sk-/ghp_ secret forms entirely.
   const publicRuns = db.prepare("SELECT * FROM run_history WHERE goal_id = ? AND is_public = 1").all(goalId);
   for (const run of publicRuns) {
-    if (/(?:token|secret|password|api_key|apikey)\s*=\s*[^\s]/i.test(run.evidence)) {
+    const evidence = typeof run.evidence === "string" ? run.evidence : String(run.evidence ?? "");
+    if (redactSecretsDeep(evidence) !== evidence) {
       return { ok: false, violation: "secret_in_public_run", runId: run.run_id };
     }
   }

@@ -1,5 +1,8 @@
 // M6: API route — federation status (authenticated)
 import { checkAuth, unauthorizedResponse } from "../../../lib/auth.js";
+// U15 fix: single source of truth — the closed sibling set is imported from
+// the fabric package instead of a drifted hand-copied literal.
+import { FABRIC_FEDERATION_CLOSED_SIBLING_DIDS } from "../../../../../../packages/fabric/src/federation.mjs";
 
 export async function GET(request) {
   const auth = checkAuth(request);
@@ -9,17 +12,7 @@ export async function GET(request) {
     gated: true,
     loopbackOnly: true,
     remoteHttps: true,
-    closedSiblingAllowlist: [
-      "did:multiverse:ardyn",
-      "did:multiverse:hub",
-      "did:multiverse:kortex-audio",
-      "did:multiverse:locus",
-      "did:multiverse:custos",
-      "did:multiverse:somatic",
-      "did:multiverse:aegis",
-      "did:multiverse:praxis",
-      "did:multiverse:kybernetes",
-    ],
+    closedSiblingAllowlist: [...FABRIC_FEDERATION_CLOSED_SIBLING_DIDS],
     hardening: {
       redirectManual: true,
       hostAllowlist: true,

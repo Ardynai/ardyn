@@ -53,7 +53,9 @@ test("M16: computer-use actions counted as allowed/denied", async () => {
 
 test("M16: runtime sessions started/killed counted", async () => {
   const { default: cu } = await import("../packages/core/src/computer-use.mjs");
-  const session = cu.createSandboxSession({ sessionId: "m16-metrics", dryRun: false, approved: true, spawnImpl: () => ({ pid: 1, on: (e, cb) => { if (e === "spawn") setTimeout(cb, 0); }, kill: () => {}, stdout: { on: () => {} }, stderr: { on: () => {} } }) });
+  // U2 contract: the docker run child emits data then close(0) with an id;
+  // start() resolves on close only.
+  const session = cu.createSandboxSession({ sessionId: "m16-metrics", dryRun: false, approved: true, spawnImpl: () => ({ pid: 1, on: (e, cb) => { if (e === "close") process.nextTick(() => cb(0)); }, kill: () => {}, stdout: { on: (_e, cb) => process.nextTick(() => cb(Buffer.from("cid-m16\n"))) }, stderr: { on: () => {} } }) });
   await session.start();
   session.kill();
   const out = metrics.render();
@@ -62,21 +64,32 @@ test("M16: runtime sessions started/killed counted", async () => {
 });
 
 test("M16: gateway messages counted per channel (platform label only)", async () => {
+  const { createHmac } = await import("node:crypto");
   const gw = await import("../packages/gateway/src/gateway.mjs");
+  // U7/U15: only ADMITTED messages mint ardyn_gateway_messages_total, so this
+  // fixture admits one real message per channel and then proves rejected junk
+  // (bad auth + unknown platform + unregistered sender) mints nothing.
+  const tgSecret = "m16-tg-webhook-secret-0123456789";
   const chat = gw.createGateway({
-    // Both channels explicitly configured — labels stay bounded by config.
     adapters: {
-      telegram: new gw.TelegramAdapter({ botToken: "t" }),
+      telegram: new gw.TelegramAdapter({ botToken: "t", webhookSecret: tgSecret }),
       slack: new gw.SlackAdapter({ signingSecret: "s" }),
     },
   });
-  chat.handleInbound({ platform: "telegram", platformUserId: "u1", body: "{}", signature: "bad" });
-  chat.handleInbound({ platform: "slack", platformUserId: "u1", body: "{}", signature: "bad" });
-  // STRONGER (credibility pass): unknown platforms must NOT mint metric series.
-  chat.handleInbound({ platform: "junk-platform-xyz", platformUserId: "u1", body: "{}", signature: "bad" });
+  chat.registerUser("telegram", "u1");
+  chat.registerUser("slack", "u1");
+  chat.handleInbound({ platform: "telegram", platformUserId: "u1", body: "{}", headers: { "x-telegram-bot-api-secret-token": tgSecret } });
+  const ts = String(Math.floor(Date.now() / 1000));
+  const slackBody = "{}";
+  const slackSig = `v0=${createHmac("sha256", "s").update(`v0:${ts}:${slackBody}`).digest("hex")}`;
+  chat.handleInbound({ platform: "slack", platformUserId: "u1", body: slackBody, timestamp: ts, signature: slackSig });
+  // STRONGER: rejected traffic must NOT increment — bad signature…
+  chat.handleInbound({ platform: "telegram", platformUserId: "u1", body: "{}", headers: { "x-telegram-bot-api-secret-token": "wrong" } });
+  // …and unknown platforms must NOT mint metric series.
+  chat.handleInbound({ platform: "junk-platform-xyz", platformUserId: "u1", body: "{}" });
   const out = metrics.render();
-  assert.match(out, /ardyn_gateway_messages_total\{platform="telegram"\} \d+/);
-  assert.match(out, /ardyn_gateway_messages_total\{platform="slack"\} \d+/);
+  assert.match(out, /ardyn_gateway_messages_total\{platform="telegram"\} 1$/m, "exactly one admitted telegram message");
+  assert.match(out, /ardyn_gateway_messages_total\{platform="slack"\} 1$/m, "exactly one admitted slack message");
   assert.doesNotMatch(out, /junk-platform-xyz/, "unknown platform must not become a label");
 });
 

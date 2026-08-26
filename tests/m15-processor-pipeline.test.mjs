@@ -103,19 +103,20 @@ test("M15: session executeAction redacts real-mode stdout via post chain", async
       return {
         pid: 1,
         on: (e, cb) => {
-          if (e === "spawn") setTimeout(cb, 0);
+          // U2 contract: data events precede a single close event; start/exec
+          // resolve on close only (never the earlier "spawn" event).
           if (e === "close") setTimeout(() => cb(0), 0);
         },
         kill: () => {},
         stdout: {
           on: (e, cb) => {
-            if (e === "data") setTimeout(() => cb(Buffer.from("password=hunter2 ghp_" + "a".repeat(36))), 0);
+            if (e === "data") process.nextTick(() => cb(Buffer.from("password=hunter2 ghp_" + "a".repeat(36))));
           },
         },
         stderr: { on: () => {} },
       };
     }
-    return { pid: 1, on: (e, cb) => { if (e === "spawn") setTimeout(cb, 0); }, kill: () => {}, stdout: { on: () => {} }, stderr: { on: () => {} } };
+    return { pid: 1, on: (e, cb) => { if (e === "close") process.nextTick(() => cb(0)); }, kill: () => {}, stdout: { on: (_e, cb) => process.nextTick(() => cb(Buffer.from("cid-m15\n"))) }, stderr: { on: () => {} } };
   };
   const session = cu.createSandboxSession({
     sessionId: "m15-redact-e2e",

@@ -212,9 +212,11 @@ export function createHiClawMatrixAdapter(options = {}) {
         }
         const body = await res.json();
         cursor = body.next_batch ?? cursor;
+        // U15 fix: extract once, partition — extractEvents(body) ran twice.
+        const allEvents = extractEvents(body);
         yield {
-          events: extractEvents(body).filter(accepts),
-          rejected: extractEvents(body).filter(ev => !accepts(ev)),
+          events: allEvents.filter(accepts),
+          rejected: allEvents.filter((ev) => !accepts(ev)),
           nextBatch: cursor,
         };
         from = cursor;

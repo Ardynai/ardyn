@@ -50,8 +50,16 @@ The content bytes uploaded to the sidecar are a JSON envelope:
 }
 ```
 
-- `canonicalSignedPayload(envelope)` = `JSON.stringify(envelopeWithoutSignatureFields, sortedTopLevelKeys)`.
-  Reproduce this EXACTLY — verification recomputes it byte-for-byte.
+- `canonicalSignedPayload(envelope)` = recursive canonical JSON of the envelope
+  minus `signature`/`signatureDid`: serialize with **object keys sorted at
+  EVERY depth** (arrays keep element order; `undefined` fields dropped), no
+  whitespace. Reference implementation: `canonicalJson` /
+  `canonicalSignedPayload` in `packages/fabric/src/federation.mjs`
+  (byte-identical twin in `handoff.mjs`, pinned by tests). Reproduce this
+  EXACTLY — verification recomputes it byte-for-byte. (Historical note: an
+  earlier top-level-keys-only `JSON.stringify(rest, sortedKeys)` form left
+  nested fields unsigned and will FAIL every handshake that carries any
+  nested object — do not implement it.)
 - The signature must verify with node:crypto `verify(null, payload, publicKey, sig)`
   (Ed25519, no digest). Receivers run the existing `isInboundAuthenticated()`
   invariant — field presence is not enough; crypto must actually pass.

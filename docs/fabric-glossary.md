@@ -48,9 +48,11 @@ A live, out-of-process Fabric Federation consumer client added by PR #4
 (2026-07-05, authorized by Josh). It talks to the `fabric-transport-d`
 sidecar over loopback HTTP and the Multiverse registry over authenticated
 HTTPS. It does not import `@multiverse/fabric-core`, join a DHT/swarm, open a
-public relay, or decrypt Secure Drop ciphertext. It is present but not wired
-into the CLI or Rust host. See `docs/posture.md` for the authorized carve-out
-and `docs/how-it-works/fabric-connect.md` for the flow.
+public relay, or decrypt Secure Drop ciphertext. Since M20 (2026-08) the
+client IS wired into the CLI: `federation status|config` report posture and
+`federation send-handoff|receive-handoff` perform signed A2A handoff exchange
+behind `--enable-federation-exchange --approve`. See `docs/posture.md` for
+the authorized carve-out and `docs/how-it-works/fabric-connect.md` for the flow.
 
 ## Relationship summary
 
@@ -59,5 +61,5 @@ and `docs/how-it-works/fabric-connect.md` for the flow.
 2 (5.59 envelope)      ── review-only metadata, no runtime
 3 (fabric-core)        ── produced by Multiverse, NOT imported by Ardyn
 4 (content-fabric)     ── owns Secure Drop, outside Ardyn
-5 (federation.mjs)     ── Ardyn's consumer client (PR #4), unwired, loopback-only
+5 (federation.mjs)     ── Ardyn's consumer client (PR #4), CLI-wired + approval-gated, loopback-only sidecar
 ```

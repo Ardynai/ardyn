@@ -201,7 +201,7 @@
       "summary": "Documents approval records and consent as necessary but insufficient static preconditions."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Records Phase 4.1A Rust-host review helpers without adding runtime ownership."
     },

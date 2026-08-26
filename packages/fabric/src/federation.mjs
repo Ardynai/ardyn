@@ -1,6 +1,14 @@
 import { createHash, verify as cryptoVerify, createPublicKey, constants } from "node:crypto";
 import { readFileSync, realpathSync } from "node:fs";
 import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { join, dirname } from "node:path";
+
+// U10: the gitignored keys file is anchored to the REPO ROOT (derived from
+// this module's own location), not to process.cwd() — running the CLI from
+// another directory used to silently find zero keys and reject every inbound
+// envelope as unauthenticated.
+const FABRIC_REPO_ROOT = dirname(dirname(dirname(fileURLToPath(import.meta.url)))); // packages/fabric/src -> repo root
 
 export const FABRIC_FEDERATION_DEFAULT_LOCAL_DID = "did:multiverse:ardyn";
 
@@ -185,6 +193,14 @@ export function startFabricFederationReceiver(clientOrConfig, handler, options =
   const onError = typeof options.onError === "function" ? options.onError : (error) => {
     console.error(`[federation] receiver poll failed: ${error?.message ?? error}`);
   };
+  // U10: an active receiver with ZERO sibling keys can never authenticate any
+  // inbound envelope — warn loudly instead of failing silently forever.
+  const warn = typeof options.warn === "function" ? options.warn : (msg) => console.error(msg);
+  if (Object.keys(loadSiblingKeys()).length === 0) {
+    warn("[federation] WARNING: receiver starting with NO sibling public keys configured. " +
+      "Every inbound envelope will be rejected as unauthenticated_sender until " +
+      "ARDYN_FABRIC_SIBLING_KEYS or config/secret/federation-keys.json provides DID -> key mappings.");
+  }
   let stopped = false;
   let timer;
   let lastKeepaliveAt = 0;
@@ -266,6 +282,23 @@ export function fabricCaContentId(data, descriptor) {
   return verifyFabricCaContent(data, descriptor).contentId;
 }
 
+// U6: failure classes that can NEVER succeed on a retry (envelope shape,
+// crypto, allowlist, content verification). The receiver marks these received
+// at the registry so a poison message is not re-fetched and re-rejected on
+// every poll forever. Anything else (network, sidecar, handler) stays
+// retried — absence of a mark means "try again".
+const PERMANENT_REJECTION_CODES = new Set([
+  "invalid_inbox_entry",
+  "wrong_recipient",
+  "unauthenticated_sender",
+  "did_not_allowlisted",
+  "descriptor_content_id_mismatch",
+  "response_content_id_mismatch",
+  "content_id_mismatch",
+  "content_size_mismatch",
+  "piece_hash_mismatch",
+]);
+
 async function pollInboundOnce(config, handler, options) {
   if (typeof handler !== "function") {
     throw new FabricFederationError("Fabric federation receiver handler is required.", {
@@ -290,10 +323,25 @@ async function pollInboundOnce(config, handler, options) {
       const result = await receiveInboundEnvelope(config, envelope, handler, options);
       delivered.push(result);
     } catch (error) {
+      // U6: permanently-invalid envelopes are marked received (with the
+      // rejection recorded in the returned batch) so the registry stops
+      // redelivering them. markReceived failures never mask the original
+      // rejection — they only mean we will likely see it again next poll.
+      let marked = false;
+      if (PERMANENT_REJECTION_CODES.has(error?.code)) {
+        try {
+          await markReceived(config, envelope, options);
+          marked = true;
+        } catch {
+          marked = false;
+        }
+      }
       rejected.push({
         contentId: typeof envelope?.contentId === "string" ? envelope.contentId : undefined,
         error,
         fromDid: didFromEnvelope(envelope),
+        permanent: PERMANENT_REJECTION_CODES.has(error?.code) ?? false,
+        marked,
       });
       if (options.failFast) throw error;
     }
@@ -953,21 +1001,40 @@ function didFromEnvelope(envelope) {
 
 // Load DID → public key map from env (ARDYN_FABRIC_SIBLING_KEYS as JSON)
 // or from a gitignored config/secret/federation-keys.json file.
-function loadSiblingKeys() {
+// U10: malformed input is NEVER silent — a loud warning names the source so a
+// misconfigured operator does not discover the problem as mysterious
+// `unauthenticated_sender` rejections. The function stays fail-closed either way.
+export function loadSiblingKeys({ warn = (msg) => console.error(msg) } = {}) {
   // Try env first
-  if (process.env.ARDYN_FABRIC_SIBLING_KEYS) {
+  const rawEnv = process.env.ARDYN_FABRIC_SIBLING_KEYS;
+  if (rawEnv !== undefined && rawEnv !== "") {
     try {
-      return JSON.parse(process.env.ARDYN_FABRIC_SIBLING_KEYS);
-    } catch {
-      return {};
+      const parsed = JSON.parse(rawEnv);
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+        throw new Error("expected a JSON object mapping DID -> base64 public key");
+      }
+      return parsed;
+    } catch (err) {
+      warn(`[federation] WARNING: ARDYN_FABRIC_SIBLING_KEYS is set but not valid sibling-key JSON (${err.message}); ignoring it.`);
     }
   }
-  // Try gitignored config file (never committed — config/secret/ is gitignored)
+  // Try gitignored config file (never committed — config/secret/ is gitignored),
+  // anchored to the repo root regardless of the current working directory.
   try {
-    const keysPath = "config/secret/federation-keys.json";
+    const keysPath = join(FABRIC_REPO_ROOT, "config", "secret", "federation-keys.json");
     const text = readFileSync(keysPath, "utf8");
-    return JSON.parse(text);
+    try {
+      const parsed = JSON.parse(text);
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+        throw new Error("expected a JSON object mapping DID -> base64 public key");
+      }
+      return parsed;
+    } catch (err) {
+      warn(`[federation] WARNING: ${keysPath} exists but contains invalid sibling-key JSON (${err.message}); ignoring it.`);
+      return {};
+    }
   } catch {
+    // File simply absent — normal when keys come from env.
     return {};
   }
 }
@@ -978,8 +1045,9 @@ function loadSiblingKeys() {
 // which filters keys at EVERY nesting level — nested fields were silently
 // unsigned. This canonicalizer sorts keys at all depths so the signature
 // covers the entire payload tree. MUST stay byte-identical with the copy in
-// handoff.mjs (pinned by tests/m20-federation-a2a.test.mjs).
-function canonicalJson(value) {
+// handoff.mjs (pinned by tests/m20-federation-a2a.test.mjs). U15: exported so
+// test helpers sign with the PRODUCTION algorithm instead of a stale copy.
+export function canonicalJson(value) {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
   if (value && typeof value === "object") {
     const body = Object.keys(value).sort()
@@ -990,7 +1058,7 @@ function canonicalJson(value) {
   return JSON.stringify(value) ?? "null";
 }
 
-function canonicalSignedPayload(envelope) {
+export function canonicalSignedPayload(envelope) {
   const { signature, signatureDid, ...rest } = envelope;
   return canonicalJson(rest);
 }

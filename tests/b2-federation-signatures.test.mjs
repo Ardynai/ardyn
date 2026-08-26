@@ -1,6 +1,8 @@
 // B2: Real per-message signature verification + identity-file path confinement
 import assert from "node:assert/strict";
 import { generateKeyPairSync, sign } from "node:crypto";
+// U15: helpers sign with the production recursive canonicalizer.
+import { canonicalSignedPayload } from "../packages/fabric/src/federation.mjs";
 import { mkdtemp, writeFile, symlink, rm, mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -23,8 +25,8 @@ function genKeyPair() {
 }
 
 function canonicalPayload(envelope) {
-  const { signature, signatureDid, ...rest } = envelope;
-  return JSON.stringify(rest, Object.keys(rest).sort());
+  // U15: sign with the PRODUCTION recursive canonicalizer (imported below).
+  return canonicalSignedPayload(envelope);
 }
 
 function signEnvelope(envelope, privateKeyObj) {

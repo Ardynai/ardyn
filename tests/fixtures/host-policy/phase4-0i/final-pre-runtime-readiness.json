@@ -405,7 +405,7 @@
       "status": "confirmed",
       "evidencePaths": [
         "README.md",
-        "docs/architecture.md"
+        "docs/ARCHITECTURE.md"
       ],
       "runtimeStatus": "not-implemented",
       "grantsRuntimeApproval": false,

@@ -117,7 +117,7 @@
       "summary": "Records Phase 4.0D Rust-host policy contracts as inactive pre-runtime metadata."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Documents Rust-host policy contract types without active stdio runtime ownership."
     },

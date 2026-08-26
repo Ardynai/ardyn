@@ -38,7 +38,7 @@ New tests should import from `tests/helpers/` and use `assertUnchanged`
 and do not require a specific commit hash.
 
 Run a full readability pass after roughly every five merged feature batches.
-That pass should refresh `docs/architecture.md`, `docs/ONBOARDING.md`, and the
+That pass should refresh `docs/ARCHITECTURE.md`, `docs/ONBOARDING.md`, and the
 how-it-works pages while keeping behavior unchanged.
 
 Do not claim `npm run report:phase-status` runs checks. It is a deterministic

@@ -341,7 +341,7 @@
       "summary": "Documents the Phase 4.1H external review disposition as review evidence, not enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Records Phase 4.1H as a static external review disposition without new runtime architecture."
     },

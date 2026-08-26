@@ -94,7 +94,10 @@ test("M11: sandbox spawn config has real docker run args", async () => {
   const config = cu.createSandboxConfig({ sessionId: "test-spawn" });
   assert.ok(config.dockerArgs.includes("--rm"), "must have --rm for ephemeral");
   assert.ok(config.dockerArgs.includes("--network"), "must restrict network");
-  assert.ok(config.dockerArgs.includes("--no-new-privileges"), "must drop privileges");
+  // U2: portable no-new-privileges form (--security-opt) works on legacy
+  // engines and Docker 29+ alike, unlike the removed --no-new-privileges flag.
+  assert.ok(config.dockerArgs.includes("--security-opt"), "must drop privileges");
+  assert.ok(config.dockerArgs.includes("no-new-privileges"), "must drop privileges");
   assert.ok(config.dockerArgs.includes("--cap-drop"), "must drop capabilities");
 });
 

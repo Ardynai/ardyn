@@ -40,10 +40,9 @@ export async function createUserMemoryDatabase(dbPath = ":memory:") {
       event_data TEXT,
       created_at TEXT NOT NULL
     );
-    -- FTS5 virtual table for cross-session search (per-user scoped)
-    CREATE VIRTUAL TABLE IF NOT EXISTS user_memory_fts USING fts5(
-      user_id, key, value, content='user_memories', content_rowid='id'
-    );
+    -- U13: the former user_memory_fts FTS5 virtual table is gone. It had no
+    -- writers and no readers (search uses LIKE; recall uses cosine) — dead
+    -- schema that only mislead readers into imagining full-text search.
   `);
   ensureMemoryEmbeddingColumns(db);
   return db;
