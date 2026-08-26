@@ -46,7 +46,7 @@ export default function FixturesPage() {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
           <span className="badge badge-info" style={{ fontSize: "var(--text-sm)", padding: "0.4rem 0.8rem" }}>
-            {totalFixtureCount} Total Fixture Files
+            {categories.length} Fixture Categories
           </span>
         </div>
       </div>
@@ -92,7 +92,7 @@ export default function FixturesPage() {
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--space-2)" }}>
                 <h2 style={{ fontSize: "var(--text-base)", fontWeight: 600, color: "var(--text-primary)" }}>{cat.name}</h2>
-                <span className="badge badge-info">{cat.count} Files</span>
+                <span className="badge badge-info">Fixture Set</span>
               </div>
               <p style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", marginBottom: "var(--space-4)", lineHeight: 1.5 }}>
                 {cat.desc}
