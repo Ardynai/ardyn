@@ -16,9 +16,9 @@ async function getStatus() {
   } catch {
     return {
       status: "unreachable",
-      runtimeEnabled: true,
-      federationWired: true,
-      serveRuntimeAvailable: true,
+      runtimeEnabled: null,
+      federationWired: null,
+      serveRuntimeAvailable: null,
       testSuite: { available: false },
     };
   }
@@ -88,7 +88,7 @@ async function DashboardContent() {
         <article className="kpi-card">
           <div className="kpi-label">Runtime Execution</div>
           <div className="kpi-value" style={{ color: status.runtimeEnabled ? "var(--accent)" : "var(--text-muted)" }}>
-            {status.runtimeEnabled ? "Gated" : "Disabled"}
+            {status.runtimeEnabled == null ? "Unknown" : status.runtimeEnabled ? "Gated" : "Disabled"}
           </div>
           <div style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", marginTop: "var(--space-1)" }}>
             Requires --enable-runtime --approve
@@ -98,7 +98,7 @@ async function DashboardContent() {
         <article className="kpi-card">
           <div className="kpi-label">Federation Mesh</div>
           <div className="kpi-value" style={{ color: status.federationWired ? "var(--success)" : "var(--warning)" }}>
-            {status.federationWired ? "Wired" : "Standalone"}
+            {status.federationWired == null ? "Unknown" : status.federationWired ? "Wired" : "Standalone"}
           </div>
           <div style={{ fontSize: "var(--text-xs)", color: "var(--text-muted)", marginTop: "var(--space-1)" }}>
             A2A Matrix transport pipeline
