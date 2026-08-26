@@ -12,9 +12,18 @@ export default function FederationPage() {
     { name: "Redirect: manual (no SSRF)", status: "applied", level: "high" },
   ];
 
+  // Keep in sync with packages/fabric/src/federation.mjs
+  // (FABRIC_FEDERATION_CLOSED_SIBLING_DIDS) and /api/federation.
   const siblings = [
     { did: "did:multiverse:ardyn", role: "self" },
+    { did: "did:multiverse:hub", role: "sibling" },
+    { did: "did:multiverse:kortex-audio", role: "sibling" },
     { did: "did:multiverse:locus", role: "sibling" },
+    { did: "did:multiverse:custos", role: "sibling" },
+    { did: "did:multiverse:somatic", role: "sibling" },
+    { did: "did:multiverse:aegis", role: "sibling" },
+    { did: "did:multiverse:praxis", role: "sibling" },
+    { did: "did:multiverse:kybernetes", role: "sibling" },
   ];
 
   return (
@@ -27,7 +36,7 @@ export default function FederationPage() {
 
       <div className="page-header">
         <h1 className="page-title">Federation</h1>
-        <p className="page-description">Hardened client — read-only status (content exchange stays unwired)</p>
+        <p className="page-description">Hardened client — A2A handoff exchange is wired and gated (--enable-federation-exchange --approve)</p>
       </div>
 
       {/* Status banner */}
