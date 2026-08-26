@@ -238,7 +238,7 @@
       "summary": "Documents framing/redaction contracts as static preconditions, not enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Records Phase 4.1C TypeScript static helper contracts without live writer ownership."
     },

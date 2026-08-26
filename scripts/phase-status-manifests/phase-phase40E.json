@@ -104,7 +104,7 @@
       "summary": "Records Phase 4.0E exports as review metadata without runtime enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Documents Rust-host metadata export helpers without active runtime behavior."
     },

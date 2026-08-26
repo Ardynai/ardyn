@@ -136,7 +136,7 @@
       "summary": "Documents that Phase 4.0C adds no core runtime APIs."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Documents future Rust-host process-level stdio ownership while current host remains non-executing."
     },

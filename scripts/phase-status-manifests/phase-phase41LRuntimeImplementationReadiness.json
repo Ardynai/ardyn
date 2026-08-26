@@ -321,7 +321,7 @@
       "summary": "Documents Phase 4.1L readiness as a planning handoff rather than active runtime enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Records Phase 4.1L as design/test-plan handoff metadata without new runtime architecture."
     },

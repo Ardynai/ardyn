@@ -144,7 +144,7 @@
       "summary": "Records Phase 4.0F review records as static metadata that do not grant runtime approval."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Documents Rust-host review-record helpers without active runtime behavior."
     },

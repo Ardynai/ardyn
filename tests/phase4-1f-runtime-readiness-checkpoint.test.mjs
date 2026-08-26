@@ -40,7 +40,7 @@ const docUrls = [
   new URL("../apps/cli/README.md", import.meta.url),
   new URL("../packages/core/README.md", import.meta.url),
   new URL("../crates/ardyn-host/README.md", import.meta.url),
-  new URL("../docs/architecture.md", import.meta.url),
+  new URL("../docs/ARCHITECTURE.md", import.meta.url),
   new URL("../docs/host-policy-preconditions.md", import.meta.url),
   new URL("../docs/session-events-stdio-contract.md", import.meta.url),
   new URL("../docs/phase-4-stdio-dry-run-event-emission.md", import.meta.url),

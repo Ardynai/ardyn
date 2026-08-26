@@ -58,7 +58,7 @@
       "apps/cli/README.md",
       "packages/core/README.md",
       "crates/ardyn-host/README.md",
-      "docs/architecture.md",
+      "docs/ARCHITECTURE.md",
       "docs/host-policy-preconditions.md",
       "docs/session-events-stdio-contract.md",
       "docs/phase-4-stdio-dry-run-event-emission.md",
@@ -241,7 +241,7 @@
       "summary": "Documents Phase 4.1J boundary coverage as private test evidence, not active enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Records Phase 4.1J as fixture-backed boundary coverage without new runtime architecture."
     },

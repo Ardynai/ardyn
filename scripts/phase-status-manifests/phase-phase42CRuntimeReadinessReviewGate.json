@@ -300,7 +300,7 @@
       "summary": "Documents Phase 4.2C as a readiness gate, not active runtime enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Records the readiness gate boundary without adding live runtime architecture."
     },

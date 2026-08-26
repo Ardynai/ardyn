@@ -121,7 +121,7 @@
       "summary": "Documents Phase 4.2A as blocked skeleton planning, not active runtime enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Records the private Rust skeleton module boundary without adding a live runtime architecture."
     },

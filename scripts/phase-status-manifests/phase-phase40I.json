@@ -402,7 +402,7 @@
       "runtimeStatus": "not-implemented",
       "evidencePaths": [
         "README.md",
-        "docs/architecture.md"
+        "docs/ARCHITECTURE.md"
       ],
       "grantsRuntimeApproval": false,
       "runtimeBehaviorIntroduced": false
@@ -898,7 +898,7 @@
       "summary": "Records Phase 4.0I readiness as static evidence without runtime approval or enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Documents Phase 4.0I as final pre-runtime review evidence without active runtime behavior."
     },

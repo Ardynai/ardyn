@@ -53,7 +53,7 @@
       "apps/cli/README.md",
       "packages/core/README.md",
       "crates/ardyn-host/README.md",
-      "docs/architecture.md",
+      "docs/ARCHITECTURE.md",
       "docs/host-policy-preconditions.md",
       "docs/session-events-stdio-contract.md",
       "docs/phase-4-stdio-dry-run-event-emission.md",
@@ -175,7 +175,7 @@
       "summary": "Documents the Phase 4.1I harness layer as test infrastructure evidence, not enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Records Phase 4.1I as a static test-infrastructure harness layer without new runtime architecture."
     },

@@ -879,7 +879,7 @@
       "summary": "Documents the Phase 4.1G external review packet as review evidence, not enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Records Phase 4.1G as a static external review packet without new runtime architecture."
     },

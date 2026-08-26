@@ -623,7 +623,7 @@
       "summary": "Records Phase 4.0H reviewer indexing as static metadata without runtime approval or enforcement."
     },
     {
-      "path": "docs/architecture.md",
+      "path": "docs/ARCHITECTURE.md",
       "status": "present",
       "summary": "Documents Phase 4.0H as reviewer navigation metadata without active runtime behavior."
     },
