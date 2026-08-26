@@ -68,11 +68,11 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 | Core | `packages/core/src/index.mjs` (kernel) + real modules | ✅ Modularization complete — monolith dissolved to the **~4.2k-line runtime kernel** (ajv schema registry + init side effects, intentional); all extractable families now live in `review-artifacts.mjs`, `consumer-display.mjs`, `governance-reports.mjs`, `stdio-framing-redaction.mjs`, `boundary-maps/*`, and `internal/*`. **68,913 → 4,182 measured lines (−93.9%)**; public surface frozen at 429 exports (snapshot-tested vs origin/main). Map: docs/plan/autobuild/MODULARIZATION-MAP.md. Newer code already modular: processor-pipeline, session-replay (replay+rollback), metrics, glossopetrae-codec, user-memory, provider-adapter |
 | Processor pipeline | `packages/core/src/processor-pipeline.mjs` | Pluggable pre/post processors behind the action gateways (policy-gate, audit-record, redact-result built-ins); fail-closed on broken processors |
 | Provider adapter | `packages/core/src/provider-adapter.mjs` | Dependency-free BYO-model seam (OpenAI-compatible + Gemini; generate/stream/embed) over raw fetch |
-| Computer-use | `packages/core/src/computer-use.mjs` | Governed sandbox (Docker, ubuntu:22.04, Xvfb). Record-before-act gateway via the processor pipeline, take-the-wheel, per-session token |
+| Computer-use | `packages/core/src/computer-use.mjs` + `docker/sandbox.Dockerfile` | Governed sandbox (capable image `ardyn-sandbox:22.04`: xvfb+xdotool+imagemagick — build once with `docker build -t ardyn-sandbox:22.04 -f docker/sandbox.Dockerfile .`). Action fields validated (ints/keysym allowlist), free text base64-encoded into the container, real container-id capture with exit-code verification, take-the-wheel, per-session token, real teardown (`computer-use --kill <sessionId>`) |
 | Multi-user | `packages/core/src/multi-user.mjs` | Per-user accounts, sessions, sandboxes. Strict isolation (tested) |
 | Loop-state | `packages/core/src/loop-state.mjs` | Goals, todos (atomic claims), gates, quota (atomic spend), append-only run history |
 | User memory | `packages/core/src/user-memory.mjs` | Per-user memory + profile, keyword search + RAG semantic recall (embeddings stored per row; user_id-prefiltered top-k cosine), strict isolation |
-| Gateway | `packages/gateway/src/gateway.mjs` | Telegram + Slack adapters, webhook verification (constant-time), deny-by-default sender allowlist, windowed rate limiter, per-user mapping |
+| Gateway | `packages/gateway/src/gateway.mjs` | Telegram (real `X-Telegram-Bot-Api-Secret-Token` verify) + Slack (`v0:` HMAC + replay window) adapters with REAL outbound send via injectable fetch; deny-by-default sender allowlist, windowed rate limiter, per-user mapping. Library only — no webhook listener is included |
 | HiClaw Matrix | `packages/gateway/src/hiclaw-matrix.mjs` | Raw-fetch Matrix client for the HiClaw homeserver (send m.text txn PUTs + /sync receive); deny-by-default room/sender allowlists; NO Matrix SDK, no E2EE |
 | Data/auth | `packages/core/src/data-auth.mjs` | SQLite DB, permissions, DB-backed cross-instance rate limiter, secrets helpers |
 | Metrics | `packages/core/src/metrics.mjs` | Zero-dep Prometheus registry (`/metrics` on the console; aggregate labels only) |
@@ -91,6 +91,7 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 | `ARDYN_FABRIC_SIBLING_KEYS` | Federation sibling DID→public-key map (JSON) | unset |
 | `ARDYN_FABRIC_IDENTITY_FILE` | Local federation identity file | unset |
 | `COMPUTER_RUNTIME` | Computer-use runtime: `docker` or `runsc` (gVisor) | `docker` |
+| `ARDYN_SANDBOX_IMAGE` | Override the capable computer-use sandbox image | `ardyn-sandbox:22.04` |
 | `NODE_ENV` | Set to `production` to enforce auth | `development` |
 
 ## Status
@@ -102,7 +103,7 @@ docker build -t ardyn . && docker run -p 3000:3000 ardyn
 | M10 | ✅ Complete | Multi-user support (per-user isolation, tested) |
 | M11 | ✅ Complete | Governed computer-use (real sandbox spawn, gateway, take-the-wheel) |
 | M12 | ✅ Complete | Loop-state control plane (goals, gates, todos, quota) |
-| M13 | ✅ Complete | Multi-interface gateway (Telegram + Slack adapters) |
+| M13 | ✅ Complete | Multi-interface gateway (Telegram secret-header verify + Slack HMAC/replay-window; outbound send wired via injectable fetch — webhook receipt still requires operator wiring) |
 | M14 | ✅ Complete | Per-user memory (cross-session recall, isolated) |
 | Modularization | ✅ Complete | packages/core/src/index.mjs is the ~4.2k runtime kernel (ajv registration + init side effects, intentional) + re-export barrel; every extractable family moved to real modules. 68,913 → 4,182 measured lines (−93.9%); 429 exports frozen and parity-tested vs origin/main |
 | SSE CLI→console | ✅ Complete | Server route + event buffer round-trip tested; live console panel (events-feed.jsx) subscribes via EventSource with reconnect + honest empty state |
@@ -148,7 +149,7 @@ Runtime proposal phases:
 ## Roadmap
 
 - Federation content exchange (requires explicit authorization)
-- Real container interaction (docker exec with xdotool/import)
+- Richer computer-use GUI workflows beyond screenshot/type/key (action loop is live and integration-tested against the capable image)
 - Additional gateway adapters (Discord, WhatsApp, Signal, Email)
 - Adaptive per-user UI evolution
 - Website scroll experience

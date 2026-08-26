@@ -1,5 +1,33 @@
 // Type definitions for @ardyn/sdk
 // These types allow TypeScript consumers to use the SDK with full type safety.
+// U14: function signatures added — previously the file declared interfaces
+// only, so `loadManifest` & co. had no typed entry points.
+
+/**
+ * Load and validate an Ardyn manifest from a path.
+ * Mirrors src/index.mjs `loadManifest`.
+ */
+export declare function loadManifest(manifestPath: string): Promise<ArdynManifest>;
+
+/** Create a session plan from a manifest and task. Mirrors `createPlan`. */
+export declare function createPlan(manifest: ArdynManifest, task: ArdynTask): {
+  schema: "ardyn.session-plan";
+  schemaVersion: string;
+  manifestId: string;
+  taskId: string;
+  objective: string;
+  mode: string;
+  capabilities: string[];
+  createdAt: string;
+};
+
+/** Validate a session transcript. Mirrors `validateTranscript`. */
+export declare function validateTranscript(transcript: unknown): { valid: boolean; error: string | null };
+
+/** Get the Ardyn SDK version. Mirrors `getVersion`. */
+export declare function getVersion(): string;
+
+export declare const ARDYN_SDK_VERSION: string;
 
 export interface ArdynManifest {
   id: string;

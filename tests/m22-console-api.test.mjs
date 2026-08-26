@@ -127,19 +127,29 @@ test("M21-B: federation route reports wired+gated posture (post-M20)", async () 
 test("M21-B: events route streams SSE content-type (behavioral smoke)", async () => {
   process.env.NODE_ENV = "test";
   delete process.env.ARDYN_CONSOLE_API_KEY;
+  // U4/U5 closeout: use the m24-proven lifecycle — timer abort while the read
+  // loop is parked — so undici tears the request down deterministically (the
+  // old single-read-then-abort shape left the socket holding the event loop).
   const controller = new AbortController();
+  setTimeout(() => controller.abort(), 700);
   const signal = controller.signal;
   const request = new Request("http://127.0.0.1:3000/api/events", { signal });
   const res = await eventsRoute.GET(request);
   const ct = res.headers.get("content-type") ?? "";
   assert.match(ct, /text\/event-stream/, "events route must speak SSE");
-  // Read the first chunk ("connected" event), then abort to end the stream.
   const reader = res.body.getReader();
-  const first = await Promise.race([
-    reader.read(),
-    new Promise((resolve) => setTimeout(() => resolve({ timeout: true }), 500)),
-  ]);
-  assert.ok(first && !first.timeout && first.value, "should receive the connected event");
-  controller.abort(); // route clears its interval on request.signal abort
-  await new Promise((r) => setTimeout(r, 50));
-}, { skip: false });
+  const decoder = new TextDecoder();
+  let raw = "";
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      raw += decoder.decode(value, { stream: true });
+      if (raw.includes("event: connected")) break; // got what we came for
+    }
+  } catch {
+    // abort ends the poll loop
+  }
+  try { await reader.cancel(); } catch {}
+  assert.match(raw, /event: connected/, "connected frame must arrive");
+});

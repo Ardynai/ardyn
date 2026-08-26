@@ -157,9 +157,9 @@ All verbatim moves with re-export shims; dependency DAG strictly points downward
 | Card | Notes |
 |---|---|
 | **multi-user.mjs** · stable · 08-21 · 135 ln | Users/RBAC/per-user sessions/per-user CU sandboxes; deny-by-default permissions; owner-scoped SQL isolation proven cross-user (m10). Password hashing is the caller's job. **VALUE B+ / USE-CASE B+ — keep.** Library-level only (no CLI/console registration flow yet; `/api/login` is an inert stub). |
-| **user-memory.mjs** · stable · 08-22 · 178 ln | Per-user key-value memories + profiles; RAG recall = SQL user prefilter → in-process cosine top-k over stored embeddings (BYO embedFn); embedding failure stores nothing (fail-closed). FTS5 table created but never wired (dead schema). O(n)-per-user recall documented ceiling. **VALUE B+ / USE-CASE B+ — keep; drop-or-wire FTS.** |
-| **loop-state.mjs** · stable · 08-21 · 157 ln | Goals/todos with atomic claim, gates, atomic quota spend, append-only run history, public/private boundary sniff. Cross-instance safe (BEGIN IMMEDIATE). Boundary regex drifted from canonical redactor. **VALUE B+ / USE-CASE B — keep.** Library control plane; not wired to any default storage location. |
-| **data-auth.mjs** · partial · 08-22 · 232 ln | Sessions/audit/permissions store, deny-by-default `checkPermission`, rate limiters, env-only secrets, query sanitizer, delegates redaction. Quirks: embedded node:test tests execute on import; `sqlite` CLI doesn't route through its sanitizer; m3 test file vendors a stale copy instead of testing this module. **VALUE B / USE-CASE B — improve.** |
+| **user-memory.mjs** · stable · 08-22 · 178 ln | Per-user key-value memories + profiles; RAG recall = SQL user prefilter → in-process cosine top-k over stored embeddings (BYO embedFn); embedding failure stores nothing (fail-closed). Dead FTS5 schema removed (2026-08-25). O(n)-per-user recall documented ceiling. **VALUE B+ / USE-CASE B+ — keep.** |
+| **loop-state.mjs** · stable · 08-21 · 157 ln | Goals/todos with atomic claim, gates, atomic quota spend, append-only run history, public/private boundary sniff. Cross-instance safe (BEGIN IMMEDIATE). Boundary check now delegates to the canonical redactor (catches Bearer/sk- forms too). **VALUE B+ / USE-CASE B — keep.** Library control plane; not wired to any default storage location. |
+| **data-auth.mjs** · partial · 08-22 · 232 ln | Sessions/audit/permissions store, deny-by-default `checkPermission`, rate limiters, env-only secrets, query sanitizer, delegates redaction. Quirks: embedded node:test tests execute on import; `sqlite` CLI doesn't route through its sanitizer. The m3 vendored-copy issue was fixed 2026-08-25 (m3 now tests this module). **VALUE B+ / USE-CASE B — keep.** |
 
 ### 3.5 Processor pipeline — `processor-pipeline.mjs` · stable · 08-22 · 198 ln
 
@@ -168,20 +168,20 @@ Pluggable pre/post chains around actions: sticky deny, broken/missing processor 
 
 ### 3.6 Computer-use sandbox — `computer-use.mjs` · partial · 08-22 · 436 ln
 
-**What:** Governance model for a Docker GUI sandbox: pinned `ubuntu:22.04` with `--no-new-privileges --cap-drop ALL --read-only --memory 512m --cpus 1.0 --network none` (gVisor via `COMPUTER_RUNTIME=runsc`), per-session random token injected as env, actions (screenshot/click/type/key/scroll/drag/wait) routed through the fail-closed processor pipeline into `docker exec` xdotool/ImageMagick calls, take-the-wheel human override, crash-proof `docker kill/rm` teardown.
+**What:** REAL Docker GUI sandbox (updated 2026-08-25): capable image `ardyn-sandbox:22.04` built from `docker/sandbox.Dockerfile` (xvfb + xdotool + imagemagick), hardened launch flags (`--security-opt no-new-privileges --cap-drop ALL --read-only --tmpfs /tmp --memory 512m --cpus 1.0 --network none`, gVisor via `COMPUTER_RUNTIME=runsc`), per-session random token injected as env. Actions are FIELD-VALIDATED (bounded integers, keysym allowlist) and free text travels base64-encoded, decoded inside the container; denials flow through the audited processor pipeline; the executor re-validates regardless of chain overrides. start() verifies the docker run exit code and captures the REAL container id; `computer-use --kill <sessionId>` performs actual teardown.
 **How to use:** `computer-use --enable-computer-use [--dry-run] --manifest m.json` — dry-run prints the sandbox plan; live start() reports true spawned/spawnError/containerId.
-**Honest caveats:** stock ubuntu lacks Xvfb/xdotool/ImageMagick so the action loop cannot succeed as shipped (no capable image exists in-repo); containerId resolves before docker run finishes (always the fallback name); CLI starts containers it never stops.
-**VALUE: B** (architecture genuinely good) **/ USE-CASE: C+** (not usable end-to-end).
-**RECOMMENDATION: improve** — ship a sandbox Dockerfile + argv-safe action params + lifecycle closure; until then treat as governance scaffold.
+**Verified live:** an integration test (`tests/u-tier1-integration.test.mjs`, skips without Docker) spawns the capable image, captures a genuine PNG screenshot from Xvfb, and tears the container down. Build the image once before first use: `docker build -t ardyn-sandbox:22.04 -f docker/sandbox.Dockerfile .`
+**VALUE: A− / USE-CASE: B+** (live and integration-tested; richer GUI workflows remain future work).
+**RECOMMENDATION: keep.**
 
 ### 3.7 Gateway — `packages/gateway/src/` · partial (unwired scaffolds) · 08-23
 
 **Core (`gateway.mjs`):** deny-by-default admission (allowlist seeding or `registerUser()` only; unknown ⇒ `unknown_sender`), per-channel HMAC webhook verification, windowed rate limiter ({count,resetAt}, injectable DB limiter cross-instance), Prometheus counters with platform labels minted ONLY for configured adapters.
-**Telegram adapter:** parses update.message/callback_query; verification computes HMAC(botToken, body) — *not* Telegram's real header scheme; no outbound send exists anywhere.
-**Slack adapter:** `v0:` HMAC + 5-minute replay window (stale AND future rejected) checked before signature; safeCompare denies non-strings. No outbound delivery either.
-Nothing binds these to network listeners today — they are honest unit-tested scaffolds.
-**VALUE: B− / USE-CASE: C** (no production channel traffic possible yet).
-**RECOMMENDATION: improve** — implement Telegram's header scheme + wire delivery, or relabel clearly as contract scaffolds.
+**Telegram adapter:** parses update.message/callback_query; verification constant-time compares the REAL `X-Telegram-Bot-Api-Secret-Token` header against an independent `webhookSecret`; `send()` delivers via injectable fetch to the Bot API.
+**Slack adapter:** `v0:` HMAC + 5-minute replay window (stale AND future rejected) checked before signature; safeCompare denies non-strings; `send()` delivers via injectable fetch to chat.postMessage.
+Still true: NOTHING binds these adapters to network listeners — they are verify+send libraries; webhook RECEIPT requires operator wiring.
+**VALUE: B+ / USE-CASE: B−** (real crypto schemes and real delivery; no bundled listener).
+**RECOMMENDATION: keep.**
 
 ### 3.8 HiClaw Matrix adapter — `packages/gateway/src/hiclaw-matrix.mjs` · stable (narrow) · 08-23 · ~230 ln
 
@@ -227,7 +227,7 @@ Auth model: `checkAuth(request)` — dev open when `ARDYN_CONSOLE_API_KEY` unset
 | `GET /api/health` | static `{status:"healthy"}`, no auth (probe target) | C / B | keep | stable |
 | `GET /api/status` | posture JSON; suite counts ONLY from `ARDYN_CONSOLE_TEST_COUNTS` else `"unavailable"` | A− / A | keep | stable |
 | `GET /api/federation` | wired/gated flags + authoritative 9-DID allowlist | B+ / B+ | keep | stable |
-| `GET /api/events` | SSE stream tailing `.ardyn-events/events.jsonl`: `connected` frame then `session_event`s; abort cleanup | B+ / A− | improve (heartbeat; EventSource auth story U5; buffer bounds U4) | stable |
+| `GET /api/events` | SSE stream tailing `.ardyn-events/events.jsonl` by BYTE OFFSET (no wall-clock skips); accepts `?token=` (constant-time vs key/user tokens) for EventSource clients; abort cleanup idempotent | A− / A− | keep | stable |
 | `GET /api/metrics` | Prometheus exposition; optional SQLite active-sessions gauge (hashed ids) | A− / B+ | keep | stable |
 | `GET·POST /api/runtime` | GET posture; POST honestly returns `status:"planned"` (control lives in CLI) | C+ / C | keep | partial |
 | `GET /api/sessions` | always `{sessions:[]}` (labeled) | D / D | reconsider until wired | stub |
@@ -244,8 +244,8 @@ Real screenshots (browser captures, post-mockup-deletion) in `docs/assets/`.
 
 ### 3.13 SDK + display components — `packages/sdk/` · partial · 08-19
 
-`loadManifest/createPlan/validateTranscript/getVersion` + accessible React components (SessionTrace with aria-live, StatusBadge role=status, ManifestViewer dl/dt/dd, ApprovalGate aria-disabled gating). Gaps: components unreachable via package exports map; d.ts declares types but zero function signatures; only consumer is its own test; console teaches @ardyn/core instead.
-**VALUE: C+ / USE-CASE: C. RECOMMENDATION: improve** (add `./components` export + signatures) or fold into core.
+`loadManifest/createPlan/validateTranscript/getVersion` + accessible React components (SessionTrace with aria-live, StatusBadge role=status, ManifestViewer dl/dt/dd, ApprovalGate aria-disabled gating). Resolved 2026-08-25: `./components` subpath export added and function signatures declared in d.ts. Still true: the only heavy consumer is the test suite; console teaches @ardyn/core.
+**VALUE: B− / USE-CASE: B−. RECOMMENDATION: keep.**
 
 ### 3.14 MCP & plugin-api — `packages/mcp`, `packages/plugin-api` · stub · 06-01
 
@@ -271,7 +271,7 @@ Five core schemas validate everything the CLI loads: `ardyn.manifest.schema.json
 
 ## 4. Docs map (beyond this tutorial)
 
-Read in this order: `docs/posture.md` (canonical current state) → `docs/ARCHITECTURE.md` (repo map + flows) → `docs/how-it-works/*.md` (9 pages: cli/core/rust-host/fabric/fabric-connect/adapter-scaffolds/schemas-and-tests/session-events-and-transcripts/phase-inventory) → `SECURITY.md` + `docs/plan/autobuild/SECURITY-INVARIANTS.md` (threat model + honesty register) → `DECISIONS.md` (D-001…D-B02) → `docs/ONBOARDING.md`. The remaining 111 `phase-*.md` files are an immutable audit trail — cite, don't read linearly. Known drift: `docs/fabric-glossary.md:52` ("federation not wired into CLI" — stale), `docs/federation-sibling-onboarding.md:53` (documents the pre-fix canonicalization — hazardous, see review U11).
+Read in this order: `docs/posture.md` (canonical current state) → `docs/ARCHITECTURE.md` (repo map + flows) → `docs/how-it-works/*.md` (9 pages: cli/core/rust-host/fabric/fabric-connect/adapter-scaffolds/schemas-and-tests/session-events-and-transcripts/phase-inventory) → `SECURITY.md` + `docs/plan/autobuild/SECURITY-INVARIANTS.md` (threat model + honesty register) → `DECISIONS.md` (D-001…D-B02) → `docs/ONBOARDING.md`. The remaining 111 `phase-*.md` files are an immutable audit trail — cite, don't read linearly. Known drift resolved 2026-08-25 (fix/close-ulist): the glossary now records the federation CLI wiring, and the sibling-onboarding canonicalization section describes the recursive algorithm.
 
 ## 5. Examples, fixtures, inventory
 
@@ -367,7 +367,7 @@ Secrets convention: env vars first, gitignored `config/secret/*.json` second, ne
 | ├ review-trace / review-artifact / validate-session-transcript | B | B | stable | 08-24 | keep |
 | ├ emit-session-events / serve (legacy dry-run) | C+ | B | stable | 08-24 | keep |
 | ├ **serve-runtime** (spawn/steps/rollback/replay/stream/buffer) | **A−** | **A−** | stable | 08-25 | keep |
-| ├ computer-use (CLI face) | C | C | partial | 08-22 | improve (lifecycle) |
+| ├ computer-use (CLI face) | B+ | B | stable | 08-25 | keep (--kill switch live) |
 | ├ federation (status/config/exchange) | B | C | partial | 08-23 | keep |
 | └ shell / sqlite | B− | B | partial | 08-25 | keep (post-fix) |
 | Core kernel (@ardyn/core) | A− | B+ | stable | 08-24 | keep |
@@ -376,21 +376,21 @@ Secrets convention: env vars first, gitignored `config/secret/*.json` second, ne
 | Path containment | A | A | stable | 08-23 | keep |
 | diagnostic-redaction | B+ | B | stable | 08-23 | keep (reconcile patterns) |
 | multi-user | B+ | B+ | stable | 08-21 | keep |
-| user-memory (+RAG) | B+ | B+ | stable | 08-22 | keep (FTS decision) |
+| user-memory (+RAG) | B+ | B+ | stable | 08-25 | keep |
 | loop-state | B+ | B | stable | 08-21 | keep |
 | data-auth | B | B | partial | 08-22 | improve |
 | processor-pipeline | A− | A− | stable | 08-22 | keep |
 | metrics | A− | B+ | stable | 08-21 | keep |
 | provider-adapter (OpenAI/Gemini) | A− | B+ | stable | 08-22 | keep |
-| computer-use (sandbox core) | B | C+ | partial | 08-22 | improve (image + params) |
+| computer-use (sandbox core) | A− | B+ | stable | 08-25 | keep |
 | gateway core (admission/limits) | B+ | C | partial | 08-23 | keep |
-| Telegram adapter | D | F | stub-ish | 08-22 | fix or relabel |
-| Slack adapter | C | D | partial | 08-23 | wire or relabel |
+| Telegram adapter | B+ | B | stable | 08-25 | keep (verify + send; listener is operator-side) |
+| Slack adapter | B+ | B− | stable | 08-25 | keep (send wired; receipt is operator-side) |
 | HiClaw Matrix adapter | B+ | B− | stable | 08-23 | keep |
 | federation client | A− | B− | stable | 08-23 | keep (fix U6/U10) |
 | handoff + GLOSSOPETRAE | B+ | B | stable | 08-23 | keep |
 | Rust host (validation layer) | C+ | D+ | stable-scaffold | 08-20 | keep (blocked by design) |
-| Console API routes (health/status/federation/events/metrics/runtime) | B+ | A− | stable | 08-20→25 | keep + improve events |
+| Console API routes (health/status/federation/events/metrics/runtime) | A− | A− | stable | 08-25 | keep |
 | Console routes (sessions/login) | D | D | stub | 08-20 | reconsider |
 | Console dashboard + EventsFeed | B+ | B+ | stable | 08-23 | improve fallback honesty |
 | Console federation/runtime/onboarding pages | B | B | stable | 08-25/23 | keep |

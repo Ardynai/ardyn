@@ -142,8 +142,13 @@ test("serve-runtime and serve-runtime --dry-run fail closed with deterministic s
 test("Phase 5.5 CLI change stays narrow and avoids runtime primitives", async () => {
   const source = await readFile(cliSourceUrl, "utf8");
 
-  assert.match(source, /DEFAULT_BLOCKED_RUNTIME_COMMANDS\.has\(command\)/);
+  // U15 closeout: the empty DEFAULT_BLOCKED_RUNTIME_COMMANDS scaffold (an
+  // unreachable Set + handler) was removed as dead code. The narrowness intent
+  // of this guard is preserved by asserting the shared blocked-command message
+  // helper is still what the runtime gates route through, and — below — that
+  // no new runtime primitives entered the CLI.
   assert.match(source, /createDefaultBlockedRuntimeCommandMessage\(command\)/);
+  assert.doesNotMatch(source, /DEFAULT_BLOCKED_RUNTIME_COMMANDS/);
 
   for (const forbiddenPattern of [
     /process\.stdin/,

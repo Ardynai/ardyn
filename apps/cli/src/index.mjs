@@ -72,8 +72,6 @@ const SESSION_TRANSCRIPT_OUTPUT_FLAGS = [
   "--display-summary",
   "--compatibility-explain"
 ];
-const DEFAULT_BLOCKED_RUNTIME_COMMANDS = new Set();
-
 // Resolve repo-rooted internal modules relative to THIS file, not process.cwd()
 // (correctness fix: the CLI previously failed with ERR_MODULE_NOT_FOUND when
 // invoked from any directory other than the repo root).
@@ -1441,9 +1439,15 @@ async function run(argv) {
       return;
     }
 
-    // Execute via serve-runtime infrastructure
+    // Execute via serve-runtime infrastructure.
+    // U16: Windows-first repo — use the platform shell instead of assuming a
+    // POSIX `sh` exists (stock Windows has none; the command silently died
+    // with a spawnError there).
     const { redactSecretsDeep } = await importRepoModule(REDACTION_MODULE_PATH);
-    const child = spawn("sh", ["-c", commandArg], { cwd: process.cwd(), env: { ...process.env }, stdio: ["pipe", "pipe", "pipe"] });
+    const isWindows = process.platform === "win32";
+    const shellCmd = isWindows ? process.env.ComSpec ?? "cmd.exe" : "sh";
+    const shellArgs = isWindows ? ["/d", "/s", "/c", commandArg] : ["-c", commandArg];
+    const child = spawn(shellCmd, shellArgs, { cwd: process.cwd(), env: { ...process.env }, stdio: ["pipe", "pipe", "pipe"] });
     let stdoutData = "", stderrData = "";
     let shellSpawnError = null;
     // B1: handle spawn errors for shell
@@ -1462,6 +1466,7 @@ async function run(argv) {
       approved: true,
       commandArg: redactSecretsDeep(commandArg),
       processesSpawned: true,
+      shell: isWindows ? "cmd" : "sh",
       processResult: { exitCode: shellSpawnError ? -1 : exitCode, stdout: redactSecretsDeep(stdoutData.trim()), stderr: redactSecretsDeep(stderrData.trim()), frames: [], killed: false, killedReason: null, spawnError: shellSpawnError ? redactSecretsDeep(shellSpawnError) : null }
     });
     return;
@@ -1556,10 +1561,6 @@ async function run(argv) {
     return;
   }
 
-  if (DEFAULT_BLOCKED_RUNTIME_COMMANDS.has(command)) {
-    fail(createDefaultBlockedRuntimeCommandMessage(command));
-    return;
-  }
 
   if (command === "serve") {
     const dryRun = args.includes("--dry-run");
