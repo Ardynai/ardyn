@@ -108,6 +108,12 @@ test("real composition replies only to a current host ticket; browser pins sourc
     const missingKey = await unavailable.POST(request(ticket));
     assert.equal(missingKey.status, 503);
     assert.deepEqual(await missingKey.json(), { error: "webui_signer_unavailable" });
+    const wrongKeyPath = join(directory, "wrong-existing-fixture.pk8");
+    writeFileSync(wrongKeyPath, host.privateKey.export({ type: "pkcs8", format: "pem" }));
+    const mismatched = createLocusEmbedServer({ ...env, LOCUS_WEBUI_SYSTEM_KEY_FILE: wrongKeyPath }, fetcher);
+    const mismatch = await mismatched.POST(request(ticket));
+    assert.equal(mismatch.status, 503);
+    assert.deepEqual(await mismatch.json(), { error: "webui_signer_mismatch" });
     assert.deepEqual(await (await server.POST(request(ticket))).json(), { error: "nonce-replayed" });
     const before = fetches;
     const badOrigin = await server.POST(new Request("https://ardyn.example.invalid/api/locus-webui", {

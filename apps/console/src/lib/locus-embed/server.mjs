@@ -97,7 +97,7 @@ export function createLocusEmbedServer(env = process.env, fetcher = fetch) {
                     /^(?:webui_[a-z_]+|signature-invalid|nonce-replayed|consent-denied|origin-not-pinned)$/.test(error.message)
                     ? error.message
                     : "webui_message_invalid";
-                return json({ error: code }, code.endsWith("unavailable") ? 503 : 400);
+                return json({ error: code }, code.endsWith("unavailable") || code === "webui_signer_mismatch" ? 503 : 400);
             }
         },
     };

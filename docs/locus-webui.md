@@ -42,6 +42,9 @@ and Impeccable product-register guidance inform this identity-preserving change;
 the Batch 4 instruction authorizes completing this narrow integration without a
 new design interview.
 
+A configured signing key that does not match the current signed repository identity
+fails closed with HTTP 503 and `webui_signer_mismatch`.
+
 Run `node --test tests/locus-webui.test.mjs` for exact vector outcomes, artifact
 and vector byte integrity, real endpoint composition, stale/untrusted input and
 bounded request failures. Run the console production build and inspect the
