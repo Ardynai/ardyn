@@ -10,13 +10,14 @@ import { createLocusEmbedServer, capabilities, embedPath, systemId } from "../sr
 import config from "../next.config.mjs";
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.resolve("@multiverse/fabric-hub-protocol"))), "..");
-const provenance = JSON.parse(readFileSync(new URL("../../../vendor/fabric-hub-protocol/fabric-hub-protocol.provenance.json", import.meta.url)));
+const provenance = JSON.parse(readFileSync(new URL("../../../vendor/fabric-hub-protocol/0.3.0/fabric-hub-protocol.provenance.json", import.meta.url)));
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const fixture = (path) => JSON.parse(readFileSync(join(packageRoot, "vectors", path)));
 
 test("same immutable shared artifact and all vector bytes", () => {
-  assert.equal(hash(readFileSync(new URL("../../../vendor/fabric-hub-protocol/multiverse-fabric-hub-protocol-0.2.0.tgz", import.meta.url))),
-    "8405d90ec1cb823dec0943938b6afc7ea985f99d3abd2400f77269c108602fdd");
+  assert.equal(hash(readFileSync(new URL("../../../vendor/fabric-hub-protocol/0.3.0/multiverse-fabric-hub-protocol-0.3.0.tgz", import.meta.url))),
+    "c5991fb0db8ab4b7ca79276b80fd65bb9e1a815094ad5b9f41d7330934c9d277");
+  assert.equal(provenance.version, "0.3.0");
   for (const [path, expected] of Object.entries(provenance.sourceSha256)) {
     if (path.startsWith("vectors/")) assert.equal(hash(readFileSync(join(packageRoot, path))), expected, path);
   }
@@ -127,16 +128,32 @@ test("real composition replies only to a current host ticket; browser pins sourc
     const window = { parent, location: { origin: payload.origin }, addEventListener: (_, cb) => { listener = cb; },
       removeEventListener: (_, cb) => { assert.equal(cb, listener); } };
     const errors = [];
+    let recovered = 0, visibleError = null;
+    let selectedReply = { ...reply, signature: { ...reply.signature, value: Buffer.alloc(64).toString("base64url") } };
     const disconnect = p.connectWebUiBrowser({ window, load: async () => { loaded++; return { registration, trust }; },
-      reply: async () => reply, onError: reason => errors.push(reason) });
+      reply: async () => selectedReply, onError: reason => { errors.push(reason); visibleError = reason; },
+      onReplyPosted: () => { recovered++; visibleError = null; } });
     listener({ origin: "null", source: parent, data: ticket });
     listener({ origin: p.LOCUS_WEBUI_ORIGIN, source: {}, data: ticket });
     await new Promise(resolve => setTimeout(resolve, 0));
     assert.equal(loaded, 0);
     listener({ origin: p.LOCUS_WEBUI_ORIGIN, source: parent, data: ticket });
     await new Promise(resolve => setTimeout(resolve, 30));
-    assert.deepEqual(errors, []);
-    assert.deepEqual(posted, [[reply, p.LOCUS_WEBUI_ORIGIN]]);
+    assert.equal(errors.length, 1);
+    assert.ok(visibleError);
+    assert.equal(recovered, 0);
+    assert.deepEqual(posted, []);
+    const freshPayload = { ...ticketPayload, nonce: randomBytes(16).toString("base64url") };
+    const freshTicket = { payload: freshPayload, signature: { alg: "Ed25519", kid: host.did, value: signPayload(freshPayload, host) } };
+    const freshResponse = await server.POST(request(freshTicket));
+    assert.equal(freshResponse.status, 200);
+    selectedReply = await freshResponse.json();
+    listener({ origin: p.LOCUS_WEBUI_ORIGIN, source: parent, data: freshTicket });
+    await new Promise(resolve => setTimeout(resolve, 30));
+    assert.equal(errors.length, 1);
+    assert.equal(recovered, 1);
+    assert.equal(visibleError, null);
+    assert.deepEqual(posted, [[selectedReply, p.LOCUS_WEBUI_ORIGIN]]);
     disconnect();
   } finally {
     assert.equal(dirname(directory), tmpdir());

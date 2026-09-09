@@ -21,6 +21,7 @@ export default function LocusEmbedConnection() {
         body: JSON.stringify(ticket),
       }).then(read),
       onError: setError,
+      onReplyPosted: () => setError(null),
     });
   }, []);
   return error ? (

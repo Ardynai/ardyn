@@ -1,5 +1,10 @@
 # R-5 production console proof
 
+Historical proof from an earlier PR head. These runs predate the framework-wide
+key-generation guard and do not establish absence of framework key generation.
+Current guarded component evidence is in `../locus-webui-030/README.md`; a new full
+Next application run requires founder framework-key configuration.
+
 Production `next build` and `next start` on loopback, rendered in installed
 Chromium through a synthetic HTTPS Locus parent and HTTPS console origin.
 Only routing is intercepted; the app HTML, JS, CSS, CSP and error responses

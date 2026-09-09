@@ -1,8 +1,8 @@
 # Locus webUI connection (R-5)
 
 The existing console can respond to a verified Locus `open` request. It imports
-the exact shared `@multiverse/fabric-hub-protocol` 0.2.0 artifact used by the
-Multiverse reference website. No crypto implementation or trust root is copied
+the exact shared `@multiverse/fabric-hub-protocol` 0.3.0 artifact prepared in
+Multiverse PR #465. No crypto implementation or trust root is copied
 into Ardyn source.
 
 Proposed founder registration: `systemId=ardyn`, `category=webui`,
@@ -31,6 +31,9 @@ Missing registry/root/version configuration produces `webui_trust_unavailable`;
 missing or invalid server key produces `webui_signer_unavailable`. The app stays
 usable standalone. A failed embedded connection shows a native alert using the
 existing console text, border, surface and spacing tokens.
+Only the shared `onReplyPosted` callback clears that alert, after signature,
+correlation and current-channel verification. HTTP 200 alone cannot clear it.
+This callback proves local posting, not host acknowledgement.
 
 ## Reference lock and validation
 
@@ -47,13 +50,20 @@ fails closed with HTTP 503 and `webui_signer_mismatch`.
 
 Run `node --test tests/locus-webui.test.mjs` for exact vector outcomes, artifact
 and vector byte integrity, real endpoint composition, stale/untrusted input and
-bounded request failures. Run the console production build and inspect the
-rendered desktop/mobile console and connection-error state.
+bounded request failures, including an invalid reply followed by verified recovery.
+Run Node with the key-generation-blocking public-fixture preload for these tests.
+The current component proof is in `docs/visual-proof/locus-webui-030/README.md`.
+Full Next build/dev verification remains STOP: `NEXT_FRAMEWORK_KEY_REQUIRED` until
+the founder securely configures `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY`; do not
+generate a framework key, copy a cache or substitute a fixture key to proceed.
 
 The vendored tarball and adjacent provenance pin SHA-256
-`8405d90ec1cb823dec0943938b6afc7ea985f99d3abd2400f77269c108602fdd`.
-The npm lockfile adds this workspace dependency and its two existing shared
-verifier dependencies, `@noble/ed25519` and `@noble/hashes`. Activation still
+`c5991fb0db8ab4b7ca79276b80fd65bb9e1a815094ad5b9f41d7330934c9d277`.
+The 0.3.0 files live under `vendor/fabric-hub-protocol/0.3.0/`; prior 0.2.0 files
+remain unchanged. This update changes only the console dependency path and the
+installed protocol version/path/integrity in the lockfile; Noble versions do not
+change. A clean `npm ci --ignore-scripts` was necessary because workspace-scoped
+install reported up-to-date while still resolving 0.2.0. Activation still
 requires founder-managed keys, a signed current manifest/envelope and deployment.
 The existing source-guard manifest updates only the hash for that reviewed
 lockfile delta; CLI, Rust, Fabric and all other pinned source remain unchanged.
