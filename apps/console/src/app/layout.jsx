@@ -1,6 +1,7 @@
 // Ardyn Console — Root Layout
 import "./globals.css";
 import Navigation from "./navigation.jsx";
+import LocusEmbedConnection from "../lib/locus-embed/LocusEmbedConnection.jsx";
 
 export const metadata = {
   title: "Ardyn Harness Console",
@@ -11,10 +12,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <LocusEmbedConnection />
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        <div style={{ display: "flex", flexDirection: "row", minHeight: "100vh", position: "relative", zIndex: 1 }}>
+        <div className="console-layout" style={{ display: "flex", flexDirection: "row", minHeight: "100vh", position: "relative", zIndex: 1 }}>
           <Navigation />
           <main
             id="main-content"
